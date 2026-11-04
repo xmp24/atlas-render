@@ -17,6 +17,9 @@ on:
         description: Nombre de esta tirada
         required: true
 
+permissions:
+  contents: write
+
 concurrency:
   group: render-${{ inputs.tag }}
   cancel-in-progress: false
@@ -94,9 +97,8 @@ jobs:
           openssl enc -aes-256-cbc -pbkdf2 -pass file:k.txt -in seg.mp4 -out seg.bin
           rm -f k.txt seg.mp4
           mkdir -p out && mv seg.bin k.enc out/ && echo "$S $E" > out/range.txt
-      - uses: actions/upload-artifact@v4
-        with:
-          name: seg-${{ matrix.i }}
-          path: out/
-          retention-days: 3
-          compression-level: 0
+      - name: Subir la parte cifrada a una rama
+        run: |
+          cd out && git init -q -b out && git add -A
+          git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm "seg ${{ matrix.i }}"
+          for t in 1 2 3; do git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/out-${{ inputs.tag }}-${{ matrix.i }} && break; sleep 5; done

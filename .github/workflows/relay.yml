@@ -1,0 +1,20 @@
+name: relay
+run-name: relay ${{ inputs.run }}
+on:
+  workflow_dispatch:
+    inputs:
+      run: {description: ID del render, required: true}
+      tag: {required: true}
+permissions:
+  contents: write
+  actions: read
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with: {pattern: 'seg-*', path: segs, run-id: '${{ inputs.run }}', github-token: '${{ github.token }}'}
+      - run: |
+          cd segs && git init -q -b out && git add -A
+          git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm "out ${{ inputs.tag }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/out-${{ inputs.tag }}
