@@ -1,0 +1,16 @@
+name: clean
+run-name: clean ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag: {required: true}
+permissions:
+  contents: write
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for b in $(git ls-remote --heads "https://github.com/${{ github.repository }}" "out-${{ inputs.tag }}*" | awk '{print $2}'); do
+            git push "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" --delete "$b" || true
+          done
