@@ -1,0 +1,102 @@
+name: render
+run-name: render ${{ inputs.comp }} (${{ inputs.tag }})
+
+on:
+  workflow_dispatch:
+    inputs:
+      comp:
+        description: Composición de Remotion (p. ej. UsaN)
+        required: true
+      frames:
+        description: Fotogramas totales (durationInFrames)
+        required: true
+      jobs:
+        description: Máquinas en paralelo (máx. 20)
+        default: '18'
+      tag:
+        description: Nombre de esta tirada
+        required: true
+
+concurrency:
+  group: render-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci --no-audit --no-fund
+      - run: npx remotion bundle src/index-hw.ts --out-dir=build
+      - run: tar -cf bundle.tar build
+      - uses: actions/upload-artifact@v4
+        with: {name: bundle, path: bundle.tar, retention-days: 1, compression-level: 0}
+      - id: plan
+        run: |
+          python3 -c "import json; print('matrix=' + json.dumps(list(range(int('${{ inputs.jobs }}')))))" >> "$GITHUB_OUTPUT"
+
+  render:
+    needs: bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        i: ${{ fromJson(needs.bundle.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with: {name: bundle}
+      - run: tar -xf bundle.tar && npx remotion browser ensure
+      - name: Render del tramo
+        env:
+          I: ${{ matrix.i }}
+          N: ${{ inputs.jobs }}
+          TOTAL: ${{ inputs.frames }}
+          COMP: ${{ inputs.comp }}
+        run: |
+          set -e
+          PER=$(( (TOTAL + N - 1) / N ))
+          S=$(( I * PER )); E=$(( S + PER - 1 )); [ $E -ge $TOTAL ] && E=$(( TOTAL - 1 ))
+          echo "tramo $S-$E"
+          mkdir -p parts
+          # trozos de 150 fotogramas: si uno falla se reintenta solo ese
+          for ((p=S; p<=E; p+=150)); do
+            q=$(( p + 149 )); [ $q -gt $E ] && q=$E
+            f=parts/p$(printf %06d $p).mp4
+            ok=0
+            for try in 1 2 3; do
+              if npx remotion render build $COMP $f --frames=$p-$q --muted --concurrency=4 --crf=18 --x264-preset=veryfast --jpeg-quality=92 --log=error; then
+                n=$(npx remotion ffprobe -v error -count_packets -select_streams v -show_entries stream=nb_read_packets -of csv=p=0 $f | tr -d '\r')
+                if [ "$n" = "$(( q - p + 1 ))" ]; then ok=1; break; fi
+                echo "::warning::$f tiene $n fotogramas, se repite"
+              fi
+              rm -f $f
+            done
+            [ $ok = 1 ] || { echo "::error::falló el trozo $p-$q"; exit 1; }
+            echo "file '$(basename $f)'" >> parts/list.txt
+            echo "trozo $p-$q ok"
+          done
+          npx remotion ffmpeg -v error -f concat -safe 0 -i parts/list.txt -c copy seg.mp4
+          n=$(npx remotion ffprobe -v error -count_packets -select_streams v -show_entries stream=nb_read_packets -of csv=p=0 seg.mp4 | tr -d '\r')
+          [ "$n" = "$(( E - S + 1 ))" ] || { echo "::error::el tramo tiene $n fotogramas"; exit 1; }
+          # cifrado: solo quien tiene la clave privada puede abrir el vídeo
+          openssl rand -hex 32 > k.txt
+          openssl pkeyutl -encrypt -pubin -inkey render_pub.pem -in k.txt -out k.enc
+          openssl enc -aes-256-cbc -pbkdf2 -pass file:k.txt -in seg.mp4 -out seg.bin
+          rm -f k.txt seg.mp4
+          mkdir -p out && mv seg.bin k.enc out/ && echo "$S $E" > out/range.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: seg-${{ matrix.i }}
+          path: out/
+          retention-days: 3
+          compression-level: 0

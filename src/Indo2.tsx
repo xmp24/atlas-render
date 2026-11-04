@@ -1,0 +1,849 @@
+// Can Indonesia Conquer the World? v2 — invasiones con pelotones por tierra (1920x1080). Versiones 'a' y 'b'.
+import React from 'react';
+import {AbsoluteFill, Audio, Easing, Img, staticFile, useCurrentFrame} from 'remotion';
+import {FlagCanvas, makeCam, CamKey, Cam, COUNTRIES, MAINCOL, NK} from './HexWorld';
+import {Globe} from './Globe';
+import {PolyCanvas, PolyMini, polyState, ownerStats, CEv, CAREA, MAINPIECE, PIECES_C} from './PolyWorld';
+import {Face, Mood, INK, YELLOW, RED, CREAM, font, font2, lerp, popT, fmt} from './lib3';
+import {ShortCup, segTime} from './ShortFX';
+import JA from './hw/indo2a.json';
+import JB from './hw/indo2b.json';
+import JC from './hw/indo2c.json';
+import JD from './hw/indo2d.json';
+import JU from './hw/usa.json';
+
+type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CEv[]; ID: number; MKB: Map<any, any[]>; ALLY: number[]};
+const CTXS: Record<string, Ctx> = {};
+const getCtx = (v: string): Ctx => {
+  if (!CTXS[v]) {
+    const D = (v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
+    CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
+  }
+  return CTXS[v];
+};
+let X: Ctx = getCtx('a');
+export const indoFrames = (v: string) => Math.round(getCtx(v).D.dur * 30);
+
+const NAME = (k: number) => COUNTRIES[k].n;
+const UP = (k: number) => NAME(k).toUpperCase();
+const COLD_END = 9.0;
+const tmapAt = (t: number) => { const m = X.D.tmap as number[][]; let c = m[0]; for (const e of m) { if (e[0] <= t) c = e; else break; } return c[1] + (t - c[0]) * (c[2] ?? 1); };
+const pst = (t: number) => polyState(X.CEV, t, tmapAt(t), t < COLD_END);
+const kfv = (pk: number[][], t: number, i = 1) => {
+  if (t <= pk[0][0]) return pk[0][i];
+  for (let j = 1; j < pk.length; j++) if (t <= pk[j][0]) { const u = (t - pk[j - 1][0]) / (pk[j][0] - pk[j - 1][0]); return pk[j - 1][i] + (pk[j][i] - pk[j - 1][i]) * u; }
+  return pk[pk.length - 1][i];
+};
+let VW = 1920, VH = 1080, SHORT = false;
+const toS = (x: number, y: number, c: Cam): [number, number] => [VW / 2 + (x - c.cx) * c.s, VH / 2 + (y - c.cy) * c.s];
+const FlagImg: React.FC<{k: number; w: number; h?: number; round?: boolean; style?: React.CSSProperties}> = ({k, w, h, round, style}) => (
+  <FlagCanvas k={k} w={w} h={h ?? (round ? w : (w * 3) / 4)} style={{borderRadius: round ? '50%' : 6, border: `3px solid ${INK}`, flexShrink: 0, ...style}} />
+);
+const Ball: React.FC<{k: number; size: number; mood: Mood; t: number; look?: [number, number]}> = ({k, size, mood, t, look}) => (
+  <div style={{position: 'relative', width: size, height: size}}>
+    <FlagImg k={k} w={size} round style={{border: `${Math.max(4, size * 0.035)}px solid ${INK}`, boxShadow: '0 8px 0 rgba(0,0,0,0.35)'}} />
+    <svg width={size} height={size} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}><Face x={size / 2} y={size * 0.47} r={size * 0.29} mood={mood} t={t} seed={k} look={look} /></svg>
+  </div>
+);
+const shakeAt = (t: number) => { let x = 0, y = 0; for (const [st, a] of X.D.shakes as number[][]) { const d = t - st; if (d >= 0 && d < 0.6) { const m = a * (1 - d / 0.6); x += Math.sin(d * 83) * m; y += Math.cos(d * 67) * m; } } return [x, y]; };
+const flashAt = (t: number) => { let a = 0; for (const st of X.D.flashes as number[]) { const d = t - st; if (d >= 0 && d < 0.3) a = Math.max(a, 1 - d / 0.3); } return a; };
+const GRADES: Record<string, [string, number, string]> = {cold: ['#6fa8ff', 0.16, 'multiply'], day: ['#000', 0, 'normal'], tense: ['#1a2a55', 0.2, 'multiply'], dusk: ['#ff7a30', 0.13, 'multiply'], night: ['#0b1a45', 0.32, 'multiply'], red: ['#b3121f', 0.22, 'multiply'], gold: ['#ffcc55', 0.22, 'soft-light']};
+const Grade: React.FC<{t: number}> = ({t}) => {
+  const g = X.D.grade as [number, string][]; let cur = -1;
+  for (let i = 0; i < g.length; i++) if (g[i][0] <= t) cur = i;
+  if (cur < 0) return null;
+  const a = GRADES[g[cur][1]]; const prev = cur > 0 ? GRADES[g[cur - 1][1]] : GRADES.day;
+  const k = lerp(t, g[cur][0], g[cur][0] + 1.2, 0, 1);
+  return (
+    <>
+      {prev[1] > 0 && <AbsoluteFill style={{background: prev[0], opacity: prev[1] * (1 - k), mixBlendMode: prev[2] as any, zIndex: 14, pointerEvents: 'none'}} />}
+      {a[1] > 0 && <AbsoluteFill style={{background: a[0], opacity: a[1] * k, mixBlendMode: a[2] as any, zIndex: 14, pointerEvents: 'none'}} />}
+    </>
+  );
+};
+// caras + nombres
+const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const st = pst(t); const os = ownerStats(st.owner);
+  const stl = pst(Math.max(0, t - 1.2)); const osl = ownerStats(stl.owner);
+  const s2 = cam.s * cam.s;
+  const best = new Int32Array(NK).fill(-1); const bestA = new Float64Array(NK);
+  for (let k = 0; k < NK; k++) { if (MAINPIECE[k] < 0) continue; const o = st.owner[k]; const ar = CAREA[k] * (o === k ? 1.6 : 1); if (ar > bestA[o]) { bestA[o] = ar; best[o] = k; } }
+  const cand: number[] = [];
+  for (let k = 0; k < NK; k++) {
+    if (!os.a[k] || best[k] < 0 || os.a[k] * s2 < 14000) continue;
+    const c = PIECES_C(best[k]); const [sx, sy] = toS(c[0], c[1], cam);
+    if (sx < -60 || sx > VW + 60 || sy < -60 || sy > VH + 60) continue;
+    cand.push(k);
+  }
+  const b = (X.D.battles as any[]).find((x) => t >= x.t0 && t < x.t1);
+  cand.sort((x, y) => (b && x === b.b ? -1 : b && y === b.b ? 1 : x === X.ID ? -1 : y === X.ID ? 1 : os.a[y] - os.a[x]));
+  const out: React.ReactNode[] = []; const placed: [number, number, number][] = [];
+  for (const k of cand) {
+    if (out.length >= 10) break;
+    const c = PIECES_C(best[k]); const [sx, sy] = toS(c[0], c[1], cam);
+    const r = Math.max(14, Math.min(62, Math.sqrt(os.a[k] * s2) * 0.07));
+    if (placed.some(([px, py, pr]) => Math.hypot(px - sx, py - sy) < (pr + r) * 1.6)) continue;
+    placed.push([sx, sy, r]);
+    const dn = os.a[k] - osl.a[k];
+    let mood: Mood = k === X.ID ? 'smug' : 'calm';
+    if (b && k === b.b) mood = 'scared';
+    if (dn < -os.a[k] * 0.02) mood = 'scared'; else if (dn > os.a[k] * 0.02) mood = 'angry';
+    const fs = Math.max(15, Math.min(34, r * 0.6));
+    out.push(
+      <g key={k}>
+        <Face x={sx} y={sy - r * 0.2} r={r} mood={mood} t={t} seed={k * 7 + 3} />
+        <g transform={`translate(${sx},${sy + r * 0.95})`}>
+          <rect x={-NAME(k).length * fs * 0.3 - 10} y={-fs * 0.62} width={NAME(k).length * fs * 0.6 + 20} height={fs * 1.3} rx={fs * 0.45} fill="rgba(255,255,255,0.95)" stroke={INK} strokeWidth={3} />
+          <text y={fs * 0.36} textAnchor="middle" fontSize={fs} fill={INK} style={{fontFamily: 'Lilita'}}>{UP(k)}</text>
+        </g>
+      </g>,
+    );
+  }
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>{out}</svg>;
+};
+// sellos de conquista sobre cada país
+const Stamps: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const out: React.ReactNode[] = [];
+  for (const [t0, k, kind] of X.D.stamps as [number, number, string][]) {
+    const d = t - t0; const life = kind === 'big' ? 2.2 : 1.3;
+    if (d < 0 || d > life) continue;
+    const c = PIECES_C(k); const [sx0, sy0] = toS(c[0], c[1], cam);
+    const sx = Math.max(160, Math.min(VW - 160, sx0)), sy = Math.max(140, Math.min(VH - 140, sy0));
+    const a = popT(t, t0, 10) * lerp(d, life - 0.3, life, 1, 0);
+    const big = kind === 'big';
+    out.push(
+      <div key={`${k}-${t0}`} style={{position: 'absolute', left: sx, top: sy, transform: `translate(-50%,-50%) scale(${0.4 + 0.6 * a}) rotate(-6deg)`, opacity: Math.min(1, a * 1.5), display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,248,235,0.97)', border: `${big ? 7 : 5}px solid ${RED}`, borderRadius: 14, padding: big ? '8px 22px 4px 10px' : '4px 14px 2px 6px', boxShadow: '0 6px 0 rgba(0,0,0,0.35)', zIndex: 18, whiteSpace: 'nowrap'}}>
+        <FlagImg k={k} w={big ? 64 : 40} round />
+        <div style={{display: 'flex', flexDirection: 'column', lineHeight: 0.95}}>
+          <span style={{...font, fontSize: big ? 40 : 26, color: INK}}>{UP(k)}</span>
+          <span style={{...font, fontSize: big ? 30 : 20, color: RED}}>CONQUERED</span>
+        </div>
+      </div>,
+    );
+  }
+  return <>{out}</>;
+};
+const Bubbles: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const out: React.ReactNode[] = [];
+  for (const [t0, k, text, dd] of X.D.bubbles as [number, number, string, number][]) {
+    const d = t - t0; if (d < 0 || d > dd) continue;
+    const c = PIECES_C(k); const [sx0, sy0] = toS(c[0], c[1], cam);
+    const sx = Math.max(260, Math.min(VW - 260, sx0)), sy = Math.max(200, Math.min(VH - 180, sy0 - 90));
+    const a = popT(t, t0, 12) * lerp(d, dd - 0.25, dd, 1, 0);
+    out.push(
+      <div key={t0} style={{position: 'absolute', left: sx, top: sy, transform: `translate(-50%,-100%) scale(${a})`, transformOrigin: '50% 100%', zIndex: 19}}>
+        <div style={{position: 'relative', background: '#fff', border: `4px solid ${INK}`, borderRadius: 18, padding: '8px 18px 4px', ...font2, fontSize: 30, color: INK, whiteSpace: 'nowrap', boxShadow: '0 5px 0 rgba(0,0,0,0.3)'}}>
+          {text}
+          <div style={{position: 'absolute', left: '50%', bottom: -16, width: 24, height: 24, background: '#fff', borderRight: `4px solid ${INK}`, borderBottom: `4px solid ${INK}`, transform: 'translateX(-50%) rotate(45deg)'}} />
+        </div>
+      </div>,
+    );
+  }
+  return <>{out}</>;
+};
+// flotas
+const Arrows: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const out: React.ReactNode[] = [];
+  (X.D.arrows as any[]).forEach(([t0, t1, x0, y0, x1, y1, k], i) => {
+    if (t < t0 - 0.1 || t > t1 + 0.6) return;
+    const p = lerp(t, t0, t1, 0, 1, Easing.inOut(Easing.quad));
+    const a = lerp(t, t0 - 0.1, t0 + 0.2, 0, 1) * lerp(t, t1 + 0.2, t1 + 0.6, 1, 0);
+    const [ax, ay] = toS(x0, y0, cam), [bx, by] = toS(x1, y1, cam);
+    const mx = (ax + bx) / 2, my = (ay + by) / 2 - Math.hypot(bx - ax, by - ay) * 0.18;
+    const q = (u: number): [number, number] => [(1 - u) * (1 - u) * ax + 2 * (1 - u) * u * mx + u * u * bx, (1 - u) * (1 - u) * ay + 2 * (1 - u) * u * my + u * u * by];
+    const pts: string[] = []; for (let j = 0; j <= 30; j++) { const [x, y] = q((j / 30) * p); pts.push(`${x.toFixed(1)},${y.toFixed(1)}`); }
+    const col = MAINCOL[k];
+    const kind = (X.D.arrows as any[])[i][7];
+    if (kind === 'hero') {
+      const ph = lerp(t, t0, t1, 0, 1, Easing.linear); const [sx, sy] = q(ph);
+      const glow = 0.6 + 0.4 * Math.sin(t * 5);
+      out.push(
+        <g key={i} opacity={a}>
+          <defs><radialGradient id={`hg${i}`}><stop offset="0%" stopColor="#fff6c0" stopOpacity={0.95} /><stop offset="45%" stopColor="#ffd23f" stopOpacity={0.45} /><stop offset="100%" stopColor="#ffd23f" stopOpacity={0} /></radialGradient></defs>
+          <polygon points={`${sx - 40},${-60} ${sx + 40},${-60} ${sx + 150},${sy + 60} ${sx - 150},${sy + 60}`} fill="rgba(255,240,180,0.10)" />
+          <circle cx={sx} cy={sy} r={150 * glow + 40} fill={`url(#hg${i})`} />
+          <ellipse cx={sx} cy={sy + 26} rx={70} ry={14} fill="rgba(255,255,255,0.4)" />
+          <g transform={`translate(${sx},${sy})`}><circle r={44} fill={col} stroke={YELLOW} strokeWidth={7} /><image href={staticFile('hw/icons/battleship.svg')} x={-30} y={-30} width={60} height={60} /></g>
+        </g>,
+      );
+      return;
+    }
+    const firing = kind === 'fire' && p > 0.55 && p < 1;
+    out.push(
+      <g key={i} opacity={a}>
+        <polyline points={pts.join(' ')} fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth={5} strokeLinecap="round" strokeDasharray="4 12" />
+        {firing && [0, 0.07, 0.14].map((lag, si) => { const [sx, sy] = q(Math.max(0, p - lag)); const on = Math.floor(t * 9 + si * 2) % 3 === 0; return on ? <g key={'f' + si}><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={14} fill="#ffe36b" /><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={7} fill="#fff" /></g> : null; })}
+        {p < 1 && [0, 0.07, 0.14].map((lag, si) => { const [sx, sy] = q(Math.max(0, p - lag)); return (
+          <g key={si} transform={`translate(${sx},${sy})`}><ellipse rx={30} ry={9} cy={14} fill="rgba(255,255,255,0.35)" /><circle r={si ? 17 : 22} fill={col} stroke={INK} strokeWidth={4} /><image href={staticFile('hw/icons/battleship.svg')} x={si ? -12 : -15} y={si ? -12 : -15} width={si ? 24 : 30} height={si ? 24 : 30} /></g>); })}
+      </g>,
+    );
+  });
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>{out}</svg>;
+};
+const Laser: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const out: React.ReactNode[] = [];
+  for (const [t0, x, y] of X.D.laser as number[][]) {
+    const d = t - t0; if (d < -0.5 || d > 1.3) continue;
+    const [sx, sy] = toS(x, y, cam);
+    const a = d < 0 ? ((d + 0.5) / 0.5) * 0.6 : lerp(d, 0.8, 1.3, 1, 0);
+    const w = d < 0 ? 5 : 34 + 18 * Math.sin(d * 40);
+    out.push(
+      <g key={t0} opacity={a}>
+        {d < 0 && <circle cx={sx} cy={sy} r={30 + (1 + d * 2) * 30} fill="none" stroke="#ff2b4a" strokeWidth={4} strokeDasharray="10 8" />}
+        <line x1={sx + 300} y1={-60} x2={sx} y2={sy} stroke="#ff2b4a" strokeWidth={w * 2} opacity={0.35} strokeLinecap="round" />
+        <line x1={sx + 300} y1={-60} x2={sx} y2={sy} stroke="#ff6b7a" strokeWidth={w} strokeLinecap="round" />
+        <line x1={sx + 300} y1={-60} x2={sx} y2={sy} stroke="#fff" strokeWidth={w * 0.3} strokeLinecap="round" />
+      </g>,
+    );
+  }
+  if (!out.length) return null;
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 12, overflow: 'visible'}}>{out}</svg>;
+};
+const Pill: React.FC<{children: React.ReactNode; bg?: string; style?: React.CSSProperties}> = ({children, bg = 'rgba(14,20,32,0.9)', style}) => (
+  <div style={{background: bg, border: `4px solid ${INK}`, borderRadius: 16, boxShadow: '0 4px 0 rgba(0,0,0,0.35)', ...style}}>{children}</div>
+);
+const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const D = X.D;
+  const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
+  if (show <= 0.01) return null;
+  const pw = kfv(D.indo, t);
+  const st = pst(t);
+  let n = 0; for (let k = 0; k < NK; k++) if (k !== X.ID && st.owner[k] === X.ID) n++;
+  const ch = (D.chapters as any[]).filter((c) => c[0] <= t).slice(-1)[0];
+  const lastF = (D.feed as number[][]).filter((f) => f[0] <= t).slice(-1)[0];
+  const bump = lastF && t - lastF[0] < 0.3 ? 0.12 * (1 - (t - lastF[0]) / 0.3) : 0;
+  const day = Math.round(kfv(D.days, t));
+  const sk = (D.streak as number[][]).find(([a, b]) => t >= a && t <= b + 1.5);
+  const sn = sk ? (D.feed as number[][]).filter((f) => f[0] >= sk[0] && f[0] <= t).length : 0;
+  return (
+    <>
+      <div style={{position: 'absolute', top: 20, left: 20 + (1 - show) * -600, zIndex: 20, display: 'flex', alignItems: 'center', gap: 10}}>
+        <Ball k={X.ID} size={78} mood="smug" t={t} />
+        <div>
+          <Pill style={{padding: '2px 14px 0', display: 'flex', alignItems: 'baseline', gap: 8}}>
+            <span style={{...font, fontSize: 24, color: '#ffd23f'}}>⚡ POWER</span>
+            <span style={{...font, fontSize: 40, color: '#fff', minWidth: 130}}>{fmt(pw)}</span>
+          </Pill>
+          <div style={{display: 'flex', gap: 6, marginTop: 5}}>
+            <Pill bg={CREAM} style={{padding: '1px 12px 0', ...font, fontSize: 23, color: INK, transform: `scale(${1 + bump})`, transformOrigin: 'left center', display: 'inline-block'}}>🌍 {n} / {D.total}</Pill>
+            {D.ver !== 'a' && <Pill bg="#2a3346" style={{padding: '1px 12px 0', ...font, fontSize: 23, color: '#ff9a8f', display: 'inline-block'}}>{D.total - n} LEFT</Pill>}
+          </div>
+        </div>
+      </div>
+      {/* días */}
+      <div style={{position: 'absolute', top: 18, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 20, transform: `translateY(${(1 - show) * -120}px)`}}>
+        <Pill bg="#1b1f2b" style={{padding: '4px 22px 0', ...font, fontSize: 40, color: YELLOW, border: `4px solid ${RED}`}}>📅 DAY {day}</Pill>
+      </div>
+      {ch && <div style={{position: 'absolute', top: 20, right: 20 + (1 - show) * -600, zIndex: 20}}><Pill bg={YELLOW} style={{padding: '4px 16px 0', ...font, fontSize: 26, color: INK}}>{(D.chapters as any[]).indexOf(ch) + 1} · {ch[1]}</Pill></div>}
+      {sk && sn > 1 && (
+        <div style={{position: 'absolute', top: 120, left: 22, zIndex: 20, transform: `scale(${0.9 + 0.1 * popT(t, lastF ? lastF[0] : 0, 8)})`, transformOrigin: 'left center', opacity: lerp(t, sk[1] + 1.0, sk[1] + 1.5, 1, 0)}}>
+          <Pill bg={RED} style={{padding: '2px 14px 0', ...font, fontSize: 30, color: '#fff'}}>🔥 +{sn} IN A ROW</Pill>
+        </div>
+      )}
+      <div style={{position: 'absolute', left: 20 + (1 - show) * -500, bottom: 20, zIndex: 20, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}>
+        <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={cam} w={260} h={135} VW={VW} VH={VH} />
+      </div>
+      <div style={{position: 'absolute', right: 22, bottom: 12, ...font2, fontSize: 16, color: 'rgba(255,255,255,0.85)', textShadow: '0 2px 3px #000', zIndex: 20, opacity: show}}>Hypothetical simulation · Power points are fictional</div>
+    </>
+  );
+};
+// tarjeta de batalla (derecha): poder de ambos + % de invasión
+const Battle: React.FC<{t: number}> = ({t}) => {
+  const b = (X.D.battles as any[]).find((x) => t >= x.t0 - 0.05 && t < x.t1);
+  if (!b) return null;
+  const pa = kfv(b.pk, t, 1), pb = kfv(b.pk, t, 2);
+  const inv = b.inv && b.inv.length ? kfv(b.inv, t) : 0;
+  const k0 = popT(t, b.t0 + 1.1, 12) * lerp(t, b.t1 - 0.3, b.t1, 1, 0);
+  const vs = t < b.t0 + (X.D.ver === 'd' ? 1.9 : 1.25);
+  const prev = b.inv && b.inv.length ? kfv(b.inv, t - 0.6) : 0;
+  const down = inv < prev - 0.5;
+  return (
+    <>
+      {vs && (
+        <AbsoluteFill style={{zIndex: 42, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 110, background: `linear-gradient(105deg, ${MAINCOL[X.ID]}bb 0%, rgba(0,0,0,0.55) 50%, ${MAINCOL[b.b]}bb 100%)`, opacity: lerp(t, b.t0, b.t0 + 0.15, 0, 1) * (X.D.ver === 'd' ? lerp(t, b.t0 + 1.6, b.t0 + 1.9, 1, 0) : lerp(t, b.t0 + 0.95, b.t0 + 1.25, 1, 0))}}>
+          <div style={{transform: `translateX(${(1 - popT(t, b.t0, 11)) * -700}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8}}><Ball k={X.ID} size={230} mood="angry" t={t} look={[0.8, 0]} /><div style={{...font, fontSize: 56, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{X.D.hero || 'INDONESIA'}</div>{X.D.ver === 'd' && <Pill bg={CREAM} style={{padding: '2px 18px 0', ...font, fontSize: 40, color: RED}}>⚡ {fmt(b.pk[0][1])}</Pill>}</div>
+          <div style={{...font, fontSize: 180, color: YELLOW, WebkitTextStroke: `8px ${INK}`, paintOrder: 'stroke fill', transform: `rotate(-8deg) scale(${0.6 + 0.5 * popT(t, b.t0 + 0.1, 8)})`}}>VS</div>
+          <div style={{transform: `translateX(${(1 - popT(t, b.t0, 11)) * 700}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8}}><Ball k={b.b} size={230} mood="angry" t={t} look={[-0.8, 0]} /><div style={{...font, fontSize: 56, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{b.title}</div>{X.D.ver === 'd' && <Pill bg={CREAM} style={{padding: '2px 18px 0', ...font, fontSize: 40, color: '#1f4fbf'}}>⚡ {fmt(b.pk[0][2])}</Pill>}</div>
+          {X.D.ver === 'd' && (() => { const pa0 = b.pk[0][1], pb0 = b.pk[0][2]; const pr = Math.round((100 * Math.pow(pa0, 1.3)) / (Math.pow(pa0, 1.3) + Math.pow(pb0, 1.3))); const fill = lerp(t, b.t0 + 0.2, b.t0 + 0.8, 50, pr); return (
+            <div style={{position: 'absolute', top: SHORT ? 330 : 120, left: SHORT ? 60 : 360, right: SHORT ? 60 : 360}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', ...font, fontSize: 34, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}><span>{Math.round(fill)}% WIN</span><span>WIN CHANCE</span><span>{100 - Math.round(fill)}% WIN</span></div>
+              <div style={{height: 34, border: `5px solid ${INK}`, borderRadius: 12, overflow: 'hidden', display: 'flex', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}><div style={{width: `${fill}%`, background: 'linear-gradient(180deg,#ff6b6b,#d0181e)'}} /><div style={{width: 6, background: '#fff'}} /><div style={{flex: 1, background: 'linear-gradient(180deg,#5a8bff,#1f3fa0)'}} /></div>
+            </div>); })()}
+        </AbsoluteFill>
+      )}
+      <div style={{position: 'absolute', right: 26, top: SHORT ? 1300 : 250, width: 420, zIndex: 41, transform: `translateX(${(1 - k0) * 520}px)`, background: CREAM, border: `5px solid ${INK}`, borderRadius: 22, padding: '14px 22px 16px', boxShadow: '0 8px 0 rgba(0,0,0,0.35)'}}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, ...font, fontSize: 38, color: INK}}><span>⚔️</span>{b.title}</div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 12, marginTop: 8}}><FlagImg k={X.ID} w={58} h={40} /><span style={{...font, fontSize: 50, color: RED}}>⚡ {fmt(pa)}</span></div>
+        <div style={{display: 'flex', justifyContent: 'center', margin: '2px 0'}}><span style={{background: INK, color: '#fff', ...font, fontSize: 26, borderRadius: 20, padding: '1px 14px 0'}}>VS</span></div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 12}}><FlagImg k={b.b} w={58} h={40} /><span style={{...font, fontSize: 50, color: '#1f4fbf'}}>⚡ {fmt(pb)}</span></div>
+        {X.D.ver !== 'a' && (() => { const ms = markersFor(b).filter((m: any) => m[1] === b.b); return ms.length ? (
+          <div style={{display: 'flex', justifyContent: 'center', gap: 8, marginTop: 8}}>
+            {ms.map((m: any, i: number) => { const dead = m[4] !== null && t >= m[4]; return <div key={i} style={{width: 46, height: 46, borderRadius: '50%', background: dead ? '#777' : m[0] === 'cap' ? '#ffd23f' : '#3b4a66', border: `4px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, position: 'relative', transform: `scale(${dead && t - m[4] < 0.3 ? 1.3 - (t - m[4]) : 1})`}}>{m[0] === 'cap' ? '⭐' : '🏰'}{dead && <span style={{position: 'absolute', ...font, fontSize: 40, color: RED, lineHeight: 1}}>✕</span>}</div>; })}
+          </div>) : null; })()}
+        <div style={{display: 'flex', justifyContent: 'space-between', ...font, fontSize: 24, color: INK, marginTop: 10}}><span>INVASION</span><span style={{color: down ? '#1f4fbf' : RED}}>{Math.round(inv)}% {down ? '▼' : ''}</span></div>
+        <div style={{height: 24, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', background: '#e9dfc9'}}>
+          <div style={{width: `${inv}%`, height: '100%', background: down ? 'linear-gradient(90deg,#ff8f8f,#c22)' : 'linear-gradient(90deg,#ff5a5a,#d0181e)'}} />
+        </div>
+      </div>
+    </>
+  );
+};
+const Chips: React.FC<{t: number}> = ({t}) => {
+  const c = (X.D.chips as any[]).filter(([t0, , , d]) => t >= t0 && t < t0 + d).slice(-1)[0];
+  if (!c) return null;
+  const [t0, text, k, d] = c;
+  const a = popT(t, t0, 11) * lerp(t, t0 + d - 0.3, t0 + d, 1, 0);
+  return (
+    <div style={{position: 'absolute', bottom: 54 + 95 * win(X.D.letterbox, t), left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 36}}>
+      <div style={{transform: `translateY(${(1 - a) * 160}px) scale(${0.7 + 0.3 * a})`, opacity: Math.min(1, a * 1.5), display: 'flex', alignItems: 'center', gap: 16, background: CREAM, border: `5px solid ${INK}`, borderRadius: 22, padding: '8px 28px 4px 12px', boxShadow: '0 8px 0 rgba(0,0,0,0.35)'}}>
+        {k >= 0 && <FlagImg k={k} w={58} round />}
+        <span style={{...font, fontSize: 44, color: INK}}>{text}</span>
+      </div>
+    </div>
+  );
+};
+const QCard: React.FC<{t: number}> = ({t}) => {
+  const c = ((X.D.qcards || []) as any[]).find(([t0, , d]) => t >= t0 && t < t0 + d);
+  if (!c) return null;
+  const [t0, text, d] = c; const a = popT(t, t0, 12) * lerp(t, t0 + d - 0.3, t0 + d, 1, 0);
+  const n = Math.min(text.length, Math.floor((t - t0) * 45));
+  return (
+    <div style={{position: 'absolute', top: 96, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 34}}>
+      <div style={{transform: `scale(${0.6 + 0.4 * a})`, opacity: Math.min(1, a * 1.4), background: 'rgba(10,12,20,0.88)', border: `4px solid ${YELLOW}`, borderRadius: 16, padding: '6px 26px 2px', ...font, fontSize: 46, color: YELLOW, whiteSpace: 'nowrap'}}>{text.slice(0, n)}<span style={{opacity: 0}}>{text.slice(n)}</span></div>
+    </div>
+  );
+};
+
+// ranking de los países más fuertes: aparece con la posición antigua y anima la subida
+const Ranking: React.FC<{t: number}> = ({t}) => {
+  const r = ((X.D.ranks || []) as any[]).find((x) => t >= x.t && t < x.t + 3.4);
+  if (!r) return null;
+  const dt = t - r.t; const a = popT(t, r.t, 11) * lerp(dt, 3.0, 3.4, 1, 0);
+  const u = lerp(dt, 0.9, 2.1, 0, 1, Easing.inOut(Easing.cubic));
+  const rank = Math.round(r.old + (r.new - r.old) * u);
+  const rows = (r.top as number[][]).slice(0, 4);
+  const RH = 92;
+  // posición visual de Indonesia: debajo (fila 5) si está fuera del top 4; si entra, se coloca en su puesto
+  const slot = (rk: number) => (rk <= 4 ? rk - 1 : 4.35);
+  const ys = slot(r.old) + (slot(r.new) - slot(r.old)) * u;
+  const climbed = r.new < r.old && dt > 2.1;
+  return (
+    <div style={{position: 'absolute', left: 0, right: 0, top: 130, display: 'flex', justifyContent: 'center', zIndex: 43, pointerEvents: 'none'}}>
+      <div style={{transform: `scale(${0.6 + 0.4 * a})`, opacity: Math.min(1, a * 1.5), width: 760, background: 'rgba(12,16,28,0.94)', border: `6px solid ${INK}`, borderRadius: 26, padding: '16px 22px 22px', boxShadow: '0 12px 0 rgba(0,0,0,0.4)'}}>
+        <div style={{...font, fontSize: 52, color: YELLOW, textAlign: 'center', marginBottom: 10}}>🏆 STRONGEST NATIONS</div>
+        <div style={{position: 'relative', height: RH * 5.35}}>
+          {rows.map(([k, pw], i) => {
+            const bs = i + (r.old <= 4 && i >= r.old - 1 ? 1 : 0), as_ = i + (r.new <= 4 && i >= r.new - 1 ? 1 : 0);
+            const sl = bs + (as_ - bs) * u;
+            return (
+              <div key={k} style={{position: 'absolute', left: 0, right: 0, top: sl * RH, height: RH - 12, display: 'flex', alignItems: 'center', gap: 16, background: '#f6eedb', border: `4px solid ${INK}`, borderRadius: 16, padding: '0 18px', opacity: sl > 4.2 ? 0.6 : 1}}>
+                <span style={{...font, fontSize: 44, color: INK, width: 70}}>#{Math.round(sl) + 1}</span>
+                <FlagImg k={k} w={70} h={48} />
+                <span style={{...font, fontSize: 40, color: INK, flex: 1}}>{UP(k)}</span>
+                <span style={{...font, fontSize: 36, color: '#1f4fbf'}}>⚡ {fmt(pw)}</span>
+              </div>
+            );
+          })}
+          <div style={{position: 'absolute', left: -8, right: -8, top: ys * RH, height: RH - 4, display: 'flex', alignItems: 'center', gap: 16, background: climbed ? 'linear-gradient(90deg,#ffd23f,#ff9a3c)' : 'linear-gradient(90deg,#ff5a5a,#d0181e)', border: `5px solid ${YELLOW}`, borderRadius: 18, padding: '0 22px', boxShadow: `0 0 ${20 + 20 * Math.sin(t * 8)}px rgba(255,210,63,0.8)`, transform: `scale(${1 + 0.06 * Math.sin(u * Math.PI)})`}}>
+            <span style={{...font, fontSize: 52, color: '#fff', textShadow: `3px 3px 0 ${INK}`, width: 90}}>#{rank}</span>
+            <FlagImg k={X.ID} w={74} h={50} />
+            <span style={{...font, fontSize: 44, color: '#fff', textShadow: `3px 3px 0 ${INK}`, flex: 1, whiteSpace: 'nowrap'}}>INDONESIA</span>
+            {r.new < r.old && dt > 0.9 && <span style={{...font, fontSize: 34, color: '#fff', textShadow: `3px 3px 0 ${INK}`, whiteSpace: 'nowrap'}}>{`▲${r.old - rank}`}</span>}
+            <span style={{...font, fontSize: 36, color: '#fff', textShadow: `3px 3px 0 ${INK}`, whiteSpace: 'nowrap'}}>⚡ {fmt(r.ip)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+const Chapter: React.FC<{t: number}> = ({t}) => {
+  const c = (X.D.chapters as any[]).filter(([t0]) => t >= t0 - 0.1 && t < t0 + 1.7).slice(-1)[0];
+  if (!c) return null;
+  const [t0, title] = c; const n = (X.D.chapters as any[]).indexOf(c) + 1;
+  const nc = (X.D.cards as any[]).find((x) => (x.kind === 'alliance' || x.kind === 'remain') && x.t0 > t0 && x.t0 < t0 + 1.7);
+  const e = nc ? nc.t0 : t0 + 1.7; if (t > e) return null;
+  const sl = lerp(t, t0 - 0.1, t0 + 0.3, -1, 0, Easing.out(Easing.cubic)) + lerp(t, e - 0.35, e, 0, 1, Easing.in(Easing.cubic));
+  return (
+    <div style={{position: 'absolute', left: 0, right: 0, top: 150, zIndex: 35, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
+      <div style={{transform: `translateX(${sl * 1500}px) skewX(-10deg)`, background: YELLOW, border: `6px solid ${INK}`, padding: '4px 44px 0', boxShadow: '0 8px 0 rgba(0,0,0,0.35)', textAlign: 'center'}}>
+        <div style={{...font, fontSize: 28, color: INK, opacity: 0.7}}>CHAPTER {n}</div>
+        <div style={{...font, fontSize: 70, color: INK, lineHeight: 1}}>{title}</div>
+      </div>
+    </div>
+  );
+};
+// ---------- escenas nuevas: cumbre, objetivo fijado, apagón ----------
+const CODEK: Record<string, number> = {}; COUNTRIES.forEach((c, i) => { CODEK[c.c] = i; });
+const ownedAt = (t: number) => { const o = new Set<number>([X.ID]); for (const e of X.CEV as any[]) { if (e[0] > t) break; if (e[3] === X.ID) o.add(e[2]); } return o; };
+const Summit: React.FC<{t: number}> = ({t}) => {
+  const S_ = ((X.D.summits || []) as any[]).find((x) => t >= x.t0 && t < x.t1);
+  if (!S_) return null;
+  const a = Math.min(1, (t - S_.t0) / 0.35, (S_.t1 - t) / 0.35);
+  const n = S_.ks.length; const cx = 960, cy = 600, rx = 560, ry = 250;
+  const cur = (S_.lines as any[]).filter((l) => l[0] <= t).slice(-1)[0];
+  const done = t >= S_.tr;
+  return (
+    <AbsoluteFill style={{zIndex: 47, opacity: a, background: 'radial-gradient(ellipse at 50% 55%, rgba(40,32,24,0.96) 0%, rgba(8,8,14,0.97) 75%)'}}>
+      <div style={{position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 64, color: '#fff', WebkitTextStroke: `7px ${INK}`, paintOrder: 'stroke fill'}}>⚠️ EMERGENCY SUMMIT</div>
+      <div style={{position: 'absolute', left: cx - rx * 0.78, top: cy - ry * 0.62, width: rx * 1.56, height: ry * 1.24, borderRadius: '50%', background: 'radial-gradient(ellipse at 50% 35%, #7a5232 0%, #4b2f1a 70%, #2a190d 100%)', border: `8px solid ${INK}`, boxShadow: '0 22px 0 rgba(0,0,0,0.45), inset 0 -18px 30px rgba(0,0,0,0.35)'}}>
+        <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', fontSize: 110, opacity: done ? 1 : 0.35}}>{done ? '🤝' : '🗺️'}</div>
+      </div>
+      {(S_.ks as number[]).map((k, i) => {
+        const an = Math.PI + (i / (n - 1)) * Math.PI * -1 + (n > 1 ? 0 : 0); const ang = -Math.PI * 0.95 + (i / Math.max(1, n - 1)) * Math.PI * 0.9 - Math.PI * 0.025;
+        const x = cx + Math.cos(ang) * rx, y = cy + Math.sin(ang) * ry * 1.05 + (Math.sin(ang) > 0 ? 40 : -20);
+        const talking = cur && cur[1] === i && !done; const sz = 170 * (talking ? 1.12 : 1);
+        const pop = popT(t, S_.t0 + 0.1 + i * 0.08, 12);
+        return (
+          <div key={i} style={{position: 'absolute', left: x - sz / 2, top: y - sz / 2 + (talking ? Math.sin(t * 14) * 4 : 0), transform: `scale(${pop})`}}>
+            <Ball k={k} size={sz} mood={done ? 'angry' : talking ? 'angry' : 'calm'} t={t} look={[(cx - x) / 600, (cy - y) / 400]} />
+          </div>
+        );
+      })}
+      {cur && !done && (() => { const i = cur[1]; const ang = -Math.PI * 0.95 + (i / Math.max(1, n - 1)) * Math.PI * 0.9 - Math.PI * 0.025;
+        const x = cx + Math.cos(ang) * rx, y = cy + Math.sin(ang) * ry * 1.05 + (Math.sin(ang) > 0 ? 40 : -20);
+        const bx = Math.max(260, Math.min(1660, x)), by = Math.max(150, y - 120);
+        return <div style={{position: 'absolute', left: bx, top: by, zIndex: 5, transform: `translate(-50%,-100%) scale(${popT(t, cur[0], 14)})`, transformOrigin: '50% 100%', background: '#fff', border: `5px solid ${INK}`, borderRadius: 20, padding: '10px 24px 6px', ...font2, fontSize: 40, color: INK, whiteSpace: 'nowrap', boxShadow: '0 6px 0 rgba(0,0,0,0.35)'}}>
+          <FlagImg k={S_.ks[i]} w={40} h={27} style={{display: 'inline-block', verticalAlign: 'middle', marginRight: 12}} />{cur[2]}
+          <div style={{position: 'absolute', left: '50%', bottom: -16, width: 24, height: 24, background: '#fff', borderRight: `5px solid ${INK}`, borderBottom: `5px solid ${INK}`, transform: 'translateX(-50%) rotate(45deg)'}} /></div>; })()}
+      {done && <div style={{position: 'absolute', left: 0, right: 0, bottom: 60, display: 'flex', justifyContent: 'center'}}>
+        <div style={{transform: `rotate(-4deg) scale(${popT(t, S_.tr, 9)})`, background: RED, border: `8px solid ${INK}`, borderRadius: 24, padding: '10px 40px 2px', ...font, fontSize: 84, color: '#fff', boxShadow: '0 10px 0 rgba(0,0,0,0.4)'}}>{S_.result}</div>
+      </div>}
+    </AbsoluteFill>
+  );
+};
+const Network: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const N = (X.D as any).net; if (!N || t < N.t0 || t > N.t1) return null;
+  const a = Math.min(1, (t - N.t0) / 0.4, (N.t1 - t) / 0.5);
+  const P = (N.nodes as any[]).map(([x, y]) => toS(x, y, cam));
+  const [ex, ey] = toS(N.src[0], N.src[1], cam);
+  const emp = t >= N.tc - 0.9 ? Math.min(1, (t - N.tc + 0.9) / 1.4) : 0;
+  const out: React.ReactNode[] = [];
+  (N.links as number[][]).forEach(([i, j], li) => {
+    const [x0, y0] = P[i], [x1, y1] = P[j]; const tcut = N.tc + li * 0.12; const cut = t >= tcut;
+    const fl = cut ? Math.max(0, 1 - (t - tcut) / 0.7) : 1; if (fl <= 0.01) return;
+    const flick = cut ? (Math.floor(t * 24 + li) % 2 ? 1 : 0.2) : 1;
+    out.push(<line key={'l' + li} x1={x0} y1={y0} x2={x1} y2={y1} stroke={cut ? '#ff2b2b' : '#5ff3ff'} strokeWidth={cut ? 4 : 5} strokeDasharray={cut ? '10 14' : undefined} opacity={fl * flick * 0.9} style={{filter: `drop-shadow(0 0 8px ${cut ? '#ff2b2b' : '#5ff3ff'})`}} />);
+    if (!cut) for (let q = 0; q < 3; q++) { const u = ((t * 0.9 + q / 3 + li * 0.17) % 1); out.push(<circle key={'p' + li + q} cx={x0 + (x1 - x0) * u} cy={y0 + (y1 - y0) * u} r={6} fill="#fff" />); }
+  });
+  (N.nodes as any[]).forEach(([x, y, label, kind], i) => {
+    const [sx, sy] = P[i]; const dead = t >= N.tc + 0.3 + i * 0.1;
+    out.push(<g key={'n' + i} transform={`translate(${sx},${sy})`}>
+      <circle r={kind === 'hq' ? 22 : 14} fill={dead ? '#3a0d0d' : '#0d2a3a'} stroke={dead ? '#ff2b2b' : '#5ff3ff'} strokeWidth={4} />
+      {!dead && <circle r={(kind === 'hq' ? 22 : 14) + ((t * 40) % 30)} fill="none" stroke="#5ff3ff" strokeWidth={2} opacity={1 - ((t * 40) % 30) / 30} />}
+      {dead && <text y={-26} textAnchor="middle" style={{...font, fontSize: 24}} fill="#ff4d4d" stroke={INK} strokeWidth={5} paintOrder="stroke" opacity={Math.floor(t * 6 + i) % 2 ? 1 : 0.6}>NO SIGNAL</text>}
+      {!dead && label && <text y={-26} textAnchor="middle" style={{...font, fontSize: 22}} fill="#9ff8ff" stroke={INK} strokeWidth={5} paintOrder="stroke">{label}</text>}
+    </g>);
+  });
+  if (emp > 0) out.push(<circle key="emp" cx={ex} cy={ey} r={emp * 2400} fill="none" stroke="#ffffff" strokeWidth={30 * (1 - emp) + 4} opacity={0.8 * (1 - emp)} />);
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 18, opacity: a, overflow: 'visible'}}>
+    <rect x={0} y={0} width={VW} height={VH} fill={`rgba(0,10,20,${0.35})`} />{out}</svg>;
+};
+const Targets: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const out: React.ReactNode[] = [];
+  for (const [t0, t1, x, y, label] of ((X.D.targets || []) as any[])) {
+    if (t < t0 || t > t1) continue;
+    const [sx, sy] = toS(x, y, cam); const u = Math.min(1, (t - t0) / 0.45); const R0 = 150 - 80 * u; const a = Math.min(1, (t1 - t) / 0.25);
+    const blink = Math.floor(t * 8) % 2 === 0;
+    out.push(<g key={t0 + '' + x} opacity={a} transform={`translate(${sx},${sy}) rotate(${(1 - u) * 90})`}>
+      <circle r={R0} fill="none" stroke="#ff2b2b" strokeWidth={5} strokeDasharray="14 10" />
+      <circle r={R0 * 0.35} fill="none" stroke="#ff2b2b" strokeWidth={4} />
+      {[0, 1, 2, 3].map((q) => <line key={q} x1={0} y1={R0 + 4} x2={0} y2={R0 + 30} stroke="#ff2b2b" strokeWidth={6} transform={`rotate(${q * 90})`} />)}
+    </g>);
+    out.push(<text key={'l' + t0 + x} x={sx} y={sy + 120} textAnchor="middle" opacity={a * (blink ? 1 : 0.55)} style={{...font, fontSize: 34}} fill="#ff4d4d" stroke={INK} strokeWidth={6} paintOrder="stroke">{u >= 1 ? label : 'LOCKING...'}</text>);
+  }
+  return out.length ? <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 18, overflow: 'visible'}}>{out}</svg> : null;
+};
+const Glitch: React.FC<{t: number}> = ({t}) => {
+  const g = ((X.D.glitch || []) as any[]).find(([a, b]) => t >= a && t <= b); if (!g) return null;
+  const f = Math.floor(t * 30); const rnd = (i: number) => { const v = Math.sin((f * 13 + i) * 91.7) * 43758.5; return v - Math.floor(v); };
+  const k = Math.min(1, (t - g[0]) / 0.2, (g[1] - t) / 0.4);
+  return (
+    <AbsoluteFill style={{zIndex: 58, pointerEvents: 'none'}}>
+      <AbsoluteFill style={{background: `rgba(0,0,0,${0.45 * k})`}} />
+      {Array.from({length: 14}).map((_, i) => <div key={i} style={{position: 'absolute', left: (rnd(i) - 0.5) * 120, top: rnd(i + 50) * VH, width: VW, height: 6 + rnd(i + 99) * 40, background: i % 3 === 0 ? 'rgba(0,255,255,0.35)' : i % 3 === 1 ? 'rgba(255,0,200,0.32)' : 'rgba(255,255,255,0.25)', mixBlendMode: 'screen', opacity: k}} />)}
+      <div style={{position: 'absolute', top: '42%', left: 0, right: 0, textAlign: 'center', ...font, fontSize: 110, color: '#ff2b2b', WebkitTextStroke: `8px ${INK}`, paintOrder: 'stroke fill', transform: `translateX(${(rnd(7) - 0.5) * 30}px)`, opacity: k * (rnd(3) > 0.15 ? 1 : 0.2), textShadow: '6px 0 0 rgba(0,255,255,0.7), -6px 0 0 rgba(255,0,200,0.7)'}}>ENEMY SYSTEMS OFFLINE</div>
+    </AbsoluteFill>
+  );
+};
+const Cards: React.FC<{t: number}> = ({t}) => {
+  const c = (X.D.cards as any[]).find((x) => t >= x.t0 && t < x.t1);
+  if (!c) return null;
+  const a = popT(t, c.t0, 10) * lerp(t, c.t1 - 0.3, c.t1, 1, 0);
+  if (c.kind === 'intro') {
+    return (
+      <div style={{position: 'absolute', right: 110, top: 250, zIndex: 40, transform: `translateX(${(1 - a) * 900}px)`, display: 'flex', alignItems: 'center', gap: 26}}>
+        <Ball k={X.ID} size={240} mood="smug" t={t} />
+        <div style={{background: CREAM, border: `7px solid ${INK}`, borderRadius: 26, padding: '18px 30px 14px', boxShadow: '0 10px 0 rgba(0,0,0,0.35)'}}>
+          <div style={{...font, fontSize: 84, color: RED, lineHeight: 1}}>{X.D.hero ? 'UNITED STATES' : 'INDONESIA'}</div>
+          <div style={{...font2, fontSize: 34, color: INK}}>{X.D.hero ? '👥 340 million people' : '👥 280 million people'}</div>
+          <div style={{...font2, fontSize: 34, color: INK}}>{X.D.hero ? '💪 The strongest army on Earth' : '🏝️ 17,000 islands'}</div>
+          <div style={{...font2, fontSize: 34, color: INK}}>🎯 Goal: the entire world</div>
+        </div>
+      </div>
+    );
+  }
+  if (c.kind === 'declare') {
+    const dt = t - c.t0; const sc = dt < 0.2 ? 2.6 - (dt / 0.2) * 1.6 : 1 + 0.03 * Math.sin(dt * 9);
+    return (
+      <AbsoluteFill style={{zIndex: 44, background: `radial-gradient(circle, rgba(120,0,0,${0.55 * a}) 0%, rgba(0,0,0,${0.75 * a}) 80%)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 18}}>
+        <div style={{transform: `scale(${popT(t, c.t0, 9)})`}}><Ball k={X.ID} size={210} mood="angry" t={t} /></div>
+        <div style={{transform: `scale(${sc}) rotate(-3deg)`, opacity: Math.min(1, a * 1.3), textAlign: 'center'}}>
+          <div style={{...font, fontSize: 88, color: '#fff', textShadow: `6px 6px 0 ${INK}`, lineHeight: 1}}>{X.D.hero || 'INDONESIA'} DECLARES WAR</div>
+          <div style={{...font, fontSize: 132, color: RED, WebkitTextStroke: `8px ${INK}`, paintOrder: 'stroke fill', lineHeight: 1.05}}>ON THE WORLD</div>
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  if (c.kind === 'stamp') {
+    const dt = t - c.t0; const sc = dt < 0.18 ? 2.2 - (dt / 0.18) * 1.2 : 1;
+    return (
+      <div style={{position: 'absolute', inset: 0, zIndex: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none'}}>
+        <div style={{transform: `rotate(-5deg) scale(${sc})`, opacity: lerp(t, c.t1 - 0.3, c.t1, 1, 0), display: 'flex', alignItems: 'center', gap: 22, background: 'rgba(255,248,235,0.97)', border: `10px solid ${RED}`, borderRadius: 20, padding: '16px 44px 8px', boxShadow: '0 12px 0 rgba(0,0,0,0.35)'}}>
+          <FlagImg k={c.k} w={110} round />
+          <span style={{...font, fontSize: 92, color: RED}}>{c.text}</span>
+        </div>
+      </div>
+    );
+  }
+  if (c.kind === 'bigtext') {
+    const dt = t - c.t0; const sc = dt < 0.22 ? 1.9 - (dt / 0.22) * 0.9 : 1 + (dt - 0.22) * 0.02;
+    return (
+      <AbsoluteFill style={{zIndex: 44, background: `radial-gradient(circle, rgba(0,0,0,${0.25 * a}) 0%, rgba(0,0,0,${0.7 * a}) 85%)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, pointerEvents: 'none'}}>
+        <div style={{transform: `scale(${sc})`, opacity: Math.min(1, a * 1.3), ...font, fontSize: 130, color: '#fff', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill', textShadow: `0 8px 0 ${INK}`, lineHeight: 1, textAlign: 'center'}}>{c.text}</div>
+        {c.sub && <div style={{opacity: Math.min(1, Math.max(0, (dt - 0.3) * 3)) * a, ...font, fontSize: 52, color: YELLOW, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill', textAlign: 'center'}}>{c.sub}</div>}
+      </AbsoluteFill>
+    );
+  }
+  return (
+    <AbsoluteFill style={{zIndex: 42, background: `rgba(6,10,22,${0.55 * a})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 30}}>
+      <div style={{transform: `scale(${a})`, ...font, fontSize: 100, color: YELLOW, textShadow: `7px 7px 0 ${INK}`}}>{c.text}</div>
+      <div style={{display: 'flex', flexDirection: 'row', gap: 26}}>
+        {(c.ks as number[]).map((k, i) => (
+          <div key={k} style={{transform: `scale(${popT(t, c.t0 + 0.2 + i * 0.1, 10)})`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
+            <Ball k={k} size={170} mood={c.kind === 'remain' ? 'scared' : 'angry'} t={t} />
+            <div style={{...font, fontSize: 38, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>{UP(k)}</div>
+          </div>
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+};
+const Wheel: React.FC<{items: string[]; rot: number; R: number; cx: number; cy: number; fs?: number}> = ({items, rot, R, cx, cy, fs = 34}) => {
+  const n = items.length, seg = 360 / n; const cols = ['#e5322d', '#1f6fe0', '#22a95b', '#ffd23f', '#ff8a1f', '#7b2cbf', '#13b5c8', '#ff5fa2'];
+  return (
+    <g transform={`translate(${cx},${cy})`}>
+      <circle r={R + 18} fill={INK} />
+      <g transform={`rotate(${rot})`}>
+        {items.map((it, i) => {
+          const a0 = ((i * seg - 90) * Math.PI) / 180, a1 = (((i + 1) * seg - 90) * Math.PI) / 180, am = (a0 + a1) / 2;
+          return (
+            <g key={i}>
+              <path d={`M0,0 L${Math.cos(a0) * R},${Math.sin(a0) * R} A${R},${R} 0 0,1 ${Math.cos(a1) * R},${Math.sin(a1) * R} Z`} fill={cols[i % 8]} stroke={INK} strokeWidth={5} />
+              <g transform={`translate(${Math.cos(am) * R * 0.64},${Math.sin(am) * R * 0.64}) rotate(${(am * 180) / Math.PI + 90})`}>
+                <text textAnchor="middle" y={12} fontSize={fs} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={INK} strokeWidth={6} paintOrder="stroke">{it}</text>
+              </g>
+            </g>
+          );
+        })}
+      </g>
+      <circle r={50} fill={CREAM} stroke={INK} strokeWidth={7} />
+      <path d={`M-26,${-R - 44} L26,${-R - 44} L0,${-R + 8} Z`} fill={RED} stroke={INK} strokeWidth={6} strokeLinejoin="round" />
+    </g>
+  );
+};
+const Roulettes: React.FC<{t: number}> = ({t}) => {
+  const rs = X.D.roulettes as any[];
+  if (t < rs[0].t0 - 0.2 || t > rs[rs.length - 1].t1 + 0.3) return null;
+  const r = rs.find((x) => t >= x.t0 && t < x.t1 + 0.05) || rs[rs.length - 1];
+  const n = r.items.length, seg = 360 / n;
+  const spinEnd = r.t0 + (r.t1 - r.t0) * 0.6;
+  const total = 360 * 4 + (360 - (r.pick * seg + seg / 2));
+  const rot = total * lerp(t, r.t0 + 0.1, spinEnd, 0, 1, Easing.out(Easing.cubic));
+  const all = lerp(t, rs[0].t0 - 0.2, rs[0].t0 + 0.3, 0, 1) * lerp(t, rs[rs.length - 1].t1 - 0.2, rs[rs.length - 1].t1 + 0.3, 1, 0);
+  const done = t > spinEnd; const idx = rs.indexOf(r);
+  return (
+    <div style={{position: 'absolute', inset: 0, zIndex: 40, background: `rgba(6,10,22,${0.5 * all})`, opacity: all}}>
+      <div style={{position: 'absolute', left: 140, top: 60, width: 640, textAlign: 'center', ...font, fontSize: 70, color: YELLOW, textShadow: `5px 5px 0 ${INK}`}}>{r.title}</div>
+      <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}><Wheel items={r.items} rot={rot} R={250} cx={460} cy={560} /></svg>
+      {done && <div style={{position: 'absolute', left: 120, width: 680, bottom: 90, display: 'flex', justifyContent: 'center'}}>
+        <div style={{transform: `scale(${popT(t, spinEnd, 9)})`, background: YELLOW, border: `6px solid ${INK}`, borderRadius: 20, padding: '8px 26px 4px', ...font, fontSize: idx === 4 ? 36 : 50, color: INK, textAlign: 'center'}}>{r.result}</div>
+      </div>}
+      <div style={{position: 'absolute', right: 120, top: 150, width: 760, background: CREAM, border: `7px solid ${INK}`, borderRadius: 28, padding: '20px 30px', boxShadow: '0 12px 0 rgba(0,0,0,0.4)'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 18, marginBottom: 12}}><FlagImg k={X.ID} w={90} h={62} /><div style={{...font, fontSize: 56, color: INK}}>{X.D.heroAdj || 'INDONESIAN'} ARMY</div></div>
+        {(X.D.army as string[][]).map(([ic, txt], i) => {
+          const te = rs[i].t0 + (rs[i].t1 - rs[i].t0) * 0.6; const shown = t > te; const k = shown ? popT(t, te, 12) : 0;
+          return (
+            <div key={i} style={{display: 'flex', alignItems: 'center', gap: 14, background: '#fff', border: `4px solid ${INK}`, borderRadius: 14, padding: '6px 16px 2px', marginTop: 10, opacity: shown ? 1 : 0.35}}>
+              <span style={{fontSize: 40}}>{ic}</span>
+              <span style={{...font, fontSize: 44, color: INK, transform: `scale(${0.8 + 0.2 * k})`, transformOrigin: 'left center'}}>{shown ? txt : '...'}</span>
+            </div>
+          );
+        })}
+        <div style={{...font, fontSize: 48, color: RED, marginTop: 14, textAlign: 'center'}}>⚡ POWER: {fmt(kfv(X.D.indo, t))}</div>
+      </div>
+    </div>
+  );
+};
+// poder especial: candado -> ruleta que vuelve a girar -> láser
+const POWERS0 = ['TSUNAMI', 'EMP', 'LASER', 'CLONES', 'MIND', 'QUAKE', 'FREEZE', 'NUKE'];
+const POWERSU = ['TSUNAMI', 'EMP', 'BLACKOUT', 'CLONES', 'LASER', 'QUAKE', 'FREEZE', 'DRONES'];
+const Reveal: React.FC<{t: number}> = ({t}) => {
+  const r = X.D.reveal; if (t < r.t0 || t > r.t1) return null;
+  const tl = r.t0 + 1.0, ts = tl + 0.2, te = ts + 1.8;
+  const a = lerp(t, r.t0, r.t0 + 0.3, 0, 1) * lerp(t, r.t1 - 0.4, r.t1, 1, 0);
+  const pick = 2, seg = 45; const total = 360 * 3 + (360 - (pick * seg + seg / 2));
+  const rot = total * lerp(t, ts, te, 0, 1, Easing.out(Easing.cubic));
+  return (
+    <AbsoluteFill style={{zIndex: 46, background: `rgba(0,0,0,${0.62 * a})`, opacity: a}}>
+      <div style={{position: 'absolute', top: 70, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 64, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{t < te ? 'TIME TO USE THE SPECIAL POWER...' : 'SPECIAL POWER UNLOCKED!'}</div>
+      {t < tl && <div style={{position: 'absolute', left: 0, right: 0, top: 380, display: 'flex', justifyContent: 'center'}}><span style={{fontSize: 230, transform: `translateX(${Math.sin(t * 60) * lerp(t, r.t0, tl, 2, 20)}px) scale(${1 + lerp(t, tl - 0.15, tl, 0, 0.6)})`, opacity: lerp(t, tl - 0.1, tl, 1, 0)}}>🔒</span></div>}
+      {t >= tl && t < te + 0.25 && <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, transform: `scale(${popT(t, tl, 11)})`, transformOrigin: '960px 580px'}}><Wheel items={X.D.hero ? POWERSU : POWERS0} rot={rot} R={300} cx={960} cy={590} fs={30} /></svg>}
+      {t >= te && (
+        <div style={{position: 'absolute', left: 0, right: 0, top: 360, display: 'flex', justifyContent: 'center'}}>
+          <div style={{transform: `scale(${popT(t, te, 9)})`, width: 900, height: 330, background: 'linear-gradient(135deg,#ff2b4a,#7b0d1e)', border: `10px solid ${YELLOW}`, borderRadius: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, boxShadow: '0 0 80px #ff2b4a'}}>
+            <div style={{width: 200, height: 200, borderRadius: '50%', background: '#1d2a44', border: `8px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Img src={staticFile(`hw/icons/${r.icon}.svg`)} style={{width: 140, height: 140}} /></div>
+            <div style={{...font, fontSize: 84, color: '#fff', textShadow: `6px 6px 0 ${INK}`, lineHeight: 1, width: 520}}>{r.name}</div>
+          </div>
+        </div>
+      )}
+    </AbsoluteFill>
+  );
+};
+const Subscribe: React.FC<{t: number}> = ({t}) => {
+  const s0 = (X.D.subs as number[]).find((x) => t >= x && t < x + 4.2);
+  if (s0 === undefined) return null;
+  const dt = t - s0; const k = popT(t, s0, 12) * lerp(dt, 3.8, 4.2, 1, 0);
+  const c1 = dt > 1.45, c2 = dt > 2.75;
+  return (
+    <div style={{position: 'absolute', right: 40, bottom: 110, zIndex: 50, transform: `translateY(${(1 - k) * 360}px)`}}>
+      <div style={{position: 'relative', display: 'flex', alignItems: 'center', gap: 16, background: '#fff', border: `5px solid ${INK}`, borderRadius: 60, padding: '12px 18px', boxShadow: '0 8px 0 rgba(0,0,0,0.35)'}}>
+        <div style={{width: 70, height: 70, borderRadius: '50%', background: '#1d56c9', border: `4px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 38}}>🌍</div>
+        <div style={{...font, fontSize: 32, color: INK}}>ATLAS OF WAR</div>
+        <div style={{background: c1 ? '#5a5a5a' : '#e5322d', borderRadius: 40, padding: '10px 24px 6px', ...font, fontSize: 34, color: '#fff'}}>{c1 ? 'SUBSCRIBED ✓' : 'SUBSCRIBE'}</div>
+        <div style={{width: 60, height: 60, borderRadius: '50%', background: c2 ? '#1d56c9' : '#ddd', border: `4px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32}}>👍</div>
+        {dt > 0.3 && <div style={{position: 'absolute', left: dt < 1.8 ? lerp(dt, 0.4, 1.3, 520, 300) : lerp(dt, 1.8, 2.6, 300, 450), top: lerp(dt, 0.4, 1.3, 140, 50), fontSize: 60}}>👆</div>}
+      </div>
+    </div>
+  );
+};
+const ColdText: React.FC<{t: number}> = ({t}) => {
+  const c = (X.D.cold as any[]).find(([a, b]) => t >= a && t < b);
+  if (!c) return null;
+  const a = popT(t, c[0], 9) * lerp(t, c[1] - 0.2, c[1], 1, 0);
+  return <div style={{position: 'absolute', inset: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%)'}}>
+    <div style={{transform: `scale(${0.6 + 0.4 * a}) rotate(${(1 - a) * -4}deg)`, opacity: Math.min(1, a * 1.4), ...font, fontSize: 140, color: '#fff', textShadow: `8px 8px 0 ${INK}`, textAlign: 'center', lineHeight: 1}}>{c[2]}</div></div>;
+};
+const Title: React.FC<{t: number}> = ({t}) => {
+  const g = X.D.globe; if (t < g.t0 || t > g.t1) return null;
+  const a = popT(t, g.t0 + 0.6, 11) * lerp(t, g.t1 - 1.8, g.t1 - 1.2, 1, 0);
+  return <div style={{position: 'absolute', top: 50, left: 0, right: 0, textAlign: 'center', zIndex: 30, transform: `scale(${0.7 + 0.3 * a})`, opacity: a}}>
+    <div style={{...font, fontSize: 100, color: '#fff', textShadow: `6px 6px 0 ${INK}`, lineHeight: 1}}>{X.D.title2 ? X.D.title2[0] : 'CAN INDONESIA'}</div>
+    <div style={{...font, fontSize: 132, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, lineHeight: 1.05}}>{X.D.title2 ? X.D.title2[1] : 'CONQUER THE WORLD?'}</div></div>;
+};
+const Ending: React.FC<{t: number}> = ({t}) => {
+  const t0 = X.D.winT; if (t < t0) return null;
+  const a = popT(t, t0, 10);
+  const V2 = X.D.ver !== 'a';
+  const pk = X.D.indo as number[][]; const pmax = pk[pk.length - 1][1]; const tA = X.D.war_t, tB = X.D.winT;
+  const line = pk.filter((p) => p[0] >= tA - 1).map((p) => `${((p[0] - tA) / (tB - tA)) * 360},${90 - (p[1] / pmax) * 86}`).join(' ');
+  const drawn = lerp(t, t0 + 1.0, t0 + 3.5, 0, 1);
+  return (
+    <AbsoluteFill style={{zIndex: 45, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `radial-gradient(circle, rgba(255,210,63,${0.18 * a}) 0%, rgba(0,0,0,${0.45 * a}) 75%)`}}>
+      {V2 && Array.from({length: 26}, (_, i) => { const k = (i * 37 + 11) % NK; const x = ((i * 173) % 1920); const sp = 160 + (i * 53) % 140; const y = -120 + ((t - t0) * sp + i * 97) % 1300; return <div key={i} style={{position: 'absolute', left: x, top: y, transform: `rotate(${Math.sin(t * 2 + i) * 30}deg)`, opacity: 0.85}}><FlagImg k={k === X.ID ? 1 : k} w={54} h={36} /></div>; })}
+      {V2 && <div style={{position: 'absolute', left: 60, bottom: 60, background: 'rgba(10,14,24,0.85)', border: `4px solid ${INK}`, borderRadius: 16, padding: '10px 16px', opacity: popT(t, t0 + 0.8, 12)}}>
+        <div style={{...font, fontSize: 26, color: YELLOW}}>⚡ POWER OVER THE CAMPAIGN</div>
+        <svg width={360} height={96}><polyline points={line} fill="none" stroke="#ff5a5a" strokeWidth={5} strokeLinejoin="round" strokeDasharray={2000} strokeDashoffset={2000 * (1 - drawn)} /></svg>
+      </div>}
+      <div style={{transform: `scale(${a})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{fontSize: 120, marginBottom: -28}}>👑</div>
+        <Ball k={X.ID} size={260} mood="happy" t={t} />
+        <div style={{...font, fontSize: 100, color: YELLOW, textShadow: `8px 8px 0 ${INK}`, marginTop: 10, textAlign: 'center', lineHeight: 1}}>{X.D.heroLong || 'INDONESIA'} CONQUERED<br />THE WORLD</div>
+        <div style={{display: 'flex', flexDirection: 'row', gap: 20, marginTop: 18, opacity: popT(t, t0 + 0.8, 12)}}>
+          {[['🌍', `${X.D.total}/${X.D.total} COUNTRIES`], ['📅', `${Math.round(kfv(X.D.days, t0))} DAYS`], [X.D.hero ? '💻' : '🛰️', X.D.weapon || 'ORBITAL LASER']].map(([i, s]) => <Pill key={s} bg={CREAM} style={{padding: '6px 20px 2px', ...font, fontSize: 36, color: INK}}>{i} {s}</Pill>)}
+        </div>
+        <div style={{...font, fontSize: 52, color: '#fff', textShadow: `4px 4px 0 ${INK}`, marginTop: 24, opacity: popT(t, t0 + 2.2, 12)}}>WHICH COUNTRY SHOULD TRY NEXT? 👇</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+// ventanas [t0,t1,(valor)] -> valor suavizado (1 por defecto)
+const win = (arr: any[] | undefined, t: number) => {
+  for (const w of arr || []) { if (t >= w[0] && t <= w[1]) { const e = Math.min(1, (t - w[0]) / 0.6, (w[1] - t) / 0.6); return (w[2] ?? 1) * Math.max(0, e); } }
+  return 0;
+};
+const punch = (t: number) => { let a = 0; for (const [st, amp] of X.D.shakes as number[][]) { const d = t - st; if (d >= 0 && d < 0.5 && amp >= 12) a = Math.max(a, 0.035 * (1 - d / 0.5)); } return a; };
+// franjas de cine, viñeta roja en golpes fuertes, líneas de velocidad en las rachas
+const Cinema: React.FC<{t: number}> = ({t}) => {
+  const lb = win(X.D.letterbox, t);
+  let red = 0; for (const [st, amp] of X.D.shakes as number[][]) { const d = t - st; if (d >= 0 && d < 0.7 && amp >= 18) red = Math.max(red, 1 - d / 0.7); }
+  const sk = (X.D.streak as number[][]).find(([a, b]) => t >= a && t <= b);
+  return (
+    <>
+      {red > 0 && <AbsoluteFill style={{zIndex: 16, pointerEvents: 'none', background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(200,10,20,0.55) 100%)', opacity: red}} />}
+      {sk && (
+        <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 16, opacity: 0.18}}>
+          {Array.from({length: 26}, (_, i) => { const an = (i / 26) * Math.PI * 2 + i * 0.3; const ph = ((t * 3 + i * 0.37) % 1); const r0 = 620 + ph * 300; return <line key={i} x1={VW / 2 + Math.cos(an) * r0} y1={VH / 2 + Math.sin(an) * r0} x2={VW / 2 + Math.cos(an) * (r0 + 180)} y2={VH / 2 + Math.sin(an) * (r0 + 180)} stroke="#fff" strokeWidth={4} strokeLinecap="round" />; })}
+        </svg>
+      )}
+      {lb > 0 && <>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 95 * lb, background: '#000', zIndex: 33}} />
+        <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 95 * lb, background: '#000', zIndex: 33}} />
+      </>}
+    </>
+  );
+};
+const markersFor = (b: any) => {
+  if (!X.MKB.has(b)) { const set = new Set<number>([b.b, ...(b.title === 'WESTERN ALLIANCE' ? X.ALLY : [])]); X.MKB.set(b, (X.D.markers as any[]).filter((m) => set.has(m[1]))); }
+  return X.MKB.get(b)!;
+};
+
+// ---------- foco: oscurece todo e ilumina una unidad ----------
+const Spot: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const sp = ((X.D as any).spot as any[] || []).find((x) => t >= x.t0 && t <= x.t1 + 0.5);
+  if (!sp) return null;
+  const a = Math.min(1, (t - sp.t0) / 0.35, (sp.t1 + 0.5 - t) / 0.5);
+  const P = sp.pts as number[][]; let i = 0; while (i < P.length - 2 && P[i + 1][0] < t) i++;
+  const u = Math.max(0, Math.min(1, (t - P[i][0]) / Math.max(0.01, P[i + 1][0] - P[i][0])));
+  const x = P[i][1] + (P[i + 1][1] - P[i][1]) * u, y = P[i][2] + (P[i + 1][2] - P[i][2]) * u;
+  const [sx, sy] = toS(x, y, cam); const R = sp.r * (1 + 0.04 * Math.sin(t * 6));
+  const pop = popT(t, sp.t0 + 0.15, 10);
+  return (
+    <AbsoluteFill style={{zIndex: 16, pointerEvents: 'none', opacity: a}}>
+      <AbsoluteFill style={{background: `radial-gradient(circle at ${sx}px ${sy}px, rgba(0,0,0,0) ${R * 0.75}px, rgba(4,6,14,0.72) ${R * 1.7}px)`}} />
+      <div style={{position: 'absolute', left: sx - R * 0.8, top: sy - R * 0.8, width: R * 1.6, height: R * 1.6, borderRadius: '50%', border: '4px solid rgba(255,227,107,0.9)', boxShadow: '0 0 30px 6px rgba(255,227,107,0.45)', transform: `scale(${0.6 + 0.4 * pop})`}} />
+      <div style={{position: 'absolute', left: sx, top: sy - R * 0.8 - 70, transform: `translateX(-50%) scale(${pop})`, ...font, fontSize: 44, color: YELLOW, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill', whiteSpace: 'nowrap'}}>{sp.label}</div>
+    </AbsoluteFill>
+  );
+};
+// ---------- barra de vida gigante (final) ----------
+const BigHP: React.FC<{t: number}> = ({t}) => {
+  const BB = (X.D as any).bighp; const B = Array.isArray(BB) ? BB.find((x: any) => t >= x.t0 && t <= x.t1) : BB; if (!B || t < B.t0 || t > B.t1) return null;
+  const a = popT(t, B.t0, 11) * lerp(t, B.t1 - 0.4, B.t1, 1, 0);
+  const hp = Math.max(0, Math.min(1, kfv(B.hp, t))); const hp2 = Math.max(0, Math.min(1, kfv(B.hp, t - 0.45)));
+  const hit = hp < kfv(B.hp, t - 0.12) - 0.004; const up = hp > kfv(B.hp, t - 0.3) + 0.004;
+  const low = hp < 0.25; const blink = low && Math.floor(t * 4) % 2 === 0;
+  const col = hp > 0.5 ? '#3bd16f' : hp > 0.25 ? '#ffc23a' : '#ff3b30';
+  const jx = hit ? Math.sin(t * 90) * 7 : 0;
+  const W = 940;
+  return (
+    <div style={{position: 'absolute', top: SHORT ? 430 : 150, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 37, opacity: a}}>
+      <div style={{transform: `translate(${jx}px, ${(1 - a) * -120}px)`, width: W, background: 'rgba(10,12,20,0.9)', border: `5px solid ${blink ? '#ff3b30' : INK}`, borderRadius: 20, padding: '10px 18px 14px', boxShadow: low ? '0 0 40px 8px rgba(255,40,40,0.55)' : '0 8px 0 rgba(0,0,0,0.4)'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 14, marginBottom: 8}}>
+          <FlagImg k={B.k} w={60} h={40} />
+          <span style={{...font, fontSize: 38, color: '#fff', flex: 1, whiteSpace: 'nowrap'}}>⭐ {B.name}</span>
+          <span style={{...font, fontSize: 44, color: up ? '#3bd16f' : col, transform: `scale(${hit ? 1.15 : 1})`}}>{Math.round(hp * 100)}% {up ? '▲' : ''}</span>
+        </div>
+        <div style={{position: 'relative', height: 42, background: '#2a2a2e', border: `4px solid #fff`, borderRadius: 10, overflow: 'hidden'}}>
+          <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(hp, hp2) * 100}%`, background: up ? '#bfffd2' : '#fff', opacity: 0.85}} />
+          <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${hp * 100}%`, background: col}} />
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((q) => <div key={q} style={{position: 'absolute', left: `${q * 10}%`, top: 0, bottom: 0, width: 3, background: 'rgba(0,0,0,0.35)'}} />)}
+        </div>
+        {B.sub && <div style={{...font, fontSize: 26, color: low ? '#ff8a8a' : '#cfd6e6', textAlign: 'center', marginTop: 6}}>{low ? '⚠ CAPITAL ABOUT TO FALL ⚠' : B.sub}</div>}
+      </div>
+    </div>
+  );
+};
+// capa de los shorts: gancho al principio y llamada al vídeo largo al final
+const ShortLayer: React.FC<{t: number; off: number; dur: number; hook: string[]; cta: string[]}> = ({t, off, dur, hook, cta}) => {
+  const lt = t - off;
+  const h = lerp(lt, 0, 0.3, 0, 1) * lerp(lt, 2.4, 2.8, 1, 0);
+  const c = lt > dur - 3.4 ? popT(lt, dur - 3.4, 10) : 0;
+  return (
+    <>
+      {h > 0.01 && <div style={{position: 'absolute', top: 1240, left: 30, right: 30, textAlign: 'center', zIndex: 70, transform: `scale(${0.7 + 0.3 * h})`, opacity: h}}>
+        <div style={{...font, fontSize: 92, lineHeight: 1, color: '#fff', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill'}}>{hook[0]}</div>
+        <div style={{...font, fontSize: 104, lineHeight: 1.05, color: YELLOW, WebkitTextStroke: `10px ${INK}`, paintOrder: 'stroke fill'}}>{hook[1]}</div>
+      </div>}
+      {c > 0.01 && <AbsoluteFill style={{zIndex: 72, background: `rgba(0,0,0,${0.55 * Math.min(1, c)})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 30}}>
+        <div style={{transform: `scale(${c})`, textAlign: 'center', padding: '0 40px'}}>
+          <div style={{...font, fontSize: 96, lineHeight: 1, color: '#fff', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill'}}>{cta[0]}</div>
+          <div style={{...font, fontSize: 96, lineHeight: 1.05, color: YELLOW, WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill'}}>{cta[1]}</div>
+        </div>
+        <div style={{transform: `scale(${popT(lt, dur - 2.8, 10)})`, background: RED, border: `7px solid ${INK}`, borderRadius: 30, padding: '20px 40px 10px', ...font, fontSize: 64, color: '#fff', boxShadow: '0 10px 0 rgba(0,0,0,0.4)'}}>▶ FULL VIDEO ON MY CHANNEL</div>
+      </AbsoluteFill>}
+    </>
+  );
+};
+
+export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]}> = ({audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
+  X = getCtx(v); VW = W; VH = H; SHORT = H > W;
+  const D = X.D; const V2 = D.ver !== 'a';
+  const f = useCurrentFrame(); const lt = f / 30; const sg = segTime(lt, segs); const t = segs ? sg.t : off + lt;
+  const zc = (c: Cam): Cam => (zf === 1 ? c : {...c, s: c.s * zf});
+  const cam = zc(X.camF(t)); const cp = zc(X.camF(Math.max(0, t - 1 / 30)));
+  const speed = Math.hypot((cam.cx - cp.cx) * cam.s, (cam.cy - cp.cy) * cam.s) + Math.abs(Math.log(cam.s / cp.s)) * 900;
+  const blur = Math.min(2.0, Math.max(0, (speed - 40) / 14));
+  const [shx, shy] = shakeAt(t);
+  const HERO = !!D.hero;
+  const g0 = D.globe; const gx = HERO ? ((D.globes || []) as any[]).find((x) => t >= x.t0 && t < x.t1) : null;
+  const g = gx || g0; const inGlobe = t >= g.t0 && t < g.t1;
+  const gz = inGlobe && !HERO ? lerp(t, g.t1 - 1.6, g.t1, 1, 1.8, Easing.in(Easing.quad)) : 1;
+  const lon = lerp(t, g.t0, g.t1 - (HERO ? 0.7 : 1.6), g.lon0, g.lon1, Easing.inOut(Easing.cubic)), lat = lerp(t, g.t0, g.t1 - (HERO ? 0.7 : 1.6), g.lat0, g.lat1, Easing.inOut(Easing.cubic));
+  const gfade = HERO ? lerp(t, g.t1 - 0.7, g.t1, 1, 0) : lerp(t, g.t1 - 0.4, g.t1, 1, 0);
+  const grad = HERO ? lerp(t, g.t0, g.t1, gx ? 380 : 420, gx ? 640 : 700, Easing.inOut(Easing.cubic)) : 420;
+  const showMap = !inGlobe || t > g.t1 - (HERO ? 0.75 : 0.45);
+  const ownSet = HERO && inGlobe ? ownedAt(t) : null; const hlSet = new Set<string>(gx ? gx.hl : []);
+  const split = HERO ? ((D.split || []) as any[]).find((x) => t >= x.t0 && t < x.t1) : null;
+  const camL = split ? {...cam, cx: cam.cx + VW / 4 / cam.s} : cam;
+  const c2 = X.camF2(t); const camR = split ? {...c2, cx: c2.cx - VW / 4 / c2.s} : c2;
+  const fl = flashAt(t);
+  const b = (D.battles as any[]).find((x) => t >= x.t0 && t < x.t1);
+  const lit = b ? [X.ID, b.b, ...(b.title === 'WESTERN ALLIANCE' ? X.ALLY : [])] : null;
+  const pulse = 0.5 + 0.5 * Math.sin(t * 7);
+  return (
+    <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
+      {showMap && (
+        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)})`, filter: V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? X.ID : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag}} />
+          <Arrows t={t} cam={camL} />
+          <Laser t={t} cam={camL} />
+          {t < D.winT + 0.3 && <Labels t={t} cam={camL} />}
+          <Stamps t={t} cam={camL} />
+          <Bubbles t={t} cam={camL} />
+        </AbsoluteFill>
+      )}
+      {split && (
+        <AbsoluteFill style={{clipPath: 'inset(0 0 0 50%)', transform: `translate(${shx}px,${shy}px)`}}>
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? X.ID : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag}} />
+          <Arrows t={t} cam={camR} />
+        </AbsoluteFill>
+      )}
+      {split && (() => { const a = Math.min(1, (t - split.t0) / 0.4, (split.t1 - t) / 0.4); return <AbsoluteFill style={{zIndex: 32, opacity: a, pointerEvents: 'none'}}>
+        <div style={{position: 'absolute', left: VW / 2 - 6, top: 0, bottom: 0, width: 12, background: '#fff', boxShadow: '0 0 24px 6px rgba(255,255,255,0.6)', transform: `scaleY(${popT(t, split.t0, 10)})`}} />
+        <div style={{position: 'absolute', left: 0, width: VW / 2, top: 120, textAlign: 'center'}}><span style={{background: '#c81e1e', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.left}</span></div>
+        <div style={{position: 'absolute', left: VW / 2, width: VW / 2, top: 120, textAlign: 'center'}}><span style={{background: '#1f4fbf', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.right}</span></div>
+      </AbsoluteFill>; })()}
+      {inGlobe && (
+        <AbsoluteFill style={{transform: `scale(${gz})`, transformOrigin: '50% 50%', opacity: gfade, background: gfade < 1 ? 'transparent' : undefined}}>
+          <Globe W={1920} H={1080} lon={lon} lat={lat} radius={grad} cy={540} overlay={HERO ? 0.22 : lerp(t, g.t0, g.t0 + 2.5, 0, 0.5)} highlight={HERO ? (c) => (ownSet && ownSet.has(CODEK[c]) ? '#2f5fe0' : hlSet.has(c) ? '#ff3b30' : null) : (c) => (c === 'ID' ? (pulse > 0.5 ? '#ff3b30' : '#ffd23f') : null)} stars={HERO ? 1 : lerp(t, g.t1 - 1.6, g.t1, 1, 0)} />
+        </AbsoluteFill>
+      )}
+      <Grade t={t} />
+      <Spot t={t} cam={camL} />
+      <Targets t={t} cam={camL} />
+      <Network t={t} cam={camL} />
+      <BigHP t={t} />
+      {V2 && <Cinema t={t} />}
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.42) 100%)', pointerEvents: 'none', zIndex: 15}} />
+      <Hud t={t} cam={cam} />
+      <Battle t={t} />
+      <Chips t={t} />
+      <Chapter t={t} />
+      <QCard t={t} />
+      <Cards t={t} />
+      <Ranking t={t} />
+      <Roulettes t={t} />
+      <Reveal t={t} />
+      <Summit t={t} />
+      <Glitch t={t} />
+      <Subscribe t={t} />
+      <ColdText t={t} />
+      <Title t={t} />
+      <Ending t={t} />
+      {fl > 0 && <AbsoluteFill style={{background: '#fff', opacity: fl * 0.35, zIndex: 60}} />}
+      {SHORT && hook && cta && !segs && <ShortLayer t={t} off={off} dur={sdur} hook={hook} cta={cta} />}
+      {SHORT && hook && cta && segs && <ShortCup lt={lt} dur={sg.sdur} hook={hook} cta={cta} cuts={sg.cuts} />}
+      {audio && <Audio src={staticFile(`hw/indo2${v}.wav`)} />}
+    </AbsoluteFill>
+  );
+};
