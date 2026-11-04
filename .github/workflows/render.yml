@@ -96,7 +96,7 @@ jobs:
           openssl pkeyutl -encrypt -pubin -inkey render_pub.pem -in k.txt -out k.enc
           openssl enc -aes-256-cbc -pbkdf2 -pass file:k.txt -in seg.mp4 -out seg.bin
           rm -f k.txt seg.mp4
-          mkdir -p out && mv seg.bin k.enc out/ && echo "$S $E" > out/range.txt
+          mkdir -p out/seg-$I && mv seg.bin k.enc out/seg-$I/ && echo "$S $E" > out/seg-$I/range.txt
       - name: Subir la parte cifrada a una rama
         run: |
           cd out && git init -q -b out && git add -A
