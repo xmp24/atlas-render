@@ -654,7 +654,7 @@ const Ending: React.FC<{t: number}> = ({t}) => {
   return (
     <AbsoluteFill style={{zIndex: 45, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `radial-gradient(circle, rgba(255,210,63,${0.18 * a}) 0%, rgba(0,0,0,${0.45 * a}) 75%)`}}>
       {V2 && Array.from({length: 26}, (_, i) => { const k = (i * 37 + 11) % NK; const x = ((i * 173) % 1920); const sp = 160 + (i * 53) % 140; const y = -120 + ((t - t0) * sp + i * 97) % 1300; return <div key={i} style={{position: 'absolute', left: x, top: y, transform: `rotate(${Math.sin(t * 2 + i) * 30}deg)`, opacity: 0.85}}><FlagImg k={k === X.ID ? 1 : k} w={54} h={36} /></div>; })}
-      {V2 && X.D.mode !== 'br' && <div style={{position: 'absolute', left: 60, bottom: 60, background: 'rgba(10,14,24,0.85)', border: `4px solid ${INK}`, borderRadius: 16, padding: '10px 16px', opacity: popT(t, t0 + 0.8, 12)}}>
+      {V2 && !X.D.mode && <div style={{position: 'absolute', left: 60, bottom: 60, background: 'rgba(10,14,24,0.85)', border: `4px solid ${INK}`, borderRadius: 16, padding: '10px 16px', opacity: popT(t, t0 + 0.8, 12)}}>
         <div style={{...font, fontSize: 26, color: YELLOW}}>⚡ POWER OVER THE CAMPAIGN</div>
         <svg width={360} height={96}><polyline points={line} fill="none" stroke="#ff5a5a" strokeWidth={5} strokeLinejoin="round" strokeDasharray={2000} strokeDashoffset={2000 * (1 - drawn)} /></svg>
       </div>}
@@ -813,7 +813,7 @@ const HudBR: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   );
 };
 const ElimFX: React.FC<{t: number}> = ({t}) => {
-  const e = (X.D.elim as any[]).filter((x) => t >= x[0] && t < x[0] + (x[4] ? 2.4 : 3.0)).slice(-1)[0];
+  const e = (X.D.elim as any[]).filter((x) => t >= x[0] && t < x[0] + (x[4] ? 2.4 : 3.4)).slice(-1)[0];
   if (!e) return null;
   const [t0, k, a, n, big] = e;
   if (big && t < t0 + 2.4) {
@@ -834,7 +834,7 @@ const ElimFX: React.FC<{t: number}> = ({t}) => {
       </AbsoluteFill>
     );
   }
-  const a2 = popT(t, t0, 12) * lerp(t, t0 + 2.6, t0 + 3.0, 1, 0);
+  const a2 = popT(t, t0, 12) * lerp(t, t0 + 3.0, t0 + 3.4, 1, 0);
   return (
     <div style={{position: 'absolute', top: 92, right: 20, zIndex: 37, transform: `translateX(${(1 - a2) * 560}px)`, display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(16,18,28,0.94)', border: `4px solid #ff3b3b`, borderRadius: 18, padding: '8px 16px 6px 10px', boxShadow: '0 6px 0 rgba(0,0,0,0.35)'}}>
       <FlagImg k={a} w={50} round /><span style={{fontSize: 34}}>🔫</span>
@@ -854,7 +854,7 @@ const Board: React.FC<{t: number}> = ({t}) => {
       <div style={{...font, fontSize: 84, color: YELLOW, textShadow: `6px 6px 0 ${INK}`, transform: `scale(${popT(t, t0, 10)})`}}>🏆 STANDINGS</div>
       <div style={{display: 'flex', flexDirection: 'column', gap: 10, marginTop: 14, width: 1100}}>
         {rows.slice(0, 8).map(([k, c], i) => { const u = popT(t, t0 + 0.25 + i * 0.12, 12); return (
-          <div key={k} style={{display: 'flex', alignItems: 'center', gap: 16, transform: `translateX(${(1 - u) * -1400}px)`}}>
+          <div key={k} style={{display: 'flex', alignItems: 'center', gap: 16, transform: `translateX(${(1 - u) * -160}px)`, opacity: Math.min(1, u * 1.5)}}>
             <span style={{...font, fontSize: 46, color: i === 0 ? YELLOW : '#fff', width: 60, textAlign: 'right'}}>{i + 1}</span><Ball k={k} size={64} mood={i === 0 ? 'smug' : 'calm'} t={t} />
             <span style={{...font, fontSize: 38, color: '#fff', width: 330, whiteSpace: 'nowrap'}}>{SNAME(k)}</span>
             <div style={{flex: 1, height: 38, background: '#2a3040', border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden'}}><div style={{width: `${(100 * c / mx_) * lerp(t, t0 + 0.4 + i * 0.12, t0 + 1.2 + i * 0.12, 0, 1)}%`, height: '100%', background: `linear-gradient(90deg, ${MAINCOL[k]}, #ffffff55)`}} /></div>

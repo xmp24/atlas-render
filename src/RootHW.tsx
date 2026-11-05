@@ -13,6 +13,7 @@ import {ThumbCB, CB_IDS} from './ThumbsCB';
 import {ThumbCombo, COMBO_IDS} from './ThumbsCombo';
 import {ThumbFinal, FINAL_IDS} from './ThumbsFinal';
 import {ThumbMad, MAD_IDS} from './ThumbsMad';
+import {ThumbD4, D4_IDS} from './ThumbsD4';
 import {Maduro, MADURO_FRAMES} from './Maduro';
 import {Maduro2, MADURO2_FRAMES} from './Maduro/index2';
 import {Maduro3, MADURO3_FRAMES} from './Maduro/index3';
@@ -32,6 +33,7 @@ export const RootHW: React.FC = () => (
     <Composition id="Maduro2" component={Maduro2} durationInFrames={MADURO2_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="Maduro" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="MaduroN" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
+    {D4_IDS.map((id) => <Composition key={id} id={`T4-${id}`} component={ThumbD4} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {MAD_IDS.map((id) => <Composition key={id} id={`TMD-${id}`} component={ThumbMad} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{id}} />)}
     {FINAL_IDS.map((id) => <Composition key={id} id={`TF-${id}`} component={ThumbFinal} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {COMBO_IDS.map((id) => <Composition key={id} id={`TX-${id}`} component={ThumbCombo} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
