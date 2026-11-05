@@ -125,7 +125,7 @@ export const fmtVal = (v: number, f: string) => {
   if (f === 'temp1') return `${v >= 0 ? '+' : ''}${v.toFixed(1)}°C`;
   if (f === 'pct') return `${v >= 10 ? v.toFixed(0) : v.toFixed(1)}%`;
   if (f === 'm') return `+${v.toFixed(0)} m`;
-  if (f === 'big') return v >= 1e9 ? (v / 1e9).toFixed(2) + 'B' : v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? (v / 1e3).toFixed(0) + 'K' : Math.round(v).toString();
+  if (f === 'big') return v >= 1e12 ? (v / 1e12).toFixed(v >= 1e14 ? 0 : 1) + 'T' : v >= 1e9 ? (v / 1e9).toFixed(2) + 'B' : v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? (v / 1e3).toFixed(0) + 'K' : Math.round(v).toString();
   if (f === 'clock') { const h = Math.floor(((v % 24) + 24) % 24), m = Math.floor((v * 60) % 60); return `${String(h).padStart(2, '0')}:${String(Math.abs(m)).padStart(2, '0')}`; }
   return String(Math.floor(v));
 };
