@@ -109,7 +109,7 @@ export const ShelterLayer: React.FC<{T: number; cam: Cam; list: number[][]; col?
       if (T < ta) continue; const [X, Y] = toS(x, y, cam); if (X < -20 || X > W + 20 || Y < -20 || Y > H + 20) continue;
       const p = Math.min(1, (T - ta) / 0.25); const sc = p < 1 ? 0.3 + 0.7 * p + Math.sin(p * Math.PI) * 0.5 : 1;
       const isDead = dead && td > 0 && T > td;
-      ctx.globalAlpha = isDead ? 0.55 : 1; shIcon(ctx, X, Y, s0 * sc, isDead ? '#6a6a6a' : col, isDead ? 'x' : undefined);
+      if (isDead && T - td > 6) continue; ctx.globalAlpha = isDead ? Math.max(0, 0.6 - (T - td) * 0.1) : 1; shIcon(ctx, X, Y, s0 * sc, isDead ? '#6a6a6a' : col, isDead ? 'x' : undefined);
     }
     ctx.globalAlpha = 1;
   });

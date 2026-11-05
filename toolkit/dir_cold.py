@@ -227,7 +227,7 @@ V.S(t + 1.0, 'braam3', 0.4); V.S(t + 5.0, 'stinger_win', 0.2)
 geo = list(GEO.values())
 for c, n in WEIGHT:
     if c not in K: continue
-    for (x, y) in sample_in(rng, c, n):
+    for (x, y) in sample_in(rng, c, max(1, int(n * 0.55))):
         ta = t_sh + 2.6 + rng.uniform(0, 9.5)
         near = min(math.hypot(x - g[0], y - g[1]) for g in geo) < 260
         td = -1 if (near and rng.random() < 0.7) else round(t_die0 + rng.uniform(0, 1) ** 0.8 * 70, 2)
