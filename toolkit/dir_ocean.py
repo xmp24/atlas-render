@@ -35,11 +35,16 @@ wk(t + 8.5, 0); lv(t + 8.5, 0); popk(0, 100)
 t = map_(12, 'O1', chap=[0.0, 2.6, 'CHAPTER 1', 'THE FIRST METERS'], cam=[[0, 3840, 2050, 0.3], [12, 3840, 2050, 0.33]],
          caps=[[3.0, 7.0, 'Week 1. The sea rises one meter.', 'one meter'], [7.4, 11.8, 'Beaches vanish overnight.', 'vanish']])
 V.chap_snd(t); V.M(t, t + 40, 'voyage', 0, 0.6, 1.0, 0.8); wk(t + 12, 1); lv(t + 12, 2)
+t = V.sc('balls', 10.0, id='OB0', bg='water', balls=[[K['ES'], 640, 640, 230, 'scared'], [K['IT'], 1280, 640, 230, 'normal']], props=[['palm-tree', 960, 560, 150, '#3ad16a']],
+         bubs=[[0.6, 0, 'Where did the beach go?'], [3.6, 1, 'It\'s under the hotel.'], [6.4, 1, 'And the hotel is next.']])
+V.talk(t, V.SC[-1][3]['bubs']); wk(t + 10, 1.5)
 ISL = [('MV', P(73.5, 3.2)), ('TV', P(179.2, -8.5)), ('KI', P(173, 1.4)), ('MH', P(171, 7.1))]
 t = map_(12, 'O2', cam=[[0, *P(110, 5), 0.55], [12, *P(130, 3), 0.5]], tints=[tint([K[c] for c, _ in ISL if c in K], SEA, [[2.0, 0], [5.0, 1]], 0.6)],
          pins=[[1.0 + i * 0.7, *xy, NAMES[K[c]].upper() if c in K else c, '#ff3b30'] for i, (c, xy) in enumerate(ISL)], stamps=[[6.0, 'ISLAND NATIONS: GONE', 960, 480, '#ff3b30', 100]],
          caps=[[0.6, 5.4, 'Week 3. The first countries disappear.', 'disappear'], [7.4, 11.6, 'Maldives. Tuvalu. Kiribati.', '']])
 V.S(t + 6.0, 'stamp_3', 0.8); [V.S(t + 1.0 + i * 0.7, 'ding', 0.3) for i in range(4)]; wk(t + 12, 3); lv(t + 12, 5)
+t = V.sc('bignum', 6.0, id='OBN0', kf=[[0, 0], [4, 52]], fmt='m', top='SEA LEVEL AFTER ONE YEAR', label=[3.0, 'HIGHER THAN A 15-STORY BUILDING', '#7ad0ff'], bgc='radial-gradient(ellipse, #06204a, #000 70%)', glow='rgba(90,180,255,0.9)')
+V.S(t + 0.1, 'thit', 0.8); [V.S(t + 0.2 + i * 0.3, 'tick', 0.4) for i in range(12)]; wk(t + 6, 3.2)
 t = V.sc('balls', 9.5, id='OB1', bg='water', balls=[[K['MV'] if 'MV' in K else K['ID'], 960, 600, 260, 'scared', 'none', None, None, {'tears': True}]],
          bubs=[[0.6, 0, 'My whole country...'], [3.6, 0, '...is under the sea.']], props=[['palm-tree', 1300, 560, 140, '#3ad16a']])
 V.talk(t, V.SC[-1][3]['bubs']); V.S(t, 'wind', 0.3); wk(t + 9.5, 4); lv(t + 9.5, 7)
@@ -79,6 +84,9 @@ t = V.sc('news', 14.0, id='ON2', anchor=K['GB'], channel='WORLD NEWS 24', tvp=di
          bubs=[[1.0, 0, 'Sea level: plus 35 meters.'], [4.2, 0, 'Most coastal cities are lost.'], [7.6, 0, 'And it is not slowing down.'], [10.6, 0, 'Head for the mountains.']], fear=[[0, 1]],
          papers=[[5.0, 'THE GLOBE DAILY', '+35 METERS'], [9.0, 'MOUNTAIN TIMES', 'GO UP. NOW.']], ticker='SEA LEVEL +35 M  •  NEW YORK, LONDON, SHANGHAI ABANDONED  •  MOUNTAIN TOWNS OVERWHELMED  •  ')
 V.S(t, 'news_sting', 0.6); V.talk(t, V.SC[-1][3]['bubs']); [V.S(t + x + 0.55, 'stamp_1', 0.5) for x in [5.0, 9.0]]; wk(t + 14, 36)
+t = map_(12, 'ORUSH', cam=[[0, *P(-90, 38), 0.9], [12, *P(-92, 38), 1.0]], arrows=[[1.0 + i * 0.4, 3.4 + i * 0.4, *a, *b, '#ffd23f', 18] for i, (a, b) in enumerate([[P(-74, 40.7), P(-80, 40.4)], [P(-80.2, 25.8), P(-84.4, 33.7)], [P(-90.1, 30), P(-92.3, 34.7)], [P(-122.4, 37.8), P(-111.9, 40.8)], [P(-118.2, 34), P(-112, 33.5)], [P(-95.4, 29.8), P(-97.5, 35.5)]])],
+         counters=[[1.0, 'CARS STUCK IN TRAFFIC', [[1, 0], [10, 6.4e7]], 'big', '#ffd23f']], caps=[[0.6, 5.6, 'The biggest traffic jam in history.', 'traffic jam'], [6.6, 11.6, 'Everyone drives inland at the same time.', 'inland']])
+V.S(t + 0.6, 'crowd', 0.3); wk(t + 12, 37)
 
 # ======================= CAP 3: EL ÉXODO =======================
 MIG = [[P(-75, 40), P(-95, 40)], [P(-80, 30), P(-100, 36)], [P(0, 51), P(8, 47)], [P(5, 52), P(10, 48)], [P(90, 23), P(86, 28)], [P(121, 31), P(105, 34)], [P(31, 31), P(38, 10)], [P(-43, -23), P(-50, -16)], [P(107, -6), P(110, -7.6)]]
@@ -119,6 +127,11 @@ V.chap_snd(t); V.M(t, t + 46, 'frantic', 10, 0.8, 0.5, 0.8); wk(t + 16, 90); lv(
 HR = [('NP', 'NEPAL', 92), ('BT', 'BHUTAN', 90), ('BO', 'BOLIVIA', 70), ('ET', 'ETHIOPIA', 64), ('LS', 'LESOTHO', 88), ('CH', 'SWITZERLAND', 60), ('AF', 'AFGHANISTAN', 55), ('PE', 'PERU', 45), ('TJ', 'TAJIKISTAN', 70), ('KG', 'KYRGYZSTAN', 72)]
 t = V.sc('rank', 10.0, id='ORK2', title='THE NEW SUPERPOWERS: HIGH GROUND', rows=[[K[c], [[0, 100], [9, v]], n] for c, n, v in HR if c in K], fmt='int', unit='% land left', col='linear-gradient(90deg, #3bd16f, #b8ff6a)')
 V.S(t + 0.2, 'whoosh_6', 0.5); wk(t + 10, 95); lv(t + 10, 158)
+t = map_(14, 'O10B', cam=[[0, *P(84, 30), 1.0], [14, *P(84, 30), 1.15]], war=True, banners=[[0.4, 3.0, 'BATTLE FOR THE HIMALAYAS', '#c3100a']],
+         arrows=[[1.0, 4.0, *P(78, 25), *P(80, 31), '#ff6a1a', 26], [1.4, 4.4, *P(100, 33), *P(90, 31), '#ff3b30', 26]], caps=[[4.6, 9.6, 'India and China fight for the roof of the world.', 'roof of the world'], [10.0, 13.6, 'The highest war ever fought.', 'highest war']])
+for j in range(10):
+    tt = t + 4.0 + j * 0.8; x, y = P(84 + random.uniform(-5, 5), 30 + random.uniform(-3, 3)); WAR['fx'].append([round(tt, 2), x, y, 70, 0]); V.SV(tt, 'boom', 0.35)
+wk(t + 14, 97)
 t = V.sc('balls', 10.0, id='OB3', bg='sky', balls=[[K['NP'] if 'NP' in K else K['IN'], 960, 520, 280, 'shades', 'none', None, None, {}], [K['US'], 420, 720, 170, 'scared'], [K['CN'], 1500, 720, 170, 'scared']],
          bubs=[[0.6, 0, 'Welcome to Nepal.'], [3.4, 0, 'The world\'s new richest country.'], [6.6, 1, 'Please... any room left?']])
 V.talk(t, V.SC[-1][3]['bubs']); wk(t + 10, 100); lv(t + 10, 165); popk(t + 10, 80)
@@ -137,6 +150,10 @@ V.chap_snd(t); V.M(t, t + 60, 'nocturne', 0, 0.7, 1.0, 0.8); wk(t + 15, 160); lv
 t = V.sc('balls', 10.0, id='OB4', bg='water', balls=[[K['JP'], 640, 560, 220, 'normal'], [K['PH'], 1280, 560, 220, 'scared']], props=[['battleship', 960, 760, 300, '#cfd8e8']],
          bubs=[[0.6, 0, 'Fish again for dinner?'], [3.4, 1, 'Fish. Every day. Forever.']])
 V.talk(t, V.SC[-1][3]['bubs']); wk(t + 10, 170); lv(t + 10, 280)
+t = V.sc('news', 14.0, id='ON3', anchor=K['GB'], channel='BOAT NEWS 24', tvp=dict(cells=[dict(mode='flood', col=SEA, a=0.95, lvl=[[0, 300]])]), cam=[3840, 2050, 0.28],
+         bubs=[[1.0, 0, 'Broadcasting from a boat.'], [4.0, 0, 'Sea level: plus 170 meters.'], [7.6, 0, 'Most of the world is now ocean.'], [10.6, 0, 'Stay on the peaks.']], fear=[[0, 1]],
+         ticker='SEA LEVEL +170 M  •  65% OF LAND UNDERWATER  •  FLOATING CITIES GROW  •  ')
+V.S(t, 'news_sting', 0.5); V.talk(t, V.SC[-1][3]['bubs']); wk(t + 14, 172)
 t = map_(14, 'O12B', cam=[[0, 3840, 2050, 0.28], [14, 3840, 2050, 0.3]], useBar=True,
          icons=[[1.0 + i * 0.35, *xy, 'battleship', '#ff6a5a', 46] for i, xy in enumerate([P(-30, 20), P(-25, 25), P(60, 0), P(65, 5), P(150, 15), P(155, 10)])], parts=['dust', 20],
          banners=[[0.4, 3.4, 'PIRATE FLEETS', '#14141c']], caps=[[3.6, 8.6, 'Boat cities fight over fish and fuel.', 'fish and fuel'], [9.0, 13.6, 'The oceans are the new battlefield.', 'battlefield']])
@@ -162,6 +179,12 @@ t = map_(15, 'O15', chap=[0.0, 2.6, 'CHAPTER 6', 'THE LAST PEAKS'], cam=[[0, 384
          rings=[[3.0 + i * 0.4, *xy, '#ffd23f', 3] for i, xy in enumerate([HIGH['TIBET'], HIGH['ANDES'], HIGH['ETHIOPIA'], HIGH['ROCKIES'], HIGH['ALPS'], HIGH['IRAN']])], cellCount=[[3.0, 'LAND LEFT', 0, 100, 'pct']],
          caps=[[3.0, 8.4, 'Year 8. Only the mountain tops remain.', 'mountain tops'], [9.0, 14.6, 'Then, one morning... the water stops.', 'stops']])
 V.chap_snd(t); V.M(t, t + 22, 'ambient', 20, 0.6, 1.0, 1.5); wk(t + 9, 400); lv(t + 9, 640); wk(t + 15, 420); lv(t + 15, 650); popk(t + 15, 3.2)
+t = map_(11, 'O15B', cam=[[0, 3840, 2050, 0.27], [11, 3840, 2050, 0.29]], banners=[[0.4, 3.4, 'THE WATER STOPS', '#2a5ad8']], rings=[[1.0 + i * 0.3, *xy, '#3bd16f', 3] for i, xy in enumerate(HIGH.values())],
+         caps=[[3.6, 10.6, 'A new world map: hundreds of mountain islands.', 'mountain islands']])
+V.S(t + 0.4, 'whoosh_5', 0.5); V.S(t + 0.8, 'birds', 0.3); wk(t + 11, 420)
+IS = [('CN', 'TIBET', 2.1), ('BO', 'ANDES', 1.4), ('ET', 'ETHIOPIA', 0.9), ('US', 'ROCKIES', 0.8), ('IR', 'IRAN', 0.6), ('MX', 'MEXICO', 0.4), ('CH', 'ALPS', 0.2), ('ZA', 'DRAKENSBERG', 0.15)]
+t = V.sc('rank', 10.0, id='ORK3', title='THE BIGGEST ISLANDS LEFT', rows=[[K[c], [[0, 0], [9, v]], n] for c, n, v in IS], fmt='int', unit=' M km²', col='linear-gradient(90deg, #3bd16f, #b8ff6a)')
+V.S(t + 0.2, 'whoosh_6', 0.5); wk(t + 10, 420)
 t = V.sc('podium', 10.0, id='OPOD', ks=[K['NP'] if 'NP' in K else K['CN'], K['BO'], K['ET']], title='THE NEW WORLD POWERS')
 V.S(t + 0.2, 'thit', 0.6); V.S(t + 0.6, 'crowd_cheer', 0.3); V.M(t, t + 22, 'triumph', 0, 0.55, 0.8, 1.5); wk(t + 10, 420)
 t = V.sc('end', 12.0, id='OEND', cam=[[0, 3840, 2050, 0.27], [12, 3840, 2050, 0.25]], cells=[FLOOD()], lines=[[0.8, 'WHERE WOULD YOU GO?', 300, 120, 99, '#7ad0ff']], ask=[2.6, 'Tell us your escape plan 👇'], sub=5.0)
