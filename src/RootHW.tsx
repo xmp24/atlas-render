@@ -19,6 +19,7 @@ import {Maduro2, MADURO2_FRAMES} from './Maduro/index2';
 import {Maduro3, MADURO3_FRAMES} from './Maduro/index3';
 import {Burn, BURN_FRAMES, TAIL_OFF} from './Burn';
 import {ThumbBurn, BURN_THUMBS} from './ThumbsBurn';
+import {ThumbBurn2, BURN_THUMBS2} from './ThumbsBurn2';
 import {Civil, CIVIL_FRAMES} from './Civil';
 import {Logo, LOGO_IDS} from './Logos';
 import {Banner, BANNER_IDS} from './Banners';
@@ -30,6 +31,7 @@ export const RootHW: React.FC = () => (
     <Composition id="SameArmy" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="SameArmyN" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Indo" component={Indo} durationInFrames={INDO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
+    {BURN_THUMBS2.map((id) => <Composition key={id} id={`TBURN2-${id}`} component={ThumbBurn2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {BURN_THUMBS.map((id) => <Composition key={id} id={`TBURN-${id}`} component={ThumbBurn} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     <Composition id="BurnTailN" component={Burn} durationInFrames={BURN_FRAMES - TAIL_OFF} fps={30} width={1920} height={1080} defaultProps={{audio: false, off: TAIL_OFF}} />
     <Composition id="BurnN" component={Burn} durationInFrames={BURN_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />

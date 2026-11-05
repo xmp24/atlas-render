@@ -317,11 +317,35 @@ for i in range(3): S(t + 8.4 + i * 0.9, 'stamp_2', 0.6); S(t + 8.4 + i * 0.9, 'd
 t = sc('FIRST', 16.0, bubs=[[6.6, 0, 'Mate... look at that.'], [9.6, 1, 'The sun!']], caps=[[11.6, 15.6, 'Australia walks out first.', 'Australia']])
 yk(t + 16, 2053.6)
 S(t + 1.0, 'steel_door', 0.6); S(t + 3.5, 'birds', 0.35); S(t + 2.0, 'wind', 0.25); talk(t, SC[-1][3]['bubs'])
-t = sc('REBUILD', 16.0, caps=[[0.6, 5.2, 'They start again from nothing.', 'from nothing'], [9.0, 15.6, 'Farms. Homes. Power. A new beginning.', 'new beginning']])
-yk(t + 16, 2056.0)
-M(t - 0.4, t + 30, 'heroic', 0, 0.6, 1.2, 0.8)
-for i in range(14): S(t + 1.5 + i * 0.95, 'hit_%d' % (1 + i % 9), 0.18); S(t + 1.7 + i * 0.95, 'ding', 0.08)
-t = sc('RMAP', 14.0, caps=[[0.6, 5.0, 'Australia, Argentina and South Africa rebuild.', 'rebuild'], [6.0, 13.6, 'Ships connect them. Food flows again.', 'Food flows again']])
+# reconstrucción en el mapa: cinemática desde el espacio y zoom a cada país
+REB_D = 30.0
+rng2 = np.random.default_rng(77)
+REB = []
+segs = [('AU', 3.5, 12.5), ('AR', 12.5, 21.0), ('ZA', 21.0, 29.6)]
+for c, a, b in segs:
+    k = K[c]; cs = CITY[k][:6]; pts = [[round(x['x']), round(x['y'])] for x in cs]
+    xs = [p_[0] for p_ in pts]; ys = [p_[1] for p_ in pts]
+    cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2; span = max(max(xs) - min(xs), (max(ys) - min(ys)) * 1.78, 120)
+    s_ = round(min(3.2, 1920 * 0.62 / span), 2)
+    houses = []
+    for i, p_ in enumerate(pts):
+        n = 9 if i < 2 else 6
+        for j in range(n):
+            ang = rng2.uniform(0, 6.28); r = rng2.uniform(4, 22 if i < 2 else 15)
+            houses.append([round(p_[0] + math.cos(ang) * r, 1), round(p_[1] + math.sin(ang) * r * 0.8, 1), round(a + 1.0 + i * 0.75 + j * 0.12 + rng2.uniform(0, 0.2), 2)])
+    farms = [[round(p_[0] + rng2.uniform(-30, 30), 1), round(p_[1] + rng2.uniform(-24, 24), 1), round(a + 2.0 + i * 0.5, 2)] for i, p_ in enumerate(pts) for _ in range(2)]
+    roads = [[min(range(i), key=lambda j: (pts[j][0] - pts[i][0]) ** 2 + (pts[j][1] - pts[i][1]) ** 2), i, round(a + 1.5 + i * 0.7, 2)] for i in range(1, len(pts))]
+    REB.append(dict(k=k, c=c, name=NAMES[k].upper(), a=a, b=b, cities=pts, names=[x['name'] for x in cs], cam=[round(cx), round(cy), s_], houses=houses, farms=farms, roads=roads))
+t = sc('REBUILD', REB_D, reb=REB, caps=[[4.2, 8.6, 'Australia rebuilds first.', 'Australia'], [13.2, 17.8, 'Argentina feeds the survivors.', 'Argentina'], [21.6, 26.2, 'South Africa powers the south.', 'South Africa']])
+yk(t + 9, 2054.0); yk(t + 18, 2055.0); yk(t + REB_D, 2056.0)
+M(t - 0.4, t + REB_D + 14 + 17 + 1.5, 'heroic', 0, 0.62, 1.2, 2.5)   # continua hasta el final de WAVE
+S(t + 0.1, 'whoosh_5', 0.5); S(t + 2.6, 'riser_2s', 0.35); S(t + 3.4, 'whoosh_7', 0.5)
+for R_ in REB:
+    S(t + R_['a'], 'whoosh_%d' % random.randint(1, 7), 0.4); S(t + R_['a'] + 0.4, 'stamp_2', 0.5)
+    for i, h in enumerate(sorted(R_['houses'], key=lambda q: q[2])):
+        if i % 3 == 0: S(h[2], 'hit_%d' % (1 + i % 9), 0.15, random.uniform(-0.5, 0.5))
+        if i % 6 == 0: S(h[2] + 0.05, 'ding', 0.07)
+t = sc('RMAP', 14.0, caps=[[0.6, 5.0, 'Three countries. One new world.', 'One new world'], [6.0, 13.6, 'Ships connect them. Food flows again.', 'Food flows again']])
 yk(t + 14, 2057.0)
 for i in range(6): S(t + 5.0 + i * 1.2, 'whoosh_%d' % (1 + i % 7), 0.25)
 t = sc('WAVE', 17.0, caps=[[0.6, 5.0, 'Then, shelter after shelter opens.', 'opens'], [9.0, 16.6, 'Every year, faster than the last.', 'faster']])
@@ -329,7 +353,16 @@ yk(t + 17, 2061.0)
 for i in range(40): S(t + 1.0 + i * 0.38, 'ding', 0.09 + 0.004 * i)
 t = sc('OUT', 14.0, caps=[[8.5, 13.6, 'Even Europe walks out.', 'Europe']])
 yk(t + 14, 2061.5)
-M(t, t + 27, 'triumph', 0, 0.55, 2.0, 2.5); S(t + 1.0, 'steel_door', 0.6); S(t + 3.5, 'birds', 0.45); S(t + 9.0, 'birds', 0.4); S(t + 2.0, 'wind', 0.25)
+M(t - 1.5, t + 14 + 18 + 13, 'triumph', 0, 0.58, 2.0, 2.5); S(t + 1.0, 'steel_door', 0.6); S(t + 3.5, 'birds', 0.45); S(t + 9.0, 'birds', 0.4); S(t + 2.0, 'wind', 0.25)
+INFL = {'AU': ['NZ', 'PG', 'ID', 'TL', 'FJ', 'SB'], 'AR': ['CL', 'UY', 'PY', 'BO', 'BR', 'PE'], 'ZA': ['NA', 'BW', 'ZW', 'MZ', 'ZM', 'AO', 'LS', 'SZ', 'MW', 'MG']}
+t = sc('POWERS', 18.0, chap=[0.0, 2.6, 'CHAPTER 8', 'THE NEW POWERS'], infl={c: [K[x] for x in v if x in K] for c, v in INFL.items()},
+       caps=[[3.0, 7.6, 'The old superpowers are gone.', 'gone'], [9.0, 17.6, 'The south now leads the world.', 'leads the world']])
+yk(t + 18, 2062.0)
+S(t + 0.1, 'whoosh_6', 0.5); S(t + 2.8, 'braam3', 0.45)
+for i in range(3): S(t + 3.2 + i * 0.6, 'stamp_%d' % (1 + i), 0.5)
+for i, c in enumerate(['AU', 'AR', 'ZA']): S(t + 4.6 + i * 0.9, 'ding', 0.3)
+S(t + 8.6, 'thit', 0.6); S(t + 8.6, 'crowd_cheer', 0.4)
+for i in range(3): S(t + 9.4 + i * 0.7, 'stamp_2', 0.6)
 t = sc('END', 13.0)
 S(t + 1.0, 'braam3', 0.4); S(t + 3.0, 'thit', 0.5); S(t + 5.0, 'stinger_win', 0.25)
 DUR = round(T[0], 2)
