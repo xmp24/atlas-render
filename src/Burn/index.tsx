@@ -8,6 +8,7 @@ import {D, Countdown, YearBadge, Chip, kfv, Grain} from './kit';
 
 const SC: Record<string, React.FC<any>> = {...(A as any), ...(B as any)};
 export const BURN_FRAMES = Math.round(D.total * 30);
+export const TAIL_OFF = 12904; // la cola se renderiza desde aquí (antes de que FIRST empiece a fundirse)
 const HARD = new Set(['COLD1', 'COLD2', 'COLD3', 'COLD4', 'FALL1', 'COUNT', 'NUKE', 'OUT']);
 const XF = 0.35;
 const Overlays: React.FC<{t: number; p: any; id: string}> = ({t, p, id}) => (<>
@@ -17,8 +18,8 @@ const Overlays: React.FC<{t: number; p: any; id: string}> = ({t, p, id}) => (<>
   {(p.caps || []).map((c: any, i: number) => <Caption key={i} t={t} t0={c[0]} t1={c[1]} text={c[2]} hl={c[3] || undefined} y={930} size={48} />)}
   {p.chap && <Chapter t={t} t0={p.chap[0]} t1={p.chap[1]} top={p.chap[2]} main={p.chap[3]} />}
 </>);
-export const Burn: React.FC<{audio?: boolean}> = ({audio = true}) => {
-  const T = useCurrentFrame() / 30;
+export const Burn: React.FC<{audio?: boolean; off?: number}> = ({audio = true, off = 0}) => {
+  const T = (useCurrentFrame() + off) / 30;
   const scenes = D.scenes as [string, number, number, any][];
   return (
     <AbsoluteFill style={{background: '#000'}}>

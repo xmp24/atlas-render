@@ -19,7 +19,7 @@ const lavaPaths = (seed: number, n: number) => Array.from({length: n}, (_, i) =>
   return d;
 });
 // Tierra realista: textura + sombreado; burn 0..1 = parte derecha en llamas
-const Earth: React.FC<{x: number; y: number; size: number; lon?: number; lat?: number; burn?: number; split?: boolean}> = ({x, y, size, lon = 20, lat = 25, burn = 0, split}) => {
+export const Earth: React.FC<{x: number; y: number; size: number; lon?: number; lat?: number; burn?: number; split?: boolean}> = ({x, y, size, lon = 20, lat = 25, burn = 0, split}) => {
   const IW = size * 3.0, IH = IW / 2; const ix = -((lon + 180) / 360) * IW + size / 2, iy = -((90 - lat) / 180) * IH + size / 2;
   const mask = split ? 'linear-gradient(90deg, transparent 47%, #000 53%)' : `radial-gradient(circle at 85% 40%, #000 ${burn * 55}%, transparent ${burn * 80}%)`;
   return (

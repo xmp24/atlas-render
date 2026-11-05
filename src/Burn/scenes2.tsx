@@ -8,6 +8,8 @@ import {Soldiers} from '../Maduro/lib2';
 import {W, H, rnd, ip, pop, Bubble, Big} from '../Maduro/lib';
 import {D, Map, TintLayer, NukeLayer, BunkerLayer, Particles, Grain, Vig, shakeXY, Countdown, BigStamp, toS, camKF, WORLD, kOf, Cam, YEL, HumanityBar, ShelterCards, kfv} from './kit';
 import type {SP} from './scenes1';
+import {Earth} from '../ThumbsBurn';
+import {FlagImg} from '../SameArmy';
 
 const BURN_ITEMS = (a: number) => (D.burned as number[]).map((k) => ({k, col: '#47423d', a: a * 1.4, crack: true}));
 const bubEnd = (bubs: any[], i: number, d: number) => (i + 1 < bubs.length ? bubs[i + 1][0] - 0.15 : d);
@@ -612,7 +614,7 @@ export const FIRST: React.FC<SP> = ({t, T, p}) => {
     <Vig a={0.35} />
   </AbsoluteFill>);
 };
-export const REBUILD: React.FC<SP> = ({t, T}) => {
+export const REBUILD_OLD: React.FC<SP> = ({t, T}) => {
   const n = Math.max(0, Math.min(10, Math.floor((t - 1.2) / 1.1) + 1)); const sky = 1;
   const houses = [[300, 0], [520, 1], [740, 2], [1000, 3], [1240, 4], [1480, 5], [420, 6], [880, 7], [1360, 8], [1650, 9]];
   return (<AbsoluteFill style={{overflow: 'hidden'}}>
@@ -691,5 +693,110 @@ export const END: React.FC<SP> = ({t, T}) => {
     {t > 8.2 && <div style={{position: 'absolute', left: 0, right: 0, top: 870, textAlign: 'center', ...font, fontSize: 40, color: '#fff', opacity: ip(t, [8.2, 8.7], [0, 1])}}>so you don't miss what happens next 👇</div>}
     <div style={{position: 'absolute', right: 40, bottom: 30, ...font, fontSize: 22, color: 'rgba(255,255,255,0.6)'}}>Hypothetical simulation · figures are estimates</div>
     <AbsoluteFill style={{background: '#000', opacity: ip(t, [11.8, 13], [0, 1])}} />
+  </AbsoluteFill>);
+};
+
+// ====================================================================== V3: reconstrucción en el mapa y nuevas potencias
+const House: React.FC<{x: number; y: number; s: number; sc: number; c: string}> = ({x, y, s, sc, c}) => sc <= 0 ? null : (
+  <g transform={`translate(${x},${y}) scale(${sc})`}>
+    <rect x={-s * 0.5} y={-s * 0.55} width={s} height={s * 0.7} fill={c} stroke={INK} strokeWidth={Math.max(1.2, s * 0.1)} />
+    <path d={`M${-s * 0.65},${-s * 0.5} L0,${-s * 1.05} L${s * 0.65},${-s * 0.5} Z`} fill="#c0402a" stroke={INK} strokeWidth={Math.max(1.2, s * 0.1)} strokeLinejoin="round" />
+  </g>
+);
+export const REBUILD: React.FC<SP> = ({t, T, p}) => {
+  const R = p.reb as any[];
+  // cámara: llegada desde el espacio, luego vuelo entre países
+  const kf: number[][] = [];
+  R.forEach((r, i) => { const [cx, cy, s] = r.cam; if (i) { const q = R[i - 1].cam; kf.push([r.a + 0.35, (q[0] + cx) / 2, (q[1] + cy) / 2 - 300, 0.42]); } kf.push([r.a + (i ? 1.0 : 0), cx, cy, s * (i ? 1 : 0.75)], [r.b - 0.3, cx + 10, cy, s * 1.12]); });
+  const cam = camKF(Math.max(R[0].a, t), kf);
+  const cur = R.find((r) => t >= r.a && t < r.b) || R[R.length - 1];
+  if (t < 3.6) { // cinemática desde el espacio
+    const u = ip(t, [0, 3.4], [0, 1]); const size = 520 * Math.pow(9, u * u); const lon = ip(t, [0, 2.6], [40, 134]), lat = ip(t, [0, 2.6], [10, -26]);
+    return (<AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, #0b1430, #02030a 75%)', overflow: 'hidden'}}>
+      {Array.from({length: 160}, (_, i) => <div key={i} style={{position: 'absolute', left: rnd(i) * W, top: rnd(i + 99) * H, width: 2 + rnd(i + 5) * 2, height: 2 + rnd(i + 5) * 2, borderRadius: '50%', background: '#fff', opacity: (0.3 + rnd(i + 7) * 0.7) * (1 - u)}} />)}
+      <div style={{position: 'absolute', left: 0, top: 0, width: 1280, height: 720, transform: `scale(${W / 1280})`, transformOrigin: '0 0'}}><Earth x={640} y={360} size={size * 0.667} lon={lon} lat={lat} /></div>
+      <AbsoluteFill style={{background: '#fff', opacity: ip(t, [3.0, 3.4, 3.6], [0, 0.85, 0])}} />
+      <Letterbox2 />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 120, textAlign: 'center', ...font, fontSize: 52, color: '#fff', letterSpacing: 10, opacity: ip(t, [0.4, 0.9, 2.6, 3.0], [0, 1, 1, 0])}}>YEARS OF WORK BEGIN</div>
+    </AbsoluteFill>);
+  }
+  const hs = Math.max(14, 10 * cam.s);
+  const lt = t - cur.a; const nH = cur.houses.filter((h: number[]) => t > h[2]).length;
+  return (<AbsoluteFill>
+    <Map T={T} cam={cam} night={0.05} warOn={false} />
+    <TintLayer cam={cam} items={[...RUIN2(0.35), ...GRAY(T)]} />
+    <TintLayer cam={cam} items={R.map((r) => ({k: r.k, col: '#3bd16f', a: 0.1 + 0.05 * Math.sin(t * 3), stroke: '#ffffff'}))} />
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+      {R.map((r, ri) => <g key={ri}>
+        {r.farms.map(([x, y, tf]: number[], i: number) => { const g = ip(t, [tf, tf + 1.2], [0, 1]); if (g <= 0) return null; const [X, Y] = toS(x, y, cam); const w = hs * 3.2 * g, h = hs * 1.8;
+          return <g key={'f' + i}><rect x={X - w / 2} y={Y - h / 2} width={w} height={h} rx={3} fill="#7ab84a" stroke={INK} strokeWidth={2} />{[0.25, 0.5, 0.75].map((f) => <line key={f} x1={X - w / 2 + 3} x2={X + w / 2 - 3} y1={Y - h / 2 + h * f} y2={Y - h / 2 + h * f} stroke="#4a8a2a" strokeWidth={2} />)}</g>; })}
+        {r.roads.map(([a_, b_, tr]: number[], i: number) => { const g = ip(t, [tr, tr + 1.4], [0, 1]); if (g <= 0) return null; const [x0, y0] = toS(r.cities[a_][0], r.cities[a_][1], cam), [x1, y1] = toS(r.cities[b_][0], r.cities[b_][1], cam);
+          return <g key={'r' + i}><line x1={x0} y1={y0} x2={x0 + (x1 - x0) * g} y2={y0 + (y1 - y0) * g} stroke="#3a3a3e" strokeWidth={Math.max(4, hs * 0.55)} strokeLinecap="round" /><line x1={x0} y1={y0} x2={x0 + (x1 - x0) * g} y2={y0 + (y1 - y0) * g} stroke="#ffd23f" strokeWidth={1.6} strokeDasharray="6 8" /></g>; })}
+        {r.houses.map(([x, y, th]: number[], i: number) => { const d = t - th; if (d < 0) return null; const [X, Y] = toS(x, y, cam); if (X < -40 || X > W + 40 || Y < -40 || Y > H + 40) return null;
+          const sc = d < 0.3 ? Math.sin((d / 0.3) * Math.PI / 2) * 1.25 : 1 + 0.25 * Math.max(0, 1 - (d - 0.3) / 0.3);
+          return <House key={'h' + i} x={X} y={Y} s={hs} sc={Math.min(1.25, sc)} c={['#f2e6c8', '#e8d0a8', '#d8e2ee'][i % 3]} />; })}
+        {/* grúa, fábrica y molinos */}
+        {(() => { const [X, Y] = toS(r.cities[0][0] + 14, r.cities[0][1] - 10, cam); const on = t > r.a + 0.6 && t < r.b + 2; if (!on) return null; const L = hs * 4;
+          return <g transform={`translate(${X},${Y})`} opacity={ip(t, [r.a + 0.6, r.a + 1.0], [0, 1])}><line x1={0} y1={0} x2={0} y2={-L} stroke="#ffc531" strokeWidth={hs * 0.3} /><g transform={`rotate(${Math.sin(t * 0.8 + ri) * 25},0,${-L})`}><line x1={-L * 0.3} y1={-L} x2={L * 0.9} y2={-L} stroke="#ffc531" strokeWidth={hs * 0.25} /><line x1={L * 0.7} y1={-L} x2={L * 0.7} y2={-L * 0.55 + Math.sin(t * 2) * 6} stroke={INK} strokeWidth={1.5} /><rect x={L * 0.62} y={-L * 0.55 + Math.sin(t * 2) * 6} width={L * 0.16} height={L * 0.1} fill="#8a5a2a" stroke={INK} strokeWidth={1.5} /></g></g>; })()}
+        {(() => { const [X, Y] = toS(r.cities[1][0] - 12, r.cities[1][1] + 8, cam); const tf = r.a + 3.0; if (t < tf) return null; const g = Math.min(1, (t - tf) / 0.5);
+          return <g transform={`translate(${X},${Y}) scale(${g})`}><rect x={-hs * 1.2} y={-hs * 0.9} width={hs * 2.4} height={hs * 0.9} fill="#9aa0a8" stroke={INK} strokeWidth={2} /><rect x={hs * 0.5} y={-hs * 2.2} width={hs * 0.4} height={hs * 1.4} fill="#7a7e84" stroke={INK} strokeWidth={2} />
+            {[0, 1, 2].map((j) => { const ph = ((t * 0.7 + j / 3) % 1); return <circle key={j} cx={hs * 0.7 + ph * hs * 1.2} cy={-hs * 2.3 - ph * hs * 2.4} r={hs * (0.3 + ph * 0.6)} fill={`rgba(200,200,205,${0.7 * (1 - ph)})`} />; })}</g>; })()}
+        {[2, 3].map((ci) => { const c0 = r.cities[ci]; if (!c0) return null; const [X, Y] = toS(c0[0] + 18, c0[1] + 6, cam); const tf = r.a + 4.2 + ci * 0.4; if (t < tf) return null; const L = hs * 2.6;
+          return <g key={'w' + ci} transform={`translate(${X},${Y}) scale(${Math.min(1, (t - tf) / 0.4)})`}><line x1={0} y1={0} x2={0} y2={-L} stroke="#eee" strokeWidth={hs * 0.2} /><g transform={`translate(0,${-L}) rotate(${t * 140 + ci * 40})`}>{[0, 120, 240].map((a) => <line key={a} x1={0} y1={0} x2={0} y2={-L * 0.6} stroke="#fff" strokeWidth={hs * 0.18} strokeLinecap="round" transform={`rotate(${a})`} />)}</g></g>; })}
+        {r.cities.map((c: number[], i: number) => { if (t < r.a || t > r.b + 1.5) return null; const [X, Y] = toS(c[0], c[1], cam); return i < 4 ? <text key={'n' + i} x={X} y={Y + hs * 2.2} textAnchor="middle" style={{...font, fontSize: Math.max(18, hs * 1.5)}} fill="#fff" stroke={INK} strokeWidth={6} paintOrder="stroke">{r.names[i]}</text> : null; })}
+      </g>)}
+    </svg>
+    <Vig a={0.45} />
+    {/* rótulo del país y contadores */}
+    <div key={cur.c} style={{position: 'absolute', left: 44, bottom: 50, display: 'flex', alignItems: 'center', gap: 16, padding: '12px 22px', borderRadius: 20, background: 'rgba(8,12,24,0.9)', border: '5px solid #3bd16f', transform: `scale(${pop(t, cur.a, 0.35)})`, transformOrigin: '0 100%'}}>
+      <FlagImg k={cur.k} w={84} h={56} />
+      <div><div style={{...font, fontSize: 40, color: '#fff', lineHeight: 1}}>{cur.name}</div><div style={{...font, fontSize: 22, color: '#9fe08a'}}>REBUILDING</div></div>
+      <div style={{marginLeft: 18, textAlign: 'right'}}><div style={{fontFamily: 'monospace', fontWeight: 900, fontSize: 40, color: '#fff'}}>{(nH * 1450 + Math.floor(lt * 37)).toLocaleString('en-US')}</div><div style={{...font, fontSize: 18, color: '#cfd8e8'}}>HOMES BUILT</div></div>
+    </div>
+    <div key={'b' + cur.c} style={{position: 'absolute', left: 0, top: -Math.abs(Math.sin(t * 6)) * 8, transform: `scale(${pop(t, cur.a + 0.3, 0.35)})`, transformOrigin: `${W - 200}px 880px`}}>
+      <Char k={cur.k} t={t} s={190} x={W - 200} y={880} eyes="normal" />
+      <div style={{position: 'absolute', left: W - 200 - 100, top: 880 - 140, width: 200, height: 80, borderRadius: '100px 100px 10px 10px', background: 'radial-gradient(circle at 35% 30%, #fff08a, #ffc531 60%, #c99a10)', border: `6px solid ${INK}`}} />
+      <div style={{position: 'absolute', left: W - 200 - 120, top: 880 - 68, width: 240, height: 16, borderRadius: 8, background: '#ffc531', border: `5px solid ${INK}`}} />
+    </div>
+    <HumanityBar T={T} t={t} t0={-1} />
+    <YearHUD T={T} t={t} />
+  </AbsoluteFill>);
+};
+const Letterbox2: React.FC = () => (<><div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 80, background: '#000'}} /><div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 80, background: '#000'}} /></>);
+export const POWERS: React.FC<SP> = ({t, T, p}) => {
+  const lead: [string, string][] = [['AU', '#2a5ad8'], ['AR', '#4ab0ff'], ['ZA', '#2aa84a']];
+  if (t < 8.6) {
+    const cam = {cx: 3900, cy: ip(t, [0, 8.6], [2300, 2600], false), s: ip(t, [0, 8.6], [0.27, 0.3], false)};
+    const old = ['US', 'RU', 'CN'].map(kOf);
+    const items: any[] = [...RUIN2(0.25), ...old.map((k, i) => ({k, col: '#3a3a3e', a: ip(t, [3.0 + i * 0.6, 3.5 + i * 0.6], [0, 0.75]), crack: true}))];
+    lead.forEach(([c, col], li) => { items.push({k: kOf(c), col, a: ip(t, [4.4 + li * 0.9, 5.0 + li * 0.9], [0, 0.55]), stroke: '#ffffff'}); (p.infl[c] as number[]).forEach((k, j) => items.push({k, col, a: ip(t, [5.2 + li * 0.9 + j * 0.15, 5.8 + li * 0.9 + j * 0.15], [0, 0.35])})); });
+    return (<AbsoluteFill>
+      <Map T={T} cam={cam} warOn={false} />
+      <TintLayer cam={cam} items={items} />
+      <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+        {old.map((k, i) => { const t0 = 3.0 + i * 0.6; if (t < t0) return null; const g = (D.pub as number[][]).filter((b) => b[4] === k); const x = g.reduce((a, b) => a + b[0], 0) / g.length, y = g.reduce((a, b) => a + b[1], 0) / g.length; const [X, Y] = toS(x, y, cam); const sc = ip(t, [t0, t0 + 0.2], [2, 1]);
+          return <g key={i} transform={`translate(${X},${Y}) scale(${sc})`}><path d="M-34,-34 L34,34 M34,-34 L-34,34" stroke="#ff2a1a" strokeWidth={12} strokeLinecap="round" /></g>; })}
+      </svg>
+      {lead.map(([c], li) => { const t0 = 4.6 + li * 0.9; if (t < t0) return null; const k = kOf(c); const g = (D.pub as number[][]).filter((b) => b[4] === k); const x = g.reduce((a, b) => a + b[0], 0) / g.length, y = g.reduce((a, b) => a + b[1], 0) / g.length; const [X, Y] = toS(x, y, cam);
+        return <div key={c} style={{position: 'absolute', left: X - 40, top: Y - 110, width: 80, height: 80, transform: `scale(${pop(t, t0, 0.35)})`, filter: `drop-shadow(0 0 3px ${INK}) drop-shadow(0 0 3px ${INK}) drop-shadow(0 0 16px #ffd86a)`}}><div style={{width: '100%', height: '100%', background: 'linear-gradient(180deg, #fff3a0, #ffc21a 60%, #d48a00)', WebkitMaskImage: `url(${staticFile('hw/icons/crown.svg')})`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat'}} /></div>; })}
+      <Vig a={0.45} />
+      <YearHUD T={T} t={t} />
+    </AbsoluteFill>);
+  }
+  const tt = t - 8.6;
+  const pod: [string, number, number, number, string][] = [['AU', W / 2, 330, 0.6, '1'], ['AR', W / 2 - 400, 230, 1.3, '2'], ['ZA', W / 2 + 400, 170, 2.0, '3']];
+  return (<AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 30%, #3a2a0a, #0a0806 75%)', overflow: 'hidden'}}>
+    {[W / 2 - 400, W / 2, W / 2 + 400].map((x, i) => <div key={i} style={{position: 'absolute', left: x - 260, top: -100, width: 520, height: 1000, background: 'linear-gradient(180deg, rgba(255,230,160,0.35), rgba(255,230,160,0))', clipPath: 'polygon(40% 0, 60% 0, 100% 100%, 0 100%)', opacity: ip(tt, [0.2 + i * 0.3, 0.8 + i * 0.3], [0, 1])}} />)}
+    {Array.from({length: 70}, (_, i) => { const x = rnd(i) * W, y = ((tt * (120 + rnd(i + 3) * 160) + rnd(i + 5) * 900) % 1100) - 80; return tt > 1.0 ? <div key={i} style={{position: 'absolute', left: x + Math.sin(tt * 3 + i) * 20, top: y, width: 12, height: 18, background: ['#ffd23f', '#3bd16f', '#4ab0ff', '#ff6a5a'][i % 4], transform: `rotate(${tt * 200 + i * 30}deg)`}} /> : null; })}
+    {pod.map(([c, x, h, t0, n]) => <div key={c}>
+      <div style={{position: 'absolute', left: x - 170, top: 1000 - h * ip(tt, [t0 - 0.4, t0], [0, 1]), width: 340, height: h, background: 'linear-gradient(180deg, #f2e6c8, #c9b48a)', border: `8px solid ${INK}`, borderRadius: '14px 14px 0 0', ...font, fontSize: 110, color: INK, textAlign: 'center', lineHeight: '140px'}}>{n}</div>
+      {tt > t0 && <div style={{position: 'absolute', left: 0, top: 0, transform: `scale(${pop(tt, t0, 0.4)})`, transformOrigin: `${x}px ${1000 - h - 110}px`}}><CBall k={kOf(c)} size={210} x={x} y={1000 - h - 110} eyes="shades" crown rim="#ffd86a" /></div>}
+    </div>)}
+    {tt > 3.0 && <div style={{position: 'absolute', left: 60, top: 600, opacity: ip(tt, [3.0, 3.6], [0, 1])}}>
+      <div style={{...font, fontSize: 26, color: '#aaa', marginBottom: 6}}>FORMER SUPERPOWERS</div>
+      <div style={{display: 'flex', gap: 14}}>{['US', 'RU', 'CN'].map((c) => <div key={c} style={{position: 'relative', width: 90, height: 90}}><CBall k={kOf(c)} size={90} x={45} y={45} eyes="dead" gray /></div>)}</div>
+    </div>}
+    <div style={{position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', opacity: ip(tt, [0.2, 0.7], [0, 1])}}><Big text="THE NEW SUPERPOWERS" y={0} size={96} col={YEL} sc={pop(tt, 0.2, 0.35)} /></div>
+    <YearHUD T={T} t={t} />
   </AbsoluteFill>);
 };
