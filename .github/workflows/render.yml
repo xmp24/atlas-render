@@ -101,4 +101,4 @@ jobs:
         run: |
           cd out && git init -q -b out && git add -A
           git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm "seg ${{ matrix.i }}"
-          for t in 1 2 3; do git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/out-${{ inputs.tag }}-${{ matrix.i }} && break; sleep 5; done
+          ok=0; for t in 1 2 3 4 5 6 7 8 9 10 11 12; do git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/out-${{ inputs.tag }}-${{ matrix.i }} && { ok=1; break; }; sleep $(( 5 + RANDOM % 20 + t * 5 )); done; [ $ok = 1 ] || { echo "::error::push failed"; exit 1; }
