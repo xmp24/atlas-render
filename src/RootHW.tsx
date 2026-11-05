@@ -17,6 +17,7 @@ import {ThumbD4, D4_IDS} from './ThumbsD4';
 import {Maduro, MADURO_FRAMES} from './Maduro';
 import {Maduro2, MADURO2_FRAMES} from './Maduro/index2';
 import {Maduro3, MADURO3_FRAMES} from './Maduro/index3';
+import {Burn, BURN_FRAMES} from './Burn';
 import {Civil, CIVIL_FRAMES} from './Civil';
 import {Logo, LOGO_IDS} from './Logos';
 import {Banner, BANNER_IDS} from './Banners';
@@ -28,6 +29,7 @@ export const RootHW: React.FC = () => (
     <Composition id="SameArmy" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="SameArmyN" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Indo" component={Indo} durationInFrames={INDO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
+    <Composition id="BurnN" component={Burn} durationInFrames={BURN_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Maduro3N" component={Maduro3} durationInFrames={MADURO3_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Maduro2N" component={Maduro2} durationInFrames={MADURO2_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Maduro2" component={Maduro2} durationInFrames={MADURO2_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
