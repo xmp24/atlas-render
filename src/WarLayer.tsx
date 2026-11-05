@@ -109,7 +109,7 @@ export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, 
   }
 };
 // soldadito de cuerpo entero del color del país
-const soldier = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number, col: string, dark: string, phase: number, dir: number, pose: number, fall = 0) => {
+export const soldier = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number, col: string, dark: string, phase: number, dir: number, pose: number, fall = 0) => {
   ctx.save(); ctx.translate(x, y);
   if (!fall) { ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.ellipse(0, sz * 0.62, sz * 0.3, sz * 0.09, 0, 0, Math.PI * 2); ctx.fill(); }
   ctx.scale(dir, 1); if (fall) ctx.rotate(-fall * Math.PI / 2);
@@ -132,7 +132,7 @@ const soldier = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number
   ctx.fillStyle = dark; ctx.beginPath(); ctx.arc(0, -sz * 0.31, sz * 0.19, Math.PI, 0); ctx.closePath(); ctx.fill(); ctx.stroke();
   ctx.restore();
 };
-const drawTank = (ctx: CanvasRenderingContext2D, tx: number, ty: number, sz: number, col: string, face: number, fire: boolean) => {
+export const drawTank = (ctx: CanvasRenderingContext2D, tx: number, ty: number, sz: number, col: string, face: number, fire: boolean) => {
   ctx.save(); ctx.translate(tx, ty); ctx.scale(face, 1);
   ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.ellipse(0, sz * 0.5, sz * 0.9, sz * 0.15, 0, 0, Math.PI * 2); ctx.fill();
   ctx.strokeStyle = '#141414'; ctx.lineWidth = sz * 0.08;
@@ -144,7 +144,7 @@ const drawTank = (ctx: CanvasRenderingContext2D, tx: number, ty: number, sz: num
   ctx.restore();
 };
 const hsh = (i: number) => { let x = (i + 0x9e3779b9) | 0; x = Math.imul(x ^ (x >>> 16), 0x85ebca6b); x = Math.imul(x ^ (x >>> 13), 0xc2b2ae35); return ((x ^ (x >>> 16)) >>> 0) / 4294967296; };
-const banner = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number, k: number, t: number, bc?: string) => {
+export const banner = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number, k: number, t: number, bc?: string) => {
   ctx.strokeStyle = '#141414'; ctx.lineWidth = sz * 0.08; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - sz * 1.25); ctx.stroke();
   const fw = sz * 0.95, fh = sz * 0.64; const wv = Math.sin(t * 7) * sz * 0.04;
   if (bc) {
@@ -156,7 +156,7 @@ const banner = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number,
   const bmp = flagBmp(k);
   if (bmp) { ctx.drawImage(bmp, x, y - sz * 1.25 + wv, fw, fh); ctx.lineWidth = sz * 0.05; ctx.strokeRect(x, y - sz * 1.25 + wv, fw, fh); }
 };
-const boom = (ctx: CanvasRenderingContext2D, x: number, y: number, R: number, d: number, seed: number) => {
+export const boom = (ctx: CanvasRenderingContext2D, x: number, y: number, R: number, d: number, seed: number) => {
   if (d < 0 || d > 1.1) return;
   const q = d / 1.1;
   // humo
