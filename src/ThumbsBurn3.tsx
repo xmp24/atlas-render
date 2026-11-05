@@ -1,0 +1,76 @@
+// Antes / después de la Tierra, con el acabado de "USA VS THE ENTIRE WORLD" (fondos ricos, rayo, título 3D)
+import React from 'react';
+import {AbsoluteFill} from 'remotion';
+import {INK, Face} from './lib3';
+import {Embers, Glow} from './ThumbsPro';
+import {Planet} from './Logos';
+import {Title3D, GOLD, WHITE, Smoke} from './ThumbsFinal';
+import {Earth} from './ThumbsBurn';
+
+const W = 1280, H = 720, BX = 640;
+const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const BOLT = [[BX + 50, -20], [BX - 10, 302], [BX + 40, 318], [BX - 50, H + 20]];
+const boltD = BOLT.map((p, i) => `${i ? 'L' : 'M'}${p[0]},${p[1]}`).join(' ');
+const LEFT = `polygon(0px 0px, ${BOLT.map((p) => `${p[0]}px ${p[1]}px`).join(', ')}, 0px ${H}px)`;
+const RIGHT = `polygon(${BOLT.map((p) => `${p[0]}px ${p[1]}px`).join(', ')}, ${W}px ${H}px, ${W}px 0px)`;
+const FIRE = 'linear-gradient(180deg, #fffbe0 0%, #ffd84a 30%, #ff8a1a 62%, #e0300a 100%)';
+
+const Bolt: React.FC = () => {
+  const branch = (i: number) => { const t = 0.12 + rnd(30 + i) * 0.8; const seg = t < 0.43 ? 0 : t < 0.45 ? 1 : 2; const a = BOLT[seg], b = BOLT[seg + 1]; const u = seg === 1 ? 0.5 : seg === 0 ? t / 0.43 : (t - 0.45) / 0.55;
+    const x = a[0] + (b[0] - a[0]) * u, y = a[1] + (b[1] - a[1]) * u; const d = i % 2 ? 1 : -1; const L = 40 + rnd(i + 30) * 50;
+    return `M${x},${y} l${d * L * 0.5},${-L * 0.25} l${d * L * 0.15},${L * 0.3} l${d * L * 0.45},${-L * 0.2}`; };
+  return (<svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+    <defs><filter id="bl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14" /></filter><filter id="bs" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" /></filter></defs>
+    <path d={boltD} transform="translate(-14,0)" stroke="#5fd0ff" strokeWidth={60} fill="none" filter="url(#bl)" opacity={0.85} />
+    <path d={boltD} transform="translate(14,0)" stroke="#ffb030" strokeWidth={60} fill="none" filter="url(#bl)" opacity={0.85} />
+    {Array.from({length: 7}, (_, i) => <path key={i} d={branch(i)} stroke="#e8f8ff" strokeWidth={4} fill="none" filter="url(#bs)" />)}
+    {Array.from({length: 7}, (_, i) => <path key={'b' + i} d={branch(i)} stroke="#fff" strokeWidth={2} fill="none" />)}
+    <path d={boltD} stroke={INK} strokeWidth={30} fill="none" />
+    <path d={boltD} stroke="#fff" strokeWidth={17} fill="none" />
+    <path d={boltD} stroke="#fff3c0" strokeWidth={6} fill="none" filter="url(#bs)" />
+    {Array.from({length: 26}, (_, i) => { const y = rnd(i + 3) * H; const x = BX + 30 - (y / H) * 70 + (rnd(i + 7) - 0.5) * 90; return <circle key={'s' + i} cx={x} cy={y} r={1.5 + rnd(i + 3) * 3} fill={i % 2 ? '#fff6c0' : '#c8f2ff'} />; })}
+  </svg>);
+};
+const Sparkle: React.FC<{x: number; y: number; s: number}> = ({x, y, s}) => <div style={{position: 'absolute', left: x - s / 2, top: y - s / 2, width: s, height: s, background: '#fff', clipPath: 'polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%)', filter: 'drop-shadow(0 0 8px #bff0ff)'}} />;
+const Mini: React.FC<{x: number; y: number; h: number; rot: number}> = ({x, y, h, rot}) => (
+  <div style={{position: 'absolute', left: x, top: y, width: 0, height: 0, transform: `rotate(${rot}deg)`}}>
+    <div style={{position: 'absolute', left: -h * 0.09, top: -h * 0.75, width: h * 0.18, height: h * 0.75, background: 'linear-gradient(90deg, #8a3a14, #ffb060 50%, #8a3a14)', clipPath: 'polygon(25% 0, 75% 0, 100% 100%, 0 100%)', border: 'none'}} />
+    <div style={{position: 'absolute', left: -h * 0.36, top: -h * 1.0, width: h * 0.72, height: h * 0.42, borderRadius: '50%', background: 'radial-gradient(ellipse at 50% 70%, #fffbe0 0%, #ffbe48 30%, #e8601e 60%, #5a3a2a 92%)', border: `3px solid ${INK}`}} />
+  </div>
+);
+
+const BA = () => (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+  {/* izquierda: cielo brillante */}
+  <AbsoluteFill style={{clipPath: LEFT, background: 'radial-gradient(ellipse at 30% 40%, #c8f0ff 0%, #6cc4ff 22%, #2f7fe0 50%, #133a9a 80%, #0a1f5a 100%)'}}>
+    <div style={{position: 'absolute', left: -300, top: -300, width: 1200, height: 1200, opacity: 0.35, background: 'repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.9) 0deg 7deg, transparent 7deg 20deg)', WebkitMaskImage: 'radial-gradient(circle, #000 10%, transparent 65%)', transform: 'translate(20px, 40px)'}} />
+    {[[90, 120, 170], [470, 80, 140], [80, 610, 190], [520, 640, 150]].map(([x, y, r], i) => <div key={i} style={{position: 'absolute', left: x - r, top: y - r * 0.45, width: r * 2, height: r * 0.9, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(255,255,255,0.85), rgba(255,255,255,0) 70%)', filter: 'blur(4px)'}} />)}
+    {[[110, 260, 26], [560, 230, 20], [150, 520, 18], [540, 540, 30], [460, 160, 14]].map(([x, y, s], i) => <Sparkle key={i} x={x} y={y} s={s} />)}
+  </AbsoluteFill>
+  {/* derecha: infierno */}
+  <AbsoluteFill style={{clipPath: RIGHT, background: 'radial-gradient(ellipse at 70% 105%, #fff3a8 0%, #ffbe1f 14%, #ff6a12 36%, #c3170c 64%, #3a0503 100%)'}}>
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, opacity: 0.55, filter: 'blur(5px)'}}>
+      {Array.from({length: 10}, (_, i) => { const x = 600 + i * 72, h = 170 + rnd(i) * 240; return <path key={i} d={`M${x},${H} Q${x + 30},${H - h * 0.6} ${x + 45},${H - h} Q${x + 70},${H - h * 0.55} ${x + 95},${H} Z`} fill="#ffd25a" />; })}
+    </svg>
+    <div style={{position: 'absolute', left: 620, right: -40, top: -90, height: 240, background: 'radial-gradient(ellipse at 30% 60%, rgba(30,8,4,0.85) 0%, rgba(30,8,4,0) 55%), radial-gradient(ellipse at 75% 50%, rgba(30,8,4,0.8) 0%, rgba(30,8,4,0) 55%)', filter: 'blur(8px)'}} />
+    <Smoke list={[[760, 650, 110], [1180, 680, 120], [1250, 120, 90]]} />
+  </AbsoluteFill>
+  <Embers n={60} seed={41} c="#ffd27a" />
+  {/* Tierra feliz */}
+  <Glow x={320} y={400} r={300} c="rgba(170,235,255,0.6)" />
+  <div style={{position: 'absolute', left: 320 - 200, top: 400 - 200}}><Planet size={400} mood="happy" lon={10} lat={22} rim="#c8f2ff" /></div>
+  {/* Tierra ardiendo y llorando */}
+  <Glow x={960} y={400} r={320} c="rgba(255,140,40,0.65)" />
+  <Earth x={960} y={400} size={400} lon={15} lat={22} split={false} burn={1.3} />
+  <div style={{position: 'absolute', left: 760, top: 200, width: 400, height: 400, borderRadius: '50%', border: `${400 * 0.04}px solid ${INK}`, boxShadow: '0 20px 0 rgba(0,0,0,0.5), inset -20px -10px 30px rgba(255,120,40,0.6)'}} />
+  <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.8))'}}>
+    <Face x={960} y={390} r={116} mood="shocked" t={1} seed={3} look={[0, 0.2]} />
+    {[920, 1000].map((fx, i) => <path key={i} d={`M${fx},400 q6,52 12,100 a16,16 0 1 1 -24,0 q4,-48 12,-100 z`} fill="#8fd2ff" stroke={INK} strokeWidth={5} />)}
+  </svg>
+  {[[800, 470, 1], [1125, 410, 1.2], [885, 565, 0.9], [835, 255, 1.1], [1090, 250, 0.9]].map(([x, y, k], i) => <div key={i} style={{position: 'absolute', left: x - 34 * k, top: y - 52 * k, width: 68 * k, height: 92 * k, borderRadius: '50% 50% 45% 45% / 65% 65% 35% 35%', background: 'radial-gradient(ellipse at 50% 75%, #fff3a0 0%, #ffb21a 40%, #ff4a12 70%, rgba(255,40,10,0) 100%)', filter: 'drop-shadow(0 0 10px #ff7a1a)'}} />)}
+  <Bolt />
+  <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)'}} />
+  <Title3D text="BEFORE" x={320} y={18} size={104} grad={WHITE} glow="rgba(160,230,255,0.8)" rot={-3} />
+  <Title3D text="AFTER" x={965} y={18} size={104} grad={FIRE} glow="rgba(255,150,40,0.85)" rot={3} />
+  <Title3D text="24 HOURS LATER" y={598} size={96} grad={GOLD} glow="rgba(255,190,40,0.8)" rot={-2} />
+</AbsoluteFill>);
+export const ThumbBurn3: React.FC = () => <BA />;
