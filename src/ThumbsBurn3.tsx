@@ -51,18 +51,19 @@ const BA = () => (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}
     {Array.from({length: 30}, (_, i) => <div key={'p' + i} style={{position: 'absolute', left: rnd(i + 70) * 620, top: rnd(i + 90) * 720, width: 4 + rnd(i) * 6, height: 4 + rnd(i) * 6, borderRadius: '50%', background: '#fff', boxShadow: '0 0 10px 4px rgba(200,240,255,0.8)', opacity: 0.5 + rnd(i + 3) * 0.5}} />)}
   </AbsoluteFill>
   {/* derecha: infierno */}
-  <AbsoluteFill style={{clipPath: RIGHT, background: 'radial-gradient(ellipse at 70% 105%, #fff3a8 0%, #ffbe1f 14%, #ff6a12 36%, #c3170c 64%, #3a0503 100%)'}}>
+  <AbsoluteFill style={{clipPath: RIGHT, background: 'radial-gradient(ellipse at 70% 110%, #ffcf3a 0%, #ff6a0a 14%, #c8160a 34%, #6a0604 58%, #1e0202 85%, #0a0101 100%)', filter: 'contrast(1.25) saturate(1.35)'}}>
     <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, opacity: 0.55, filter: 'blur(5px)'}}>
       {Array.from({length: 10}, (_, i) => { const x = 600 + i * 72, h = 170 + rnd(i) * 240; return <path key={i} d={`M${x},${H} Q${x + 30},${H - h * 0.6} ${x + 45},${H - h} Q${x + 70},${H - h * 0.55} ${x + 95},${H} Z`} fill="#ffd25a" />; })}
     </svg>
     <div style={{position: 'absolute', left: 620, right: -40, top: -90, height: 240, background: 'radial-gradient(ellipse at 30% 60%, rgba(30,8,4,0.85) 0%, rgba(30,8,4,0) 55%), radial-gradient(ellipse at 75% 50%, rgba(30,8,4,0.8) 0%, rgba(30,8,4,0) 55%)', filter: 'blur(8px)'}} />
     <Smoke list={[[760, 650, 110], [1180, 680, 120], [1250, 120, 90]]} />
+    <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 75% 45%, rgba(0,0,0,0) 30%, rgba(15,0,0,0.7) 100%)'}} />
     {/* infierno: lenguas de fuego que suben por todo el lado */}
     <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, filter: 'blur(3px)'}}>
       {Array.from({length: 16}, (_, i) => { const x = 610 + i * 44 + (rnd(i + 5) - 0.5) * 20, h = 260 + rnd(i + 40) * 380, w = 70 + rnd(i + 9) * 50;
-        return <path key={i} d={`M${x - w / 2},${H + 10} Q${x - w * 0.6},${H - h * 0.45} ${x + (rnd(i) - 0.5) * 40},${H - h} Q${x + w * 0.55},${H - h * 0.5} ${x + w / 2},${H + 10} Z`} fill={i % 3 === 0 ? 'rgba(255,230,120,0.75)' : i % 3 === 1 ? 'rgba(255,140,30,0.7)' : 'rgba(230,50,10,0.65)'} />; })}
+        return <path key={i} d={`M${x - w / 2},${H + 10} Q${x - w * 0.6},${H - h * 0.45} ${x + (rnd(i) - 0.5) * 40},${H - h} Q${x + w * 0.55},${H - h * 0.5} ${x + w / 2},${H + 10} Z`} fill={i % 3 === 0 ? 'rgba(255,170,30,0.8)' : i % 3 === 1 ? 'rgba(235,70,10,0.8)' : 'rgba(150,15,5,0.85)'} />; })}
     </svg>
-    <div style={{position: 'absolute', left: 600, right: 0, bottom: 0, height: 260, background: 'linear-gradient(0deg, rgba(255,240,160,0.85), rgba(255,160,40,0.4) 50%, rgba(255,120,20,0))'}} />
+    <div style={{position: 'absolute', left: 600, right: 0, bottom: 0, height: 260, background: 'linear-gradient(0deg, rgba(255,150,30,0.75), rgba(200,40,10,0.35) 50%, rgba(120,10,0,0))'}} />
   </AbsoluteFill>
   <Embers n={60} seed={41} c="#ffd27a" />
   {/* Tierra feliz */}
