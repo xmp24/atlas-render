@@ -7,6 +7,12 @@ import {Indo2, indoFrames} from './Indo2';
 import {Cup, CUP_FRAMES} from './Cup';
 import {IndoThumb, IndoShortOverlay} from './IndoExtras';
 import {ThumbPro, THUMB_IDS} from './ThumbsPro';
+import {ThumbMap, MAP_IDS} from './ThumbsMap';
+import {ThumbMap2, MAP2_IDS} from './ThumbsMap2';
+import {ThumbCB, CB_IDS} from './ThumbsCB';
+import {ThumbCombo, COMBO_IDS} from './ThumbsCombo';
+import {ThumbFinal, FINAL_IDS} from './ThumbsFinal';
+import {Maduro, MADURO_FRAMES} from './Maduro';
 import {Civil, CIVIL_FRAMES} from './Civil';
 import {Logo, LOGO_IDS} from './Logos';
 import {Banner, BANNER_IDS} from './Banners';
@@ -18,6 +24,13 @@ export const RootHW: React.FC = () => (
     <Composition id="SameArmy" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="SameArmyN" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Indo" component={Indo} durationInFrames={INDO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
+    <Composition id="Maduro" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
+    <Composition id="MaduroN" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
+    {FINAL_IDS.map((id) => <Composition key={id} id={`TF-${id}`} component={ThumbFinal} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {COMBO_IDS.map((id) => <Composition key={id} id={`TX-${id}`} component={ThumbCombo} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {CB_IDS.map((id) => <Composition key={id} id={`TC-${id}`} component={ThumbCB} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {MAP2_IDS.map((id) => <Composition key={id} id={`TN-${id}`} component={ThumbMap2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {MAP_IDS.map((id) => <Composition key={id} id={`TM-${id}`} component={ThumbMap} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {THUMB_IDS.map((id) => <Composition key={id} id={`TP-${id}`} component={ThumbPro} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     <Composition id="IdS1" component={Indo2} durationInFrames={540} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'd', W: 1080, H: 1920, zf: 0.8, segs: [[446.8, 3.0], [452.6, 10.4], [470.5, 4.6]], hook: ["THE USA WAS WINNING", "UNTIL THIS..."], cta: ["HOW DID INDONESIA", "GET THIS FAR?"]}} />
     <Composition id="IdS2" component={Indo2} durationInFrames={597} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'd', W: 1080, H: 1920, zf: 0.8, segs: [[241.5, 3.0], [247.6, 7.0], [257.5, 3.5], [266.5, 3.6], [272.0, 2.8]], hook: ["INDONESIA WAS", "LOSING EUROPE..."], cta: ["EUROPE FELL.", "WHO IS NEXT?"]}} />

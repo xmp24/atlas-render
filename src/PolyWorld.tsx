@@ -9,7 +9,7 @@ import {drawOcc, drawUnits} from './WarLayer';
 
 const W4 = 4; // world.json está a 1920x1080; nuestro mapa es 4x
 type Piece = {k: number; path: Path2D | null; bbox: number[]; c: number[]; area: number};
-const PIECES: Piece[] = (WJ as any).pieces.map((p: any) => ({k: KOF[p.code], path: typeof Path2D !== 'undefined' ? new Path2D(p.d) : null, bbox: p.bbox.map((v: number) => v * W4), c: p.c.map((v: number) => v * W4), area: p.area * 16}));
+export const PIECES: Piece[] = (WJ as any).pieces.map((p: any) => ({k: KOF[p.code], path: typeof Path2D !== 'undefined' ? new Path2D(p.d) : null, bbox: p.bbox.map((v: number) => v * W4), c: p.c.map((v: number) => v * W4), area: p.area * 16}));
 export const PIECES_OF: number[][] = Array.from({length: NK}, () => []);
 PIECES.forEach((p, i) => { if (p.k !== undefined) PIECES_OF[p.k].push(i); });
 export const CAREA = new Float64Array(NK);
@@ -19,7 +19,7 @@ export const TOTAL_AREA = CAREA.reduce((a, b) => a + b, 0);
 export const PIECES_C = (k: number) => { const mp = MAINPIECE[k]; return mp >= 0 ? PIECES[mp].c : [0, 0]; };
 export const MAINPIECE = PIECES_OF.map((arr) => arr.reduce((b, i) => (b < 0 || PIECES[i].area > PIECES[b].area ? i : b), -1));
 const pr = (WJ as any).pr;
-const proj = geoNaturalEarth1().scale(pr.scale * W4).translate([pr.translate[0] * W4, pr.translate[1] * W4]);
+export const proj = geoNaturalEarth1().scale(pr.scale * W4).translate([pr.translate[0] * W4, pr.translate[1] * W4]);
 const GEOMS = (TOPO as any).objects.countries.geometries as any[];
 const GEOK = GEOMS.map((g) => KOF[g.properties.code]);
 GEOMS.forEach((g, i) => { g.__k = GEOK[i]; });
