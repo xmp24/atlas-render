@@ -1090,7 +1090,7 @@ const BLK: Record<string, React.FC<{t: number; b: any}>> = {
     </AbsoluteFill>; },
   quote: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const n = Math.floor(lerp(t, b.t0 + 0.3, b.t0 + 0.3 + b.text.length * 0.035, 0, b.text.length));
     return <AbsoluteFill style={{opacity: o, background: `rgba(5,6,10,${0.75 * o})`, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 50}}>
-      <div style={{transform: `scale(${0.5 + 0.5 * popT(t, b.t0, 9)})`}}><Ball k={b.k} size={380} mood={b.mood || 'angry'} t={t} look={[0.8, 0]} /></div>
+      <div style={{transform: `scale(${0.5 + 0.5 * popT(t, b.t0, 9)})`}}><Ball k={b.kk ?? b.k} size={380} mood={b.mood || 'angry'} t={t} look={[0.8, 0]} /></div>
       <div style={{maxWidth: 1000, background: '#fff', border: `7px solid ${INK}`, borderRadius: 36, padding: '30px 44px 20px', ...font, fontSize: 74, color: INK, lineHeight: 1.1}}>{b.text.slice(0, n)}<span style={{opacity: Math.sin(t * 12) > 0 ? 1 : 0}}>|</span></div>
     </AbsoluteFill>; },
   clock: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const v = lerp(t, b.t0 + 0.2, b.t1 - 0.3, b.from, b.to); const hh = Math.floor(v), mm = Math.floor((v - hh) * 60), ss = Math.floor(((v - hh) * 60 - mm) * 60);
