@@ -9,7 +9,7 @@ import {W, H, rnd, ip, pop, Bubble, Big} from '../Maduro/lib';
 import {D, Map, TintLayer, NukeLayer, BunkerLayer, Particles, Grain, Vig, shakeXY, Countdown, BigStamp, toS, camKF, WORLD, kOf, Cam, YEL, HumanityBar, ShelterCards, kfv} from './kit';
 import type {SP} from './scenes1';
 
-const BURN_ITEMS = (a: number) => (D.burned as number[]).map((k) => ({k, col: '#2a0804', a}));
+const BURN_ITEMS = (a: number) => (D.burned as number[]).map((k) => ({k, col: '#47423d', a: a * 1.4, crack: true}));
 const bubEnd = (bubs: any[], i: number, d: number) => (i + 1 < bubs.length ? bubs[i + 1][0] - 0.15 : d);
 const talking = (bubs: any[], t: number, k: number) => bubs.some(([t0, kk, tx]: any) => kk === k && t > t0 && t < t0 + 0.35 + tx.length * 0.045);
 const hop = (bubs: any[], t: number, k: number) => talking(bubs, t, k) ? Math.abs(Math.sin(t * 15)) * 9 : 0;
@@ -198,23 +198,23 @@ export const COUNT: React.FC<SP> = ({t, p}) => (<AbsoluteFill style={{background
 
 // ============ CAP 6: IMPACTO ============
 export const NUKE: React.FC<SP> = ({t, T}) => {
-  const cam = camKF(t, [[0, WORLD.cx, WORLD.cy - 150, WORLD.s * 1.08], [9.0, WORLD.cx, WORLD.cy - 200, WORLD.s * 1.12], [15, 4300, 1500, 0.4], [19.5, WORLD.cx, WORLD.cy - 150, WORLD.s * 1.1]]);
+  const cam = camKF(t, [[0, WORLD.cx, WORLD.cy - 100, WORLD.s * 1.05], [9.0, WORLD.cx, WORLD.cy - 100, WORLD.s * 1.08], [14, 3300, 1900, 0.36], [19.5, WORLD.cx, WORLD.cy - 60, WORLD.s * 1.04], [28, WORLD.cx, WORLD.cy - 60, WORLD.s * 1.0]]);
   const N = D.nuke; const launched = (N.arcs as number[][]).filter((a) => a[0] <= T).length; const air = Math.round(launched / N.arcs.length * 3900);
   const recent = (N.blasts as number[][]).filter((b) => T - b[0] > 0 && T - b[0] < 0.4).length;
-  const flash = t > 20 ? ip(t, [20, 20.15, 21.6], [0, 1, 0]) : 0;
+  const flash = t > 20.5 ? ip(t, [20.5, 20.65, 22.1], [0, 1, 0]) : 0;
   return (<AbsoluteFill style={{background: '#000'}}>
     <AbsoluteFill style={{transform: shakeXY(t, Math.min(26, recent * 5))}}>
       <Map T={T} cam={cam} night={0.5} warOn={false} />
-      <TintLayer cam={cam} items={BURN_ITEMS(ip(t, [10, 20], [0, 0.45]))} />
+      <TintLayer cam={cam} items={BURN_ITEMS(ip(t, [10, 21], [0, 0.45]))} />
       <NukeLayer T={T} cam={cam} />
       {t < 3 && <AbsoluteFill style={{background: `rgba(255,0,0,${0.18 * Math.abs(Math.sin(t * 5))})`}} />}
       <Particles t={t} kind="ash" n={60} a={ip(t, [14, 20], [0, 0.8])} />
       <Vig a={0.7} />
     </AbsoluteFill>
     {t < 3.0 && <div style={{position: 'absolute', left: 0, right: 0, top: 160, textAlign: 'center'}}><div style={{display: 'inline-block', padding: '10px 40px', background: Math.floor(t * 4) % 2 ? '#c3100a' : '#000', border: '6px solid #ff3b30', ...font, fontSize: 64, color: '#fff', letterSpacing: 8}}>⚠ LAUNCH DETECTED</div></div>}
-    {t > 3.1 && t < 6.4 && <BigStamp t={t} t0={3.1} text="WAVE 1" y={160} size={80} col="#ff8a6a" rot={0} />}
-    {t > 6.5 && t < 9.4 && <BigStamp t={t} t0={6.5} text="WAVE 2" y={160} size={80} col="#ff8a6a" rot={0} />}
-    {t > 3 && t < 20 && <div style={{position: 'absolute', left: 44, bottom: 60, padding: '12px 26px', borderRadius: 18, background: 'rgba(8,12,24,0.88)', border: `5px solid ${INK}`}}>
+    {t > 3.1 && t < 6.8 && <BigStamp t={t} t0={3.1} text="THE EAST LAUNCHES FIRST" y={160} size={70} col="#ff6a5a" rot={0} />}
+    {t > 7.0 && t < 10.4 && <BigStamp t={t} t0={7.0} text="THE WEST ANSWERS" y={160} size={70} col="#6ab0ff" rot={0} />}
+    {t > 3 && t < 20.5 && <div style={{position: 'absolute', left: 44, bottom: 60, padding: '12px 26px', borderRadius: 18, background: 'rgba(8,12,24,0.88)', border: `5px solid ${INK}`}}>
       <div style={{...font, fontSize: 26, color: '#ff9a8a'}}>WARHEADS LAUNCHED</div>
       <div style={{fontFamily: 'monospace', fontWeight: 900, fontSize: 64, color: '#fff'}}>{air.toLocaleString('en-US')}</div>
     </div>}
@@ -513,12 +513,11 @@ export const OUT: React.FC<SP> = ({t}) => {
     <div style={{position: 'absolute', left: 120, top: 700, width: 280, height: 80, borderRadius: '50%', background: '#2a2a2e', border: `8px solid ${INK}`}} />
     {ppl.map(([c, t0, sz], i) => { if (tt < t0) return null; const x = 260 + Math.min(1, (tt - t0) / 2.2) * (300 + i * 220); const y = 740 + (i % 2) * 60;
       return <div key={i} style={{position: 'absolute', left: 0, top: -Math.abs(Math.sin(tt * 6 + i)) * 7, width: W, height: H}}><Char k={kOf(c)} t={tt} s={170 * sz} x={x} y={y} eyes="normal" look={-0.6} /></div>; })}
-    <Bubble t={tt} t0={4.6} t1={8.4} x={260 + 300 + 2 * 220} y={640} text="Is that... the sun?" size={40} />
     {tt < 0.8 && <AbsoluteFill style={{background: '#fff', opacity: ip(tt, [0, 0.8], [1, 0])}} />}
     <Vig a={0.35} />
   </AbsoluteFill>);
 };
-export const END: React.FC<SP> = ({t, T}) => {
+export const END_OLD: React.FC<SP> = ({t, T}) => {
   const cam = {cx: 3900, cy: 2100, s: ip(t, [0, 13], [0.3, 0.27], false)};
   return (<AbsoluteFill>
     <Map T={T} cam={cam} warOn={false} filter="saturate(1.05)" />
@@ -529,6 +528,167 @@ export const END: React.FC<SP> = ({t, T}) => {
     {t > 2.6 && <Big text="25 MILLION WALKED OUT." y={380} size={110} col={YEL} sc={pop(t, 2.6, 0.35)} />}
     {t > 5.5 && <div style={{position: 'absolute', left: 0, right: 0, top: 600, textAlign: 'center', ...font, fontSize: 56, color: '#fff', opacity: ip(t, [5.5, 6.0], [0, 1])}}>Would YOU have made it to a shelter? 👇</div>}
     {t > 8.0 && <div style={{position: 'absolute', left: W / 2 - 220, top: 740, width: 440, padding: '16px 0', borderRadius: 18, background: '#e5322d', border: `6px solid ${INK}`, textAlign: 'center', ...font, fontSize: 56, color: '#fff', transform: `scale(${pop(t, 8.0, 0.3)})`}}>SUBSCRIBE</div>}
+    <div style={{position: 'absolute', right: 40, bottom: 30, ...font, fontSize: 22, color: 'rgba(255,255,255,0.6)'}}>Hypothetical simulation · figures are estimates</div>
+    <AbsoluteFill style={{background: '#000', opacity: ip(t, [11.8, 13], [0, 1])}} />
+  </AbsoluteFill>);
+};
+
+// ====================================================================== V2: GUERRA Y NUEVO FINAL
+const GRAY = (T: number, base = 0.72) => (D.reopen as number[][]).map(([k, tr]) => ({k, col: '#8a8f96', a: base * (1 - Math.max(0, Math.min(1, (T - tr) / 1.6)))}));
+const RUIN2 = (a: number) => (D.burned as number[]).map((k) => ({k, col: '#47423d', a, crack: true}));
+const Banner: React.FC<{t: number; t0: number; t1: number; text: string; col?: string; y?: number}> = ({t, t0, t1, text, col = '#c3100a', y = 160}) => {
+  if (t < t0 || t > t1) return null; const a = Math.min(ip(t, [t0, t0 + 0.25], [0, 1]), ip(t, [t1 - 0.3, t1], [1, 0]));
+  return <div style={{position: 'absolute', left: 0, right: 0, top: y, textAlign: 'center', opacity: a}}><div style={{display: 'inline-block', transform: `scale(${pop(t, t0, 0.3)})`, padding: '10px 36px', borderRadius: 14, background: col, border: `6px solid ${INK}`, ...font, fontSize: 52, color: '#fff', letterSpacing: 3, boxShadow: '0 10px 24px rgba(0,0,0,0.45)'}}>{text}</div></div>;
+};
+export const WAR: React.FC<SP> = ({t, T, p}) => {
+  const cam = camKF(t, p.cam); const t0s = T - t;
+  const east = ip(t, [2.6, 9.0, 12.5, 18, 26, 30], [50, 61, 52, 38, 30, 22]);
+  const tints = [...(D.west as number[]).map((k) => ({k, col: '#2a7bff', a: 0.12})), ...(D.east as number[]).map((k) => ({k, col: '#ff2a1a', a: 0.12}))];
+  return (<AbsoluteFill>
+    <Map T={T} cam={cam} night={0.12} />
+    <TintLayer cam={cam} items={tints} />
+    {(p.ships as number[][]).map(([a, b, x0, y0, x1, y1], i) => <Token key={i} cam={cam} a={[x0, y0]} b={[x1, y1]} t={t} t0={a - t0s} t1={b - t0s} icon="battleship" k={0} size={30} hold={20} />)}
+    <Vig a={0.5} />
+    {t > 2.6 && <div style={{position: 'absolute', left: W / 2 - 420, top: 30, width: 840, padding: '10px 18px', borderRadius: 18, background: 'rgba(8,12,24,0.88)', border: `5px solid ${INK}`, transform: `scale(${pop(t, 2.6, 0.3)})`}}>
+      <div style={{display: 'flex', justifyContent: 'space-between', ...font, fontSize: 28}}><span style={{color: '#5aa0ff'}}>THE WEST {Math.round(100 - east)}%</span><span style={{color: '#ff5a4a'}}>THE EAST {Math.round(east)}%</span></div>
+      <div style={{position: 'relative', height: 26, borderRadius: 10, overflow: 'hidden', border: '3px solid #000', marginTop: 4, background: '#ff3b30'}}><div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${100 - east}%`, background: 'linear-gradient(180deg, #4a9aff, #2a6ad8)'}} /><div style={{position: 'absolute', left: `${100 - east}%`, top: -4, bottom: -4, width: 6, marginLeft: -3, background: '#fff'}} /></div>
+      <div style={{textAlign: 'center', ...font, fontSize: 20, color: '#9fb0c8', marginTop: 4}}>CONTROL OF THE BATTLEFIELD</div>
+    </div>}
+    <Banner t={t} t0={10.2} t1={13.6} text="NATO COUNTERATTACK" col="#2a6ad8" y={170} />
+    <Banner t={t} t0={17.0} t1={18.6} text="BELARUS OCCUPIED" col="#2a6ad8" y={170} />
+    <Banner t={t} t0={23.6} t1={27.4} text="CHINA BLOCKADED" col="#2a6ad8" y={170} />
+    {t > 30 && <BigStamp t={t} t0={30} text="THE EAST IS CORNERED" y={460} size={92} />}
+    {t > 30.4 && <>
+      <div style={{position: 'absolute', left: 0, top: 0, transform: `scale(${pop(t, 30.4, 0.3)})`, transformOrigin: '300px 760px'}}><Char k={kOf('RU')} t={t} s={170} x={300} y={760} eyes="scared" sweat /></div>
+      <div style={{position: 'absolute', left: 0, top: 0, transform: `scale(${pop(t, 30.6, 0.3)})`, transformOrigin: `${W - 300}px 760px`}}><Char k={kOf('CN')} t={t} s={170} x={W - 300} y={760} eyes="scared" sweat /></div>
+    </>}
+  </AbsoluteFill>);
+};
+export const RAD: React.FC<SP> = ({t, T, p}) => {
+  const cam = {cx: 3840, cy: ip(t, [0, 13], [2150, 2350], false), s: 0.27};
+  const lab: [string, string, number][] = [['AU', 'AUSTRALIA', 8.4], ['AR', 'ARGENTINA', 9.3], ['ZA', 'SOUTH AFRICA', 10.2]];
+  return (<AbsoluteFill>
+    <Map T={T} cam={cam} night={0.2} warOn={false} />
+    <TintLayer cam={cam} items={[...RUIN2(0.6), ...GRAY(T)]} />
+    <NukeLayer T={T} cam={cam} arcs={false} blasts={false} rad={ip(t, [2.6, 4], [0.4, 1.8])} glow={0.4} />
+    <TintLayer cam={cam} items={(p.south as number[]).map((k, i) => ({k, col: '#3bd16f', a: ip(t, [8.4 + i * 0.9, 9.0 + i * 0.9], [0, 0.3 + 0.12 * Math.sin(t * 4)]), stroke: '#ffffff'}))} />
+    <Vig a={0.5} />
+    {t > 3.0 && <div style={{position: 'absolute', left: 44, bottom: 60, padding: '12px 22px', borderRadius: 18, background: 'rgba(8,12,24,0.88)', border: `5px solid ${INK}`, transform: `scale(${pop(t, 3.0, 0.3)})`, transformOrigin: '0 100%'}}>
+      <div style={{...font, fontSize: 28, color: '#fff'}}>☢ RADIATION · 2053</div>
+      <div style={{width: 300, height: 20, borderRadius: 8, marginTop: 6, background: 'linear-gradient(90deg, #3bd16f, #d8ff3a, #ff8a1f, #ff2a1a)', border: '3px solid #000'}} />
+      <div style={{display: 'flex', justifyContent: 'space-between', ...font, fontSize: 20, color: '#cfd8e8'}}><span>LOW</span><span>DEADLY</span></div>
+    </div>}
+    {lab.map(([c, n, t0]) => { if (t < t0) return null; const k = kOf(c); const g = (D.pub as number[][]).filter((b) => b[4] === k); const x = g.reduce((a, b) => a + b[0], 0) / g.length, y = g.reduce((a, b) => a + b[1], 0) / g.length; const [X, Y] = toS(x, y, cam);
+      return <div key={c} style={{position: 'absolute', left: X, top: Y - 40, transform: `translate(-50%,-100%) scale(${pop(t, t0, 0.35)})`, padding: '8px 18px', borderRadius: 14, background: 'rgba(8,12,24,0.9)', border: '5px solid #3bd16f', textAlign: 'center', whiteSpace: 'nowrap'}}>
+        <div style={{...font, fontSize: 30, color: '#fff'}}>{n}</div><div style={{...font, fontSize: 22, color: '#3bd16f'}}>RADIATION: LOW</div></div>; })}
+    <HumanityBar T={T} t={t} t0={-1} />
+    <YearHUD T={T} t={t} />
+  </AbsoluteFill>);
+};
+const Outback: React.FC<{t: number; sky: number}> = ({t, sky}) => (<>
+  <AbsoluteFill style={{background: `linear-gradient(180deg, rgb(${110 + 70 * sky},${130 + 70 * sky},${150 + 80 * sky}), rgb(${220 + 20 * sky},${190 + 20 * sky},${150 + 10 * sky}) 68%)`}} />
+  <div style={{position: 'absolute', left: 1450, top: 160 - sky * 30, width: 190, height: 190, borderRadius: '50%', background: 'radial-gradient(circle, #fffbe0, #ffd860 70%)', boxShadow: `0 0 ${140 * sky}px ${60 * sky}px rgba(255,230,140,0.7)`, opacity: 0.4 + 0.6 * sky}} />
+  {Array.from({length: 8}, (_, i) => <div key={i} style={{position: 'absolute', left: ((i * 300 + t * 18) % 2400) - 300, top: 80 + (i % 3) * 60, width: 360, height: 100, borderRadius: 60, background: 'rgba(120,120,125,0.7)', opacity: 1 - sky * 0.8}} />)}
+  <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+    <path d="M0,650 Q300,600 600,640 T1200,630 T1920,640 L1920,1080 L0,1080 Z" fill="#b8653a" />
+    <path d="M0,700 Q400,680 900,700 T1920,690 L1920,1080 L0,1080 Z" fill="#c9784a" />
+    {[[160, 650], [1700, 640], [1300, 640]].map(([x, y], i) => <g key={i}><path d={`M${x},${y} L${x},${y - 150} M${x},${y - 90} L${x - 40},${y - 140} M${x},${y - 120} L${x + 36},${y - 170}`} stroke="#4a3020" strokeWidth={12} strokeLinecap="round" />
+      <circle cx={x - 40} cy={y - 150} r={34 * sky} fill="#6a9a4a" /><circle cx={x + 36} cy={y - 180} r={40 * sky} fill="#5a8a3a" /></g>)}
+  </svg>
+</>);
+export const FIRST: React.FC<SP> = ({t, T, p}) => {
+  const bubs = p.bubs; const hatch = ip(t, [1.0, 1.8], [0, 1]); const sky = ip(t, [2, 10], [0.25, 1]);
+  const ppl: [string, number][] = [['AU', 2.0], ['AU', 2.7], ['AU', 3.4], ['AU', 4.2], ['NZ', 5.0]];
+  return (<AbsoluteFill style={{overflow: 'hidden'}}>
+    <Outback t={t} sky={sky} />
+    <div style={{position: 'absolute', left: 220, top: 735, width: 280, height: 74, borderRadius: '50%', background: '#2a2a2e', border: `8px solid ${INK}`}} />
+    <div style={{position: 'absolute', left: 220, top: 735 - hatch * 150, width: 280, height: 74, borderRadius: '50%', background: '#7a7e84', border: `8px solid ${INK}`, transform: `rotateX(${hatch * 70}deg)`}} />
+    {hatch > 0.2 && <div style={{position: 'absolute', left: 260, top: 560, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,250,220,0.6), rgba(255,250,220,0))', opacity: hatch}} />}
+    {ppl.map(([c, t0], i) => { if (t < t0) return null; const u = Math.min(1, (t - t0) / 2.4); const x = 360 + u * (330 + i * 230); const y = 840 + (i % 2) * 60;
+      return <div key={i} style={{position: 'absolute', left: 0, top: -Math.abs(Math.sin(t * 6 + i)) * 7 - (u < 0.25 ? (0.25 - u) * 300 : 0), width: W, height: H, opacity: Math.min(1, (t - t0) * 3)}}><Char k={kOf(c)} t={t} s={i === 4 ? 120 : 165} x={x} y={y} eyes={t > 9.6 ? 'normal' : 'scared'} look={-0.5} /></div>; })}
+    {bubs.map(([t0, k, tx]: any, i: number) => <Bubble key={i} t={t} t0={t0} t1={t0 + 2.8} x={k === 0 ? 920 : 1150} y={k === 0 ? 650 : 700} text={tx} size={42} />)}
+    <YearHUD T={T} t={t} />
+    {t < 0.6 && <AbsoluteFill style={{background: '#000', opacity: 1 - t / 0.6}} />}
+    <Vig a={0.35} />
+  </AbsoluteFill>);
+};
+export const REBUILD: React.FC<SP> = ({t, T}) => {
+  const n = Math.max(0, Math.min(10, Math.floor((t - 1.2) / 1.1) + 1)); const sky = 1;
+  const houses = [[300, 0], [520, 1], [740, 2], [1000, 3], [1240, 4], [1480, 5], [420, 6], [880, 7], [1360, 8], [1650, 9]];
+  return (<AbsoluteFill style={{overflow: 'hidden'}}>
+    <Outback t={t} sky={sky} />
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+      {/* campos */}
+      {Array.from({length: 7}, (_, r) => { const g = ip(t, [3 + r * 0.6, 5 + r * 0.6], [0, 1]); return <rect key={r} x={60} y={900 + r * 24} width={1800 * g} height={14} rx={6} fill={r % 2 ? '#7ab84a' : '#5a9a3a'} />; })}
+      {/* aerogenerador */}
+      <g transform="translate(1720,520)" opacity={ip(t, [6, 7], [0, 1])}><rect x={-8} y={0} width={16} height={180} fill="#eee" stroke={INK} strokeWidth={4} />
+        <g transform={`rotate(${t * 120})`}>{[0, 120, 240].map((a) => <rect key={a} x={-6} y={-110} width={12} height={110} rx={6} fill="#fff" stroke={INK} strokeWidth={4} transform={`rotate(${a})`} />)}</g><circle r={12} fill="#ccc" stroke={INK} strokeWidth={4} /></g>
+      {houses.map(([x, i]) => { const g = ip(t, [1.2 + i * 1.1, 2.0 + i * 1.1], [0, 1]); if (g <= 0) return null; const hh = 120 * g, y = i >= 6 ? 760 : 820;
+        return <g key={i}><rect x={x - 70} y={y - hh} width={140} height={hh} fill={['#f2e6c8', '#e8d0a8', '#d8e2ee'][i % 3]} stroke={INK} strokeWidth={5} />
+          {g > 0.95 && <><path d={`M${x - 85},${y - hh} L${x},${y - hh - 70} L${x + 85},${y - hh} Z`} fill="#b0402a" stroke={INK} strokeWidth={5} /><rect x={x - 18} y={y - 50} width={36} height={50} fill="#6a4a2a" /><rect x={x + 26} y={y - 95} width={30} height={30} fill="#9fd4ff" stroke={INK} strokeWidth={3} /></>}
+          {g < 0.95 && <rect x={x - 80} y={y - hh - 10} width={160} height={10} fill="#c9a05a" />}</g>; })}
+    </svg>
+    {['AU', 'AR', 'ZA', 'AU'].map((c, i) => { const x = 360 + i * 380 + Math.sin(t * 0.8 + i) * 80;
+      return <div key={i} style={{position: 'absolute', left: 0, top: -Math.abs(Math.sin(t * 7 + i)) * 10, width: W, height: H}}><Char k={kOf(c)} t={t} s={130} x={x} y={870} eyes="normal" />
+        <div style={{position: 'absolute', left: x - 70, top: 760, width: 140, height: 16, background: '#c9a05a', border: `4px solid ${INK}`, transform: `rotate(${Math.sin(t * 3 + i) * 8}deg)`}} /></div>; })}
+    <div style={{position: 'absolute', left: 44, bottom: 60, display: 'flex', gap: 16}}>
+      {[['HOMES BUILT', Math.round(ip(t, [1.2, 15.5], [0, 184000], false))], ['FARMS', Math.round(ip(t, [3, 15.5], [0, 26500], false))]].map(([l, v], i) =>
+        <div key={i} style={{padding: '10px 22px', borderRadius: 18, background: 'rgba(8,12,24,0.88)', border: `5px solid ${INK}`}}><div style={{...font, fontSize: 24, color: '#9fe08a'}}>{l}</div><div style={{fontFamily: 'monospace', fontWeight: 900, fontSize: 50, color: '#fff'}}>{(v as number).toLocaleString('en-US')}</div></div>)}
+    </div>
+    <YearHUD T={T} t={t} />
+    <Vig a={0.3} />
+  </AbsoluteFill>);
+};
+export const RMAP: React.FC<SP> = ({t, T}) => {
+  const cam = {cx: ip(t, [0, 14], [3600, 3900], false), cy: 2950, s: ip(t, [0, 14], [0.36, 0.4], false)};
+  const R = D.routes as number[][][]; const south = D.south as number[];
+  return (<AbsoluteFill>
+    <Map T={T} cam={cam} night={0.1} warOn={false} />
+    <TintLayer cam={cam} items={[...RUIN2(0.5), ...GRAY(T)]} />
+    <NukeLayer T={T} cam={cam} arcs={false} blasts={false} rad={0.6} glow={0.2} />
+    <TintLayer cam={cam} items={south.map((k) => ({k, col: '#3bd16f', a: 0.16 + 0.08 * Math.sin(t * 3), stroke: '#ffffff'}))} />
+    <BunkerLayer T={T} cam={cam} mode="open" size={1.2} />
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+      {R.map(([a, b], i) => { const t0 = 5.0 + i * 1.2; if (t < t0) return null; const [ax, ay] = toS(a[0], a[1], cam), [bx, by] = toS(b[0], b[1], cam); const u = ((t - t0) / 5) % 1;
+        return <g key={i}><line x1={ax} y1={ay} x2={ax + (bx - ax) * Math.min(1, (t - t0) / 1.2)} y2={ay + (by - ay) * Math.min(1, (t - t0) / 1.2)} stroke="rgba(255,255,255,0.7)" strokeWidth={5} strokeDasharray="6 12" strokeLinecap="round" />
+          <circle cx={ax + (bx - ax) * u} cy={ay + (by - ay) * u} r={16} fill="#1f3a8a" stroke={INK} strokeWidth={4} />
+          <image href={staticFile('hw/icons/battleship.svg')} x={ax + (bx - ax) * u - 11} y={ay + (by - ay) * u - 11} width={22} height={22} style={{filter: 'invert(1)'}} /></g>; })}
+    </svg>
+    <Vig a={0.45} />
+    <HumanityBar T={T} t={t} t0={-1} />
+    <YearHUD T={T} t={t} />
+  </AbsoluteFill>);
+};
+export const WAVE: React.FC<SP> = ({t, T}) => {
+  const cam = {cx: 3840, cy: ip(t, [0, 17], [2500, 2050], false), s: ip(t, [0, 17], [0.28, 0.27], false)};
+  const list = D.pub as number[][]; const alive = list.filter((b) => b[3] < 0 || b[3] > T); const open = alive.filter((b) => T > b[5]).length;
+  return (<AbsoluteFill>
+    <Map T={T} cam={cam} night={0.08} warOn={false} />
+    <TintLayer cam={cam} items={[...RUIN2(ip(t, [0, 17], [0.5, 0.25])), ...GRAY(T)]} />
+    <NukeLayer T={T} cam={cam} arcs={false} blasts={false} rad={ip(t, [0, 17], [0.5, 0.05])} glow={0.1} scorch={ip(t, [0, 17], [0.8, 0.35])} />
+    <BunkerLayer T={T} cam={cam} mode="open" gov={1} size={1.1} />
+    <Vig a={0.45} />
+    <div style={{position: 'absolute', left: 44, bottom: 60, padding: '12px 26px', borderRadius: 18, background: 'rgba(8,12,24,0.88)', border: '5px solid #2bd46a'}}>
+      <div style={{...font, fontSize: 26, color: '#9fe08a'}}>SHELTERS OPEN</div>
+      <div style={{fontFamily: 'monospace', fontWeight: 900, fontSize: 60, color: '#fff'}}>{Math.round(open / Math.max(1, alive.length) * 100)}%</div>
+    </div>
+    <HumanityBar T={T} t={t} t0={-1} />
+    <YearHUD T={T} t={t} />
+  </AbsoluteFill>);
+};
+export const END: React.FC<SP> = ({t, T}) => {
+  const cam = {cx: 3900, cy: 2100, s: ip(t, [0, 13], [0.3, 0.27], false)};
+  return (<AbsoluteFill>
+    <Map T={T} cam={cam} warOn={false} />
+    <TintLayer cam={cam} items={RUIN2(0.2)} />
+    <BunkerLayer T={T} cam={cam} mode="open" />
+    <AbsoluteFill style={{background: 'rgba(0,0,0,0.5)', opacity: ip(t, [0.4, 1.2], [0, 1])}} />
+    {t > 0.8 && t < 4.6 && <Big text="HUMANITY SURVIVED." y={300} size={110} sc={pop(t, 0.8, 0.35)} />}
+    {t > 2.2 && t < 4.6 && <Big text="BUT WHAT COMES NEXT?" y={450} size={100} col={YEL} sc={pop(t, 2.2, 0.35)} />}
+    {t > 4.8 && <Big text="PART 2" y={250} size={240} col="#ff8a1f" sc={pop(t, 4.8, 0.4)} />}
+    {t > 5.4 && <Big text="COMING SOON" y={520} size={110} sc={pop(t, 5.4, 0.35)} />}
+    {t > 7.2 && <div style={{position: 'absolute', left: W / 2 - 230, top: 720, width: 460, padding: '16px 0', borderRadius: 18, background: '#e5322d', border: `6px solid ${INK}`, textAlign: 'center', ...font, fontSize: 56, color: '#fff', transform: `scale(${pop(t, 7.2, 0.3)})`}}>SUBSCRIBE</div>}
+    {t > 8.2 && <div style={{position: 'absolute', left: 0, right: 0, top: 870, textAlign: 'center', ...font, fontSize: 40, color: '#fff', opacity: ip(t, [8.2, 8.7], [0, 1])}}>so you don't miss what happens next 👇</div>}
     <div style={{position: 'absolute', right: 40, bottom: 30, ...font, fontSize: 22, color: 'rgba(255,255,255,0.6)'}}>Hypothetical simulation · figures are estimates</div>
     <AbsoluteFill style={{background: '#000', opacity: ip(t, [11.8, 13], [0, 1])}} />
   </AbsoluteFill>);

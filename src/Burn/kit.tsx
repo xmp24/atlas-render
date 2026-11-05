@@ -45,7 +45,24 @@ const pathsOf = (k: number) => {
   if (!PATHS[k]) { const c = COUNTRIES[k].c; PATHS[k] = ((WJ as any).pieces as any[]).filter((p) => p.code === c).map((p) => new Path2D(p.d)); }
   return PATHS[k];
 };
-export type Tint = {k: number; col: string; a: number; stroke?: string};
+export type Tint = {k: number; col: string; a: number; stroke?: string; crack?: boolean};
+let CRACK: HTMLCanvasElement | null = null;
+const crackTex = () => {
+  if (CRACK) return CRACK;
+  const c = document.createElement('canvas'); c.width = 512; c.height = 512; const g = c.getContext('2d')!;
+  let sd = 7; const R = () => { sd = (sd * 16807) % 2147483647; return sd / 2147483647; };
+  // manchas de ceniza
+  for (let i = 0; i < 260; i++) { g.fillStyle = `rgba(${20 + R() * 40},${20 + R() * 36},${20 + R() * 30},${0.08 + R() * 0.2})`; g.beginPath(); g.arc(R() * 512, R() * 512, 4 + R() * 26, 0, Math.PI * 2); g.fill(); }
+  // grietas ramificadas
+  const crack = (x: number, y: number, a: number, len: number, w: number, depth: number) => {
+    g.strokeStyle = `rgba(8,6,5,${0.55 + 0.35 * R()})`; g.lineWidth = w; g.lineCap = 'round'; g.beginPath(); g.moveTo(x, y);
+    for (let i = 0; i < len; i++) { a += (R() - 0.5) * 0.9; x += Math.cos(a) * 9; y += Math.sin(a) * 9; g.lineTo(x, y);
+      if (depth < 3 && R() < 0.12) { g.stroke(); crack(x, y, a + (R() < 0.5 ? 1 : -1) * (0.5 + R()), len * 0.5, w * 0.6, depth + 1); g.strokeStyle = `rgba(8,6,5,0.7)`; g.lineWidth = w; g.beginPath(); g.moveTo(x, y); } }
+    g.stroke();
+  };
+  for (let i = 0; i < 16; i++) crack(R() * 512, R() * 512, R() * 6.28, 22 + R() * 30, 2.2 + R() * 2.2, 0);
+  CRACK = c; return c;
+};
 export const TintLayer: React.FC<{cam: Cam; items: Tint[]; blend?: any}> = ({cam, items, blend}) => {
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
@@ -55,6 +72,7 @@ export const TintLayer: React.FC<{cam: Cam; items: Tint[]; blend?: any}> = ({cam
       if (it.a <= 0.003) continue;
       ctx.globalAlpha = Math.min(1, it.a); ctx.fillStyle = it.col;
       for (const p of pathsOf(it.k)) { ctx.fill(p); if (it.stroke) { ctx.strokeStyle = it.stroke; ctx.lineWidth = 2.2 / s * 4; ctx.stroke(p); } }
+      if (it.crack) { const pat = ctx.createPattern(crackTex(), 'repeat')!; pat.setTransform(new DOMMatrix().scale(0.16)); ctx.fillStyle = pat; ctx.globalAlpha = Math.min(1, it.a * 1.2); for (const p of pathsOf(it.k)) ctx.fill(p); }
     }
     ctx.globalAlpha = 1;
   });
@@ -62,24 +80,26 @@ export const TintLayer: React.FC<{cam: Cam; items: Tint[]; blend?: any}> = ({cam
 };
 
 // ---------------- capa nuclear: arcos de ICBM, explosiones y quemaduras ----------------
-export const NukeLayer: React.FC<{T: number; cam: Cam; arcs?: boolean; blasts?: boolean; scorch?: number; glow?: number}> = ({T, cam, arcs = true, blasts = true, scorch = 1, glow = 1}) => {
+export const NukeLayer: React.FC<{T: number; cam: Cam; arcs?: boolean; blasts?: boolean; scorch?: number; glow?: number; data?: any; ruin?: boolean; rad?: number}> = ({T, cam, arcs = true, blasts = true, scorch = 1, glow = 1, data, ruin, rad = 1}) => {
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
     const ctx = ref.current!.getContext('2d')!; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
     const Z = Math.max(0.6, Math.sqrt(cam.s / 0.262));
-    const N = D.nuke;
-    // quemaduras persistentes
+    const N = data || D.nuke;
+    // zonas afectadas persistentes: radiación + cráter oscuro (+ brasas pequeñas)
     if (scorch > 0) for (let i = 0; i < N.blasts.length; i++) {
       const [tb, x, y, sc] = N.blasts[i]; if (T < tb + 0.2) continue;
-      const [X, Y] = toS(x, y, cam); if (X < -200 || X > W + 200 || Y < -200 || Y > H + 200) continue;
-      const age = T - tb; const R = (34 + 10 * Math.min(1, age / 3)) * sc * Z;
-      const fl = 0.75 + 0.25 * Math.sin(T * 7 + i * 1.7);
-      let g = ctx.createRadialGradient(X, Y, 0, X, Y, R * 1.9);
-      g.addColorStop(0, `rgba(20,8,4,${0.8 * scorch})`); g.addColorStop(0.45, `rgba(60,16,8,${0.55 * scorch})`); g.addColorStop(1, 'rgba(40,10,5,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, R * 1.9, 0, Math.PI * 2); ctx.fill();
-      const ga = Math.max(0.25, 1 - age / 40) * glow * scorch;
-      g = ctx.createRadialGradient(X, Y, 0, X, Y, R * 0.8); g.addColorStop(0, `rgba(255,170,60,${0.85 * ga * fl})`); g.addColorStop(0.5, `rgba(255,80,20,${0.45 * ga * fl})`); g.addColorStop(1, 'rgba(255,60,10,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, R * 0.8, 0, Math.PI * 2); ctx.fill();
+      const [X, Y] = toS(x, y, cam); if (X < -400 || X > W + 400 || Y < -400 || Y > H + 400) continue;
+      const age = T - tb; const R = (ruin ? 9 : 14) * (1 + 0.3 * Math.min(1, age / 3)) * sc * Z;
+      if (rad > 0 && !ruin) { const ra = Math.min(1, age / 2.5) * rad * scorch; const g0 = ctx.createRadialGradient(X, Y, R * 0.5, X, Y, R * 2.6); g0.addColorStop(0, `rgba(190,255,60,${0.16 * ra})`); g0.addColorStop(0.6, `rgba(160,230,40,${0.06 * ra})`); g0.addColorStop(1, 'rgba(150,220,40,0)'); ctx.fillStyle = g0; ctx.beginPath(); ctx.arc(X, Y, R * 2.6, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = `rgba(200,255,80,${0.35 * ra})`; ctx.setLineDash([4 * Z, 5 * Z]); ctx.lineWidth = 1.5 * Z; ctx.beginPath(); ctx.arc(X, Y, R * 2.0, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]); }
+      let g = ctx.createRadialGradient(X, Y, 0, X, Y, R * 1.7);
+      g.addColorStop(0, `rgba(14,10,8,${0.85 * scorch})`); g.addColorStop(0.5, `rgba(40,34,30,${0.55 * scorch})`); g.addColorStop(1, 'rgba(40,34,30,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, R * 1.7, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = `rgba(10,8,6,${0.6 * scorch})`; ctx.lineWidth = 1.6 * Z; ctx.beginPath(); ctx.arc(X, Y, R * 0.55, 0, Math.PI * 2); ctx.stroke();
+      const ga = Math.max(0.15, 1 - age / 30) * glow * scorch;
+      for (let e = 0; e < 5; e++) { const an = rnd(i * 9 + e) * 6.28, rr = R * (0.2 + 0.9 * rnd(i * 5 + e)); const fl = 0.5 + 0.5 * Math.sin(T * (5 + e) + i + e);
+        ctx.fillStyle = `rgba(255,${120 + 60 * fl},40,${0.75 * ga * fl})`; ctx.beginPath(); ctx.arc(X + Math.cos(an) * rr, Y + Math.sin(an) * rr * 0.7, (1.4 + 1.6 * rnd(i + e)) * Z, 0, Math.PI * 2); ctx.fill(); }
     }
     // arcos
     if (arcs) for (const [a, b, xa, ya, xb, yb, side] of N.arcs) {
@@ -99,15 +119,27 @@ export const NukeLayer: React.FC<{T: number; cam: Cam; arcs?: boolean; blasts?: 
       const [hx, hy] = pos(ue); ctx.fillStyle = '#fff'; ctx.shadowColor = `rgb(${col})`; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(hx, hy, 3.6 * Z, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
       if (T - a < 0.5) { ctx.fillStyle = `rgba(255,240,200,${1 - (T - a) / 0.5})`; ctx.beginPath(); ctx.arc(Xa, Ya, (6 + 20 * (T - a)) * Z, 0, Math.PI * 2); ctx.fill(); }
     }
-    // explosiones
+    // explosiones: destello, bola de fuego, onda y hongo
     if (blasts) for (const [tb, x, y, sc] of N.blasts) {
-      const d = T - tb; if (d < 0 || d > 3.2) continue;
-      const [X, Y] = toS(x, y, cam); if (X < -300 || X > W + 300 || Y < -300 || Y > H + 300) continue;
-      const R = 46 * sc * Z;
-      if (d < 0.35) { const a = 1 - d / 0.35; const g = ctx.createRadialGradient(X, Y, 0, X, Y, R * 2.2); g.addColorStop(0, `rgba(255,255,255,${a})`); g.addColorStop(0.3, `rgba(255,250,220,${a * 0.8})`); g.addColorStop(1, 'rgba(255,240,200,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, R * 2.2, 0, Math.PI * 2); ctx.fill(); }
-      const fb = Math.min(1, d / 0.4) * Math.max(0, 1 - (d - 1.2) / 2);
-      if (fb > 0) { const r = R * (0.5 + 0.5 * Math.min(1, d / 0.8)); const g = ctx.createRadialGradient(X, Y - r * 0.15, 0, X, Y, r); g.addColorStop(0, `rgba(255,250,210,${fb})`); g.addColorStop(0.35, `rgba(255,170,50,${fb * 0.95})`); g.addColorStop(0.75, `rgba(220,60,20,${fb * 0.6})`); g.addColorStop(1, 'rgba(120,20,10,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, r, 0, Math.PI * 2); ctx.fill(); }
-      const q = Math.min(1, d / 2.4); ctx.strokeStyle = `rgba(255,255,255,${0.85 * (1 - q)})`; ctx.lineWidth = (5 * (1 - q) + 1) * Z; ctx.beginPath(); ctx.arc(X, Y, R * (0.4 + 2.6 * q), 0, Math.PI * 2); ctx.stroke();
+      const d = T - tb; if (d < 0 || d > 4.5) continue;
+      const [X, Y] = toS(x, y, cam); if (X < -400 || X > W + 400 || Y < -400 || Y > H + 400) continue;
+      const R = 30 * sc * Z;
+      if (d < 0.4) { const a = 1 - d / 0.4; const g = ctx.createRadialGradient(X, Y, 0, X, Y, R * 2.6); g.addColorStop(0, `rgba(255,255,255,${a})`); g.addColorStop(0.3, `rgba(255,250,220,${a * 0.8})`); g.addColorStop(1, 'rgba(255,240,200,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, R * 2.6, 0, Math.PI * 2); ctx.fill(); }
+      const q = Math.min(1, d / 2.6); ctx.strokeStyle = `rgba(255,255,255,${0.8 * (1 - q)})`; ctx.lineWidth = (5 * (1 - q) + 1) * Z; ctx.beginPath(); ctx.ellipse(X, Y, R * (0.4 + 3.0 * q), R * (0.4 + 3.0 * q) * 0.75, 0, 0, Math.PI * 2); ctx.stroke();
+      const fb = Math.min(1, d / 0.3) * Math.max(0, 1 - (d - 2.4) / 2.1);
+      if (fb > 0) {
+        const rise = Math.min(1, d / 2.2); const cy = Y - R * (0.2 + 1.5 * rise); const cw = R * (0.55 + 0.45 * rise); const ch = cw * 0.62;
+        // tallo
+        const sg = ctx.createLinearGradient(X, Y, X, cy); sg.addColorStop(0, `rgba(120,60,30,${0.75 * fb})`); sg.addColorStop(1, `rgba(255,150,60,${0.85 * fb})`);
+        ctx.fillStyle = sg; ctx.beginPath(); ctx.moveTo(X - cw * 0.22, Y); ctx.quadraticCurveTo(X - cw * 0.1, (Y + cy) / 2, X - cw * 0.16, cy); ctx.lineTo(X + cw * 0.16, cy); ctx.quadraticCurveTo(X + cw * 0.1, (Y + cy) / 2, X + cw * 0.22, Y); ctx.closePath(); ctx.fill();
+        // base de polvo
+        const bg = ctx.createRadialGradient(X, Y, 0, X, Y, cw * 1.1); bg.addColorStop(0, `rgba(200,120,60,${0.6 * fb})`); bg.addColorStop(1, 'rgba(120,80,60,0)'); ctx.fillStyle = bg; ctx.beginPath(); ctx.ellipse(X, Y, cw * 1.1, cw * 0.4, 0, 0, Math.PI * 2); ctx.fill();
+        // sombrero
+        const cg = ctx.createRadialGradient(X, cy - ch * 0.3, 0, X, cy, cw); const hot = Math.max(0, 1 - d / 2.2);
+        cg.addColorStop(0, `rgba(255,${230 - 80 * (1 - hot)},${160 - 100 * (1 - hot)},${fb})`); cg.addColorStop(0.5, `rgba(${230 - 80 * (1 - hot)},${110 - 30 * (1 - hot)},40,${0.95 * fb})`); cg.addColorStop(1, `rgba(90,60,50,${0.5 * fb})`);
+        ctx.fillStyle = cg; ctx.beginPath(); ctx.ellipse(X, cy, cw, ch, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = `rgba(255,220,150,${0.5 * fb * hot})`; ctx.beginPath(); ctx.ellipse(X, cy + ch * 0.35, cw * 0.7, ch * 0.3, 0, 0, Math.PI * 2); ctx.fill();
+      }
     }
   });
   return <canvas ref={ref} width={W} height={H} style={{position: 'absolute', left: 0, top: 0}} />;
@@ -121,7 +153,7 @@ const bunkerIcon = (ctx: CanvasRenderingContext2D, x: number, y: number, s: numb
   if (mark === 'x') { ctx.strokeStyle = '#ff3b30'; ctx.lineWidth = Math.max(1.6, s * 0.28); ctx.beginPath(); ctx.moveTo(x - s * 0.9, y - s * 0.9); ctx.lineTo(x + s * 0.9, y + s * 0.6); ctx.moveTo(x + s * 0.9, y - s * 0.9); ctx.lineTo(x - s * 0.9, y + s * 0.6); ctx.stroke(); }
   if (mark === 'ok') { ctx.strokeStyle = '#fff'; ctx.lineWidth = Math.max(1.6, s * 0.26); ctx.beginPath(); ctx.moveTo(x - s * 0.5, y - s * 0.1); ctx.lineTo(x - s * 0.1, y + s * 0.3); ctx.lineTo(x + s * 0.6, y - s * 0.6); ctx.stroke(); }
 };
-export type BMode = 'pub' | 'life' | 'signal';
+export type BMode = 'pub' | 'life' | 'signal' | 'open';
 // mode 'pub': aparecen en su t; 'life': mueren en d (gris + X); 'signal': los vivos se encienden verdes por ondas desde sx,sy
 export const BunkerLayer: React.FC<{T: number; cam: Cam; mode?: BMode; gov?: number; pubA?: number; size?: number; sig?: [number, number, number]; flow?: number}> = ({T, cam, mode = 'pub', gov = 0, pubA = 1, size = 1, sig, flow = 0}) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -144,6 +176,7 @@ export const BunkerLayer: React.FC<{T: number; cam: Cam; mode?: BMode; gov?: num
         }
         let fill = '#39b6ff', mark: any;
         if (dead > 0) { fill = '#6a6a6a'; mark = 'x'; ctx.globalAlpha = pubA * (1 - 0.45 * dead); }
+        if (mode === 'open' && dead === 0) { const to = list[i][5]; if (T > to) { const pp = Math.min(1, (T - to) / 0.3); fill = '#2bd46a'; mark = 'ok'; if (pp < 1) { ctx.strokeStyle = `rgba(43,212,106,${1 - pp})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(X, Y, s0 * (1 + pp * 3), 0, Math.PI * 2); ctx.stroke(); } } }
         if (mode === 'signal' && dead === 0 && sig) { const [sx, sy, t0] = sig; const dd = Math.hypot(x - sx, y - sy); const ton = t0 + dd / 2600; if (T > ton) { fill = '#2bd46a'; mark = 'ok'; } }
         bunkerIcon(ctx, X, Y, s0 * sc, fill, dead, mark);
         ctx.globalAlpha = pubA;

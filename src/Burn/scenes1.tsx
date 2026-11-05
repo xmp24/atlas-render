@@ -12,6 +12,17 @@ import {D, Map, TintLayer, NukeLayer, Particles, Grain, Vig, shakeXY, Countdown,
 
 export type SP = {t: number; T: number; p: any};
 const BURNED = (a: number) => (D.burned as number[]).map((k) => ({k, col: '#2a0804', a}));
+const RUINED = (a: number) => (D.burned as number[]).map((k) => ({k, col: '#47423d', a, crack: true}));
+const RuinMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => (<>
+  <Map T={AFTER_T} cam={cam} warOn={false} filter="grayscale(0.8) contrast(1.05) brightness(0.95)" />
+  <TintLayer cam={cam} items={RUINED(0.78)} />
+  <NukeLayer T={AFTER_T} cam={cam} arcs={false} blasts={false} ruin glow={0.8} />
+  <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(40,44,52,0.35), rgba(60,40,30,0.25))'}} />
+  <AbsoluteFill style={{filter: 'blur(30px)', opacity: 0.22}}>{Array.from({length: 14}, (_, i) => { const x = rnd(i) * W, y = H * (0.2 + rnd(i + 4) * 0.6) - ((t * 12 + rnd(i) * 200) % 300); const r = 90 + rnd(i + 2) * 140;
+    return <div key={i} style={{position: 'absolute', left: x - r, top: y - r, width: r * 2, height: r * 2, borderRadius: '50%', background: 'rgba(30,28,28,0.75)'}} />; })}</AbsoluteFill>
+  <Particles t={t} kind="ember" n={22} a={0.8} />
+  <Particles t={t} kind="ash" n={80} a={0.7} />
+</>);
 const AFTER_T = D.t_launch + 40;
 const ballTalk = (bubs: any[], t: number, k: number) => bubs.some(([t0, kk, tx]: any) => kk === k && t > t0 && t < t0 + 0.35 + tx.length * 0.045);
 const hopOf = (bubs: any[], t: number, k: number) => ballTalk(bubs, t, k) ? Math.abs(Math.sin(t * 15)) * 9 : 0;
@@ -22,13 +33,8 @@ export const COLD1: React.FC<SP> = ({t}) => {
   const cam = {cx: 3900, cy: 2050, s: ip(t, [0.6, 6.3], [0.27, 0.31], false)};
   return (<AbsoluteFill style={{background: '#000'}}>
     {t > 0.6 && t < 6.3 && <AbsoluteFill style={{opacity: ip(t, [0.6, 1.6], [0, 1])}}>
-      <Map T={AFTER_T} cam={cam} warOn={false} filter="grayscale(0.55) contrast(1.15) brightness(0.75)" />
-      <TintLayer cam={cam} items={BURNED(0.62)} />
-      <NukeLayer T={AFTER_T} cam={cam} arcs={false} blasts={false} />
-      <AbsoluteFill style={{background: 'rgba(120,20,0,0.25)', mixBlendMode: 'overlay'}} />
-      <Particles t={t} kind="ember" n={60} />
-      <Particles t={t} kind="ash" n={50} a={0.6} />
-      <Vig a={0.85} />
+      <RuinMap t={t} cam={cam} />
+      <Vig a={0.6} />
       <TText t={t} t0={1.6} t1={6.3} text="2048" size={300} spacing={40} glow="rgba(255,120,40,0.7)" y={H / 2 - 30} />
       <TText t={t} t0={3.4} t1={6.3} text="THE WORLD AS WE KNOW IT IS GONE" size={44} spacing={10} y={H / 2 + 150} col="#ffcc99" />
       <div style={{position: 'absolute', right: 40, bottom: 90, ...font, fontSize: 22, color: 'rgba(255,255,255,0.55)', opacity: ip(t, [3.6, 4.2], [0, 1])}}>HYPOTHETICAL SIMULATION</div>
@@ -110,28 +116,25 @@ export const COLD3: React.FC<SP> = ({t}) => {
   </AbsoluteFill>);
 };
 export const COLD4: React.FC<SP> = ({t}) => {
-  const Tn = D.t_hit + t * 3.4; const cam = {cx: 3900, cy: 2000, s: ip(t, [0, 3.6], [0.28, 0.33], false)};
-  const people = Math.round(ip(t, [3.75, 5.3], [8.2e9, 4.1e8]));
+  const cam = {cx: 2900, cy: 1500, s: ip(t, [0, 3.5], [0.34, 0.42], false)};
+  const ruinCam = {cx: 3900, cy: 2050, s: 0.3 + Math.max(0, t - 5.55) * 0.01};
   return (<AbsoluteFill style={{background: '#000'}}>
-    {t < 3.6 && <AbsoluteFill style={{transform: shakeXY(t, 10)}}>
+    {t < 3.5 && <AbsoluteFill style={{transform: shakeXY(t, t > 2.6 && t < 3.2 ? 28 : 0)}}>
       <Map T={0} cam={cam} warOn={false} night={0.5} />
-      <NukeLayer T={Tn} cam={cam} />
-      <AbsoluteFill style={{background: 'rgba(255,40,10,0.18)', mixBlendMode: 'overlay'}} />
-      <Vig a={0.7} />
-      <TText t={t} t0={0.3} t1={3.3} text="IN 24 HOURS..." size={110} spacing={18} glow="rgba(255,120,40,0.8)" />
+      <NukeLayer T={t} cam={cam} data={D.teaser} />
+      <AbsoluteFill style={{background: 'rgba(255,40,10,0.12)', mixBlendMode: 'overlay'}} />
+      <Vig a={0.75} />
+      <TText t={t} t0={0.2} t1={2.5} text="IN 24 HOURS..." size={110} spacing={18} glow="rgba(255,120,40,0.8)" />
     </AbsoluteFill>}
-    {t > 3.3 && t < 3.9 && <AbsoluteFill style={{background: '#fff', opacity: ip(t, [3.3, 3.9], [1, 0])}} />}
-    {t >= 3.6 && t < 5.55 && <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
-      <div style={{fontFamily: 'monospace', fontWeight: 900, fontSize: 150, color: '#fff', textShadow: '0 0 40px rgba(255,60,40,0.7)'}}>{people.toLocaleString('en-US')}</div>
-      <TText t={t} t0={4.5} t1={5.55} text="ONLY 5% SURVIVE" size={80} y={800} col="#ff3b30" spacing={14} />
+    {t > 2.6 && t < 3.3 && <AbsoluteFill style={{background: '#fff', opacity: ip(t, [2.6, 2.75, 3.3], [0, 1, 0])}} />}
+    {t >= 3.5 && t < 5.55 && <AbsoluteFill>
+      <TText t={t} t0={3.6} t1={5.55} text="ONE NUCLEAR STRIKE" size={110} y={430} spacing={14} />
+      <TText t={t} t0={4.3} t1={5.55} text="WILL END THE EARTH" size={110} y={600} col="#ff3b30" spacing={14} glow="rgba(255,60,40,0.8)" />
     </AbsoluteFill>}
     {t >= 5.55 && <AbsoluteFill style={{transform: shakeXY(t, t < 6.0 ? 26 : 0)}}>
-      <AbsoluteFill style={{filter: 'blur(3px) brightness(0.55)'}}>
-        <Map T={AFTER_T} cam={{cx: 3900, cy: 2050, s: 0.3 + (t - 5.55) * 0.01}} warOn={false} filter="grayscale(0.5) brightness(0.8)" />
-      </AbsoluteFill>
-      <TintLayer cam={{cx: 3900, cy: 2050, s: 0.3 + (t - 5.55) * 0.01}} items={BURNED(0.4)} />
-      <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 80%, rgba(255,90,20,0.45), rgba(0,0,0,0) 60%)'}} />
-      <Particles t={t} kind="ember" n={90} />
+      <AbsoluteFill style={{filter: 'blur(2px) brightness(0.6)'}}><RuinMap t={t} cam={ruinCam} /></AbsoluteFill>
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 85%, rgba(255,90,20,0.35), rgba(0,0,0,0) 60%)'}} />
+      <Particles t={t} kind="ember" n={60} />
       <Vig a={0.8} />
       <Big text="WHAT IF EARTH" y={250} size={150} sc={pop(t, 5.6, 0.35)} />
       <Big text="BURNED IN 24 HOURS?" y={430} size={150} col="#ff8a1f" sc={pop(t, 5.75, 0.35)} />
@@ -217,25 +220,25 @@ export const FALL6: React.FC<SP> = ({t, T, p}) => {
 };
 
 // ============ CAP 2: LA LLAMADA ============
-const Speaker: React.FC<{t: number; k: number; x: number; y: number; s: number; label: string; bubs: any[]; idx: number; acc?: any; eyes?: any; phone?: boolean}> = ({t, k, x, y, s, label, bubs, idx, acc = 'tie', eyes = 'normal', phone}) => {
+const Speaker: React.FC<{t: number; k: number; x: number; y: number; s: number; label: string; bubs: any[]; idx: number; acc?: any; eyes?: any; phone?: boolean; sweat?: boolean}> = ({t, k, x, y, s, label, bubs, idx, acc = 'tie', eyes = 'normal', phone, sweat}) => {
   const hop = hopOf(bubs, t, idx);
   return (<>
-    <div style={{position: 'absolute', left: 0, top: -hop, width: W, height: H}}><Char k={k} acc={acc} eyes={eyes} t={t} s={s} x={x} y={y} label={label} /></div>
+    <div style={{position: 'absolute', left: 0, top: -hop, width: W, height: H}}><Char k={k} acc={acc} eyes={eyes} sweat={sweat} t={t} s={s} x={x} y={y} label={label} /></div>
     {phone && <div style={{position: 'absolute', left: x + s * 0.32, top: y - s * 0.1 - hop, width: 1, height: 1, transform: `rotate(${-20 + (ballTalk(bubs, t, idx) ? Math.sin(t * 12) * 4 : 0)}deg)`}}><Ico name="phone" x={0} y={0} w={s * 0.42} c="#1d1d1d" /></div>}
   </>);
 };
 export const CALL1: React.FC<SP> = ({t, p}) => {
-  const bubs = p.bubs; const zoom = ip(t, [11.8, 15.5], [1, 1.18]);
+  const bubs = p.bubs; const zoom = ip(t, [10.0, 13.8], [1, 1.18]);
   return (<AbsoluteFill>
     <OvalOffice t={t} zoom={zoom}>
-      <Speaker t={t} k={kOf('US')} x={960} y={560} s={300} label="PRESIDENT · USA" bubs={bubs} idx={0} phone eyes={t > 8.4 ? 'scared' : 'normal'} />
+      <Speaker t={t} k={kOf('US')} x={960} y={560} s={300} label="PRESIDENT · USA" bubs={bubs} idx={0} phone eyes={t > 6.2 ? 'angry' : 'normal'} />
     </OvalOffice>
-    <CallScreen t={t} t0={2.7} t1={15.8} label="PENTAGON">
+    <CallScreen t={t} t0={0.3} t1={13.8} label="PENTAGON">
       <CIARoom t={t} />
       <div style={{position: 'absolute', left: 0, top: -hopOf(bubs, t, 1) * 0.5, width: 420, height: 300}}><Char k={kOf('US')} acc="general" eyes="angry" t={t} s={150} x={210} y={175} /></div>
     </CallScreen>
-    {bubs.map(([t0, k, tx]: any, i: number) => <Bubble key={i} t={t} t0={t0} t1={bubEnd(bubs, i, 15.8)} x={k === 0 ? 900 : 1430} y={k === 0 ? 380 : 470} text={tx} size={40} tail={k === 0 ? 'c' : 'r'} />)}
-    {t > 11.8 && <AbsoluteFill style={{background: 'rgba(255,30,20,0.16)', mixBlendMode: 'multiply', opacity: ip(t, [11.8, 12.6], [0, 1])}} />}
+    {bubs.map(([t0, k, tx]: any, i: number) => <Bubble key={i} t={t} t0={t0} t1={bubEnd(bubs, i, 13.8)} x={k === 0 ? 900 : 1430} y={k === 0 ? 380 : 470} text={tx} size={40} tail={k === 0 ? 'c' : 'r'} />)}
+    {t > 10.2 && <AbsoluteFill style={{background: 'rgba(255,30,20,0.16)', mixBlendMode: 'multiply', opacity: ip(t, [10.2, 11.0], [0, 1])}} />}
     <Vig a={0.45} />
   </AbsoluteFill>);
 };
@@ -251,12 +254,12 @@ const Room: React.FC<{t: number; wall: [string, string]; k: number; accent: stri
   </AbsoluteFill>
 );
 export const CALL2: React.FC<SP> = ({t, p}) => {
-  const bubs = p.bubs; const al = ip(t, [9.6, 10.2], [0, 1]);
+  const bubs = p.bubs; const al = ip(t, [7.6, 8.2], [0, 1]);
   return (<AbsoluteFill style={{background: '#000'}}>
     <div style={{position: 'absolute', left: 0, top: 0, width: W / 2 - 6, height: H, overflow: 'hidden'}}>
       <div style={{position: 'absolute', left: -W / 4, top: 0, width: W, height: H}}>
         <Room t={t} wall={['#7a1a1a', '#4a0e0e']} k={kOf('RU')} accent="#d8b45a" alarm={al}>
-          <Speaker t={t} k={kOf('RU')} x={W / 2} y={560} s={300} label="RUSSIA" bubs={bubs} idx={0} eyes="smug" phone />
+          <Speaker t={t} k={kOf('RU')} x={W / 2} y={560} s={300} label="RUSSIA" bubs={bubs} idx={0} eyes="angry" sweat={t < 7} phone />
         </Room>
       </div>
     </div>
@@ -269,7 +272,7 @@ export const CALL2: React.FC<SP> = ({t, p}) => {
     </div>
     <div style={{position: 'absolute', left: W / 2 - 6, top: 0, width: 12, height: H, background: INK}} />
     <div style={{position: 'absolute', left: W / 2 - 170, top: 40, width: 340, padding: '6px 0', borderRadius: 12, background: '#000', border: '4px solid #3ad16a', ...font, fontSize: 28, color: '#3ad16a', textAlign: 'center'}}>● ENCRYPTED LINE</div>
-    {bubs.map(([t0, k, tx]: any, i: number) => <Bubble key={i} t={t} t0={t0} t1={bubEnd(bubs, i, 12.3)} x={k === 0 ? W / 4 : (3 * W) / 4} y={380} text={tx} size={36} />)}
+    {bubs.map(([t0, k, tx]: any, i: number) => <Bubble key={i} t={t} t0={t0} t1={bubEnd(bubs, i, 13.8)} x={k === 0 ? W / 4 : (3 * W) / 4} y={380} text={tx} size={36} />)}
     <Vig a={0.5} />
   </AbsoluteFill>);
 };
@@ -331,7 +334,7 @@ const MiniMap: React.FC<{T: number; t: number; cam: Cam; scale: number; nuke?: b
 );
 export const NEWS: React.FC<SP> = ({t, T, p}) => {
   const bubs = p.bubs; const hop = hopOf(bubs, t, 0);
-  const ticker = 'BREAKING: NUCLEAR STRIKES ANNOUNCED IN 24 HOURS  •  USA, RUSSIA AND CHINA ON HIGHEST ALERT  •  GOVERNMENTS ORDER EVACUATIONS  •  FIND THE NEAREST SHELTER  •  ';
+  const ticker = 'BREAKING: RUSSIA AND CHINA THREATEN NUCLEAR STRIKE IN 24 HOURS  •  THE WEST VOWS TO RESPOND  •  GOVERNMENTS ORDER EVACUATIONS  •  FIND THE NEAREST SHELTER  •  ';
   const papers: [number, string, string, Cam][] = [[5.6, 'THE GLOBE DAILY', '24 HOURS LEFT', {cx: 3840, cy: 1800, s: 0.3}], [9.6, 'WORLD EVENING POST', 'FIND A SHELTER', {cx: 1900, cy: 1500, s: 0.6}], [13.0, 'EL DIARIO MUNDIAL', '¿EL FIN?', {cx: 4400, cy: 1300, s: 0.55}]];
   const al = p.alert as number[]; const alertOn = t > al[0] && t < al[1];
   return (<AbsoluteFill style={{background: '#06142e', overflow: 'hidden'}}>
