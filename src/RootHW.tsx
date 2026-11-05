@@ -18,6 +18,8 @@ import {Maduro, MADURO_FRAMES} from './Maduro';
 import {Maduro2, MADURO2_FRAMES} from './Maduro/index2';
 import {Maduro3, MADURO3_FRAMES} from './Maduro/index3';
 import {Burn, BURN_FRAMES, TAIL_OFF} from './Burn';
+import {WorldVid, framesOf} from './World';
+import {VIDS} from './World/vids';
 import {ThumbBurn, BURN_THUMBS} from './ThumbsBurn';
 import {ThumbBurn2, BURN_THUMBS2} from './ThumbsBurn2';
 import {ThumbBurn3, ThumbZombie} from './ThumbsBurn3';
@@ -36,6 +38,7 @@ export const RootHW: React.FC = () => (
     <Composition id="TBURN3" component={ThumbBurn3} durationInFrames={1} fps={30} width={1280} height={720} />
     {BURN_THUMBS2.map((id) => <Composition key={id} id={`TBURN2-${id}`} component={ThumbBurn2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {BURN_THUMBS.map((id) => <Composition key={id} id={`TBURN-${id}`} component={ThumbBurn} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {Object.keys(VIDS).map((v) => <Composition key={v} id={`W-${v}`} component={WorldVid} durationInFrames={framesOf(v)} fps={30} width={1920} height={1080} defaultProps={{v, audio: false}} />)}
     <Composition id="BurnTailN" component={Burn} durationInFrames={BURN_FRAMES - TAIL_OFF} fps={30} width={1920} height={1080} defaultProps={{audio: false, off: TAIL_OFF}} />
     <Composition id="BurnN" component={Burn} durationInFrames={BURN_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Maduro3N" component={Maduro3} durationInFrames={MADURO3_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />

@@ -63,7 +63,7 @@ export const CellLayer: React.FC<{T: number; cam: Cam; cfg: CellCfg}> = ({T, cam
     if (cfg.mode === 'flood') {
       const L = kfv(cfg.lvl || [[0, 0]], T);
       if (L <= 0) return;
-      for (let i = 0; i < NC; i++) { const x = C.x[i], y = C.y[i]; if (x < x0 || x > x1 || y < y0 || y > y1) continue; const sc = floodScore(i); if (sc > L) continue; const a = Math.min(1, (L - sc) / 25) * A; ctx.globalAlpha = a; ctx.fillRect((x - cam.cx) * cam.s + W / 2 - r, (y - cam.cy) * cam.s + H / 2 - r, r * 2, r * 2); }
+      for (let i = 0; i < NC; i++) { const x = C.x[i], y = C.y[i]; if (x < x0 || x > x1 || y < y0 || y > y1) continue; const sc = floodScore(i); if (sc > L) continue; const a = Math.min(1, (L - sc) / 25) * A; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc((x - cam.cx) * cam.s + W / 2, (y - cam.cy) * cam.s + H / 2, r * 1.25, 0, 6.2832); ctx.fill(); }
       ctx.globalAlpha = 1; return;
     }
     if (cfg.mode === 'tz') { // medianoche que avanza hacia el oeste: banda brillante + zona ya pasada
@@ -72,7 +72,7 @@ export const CellLayer: React.FC<{T: number; cam: Cam; cfg: CellCfg}> = ({T, cam
         const passed = (cfg.invert ? dl < 0 : dl > 0) && Math.abs(dl) < 360; const inBand = Math.abs(dl) < band;
         if (inBand) { ctx.fillStyle = cfg.col2 || '#ffffff'; ctx.globalAlpha = (1 - Math.abs(dl) / band) * 0.9; }
         else if (passed && cfg.col) { ctx.fillStyle = cfg.col; ctx.globalAlpha = A; } else continue;
-        ctx.fillRect((x - cam.cx) * cam.s + W / 2 - r, (y - cam.cy) * cam.s + H / 2 - r, r * 2, r * 2); }
+        ctx.beginPath(); ctx.arc((x - cam.cx) * cam.s + W / 2, (y - cam.cy) * cam.s + H / 2, r * 1.25, 0, 6.2832); ctx.fill(); }
       ctx.globalAlpha = 1; return;
     }
     const tt = cellTimes(cfg, V);
@@ -80,11 +80,11 @@ export const CellLayer: React.FC<{T: number; cam: Cam; cfg: CellCfg}> = ({T, cam
       const ti = tt[i]; if (!(T >= ti)) continue; const x = C.x[i], y = C.y[i]; if (x < x0 || x > x1 || y < y0 || y > y1) continue;
       const a = Math.min(1, (T - ti) / fd) * A; ctx.globalAlpha = a;
       if (cfg.col2 && T - ti > fd * 3) ctx.fillStyle = cfg.col2; else ctx.fillStyle = cfg.col;
-      ctx.fillRect((x - cam.cx) * cam.s + W / 2 - r, (y - cam.cy) * cam.s + H / 2 - r, r * 2, r * 2);
+      ctx.beginPath(); ctx.arc((x - cam.cx) * cam.s + W / 2, (y - cam.cy) * cam.s + H / 2, r * 1.25, 0, 6.2832); ctx.fill();
     }
     ctx.globalAlpha = 1;
   });
-  return <canvas ref={ref} width={W} height={H} style={{position: 'absolute', left: 0, top: 0, filter: cfg.glow ? 'blur(1.5px)' : 'blur(0.6px)'}} />;
+  return <canvas ref={ref} width={W} height={H} style={{position: 'absolute', left: 0, top: 0, filter: `blur(${Math.max(0.6, Math.min(6, 1.6 * cam.s / 0.262 * 0.5)).toFixed(2)}px)`}} />;
 };
 // fracción de celdas en estado cambiado (para contadores)
 export const cellFrac = (cfg: CellCfg, V: any, T: number) => {
