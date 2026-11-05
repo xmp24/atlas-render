@@ -11,12 +11,14 @@ import JB from './hw/indo2b.json';
 import JC from './hw/indo2c.json';
 import JD from './hw/indo2d.json';
 import JU from './hw/usa.json';
+import JL from './hw/latam.json';
+import JH from './hw/hormuz.json';
 
 type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CEv[]; ID: number; MKB: Map<any, any[]>; ALLY: number[]};
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-    const D = (v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
+    const D = (v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
   return CTXS[v];
@@ -204,6 +206,7 @@ const Pill: React.FC<{children: React.ReactNode; bg?: string; style?: React.CSSP
 );
 const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const D = X.D;
+  if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
   const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
   if (show <= 0.01) return null;
   const pw = kfv(D.indo, t);
@@ -260,8 +263,8 @@ const Battle: React.FC<{t: number}> = ({t}) => {
   return (
     <>
       {vs && (
-        <AbsoluteFill style={{zIndex: 42, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 110, background: `linear-gradient(105deg, ${MAINCOL[X.ID]}bb 0%, rgba(0,0,0,0.55) 50%, ${MAINCOL[b.b]}bb 100%)`, opacity: lerp(t, b.t0, b.t0 + 0.15, 0, 1) * (X.D.ver === 'd' ? lerp(t, b.t0 + 1.6, b.t0 + 1.9, 1, 0) : lerp(t, b.t0 + 0.95, b.t0 + 1.25, 1, 0))}}>
-          <div style={{transform: `translateX(${(1 - popT(t, b.t0, 11)) * -700}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8}}><Ball k={X.ID} size={230} mood="angry" t={t} look={[0.8, 0]} /><div style={{...font, fontSize: 56, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{X.D.hero || 'INDONESIA'}</div>{X.D.ver === 'd' && <Pill bg={CREAM} style={{padding: '2px 18px 0', ...font, fontSize: 40, color: RED}}>⚡ {fmt(b.pk[0][1])}</Pill>}</div>
+        <AbsoluteFill style={{zIndex: 42, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 110, background: `linear-gradient(105deg, ${MAINCOL[b.a ?? X.ID]}bb 0%, rgba(0,0,0,0.55) 50%, ${MAINCOL[b.b]}bb 100%)`, opacity: lerp(t, b.t0, b.t0 + 0.15, 0, 1) * (X.D.ver === 'd' ? lerp(t, b.t0 + 1.6, b.t0 + 1.9, 1, 0) : lerp(t, b.t0 + 0.95, b.t0 + 1.25, 1, 0))}}>
+          <div style={{transform: `translateX(${(1 - popT(t, b.t0, 11)) * -700}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8}}><Ball k={b.a ?? X.ID} size={230} mood="angry" t={t} look={[0.8, 0]} /><div style={{...font, fontSize: 56, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{b.an || X.D.hero || 'INDONESIA'}</div>{X.D.ver === 'd' && <Pill bg={CREAM} style={{padding: '2px 18px 0', ...font, fontSize: 40, color: RED}}>⚡ {fmt(b.pk[0][1])}</Pill>}</div>
           <div style={{...font, fontSize: 180, color: YELLOW, WebkitTextStroke: `8px ${INK}`, paintOrder: 'stroke fill', transform: `rotate(-8deg) scale(${0.6 + 0.5 * popT(t, b.t0 + 0.1, 8)})`}}>VS</div>
           <div style={{transform: `translateX(${(1 - popT(t, b.t0, 11)) * 700}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8}}><Ball k={b.b} size={230} mood="angry" t={t} look={[-0.8, 0]} /><div style={{...font, fontSize: 56, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{b.title}</div>{X.D.ver === 'd' && <Pill bg={CREAM} style={{padding: '2px 18px 0', ...font, fontSize: 40, color: '#1f4fbf'}}>⚡ {fmt(b.pk[0][2])}</Pill>}</div>
           {X.D.ver === 'd' && (() => { const pa0 = b.pk[0][1], pb0 = b.pk[0][2]; const pr = Math.round((100 * Math.pow(pa0, 1.3)) / (Math.pow(pa0, 1.3) + Math.pow(pb0, 1.3))); const fill = lerp(t, b.t0 + 0.2, b.t0 + 0.8, 50, pr); return (
@@ -273,7 +276,7 @@ const Battle: React.FC<{t: number}> = ({t}) => {
       )}
       <div style={{position: 'absolute', right: 26, top: SHORT ? 1300 : 250, width: 420, zIndex: 41, transform: `translateX(${(1 - k0) * 520}px)`, background: CREAM, border: `5px solid ${INK}`, borderRadius: 22, padding: '14px 22px 16px', boxShadow: '0 8px 0 rgba(0,0,0,0.35)'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, ...font, fontSize: 38, color: INK}}><span>⚔️</span>{b.title}</div>
-        <div style={{display: 'flex', alignItems: 'center', gap: 12, marginTop: 8}}><FlagImg k={X.ID} w={58} h={40} /><span style={{...font, fontSize: 50, color: RED}}>⚡ {fmt(pa)}</span></div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 12, marginTop: 8}}><FlagImg k={b.a ?? X.ID} w={58} h={40} /><span style={{...font, fontSize: 50, color: RED}}>⚡ {fmt(pa)}</span></div>
         <div style={{display: 'flex', justifyContent: 'center', margin: '2px 0'}}><span style={{background: INK, color: '#fff', ...font, fontSize: 26, borderRadius: 20, padding: '1px 14px 0'}}>VS</span></div>
         <div style={{display: 'flex', alignItems: 'center', gap: 12}}><FlagImg k={b.b} w={58} h={40} /><span style={{...font, fontSize: 50, color: '#1f4fbf'}}>⚡ {fmt(pb)}</span></div>
         {X.D.ver !== 'a' && (() => { const ms = markersFor(b).filter((m: any) => m[1] === b.b); return ms.length ? (
@@ -553,6 +556,7 @@ const Wheel: React.FC<{items: string[]; rot: number; R: number; cx: number; cy: 
 };
 const Roulettes: React.FC<{t: number}> = ({t}) => {
   const rs = X.D.roulettes as any[];
+  if (!rs.length) return null;
   if (t < rs[0].t0 - 0.2 || t > rs[rs.length - 1].t1 + 0.3) return null;
   const r = rs.find((x) => t >= x.t0 && t < x.t1 + 0.05) || rs[rs.length - 1];
   const n = r.items.length, seg = 360 / n;
@@ -597,7 +601,7 @@ const Reveal: React.FC<{t: number}> = ({t}) => {
     <AbsoluteFill style={{zIndex: 46, background: `rgba(0,0,0,${0.62 * a})`, opacity: a}}>
       <div style={{position: 'absolute', top: 70, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 64, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{t < te ? 'TIME TO USE THE SPECIAL POWER...' : 'SPECIAL POWER UNLOCKED!'}</div>
       {t < tl && <div style={{position: 'absolute', left: 0, right: 0, top: 380, display: 'flex', justifyContent: 'center'}}><span style={{fontSize: 230, transform: `translateX(${Math.sin(t * 60) * lerp(t, r.t0, tl, 2, 20)}px) scale(${1 + lerp(t, tl - 0.15, tl, 0, 0.6)})`, opacity: lerp(t, tl - 0.1, tl, 1, 0)}}>🔒</span></div>}
-      {t >= tl && t < te + 0.25 && <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, transform: `scale(${popT(t, tl, 11)})`, transformOrigin: '960px 580px'}}><Wheel items={X.D.hero ? POWERSU : POWERS0} rot={rot} R={300} cx={960} cy={590} fs={30} /></svg>}
+      {t >= tl && t < te + 0.25 && <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, transform: `scale(${popT(t, tl, 11)})`, transformOrigin: '960px 580px'}}><Wheel items={r.items || (X.D.hero ? POWERSU : POWERS0)} rot={rot} R={300} cx={960} cy={590} fs={30} /></svg>}
       {t >= te && (
         <div style={{position: 'absolute', left: 0, right: 0, top: 360, display: 'flex', justifyContent: 'center'}}>
           <div style={{transform: `scale(${popT(t, te, 9)})`, width: 900, height: 330, background: 'linear-gradient(135deg,#ff2b4a,#7b0d1e)', border: `10px solid ${YELLOW}`, borderRadius: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, boxShadow: '0 0 80px #ff2b4a'}}>
@@ -650,18 +654,18 @@ const Ending: React.FC<{t: number}> = ({t}) => {
   return (
     <AbsoluteFill style={{zIndex: 45, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `radial-gradient(circle, rgba(255,210,63,${0.18 * a}) 0%, rgba(0,0,0,${0.45 * a}) 75%)`}}>
       {V2 && Array.from({length: 26}, (_, i) => { const k = (i * 37 + 11) % NK; const x = ((i * 173) % 1920); const sp = 160 + (i * 53) % 140; const y = -120 + ((t - t0) * sp + i * 97) % 1300; return <div key={i} style={{position: 'absolute', left: x, top: y, transform: `rotate(${Math.sin(t * 2 + i) * 30}deg)`, opacity: 0.85}}><FlagImg k={k === X.ID ? 1 : k} w={54} h={36} /></div>; })}
-      {V2 && <div style={{position: 'absolute', left: 60, bottom: 60, background: 'rgba(10,14,24,0.85)', border: `4px solid ${INK}`, borderRadius: 16, padding: '10px 16px', opacity: popT(t, t0 + 0.8, 12)}}>
+      {V2 && X.D.mode !== 'br' && <div style={{position: 'absolute', left: 60, bottom: 60, background: 'rgba(10,14,24,0.85)', border: `4px solid ${INK}`, borderRadius: 16, padding: '10px 16px', opacity: popT(t, t0 + 0.8, 12)}}>
         <div style={{...font, fontSize: 26, color: YELLOW}}>⚡ POWER OVER THE CAMPAIGN</div>
         <svg width={360} height={96}><polyline points={line} fill="none" stroke="#ff5a5a" strokeWidth={5} strokeLinejoin="round" strokeDasharray={2000} strokeDashoffset={2000 * (1 - drawn)} /></svg>
       </div>}
       <div style={{transform: `scale(${a})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <div style={{fontSize: 120, marginBottom: -28}}>👑</div>
         <Ball k={X.ID} size={260} mood="happy" t={t} />
-        <div style={{...font, fontSize: 100, color: YELLOW, textShadow: `8px 8px 0 ${INK}`, marginTop: 10, textAlign: 'center', lineHeight: 1}}>{X.D.heroLong || 'INDONESIA'} CONQUERED<br />THE WORLD</div>
+        <div style={{...font, fontSize: 100, color: YELLOW, textShadow: `8px 8px 0 ${INK}`, marginTop: 10, textAlign: 'center', lineHeight: 1}}>{X.D.endTitle ? <>{X.D.endTitle[0]}<br /><span style={{fontSize: 70}}>{X.D.endTitle[1]}</span></> : <>{X.D.heroLong || 'INDONESIA'} CONQUERED<br />THE WORLD</>}</div>
         <div style={{display: 'flex', flexDirection: 'row', gap: 20, marginTop: 18, opacity: popT(t, t0 + 0.8, 12)}}>
-          {[['🌍', `${X.D.total}/${X.D.total} COUNTRIES`], ['📅', `${Math.round(kfv(X.D.days, t0))} DAYS`], [X.D.hero ? '💻' : '🛰️', X.D.weapon || 'ORBITAL LASER']].map(([i, s]) => <Pill key={s} bg={CREAM} style={{padding: '6px 20px 2px', ...font, fontSize: 36, color: INK}}>{i} {s}</Pill>)}
+          {(X.D.endPills || [['🌍', `${X.D.total}/${X.D.total} COUNTRIES`], ['📅', `${Math.round(kfv(X.D.days, t0))} DAYS`], [X.D.hero ? '💻' : '🛰️', X.D.weapon || 'ORBITAL LASER']]).map(([i, s]) => <Pill key={s} bg={CREAM} style={{padding: '6px 20px 2px', ...font, fontSize: 36, color: INK}}>{i} {s}</Pill>)}
         </div>
-        <div style={{...font, fontSize: 52, color: '#fff', textShadow: `4px 4px 0 ${INK}`, marginTop: 24, opacity: popT(t, t0 + 2.2, 12)}}>WHICH COUNTRY SHOULD TRY NEXT? 👇</div>
+        <div style={{...font, fontSize: 52, color: '#fff', textShadow: `4px 4px 0 ${INK}`, marginTop: 24, opacity: popT(t, t0 + 2.2, 12)}}>{X.D.endAsk || 'WHICH COUNTRY SHOULD TRY NEXT? 👇'}</div>
       </div>
     </AbsoluteFill>
   );
@@ -765,6 +769,173 @@ const ShortLayer: React.FC<{t: number; off: number; dur: number; hook: string[];
   );
 };
 
+// ======== BATTLE ROYALE (LatAm) ========
+const TIERC: Record<string, string> = {S: '#ff3b3b', A: '#ff9a2e', B: '#ffd23f', C: '#6fdc6f', D: '#5aa7ff'};
+const SNAME = (k: number) => UP(k).replace('DOMINICAN REPUBLIC', 'DOMINICAN REP.').replace('UNITED STATES OF AMERICA', 'USA');
+const empCounts = (t: number, parts: number[]) => {
+  const st = pst(t); const cnt = new Map<number, number>();
+  for (let k = 0; k < NK; k++) { const o = st.owner[k]; if (parts.includes(o)) cnt.set(o, (cnt.get(o) || 0) + 1); }
+  const pw = (X.D.pw0 || {}) as any; return [...cnt.entries()].sort((a, b) => b[1] - a[1] || (pw[b[0]] || 0) - (pw[a[0]] || 0));
+};
+const aliveAt = (t: number) => kfvStep(X.D.alive, t);
+const kfvStep = (pk: number[][], t: number) => { let v = pk[0][1]; for (const p of pk) { if (p[0] <= t) v = p[1]; else break; } return v; };
+const HudBR: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const D = X.D;
+  const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
+  if (show <= 0.01) return null;
+  const n = aliveAt(t); const lastE = (D.elim as any[]).filter((e) => e[0] <= t).slice(-1)[0];
+  const bump = lastE && t - lastE[0] < 0.4 ? 0.25 * (1 - (t - lastE[0]) / 0.4) : 0;
+  const top = empCounts(t, D.parts).slice(0, 4);
+  const ch = (D.chapters as any[]).filter((c) => c[0] <= t).slice(-1)[0];
+  const day = Math.round(kfv(D.days, t));
+  return (
+    <>
+      <div style={{position: 'absolute', top: 20, left: 20 + (1 - show) * -600, zIndex: 20}}>
+        <Pill bg="#1b1f2b" style={{padding: '4px 18px 0', display: 'flex', alignItems: 'baseline', gap: 10, border: `4px solid ${RED}`, transform: `scale(${1 + bump})`, transformOrigin: 'left center'}}>
+          <span style={{...font, fontSize: 26, color: '#ff9a8f'}}>👥 ALIVE</span><span style={{...font, fontSize: 52, color: '#fff'}}>{n}</span><span style={{...font, fontSize: 26, color: '#9aa'}}>/ 20</span>
+        </Pill>
+        <div style={{marginTop: 8, display: 'flex', flexDirection: 'column', gap: 5}}>
+          {top.map(([k, c], i) => (
+            <div key={k} style={{display: 'flex', alignItems: 'center', gap: 8, background: i === 0 ? 'rgba(255,210,63,0.92)' : 'rgba(250,244,230,0.92)', border: `3px solid ${INK}`, borderRadius: 12, padding: '2px 10px 0 4px', width: 250}}>
+              <span style={{...font, fontSize: 22, color: INK, width: 22}}>{i + 1}</span><FlagImg k={k} w={34} round /><span style={{...font, fontSize: 20, color: INK, flex: 1, whiteSpace: 'nowrap', overflow: 'hidden'}}>{SNAME(k)}</span><span style={{...font, fontSize: 22, color: RED}}>{c}</span>
+            </div>))}
+        </div>
+      </div>
+      <div style={{position: 'absolute', top: 18, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 20, transform: `translateY(${(1 - show) * -120}px)`}}>
+        <Pill bg="#1b1f2b" style={{padding: '4px 22px 0', ...font, fontSize: 40, color: YELLOW, border: `4px solid ${RED}`}}>📅 DAY {day}</Pill>
+      </div>
+      {ch && <div style={{position: 'absolute', top: 20, right: 20 + (1 - show) * -600, zIndex: 20}}><Pill bg={YELLOW} style={{padding: '4px 16px 0', ...font, fontSize: 26, color: INK}}>ROUND {(D.chapters as any[]).indexOf(ch) + 1} · {ch[1]}</Pill></div>}
+      <div style={{position: 'absolute', left: 20 + (1 - show) * -500, bottom: 20, zIndex: 20, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}>
+        <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={cam} w={260} h={135} VW={VW} VH={VH} />
+      </div>
+      <div style={{position: 'absolute', right: 22, bottom: 12, ...font2, fontSize: 16, color: 'rgba(255,255,255,0.85)', textShadow: '0 2px 3px #000', zIndex: 20, opacity: show}}>Hypothetical simulation · Power points are fictional</div>
+    </>
+  );
+};
+const ElimFX: React.FC<{t: number}> = ({t}) => {
+  const e = (X.D.elim as any[]).filter((x) => t >= x[0] && t < x[0] + (x[4] ? 2.4 : 3.0)).slice(-1)[0];
+  if (!e) return null;
+  const [t0, k, a, n, big] = e;
+  if (big && t < t0 + 2.4) {
+    const p = popT(t, t0, 9); const o = lerp(t, t0, t0 + 0.15, 0, 1) * lerp(t, t0 + 2.1, t0 + 2.4, 1, 0);
+    return (
+      <AbsoluteFill style={{zIndex: 47, background: `radial-gradient(circle, rgba(60,0,0,${0.55 * o}) 0%, rgba(0,0,0,${0.75 * o}) 80%)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: o}}>
+        <div style={{position: 'relative', transform: `scale(${0.4 + 0.6 * p}) rotate(${lerp(t, t0, t0 + 2.4, -4, 6)}deg)`, filter: `grayscale(${lerp(t, t0 + 0.4, t0 + 1.0, 0, 1)})`}}>
+          <Ball k={k} size={300} mood="shocked" t={t} />
+          <svg width={300} height={300} style={{position: 'absolute', left: 0, top: 0}}>
+            {[[40, 40, 260, 260], [260, 40, 40, 260]].map(([x1, y1, x2, y2], i) => { const u = lerp(t, t0 + 0.35 + i * 0.15, t0 + 0.55 + i * 0.15, 0, 1); return <line key={i} x1={x1} y1={y1} x2={x1 + (x2 - x1) * u} y2={y1 + (y2 - y1) * u} stroke="#ff1f2f" strokeWidth={34} strokeLinecap="round" />; })}
+          </svg>
+        </div>
+        <div style={{...font, fontSize: 150, color: '#ff2b3b', WebkitTextStroke: `7px ${INK}`, paintOrder: 'stroke fill', marginTop: 10, transform: `scale(${popT(t, t0 + 0.3, 10)})`, lineHeight: 1}}>ELIMINATED</div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 16, marginTop: 12, opacity: popT(t, t0 + 0.6, 12)}}>
+          <span style={{...font, fontSize: 50, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>{SNAME(k)} · BY</span><FlagImg k={a} w={70} round /><span style={{...font, fontSize: 50, color: YELLOW, textShadow: `4px 4px 0 ${INK}`}}>{SNAME(a)}</span>
+        </div>
+        <div style={{...font, fontSize: 58, color: INK, background: YELLOW, border: `5px solid ${INK}`, borderRadius: 18, padding: '4px 26px 0', marginTop: 16, transform: `scale(${popT(t, t0 + 0.9, 10)})`}}>{n} LEFT</div>
+      </AbsoluteFill>
+    );
+  }
+  const a2 = popT(t, t0, 12) * lerp(t, t0 + 2.6, t0 + 3.0, 1, 0);
+  return (
+    <div style={{position: 'absolute', top: 92, right: 20, zIndex: 37, transform: `translateX(${(1 - a2) * 560}px)`, display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(16,18,28,0.94)', border: `4px solid #ff3b3b`, borderRadius: 18, padding: '8px 16px 6px 10px', boxShadow: '0 6px 0 rgba(0,0,0,0.35)'}}>
+      <FlagImg k={a} w={50} round /><span style={{fontSize: 34}}>🔫</span>
+      <div style={{position: 'relative'}}><FlagImg k={k} w={50} round style={{filter: 'grayscale(1)'}} /><span style={{position: 'absolute', left: 4, top: -10, ...font, fontSize: 56, color: '#ff2b3b', lineHeight: 1}}>✕</span></div>
+      <div style={{display: 'flex', flexDirection: 'column'}}><span style={{...font, fontSize: 30, color: '#fff', lineHeight: 1}}>{SNAME(k)}</span><span style={{...font, fontSize: 22, color: '#ff9a8f'}}>ELIMINATED · {n} LEFT</span></div>
+    </div>
+  );
+};
+const Board: React.FC<{t: number}> = ({t}) => {
+  const b = ((X.D.board || []) as number[][]).find(([a, z]) => t >= a && t < z);
+  if (!b) return null;
+  const [t0, t1] = b; const o = lerp(t, t0, t0 + 0.2, 0, 1) * lerp(t, t1 - 0.3, t1, 1, 0);
+  const rows = empCounts(t0, X.D.parts); const dead = (X.D.elim as any[]).filter((e) => e[0] <= t0).map((e) => e[1]);
+  const mx_ = rows.length ? rows[0][1] : 1;
+  return (
+    <AbsoluteFill style={{zIndex: 46, background: `rgba(8,10,18,${0.82 * o})`, opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 50}}>
+      <div style={{...font, fontSize: 84, color: YELLOW, textShadow: `6px 6px 0 ${INK}`, transform: `scale(${popT(t, t0, 10)})`}}>🏆 STANDINGS</div>
+      <div style={{display: 'flex', flexDirection: 'column', gap: 10, marginTop: 14, width: 1100}}>
+        {rows.slice(0, 8).map(([k, c], i) => { const u = popT(t, t0 + 0.25 + i * 0.12, 12); return (
+          <div key={k} style={{display: 'flex', alignItems: 'center', gap: 16, transform: `translateX(${(1 - u) * -1400}px)`}}>
+            <span style={{...font, fontSize: 46, color: i === 0 ? YELLOW : '#fff', width: 60, textAlign: 'right'}}>{i + 1}</span><Ball k={k} size={64} mood={i === 0 ? 'smug' : 'calm'} t={t} />
+            <span style={{...font, fontSize: 38, color: '#fff', width: 330, whiteSpace: 'nowrap'}}>{SNAME(k)}</span>
+            <div style={{flex: 1, height: 38, background: '#2a3040', border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden'}}><div style={{width: `${(100 * c / mx_) * lerp(t, t0 + 0.4 + i * 0.12, t0 + 1.2 + i * 0.12, 0, 1)}%`, height: '100%', background: `linear-gradient(90deg, ${MAINCOL[k]}, #ffffff55)`}} /></div>
+            <span style={{...font, fontSize: 34, color: YELLOW, width: 150}}>{c} {c === 1 ? 'COUNTRY' : 'LANDS'}</span>
+          </div>); })}
+      </div>
+      <div style={{display: 'flex', gap: 8, marginTop: 26, flexWrap: 'wrap', width: 1300, justifyContent: 'center', opacity: popT(t, t0 + 1.4, 10)}}>
+        {dead.map((k: number) => <div key={k} style={{position: 'relative'}}><FlagImg k={k} w={56} round style={{filter: 'grayscale(1) brightness(0.7)'}} /><span style={{position: 'absolute', left: 6, top: -12, ...font, fontSize: 62, color: '#ff2b3b', lineHeight: 1}}>✕</span></div>)}
+      </div>
+    </AbsoluteFill>
+  );
+};
+const Poll: React.FC<{t: number}> = ({t}) => {
+  const p = X.D.poll; if (!p || t < p.t0 || t > p.t1) return null;
+  const o = lerp(t, p.t0, p.t0 + 0.2, 0, 1) * lerp(t, p.t1 - 0.3, p.t1, 1, 0);
+  return (
+    <AbsoluteFill style={{zIndex: 46, background: `rgba(8,10,18,${0.78 * o})`, opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 40}}>
+      <div style={{...font, fontSize: 96, color: '#fff', textShadow: `6px 6px 0 ${INK}`, transform: `scale(${popT(t, p.t0, 10)})`}}>{p.text}</div>
+      <div style={{display: 'flex', gap: 34}}>
+        {(p.ks as number[]).map((k, i) => <div key={k} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, transform: `translateY(${(1 - popT(t, p.t0 + 0.3 + i * 0.18, 10)) * 500 + Math.sin(t * 7 + i) * 10}px)`}}><Ball k={k} size={150} mood="angry" t={t + i} /><span style={{...font, fontSize: 30, color: YELLOW}}>{SNAME(k)}</span></div>)}
+      </div>
+    </AbsoluteFill>
+  );
+};
+const IntroL: React.FC<{t: number}> = ({t}) => {
+  const I = X.D.intro; if (!I || t > I.count[1] + 0.1) return null;
+  const P: number[] = I.parts;
+  if (t < I.map[0]) {
+    const xsT = I.xs[0]; const sur = 9; // la casilla que queda con '?'
+    return (
+      <AbsoluteFill style={{zIndex: 48, background: 'radial-gradient(circle at 50% 40%, #2a1420 0%, #07080d 75%)', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{...font, fontSize: 150, color: t < xsT ? '#fff' : '#ff2b3b', textShadow: `8px 8px 0 ${INK}`, marginTop: 90, transform: `scale(${t < xsT ? 0.6 + 0.4 * popT(t, 0.1, 9) : 0.6 + 0.4 * popT(t, xsT, 9)}) rotate(${t < xsT ? 0 : -2}deg)`, lineHeight: 1}}>{t < xsT ? '20 COUNTRIES' : 'ONLY 1 SURVIVES'}</div>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(10, 168px)', gap: 22, marginTop: 120}}>
+          {P.map((k, i) => { const ti = I.grid[0] + i * 0.115; const u = popT(t, ti, 11); const xi = i < sur ? i : i - 1; const tx = xsT + 0.05 + xi * 0.11; const crossed = i !== sur && t >= tx;
+            const q = i === sur && t >= xsT + 2.2; const zq = q ? lerp(t, xsT + 2.2, I.map[0], 1, 2.4, Easing.in(Easing.cubic)) : 1;
+            return (
+              <div key={k} style={{position: 'relative', width: 168, height: 200, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateY(${(1 - u) * -700}px) scale(${zq})`, opacity: crossed ? lerp(t, tx + 0.4, tx + 1.0, 1, 0.35) : 1, zIndex: q ? 5 : 1}}>
+                {i === sur && t >= xsT ? <div style={{width: 150, height: 150, borderRadius: '50%', background: '#111', border: `6px solid ${YELLOW}`, display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: 96, color: YELLOW, boxShadow: `0 0 ${30 + 20 * Math.sin(t * 9)}px #ffd23f`}}>?</div> : <Ball k={k} size={150} mood={crossed ? 'scared' : 'angry'} t={t + i} />}
+                <span style={{...font, fontSize: 19, color: '#fff', marginTop: 4, whiteSpace: 'nowrap', opacity: i === sur && t >= xsT ? 0 : 1}}>{SNAME(k)}</span>
+                {crossed && <span style={{position: 'absolute', top: -14, ...font, fontSize: 170, color: '#ff1f2f', lineHeight: 1, transform: `scale(${1.6 - 0.6 * popT(t, tx, 14)})`, textShadow: `4px 4px 0 ${INK}`}}>✕</span>}
+              </div>); })}
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  if (t < I.tier[0]) {
+    const a = popT(t, I.map[0] + 0.2, 10) * lerp(t, I.tier[0] - 0.3, I.tier[0], 1, 0);
+    return (
+      <AbsoluteFill style={{zIndex: 30, pointerEvents: 'none'}}>
+        <div style={{position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center', transform: `scale(${0.7 + 0.3 * a})`, opacity: a}}>
+          <div style={{...font, fontSize: 92, color: '#fff', textShadow: `6px 6px 0 ${INK}`, lineHeight: 1}}>LATIN AMERICA</div>
+          <div style={{...font, fontSize: 132, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, lineHeight: 1.05}}>BATTLE ROYALE</div>
+        </div>
+        <div style={{position: 'absolute', bottom: 70, left: 0, right: 0, display: 'flex', justifyContent: 'center', opacity: popT(t, I.map[0] + 1.2, 10)}}><Pill bg={RED} style={{padding: '6px 26px 0', ...font, fontSize: 50, color: '#fff'}}>20 FIGHTERS · 1 WINNER · NO RULES</Pill></div>
+      </AbsoluteFill>
+    );
+  }
+  if (t < I.count[0]) {
+    const o = lerp(t, I.tier[0], I.tier[0] + 0.25, 0, 1) * lerp(t, I.tier[1] - 0.25, I.tier[1], 1, 0);
+    return (
+      <AbsoluteFill style={{zIndex: 46, background: `rgba(8,10,18,${0.8 * o})`, opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 34}}>
+        <div style={{...font, fontSize: 76, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>⚡ POWER TIER LIST</div>
+        <div style={{display: 'flex', flexDirection: 'column', gap: 12, marginTop: 14, width: 1500}}>
+          {(I.tiers as any[]).map(([tn, ks]: [string, number[]], i: number) => { const tt = I.tier[0] + 0.2 + i * 2.1; const u = popT(t, tt, 12); return (
+            <div key={tn} style={{display: 'flex', alignItems: 'center', gap: 16, height: 150, background: 'rgba(255,255,255,0.06)', border: `4px solid ${INK}`, borderRadius: 18, transform: `translateX(${(1 - u) * -1800}px)`}}>
+              <div style={{width: 150, height: '100%', background: TIERC[tn], borderRadius: '14px 0 0 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: 100, color: INK}}>{tn}</div>
+              {ks.map((k, j) => { const tj = tt + 0.35 + j * 0.22; const v = popT(t, tj, 11); return <div key={k} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateY(${(1 - v) * -400}px)`, opacity: t >= tj ? 1 : 0}}><Ball k={k} size={100} mood={tn === 'S' ? 'smug' : tn === 'D' ? 'scared' : 'angry'} t={t + j} /><span style={{...font, fontSize: 20, color: '#fff', whiteSpace: 'nowrap'}}>{SNAME(k)}</span></div>; })}
+            </div>); })}
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  const nums = ['3', '2', '1']; const i = Math.min(2, Math.floor((t - I.count[0]) / 1.1)); const tn = I.count[0] + 0.1 + i * 1.1; const fight = t >= I.count[1] - 0.35;
+  return (
+    <AbsoluteFill style={{zIndex: 46, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `rgba(0,0,0,${fight ? 0 : 0.35})`}}>
+      <div style={{...font, fontSize: fight ? 260 : 420, color: fight ? YELLOW : '#fff', WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill', transform: `scale(${fight ? 0.5 + 0.7 * popT(t, I.count[1] - 0.35, 10) : 1.6 - 0.6 * popT(t, tn, 10)})`, opacity: fight ? lerp(t, I.count[1], I.count[1] + 0.1, 1, 0) : lerp(t, tn + 0.8, tn + 1.05, 1, 0.2)}}>{fight ? 'FIGHT!' : nums[i]}</div>
+    </AbsoluteFill>
+  );
+};
+const IntroH: React.FC<{t: number}> = ({t}) => null;
+// @@BRFX@@
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]}> = ({audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
   const D = X.D; const V2 = D.ver !== 'a';
@@ -788,13 +959,13 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   const c2 = X.camF2(t); const camR = split ? {...c2, cx: c2.cx - VW / 4 / c2.s} : c2;
   const fl = flashAt(t);
   const b = (D.battles as any[]).find((x) => t >= x.t0 && t < x.t1);
-  const lit = b ? [X.ID, b.b, ...(b.title === 'WESTERN ALLIANCE' ? X.ALLY : [])] : null;
+  const lit = b ? [b.a ?? X.ID, b.b, ...(b.title === 'WESTERN ALLIANCE' ? X.ALLY : [])] : null;
   const pulse = 0.5 + 0.5 * Math.sin(t * 7);
   return (
     <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
       {showMap && (
         <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)})`, filter: V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? X.ID : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag}} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag}} />
           <Arrows t={t} cam={camL} />
           <Laser t={t} cam={camL} />
           {t < D.winT + 0.3 && <Labels t={t} cam={camL} />}
@@ -804,7 +975,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       )}
       {split && (
         <AbsoluteFill style={{clipPath: 'inset(0 0 0 50%)', transform: `translate(${shx}px,${shy}px)`}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? X.ID : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag}} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag}} />
           <Arrows t={t} cam={camR} />
         </AbsoluteFill>
       )}
@@ -840,6 +1011,8 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <ColdText t={t} />
       <Title t={t} />
       <Ending t={t} />
+      {D.mode === 'br' && <><ElimFX t={t} /><Board t={t} /><Poll t={t} /><IntroL t={t} /></>}
+      {D.intro && D.intro.kind === 'hz' && <IntroH t={t} />}
       {fl > 0 && <AbsoluteFill style={{background: '#fff', opacity: fl * 0.35, zIndex: 60}} />}
       {SHORT && hook && cta && !segs && <ShortLayer t={t} off={off} dur={sdur} hook={hook} cta={cta} />}
       {SHORT && hook && cta && segs && <ShortCup lt={lt} dur={sg.sdur} hook={hook} cta={cta} cuts={sg.cuts} />}

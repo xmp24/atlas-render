@@ -12,6 +12,7 @@ import {ThumbMap2, MAP2_IDS} from './ThumbsMap2';
 import {ThumbCB, CB_IDS} from './ThumbsCB';
 import {ThumbCombo, COMBO_IDS} from './ThumbsCombo';
 import {ThumbFinal, FINAL_IDS} from './ThumbsFinal';
+import {ThumbMad, MAD_IDS} from './ThumbsMad';
 import {Maduro, MADURO_FRAMES} from './Maduro';
 import {Maduro2, MADURO2_FRAMES} from './Maduro/index2';
 import {Maduro3, MADURO3_FRAMES} from './Maduro/index3';
@@ -31,6 +32,7 @@ export const RootHW: React.FC = () => (
     <Composition id="Maduro2" component={Maduro2} durationInFrames={MADURO2_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="Maduro" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="MaduroN" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
+    {MAD_IDS.map((id) => <Composition key={id} id={`TMD-${id}`} component={ThumbMad} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{id}} />)}
     {FINAL_IDS.map((id) => <Composition key={id} id={`TF-${id}`} component={ThumbFinal} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {COMBO_IDS.map((id) => <Composition key={id} id={`TX-${id}`} component={ThumbCombo} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {CB_IDS.map((id) => <Composition key={id} id={`TC-${id}`} component={ThumbCB} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
@@ -45,6 +47,8 @@ export const RootHW: React.FC = () => (
     <Composition id="CpS2" component={Cup} durationInFrames={480} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[155.6, 10.0], [166.8, 6.0]], hook: ["JAPAN WAS", "WINNING..."], cta: ["128 COUNTRIES", "ONE TROPHY"]}} />
     <Composition id="CpS3" component={Cup} durationInFrames={408} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[90.6, 3.0], [93.6, 5.6], [99.6, 5.0]], hook: ["THE UK PUSHED THEM", "INTO THE SEA..."], cta: ["WHO WINS", "THE WORLD WAR CUP?"]}} />
     <Composition id="CpS4" component={Cup} durationInFrames={480} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[315.2, 4.4], [341.6, 3.8], [347.5, 3.2], [358.5, 4.6]], hook: ["MISSILES", "VS FIGHTER JETS"], cta: ["THE FINAL:", "USA VS CHINA"]}} />
+    <Composition id="LatamN" component={Indo2} durationInFrames={indoFrames('l')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'l'}} />
+    <Composition id="HormuzN" component={Indo2} durationInFrames={indoFrames('h')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'h'}} />
     <Composition id="Usa" component={Indo2} durationInFrames={indoFrames('u')} fps={30} width={1920} height={1080} defaultProps={{audio: true, v: 'u'}} />
     <Composition id="UsaN" component={Indo2} durationInFrames={indoFrames('u')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'u'}} />
     <Composition id="Civil" component={Civil} durationInFrames={CIVIL_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />

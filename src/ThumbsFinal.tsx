@@ -18,7 +18,7 @@ const BOLT = [[BX + 50, -20], [BX - 10, 302], [BX + 40, 318], [BX - 50, H + 20]]
 const boltD = BOLT.map((p, i) => `${i ? 'L' : 'M'}${p[0]},${p[1]}`).join(' ');
 const LEFT = `polygon(0px 0px, ${BOLT.map((p) => `${p[0]}px ${p[1]}px`).join(', ')}, 0px ${H}px)`;
 const RIGHT = `polygon(${BOLT.map((p) => `${p[0]}px ${p[1]}px`).join(', ')}, ${W}px ${H}px, ${W}px 0px)`;
-const SplitBg: React.FC<{dark?: boolean}> = ({dark}) => (<>
+export const SplitBg: React.FC<{dark?: boolean}> = ({dark}) => (<>
   <AbsoluteFill style={{clipPath: LEFT, background: 'radial-gradient(ellipse at 30% 105%, #fff3a8 0%, #ffbe1f 16%, #ff6a12 40%, #c3170c 68%, #4a0604 100%)'}}>
     {/* llamas suaves al fondo */}
     <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, opacity: 0.45, filter: 'blur(6px)'}}>
@@ -32,7 +32,7 @@ const SplitBg: React.FC<{dark?: boolean}> = ({dark}) => (<>
     <div style={{position: 'absolute', left: 620, right: -40, top: -90, height: 220, background: 'radial-gradient(ellipse at 30% 60%, rgba(10,20,50,0.75) 0%, rgba(10,20,50,0) 55%), radial-gradient(ellipse at 75% 50%, rgba(10,20,50,0.7) 0%, rgba(10,20,50,0) 55%)', filter: 'blur(6px)'}} />
   </AbsoluteFill>
 </>);
-const BoltFX: React.FC<{seed?: number}> = ({seed = 1}) => {
+export const BoltFX: React.FC<{seed?: number}> = ({seed = 1}) => {
   const branch = (i: number) => { const t = 0.12 + rnd(seed * 10 + i) * 0.8; const seg = t < 0.43 ? 0 : t < 0.45 ? 1 : 2; const a = BOLT[seg], b = BOLT[seg + 1]; const u = seg === 1 ? 0.5 : seg === 0 ? t / 0.43 : (t - 0.45) / 0.55;
     const x = a[0] + (b[0] - a[0]) * u, y = a[1] + (b[1] - a[1]) * u; const d = i % 2 ? 1 : -1; const L = 40 + rnd(i + 30) * 50;
     return `M${x},${y} l${d * L * 0.5},${-L * 0.25} l${d * L * 0.15},${L * 0.3} l${d * L * 0.45},${-L * 0.2}`; };
@@ -54,7 +54,7 @@ const BoltFX: React.FC<{seed?: number}> = ({seed = 1}) => {
 };
 
 // ---------- casco de guerra (sustituye a la corona) ----------
-const WarHelmet: React.FC<{x: number; y: number; size: number; rot?: number}> = ({x, y, size, rot = -6}) => (
+export const WarHelmet: React.FC<{x: number; y: number; size: number; rot?: number}> = ({x, y, size, rot = -6}) => (
   <div style={{position: 'absolute', left: x - size * 0.5, top: y - size * 0.62, width: size, height: size, transform: `rotate(${rot}deg)`, pointerEvents: 'none'}}>
     <div style={{position: 'absolute', left: -size * 0.02, top: 0, width: size * 1.04, height: size * 0.4, borderRadius: `${size}px ${size}px ${size * 0.05}px ${size * 0.05}px`, background: 'radial-gradient(circle at 32% 25%, #a9b873 0%, #6b7a3a 40%, #3f4a1f 80%, #2a3214 100%)', border: `${size * 0.022}px solid ${INK}`, boxShadow: `0 ${size * 0.02}px 0 rgba(0,0,0,0.4), inset 0 -${size * 0.03}px 0 rgba(0,0,0,0.3)`, overflow: 'hidden'}}>
       {/* manchas de camuflaje */}
@@ -68,7 +68,7 @@ const WarHelmet: React.FC<{x: number; y: number; size: number; rot?: number}> = 
 );
 
 // ---------- la Tierra llorando (como la adjunta) ----------
-const SadEarth: React.FC<{x: number; y: number; size: number; cracks?: boolean; fires?: boolean}> = ({x, y, size, cracks, fires}) => (
+export const SadEarth: React.FC<{x: number; y: number; size: number; cracks?: boolean; fires?: boolean}> = ({x, y, size, cracks, fires}) => (
   <div style={{position: 'absolute', left: x - size / 2, top: y - size / 2, width: size, height: size}}>
     <div style={{position: 'absolute', inset: -size * 0.12, borderRadius: '50%', background: 'radial-gradient(circle, rgba(120,200,255,0.55) 0%, rgba(120,200,255,0) 70%)'}} />
     <Planet size={size} mood="sad" lon={110} lat={5} rim="#9fd8ff" />
@@ -98,19 +98,19 @@ export const WHITE = 'linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #cfe3ff 1
 export const REDG = 'linear-gradient(180deg, #ffd0c0 0%, #ff4a3a 40%, #c3100a 100%)';
 
 // ---------- detalles ----------
-const Muzzle: React.FC<{x: number; y: number; s: number}> = ({x, y, s}) => (
+export const Muzzle: React.FC<{x: number; y: number; s: number}> = ({x, y, s}) => (
   <div style={{position: 'absolute', left: x - s / 2, top: y - s / 2, width: s, height: s, background: 'radial-gradient(circle, #fffbe0 0%, #ffe14a 25%, #ff8a1a 50%, rgba(255,100,20,0) 72%)', clipPath: 'polygon(50% 0,58% 38%,100% 50%,58% 62%,50% 100%,42% 62%,0 50%,42% 38%)', filter: 'drop-shadow(0 0 12px #ffb030)'}} />
 );
-const Tracers: React.FC<{from: [number, number]; to: [number, number]; n?: number}> = ({from, to, n = 4}) => (
+export const Tracers: React.FC<{from: [number, number]; to: [number, number]; n?: number}> = ({from, to, n = 4}) => (
   <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
     {Array.from({length: n}, (_, i) => { const t0 = 0.1 + i * 0.22, t1 = t0 + 0.1; const off = (rnd(i + 40) - 0.5) * 50;
       const a = [from[0] + (to[0] - from[0]) * t0, from[1] + (to[1] - from[1]) * t0 + off], b = [from[0] + (to[0] - from[0]) * t1, from[1] + (to[1] - from[1]) * t1 + off];
       return <g key={i}><line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="#ffb030" strokeWidth={10} strokeLinecap="round" opacity={0.5} style={{filter: 'blur(3px)'}} /><line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="#fff6c0" strokeWidth={4} strokeLinecap="round" /></g>; })}
   </svg>
 );
-const Smoke: React.FC<{list: [number, number, number][]}> = ({list}) => <>{list.map(([x, y, r], i) => <div key={i} style={{position: 'absolute', left: x - r, top: y - r, width: r * 2, height: r * 2, borderRadius: '50%', background: 'radial-gradient(circle, rgba(60,40,30,0.45) 0%, rgba(60,40,30,0) 70%)', filter: 'blur(4px)'}} />)}</>;
+export const Smoke: React.FC<{list: [number, number, number][]}> = ({list}) => <>{list.map(([x, y, r], i) => <div key={i} style={{position: 'absolute', left: x - r, top: y - r, width: r * 2, height: r * 2, borderRadius: '50%', background: 'radial-gradient(circle, rgba(60,40,30,0.45) 0%, rgba(60,40,30,0) 70%)', filter: 'blur(4px)'}} />)}</>;
 const Shadow: React.FC<{x: number; y: number; w: number}> = ({x, y, w}) => <div style={{position: 'absolute', left: x - w / 2, top: y, width: w, height: w * 0.12, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 70%)'}} />;
-const Vign: React.FC = () => <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)'}} />;
+export const Vign: React.FC = () => <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)'}} />;
 const Indo: React.FC<{x: number; y: number; s: number; look?: number; k?: number}> = ({x, y, s, look = 0.6, k = ID}) => (<>
   <Shadow x={x} y={y + s * 0.44} w={s * 0.9} />
   <CBall k={k} size={s} x={x} y={y} eyes="angry" look={look} rim="#ffcf6a" />
