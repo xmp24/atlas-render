@@ -98,7 +98,8 @@ export const OvalOffice: React.FC<{t: number; children?: React.ReactNode; zoom?:
       <AbsoluteFill style={{background: 'linear-gradient(180deg, #efe8d6 0%, #e4dcc6 62%)'}} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 560, height: 120, background: '#f7f3ea', borderTop: '6px solid #d8cfb8', borderBottom: '6px solid #d8cfb8'}} />
       {/* ventanas con cortinas doradas */}
-      {[560, 860, 1160].map((x, i) => <div key={i} style={{position: 'absolute', left: x, top: 120, width: 200, height: 430, background: 'linear-gradient(180deg, #1a2c4a, #2c4a72)', border: '10px solid #f7f3ea'}}>
+      {[560, 860, 1160].map((x, i) => <div key={i} style={{position: 'absolute', left: x, top: 120, width: 200, height: 430, background: 'linear-gradient(180deg, #8ac4f0 0%, #cfe8ff 55%, #5aa04a 56%, #2f7a2a 100%)', border: '10px solid #f7f3ea', overflow: 'hidden'}}>
+        {[0, 1, 2].map((tr) => <div key={'tr' + tr} style={{position: 'absolute', left: tr * 70 - 20, top: 190 + (tr % 2) * 20, width: 110, height: 110, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #5fae4a, #2a6a24)'}} />)}
         {[0, 1, 2].map((r) => <div key={r} style={{position: 'absolute', left: 0, right: 0, top: r * 140 + 135, height: 8, background: '#f7f3ea'}} />)}
         <div style={{position: 'absolute', left: 92, top: 0, bottom: 0, width: 8, background: '#f7f3ea'}} />
       </div>)}
@@ -115,6 +116,24 @@ export const OvalOffice: React.FC<{t: number; children?: React.ReactNode; zoom?:
       <div style={{position: 'absolute', left: -300, right: -300, top: 760, height: 700, borderRadius: '50%', background: 'radial-gradient(ellipse at 50% 30%, #1d3aa0 0%, #142a7a 60%)', border: '22px solid #efe0b0'}}>
         <div style={{position: 'absolute', left: '50%', top: 120, width: 300, height: 120, marginLeft: -150, borderRadius: '50%', border: '10px solid #e8c45a', background: '#1a3290'}} />
       </div>
+      <div style={{position: 'absolute', left: W / 2 - 230, top: 870, width: 460, height: 150, borderRadius: '50%', border: '8px solid #e8c45a', background: 'radial-gradient(ellipse, #2140a8, #1a3290)'}}>
+        {Array.from({length: 18}, (_, i) => { const a = (i / 18) * Math.PI * 2; return <div key={i} style={{position: 'absolute', left: 230 + Math.cos(a) * 200 - 7, top: 75 + Math.sin(a) * 60 - 7, width: 14, height: 14, background: '#fff', clipPath: 'polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)'}} />; })}
+        <div style={{position: 'absolute', left: 200, top: 45, width: 60, height: 60, borderRadius: '50%', background: 'radial-gradient(circle, #ffe08a, #c9a64a)', border: '4px solid #8a6a2a'}} />
+      </div>
+      {[[60, 1], [1560, -1]].map(([x, d], i) => <div key={'so' + i} style={{position: 'absolute', left: x as number, top: 820, width: 300, height: 180}}>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 40, bottom: 0, borderRadius: 40, background: 'linear-gradient(180deg, #f3ead2, #d9cba8)', border: `6px solid ${INK}`}} />
+        <div style={{position: 'absolute', left: 20, right: 20, top: 0, height: 80, borderRadius: 30, background: 'linear-gradient(180deg, #f8f0dc, #e3d6b6)', border: `6px solid ${INK}`}} />
+      </div>)}
+      {[[250, 520], [1580, 520]].map(([x, y], i) => <div key={'bu' + i} style={{position: 'absolute', left: x, top: y}}>
+        <div style={{position: 'absolute', left: -10, top: 70, width: 110, height: 90, background: '#7a4a24', border: `5px solid ${INK}`, borderRadius: 8}} />
+        <div style={{position: 'absolute', left: 20, top: 0, width: 50, height: 60, borderRadius: '45% 45% 30% 30%', background: 'radial-gradient(circle at 40% 30%, #8a7a62, #3a3226)', border: `4px solid ${INK}`}} />
+        <div style={{position: 'absolute', left: 8, top: 52, width: 74, height: 22, borderRadius: 8, background: '#4a4032', border: `4px solid ${INK}`}} />
+      </div>)}
+      {[[470, 470], [1420, 470]].map(([x, y], i) => <div key={'la' + i} style={{position: 'absolute', left: x, top: y}}>
+        <div style={{position: 'absolute', left: 0, top: 0, width: 80, height: 60, background: 'linear-gradient(180deg, #fff8e0, #e8d8a8)', border: `4px solid ${INK}`, clipPath: 'polygon(20% 0, 80% 0, 100% 100%, 0 100%)', boxShadow: '0 0 40px rgba(255,230,150,0.8)'}} />
+        <div style={{position: 'absolute', left: 36, top: 60, width: 8, height: 120, background: '#c9a64a'}} />
+        <div style={{position: 'absolute', left: -60, top: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,230,150,0.35), rgba(255,230,150,0))'}} />
+      </div>)}
       {/* escritorio */}
       <div style={{position: 'absolute', left: 640, top: 640, width: 640, height: 220, background: 'linear-gradient(180deg, #8a5a2a, #5e3a18)', border: `8px solid ${INK}`, borderRadius: 10}}>
         <div style={{position: 'absolute', left: 30, right: 30, top: 40, bottom: 20, border: '6px solid rgba(0,0,0,0.25)'}} />
@@ -134,6 +153,16 @@ export const President: React.FC<{t: number; talk?: [number, number][]; x?: numb
   </>);
 };
 // pantalla de videollamada (esquina)
+export const CIARoom: React.FC<{t: number}> = ({t}) => (
+  <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(180deg, #0b1630, #050a18)', overflow: 'hidden'}}>
+    {[0, 1, 2, 3].map((i) => <div key={i} style={{position: 'absolute', left: 14 + (i % 2) * 140, top: 10 + Math.floor(i / 2) * 76, width: 128, height: 68, border: '4px solid #000', borderRadius: 6, background: i === 1 ? '#0e2a1a' : '#0a1a3a', overflow: 'hidden'}}>
+      {Array.from({length: 4}, (_, r) => <div key={r} style={{margin: '8px 8px 0', height: 6, width: `${30 + rnd(r + i * 5) * 60}%`, background: i === 1 ? '#3ad16a' : '#3a8aff', opacity: 0.5 + 0.5 * Math.abs(Math.sin(t * 2 + r + i))}} />)}
+    </div>)}
+    <div style={{position: 'absolute', right: 20, top: 16, width: 110, height: 110, borderRadius: '50%', border: '6px solid #c9a64a', background: 'radial-gradient(circle, #1f3a8a, #0a1a4a)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><div style={{width: 46, height: 46, background: '#c9a64a', clipPath: 'polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)'}} /></div>
+    <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 70, background: 'linear-gradient(180deg, #3a2a1a, #1a120a)', borderTop: '5px solid #000'}} />
+    <div style={{position: 'absolute', left: 280, top: 170, width: 60, height: 50, background: 'linear-gradient(180deg, #2a5a2a, #1a3a1a)', clipPath: 'polygon(25% 0, 75% 0, 100% 100%, 0 100%)', boxShadow: '0 0 30px rgba(120,255,120,0.5)'}} />
+  </div>
+);
 export const CallScreen: React.FC<{t: number; t0: number; t1: number; children: React.ReactNode; label: string; x?: number; y?: number}> = ({t, t0, t1, children, label, x = 1420, y = 130}) => {
   if (t < t0 || t > t1) return null; const k = pop(t, t0, 0.3) * ip(t, [t1 - 0.25, t1], [1, 0], false);
   return (

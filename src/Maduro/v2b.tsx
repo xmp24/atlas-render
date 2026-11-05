@@ -33,7 +33,7 @@ export const G1: React.FC<{t: number}> = ({t}) => {
 export const G2: React.FC<{t: number}> = ({t}) => (<AbsoluteFill>
   <NightSky glow="#1a2a4a" /><Moon x={300} y={170} r={60} />
   <Sea t={t} y={700} speed={700} />
-  {[[1000, 580, 520], [1450, 620, 440], [1800, 570, 380]].map(([x, y, w], i) => <Heli key={i} t={t + i} w={w} x={x - t * 30} y={y + Math.sin(t * 2 + i) * 6} tilt={10} flip />)}
+  {[[1000, 580, 520], [1450, 620, 440], [1800, 570, 380]].map(([x, y, w], i) => <Heli key={i} t={t + i} w={w} x={x - t * 30} y={y + Math.sin(t * 2 + i) * 6} tilt={-8} />)}
   <div style={{position: 'absolute', left: 860, top: 620, width: 6, height: 80, background: '#ffd23f'}} />
   <div style={{position: 'absolute', left: 880, top: 632, ...font, fontSize: 42, color: '#ffd23f', WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>~100 FT</div>
   <Caption t={t} t0={0.3} t1={5.8} text="Helicopters skim just 100 feet above the sea" hl="100 feet" />
@@ -128,7 +128,7 @@ export const G4: React.FC<{t: number}> = ({t}) => {
     <NightSky glow="#2a2040" /><Moon x={260} y={160} r={56} />
     <div style={{position: 'absolute', inset: 0, transform: `translateX(${(t * 120) % 200}px)`}}><Caracas y={820} lights={0.5} /></div>
     {/* EE. UU. hacia la izquierda */}
-    {[[650, 380, 420], [1000, 470, 380]].map(([x, y, w], i) => <Heli key={i} t={t + i} w={w} x={x + Math.sin(t + i) * 20} y={y + (i === 1 ? wob : 0)} tilt={8 + (i === 1 ? wob : 0)} flip hit={i === 1 ? usHit : 0} />)}
+    {[[650, 380, 420], [1000, 470, 380]].map(([x, y, w], i) => <Heli key={i} t={t + i} w={w} x={x + Math.sin(t + i) * 20} y={y + (i === 1 ? wob : 0)} tilt={-8 + (i === 1 ? wob : 0)} hit={i === 1 ? usHit : 0} />)}
     {/* humo del helicóptero dañado */}
     {t > hitUS && Array.from({length: 10}, (_, i) => { const ph = ((t - hitUS) * 1.5 + i / 10) % 1; return <div key={i} style={{position: 'absolute', left: 1180 + ph * 400, top: 450 - ph * 60, width: 40 + ph * 80, height: 40 + ph * 80, borderRadius: '50%', background: `rgba(60,60,64,${0.5 * (1 - ph)})`}} />; })}
     {/* helicóptero venezolano */}
@@ -174,8 +174,8 @@ export const HH: React.FC<{t: number}> = ({t}) => {
   return (<AbsoluteFill style={{background: '#000'}}>
     {!photo && <AbsoluteFill>
       <Deck t={t} walk={ip(t, [2.6, 7.6], [0, 1], false)} />
-      {t < 3 && <Heli t={t} w={600} x={ip(t, [0, 2.4], [2200, 1300])} y={ip(t, [0, 2.4], [200, 640])} tilt={ip(t, [0, 2.4], [12, 0])} flip />}
-      {t > 2.4 && <Heli t={t} w={600} x={1300} y={640} tilt={0} flip />}
+      {t < 3 && <Heli t={t} w={600} x={ip(t, [0, 2.4], [2200, 1300])} y={ip(t, [0, 2.4], [200, 640])} tilt={ip(t, [0, 2.4], [-10, 0])} />}
+      {t > 2.4 && <Heli t={t} w={600} x={1300} y={640} tilt={0} />}
       <Stamp t={t} t0={0.3} t1={7.8} place="USS IWO JIMA" date="JANUARY 3, 2026" time="DAWN" />
       <Caption t={t} t0={2.8} t1={7.8} text="Maduro arrives on the USS Iwo Jima" hl="USS Iwo Jima" />
     </AbsoluteFill>}
@@ -239,7 +239,7 @@ export const JJ: React.FC<{t: number}> = ({t}) => {
   const papers: [number, string, string, React.ReactNode][] = [
     [6, 'THE GLOBE DAILY', 'MADURO CAPTURED', <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: 'scale(0.36)', transformOrigin: '0 0', marginLeft: -60, marginTop: -60}}><Cell t={t} /></div>],
     [11, 'EL DIARIO MUNDIAL', '¡CAPTURADO!', <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: 'scale(0.36)', transformOrigin: '0 0', marginLeft: -40, marginTop: -100}}><Deck t={0} walk={1} small /></div>],
-    [16, 'WORLD EVENING POST', 'NIGHT RAID', <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: 'scale(0.36)', transformOrigin: '0 0', marginLeft: 0, marginTop: -60}}><NightSky glow="#3a2030" /><Caracas y={700} lights={0.6} /><Heli t={t} w={500} x={900} y={400} flip /></div>],
+    [16, 'WORLD EVENING POST', 'NIGHT RAID', <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: 'scale(0.36)', transformOrigin: '0 0', marginLeft: 0, marginTop: -60}}><NightSky glow="#3a2030" /><Caracas y={700} lights={0.6} /><Heli t={t} w={500} x={900} y={400} tilt={-6} /></div>],
   ];
   return (<AbsoluteFill style={{background: '#06142e', overflow: 'hidden'}}>
     {/* fondo animado: luces y líneas en movimiento */}
@@ -250,7 +250,7 @@ export const JJ: React.FC<{t: number}> = ({t}) => {
     {/* tele con mini vídeo */}
     <div style={{position: 'absolute', left: 1010, top: 110, width: 820, height: 470, border: `12px solid ${INK}`, borderRadius: 14, overflow: 'hidden', boxShadow: '0 0 60px rgba(80,160,255,0.5)'}}>
       <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: 'scale(0.427)', transformOrigin: '0 0'}}>
-        {t % 12 < 6 ? <Deck t={t} walk={ip(t % 6, [0, 5.5], [0, 1])} /> : <AbsoluteFill><NightSky glow="#1a2a4a" /><Sea t={t} y={700} speed={600} />{[[1100, 560, 520], [1550, 600, 420]].map(([x, y, w], i) => <Heli key={i} t={t + i} w={w} x={x} y={y} tilt={10} flip />)}</AbsoluteFill>}
+        {t % 12 < 6 ? <Deck t={t} walk={ip(t % 6, [0, 5.5], [0, 1])} /> : <AbsoluteFill><NightSky glow="#1a2a4a" /><Sea t={t} y={700} speed={600} />{[[1100, 560, 520], [1550, 600, 420]].map(([x, y, w], i) => <Heli key={i} t={t + i} w={w} x={x} y={y} tilt={-8} />)}</AbsoluteFill>}
       </div>
       <div style={{position: 'absolute', left: 16, top: 12, padding: '4px 14px', background: '#c3100a', ...font, fontSize: 26, color: '#fff'}}>● LIVE</div>
     </div>
