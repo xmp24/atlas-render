@@ -13,12 +13,27 @@ import JD from './hw/indo2d.json';
 import JU from './hw/usa.json';
 import JL from './hw/latam.json';
 import JH from './hw/hormuz.json';
+import J_breu from './hw/breu.json';
+import J_braf from './hw/braf.json';
+import J_bras from './hw/bras.json';
+import J_cqru from './hw/cqru.json';
+import J_cqcn from './hw/cqcn.json';
+import J_cqbr from './hw/cqbr.json';
+import J_cqes from './hw/cqes.json';
+import J_taiwan from './hw/taiwan.json';
+import J_rceu from './hw/rceu.json';
+import J_ukr from './hw/ukr.json';
+import J_usla from './hw/usla.json';
+import J_ww3 from './hw/ww3.json';
+import J_survive from './hw/survive.json';
+import J_ww2 from './hw/ww2.json';
 
 type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CEv[]; ID: number; MKB: Map<any, any[]>; ALLY: number[]};
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-    const D = (v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
+  const JMAP: Record<string, any> = {breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2};
+  const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
   return CTXS[v];
@@ -792,7 +807,7 @@ const HudBR: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     <>
       <div style={{position: 'absolute', top: 20, left: 20 + (1 - show) * -600, zIndex: 20}}>
         <Pill bg="#1b1f2b" style={{padding: '4px 18px 0', display: 'flex', alignItems: 'baseline', gap: 10, border: `4px solid ${RED}`, transform: `scale(${1 + bump})`, transformOrigin: 'left center'}}>
-          <span style={{...font, fontSize: 26, color: '#ff9a8f'}}>👥 ALIVE</span><span style={{...font, fontSize: 52, color: '#fff'}}>{n}</span><span style={{...font, fontSize: 26, color: '#9aa'}}>/ 20</span>
+          <span style={{...font, fontSize: 26, color: '#ff9a8f'}}>👥 ALIVE</span><span style={{...font, fontSize: 52, color: '#fff'}}>{n}</span><span style={{...font, fontSize: 26, color: '#9aa'}}>/ {D.parts.length}</span>
         </Pill>
         <div style={{marginTop: 8, display: 'flex', flexDirection: 'column', gap: 5}}>
           {top.map(([k, c], i) => (
@@ -880,7 +895,7 @@ const Poll: React.FC<{t: number}> = ({t}) => {
   );
 };
 const IntroL: React.FC<{t: number}> = ({t}) => {
-  const I = X.D.intro; if (!I || t > I.count[1] + 0.1) return null;
+  const I = X.D.intro; if (!I || !I.grid || t > I.count[1] + 0.1) return null;
   const P: number[] = I.parts;
   if (t < I.map[0]) {
     const xsT = I.xs[0]; const sur = 9; // la casilla que queda con '?'
@@ -1003,6 +1018,106 @@ const IntroH: React.FC<{t: number}> = ({t}) => {
   }
   return null;
 };
+// ======== BLOQUES DE INTRO COMBINABLES (D.intro.blocks) ========
+const BIG = (fs: number, col = '#fff', st = 8) => ({...font, fontSize: fs, color: col, WebkitTextStroke: `${st}px ${INK}`, paintOrder: 'stroke fill' as any, lineHeight: 1});
+const fadeIO = (t: number, a: number, b: number, k = 0.25) => lerp(t, a, a + k, 0, 1) * lerp(t, b - k, b, 1, 0);
+const BLK: Record<string, React.FC<{t: number; b: any}>> = {
+  grid: ({t, b}) => {
+    const ks: number[] = b.ks; const cols = b.cols || 10; const sz = b.size || 150; const xsT = b.xsT ?? 1e9; const keep = b.keep ?? -1;
+    return <AbsoluteFill style={{background: b.bg || 'radial-gradient(circle at 50% 40%, #2a1420 0%, #07080d 75%)', display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: lerp(t, b.t1 - 0.2, b.t1, 1, 0)}}>
+      <div style={{...BIG(b.fs || 140, t < xsT ? '#fff' : '#ff2b3b'), marginTop: b.mt ?? 50, transform: `scale(${0.6 + 0.4 * popT(t, t < xsT ? b.t0 : xsT, 9)})`}}>{t < xsT ? b.title1 : b.title2}</div>
+      <div style={{display: 'grid', gridTemplateColumns: `repeat(${cols}, ${sz + 14}px)`, gap: b.gap ?? 12, marginTop: 30}}>
+        {ks.map((k, i) => { const ti = b.t0 + 0.1 + i * (b.step || 0.06); const u = popT(t, ti, 11); const xi = keep >= 0 && i > keep ? i - 1 : i; const tx = xsT + 0.05 + xi * (b.xstep || 0.05); const crossed = i !== keep && t >= tx;
+          const q = i === keep && t >= xsT;
+          return <div key={k} style={{position: 'relative', width: sz + 14, height: sz + 22, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateY(${(1 - u) * -800}px) scale(${q ? lerp(t, xsT + 0.8, b.t1, 1, 2.2) : 1})`, opacity: crossed ? lerp(t, tx + 0.3, tx + 0.8, 1, 0.3) : 1, zIndex: q ? 5 : 1}}>
+            {q ? <div style={{width: sz, height: sz, borderRadius: '50%', background: '#111', border: `5px solid ${YELLOW}`, display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: sz * 0.66, color: YELLOW, boxShadow: `0 0 ${24 + 16 * Math.sin(t * 9)}px #ffd23f`}}>?</div> : <Ball k={k} size={sz} mood={crossed ? 'scared' : 'angry'} t={t + i} />}
+            {crossed && <span style={{position: 'absolute', top: -sz * 0.12, ...font, fontSize: sz * 1.1, color: '#ff1f2f', lineHeight: 1, transform: `scale(${1.6 - 0.6 * popT(t, tx, 14)})`, textShadow: `4px 4px 0 ${INK}`}}>✕</span>}
+          </div>; })}
+      </div>
+    </AbsoluteFill>;
+  },
+  mapTitle: ({t, b}) => { const a = popT(t, b.t0 + 0.15, 10) * lerp(t, b.t1 - 0.3, b.t1, 1, 0); return <AbsoluteFill style={{pointerEvents: 'none'}}>
+    <div style={{position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center', transform: `scale(${0.7 + 0.3 * a})`, opacity: a}}>
+      <div style={{...BIG(90), textShadow: `6px 6px 0 ${INK}`}}>{b.l1}</div><div style={{...BIG(130, YELLOW), marginTop: 6}}>{b.l2}</div></div>
+    {b.pill && <div style={{position: 'absolute', bottom: 70, left: 0, right: 0, display: 'flex', justifyContent: 'center', opacity: popT(t, b.t0 + 1.0, 10) * a}}><Pill bg={RED} style={{padding: '6px 26px 0', ...font, fontSize: 48, color: '#fff'}}>{b.pill}</Pill></div>}
+  </AbsoluteFill>; },
+  tier: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1); const TC: any = {S: '#ff3b3b', A: '#ff9a2e', B: '#ffd23f', C: '#6fdc6f', D: '#5aa7ff'}; const per = (b.t1 - b.t0 - 0.6) / b.tiers.length;
+    return <AbsoluteFill style={{background: `rgba(8,10,18,${0.82 * o})`, opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 26}}>
+      <div style={{...BIG(70), textShadow: `5px 5px 0 ${INK}`}}>{b.title || '⚡ POWER TIER LIST'}</div>
+      <div style={{display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12, width: 1640}}>
+        {(b.tiers as any[]).map(([tn, ks]: [string, number[]], i: number) => { const tt = b.t0 + 0.2 + i * per; const u = popT(t, tt, 12); const bs = Math.min(100, 1400 / Math.max(1, ks.length) - 12); return (
+          <div key={tn} style={{display: 'flex', alignItems: 'center', gap: 8, height: 150, background: 'rgba(255,255,255,0.06)', border: `4px solid ${INK}`, borderRadius: 18, transform: `translateX(${(1 - u) * -1900}px)`}}>
+            <div style={{width: 140, minWidth: 140, height: '100%', background: TC[tn], borderRadius: '14px 0 0 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: 96, color: INK}}>{tn}</div>
+            {ks.map((k, j) => { const tj = tt + 0.3 + j * Math.min(0.2, (per - 0.5) / ks.length); const v = popT(t, tj, 11); return <div key={k} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateY(${(1 - v) * -400}px)`, opacity: t >= tj ? 1 : 0}}><Ball k={k} size={bs} mood={tn === 'S' ? 'smug' : tn === 'D' ? 'scared' : 'angry'} t={t + j} />{bs > 70 && <span style={{...font, fontSize: 17, color: '#fff', whiteSpace: 'nowrap'}}>{SNAME(k)}</span>}</div>; })}
+          </div>); })}
+      </div></AbsoluteFill>; },
+  count: ({t, b}) => { const nums = ['3', '2', '1']; const step = (b.t1 - b.t0 - 0.4) / 3; const i = Math.min(2, Math.floor((t - b.t0) / step)); const tn = b.t0 + i * step; const go = t >= b.t1 - 0.4;
+    return <AbsoluteFill style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: `rgba(0,0,0,${go ? 0 : 0.35})`}}>
+      <div style={{...BIG(go ? 240 : 420, go ? YELLOW : '#fff', 12), transform: `scale(${go ? 0.5 + 0.7 * popT(t, b.t1 - 0.4, 10) : 1.6 - 0.6 * popT(t, tn, 10)})`}}>{go ? (b.go || 'FIGHT!') : nums[i]}</div></AbsoluteFill>; },
+  news: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const sl = popT(t, b.t0 + 0.2, 10);
+    return <AbsoluteFill style={{opacity: o, pointerEvents: 'none'}}>
+      <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.65) 100%)'}} />
+      <div style={{position: 'absolute', left: 60, top: 50, display: 'flex', gap: 10, alignItems: 'center'}}><div style={{background: '#e0262b', padding: '6px 16px 2px', ...font, fontSize: 34, color: '#fff', borderRadius: 8, opacity: 0.6 + 0.4 * Math.abs(Math.sin(t * 5))}}>● LIVE</div><div style={{...font, fontSize: 30, color: '#fff', textShadow: '0 2px 4px #000'}}>{b.where || 'WORLD NEWS 24'}</div></div>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 130, transform: `translateX(${(1 - sl) * -1920}px)`}}>
+        <div style={{display: 'inline-block', background: '#e0262b', padding: '10px 30px 2px', ...font, fontSize: 44, color: '#fff', marginLeft: 60}}>BREAKING NEWS</div>
+        <div style={{background: '#fff', padding: '14px 60px 6px', ...font, fontSize: 66, color: INK, borderTop: `6px solid #e0262b`}}>{b.head}</div>
+        {b.sub && <div style={{background: '#1b1f2b', padding: '8px 60px 2px', ...font2, fontSize: 32, color: '#fff'}}>{b.sub}</div>}
+      </div>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 40, height: 56, background: YELLOW, overflow: 'hidden', borderTop: `4px solid ${INK}`}}><div style={{whiteSpace: 'nowrap', ...font, fontSize: 34, color: INK, paddingTop: 10, transform: `translateX(${1920 - (t - b.t0) * 420}px)`}}>{b.ticker}</div></div>
+    </AbsoluteFill>; },
+  bars: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1); const rows = b.rows as any[]; const mx = Math.max(...rows.map((r) => r[1]));
+    return <AbsoluteFill style={{background: `rgba(8,10,18,${0.85 * o})`, opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 40}}>
+      <div style={{...BIG(70, YELLOW), textShadow: `5px 5px 0 ${INK}`}}>{b.title}</div>
+      <div style={{display: 'flex', flexDirection: 'column', gap: 12, marginTop: 20, width: 1500}}>
+        {rows.map(([k, v, lab], i) => { const tt = b.t0 + 0.3 + i * (b.step || 0.25); const u = popT(t, tt, 12); const w = lerp(t, tt + 0.1, tt + 0.9, 0, v / mx, Easing.out(Easing.cubic)); return (
+          <div key={i} style={{display: 'flex', alignItems: 'center', gap: 14, opacity: Math.min(1, u * 1.5), transform: `translateX(${(1 - u) * -120}px)`}}>
+            <Ball k={k} size={70} mood="angry" t={t + i} /><span style={{...font, fontSize: 34, color: '#fff', width: 300, whiteSpace: 'nowrap'}}>{SNAME(k)}</span>
+            <div style={{flex: 1, height: 44, background: '#2a3040', border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden'}}><div style={{width: `${w * 100}%`, height: '100%', background: `linear-gradient(90deg, ${MAINCOL[k]}, #ffffff66)`}} /></div>
+            <span style={{...font, fontSize: 34, color: YELLOW, width: 220}}>{lab}</span></div>); })}
+      </div></AbsoluteFill>; },
+  stat: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const v = Math.round(lerp(t, b.t0 + 0.2, b.t1 - 0.6, b.from, b.to, Easing.out(Easing.cubic)));
+    return <AbsoluteFill style={{background: `radial-gradient(circle, rgba(0,0,0,${0.35 * o}) 20%, rgba(0,0,0,${0.7 * o}) 100%)`, opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      {b.pre && <div style={{...BIG(70), marginBottom: 10}}>{b.pre}</div>}
+      <div style={{...BIG(230, b.col || YELLOW, 12), transform: `scale(${0.6 + 0.4 * popT(t, b.t0, 9)})`}}>{(b.prefix || '') + v.toLocaleString('en-US') + (b.unit || '')}</div>
+      <div style={{...BIG(76), marginTop: 14, opacity: popT(t, b.t0 + 0.5, 10)}}>{b.sub}</div></AbsoluteFill>; },
+  versus: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const sa = popT(t, b.t0 + 0.05, 9), sb = popT(t, b.t0 + 0.3, 9), sv = popT(t, b.t0 + 0.6, 12);
+    return <AbsoluteFill style={{opacity: o, background: `linear-gradient(105deg, ${MAINCOL[b.ka[0]]}dd 0%, #0a0c14ee 48%, #0a0c14ee 52%, ${MAINCOL[b.kb[0]]}dd 100%)`}}>
+      <div style={{position: 'absolute', left: 80, top: 180, display: 'flex', gap: 10, transform: `translateX(${(1 - sa) * -900}px)`}}>{(b.ka as number[]).map((k, i) => <Ball key={k} k={k} size={i ? 200 : 330} mood="angry" t={t} look={[0.8, 0]} />)}</div>
+      <div style={{position: 'absolute', right: 80, top: 180, display: 'flex', gap: 10, flexDirection: 'row-reverse', transform: `translateX(${(1 - sb) * 900}px)`}}>{(b.kb as number[]).map((k, i) => <Ball key={k} k={k} size={i ? 200 : 330} mood="angry" t={t} look={[-0.8, 0]} />)}</div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center', ...BIG(260, YELLOW, 14), transform: `scale(${2.2 - 1.2 * sv}) rotate(-6deg)`, opacity: sv}}>VS</div>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 70, display: 'flex', justifyContent: 'space-around', ...BIG(64)}}><span>{b.la}</span><span>{b.lb}</span></div>
+      {b.title && <div style={{position: 'absolute', left: 0, right: 0, top: 40, textAlign: 'center', ...BIG(80), opacity: popT(t, b.t0 + 0.8, 10)}}>{b.title}</div>}
+    </AbsoluteFill>; },
+  quote: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const n = Math.floor(lerp(t, b.t0 + 0.3, b.t0 + 0.3 + b.text.length * 0.035, 0, b.text.length));
+    return <AbsoluteFill style={{opacity: o, background: `rgba(5,6,10,${0.75 * o})`, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 50}}>
+      <div style={{transform: `scale(${0.5 + 0.5 * popT(t, b.t0, 9)})`}}><Ball k={b.k} size={380} mood={b.mood || 'angry'} t={t} look={[0.8, 0]} /></div>
+      <div style={{maxWidth: 1000, background: '#fff', border: `7px solid ${INK}`, borderRadius: 36, padding: '30px 44px 20px', ...font, fontSize: 74, color: INK, lineHeight: 1.1}}>{b.text.slice(0, n)}<span style={{opacity: Math.sin(t * 12) > 0 ? 1 : 0}}>|</span></div>
+    </AbsoluteFill>; },
+  clock: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const v = lerp(t, b.t0 + 0.2, b.t1 - 0.3, b.from, b.to); const hh = Math.floor(v), mm = Math.floor((v - hh) * 60), ss = Math.floor(((v - hh) * 60 - mm) * 60);
+    return <AbsoluteFill style={{opacity: o, background: `radial-gradient(circle, rgba(60,0,0,${0.5 * o}) 10%, rgba(0,0,0,${0.85 * o}) 90%)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{...BIG(70)}}>{b.title}</div>
+      <div style={{...font, fontSize: 250, color: '#ff2b3b', fontVariantNumeric: 'tabular-nums', textShadow: '0 0 40px #ff2b3b', marginTop: 10}}>{String(hh).padStart(2, '0')}:{String(mm).padStart(2, '0')}:{String(ss).padStart(2, '0')}</div>
+      <div style={{...BIG(56, YELLOW), marginTop: 10}}>{b.sub}</div></AbsoluteFill>; },
+  timeline: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1); const ev = b.events as any[]; const per = (b.t1 - b.t0 - 0.5) / ev.length; const cur = Math.min(ev.length - 1, Math.floor((t - b.t0 - 0.2) / per));
+    return <AbsoluteFill style={{opacity: o, pointerEvents: 'none'}}>
+      <div style={{position: 'absolute', left: 80, right: 80, bottom: 90, height: 8, background: '#fff', borderRadius: 4, border: `3px solid ${INK}`}} />
+      {ev.map(([d, txt]: [string, string], i: number) => { const x = 80 + (i + 0.5) * (1760 / ev.length); const on = i <= cur; return <div key={i}>
+        <div style={{position: 'absolute', left: x - 18, bottom: 76, width: 36, height: 36, borderRadius: '50%', background: on ? RED : '#555', border: `5px solid ${INK}`}} />
+        <div style={{position: 'absolute', left: x - 120, width: 240, bottom: 124, textAlign: 'center', ...font, fontSize: 28, color: on ? YELLOW : '#999', textShadow: `3px 3px 0 ${INK}`}}>{d}</div></div>; })}
+      {cur >= 0 && <div style={{position: 'absolute', top: 60, left: 0, right: 0, textAlign: 'center', ...BIG(84), transform: `scale(${0.7 + 0.3 * popT(t, b.t0 + 0.2 + cur * per, 10)})`}}>{ev[cur][1]}</div>}
+    </AbsoluteFill>; },
+  ladder: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1); const ks = b.ks as number[]; const per = (b.t1 - b.t0 - 0.6) / ks.length;
+    return <AbsoluteFill style={{background: `rgba(8,10,18,${0.8 * o})`, opacity: o}}>
+      <div style={{position: 'absolute', top: 30, left: 0, right: 0, textAlign: 'center', ...BIG(72, YELLOW)}}>{b.title}</div>
+      {ks.map((k, i) => { const tt = b.t0 + 0.3 + i * per; const u = popT(t, tt, 11); const x = 140 + i * (1640 / Math.max(1, ks.length - 1)); const y = 900 - (i / Math.max(1, ks.length - 1)) * 640;
+        return <div key={k} style={{position: 'absolute', left: x - 60, top: y - 60, transform: `scale(${u})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}><Ball k={k} size={i === ks.length - 1 ? 150 : 110} mood={i === ks.length - 1 ? 'smug' : 'angry'} t={t + i} /><span style={{...font, fontSize: 22, color: '#fff', whiteSpace: 'nowrap'}}>{(b.labels && b.labels[i]) || SNAME(k)}</span></div>; })}
+    </AbsoluteFill>; },
+};
+const IntroSeq: React.FC<{t: number}> = ({t}) => {
+  const I = X.D.intro; if (!I || !I.blocks) return null;
+  const bs = (I.blocks as any[]).filter((b) => t >= b.t0 && t < b.t1);
+  return <>{bs.map((b, i) => { const C = BLK[b.k]; return C ? <AbsoluteFill key={i} style={{zIndex: b.z ?? 46}}><C t={t} b={b} /></AbsoluteFill> : null; })}</>;
+};
 // @@BRFX@@
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]}> = ({audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
@@ -1081,6 +1196,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <Ending t={t} />
       {D.mode === 'br' && <><ElimFX t={t} /><Board t={t} /><Poll t={t} /><IntroL t={t} /></>}
       {D.intro && D.intro.kind === 'hz' && <><IntroH t={t} /><Poll t={t} /></>}
+      {D.intro && D.intro.blocks && <><IntroSeq t={t} />{D.mode !== 'br' && <Poll t={t} />}</>}
       {fl > 0 && <AbsoluteFill style={{background: '#fff', opacity: fl * 0.35, zIndex: 60}} />}
       {SHORT && hook && cta && !segs && <ShortLayer t={t} off={off} dur={sdur} hook={hook} cta={cta} />}
       {SHORT && hook && cta && segs && <ShortCup lt={lt} dur={sg.sdur} hook={hook} cta={cta} cuts={sg.cuts} />}

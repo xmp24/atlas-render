@@ -191,6 +191,81 @@ const T: Record<string, React.ReactNode> = {
     <Title3D text="WORLD WAR 3" y={540} size={140} grad={REDG} glow="rgba(255,60,40,0.85)" />
     <Title3D text="STARTS IN HORMUZ?" y={8} size={86} grad={WHITE} glow="rgba(255,255,255,0.6)" />
   </>),
+  // ================= WORLD WAR CUP =================
+  w1: (<>
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 45%, #3b2a08 0%, #160c02 55%, #050302 100%)'}} />
+    {Array.from({length: 36}, (_, i) => { const a = (i / 36) * Math.PI * 2; const r = 300 + (i % 3) * 70; const x = W / 2 + Math.cos(a) * r * 1.55, y = 360 + Math.sin(a) * r * 0.5; const cs = ['US','CN','RU','BR','FR','DE','GB','JP','IN','KR','MX','AR','ES','IT','TR','IR','EG','NG','SA','AU','CA','PK','ID','KP','UA','PL','ZA','CO','VN','TH','SE','NO','IL','MA','PE','CL']; return <CBall key={i} k={K(cs[i])} size={70 + (i % 3) * 12} x={x} y={y} eyes={i % 4 === 0 ? 'scared' : 'angry'} look={x < W / 2 ? 0.6 : -0.6} />; })}
+    <Glow x={W / 2} y={360} r={330} c="rgba(255,205,60,0.6)" />
+    <Ico n="trophy-cup" x={W / 2} y={350} w={360} c="linear-gradient(180deg, #fff6b0, #ffd23f 45%, #d48a00)" />
+    <AK x={W / 2 - 230} y={380} w={210} rot={30} />
+    <AK x={W / 2 + 230} y={380} w={210} rot={-30} flip />
+    <Embers n={60} seed={51} c="#ffd27a" />
+    <Vign />
+    <Title3D text="128 COUNTRIES" y={8} size={104} grad={WHITE} glow="rgba(255,255,255,0.6)" />
+    <Title3D text="1 TROPHY" y={590} size={120} grad={GOLD} glow="rgba(255,190,40,0.85)" />
+  </>),
+  w2: (<>
+    <SplitBg />
+    <Embers n={60} seed={52} c="#ffd27a" />
+    <Smoke list={[[110, 650, 100], [1170, 650, 100]]} />
+    <Glow x={300} y={400} r={280} c="rgba(140,180,255,0.45)" />
+    <CBall k={K('US')} size={330} x={290} y={410} eyes="scared" look={0.6} sweat />
+    <WarHelmet x={290} y={420} size={324} />
+    <CBall k={K('CN')} size={330} x={990} y={410} eyes="angry" look={-0.6} rim="#ffcf6a" />
+    <WarHelmet x={990} y={420} size={324} />
+    <AK x={850} y={490} w={270} rot={-40} flip />
+    <Muzzle x={700} y={470} s={85} />
+    <Tracers from={[680, 465]} to={[470, 420]} n={5} />
+    <BoltFX seed={8} />
+    <Glow x={W / 2} y={250} r={150} c="rgba(255,205,60,0.6)" />
+    <Ico n="trophy-cup" x={W / 2} y={250} w={190} c="linear-gradient(180deg, #fff6b0, #ffd23f 45%, #d48a00)" />
+    <Badge text="THE FINAL" x={W / 2} y={470} bg="#c81e1e" size={54} rot={-4} />
+    <Vign />
+    <Title3D text="WORLD WAR CUP" y={8} size={110} grad={GOLD} glow="rgba(255,190,40,0.85)" />
+    <Title3D text="WASHINGTON IS FALLING" y={600} size={84} grad={REDG} glow="rgba(255,60,40,0.85)" />
+  </>),
+  w3: (<>
+    <AbsoluteFill style={{background: 'linear-gradient(180deg, #0f1a33 0%, #070b16 100%)'}} />
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+      {[[150, 180, 300, 245], [150, 310, 300, 245], [150, 420, 300, 485], [150, 550, 300, 485], [1130, 180, 980, 245], [1130, 310, 980, 245], [1130, 420, 980, 485], [1130, 550, 980, 485], [300, 245, 470, 365], [300, 485, 470, 365], [980, 245, 810, 365], [980, 485, 810, 365]].map(([x1, y1, x2, y2], i) => <path key={i} d={`M${x1},${y1} H${(x1 + x2) / 2} V${y2} H${x2}`} fill="none" stroke="#ffd23f" strokeWidth={8} opacity={0.85} />)}
+    </svg>
+    {[['BR', 150, 180], ['JP', 150, 310], ['GB', 150, 420], ['KR', 150, 550], ['RU', 1130, 180], ['IN', 1130, 310], ['FR', 1130, 420], ['DE', 1130, 550]].map(([c, x, y], i) => <React.Fragment key={c as string}><CBall k={K(c as string)} size={100} x={x as number} y={y as number} eyes="dead" gray /><XMark x={x as number} y={y as number} s={100} /></React.Fragment>)}
+    {[['US', 470, 365], ['CN', 810, 365]].map(([c, x, y]) => <CBall key={c as string} k={K(c as string)} size={170} x={x as number} y={y as number} eyes="angry" look={c === 'US' ? 0.7 : -0.7} rim="#ffcf6a" />)}
+    <Glow x={W / 2} y={365} r={160} c="rgba(255,205,60,0.6)" />
+    <Ico n="trophy-cup" x={W / 2} y={365} w={170} c="linear-gradient(180deg, #fff6b0, #ffd23f 45%, #d48a00)" />
+    <Embers n={50} seed={53} c="#ffd27a" />
+    <Vign />
+    <Title3D text="WHO WINS THE" y={8} size={96} grad={WHITE} glow="rgba(255,255,255,0.6)" />
+    <Title3D text="WORLD WAR CUP?" y={590} size={112} grad={GOLD} glow="rgba(255,190,40,0.85)" />
+  </>),
+  w4: (<>
+    <SplitBg dark />
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.5) 100%)'}} />
+    <Embers n={80} seed={54} c="#ffd27a" />
+    <Smoke list={[[90, 680, 120], [1190, 680, 120], [640, 720, 140]]} />
+    {/* siluetas de luz */}
+    {[[290, 440, '#ffb000', '#fff6c8'], [990, 440, '#2f8bff', '#e2f4ff']].map(([x, y, c1, c2], i) => (
+      <React.Fragment key={i}>
+        <div style={{position: 'absolute', left: (x as number) - 260, top: (y as number) - 260, width: 520, height: 520, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,0,0,0.6) 38%, rgba(0,0,0,0) 72%)', filter: 'blur(10px)'}} />
+        <div style={{position: 'absolute', left: (x as number) - 192, top: (y as number) - 192, width: 384, height: 384, borderRadius: '50%', boxShadow: `0 0 0 9px ${c2}, 0 0 18px 12px ${c2}, 0 0 60px 26px ${c1}, 0 0 140px 50px ${c1}aa`}} />
+      </React.Fragment>))}
+    <CBall k={K('US')} size={380} x={290} y={440} eyes="angry" look={0.6} />
+    <WarHelmet x={290} y={452} size={374} />
+    <AK x={450} y={530} w={290} rot={38} />
+    <CBall k={K('CN')} size={380} x={990} y={440} eyes="angry" look={-0.6} />
+    <WarHelmet x={990} y={452} size={374} />
+    <AK x={830} y={530} w={290} rot={-38} flip />
+    <Muzzle x={600} y={505} s={80} />
+    <Muzzle x={680} y={505} s={80} />
+    <Tracers from={[610, 500]} to={[780, 470]} n={4} />
+    <Tracers from={[670, 500]} to={[500, 470]} n={4} />
+    <BoltFX seed={8} />
+    <Glow x={W / 2} y={300} r={230} c="rgba(255,215,70,0.75)" />
+    <div style={{position: 'absolute', left: W / 2 - 170, top: 160, width: 340, height: 340, borderRadius: '50%', background: 'conic-gradient(from 0deg, rgba(255,230,120,0.0), rgba(255,230,120,0.35), rgba(255,230,120,0.0) 12%, rgba(255,230,120,0.35) 25%, rgba(255,230,120,0) 37%, rgba(255,230,120,0.35) 50%, rgba(255,230,120,0) 62%, rgba(255,230,120,0.35) 75%, rgba(255,230,120,0) 87%, rgba(255,230,120,0.35))', filter: 'blur(3px)'}} />
+    <Ico n="trophy-cup" x={W / 2} y={310} w={270} c="linear-gradient(180deg, #fffbe0, #ffe14a 35%, #ffb21a 70%, #c27400)" />
+    <Vign />
+    <Title3D text="WORLD WAR CUP" y={6} size={124} grad={GOLD} glow="rgba(255,190,40,0.9)" />
+  </>),
 };
 export const ThumbD4: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D4_IDS = Object.keys(T);
