@@ -53,6 +53,7 @@ export const Overlays: React.FC<{t: number; T: number; p: any; id: string}> = ({
   const hud = p.hud === false ? null : (p.hud || (p.kind === 'map' ? g.top : null));
   return (<>
     {hud && <Hud label={hud.label} val={fmtVal(kfv(hud.kf, hud.abs === false ? t : T), hud.fmt || 'int')} col={hud.col} />}
+    {p.kind === 'map' && p.hud !== false && g.top2 && <div style={{position: 'absolute', right: 44, top: 36, width: 290, height: 120}}><div style={{position: 'relative'}}><Hud label={g.top2.label} val={fmtVal(kfv(g.top2.kf, T), g.top2.fmt || 'int')} col={g.top2.col || '#7ad0ff'} x={0} y={0} /></div></div>}
     {p.gbar !== false && (p.gbar || (p.useBar && g.bar)) && (() => { const b = p.gbar || g.bar; const v = kfv(b.kf, T); return <GBar label={b.label} pct={v} sub={b.sub ? fmtVal(v / 100 * (b.total || 1), b.sub) + ' ' + (b.unit || '') : undefined} t={t} t0={p.barIn ?? -1} col={b.col} />; })()}
     {(p.thermo || (p.useThermo && g.thermo)) && (() => { const th = p.thermo || g.thermo; return <Thermo v={kfv(th.kf, T)} min={th.min} max={th.max} t={t} label={th.label} />; })()}
     {(p.counters || []).map((c: any, i: number) => { const [t0, label, kf, fmt, col, anchor] = c; if (t < t0) return null; return <Counter key={i} label={label} val={fmtVal(kfv(kf, t), fmt || 'int')} col={col} t={t} t0={t0} anchor={anchor || 'bl'} />; })}
