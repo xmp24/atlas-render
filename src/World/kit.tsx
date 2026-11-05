@@ -33,7 +33,7 @@ export const WMap: React.FC<{T: number; cam: Cam; warOn?: boolean; night?: numbe
 // ---------------- capa de celdas: el mundo cambia por zonas ----------------
 const C = CELLS as any; const NC = C.x.length;
 const hash = (i: number) => { const x = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
-export type CellCfg = {mode: 'lat' | 'flood' | 'tz' | 'country' | 'rand' | 'dist'; t0: number; dur?: number; col: string; col2?: string; a?: number; pw?: number; south?: boolean; lvl?: number[][]; spd?: number; ev?: number[][]; seeds?: number[][]; r?: number; fade?: number; glow?: boolean; invert?: boolean; band?: number; elevw?: number; noise?: number};
+export type CellCfg = {mode: 'lat' | 'flood' | 'tz' | 'country' | 'rand' | 'dist'; t0: number; dur?: number; col: string; col2?: string; a?: number; pw?: number; south?: boolean; lvl?: number[][]; spd?: number; ev?: number[][]; seeds?: number[][]; r?: number; fade?: number; glow?: boolean; invert?: boolean; band?: number; span?: number[][]; elevw?: number; noise?: number};
 // tiempo (abs) en que cada celda cambia de estado; Infinity = nunca
 const CACHE = new WeakMap<any, Float32Array>();
 const cellTimes = (cfg: CellCfg, V: any): Float32Array => {
@@ -67,9 +67,9 @@ export const CellLayer: React.FC<{T: number; cam: Cam; cfg: CellCfg}> = ({T, cam
       ctx.globalAlpha = 1; return;
     }
     if (cfg.mode === 'tz') { // medianoche que avanza hacia el oeste: banda brillante + zona ya pasada
-      const lon0 = kfv(cfg.lvl || [[0, 180]], T); const band = cfg.band ?? 12;
+      const lon0 = kfv(cfg.lvl || [[0, 180]], T); const band = cfg.band ?? 12; const span = cfg.span ? kfv(cfg.span, T) : 360;
       for (let i = 0; i < NC; i++) { const x = C.x[i], y = C.y[i]; if (x < x0 || x > x1 || y < y0 || y > y1) continue; let dl = C.lo[i] - lon0; if (dl < -180) dl += 360; if (dl > 180) dl -= 360;
-        const passed = (cfg.invert ? dl < 0 : dl > 0) && Math.abs(dl) < 360; const inBand = Math.abs(dl) < band;
+        const passed = (cfg.invert ? dl < 0 : dl > 0) && Math.abs(dl) < span; const inBand = Math.abs(dl) < band;
         if (inBand) { ctx.fillStyle = cfg.col2 || '#ffffff'; ctx.globalAlpha = (1 - Math.abs(dl) / band) * 0.9; }
         else if (passed && cfg.col) { ctx.fillStyle = cfg.col; ctx.globalAlpha = A; } else continue;
         ctx.beginPath(); ctx.arc((x - cam.cx) * cam.s + W / 2, (y - cam.cy) * cam.s + H / 2, r * 1.25, 0, 6.2832); ctx.fill(); }
