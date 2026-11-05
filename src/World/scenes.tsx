@@ -181,8 +181,8 @@ export const BallsScene: React.FC<SP> = ({t, p}) => {
     {(p.props || []).map((q: any, i: number) => <Icon key={'pr' + i} name={q[0]} x={q[1]} y={q[2]} w={q[3] || 90} c={q[4] || '#fff'} />)}
     {(p.balls || []).map((b: any, i: number) => { const [k, x, y, s, eyes, acc, t0, label, extra] = b; if (t0 != null && t < t0) return null; const ex = extra || {};
       return <div key={i} style={{position: 'absolute', left: 0, top: -hop(bubs, t, i) + (ex.fall ? ip(t, [ex.fall, ex.fall + 0.6], [0, 300]) : 0), width: W, height: H, transform: t0 != null ? `scale(${pop(t, t0, 0.35)})` : undefined, transformOrigin: `${x}px ${y}px`, opacity: ex.out ? ip(t, [ex.out, ex.out + 0.4], [1, 0]) : 1}}>
-        <Char k={k} t={t} s={s || 220} x={x + (ex.walk ? (t - (t0 || 0)) * ex.walk : 0)} y={y} eyes={(ex.e2 && t > ex.e2[0] ? ex.e2[1] : eyes) || 'normal'} acc={acc || 'none'} label={label} sweat={ex.sweat} tears={ex.tears} rot={ex.rot && t > ex.rot[0] ? ex.rot[1] : 0} /></div>; })}
-    {bubs.map(([t0, k, tx]: any, i: number) => { const b = p.balls[k]; return <Bubble key={'bb' + i} t={t} t0={t0} t1={bubEnd(bubs, i, p.dur || 10)} x={b[1]} y={b[2] - (b[3] || 220) * 0.75} text={tx} size={38} />; })}
+        <Char k={k} t={t} s={(s || 220) * (p.bscale ?? 1.25)} x={x + (ex.walk ? (t - (t0 || 0)) * ex.walk : 0)} y={y} eyes={(ex.e2 && t > ex.e2[0] ? ex.e2[1] : eyes) || 'normal'} acc={acc || 'none'} label={label} sweat={ex.sweat} tears={ex.tears} rot={ex.rot && t > ex.rot[0] ? ex.rot[1] : 0} /></div>; })}
+    {bubs.map(([t0, k, tx]: any, i: number) => { const b = p.balls[k]; return <Bubble key={'bb' + i} t={t} t0={t0} t1={bubEnd(bubs, i, p.dur || 10)} x={b[1]} y={b[2] - (b[3] || 220) * (p.bscale ?? 1.25) * 0.72} text={tx} size={38} />; })}
     {(p.fx || []).map((f: any, i: number) => t > f[0] && t < f[0] + 0.4 && Math.floor(t * 10) % 2 === 0 ? <div key={'fx' + i} style={{position: 'absolute', left: f[1] - 50, top: f[2] - 50, ...font, fontSize: 100}}>💥</div> : null)}
     <Vig a={0.45} />
   </AbsoluteFill>);

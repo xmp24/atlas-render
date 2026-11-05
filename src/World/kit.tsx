@@ -119,6 +119,7 @@ export const ShelterLayer: React.FC<{T: number; cam: Cam; list: number[][]; col?
 // ---------------- HUDs genéricos ----------------
 // panel superior izquierdo: etiqueta + valor formateado (año, mes, semana, temperatura...)
 export const fmtVal = (v: number, f: string) => {
+  if (f === 'yr') return String(Math.floor(v));
   if (f === 'int') return Math.round(v).toLocaleString('en-US');
   if (f === 'temp') return `${v >= 0 ? '+' : ''}${v.toFixed(0)}°C`;
   if (f === 'temp1') return `${v >= 0 ? '+' : ''}${v.toFixed(1)}°C`;
