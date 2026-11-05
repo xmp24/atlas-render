@@ -45,6 +45,21 @@ const BA = () => (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}
     <div style={{position: 'absolute', left: -300, top: -300, width: 1200, height: 1200, opacity: 0.35, background: 'repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.9) 0deg 7deg, transparent 7deg 20deg)', WebkitMaskImage: 'radial-gradient(circle, #000 10%, transparent 65%)', transform: 'translate(20px, 40px)'}} />
     {[[90, 120, 170], [470, 80, 140], [80, 610, 190], [520, 640, 150]].map(([x, y, r], i) => <div key={i} style={{position: 'absolute', left: x - r, top: y - r * 0.45, width: r * 2, height: r * 0.9, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(255,255,255,0.85), rgba(255,255,255,0) 70%)', filter: 'blur(4px)'}} />)}
     {[[110, 260, 26], [560, 230, 20], [150, 520, 18], [540, 540, 30], [460, 160, 14]].map(([x, y, s], i) => <Sparkle key={i} x={x} y={y} s={s} />)}
+    {/* sol */}
+    <div style={{position: 'absolute', left: 30, top: 150, width: 110, height: 110, borderRadius: '50%', background: 'radial-gradient(circle, #fffbe0, #ffe36a 70%)', border: `5px solid ${INK}`, boxShadow: '0 0 60px 25px rgba(255,240,150,0.75)'}} />
+    {/* nubes de dibujo */}
+    {[[520, 190, 1], [90, 470, 0.8], [470, 330, 0.65]].map(([x, y, k], i) => <div key={'cl' + i} style={{position: 'absolute', left: x - 90 * k, top: y - 40 * k, width: 180 * k, height: 80 * k}}>
+      {[[0.1, 0.45, 0.38], [0.35, 0.2, 0.48], [0.62, 0.4, 0.4]].map(([a, b, r], j) => <div key={j} style={{position: 'absolute', left: `${a * 100}%`, top: `${b * 100}%`, width: 180 * k * r, height: 180 * k * r, borderRadius: '50%', background: 'linear-gradient(180deg, #ffffff, #dff2ff)', border: `${4 * k}px solid ${INK}`}} />)}
+    </div>)}
+    {/* pájaros */}
+    {[[240, 150], [285, 175], [330, 140]].map(([x, y], i) => <svg key={'b' + i} width={40} height={20} style={{position: 'absolute', left: x, top: y}}><path d="M2,14 Q10,2 20,12 Q30,2 38,14" fill="none" stroke={INK} strokeWidth={4} strokeLinecap="round" /></svg>)}
+    {/* colinas verdes con casitas */}
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+      <path d="M-20,640 Q160,560 330,620 T700,610 L700,740 L-20,740 Z" fill="#5fc04a" stroke={INK} strokeWidth={6} />
+      <path d="M-20,690 Q200,630 420,680 T720,670 L720,740 L-20,740 Z" fill="#3ea13a" stroke={INK} strokeWidth={6} />
+      {[[60, 600], [120, 590], [520, 600], [580, 612]].map(([x, y], i) => <g key={i}><rect x={x} y={y} width={34} height={26} fill="#fff3d8" stroke={INK} strokeWidth={4} /><path d={`M${x - 6},${y} L${x + 17},${y - 20} L${x + 40},${y} Z`} fill="#e5322d" stroke={INK} strokeWidth={4} strokeLinejoin="round" /></g>)}
+      {[[200, 640], [260, 655], [440, 650], [640, 660], [30, 670]].map(([x, y], i) => <g key={'t' + i}><rect x={x - 4} y={y - 6} width={8} height={22} fill="#7a4a2a" /><circle cx={x} cy={y - 18} r={18} fill="#2f8a2a" stroke={INK} strokeWidth={4} /></g>)}
+    </svg>
   </AbsoluteFill>
   {/* derecha: infierno */}
   <AbsoluteFill style={{clipPath: RIGHT, background: 'radial-gradient(ellipse at 70% 105%, #fff3a8 0%, #ffbe1f 14%, #ff6a12 36%, #c3170c 64%, #3a0503 100%)'}}>
@@ -53,6 +68,17 @@ const BA = () => (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}
     </svg>
     <div style={{position: 'absolute', left: 620, right: -40, top: -90, height: 240, background: 'radial-gradient(ellipse at 30% 60%, rgba(30,8,4,0.85) 0%, rgba(30,8,4,0) 55%), radial-gradient(ellipse at 75% 50%, rgba(30,8,4,0.8) 0%, rgba(30,8,4,0) 55%)', filter: 'blur(8px)'}} />
     <Smoke list={[[760, 650, 110], [1180, 680, 120], [1250, 120, 90]]} />
+    {/* hongo nuclear al fondo */}
+    <div style={{position: 'absolute', left: 1105, top: 200, width: 60, height: 430, background: 'linear-gradient(90deg, #7a2a0a, #ffb060 50%, #7a2a0a)', clipPath: 'polygon(30% 0, 70% 0, 100% 100%, 0 100%)', opacity: 0.85}} />
+    <div style={{position: 'absolute', left: 1015, top: 120, width: 250, height: 140, borderRadius: '50%', background: 'radial-gradient(ellipse at 50% 70%, #fffbe0 0%, #ffbe48 25%, #e8601e 55%, #5a2a1a 90%)', border: `6px solid ${INK}`, opacity: 0.92}} />
+    {/* ciudad en ruinas ardiendo */}
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+      {Array.from({length: 11}, (_, i) => { const x = 640 + i * 62, h = 80 + rnd(i + 20) * 150, w = 50, top = 650 - h;
+        return <path key={i} d={`M${x},660 L${x},${top + 20} L${x + w * 0.3},${top} L${x + w * 0.5},${top + 30 + rnd(i) * 20} L${x + w * 0.75},${top + 10} L${x + w},${top + 40} L${x + w},660 Z`} fill="#2a0e08" stroke={INK} strokeWidth={4} />; })}
+      {Array.from({length: 9}, (_, i) => { const x = 660 + i * 70, h = 50 + rnd(i + 3) * 60; return <path key={'f' + i} d={`M${x},${640} Q${x + 12},${640 - h * 0.6} ${x + 22},${640 - h} Q${x + 34},${640 - h * 0.5} ${x + 44},${640} Z`} fill="#ffb21a" opacity={0.9} />; })}
+      <path d="M600,650 L1290,650 L1290,740 L600,740 Z" fill="#1a0806" />
+      {[[700, 690, 820, 700], [880, 680, 990, 705], [1050, 695, 1200, 685]].map(([a, b, c, d], i) => <path key={'l' + i} d={`M${a},${b} L${(a + c) / 2},${b + 8} L${c},${d}`} stroke="#ff7a10" strokeWidth={5} fill="none" />)}
+    </svg>
   </AbsoluteFill>
   <Embers n={60} seed={41} c="#ffd27a" />
   {/* Tierra feliz */}
@@ -72,23 +98,23 @@ const BA = () => (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}
     <circle cx={965} cy={420} r={212} fill="none" stroke={INK} strokeWidth={17} />
     {/* cráteres incandescentes */}
     {[[870, 330, 26], [1070, 520, 30], [1060, 300, 18], [880, 545, 20], [1120, 410, 16]].map(([x, y, r], i) => <g key={'c' + i}><ellipse cx={x} cy={y} rx={r} ry={r * 0.7} fill="#1a0a06" stroke="#ff8a20" strokeWidth={3} /><ellipse cx={x} cy={y + r * 0.15} rx={r * 0.55} ry={r * 0.32} fill="#ff6a10" filter="url(#gl)" /></g>)}
-    {/* cara malvada */}
+    {/* cara triste y seria */}
     <g transform="translate(965,410)">
-      <path d="M-150,-95 L-30,-45 L-38,-20 L-155,-62 Z" fill={INK} />
-      <path d="M150,-95 L30,-45 L38,-20 L155,-62 Z" fill={INK} />
       {[-1, 1].map((d) => <g key={d}>
-        <path d={`M${d * 145},-50 Q${d * 90},-30 ${d * 35},-12 Q${d * 60},40 ${d * 110},30 Q${d * 160},10 ${d * 145},-50 Z`} fill="#fff" stroke={INK} strokeWidth={9} strokeLinejoin="round" />
-        <circle cx={d * 88} cy={5} r={22} fill="url(#eye)" stroke={INK} strokeWidth={5} />
-        <circle cx={d * 88} cy={5} r={30} fill="rgba(255,90,20,0.55)" filter="url(#gl)" />
-        <ellipse cx={d * 88} cy={5} rx={6} ry={15} fill={INK} />
+        <ellipse cx={d * 80} cy={10} rx={50} ry={44} fill="#fff" stroke={INK} strokeWidth={9} />
+        <circle cx={d * 80 + d * -4} cy={30} r={17} fill={INK} />
+        <circle cx={d * 80 + d * -4 - 6} cy={24} r={5} fill="#fff" />
+        {/* párpado caído */}
+        <path d={`M${d * 80 - 54},6 Q${d * 80},-48 ${d * 80 + 54},6 Q${d * 80},-8 ${d * 80 - 54},6 Z`} fill="#3a1a10" stroke={INK} strokeWidth={8} strokeLinejoin="round" />
+        {/* ceja triste: el lado interior sube */}
+        <path d={`M${d * 30},-62 Q${d * 75},-60 ${d * 130},-30`} fill="none" stroke={INK} strokeWidth={17} strokeLinecap="round" />
       </g>)}
-      <path d="M-115,70 Q0,175 115,70 Q60,100 0,104 Q-60,100 -115,70 Z" fill="#2a0806" stroke={INK} strokeWidth={9} strokeLinejoin="round" />
-      {[-70, -35, 0, 35, 70].map((x, i) => <path key={i} d={`M${x - 15},${100 - Math.abs(x) * 0.25} L${x},${126 - Math.abs(x) * 0.3} L${x + 15},${100 - Math.abs(x) * 0.25} Z`} fill="#fff6e0" stroke={INK} strokeWidth={3} />)}
+      <path d="M-62,120 Q0,82 62,120" fill="none" stroke={INK} strokeWidth={13} strokeLinecap="round" />
     </g>
   </svg>
   <Bolt />
   <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)'}} />
-  <Title3D text="BEFORE" x={320} y={18} size={104} grad={WHITE} glow="rgba(160,230,255,0.8)" rot={-3} />
-  <Title3D text="AFTER" x={965} y={18} size={104} grad={FIRE} glow="rgba(255,150,40,0.85)" rot={3} />
+  <Title3D text="BEFORE" x={320} y={6} size={132} grad="linear-gradient(180deg, #ffffff 0%, #e8fbff 45%, #7fe0ff 75%, #2fa8ff 100%)" glow="rgba(120,220,255,1)" rot={-4} />
+  <Title3D text="AFTER" x={965} y={6} size={132} grad="linear-gradient(180deg, #fffbe0 0%, #ffe14a 30%, #ff8a1a 60%, #ff2a0a 100%)" glow="rgba(255,90,20,1)" rot={4} />
 </AbsoluteFill>);
 export const ThumbBurn3: React.FC = () => <BA />;
