@@ -122,18 +122,18 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
 const Stamps: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const out: React.ReactNode[] = [];
   for (const [t0, k, kind] of X.D.stamps as [number, number, string][]) {
-    const d = t - t0; const life = kind === 'big' ? 2.2 : 1.3;
+    const d = t - t0; const life = kind === 'big' || kind === 'freebig' ? 2.2 : 1.3; const fr = kind === 'free' || kind === 'freebig';
     if (d < 0 || d > life) continue;
     const c = PIECES_C(k); const [sx0, sy0] = toS(c[0], c[1], cam);
     const sx = Math.max(160, Math.min(VW - 160, sx0)), sy = Math.max(140, Math.min(VH - 140, sy0));
     const a = popT(t, t0, 10) * lerp(d, life - 0.3, life, 1, 0);
-    const big = kind === 'big';
+    const big = kind === 'big' || kind === 'freebig';
     out.push(
-      <div key={`${k}-${t0}`} style={{position: 'absolute', left: sx, top: sy, transform: `translate(-50%,-50%) scale(${0.4 + 0.6 * a}) rotate(-6deg)`, opacity: Math.min(1, a * 1.5), display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,248,235,0.97)', border: `${big ? 7 : 5}px solid ${RED}`, borderRadius: 14, padding: big ? '8px 22px 4px 10px' : '4px 14px 2px 6px', boxShadow: '0 6px 0 rgba(0,0,0,0.35)', zIndex: 18, whiteSpace: 'nowrap'}}>
+      <div key={`${k}-${t0}`} style={{position: 'absolute', left: sx, top: sy, transform: `translate(-50%,-50%) scale(${0.4 + 0.6 * a}) rotate(-6deg)`, opacity: Math.min(1, a * 1.5), display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,248,235,0.97)', border: `${big ? 7 : 5}px solid ${fr ? '#2fae4e' : RED}`, borderRadius: 14, padding: big ? '8px 22px 4px 10px' : '4px 14px 2px 6px', boxShadow: '0 6px 0 rgba(0,0,0,0.35)', zIndex: 18, whiteSpace: 'nowrap'}}>
         <FlagImg k={k} w={big ? 64 : 40} round />
         <div style={{display: 'flex', flexDirection: 'column', lineHeight: 0.95}}>
           <span style={{...font, fontSize: big ? 40 : 26, color: INK}}>{UP(k)}</span>
-          <span style={{...font, fontSize: big ? 30 : 20, color: RED}}>CONQUERED</span>
+          <span style={{...font, fontSize: big ? 30 : 20, color: fr ? '#2fae4e' : RED}}>{fr ? 'LIBERATED' : 'CONQUERED'}</span>
         </div>
       </div>,
     );
@@ -1156,7 +1156,7 @@ const Splash: React.FC<{tR: number}> = ({tR}) => {
   const sp = ((X.D.splash || []) as any[]).find((x) => tR >= x[0] && tR < x[1]); if (!sp) return null;
   const [r0, r1, txt, sub] = sp; const o = lerp(tR, r0, r0 + 0.2, 0, 1) * lerp(tR, r1 - 0.25, r1, 1, 0);
   return <AbsoluteFill style={{zIndex: 49, background: `rgba(6,8,14,${0.72 * o})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: o}}>
-    <div style={{...font, fontSize: 230, color: YELLOW, WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill', lineHeight: 1, transform: `scale(${0.4 + 0.6 * popT(tR, r0, 10)}) rotate(-3deg)`}}>{txt}</div>
+    <div style={{...font, fontSize: Math.min(230, 2700 / Math.max(6, String(txt).length)), textAlign: 'center', maxWidth: 1800, color: YELLOW, WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill', lineHeight: 1, transform: `scale(${0.4 + 0.6 * popT(tR, r0, 10)}) rotate(-3deg)`}}>{txt}</div>
     <div style={{...font, fontSize: 70, color: '#fff', WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill', marginTop: 16, opacity: popT(tR, r0 + 0.35, 10), transform: `translateY(${(1 - popT(tR, r0 + 0.35, 10)) * 40}px)`}}>{sub}</div>
   </AbsoluteFill>;
 };
