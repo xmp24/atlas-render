@@ -2,3 +2,15 @@ node_modules/
 build/
 out/
 *.wav
+# copias locales del toolkit (cp -r toolkit/* .) y artefactos
+__pycache__/
+build-hw/
+out/
+/audio/
+/data/
+/aud_hw.py
+/warlib.py
+/wlib2.py
+/dir_hormuz.py
+/dir_latam.py
+/dir_usa3.py

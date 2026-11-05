@@ -1,7 +1,7 @@
 #!/bin/bash
 # Descarga, descifra, une y verifica el render de GitHub (lee out/ghrun_args.txt)
 set -e
-M=/home/claude/miniguerra; REPO=xmp24/atlas-render
+M=/home/claude/atlas-render; REPO=xmp24/atlas-render
 read RUN TOTAL AUDIO OUT JOBS TAG < $M/out/ghrun_args.txt
 D=$M/out/gh_$RUN; rm -rf $D; mkdir -p $D; cd $D
 # las partes cifradas llegan como ramas out-TAG (relay) o out-TAG-i (render)
