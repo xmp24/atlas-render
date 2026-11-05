@@ -228,8 +228,8 @@ const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
             <span style={{...font, fontSize: 40, color: '#fff', minWidth: 130}}>{fmt(pw)}</span>
           </Pill>
           <div style={{display: 'flex', gap: 6, marginTop: 5}}>
-            <Pill bg={CREAM} style={{padding: '1px 12px 0', ...font, fontSize: 23, color: INK, transform: `scale(${1 + bump})`, transformOrigin: 'left center', display: 'inline-block'}}>🌍 {n} / {D.total}</Pill>
-            {D.ver !== 'a' && <Pill bg="#2a3346" style={{padding: '1px 12px 0', ...font, fontSize: 23, color: '#ff9a8f', display: 'inline-block'}}>{D.total - n} LEFT</Pill>}
+            {D.mode === 'hz' ? <HzPills t={t} /> : <><Pill bg={CREAM} style={{padding: '1px 12px 0', ...font, fontSize: 23, color: INK, transform: `scale(${1 + bump})`, transformOrigin: 'left center', display: 'inline-block'}}>🌍 {n} / {D.total}</Pill>
+            {D.ver !== 'a' && <Pill bg="#2a3346" style={{padding: '1px 12px 0', ...font, fontSize: 23, color: '#ff9a8f', display: 'inline-block'}}>{D.total - n} LEFT</Pill>}</>}
           </div>
         </div>
       </div>
@@ -934,7 +934,75 @@ const IntroL: React.FC<{t: number}> = ({t}) => {
     </AbsoluteFill>
   );
 };
-const IntroH: React.FC<{t: number}> = ({t}) => null;
+const strAt = (t: number) => { let v = 'OPEN'; for (const p of (X.D.strait || []) as any[]) { if (p[0] <= t) v = p[1]; else break; } return v as string; };
+const HzPills: React.FC<{t: number}> = ({t}) => {
+  const st = strAt(t); const col = st === 'CLOSED' ? '#e0262b' : st === 'CONTESTED' ? '#ff9a2e' : '#2fae4e';
+  const o = kfv(X.D.oil, t), o0 = kfv(X.D.oil, t - 0.5); const up = o > o0 + 0.05, dn = o < o0 - 0.05;
+  return <>
+    <Pill bg={col} style={{padding: '1px 12px 0', ...font, fontSize: 23, color: '#fff', display: 'inline-block'}}>⚓ STRAIT: {st}</Pill>
+    <Pill bg="#2a3346" style={{padding: '1px 12px 0', ...font, fontSize: 23, color: up ? '#ff8f8f' : dn ? '#8fffa4' : '#fff', display: 'inline-block'}}>🛢️ ${Math.round(o)} {up ? '▲' : dn ? '▼' : ''}</Pill>
+  </>;
+};
+const IntroH: React.FC<{t: number}> = ({t}) => {
+  const I = X.D.intro; if (!I) return null;
+  if (t < I.close[1]) {
+    const inOil = t < I.oil[1], inHere = t >= I.here[0] && t < I.here[1], inClose = t >= I.close[0];
+    const dark = inOil ? 0.62 : inHere ? 0.25 : 0.4;
+    const cnt = Math.round(lerp(t, 0.3, 2.6, 0, 21000000, Easing.out(Easing.cubic)));
+    const price = kfv(X.D.oil, t);
+    return (
+      <AbsoluteFill style={{zIndex: 44, background: `radial-gradient(circle, rgba(0,0,0,${dark * 0.4}) 25%, rgba(0,0,0,${dark}) 100%)`}}>
+        {inOil && <div style={{position: 'absolute', top: 240, left: 0, right: 0, textAlign: 'center'}}>
+          <div style={{...font, fontSize: 150, color: '#fff', textShadow: `8px 8px 0 ${INK}`, transform: `scale(${0.6 + 0.4 * popT(t, 0.1, 9)})`, lineHeight: 1}}>20% OF THE WORLD'S OIL</div>
+          <div style={{...font, fontSize: 70, color: YELLOW, textShadow: `5px 5px 0 ${INK}`, marginTop: 30, opacity: popT(t, 0.6, 10)}}>🛢️ {cnt.toLocaleString('en-US')} BARRELS / DAY</div>
+        </div>}
+        {inHere && <>
+          <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
+            {[0, 1, 2].map((i) => { const r = 60 + ((t * 120 + i * 60) % 180); return <circle key={i} cx={960} cy={540} r={r} fill="none" stroke={YELLOW} strokeWidth={8} opacity={1 - (r - 60) / 180} />; })}
+            <circle cx={960} cy={540} r={22} fill={RED} stroke={INK} strokeWidth={6} />
+          </svg>
+          <div style={{position: 'absolute', top: 120, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 130, color: '#fff', textShadow: `8px 8px 0 ${INK}`, transform: `scale(${0.6 + 0.4 * popT(t, I.here[0], 9)})`}}>PASSES THROUGH HERE 👇</div>
+        </>}
+        {inClose && <>
+          <AbsoluteFill style={{background: `rgba(200,10,20,${0.35 * lerp(t, I.close[0], I.close[0] + 0.6, 1, 0.3)})`}} />
+          <div style={{position: 'absolute', top: 110, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 140, color: '#ff2b3b', WebkitTextStroke: `7px ${INK}`, paintOrder: 'stroke fill', transform: `scale(${0.5 + 0.5 * popT(t, I.close[0] + 0.1, 9)}) rotate(-2deg)`}}>AND IRAN JUST CLOSED IT</div>
+          <div style={{position: 'absolute', right: 120, bottom: 110, width: 620, background: 'rgba(10,12,20,0.92)', border: `5px solid ${RED}`, borderRadius: 22, padding: '16px 26px', transform: `translateY(${(1 - popT(t, I.close[0] + 0.5, 10)) * 500}px)`}}>
+            <div style={{...font, fontSize: 34, color: '#ff9a8f'}}>🛢️ OIL PRICE · LIVE</div>
+            <div style={{display: 'flex', alignItems: 'center', gap: 20}}>
+              <span style={{...font, fontSize: 110, color: '#fff', lineHeight: 1}}>${Math.round(price)}</span><span style={{...font, fontSize: 70, color: '#ff3b3b'}}>▲ {Math.round((price / 72 - 1) * 100)}%</span>
+            </div>
+            <svg width={560} height={110}><polyline points={Array.from({length: 40}, (_, i) => { const tt = I.close[0] + (i / 39) * Math.max(0.01, t - I.close[0]); return `${i * 14},${105 - (kfv(X.D.oil, tt) - 60) * 1.05 + Math.sin(i * 1.7) * 4}`; }).join(' ')} fill="none" stroke="#ff3b3b" strokeWidth={6} strokeLinejoin="round" /></svg>
+          </div>
+        </>}
+      </AbsoluteFill>
+    );
+  }
+  if (t >= I.tape[0] && t < I.tape[1]) {
+    const o = lerp(t, I.tape[0], I.tape[0] + 0.25, 0, 1) * lerp(t, I.tape[1] - 0.3, I.tape[1], 1, 0);
+    return (
+      <AbsoluteFill style={{zIndex: 46, background: `linear-gradient(100deg, rgba(31,63,160,${0.85 * o}) 0%, rgba(8,10,18,${0.9 * o}) 50%, rgba(20,110,50,${0.85 * o}) 100%)`, opacity: o}}>
+        <div style={{position: 'absolute', top: 30, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 72, color: YELLOW, textShadow: `5px 5px 0 ${INK}`}}>TALE OF THE TAPE</div>
+        <div style={{position: 'absolute', left: 60, top: 150, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateX(${(1 - popT(t, I.tape[0], 10)) * -500}px)`}}><Ball k={I.ka} size={250} mood="smug" t={t} look={[0.8, 0]} /><div style={{...font, fontSize: 56, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>USA</div></div>
+        <div style={{position: 'absolute', right: 60, top: 150, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateX(${(1 - popT(t, I.tape[0], 10)) * 500}px)`}}><Ball k={I.kb} size={250} mood="angry" t={t} look={[-0.8, 0]} /><div style={{...font, fontSize: 56, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>IRAN</div></div>
+        <div style={{position: 'absolute', left: 380, right: 380, top: 140, display: 'flex', flexDirection: 'column', gap: 22}}>
+          {(I.rows as any[]).map(([ic, lab, a, b, sh], i) => { const tt = I.tape[0] + 0.6 + i * 1.6; const u = popT(t, tt, 11); const f = lerp(t, tt + 0.2, tt + 0.9, 0.5, sh, Easing.out(Easing.cubic)); return (
+            <div key={i} style={{opacity: t >= tt ? 1 : 0, transform: `scale(${0.7 + 0.3 * u})`}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline'}}><span style={{...font, fontSize: 46, color: '#9fc0ff'}}>{a}</span><span style={{...font, fontSize: 32, color: '#fff'}}>{ic} {lab}</span><span style={{...font, fontSize: 46, color: '#8fffa4'}}>{b}</span></div>
+              <div style={{height: 30, display: 'flex', border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden'}}><div style={{width: `${f * 100}%`, background: 'linear-gradient(180deg,#5a8bff,#1f3fa0)'}} /><div style={{width: 6, background: '#fff'}} /><div style={{flex: 1, background: 'linear-gradient(180deg,#4fd06f,#1a7a34)'}} /></div>
+            </div>); })}
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  if (t >= I.go[0] && t < I.go[1]) {
+    const a = popT(t, I.go[0], 10) * lerp(t, I.go[1] - 0.25, I.go[1], 1, 0);
+    return <AbsoluteFill style={{zIndex: 46, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `rgba(0,0,0,${0.4 * a})`}}>
+      <div style={{...font, fontSize: 150, color: '#fff', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill', transform: `scale(${0.5 + 0.5 * a})`}}>SIMULATION START</div>
+      <div style={{...font2, fontSize: 34, color: '#fff', marginTop: 10, opacity: a, textShadow: '0 2px 4px #000'}}>Hypothetical scenario · Not a prediction · Real conflict ongoing</div>
+    </AbsoluteFill>;
+  }
+  return null;
+};
 // @@BRFX@@
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]}> = ({audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
@@ -1012,7 +1080,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <Title t={t} />
       <Ending t={t} />
       {D.mode === 'br' && <><ElimFX t={t} /><Board t={t} /><Poll t={t} /><IntroL t={t} /></>}
-      {D.intro && D.intro.kind === 'hz' && <IntroH t={t} />}
+      {D.intro && D.intro.kind === 'hz' && <><IntroH t={t} /><Poll t={t} /></>}
       {fl > 0 && <AbsoluteFill style={{background: '#fff', opacity: fl * 0.35, zIndex: 60}} />}
       {SHORT && hook && cta && !segs && <ShortLayer t={t} off={off} dur={sdur} hook={hook} cta={cta} />}
       {SHORT && hook && cta && segs && <ShortCup lt={lt} dur={sg.sdur} hook={hook} cta={cta} cuts={sg.cuts} />}
