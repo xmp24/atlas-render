@@ -222,6 +222,7 @@ const Pill: React.FC<{children: React.ReactNode; bg?: string; style?: React.CSSP
 const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const D = X.D;
   if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
+  if (D.mode === 'camp') return <HudCamp t={t} cam={cam} />;
   const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
   if (show <= 0.01) return null;
   const pw = kfv(D.indo, t);
@@ -375,6 +376,7 @@ const Ranking: React.FC<{t: number}> = ({t}) => {
   );
 };
 const Chapter: React.FC<{t: number}> = ({t}) => {
+  if (X.D.splash) return null;
   const c = (X.D.chapters as any[]).filter(([t0]) => t >= t0 - 0.1 && t < t0 + 1.7).slice(-1)[0];
   if (!c) return null;
   const [t0, title] = c; const n = (X.D.chapters as any[]).indexOf(c) + 1;
@@ -1118,11 +1120,51 @@ const IntroSeq: React.FC<{t: number}> = ({t}) => {
   const bs = (I.blocks as any[]).filter((b) => t >= b.t0 && t < b.t1);
   return <>{bs.map((b, i) => { const C = BLK[b.k]; return C ? <AbsoluteFill key={i} style={{zIndex: b.z ?? 46}}><C t={t} b={b} /></AbsoluteFill> : null; })}</>;
 };
+
+const HudCamp: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const D = X.D;
+  const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
+  if (show <= 0.01) return null;
+  const st = pst(t); const sides = (D.sides || []) as any[];
+  const cnt = sides.map((sd) => { let n = 0; for (let k = 0; k < NK; k++) if ((sd.ks as number[]).includes(st.owner[k])) n++; return n; });
+  const ch = (D.chapters as any[]).filter((c) => c[0] <= t).slice(-1)[0];
+  const day = Math.round(kfv(D.days, t));
+  const pill = ((D.pills || []) as any[]).filter((p) => p[0] <= t).slice(-1)[0];
+  return (<>
+    <div style={{position: 'absolute', top: 20, left: 20 + (1 - show) * -700, zIndex: 20, display: 'flex', flexDirection: 'column', gap: 6}}>
+      {sides.map((sd, i) => (
+        <div key={i} style={{display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(250,244,230,0.94)', border: `4px solid ${sd.col || INK}`, borderRadius: 14, padding: '3px 12px 0 4px', minWidth: 300}}>
+          <div style={{display: 'flex'}}>{(sd.flags || sd.ks.slice(0, 3)).map((k: number, j: number) => <div key={j} style={{marginLeft: j ? -14 : 0}}><FlagImg k={k} w={40} round /></div>)}</div>
+          <span style={{...font, fontSize: 24, color: INK, flex: 1, whiteSpace: 'nowrap'}}>{sd.name}</span>
+          {sd.vals ? <span style={{...font, fontSize: 22, color: sd.col || RED, whiteSpace: 'nowrap'}}>{(sd.vals as any[]).filter((v: any) => v[0] <= t).slice(-1)[0]?.[1]}</span> : <span style={{...font, fontSize: 30, color: sd.col || RED}}>{cnt[i]}</span>}
+        </div>))}
+      {pill && <Pill bg={pill[2] || RED} style={{padding: '2px 12px 0', ...font, fontSize: 24, color: '#fff', alignSelf: 'flex-start'}}>{pill[1]}</Pill>}
+    </div>
+    <div style={{position: 'absolute', top: 18, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 20, transform: `translateY(${(1 - show) * -120}px)`}}>
+      <Pill bg="#1b1f2b" style={{padding: '4px 22px 0', ...font, fontSize: 40, color: YELLOW, border: `4px solid ${RED}`}}>📅 {D.dayLabel || 'DAY'} {day}</Pill>
+    </div>
+    {ch && <div style={{position: 'absolute', top: 20, right: 20 + (1 - show) * -600, zIndex: 20}}><Pill bg={YELLOW} style={{padding: '4px 16px 0', ...font, fontSize: 26, color: INK}}>{(D.chapters as any[]).indexOf(ch) + 1} · {ch[1]}</Pill></div>}
+    <div style={{position: 'absolute', left: 20 + (1 - show) * -500, bottom: 20, zIndex: 20, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}>
+      <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={cam} w={260} h={135} VW={VW} VH={VH} />
+    </div>
+    <div style={{position: 'absolute', right: 22, bottom: 12, ...font2, fontSize: 16, color: 'rgba(255,255,255,0.85)', textShadow: '0 2px 3px #000', zIndex: 20, opacity: show}}>{D.disclaimer || 'Hypothetical simulation · Not a prediction'}</div>
+  </>);
+};
+
+const warpT = (D: any, tr: number) => { const w = D.warp as number[][] | undefined; if (!w) return tr; let s = w[0]; for (const x of w) { if (x[0] <= tr) s = x; else break; } return s[1] + (tr - s[0]) * s[2]; };
+const Splash: React.FC<{tR: number}> = ({tR}) => {
+  const sp = ((X.D.splash || []) as any[]).find((x) => tR >= x[0] && tR < x[1]); if (!sp) return null;
+  const [r0, r1, txt, sub] = sp; const o = lerp(tR, r0, r0 + 0.2, 0, 1) * lerp(tR, r1 - 0.25, r1, 1, 0);
+  return <AbsoluteFill style={{zIndex: 49, background: `rgba(6,8,14,${0.72 * o})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: o}}>
+    <div style={{...font, fontSize: 230, color: YELLOW, WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill', lineHeight: 1, transform: `scale(${0.4 + 0.6 * popT(tR, r0, 10)}) rotate(-3deg)`}}>{txt}</div>
+    <div style={{...font, fontSize: 70, color: '#fff', WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill', marginTop: 16, opacity: popT(tR, r0 + 0.35, 10), transform: `translateY(${(1 - popT(tR, r0 + 0.35, 10)) * 40}px)`}}>{sub}</div>
+  </AbsoluteFill>;
+};
 // @@BRFX@@
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]}> = ({audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
   const D = X.D; const V2 = D.ver !== 'a';
-  const f = useCurrentFrame(); const lt = f / 30; const sg = segTime(lt, segs); const t = segs ? sg.t : off + lt;
+  const f = useCurrentFrame(); const lt = f / 30; const sg = segTime(lt, segs); const tR = segs ? sg.t : off + lt; const t = warpT(D, tR);
   const zc = (c: Cam): Cam => (zf === 1 ? c : {...c, s: c.s * zf});
   const cam = zc(X.camF(t)); const cp = zc(X.camF(Math.max(0, t - 1 / 30)));
   const speed = Math.hypot((cam.cx - cp.cx) * cam.s, (cam.cy - cp.cy) * cam.s) + Math.abs(Math.log(cam.s / cp.s)) * 900;
@@ -1194,6 +1236,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <ColdText t={t} />
       <Title t={t} />
       <Ending t={t} />
+      <Splash tR={tR} />
       {D.mode === 'br' && <><ElimFX t={t} /><Board t={t} /><Poll t={t} /><IntroL t={t} /></>}
       {D.intro && D.intro.kind === 'hz' && <><IntroH t={t} /><Poll t={t} /></>}
       {D.intro && D.intro.blocks && <><IntroSeq t={t} />{D.mode !== 'br' && <Poll t={t} />}</>}
