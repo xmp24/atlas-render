@@ -4,6 +4,7 @@ import {HWTest} from './HWTest';
 import {SameArmy, SA_FRAMES} from './SameArmy';
 import {Indo, INDO_FRAMES} from './Indo';
 import {Indo2, indoFrames} from './Indo2';
+import {StatesBR, BRUS_FRAMES} from './StatesBR';
 import {Cup, CUP_FRAMES} from './Cup';
 import {IndoThumb, IndoShortOverlay} from './IndoExtras';
 import {ThumbPro, THUMB_IDS} from './ThumbsPro';
@@ -49,6 +50,7 @@ export const RootHW: React.FC = () => (
     <Composition id="CpS2" component={Cup} durationInFrames={480} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[155.6, 10.0], [166.8, 6.0]], hook: ["JAPAN WAS", "WINNING..."], cta: ["128 COUNTRIES", "ONE TROPHY"]}} />
     <Composition id="CpS3" component={Cup} durationInFrames={408} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[90.6, 3.0], [93.6, 5.6], [99.6, 5.0]], hook: ["THE UK PUSHED THEM", "INTO THE SEA..."], cta: ["WHO WINS", "THE WORLD WAR CUP?"]}} />
     <Composition id="CpS4" component={Cup} durationInFrames={480} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[315.2, 4.4], [341.6, 3.8], [347.5, 3.2], [358.5, 4.6]], hook: ["MISSILES", "VS FIGHTER JETS"], cta: ["THE FINAL:", "USA VS CHINA"]}} />
+    <Composition id="V-brus" component={StatesBR} durationInFrames={BRUS_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="V-breu" component={Indo2} durationInFrames={indoFrames('breu')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'breu'}} />
     <Composition id="V-braf" component={Indo2} durationInFrames={indoFrames('braf')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'braf'}} />
     <Composition id="V-bras" component={Indo2} durationInFrames={indoFrames('bras')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'bras'}} />
