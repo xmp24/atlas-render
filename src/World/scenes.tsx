@@ -178,10 +178,10 @@ export const BallsScene: React.FC<SP> = ({t, p}) => {
     {p.bg === 'office' ? <OvalOffice t={t} /> : null}
     {p.bg === 'street' && <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>{Array.from({length: 12}, (_, i) => <rect key={i} x={i * 170 - 20} y={300 + rnd(i) * 160} width={150} height={600} fill="#1e1626" stroke={INK} strokeWidth={4} />)}</svg>}
     {p.parts && <Particles t={t} kind={p.parts[0]} n={p.parts[1] || 70} />}
-    {(p.props || []).map((q: any, i: number) => <Icon key={'pr' + i} name={q[0]} x={q[1]} y={q[2]} w={q[3] || 90} c={q[4] || '#fff'} />)}
+    {(p.props || []).map((q: any, i: number) => <Icon key={'pr' + i} name={q[0]} x={q[1]} y={q[2] + floatOff(t, q[5])} w={q[3] || 90} c={q[4] || '#fff'} />)}
     {(p.balls || []).map((b: any, i: number) => { const [k, x, y, s, eyes, acc, t0, label, extra] = b; if (t0 != null && t < t0) return null; const ex = extra || {};
-      return <div key={i} style={{position: 'absolute', left: 0, top: -hop(bubs, t, i) + (ex.fall ? ip(t, [ex.fall, ex.fall + 0.6], [0, 300]) : 0), width: W, height: H, transform: t0 != null ? `scale(${pop(t, t0, 0.35)})` : undefined, transformOrigin: `${x}px ${y}px`, opacity: ex.out ? ip(t, [ex.out, ex.out + 0.4], [1, 0]) : 1}}>
-        <Char k={k} t={t} s={(s || 220) * (p.bscale ?? 1.25)} x={x + (ex.walk ? (t - (t0 || 0)) * ex.walk : 0)} y={y} eyes={(ex.e2 && t > ex.e2[0] ? ex.e2[1] : eyes) || 'normal'} acc={acc || 'none'} label={label} sweat={ex.sweat} tears={ex.tears} rot={ex.rot && t > ex.rot[0] ? ex.rot[1] : 0} /></div>; })}
+      return <div key={i} style={{position: 'absolute', left: 0, top: -hop(bubs, t, i) + (ex.fall ? ip(t, [ex.fall, ex.fall + 0.6], [0, 300]) : 0) + floatOff(t, ex.float), width: W, height: H, transform: t0 != null ? `scale(${pop(t, t0, 0.35)})` : undefined, transformOrigin: `${x}px ${y}px`, opacity: ex.out ? ip(t, [ex.out, ex.out + 0.4], [1, 0]) : 1}}>
+        <Char k={k} t={t} s={(s || 220) * (p.bscale ?? 1.25)} x={x + (ex.walk ? (t - (t0 || 0)) * ex.walk : 0)} y={y} eyes={(ex.e2 && t > ex.e2[0] ? ex.e2[1] : eyes) || 'normal'} acc={acc || 'none'} label={label} sweat={ex.sweat} tears={ex.tears} rot={(ex.rot && t > ex.rot[0] ? ex.rot[1] : 0) + (ex.float && t > ex.float[0] && t < ex.float[1] ? Math.sin((t - ex.float[0]) * 1.7) * (ex.float[3] ?? 25) : 0)} /></div>; })}
     {bubs.map(([t0, k, tx]: any, i: number) => { const b = p.balls[k]; return <Bubble key={'bb' + i} t={t} t0={t0} t1={bubEnd(bubs, i, p.dur || 10)} x={b[1]} y={b[2] - (b[3] || 220) * (p.bscale ?? 1.25) * 0.72} text={tx} size={38} />; })}
     {(p.fx || []).map((f: any, i: number) => t > f[0] && t < f[0] + 0.4 && Math.floor(t * 10) % 2 === 0 ? <div key={'fx' + i} style={{position: 'absolute', left: f[1] - 50, top: f[2] - 50, ...font, fontSize: 100}}>💥</div> : null)}
     <Vig a={0.45} />
@@ -233,4 +233,9 @@ export const EndScene: React.FC<SP> = ({t, T, p}) => {
     <AbsoluteFill style={{background: '#000', opacity: ip(t, [(p.dur || 12) - 1.2, p.dur || 12], [0, 1])}} />
   </AbsoluteFill>);
 };
+
+// ingravidez: [t0, t1, altura] -> sube flotando, y al acabar cae de golpe
+const floatOff = (t: number, f?: number[]) => { if (!f) return 0; const [a, b, h] = f; if (t < a) return 0;
+  if (t < b) { const k = Math.min(1, (t - a) / (b - a)); return -h * (1 - Math.pow(1 - k, 2)) + Math.sin(t * 3.1) * 8 * k; }
+  const k = Math.min(1, (t - b) / 0.35); return -h * (1 - k * k); };
 export const GENERIC: Record<string, React.FC<SP>> = {map: MapScene, title: TitleScene, cuts: CutsScene, news: NewsScene, call: CallScene, balls: BallsScene, rank: RankScene, podium: PodiumScene, bignum: BigNumScene, end: EndScene};
