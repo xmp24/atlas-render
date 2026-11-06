@@ -1,5 +1,5 @@
 import {ThumbStyle, STYLES} from './ThumbsStyles';
-import {ThumbA, ThumbB, ThumbC, W3_KEYS} from './ThumbsWorld3';
+import {ThumbA, ThumbB, ThumbC, W3_KEYS, ThumbFin13} from './ThumbsWorld3';
 import {ThumbW2, CFG2} from './ThumbsWorld2';
 import React from 'react';
 import {Composition} from 'remotion';
@@ -42,6 +42,7 @@ export const RootHW: React.FC = () => (
     {Object.keys(CFG2).map((k) => <Composition key={"tw2" + k} id={`TW2-${k}`} component={ThumbW2 as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} />)}
     {W3_KEYS.map((k) => <React.Fragment key={"w3" + k}><Composition id={`TA-${k}`} component={ThumbA as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} /><Composition id={`TB-${k}`} component={ThumbB as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} /><Composition id={`TC-${k}`} component={ThumbC as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} /></React.Fragment>)}
     {Object.keys(STYLES).map((id) => <Composition key={"st" + id} id={`TS-${id}`} component={ThumbStyle as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {W3_KEYS.map((k) => <Composition key={"tfin" + k} id={`TFIN-${k}`} component={ThumbFin13 as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} />)}
     <Composition id="TZOMBIE" component={ThumbZombie} durationInFrames={1} fps={30} width={1280} height={720} />
     <Composition id="TBURN3" component={ThumbBurn3} durationInFrames={1} fps={30} width={1280} height={720} />
     {BURN_THUMBS2.map((id) => <Composition key={id} id={`TBURN2-${id}`} component={ThumbBurn2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}

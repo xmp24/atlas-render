@@ -23,8 +23,8 @@ const BA: Record<string, [string, string]> = {
   cold: ['+15°C', '-273°C'], ocean: ['WEEK 1', 'WEEK 300'], babies: ['2030', '2130'], heat: ['MONTH 1', 'MONTH 447'], thirty: ['AGE 29', 'AGE 30'], purge: ['6:59 PM', '7:00 PM'],
   nosleep: ['NIGHT 1', 'NIGHT 30'], money: ['$48,210', '$0'], deathdate: ['2031', '14·08·2033'], memory: ['11:59 PM', '00:00'], gravity: ['0 SEC', '5 SEC'], power: ['ON', 'OFF'], powers: ['DAY 1', 'YEAR 10'],
 };
-export const ThumbA: React.FC<{k: string}> = ({k}) => {
-  const c = CFG2[k]; const F = c.fx ? FX[c.fx] : null; const [l, r] = BA[k];
+export const ThumbA: React.FC<{k: string; lab?: [string, string]}> = ({k, lab}) => {
+  const c = CFG2[k]; const F = c.fx ? FX[c.fx] : null; const [l, r] = lab ?? BA[k];
   return (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
     <AbsoluteFill style={{clipPath: LEFT}}><LandMap land={GREEN} /><Rays x={320} y={440} c="rgba(255,255,230,0.9)" a={0.45} n={20} r={900} /><Eyes mood="happy" skip={(x, y) => Math.hypot(x - 320, y - 440) < 220 || y < 150} />
       <Glow x={320} y={440} r={300} c="rgba(255,250,200,0.8)" /><div style={{position: 'absolute', left: 320 - 190, top: 440 - 190, filter: 'brightness(1.3) saturate(1.25)'}}><Planet size={380} mood="happy" lon={15} lat={20} rim="#fff6c0" /></div></AbsoluteFill>
@@ -39,7 +39,7 @@ export const ThumbA: React.FC<{k: string}> = ({k}) => {
 };
 
 // ---------------- B · countryball protagonista ----------------
-type BC = {hero: string; mood: Mood; crown?: boolean; helmet?: boolean; sweat?: boolean; rot?: number; top: string; bot: string; ts: number; bs: number; icon: string; side: [string, Mood, boolean?][]};
+export type BC = {hero: string; mood: Mood; crown?: boolean; helmet?: boolean; sweat?: boolean; rot?: number; top: string; bot: string; ts: number; bs: number; icon: string; side: [string, Mood, boolean?][]};
 const BCFG: Record<string, BC> = {
   cold: {hero: 'RU', mood: 'smug', crown: true, top: 'CAN RUSSIA SURVIVE', bot: '-273°C?', ts: 92, bs: 140, icon: 'thermometer-cold', side: [['CA', 'scared', true], ['NO', 'scared', true], ['US', 'shocked']]},
   ocean: {hero: 'NL', mood: 'scared', sweat: true, top: 'CAN THE DUTCH', bot: 'BEAT THE OCEAN?', ts: 104, bs: 104, icon: 'drowning', side: [['BD', 'scared', true], ['US', 'scared', true], ['CH', 'smug']]},
@@ -56,8 +56,8 @@ const BCFG: Record<string, BC> = {
   powers: {hero: 'BE', mood: 'smug', crown: true, top: 'BELGIUM GOT', bot: 'THE BEST POWER?', ts: 116, bs: 108, icon: 'light-bulb', side: [['JP', 'shocked'], ['US', 'shocked', true], ['CN', 'angry']]},
 };
 const HX = 330, HY = 420, SIDE = [[1150, 190, 140], [1100, 360, 150], [1160, 520, 130]];
-export const ThumbB: React.FC<{k: string}> = ({k}) => {
-  const c = CFG2[k], b = BCFG[k]; const F = c.fx ? FX[c.fx] : null;
+export const ThumbB: React.FC<{k: string; cfg?: Partial<BC>}> = ({k, cfg}) => {
+  const c = CFG2[k], b = {...BCFG[k], ...(cfg || {})} as BC; const F = c.fx ? FX[c.fx] : null;
   const covered = (x: number, y: number) => Math.hypot(x - HX, y - HY) < 240 || SIDE.some(([sx, sy, ss]) => Math.hypot(x - sx, y - sy) < ss * 0.62) || y < 135 || (y > 580 && x > 250 && x < 1050);
   return (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
     <LandMap land={c.land} dark={c.dark} />
@@ -114,3 +114,21 @@ export const ThumbC: React.FC<{k: string}> = ({k}) => {
   </AbsoluteFill>);
 };
 export const W3_KEYS = Object.keys(BA);
+
+// ---------------- Finales: 1 por vídeo con las plantillas elegidas (máx. 3 palabras) ----------------
+export const FINAL: Record<string, {t: 'A'; lab: [string, string]} | {t: 'B'; cfg: Partial<BC>}> = {
+  cold: {t: 'A', lab: ['+15°C', '-273°C']},
+  ocean: {t: 'B', cfg: {hero: 'NL', mood: 'scared', sweat: true, helmet: false, crown: false, top: 'NETHERLANDS', bot: 'UNDERWATER?', ts: 120, bs: 124, icon: 'big-wave', side: [['BD', 'scared', true], ['US', 'shocked', true], ['CH', 'smug']]}},
+  babies: {t: 'B', cfg: {top: 'THE LAST', bot: 'HUMAN?', ts: 130, bs: 150}},
+  heat: {t: 'A', lab: ['+15°C', '+460°C']},
+  thirty: {t: 'B', cfg: {hero: 'US', mood: 'shocked', sweat: true, crown: false, top: 'DEAD AT', bot: '30?', ts: 140, bs: 170, icon: 'sands-of-time', side: [['JP', 'scared', true], ['IT', 'scared', true], ['NG', 'smug']]}},
+  purge: {t: 'B', cfg: {top: 'PURGE', bot: 'NIGHT', ts: 150, bs: 160, icon: 'siren'}},
+  nosleep: {t: 'B', cfg: {top: 'NEVER SLEEP', bot: 'AGAIN?', ts: 124, bs: 150}},
+  money: {t: 'A', lab: ['$48,210', '$0']},
+  deathdate: {t: 'B', cfg: {top: '14·08·2033', bot: 'EVERYONE DIES?', ts: 124, bs: 116}},
+  memory: {t: 'A', lab: ['11:59 PM', '00:00']},
+  gravity: {t: 'B', cfg: {top: 'ZERO', bot: 'GRAVITY', ts: 150, bs: 160}},
+  power: {t: 'A', lab: ['ON', 'OFF']},
+  powers: {t: 'B', cfg: {hero: 'US', mood: 'smug', crown: true, top: '195', bot: 'SUPERPOWERS', ts: 150, bs: 130, icon: 'fist', side: [['JP', 'shocked'], ['CN', 'angry'], ['BE', 'smug']]}},
+};
+export const ThumbFin13: React.FC<{k: string}> = ({k}) => { const f = FINAL[k]; return f.t === 'A' ? <ThumbA k={k} lab={f.lab} /> : <ThumbB k={k} cfg={f.cfg} />; };
