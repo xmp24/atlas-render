@@ -1,3 +1,4 @@
+import {ThumbW2, CFG2} from './ThumbsWorld2';
 import React from 'react';
 import {Composition} from 'remotion';
 import {HWTest} from './HWTest';
@@ -36,6 +37,7 @@ export const RootHW: React.FC = () => (
     <Composition id="SameArmyN" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Indo" component={Indo} durationInFrames={INDO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     {Object.keys(TWCFG).map((k) => <Composition key={"tw" + k} id={`TW-${k}`} component={ThumbW as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} />)}
+    {Object.keys(CFG2).map((k) => <Composition key={"tw2" + k} id={`TW2-${k}`} component={ThumbW2 as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} />)}
     <Composition id="TZOMBIE" component={ThumbZombie} durationInFrames={1} fps={30} width={1280} height={720} />
     <Composition id="TBURN3" component={ThumbBurn3} durationInFrames={1} fps={30} width={1280} height={720} />
     {BURN_THUMBS2.map((id) => <Composition key={id} id={`TBURN2-${id}`} component={ThumbBurn2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
