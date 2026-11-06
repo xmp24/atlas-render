@@ -12,7 +12,7 @@ const W = 1280, H = 720;
 type Eyes = 'angry' | 'normal' | 'scared' | 'shades' | 'dead' | 'smug';
 
 // ojos clásicos de countryball (blancos, sin pupila), en coordenadas de la bola (0..1)
-const EyesSvg: React.FC<{e: Eyes; s: number; look: number}> = ({e, s, look}) => {
+export const EyesSvg: React.FC<{e: Eyes; s: number; look: number}> = ({e, s, look}) => {
   const lx = look * 0.06 * s, cy = 0.4 * s, dx = 0.17 * s, sw = s * 0.022;
   const xs = [0.5 * s - dx + lx, 0.5 * s + dx + lx];
   if (e === 'shades') {

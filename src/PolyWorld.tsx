@@ -152,8 +152,8 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
     const base = w ? w.from : o2;
     ctx.fillStyle = base === o.empire && o.empireCol ? o.empireCol : MAINCOL[base]; ctx.fill(p.path);
     // patrones en espacio 1920: deshacer la escala dentro del patrón
-    const pb = base === o.empire && !(o as any).empireFlag ? (o.empireCol || MAINCOL[base]) : P(base);
-    if (typeof pb !== 'string') { ctx.globalAlpha = 0.8; ctx.fillStyle = pb; ctx.fill(p.path); ctx.globalAlpha = 1; }
+    const pb = (base === o.empire && !(o as any).empireFlag) || ((o as any).solid && !((o as any).flagSet || []).includes(base)) ? (o.empireCol && base === o.empire ? o.empireCol : (o as any).pal ? `hsl(${(base * 137.508) % 360},78%,${56 + (base % 3) * 6}%)` : MAINCOL[base]) : P(base);
+    if (typeof pb !== 'string') { ctx.globalAlpha = 0.8; ctx.fillStyle = pb; ctx.fill(p.path); ctx.globalAlpha = 1; } else if ((o as any).pal) { ctx.fillStyle = pb; ctx.fill(p.path); }
     if (o.ghost && o.ghost.has(base)) { ctx.globalAlpha = Math.min(1, Math.max(0, (o.t - o.ghost.get(base)!) / 0.9)); ctx.fillStyle = 'rgba(58,62,74,0.9)'; ctx.fill(p.path); ctx.globalAlpha = 1; }
     if (w) {
       ctx.save(); ctx.clip(p.path);
