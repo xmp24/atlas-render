@@ -16,7 +16,7 @@ const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
 const E0 = K('NE');
 const ALL: CEv[] = COUNTRIES.map((_, i) => [-10, -10, i, E0, i, 0, 0, 0.1] as any);
 
-const LandMap: React.FC<{land: string; ocean?: string; dark?: number}> = ({land, ocean, dark = 0}) => (
+export const LandMap: React.FC<{land: string; ocean?: string; dark?: number}> = ({land, ocean, dark = 0}) => (
   <AbsoluteFill style={{overflow: 'hidden', background: '#2f7fd0'}}>
     <div style={{position: 'absolute', inset: -20, filter: 'blur(1.2px) saturate(1.15)'}}>
       <PolyCanvas cev={ALL} t={0} tm={0} byTm={false} cam={{cx: (EY as any).cam[0], cy: (EY as any).cam[1], s: (EY as any).cam[2]}} W={W + 40} H={H + 40}
@@ -25,8 +25,8 @@ const LandMap: React.FC<{land: string; ocean?: string; dark?: number}> = ({land,
     {dark > 0 && <AbsoluteFill style={{background: `rgba(0,0,10,${dark})`}} />}
   </AbsoluteFill>
 );
-type EyeMood = 'scared' | 'sad' | 'angry' | 'dead' | 'sleepy' | 'happy';
-const Eyes: React.FC<{mood: EyeMood; skip?: (x: number, y: number) => boolean}> = ({mood, skip}) => (
+export type EyeMood = 'scared' | 'sad' | 'angry' | 'dead' | 'sleepy' | 'happy';
+export const Eyes: React.FC<{mood: EyeMood; skip?: (x: number, y: number) => boolean}> = ({mood, skip}) => (
   <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
     {((EY as any).eyes as number[][]).filter(([x, y]) => !(skip && skip(x, y))).map(([x, y], i) => {
       const s = 1.45 + rnd(i) * 0.35, lk = (rnd(i + 7) - 0.5) * 3;
@@ -48,11 +48,11 @@ const Eyes: React.FC<{mood: EyeMood; skip?: (x: number, y: number) => boolean}> 
 type Side = {c: string; mood: Mood; sweat?: boolean; crown?: boolean; rot?: number; gray?: boolean};
 type Cfg = {top: string; bot: string; ts: number; bs: number; land: string; ocean?: string; dark?: number; eyes: EyeMood; hero: Mood; heroRot?: number; heroCrown?: boolean; heroHelmet?: boolean;
   icon: string; ic: string; glow: string; ray: string; side: Side[]; fx?: string; heroFx?: string; botGrad?: string};
-const ICE = 'linear-gradient(180deg, #ffffff 0%, #dff6ff 40%, #8ad8ff 75%, #3a9aff 100%)';
-const FIRE = 'linear-gradient(180deg, #fffbe0 0%, #ffe14a 30%, #ff8a1a 60%, #ff2a0a 100%)';
-const BLOOD = 'linear-gradient(180deg, #ffe0e0 0%, #ff6a5a 40%, #e01a10 75%, #8a0606 100%)';
-const PURP = 'linear-gradient(180deg, #ffffff 0%, #ead8ff 35%, #b98aff 70%, #7a3aff 100%)';
-const CYAN = 'linear-gradient(180deg, #ffffff 0%, #d8fbff 35%, #7af0ff 70%, #1aa8d8 100%)';
+export const ICE = 'linear-gradient(180deg, #ffffff 0%, #dff6ff 40%, #8ad8ff 75%, #3a9aff 100%)';
+export const FIRE = 'linear-gradient(180deg, #fffbe0 0%, #ffe14a 30%, #ff8a1a 60%, #ff2a0a 100%)';
+export const BLOOD = 'linear-gradient(180deg, #ffe0e0 0%, #ff6a5a 40%, #e01a10 75%, #8a0606 100%)';
+export const PURP = 'linear-gradient(180deg, #ffffff 0%, #ead8ff 35%, #b98aff 70%, #7a3aff 100%)';
+export const CYAN = 'linear-gradient(180deg, #ffffff 0%, #d8fbff 35%, #7af0ff 70%, #1aa8d8 100%)';
 export const CFG2: Record<string, Cfg> = {
   cold: {top: '-1°C EVERY MONTH', bot: 'UNTIL -273°C?', ts: 92, bs: 112, land: '#f2fbff', eyes: 'scared', hero: 'scared', icon: 'snowflake-1', ic: '#dff6ff', glow: '#9fe0ff', ray: 'rgba(220,245,255,0.9)', botGrad: ICE, fx: 'snow', heroFx: 'ice',
     side: [{c: 'RU', mood: 'smug'}, {c: 'CA', mood: 'scared', sweat: true}, {c: 'BR', mood: 'scared', sweat: true}]},
@@ -83,7 +83,7 @@ export const CFG2: Record<string, Cfg> = {
 };
 const HX = 330, HY = 430, HS = 400;
 const SIDE = [[1150, 190, 140], [1100, 360, 150], [1160, 520, 130]];
-const FX: Record<string, React.FC> = {
+export const FX: Record<string, React.FC> = {
   snow: () => <>{Array.from({length: 80}, (_, i) => <div key={i} style={{position: 'absolute', left: rnd(i) * W, top: rnd(i + 50) * H, width: 3 + rnd(i + 9) * 7, height: 3 + rnd(i + 9) * 7, borderRadius: '50%', background: '#fff', opacity: 0.55 + rnd(i) * 0.45, boxShadow: '0 0 6px #bfe8ff'}} />)}</>,
   water: () => <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>{[0, 1].map((k) => <path key={k} d={`M0,${640 + k * 40} ${Array.from({length: 17}, (_, i) => `Q${40 + i * 80},${610 + k * 40 + (i % 2 ? -26 : 26)} ${80 + i * 80},${640 + k * 40}`).join(' ')} L1280,720 L0,720 Z`} fill={k ? 'rgba(10,60,160,0.85)' : 'rgba(40,130,230,0.6)'} />)}</svg>,
   fire: () => <><Embers n={70} seed={41} c="#ffd27a" /><AbsoluteFill style={{background: 'linear-gradient(0deg, rgba(255,90,10,0.55) 0%, rgba(255,90,10,0) 30%)'}} /></>,
@@ -94,7 +94,7 @@ const FX: Record<string, React.FC> = {
   candle: () => <><Glow x={640} y={470} r={260} c="rgba(255,200,90,0.55)" /></>,
   sparks: () => <Embers n={60} seed={9} c="#fff3a0" />,
 };
-const HeroFx: React.FC<{k?: string}> = ({k}) => {
+export const HeroFx: React.FC<{k?: string}> = ({k}) => {
   if (k === 'ice') return <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>{[-110, -60, -10, 40, 90, 130].map((dx, i) => <path key={i} d={`M${HX + dx - 14},${HY + 150 - Math.abs(dx) * 0.35} L${HX + dx},${HY + 205 + (i % 2) * 30 - Math.abs(dx) * 0.35} L${HX + dx + 14},${HY + 150 - Math.abs(dx) * 0.35} Z`} fill="#e6f8ff" stroke={INK} strokeWidth={4} />)}
     <path d={`M${HX - 175},${HY - 70} Q${HX},${HY - 250} ${HX + 175},${HY - 70} Q${HX + 120},${HY - 140} ${HX},${HY - 150} Q${HX - 120},${HY - 140} ${HX - 175},${HY - 70} Z`} fill="#ffffff" stroke={INK} strokeWidth={6} /></svg>;
   if (k === 'sweat' || k === 'bags') return <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
