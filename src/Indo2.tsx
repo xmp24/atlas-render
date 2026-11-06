@@ -676,8 +676,8 @@ const Ending: React.FC<{t: number}> = ({t}) => {
         <svg width={360} height={96}><polyline points={line} fill="none" stroke="#ff5a5a" strokeWidth={5} strokeLinejoin="round" strokeDasharray={2000} strokeDashoffset={2000 * (1 - drawn)} /></svg>
       </div>}
       <div style={{transform: `scale(${a})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <div style={{fontSize: 120, marginBottom: -28}}>👑</div>
-        <Ball k={X.ID} size={260} mood="happy" t={t} />
+        {X.D.endKs ? <div style={{display: 'flex', gap: 26, filter: 'grayscale(0.5)'}}>{(X.D.endKs as number[]).map((k, i) => <Ball key={k} k={k} size={170} mood="sad" t={t + i} />)}</div> : <><div style={{fontSize: 120, marginBottom: -28}}>👑</div>
+        <Ball k={X.ID} size={260} mood="happy" t={t} /></>}
         <div style={{...font, fontSize: 100, color: YELLOW, textShadow: `8px 8px 0 ${INK}`, marginTop: 10, textAlign: 'center', lineHeight: 1}}>{X.D.endTitle ? <>{X.D.endTitle[0]}<br /><span style={{fontSize: 70}}>{X.D.endTitle[1]}</span></> : <>{X.D.heroLong || 'INDONESIA'} CONQUERED<br />THE WORLD</>}</div>
         <div style={{display: 'flex', flexDirection: 'row', gap: 20, marginTop: 18, opacity: popT(t, t0 + 0.8, 12)}}>
           {(X.D.endPills || [['🌍', `${X.D.total}/${X.D.total} COUNTRIES`], ['📅', `${Math.round(kfv(X.D.days, t0))} DAYS`], [X.D.hero ? '💻' : '🛰️', X.D.weapon || 'ORBITAL LASER']]).map(([i, s]) => <Pill key={s} bg={CREAM} style={{padding: '6px 20px 2px', ...font, fontSize: 36, color: INK}}>{i} {s}</Pill>)}
