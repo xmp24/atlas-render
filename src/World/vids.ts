@@ -3,6 +3,6 @@ import type React from 'react';
 import cold from './data/cold.json';
 import ocean from './data/ocean.json';
 import babies from './data/babies.json';
-import heat from './data/heat.json'; import thirty from './data/thirty.json'; import purge from './data/purge.json'; import nosleep from './data/nosleep.json'; import money from './data/money.json'; import deathdate from './data/deathdate.json'; import memory from './data/memory.json'; import gravity from './data/gravity.json';
-export const VIDS: Record<string, any> = {cold, ocean, babies, heat, thirty, purge, nosleep, money, deathdate, memory, gravity};
+import heat from './data/heat.json'; import thirty from './data/thirty.json'; import purge from './data/purge.json'; import nosleep from './data/nosleep.json'; import money from './data/money.json'; import deathdate from './data/deathdate.json'; import memory from './data/memory.json'; import gravity from './data/gravity.json'; import power from './data/power.json';
+export const VIDS: Record<string, any> = {cold, ocean, babies, heat, thirty, purge, nosleep, money, deathdate, memory, gravity, power};
 export const CUSTOM: Record<string, Record<string, React.FC<any>>> = {};

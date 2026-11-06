@@ -33,7 +33,7 @@ export const WMap: React.FC<{T: number; cam: Cam; warOn?: boolean; night?: numbe
 // ---------------- capa de celdas: el mundo cambia por zonas ----------------
 const C = CELLS as any; const NC = C.x.length;
 const hash = (i: number) => { const x = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
-export type CellCfg = {mode: 'lat' | 'flood' | 'tz' | 'country' | 'rand' | 'dist'; t0: number; dur?: number; col: string; col2?: string; a?: number; pw?: number; south?: boolean; lvl?: number[][]; spd?: number; ev?: number[][]; seeds?: number[][]; r?: number; fade?: number; glow?: boolean; invert?: boolean; band?: number; span?: number[][]; elevw?: number; noise?: number};
+export type CellCfg = {mode: 'lat' | 'flood' | 'tz' | 'country' | 'rand' | 'dist'; t0: number; dur?: number; col: string; col2?: string; a?: number; pw?: number; south?: boolean; lvl?: number[][]; spd?: number; ev?: number[][]; seeds?: number[][]; r?: number; fade?: number; glow?: boolean; invert?: boolean; band?: number; span?: number[][]; off?: boolean; dens?: number; rmax?: number; elevw?: number; noise?: number};
 // tiempo (abs) en que cada celda cambia de estado; Infinity = nunca
 const CACHE = new WeakMap<any, Float32Array>();
 const cellTimes = (cfg: CellCfg, V: any): Float32Array => {
@@ -46,8 +46,8 @@ const cellTimes = (cfg: CellCfg, V: any): Float32Array => {
   } else if (cfg.mode === 'country') { // por país en su tiempo, extendiéndose desde la capital
     const ev = new Map<number, number[]>(); (cfg.ev || []).forEach((e) => ev.set(e[0], e));
     for (let i = 0; i < NC; i++) { const e = ev.get(C.o[i]); if (!e) { tt[i] = Infinity; continue; } const d = Math.hypot(C.x[i] - e[2], C.y[i] - e[3]); tt[i] = e[1] + d / (cfg.spd ?? 400) + hash(i) * 0.3; }
-  } else if (cfg.mode === 'dist') { // ondas desde varios focos [t, x, y]
-    for (let i = 0; i < NC; i++) { let m = Infinity; for (const s of cfg.seeds || []) m = Math.min(m, s[0] + Math.hypot(C.x[i] - s[1], C.y[i] - s[2]) / (cfg.spd ?? 400)); tt[i] = m + hash(i) * 0.25; }
+  } else if (cfg.mode === 'dist') { // ondas desde varios focos [t, x, y]; rmax limita el radio
+    for (let i = 0; i < NC; i++) { let m = Infinity; for (const s of cfg.seeds || []) { const d = Math.hypot(C.x[i] - s[1], C.y[i] - s[2]); if (cfg.rmax != null && d > cfg.rmax) continue; m = Math.min(m, s[0] + d / (cfg.spd ?? 400)); } tt[i] = m + hash(i) * 0.25; }
   } else tt.fill(0);
   CACHE.set(cfg, tt); return tt;
 };
@@ -77,8 +77,10 @@ export const CellLayer: React.FC<{T: number; cam: Cam; cfg: CellCfg}> = ({T, cam
     }
     const tt = cellTimes(cfg, V);
     for (let i = 0; i < NC; i++) {
-      const ti = tt[i]; if (!(T >= ti)) continue; const x = C.x[i], y = C.y[i]; if (x < x0 || x > x1 || y < y0 || y > y1) continue;
-      const a = Math.min(1, (T - ti) / fd) * A; ctx.globalAlpha = a;
+      const ti = tt[i]; if (cfg.dens != null && hash(i * 3 + 1) > cfg.dens) continue;
+      if (cfg.off) { if (T > ti + fd || C.e[i] > 300 || C.la[i] > 68 || C.la[i] < -50) continue; } else if (!(T >= ti)) continue;
+      const x = C.x[i], y = C.y[i]; if (x < x0 || x > x1 || y < y0 || y > y1) continue;
+      const a = cfg.off ? (T < ti ? A * (0.75 + 0.25 * hash(i + Math.floor(T * 6))) : A * (1 - (T - ti) / fd)) : Math.min(1, (T - ti) / fd) * A; ctx.globalAlpha = a;
       if (cfg.col2 && T - ti > fd * 3) ctx.fillStyle = cfg.col2; else ctx.fillStyle = cfg.col;
       ctx.beginPath(); ctx.arc((x - cam.cx) * cam.s + W / 2, (y - cam.cy) * cam.s + H / 2, r * 1.25, 0, 6.2832); ctx.fill();
     }

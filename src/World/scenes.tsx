@@ -25,7 +25,7 @@ export const MapLayers: React.FC<{p: any; t: number; T: number; cam: Cam}> = ({p
   return (<AbsoluteFill style={{filter: p.filter}}>
     <WMap T={T} cam={cam} warOn={p.war !== false} />
     {p.tints && <TintLayer cam={cam} items={tintItems(p.tints, t)} />}
-    {(p.cells || []).map((c: any, i: number) => <CellLayer key={i} T={T} cam={cam} cfg={c} />)}
+    {(p.cells || []).filter((c: any) => !c.off).map((c: any, i: number) => <CellLayer key={i} T={T} cam={cam} cfg={c} />)}
     {p.nuke && <NukeLayer T={T} cam={cam} data={V.nuke} {...(p.nuke === true ? {} : p.nuke)} />}
     {p.shelters && <ShelterLayer T={T} cam={cam} list={V.shelters || []} col={p.shelters.col} size={p.shelters.size} />}
     {(p.arrows || []).map((a: any, i: number) => <FatArrow key={i} cam={cam} t={t} t0={a[0]} t1={a[1]} a={[a[2], a[3]]} b={[a[4], a[5]]} col={a[6] || '#ff3b30'} w={a[7] || 24} />)}
@@ -43,6 +43,7 @@ export const MapLayers: React.FC<{p: any; t: number; T: number; cam: Cam}> = ({p
       return <><div style={{position: 'absolute', left: 0, right: 0, top: top - 400 + sh, height: 400 + hh, background: 'linear-gradient(180deg, rgba(240,248,255,0.95) 70%, rgba(220,238,255,0))'}} /><div style={{position: 'absolute', left: 0, right: 0, top: bot - hh, height: hh + 400, background: 'linear-gradient(0deg, rgba(240,248,255,0.95) 70%, rgba(220,238,255,0))'}} /></>; })()}
     {p.stars && <AbsoluteFill style={{opacity: kfv(p.stars, T), pointerEvents: 'none'}}>{Array.from({length: 120}, (_, i) => <div key={i} style={{position: 'absolute', left: rnd(i) * W, top: rnd(i + 99) * H, width: 2 + rnd(i + 5) * 2, height: 2 + rnd(i + 5) * 2, borderRadius: '50%', background: '#fff', opacity: 0.4 + rnd(i + 7) * 0.6}} />)}</AbsoluteFill>}
     {p.night && <AbsoluteFill style={{background: `rgba(4,8,24,${kfv(p.night, t)})`, pointerEvents: 'none'}} />}
+    {(p.cells || []).filter((c: any) => c.off).map((c: any, i: number) => <AbsoluteFill key={'lt' + i} style={{mixBlendMode: 'screen', filter: 'brightness(1.6) drop-shadow(0 0 4px rgba(255,210,100,0.9))'}}><CellLayer T={T} cam={cam} cfg={c} /></AbsoluteFill>)}
     {p.tint2 && <AbsoluteFill style={{background: p.tint2, mixBlendMode: 'overlay', pointerEvents: 'none'}} />}
   </AbsoluteFill>);
 };
