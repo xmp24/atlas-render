@@ -7,10 +7,10 @@ def popk(t, p): POP.append([round(t, 2), p])
 ALLK = sorted(set(K.values()))
 PURP = '#a04aff'
 def F(lv):   # filtro de "fatiga": cuanto más alto, más alucinado
-    return [None, 'saturate(1.15) contrast(1.05)', 'saturate(1.3) hue-rotate(12deg) contrast(1.1)', 'saturate(1.5) hue-rotate(28deg) contrast(1.2)', 'saturate(1.5) hue-rotate(38deg) contrast(1.25) brightness(0.92)', 'saturate(0.9) hue-rotate(70deg) contrast(1.2) brightness(0.75)'][lv]
+    return [None, 'saturate(1.15) contrast(1.05)', 'saturate(1.3) hue-rotate(12deg) contrast(1.1)', 'saturate(1.35) hue-rotate(16deg) contrast(1.15)', 'saturate(1.3) hue-rotate(22deg) contrast(1.15) brightness(0.95)', 'saturate(0.85) hue-rotate(30deg) contrast(1.15) brightness(0.8)'][lv]
 def map_(d, id, lv=0, **kw):
     if lv: kw.setdefault('filter', F(lv))
-    if lv >= 3: kw.setdefault('tint2', 'rgba(140,60,255,%.2f)' % (0.045 * lv))
+    if lv >= 3: kw.setdefault('tint2', 'rgba(140,60,255,%.2f)' % (0.025 * lv))
     return V.sc('map', d, id=id, **kw)
 WAR = dict(fx=[], ext=dict(missiles=[], crater=[], smoke=[]))
 

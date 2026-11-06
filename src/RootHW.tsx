@@ -19,6 +19,7 @@ import {Maduro2, MADURO2_FRAMES} from './Maduro/index2';
 import {Maduro3, MADURO3_FRAMES} from './Maduro/index3';
 import {Burn, BURN_FRAMES, TAIL_OFF} from './Burn';
 import {WorldVid, framesOf} from './World';
+import {ThumbW, CFG as TWCFG} from './ThumbsWorld';
 import {VIDS} from './World/vids';
 import {ThumbBurn, BURN_THUMBS} from './ThumbsBurn';
 import {ThumbBurn2, BURN_THUMBS2} from './ThumbsBurn2';
@@ -34,6 +35,7 @@ export const RootHW: React.FC = () => (
     <Composition id="SameArmy" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="SameArmyN" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="Indo" component={Indo} durationInFrames={INDO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
+    {Object.keys(TWCFG).map((k) => <Composition key={"tw" + k} id={`TW-${k}`} component={ThumbW as any} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{k}} />)}
     <Composition id="TZOMBIE" component={ThumbZombie} durationInFrames={1} fps={30} width={1280} height={720} />
     <Composition id="TBURN3" component={ThumbBurn3} durationInFrames={1} fps={30} width={1280} height={720} />
     {BURN_THUMBS2.map((id) => <Composition key={id} id={`TBURN2-${id}`} component={ThumbBurn2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
