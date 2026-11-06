@@ -81,7 +81,7 @@ const conic = (seed: number, n: number, c: string, wmin: number, wmax: number) =
   return `conic-gradient(from 0deg at 50% 50%, ${st.join(', ')})`;
 };
 export const Burst: React.FC<{x: number; y: number; c: string; core: string; r?: number; seed?: number; a?: number}> = ({x, y, c, core, r = 1000, seed = 1, a = 0.6}) => (<>
-  <div style={{position: 'absolute', left: x - r * 0.6, top: y - r * 0.6, width: r * 1.2, height: r * 1.2, borderRadius: '50%', background: `radial-gradient(circle, ${core} 0%, ${c} 22%, rgba(0,0,0,0) 62%)`, mixBlendMode: 'screen', opacity: 0.85}} />
+  <div style={{position: 'absolute', left: x - r * 0.6, top: y - r * 0.6, width: r * 1.2, height: r * 1.2, borderRadius: '50%', background: `radial-gradient(circle, ${core} 0%, ${c} 22%, rgba(0,0,0,0) 62%)`, mixBlendMode: 'screen', opacity: 0.6}} />
   <div style={{position: 'absolute', left: x - r, top: y - r, width: r * 2, height: r * 2, background: conic(seed, 16, c, 5, 12), mixBlendMode: 'screen', opacity: a, filter: 'blur(1.5px)',
     WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 6%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0) 72%)'}} />
   <div style={{position: 'absolute', left: x - r, top: y - r, width: r * 2, height: r * 2, background: conic(seed + 50, 24, 'rgba(255,255,255,0.9)', 0.8, 2.2), mixBlendMode: 'screen', opacity: a * 0.55,
