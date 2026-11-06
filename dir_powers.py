@@ -175,7 +175,7 @@ V.S(t + 0.2, 'whoosh_6', 0.5); V.M(t, t + 40, 'heroic', 0, 0.65, 1.0, 1.0); yr(t
 t = V.sc('balls', 10.0, id='SB10', bg='sky', balls=[[K['NL'], 640, 680, 170, 'smug', 'none', None, 'AGE 8 · NL + JP'], [K['JP'], 1280, 640, 230, 'normal', 'none', None, 'DAD']],
          bubs=[[0.6, 0, 'Dad, I can breathe underwater AND stop time!'], [4.4, 1, 'Mixed kids get two powers.'], [7.2, 1, 'The world is about to get crazy.']])
 V.talk(t, V.SC[-1][3]['bubs']); yr(t + 10, 2040.2)
-t = map_(13, 'P19', cam=[[0, 3840, 2050, 0.3], [13, 3840, 2050, 0.27]], tints=cat_tints(0.4, -10, 0), stamps=[[6.0, 'A WORLD OF HEROES?', 960, 460, GOLD, 110, 0]],
+t = map_(13, 'P19', cam=[[0, 3840, 2050, 0.3], [13, 3840, 2050, 0.27]], tints=cat_tints(0.4, -10, 0), stamps=[[6.0, 'A WORLD OF HEROES?', 960, 460, GOLD, 84, 0]],
          caps=[[0.6, 5.6, 'Year 10. A generation with two powers is growing up.', 'two powers'], [8.0, 12.6, 'Part 2 is coming...', 'Part 2']])
 V.S(t + 6.0, 'stamp_2', 0.7); V.S(t + 6.0, 'braam3', 0.4); yr(t + 13, 2040.5)
 t = V.sc('end', 12.0, id='SEND', cam=[[0, 3840, 2050, 0.27], [12, 3840, 2050, 0.25]], tints=cat_tints(0.3, -10, 0), filter='brightness(0.5)', lines=[[0.8, 'WHAT POWER WOULD YOUR COUNTRY GET?', 300, 86, 99, GOLD]], ask=[2.6, 'Tell us in the comments 👇'], sub=5.0)
