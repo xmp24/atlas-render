@@ -54,10 +54,10 @@ export const CountryChar: React.FC<{k: number; x: number; y: number; w: number; 
 const CAM = {cx: 3840, cy: 2050, s: 0.2};
 const toScr = (p: number[], cam = CAM) => [(p[0] - cam.cx) * cam.s + W / 2, (p[1] - cam.cy) * cam.s + H / 2];
 const BIG = ['US', 'CA', 'BR', 'AR', 'MX', 'RU', 'CN', 'IN', 'AU', 'DZ', 'SA', 'KZ', 'CD', 'IR', 'EG', 'NG', 'ZA', 'TR', 'FR', 'ES', 'DE', 'GB', 'PE', 'CO', 'MN', 'LY', 'SD', 'ET', 'JP', 'PK', 'TH', 'VE', 'CL', 'BO', 'AO', 'TZ', 'ML', 'NE', 'TD'];
-export const WorldBg: React.FC<{cam?: {cx: number; cy: number; s: number}; skip?: string[]; mood?: Mood; blur?: number}> = ({cam = CAM, skip = [], mood = 'scared', blur = 2.2}) => (
+export const WorldBg: React.FC<{cam?: {cx: number; cy: number; s: number}; skip?: string[]; mood?: Mood; blur?: number; colOver?: Record<number, string>}> = ({cam = CAM, skip = [], mood = 'scared', blur = 2.2, colOver}) => (
   <AbsoluteFill style={{overflow: 'hidden', background: '#2f7fd0'}}>
     <div style={{position: 'absolute', inset: -20, filter: `blur(${blur}px) saturate(1.3) brightness(1.08)`}}>
-      <PolyCanvas cev={(JI as any).cev as CEv[]} t={0} tm={0} byTm={false} cam={cam} W={W + 40} H={H + 40} opts={{squads: false, capitalsOff: true, war: null, empire: null, waves: true}} />
+      <PolyCanvas cev={(JI as any).cev as CEv[]} t={0} tm={0} byTm={false} cam={cam} W={W + 40} H={H + 40} opts={{squads: false, capitalsOff: true, war: null, empire: null, waves: true, colOver} as any} />
     </div>
     <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, filter: `blur(${blur * 0.5}px)`}}>
       {BIG.filter((c) => !skip.includes(c)).map((c) => { const k = K(c); if (k < 0) return null; const [x, y] = toScr(PIECES_C(k), cam); const r = Math.min(26, Math.max(12, Math.sqrt(CAREA[k]) * cam.s * 0.9));

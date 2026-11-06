@@ -5,6 +5,7 @@ import {SameArmy, SA_FRAMES} from './SameArmy';
 import {Indo, INDO_FRAMES} from './Indo';
 import {Indo2, indoFrames} from './Indo2';
 import {StatesBR, BRUS_FRAMES} from './StatesBR';
+import {ThumbD5, D5_IDS} from './ThumbsD5';
 import {Cup, CUP_FRAMES} from './Cup';
 import {IndoThumb, IndoShortOverlay} from './IndoExtras';
 import {ThumbPro, THUMB_IDS} from './ThumbsPro';
@@ -34,6 +35,7 @@ export const RootHW: React.FC = () => (
     <Composition id="Maduro2" component={Maduro2} durationInFrames={MADURO2_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="Maduro" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="MaduroN" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
+    {D5_IDS.map((id) => <Composition key={id} id={`T5-${id}`} component={ThumbD5} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {D4_IDS.map((id) => <Composition key={id} id={`T4-${id}`} component={ThumbD4} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {MAD_IDS.map((id) => <Composition key={id} id={`TMD-${id}`} component={ThumbMad} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{id}} />)}
     {FINAL_IDS.map((id) => <Composition key={id} id={`TF-${id}`} component={ThumbFinal} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
