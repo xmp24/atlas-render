@@ -150,9 +150,10 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
     if (p.k === undefined || !p.path || !vis(p.bbox)) continue;
     const w = wipeOf.get(p.k); const o2 = w ? w.to : st.owner[p.k];
     const base = w ? w.from : o2;
-    ctx.fillStyle = base === o.empire && o.empireCol ? o.empireCol : MAINCOL[base]; ctx.fill(p.path);
+    const CO = (o as any).colOver as Record<number, string> | undefined;
+    ctx.fillStyle = CO && CO[base] ? CO[base] : base === o.empire && o.empireCol ? o.empireCol : MAINCOL[base]; ctx.fill(p.path);
     // patrones en espacio 1920: deshacer la escala dentro del patrón
-    const pb = base === o.empire && !(o as any).empireFlag ? (o.empireCol || MAINCOL[base]) : P(base);
+    const pb = CO && CO[base] ? CO[base] : base === o.empire && !(o as any).empireFlag ? (o.empireCol || MAINCOL[base]) : P(base);
     if (typeof pb !== 'string') { ctx.globalAlpha = 0.8; ctx.fillStyle = pb; ctx.fill(p.path); ctx.globalAlpha = 1; }
     if (o.ghost && o.ghost.has(base)) { ctx.globalAlpha = Math.min(1, Math.max(0, (o.t - o.ghost.get(base)!) / 0.9)); ctx.fillStyle = 'rgba(58,62,74,0.9)'; ctx.fill(p.path); ctx.globalAlpha = 1; }
     if (w) {
@@ -167,8 +168,8 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
         ctx.moveTo(ox + Math.max(0.5, rmax * e), oy); ctx.arc(ox, oy, Math.max(0.5, rmax * e), 0, Math.PI * 2); any = true;
       }
       if (any) {
-        ctx.fillStyle = o2 === o.empire && o.empireCol ? o.empireCol : MAINCOL[o2]; ctx.fill();
-        const pn = o2 === o.empire && !(o as any).empireFlag ? (o.empireCol || MAINCOL[o2]) : P(o2); if (typeof pn !== 'string') { ctx.globalAlpha = 0.8; ctx.fillStyle = pn; ctx.fill(); ctx.globalAlpha = 1; }
+        ctx.fillStyle = CO && CO[o2] ? CO[o2] : o2 === o.empire && o.empireCol ? o.empireCol : MAINCOL[o2]; ctx.fill();
+        const pn = CO && CO[o2] ? CO[o2] : o2 === o.empire && !(o as any).empireFlag ? (o.empireCol || MAINCOL[o2]) : P(o2); if (typeof pn !== 'string') { ctx.globalAlpha = 0.8; ctx.fillStyle = pn; ctx.fill(); ctx.globalAlpha = 1; }
         ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 2.2 / (s * W4); ctx.stroke();
       }
       ctx.restore();
