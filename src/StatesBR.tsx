@@ -311,9 +311,32 @@ const shakeAt = (t: number) => { let x = 0, y = 0; for (const [st, a] of D.shake
 const flashAt = (t: number) => { let a = 0; for (const f of D.flashes as number[]) { const d = t - f; if (d >= 0 && d < 0.35) a = Math.max(a, 1 - d / 0.35); } return a; };
 const Cinema: React.FC<{t: number}> = ({t}) => { const lb = win(D.letterbox, t); return lb > 0 ? <><div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 95 * lb, background: '#000', zIndex: 33}} /><div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 95 * lb, background: '#000', zIndex: 33}} /></> : null; };
 
+
+const warpT = (tr: number) => { const w = D.warp as number[][] | undefined; if (!w) return tr; let s = w[0]; for (const x of w) { if (x[0] <= tr) s = x; else break; } return s[1] + (tr - s[0]) * s[2]; };
+const ColdOpen: React.FC<{tR: number}> = ({tR}) => {
+  const C = D.cold2; if (!C || tR >= C.p1 + 0.05) return null;
+  const clips = C.clips as number[][]; const inClip = tR < C.c1;
+  const lb = inClip ? 1 : lerp(tR, C.p0 + 1.2, C.p1, 1, 0);
+  let flash = 0; for (const [r0] of clips) { const d = tR - r0; if (d >= 0 && d < 0.18) flash = Math.max(flash, 1 - d / 0.18); }
+  const black = inClip ? lerp(tR, C.c1 - 0.6, C.c1, 0, 1) : tR < C.p0 ? 1 : lerp(tR, C.p0, C.p0 + 2.2, 1, 0, Easing.inOut(Easing.quad));
+  const ta = tR >= C.p0 ? popT(tR, C.p0 + 0.7, 6) * lerp(tR, C.p1 - 0.45, C.p1, 1, 0) : 0;
+  const sa = tR >= C.p0 ? popT(tR, C.p0 + 1.5, 6) * lerp(tR, C.p1 - 0.45, C.p1, 1, 0) : 0;
+  return <>
+    {inClip && <AbsoluteFill style={{zIndex: 61, background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.75) 100%)'}} />}
+    <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 120 * lb, background: '#000', zIndex: 62}} />
+    <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 120 * lb, background: '#000', zIndex: 62}} />
+    <AbsoluteFill style={{zIndex: 64, background: '#000', opacity: black}} />
+    {flash > 0 && <AbsoluteFill style={{zIndex: 65, background: '#fff', opacity: flash * 0.7}} />}
+    {tR >= C.p0 && <AbsoluteFill style={{zIndex: 66, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 18}}>
+      <div style={{...font, fontSize: 104, color: '#fff', textAlign: 'center', maxWidth: 1700, lineHeight: 1.02, opacity: ta, transform: `translateY(${(1 - ta) * 30}px)`, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>{C.title}</div>
+      <div style={{...font2, fontSize: 46, color: '#e8e2d0', textAlign: 'center', maxWidth: 1500, opacity: sa}}>{C.sub}</div>
+    </AbsoluteFill>}
+  </>;
+};
 export const StatesBR: React.FC<{audio?: boolean; W?: number; H?: number; zf?: number; segs?: number[][]; hook?: string[]; cta?: string[]}> = ({audio = true, W = 1920, H = 1080, zf = 1, segs, hook, cta}) => {
   VW = W; VH = H; SH = H > W;
-  const f = useCurrentFrame(); const lt = f / 30; const {t, cuts, sdur} = segTime(lt, segs);
+  const f = useCurrentFrame(); const lt = f / 30; const sgT = segTime(lt, segs); const tR = sgT.t; const cuts = sgT.cuts; const sdur = sgT.sdur; const t = warpT(tR);
+  const CO = D.cold2 && tR < D.cold2.p1 ? D.cold2 : null;
   const c0 = camF(t); const p0 = camF(Math.max(0, t - 1 / 30));
   const cam = {...c0, s: c0.s * zf}; const cp = {...p0, s: p0.s * zf};
   const speed = Math.hypot((cam.cx - cp.cx) * cam.s, (cam.cy - cp.cy) * cam.s) + Math.abs(Math.log(cam.s / cp.s)) * 900;
@@ -325,10 +348,11 @@ export const StatesBR: React.FC<{audio?: boolean; W?: number; H?: number; zf?: n
         <PolyCanvas cev={[] as CEv[]} t={t} tm={t} byTm={false} cam={cam} W={VW} H={VH} blur={blur} opts={{markers: null, squads: false, capitalsOff: true, war: D.war, empire: null, lit: [US], waves: true, extra: drawStates}} />
         <Arrows t={t} cam={cam} />
         <StateLabels t={t} cam={cam} />
-        <Bubbles t={t} cam={cam} />
+        {!CO && <Bubbles t={t} cam={cam} />}
       </AbsoluteFill>
       <Grade t={t} />
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.42) 100%)', pointerEvents: 'none', zIndex: 15}} />
+      {!CO && <>
       <Spot t={t} cam={cam} />
       <Cinema t={t} />
       <Hud t={t} />
@@ -337,7 +361,9 @@ export const StatesBR: React.FC<{audio?: boolean; W?: number; H?: number; zf?: n
       <Chips t={t} />
       <QCard t={t} />
       <Cards t={t} />
-      <Cold t={t} />
+      </>}
+      <ColdOpen tR={tR} />
+      {!CO && <Cold t={t} />}
       {SH && hook && cta && <ShortCup lt={lt} dur={sdur} hook={hook} cta={cta} cuts={cuts} />}
       {fl > 0 && <AbsoluteFill style={{background: '#fff', opacity: fl * 0.18, zIndex: 60}} />}
       {audio && <Audio src={staticFile('hw/brus.wav')} />}
