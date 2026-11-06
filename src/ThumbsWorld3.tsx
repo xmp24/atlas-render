@@ -23,7 +23,7 @@ const BA: Record<string, [string, string]> = {
   cold: ['+15°C', '-273°C'], ocean: ['WEEK 1', 'WEEK 300'], babies: ['2030', '2130'], heat: ['MONTH 1', 'MONTH 447'], thirty: ['AGE 29', 'AGE 30'], purge: ['6:59 PM', '7:00 PM'],
   nosleep: ['NIGHT 1', 'NIGHT 30'], money: ['$48,210', '$0'], deathdate: ['2031', '14·08·2033'], memory: ['11:59 PM', '00:00'], gravity: ['0 SEC', '5 SEC'], power: ['ON', 'OFF'], powers: ['DAY 1', 'YEAR 10'],
 };
-export const ThumbA: React.FC<{k: string; lab?: [string, string]}> = ({k, lab}) => {
+export const ThumbA: React.FC<{k: string; lab?: [string, string]; nt?: boolean}> = ({k, lab, nt}) => {
   const c = CFG2[k]; const F = c.fx ? FX[c.fx] : null; const [l, r] = lab ?? BA[k];
   return (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
     <AbsoluteFill style={{clipPath: LEFT}}><LandMap land={GREEN} /><Rays x={320} y={440} c="rgba(255,255,230,0.9)" a={0.45} n={20} r={900} /><Eyes mood="happy" skip={(x, y) => Math.hypot(x - 320, y - 440) < 220 || y < 150} />
@@ -33,8 +33,8 @@ export const ThumbA: React.FC<{k: string; lab?: [string, string]}> = ({k, lab}) 
       <Glow x={960} y={440} r={320} c={c.glow} /><div style={{position: 'absolute', left: 960 - 190, top: 440 - 190, transform: `rotate(${c.heroRot ?? 0}deg)`, filter: 'brightness(1.2) saturate(1.2)'}}><Planet size={380} mood={c.hero} lon={15} lat={20} rim={c.glow} helmet={c.heroHelmet} /></div>
       <Icon name={c.icon} x={1150} y={600} w={150} c={c.ic} glow={c.glow} rot={10} /></AbsoluteFill>
     <Bolt rc={c.glow} />
-    <Lbl text={l} x={320} y={40} bg="#ffffff" size={l.length > 8 ? 58 : 70} rot={-3} />
-    <Lbl text={r} x={960} y={40} bg={c.glow} size={r.length > 8 ? 58 : 70} rot={3} />
+    {!nt && <Lbl text={l} x={320} y={40} bg="#ffffff" size={l.length > 8 ? 58 : 70} rot={-3} />}
+    {!nt && <Lbl text={r} x={960} y={40} bg={c.glow} size={r.length > 8 ? 58 : 70} rot={3} />}
   </AbsoluteFill>);
 };
 
@@ -56,7 +56,7 @@ const BCFG: Record<string, BC> = {
   powers: {hero: 'BE', mood: 'smug', crown: true, top: 'BELGIUM GOT', bot: 'THE BEST POWER?', ts: 116, bs: 108, icon: 'light-bulb', side: [['JP', 'shocked'], ['US', 'shocked', true], ['CN', 'angry']]},
 };
 const HX = 330, HY = 420, SIDE = [[1150, 190, 140], [1100, 360, 150], [1160, 520, 130]];
-export const ThumbB: React.FC<{k: string; cfg?: Partial<BC>}> = ({k, cfg}) => {
+export const ThumbB: React.FC<{k: string; cfg?: Partial<BC>; nt?: boolean}> = ({k, cfg, nt}) => {
   const c = CFG2[k], b = {...BCFG[k], ...(cfg || {})} as BC; const F = c.fx ? FX[c.fx] : null;
   const covered = (x: number, y: number) => Math.hypot(x - HX, y - HY) < 240 || SIDE.some(([sx, sy, ss]) => Math.hypot(x - sx, y - sy) < ss * 0.62) || y < 135 || (y > 580 && x > 250 && x < 1050);
   return (<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
@@ -70,8 +70,8 @@ export const ThumbB: React.FC<{k: string; cfg?: Partial<BC>}> = ({k, cfg}) => {
     <Glow x={HX} y={HY} r={300} c={c.glow} a={0.8} />
     <Ball k={K(b.hero)} size={380} mood={b.mood} x={HX} y={HY} crown={b.crown} helmet={b.helmet} sweat={b.sweat} rot={b.rot ?? 0} rim={c.glow} look={[0.5, 0]} />
     {b.side.map((s, i) => <Ball key={i} k={K(s[0])} size={SIDE[i][2]} mood={s[1]} x={SIDE[i][0]} y={SIDE[i][1]} sweat={s[2]} rim={c.glow} look={[-0.6, 0]} rot={k === 'gravity' ? (i - 1) * 30 : 0} />)}
-    <Title3D text={b.top} y={14} size={b.ts} grad={WHITE} glow="rgba(0,0,0,0.6)" rot={-2} />
-    <Title3D text={b.bot} y={H - b.bs * 1.12 - 6} size={b.bs} grad={c.botGrad ?? GOLD} glow={c.glow} rot={-2} />
+    {!nt && <Title3D text={b.top} y={14} size={b.ts} grad={WHITE} glow="rgba(0,0,0,0.6)" rot={-2} />}
+    {!nt && <Title3D text={b.bot} y={H - b.bs * 1.12 - 6} size={b.bs} grad={c.botGrad ?? GOLD} glow={c.glow} rot={-2} />}
   </AbsoluteFill>);
 };
 
@@ -131,4 +131,4 @@ export const FINAL: Record<string, {t: 'A'; lab: [string, string]} | {t: 'B'; cf
   power: {t: 'A', lab: ['ON', 'OFF']},
   powers: {t: 'B', cfg: {hero: 'US', mood: 'smug', crown: true, top: '195', bot: 'SUPERPOWERS', ts: 150, bs: 130, icon: 'fist', side: [['JP', 'shocked'], ['CN', 'angry'], ['BE', 'smug']]}},
 };
-export const ThumbFin13: React.FC<{k: string}> = ({k}) => { const f = FINAL[k]; return f.t === 'A' ? <ThumbA k={k} lab={f.lab} /> : <ThumbB k={k} cfg={f.cfg} />; };
+export const ThumbFin13: React.FC<{k: string}> = ({k}) => { const f = FINAL[k]; const nt = !['cold','heat','power'].includes(k); return f.t === 'A' ? <ThumbA k={k} lab={f.lab} nt={nt} /> : <ThumbB k={k} cfg={f.cfg} nt={nt} />; };
