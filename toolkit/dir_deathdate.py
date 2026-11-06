@@ -136,13 +136,13 @@ t = map_(12, 'E12B', cam=[[0, 3840, 2050, 0.3], [12, 3840, 2050, 0.32]], tints=[
 TSU = [[0, 0]]
 t = V.sc('title', 7.0, id='E13', bg='black', chap=[0.0, 2.6, 'CHAPTER 4', 'AUGUST 14TH'], texts=[[2.8, 7.0, DOOM + ' · 06:12 AM', 96, 540, RED, 'rgba(255,40,40,0.7)']])
 V.chap_snd(t); [V.S(t + 2.8 + i * 0.5, 'heartbeat', 0.5) for i in range(8)]; V.M(t, t + 7, 'horror', 0, 0.5, 0.5, 0.3); yr(t + 7, 2033.6)
-t = map_(16, 'E14', cam=[[0, *P(150, 20), 0.6], [2.0, *P(150, 20), 0.5], [16, *P(150, 18), 0.42]], shake=[[0, 0], [2.0, 22], [5, 6], [8, 0]], tints=[tint(RIM, RED, [[0, 0.4]])],
+t = map_(16, 'E14', cam=[[0, *P(150, 20), 0.6], [2.0, *P(150, 20), 0.5], [5.0, *P(135, 30), 0.75], [16, *P(132, 32), 0.95]], shake=[[0, 0], [2.0, 22], [5, 6], [8, 0]], tints=[tint(RIM, RED, [[0, 0.4]])],
          cells=[dict(mode='flood', col='#2f78c8', a=0.95, lvl=TSU)], rings=[[2.0, *IMP, '#ffffff', 6], [2.2, *IMP, RED, 6]], stamps=[[2.2, 'IMPACT', 960, 450, '#ffffff', 180, 0]],
          caps=[[5.6, 10.0, 'A wall of water 100 meters high races across the ocean.', '100 meters'], [10.4, 15.6, 'It hits every coast exactly as the dates said.', 'exactly']])
-TSU += [[round(t + 4, 2), 0], [round(t + 11, 2), 26], [round(t + 16.5, 2), 30], [round(t + 40, 2), 4], [99999, 4]]
+TSU += [[round(t + 3.5, 2), 0], [round(t + 10, 2), 55], [round(t + 16.5, 2), 62], [round(t + 45, 2), 8], [99999, 8]]
 V.S(t + 1.6, 'missile_in', 0.6); V.S(t + 2.0, 'nuke', 1.0); V.S(t + 2.0, 'boom_big', 0.9); V.S(t + 4, 'wind', 0.6); V.M(t + 2, t + 50, 'saga', 0, 0.7, 1.5, 1.0); yr(t + 16, 2033.62); popk(t + 16, 75)
 CO = [('TOKYO', P(139.7, 35.7)), ('MANILA', P(121, 14.6)), ('SHANGHAI', P(121.5, 31.2)), ('JAKARTA', P(106.8, -6.2)), ('LIMA', P(-77, -12)), ('LOS ANGELES', P(-118.2, 34)), ('SYDNEY', P(151.2, -33.9)), ('TAIPEI', P(121.5, 25))]
-cuts = [dict(t0=0.3 + i * 0.9, t1=0.3 + (i + 1) * 0.9, cam=[*xy, 2.0], T=0, cells=[dict(mode='flood', col='#2f78c8', a=0.95, lvl=[[0, 30]])], pins=[[0, *xy, n, '#ff6a5a']], grade='rgba(0,40,120,0.3)', filter='brightness(0.7)') for i, (n, xy) in enumerate(CO)]
+cuts = [dict(t0=0.3 + i * 0.9, t1=0.3 + (i + 1) * 0.9, cam=[*xy, 2.0], T=0, cells=[dict(mode='flood', col='#2f78c8', a=0.95, lvl=[[0, 60]])], pins=[[0, *xy, n, '#ff6a5a']], grade='rgba(0,40,120,0.3)', filter='brightness(0.7)') for i, (n, xy) in enumerate(CO)]
 t = V.sc('cuts', 0.3 + len(CO) * 0.9 + 0.3, id='E14B', cuts=cuts, texts=[[0.05, 7.8, 'THE PACIFIC RIM', 110, 540, '#ffffff', 'rgba(80,140,255,0.6)']])
 [V.SV(t + 0.3 + i * 0.9, 'boom', 0.3) for i in range(len(CO))]; yr(t + 7.8, 2033.62)
 t = map_(13, 'E15', cam=[[0, *P(150, 15), 0.45], [13, *P(150, 15), 0.48]], cells=[dict(mode='flood', col='#2f78c8', a=0.95, lvl=TSU)], tints=[tint(RIM, '#2b2b2e', [[0, 0.3], [6, 0.65]], 0.1)], useBar=True,
