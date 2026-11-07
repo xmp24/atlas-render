@@ -267,5 +267,17 @@ T['nato'] = (<>
   <Ball c="PL" x={950} y={460} s={410} helmet gun="l" eyes="scared" sweat look={-0.6} />
   <Title parts={[['USA ', WHITE_G], ['LEAVES ', GOLD_G], ['NATO', RED_G]]} y={34} size={118} />
 </>);
+T['ilir'] = (<>
+  <SplitBurst l={BLUE} r={RED} />
+  <Ball c="IL" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="IR" x={950} y={460} s={410} helmet gun="l" fire look={-0.6} />
+  <Title parts={[['ISRAEL ', WHITE_G], ['VS ', GOLD_G], ['IRAN', RED_G]]} y={34} size={124} />
+</>);
+T['cart'] = (<>
+  <SplitBurst l={BLUE} r={RED} />
+  <Ball c="US" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="MX" x={950} y={460} s={410} eyes="shades" gun="l" fire look={-0.6} />
+  <Title parts={[['USA ', WHITE_G], ['VS ', GOLD_G], ['CARTELS', RED_G]]} y={34} size={124} />
+</>);
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
