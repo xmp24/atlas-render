@@ -73,6 +73,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-ww3" component={Indo2} durationInFrames={indoFrames('ww3')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww3'}} />
     <Composition id="V-survive" component={Indo2} durationInFrames={indoFrames('survive')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'survive'}} />
     <Composition id="V-ww2" component={Indo2} durationInFrames={indoFrames('ww2')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww2'}} />
+    <Composition id="V-cart" component={Indo2} durationInFrames={indoFrames('cart')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'cart'}} />
     <Composition id="V-ilir" component={Indo2} durationInFrames={indoFrames('ilir')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ilir'}} />
     <Composition id="V-nato" component={Indo2} durationInFrames={indoFrames('nato')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'nato'}} />
     <Composition id="V-tw27" component={Indo2} durationInFrames={indoFrames('tw27')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'tw27'}} />
