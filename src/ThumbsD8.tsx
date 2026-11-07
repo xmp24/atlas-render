@@ -340,5 +340,11 @@ T['napo'] = (<>
 </>);
 T['brit'] = <SceneB l={LBLUE} r={LRED} back={[{c: 'AU', x: 150, y: 220, s: 220, helmet: true, look: 0.4}, {c: 'CA', x: 430, y: 140, s: 180, helmet: true, look: 0.3}, {c: 'IN', x: 860, y: 150, s: 190, eyes: 'scared', sweat: true, look: -0.3}, {c: 'US', x: 1140, y: 220, s: 230, helmet: true, gun: 'l', look: -0.4}]}
   front={[{c: 'GB', x: 400, y: 470, s: 450, crown: true, gun: 'r', fire: true, look: 0.6}, {c: 'FR', x: 930, y: 480, s: 410, helmet: true, eyes: 'scared', sweat: true, look: -0.6}]} />;
+T['cnin'] = (<>
+  <SplitBurst l={RED} r={ORANGE} />
+  <Ball c="CN" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="IN" x={950} y={460} s={410} helmet gun="l" fire look={-0.6} />
+  <Title parts={[['CHINA ', RED_G], ['VS ', WHITE_G], ['INDIA', GOLD_G]]} y={34} size={130} />
+</>);
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
