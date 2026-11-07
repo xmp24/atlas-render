@@ -249,5 +249,23 @@ const LACAM = {cx: 2330, cy: 2860, s: 0.26};
 const LAMASK: Record<number, string> = {}; COUNTRIES.forEach((c, i) => { LAMASK[i] = LA.includes(c.c) ? '#ffffff' : '#000000'; });
 T['latflag'] = <Map cam={LACAM} />;
 T['latmask'] = <Map cam={LACAM} col={LAMASK} />;
+T['grl'] = (<>
+  <SplitBurst l={BLUE} r={RED} />
+  <Ball c="US" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="DK" x={950} y={460} s={410} helmet gun="l" look={-0.6} />
+  <Title parts={[['GREENLAND ', WHITE_G], ['WAR', RED_G]]} y={34} size={124} />
+</>);
+T['tw27'] = (<>
+  <SplitBurst l={RED} r={BLUE} />
+  <Ball c="CN" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="TW" x={950} y={460} s={410} helmet gun="l" fire look={-0.6} />
+  <Title parts={[['TAIWAN ', WHITE_G], ['2027', RED_G]]} y={34} size={140} />
+</>);
+T['nato'] = (<>
+  <SplitBurst l={RED} r={BLUE} />
+  <Ball c="RU" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="PL" x={950} y={460} s={410} helmet gun="l" eyes="scared" sweat look={-0.6} />
+  <Title parts={[['USA ', WHITE_G], ['LEAVES ', GOLD_G], ['NATO', RED_G]]} y={34} size={118} />
+</>);
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
