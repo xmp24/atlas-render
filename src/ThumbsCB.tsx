@@ -12,7 +12,7 @@ const W = 1280, H = 720;
 type Eyes = 'angry' | 'normal' | 'scared' | 'shades' | 'dead' | 'smug';
 
 // ojos clásicos de countryball (blancos, sin pupila), en coordenadas de la bola (0..1)
-const EyesSvg: React.FC<{e: Eyes; s: number; look: number}> = ({e, s, look}) => {
+export const EyesSvg: React.FC<{e: Eyes; s: number; look: number}> = ({e, s, look}) => {
   const lx = look * 0.06 * s, cy = 0.4 * s, dx = 0.17 * s, sw = s * 0.022;
   const xs = [0.5 * s - dx + lx, 0.5 * s + dx + lx];
   if (e === 'shades') {
@@ -36,11 +36,11 @@ const EyesSvg: React.FC<{e: Eyes; s: number; look: number}> = ({e, s, look}) => 
     return <g key={i}><ellipse cx={x} cy={cy} rx={rx} ry={ry} fill="#fff" stroke={INK} strokeWidth={sw} />{e === 'scared' && <circle cx={x + lx * 0.5} cy={cy + ry * 0.2} r={rx * 0.28} fill={INK} />}</g>;
   })}</g>);
 };
-export const CBall: React.FC<{k: number; size: number; x: number; y: number; eyes: Eyes; look?: number; rot?: number; sweat?: boolean; gray?: boolean; rim?: string; helmet?: boolean; crown?: boolean; tears?: boolean}> = ({k, size, x, y, eyes, look = 0, rot = 0, sweat, gray, rim, helmet, crown, tears}) => (
+export const CBall: React.FC<{k: number; size: number; x: number; y: number; eyes: Eyes; look?: number; rot?: number; sweat?: boolean; gray?: boolean; rim?: string; helmet?: boolean; crown?: boolean; tears?: boolean; flagBg?: string}> = ({k, size, x, y, eyes, look = 0, rot = 0, sweat, gray, rim, helmet, crown, tears, flagBg}) => (
   <div style={{position: 'absolute', left: x - size / 2, top: y - size / 2, width: size, height: size, transform: `rotate(${rot}deg)`}}>
     {rim && <div style={{position: 'absolute', inset: -size * 0.08, borderRadius: '50%', background: `radial-gradient(circle, ${rim} 0%, transparent 70%)`, opacity: 0.6}} />}
     <div style={{position: 'absolute', inset: 0, borderRadius: '50%', overflow: 'hidden', border: `${Math.max(3, size * 0.018)}px solid ${INK}`, boxShadow: `0 ${size * 0.04}px ${size * 0.06}px rgba(0,0,0,0.55)`, filter: gray ? 'grayscale(1) brightness(0.75)' : 'saturate(1.15)'}}>
-      <FlagCanvas k={k} w={size} h={size} />
+      {flagBg ? <div style={{position: 'absolute', inset: 0, background: flagBg}} /> : <FlagCanvas k={k} w={size} h={size} />}
       <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(circle at 32% 26%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 22%, rgba(255,255,255,0) 40%), radial-gradient(circle at 62% 70%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 92%)'}} />
     </div>
     <svg width={size} height={size} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}><EyesSvg e={eyes} s={size} look={look} /></svg>

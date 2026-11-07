@@ -111,7 +111,7 @@ export const Tracers: React.FC<{from: [number, number]; to: [number, number]; n?
 export const Smoke: React.FC<{list: [number, number, number][]}> = ({list}) => <>{list.map(([x, y, r], i) => <div key={i} style={{position: 'absolute', left: x - r, top: y - r, width: r * 2, height: r * 2, borderRadius: '50%', background: 'radial-gradient(circle, rgba(60,40,30,0.45) 0%, rgba(60,40,30,0) 70%)', filter: 'blur(4px)'}} />)}</>;
 const Shadow: React.FC<{x: number; y: number; w: number}> = ({x, y, w}) => <div style={{position: 'absolute', left: x - w / 2, top: y, width: w, height: w * 0.12, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 70%)'}} />;
 export const Vign: React.FC = () => <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)'}} />;
-const Indo: React.FC<{x: number; y: number; s: number; look?: number; k?: number}> = ({x, y, s, look = 0.6, k = ID}) => (<>
+export const Indo: React.FC<{x: number; y: number; s: number; look?: number; k?: number}> = ({x, y, s, look = 0.6, k = ID}) => (<>
   <Shadow x={x} y={y + s * 0.44} w={s * 0.9} />
   <CBall k={k} size={s} x={x} y={y} eyes="angry" look={look} rim="#ffcf6a" />
   <WarHelmet x={x} y={y + s * 0.03} size={s * 0.98} />

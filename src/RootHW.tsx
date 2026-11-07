@@ -6,6 +6,9 @@ import {Indo, INDO_FRAMES} from './Indo';
 import {Indo2, indoFrames} from './Indo2';
 import {StatesBR, BRUS_FRAMES} from './StatesBR';
 import {ThumbD5, D5_IDS} from './ThumbsD5';
+import {ThumbD6, D6_IDS} from './ThumbsD6';
+import {ThumbD7, D7_IDS} from './ThumbsD7';
+import {ThumbD8, D8_IDS} from './ThumbsD8';
 import {Cup, CUP_FRAMES} from './Cup';
 import {IndoThumb, IndoShortOverlay} from './IndoExtras';
 import {ThumbPro, THUMB_IDS} from './ThumbsPro';
@@ -35,6 +38,9 @@ export const RootHW: React.FC = () => (
     <Composition id="Maduro2" component={Maduro2} durationInFrames={MADURO2_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="Maduro" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
     <Composition id="MaduroN" component={Maduro} durationInFrames={MADURO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
+    {D8_IDS.map((id) => <Composition key={id} id={`T8-${id}`} component={ThumbD8} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {D7_IDS.map((id) => <Composition key={id} id={`T7-${id}`} component={ThumbD7} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {D6_IDS.map((id) => <Composition key={id} id={`T6-${id}`} component={ThumbD6} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {D5_IDS.map((id) => <Composition key={id} id={`T5-${id}`} component={ThumbD5} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {D4_IDS.map((id) => <Composition key={id} id={`T4-${id}`} component={ThumbD4} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {MAD_IDS.map((id) => <Composition key={id} id={`TMD-${id}`} component={ThumbMad} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{id}} />)}
@@ -67,6 +73,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-ww3" component={Indo2} durationInFrames={indoFrames('ww3')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww3'}} />
     <Composition id="V-survive" component={Indo2} durationInFrames={indoFrames('survive')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'survive'}} />
     <Composition id="V-ww2" component={Indo2} durationInFrames={indoFrames('ww2')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww2'}} />
+    <Composition id="V-grl" component={Indo2} durationInFrames={indoFrames('grl')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'grl'}} />
     <Composition id="LatamN" component={Indo2} durationInFrames={indoFrames('l')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'l'}} />
     <Composition id="HormuzN" component={Indo2} durationInFrames={indoFrames('h')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'h'}} />
     <Composition id="Usa" component={Indo2} durationInFrames={indoFrames('u')} fps={30} width={1920} height={1080} defaultProps={{audio: true, v: 'u'}} />
