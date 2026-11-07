@@ -279,5 +279,38 @@ T['cart'] = (<>
   <Ball c="MX" x={950} y={460} s={410} eyes="shades" gun="l" fire look={-0.6} />
   <Title parts={[['USA ', WHITE_G], ['VS ', GOLD_G], ['CARTELS', RED_G]]} y={34} size={124} />
 </>);
+const GREEN = {c0: '#2fe07a', c1: '#0b8f3e', c2: '#022a12', line: 'rgba(90,255,150,0.4)'};
+const ORANGE = {c0: '#ffb347', c1: '#f07800', c2: '#5a2400', line: 'rgba(255,190,90,0.45)'};
+const LRED = {c0: '#ffffff', c1: '#ff9d8c', c2: '#c8281e', line: 'rgba(255,255,255,0.45)'};
+const LBLUE = {c0: '#ffffff', c1: '#9cc4ff', c2: '#1f55c8', line: 'rgba(255,255,255,0.45)'};
+const EUBG = `url(${staticFile('wflags/eu.svg')}) center / cover`;
+// estilo B: escena de countryballs (fondo claro, varias bolas, sin texto)
+type BB = {c: string; x: number; y: number; s: number; helmet?: boolean; gun?: 'r' | 'l'; fire?: boolean; eyes?: any; look?: number; crown?: boolean; sweat?: boolean; flagBg?: string};
+const SceneB: React.FC<{l: Side; r: Side; back: BB[]; front: BB[]}> = ({l, r, back, front}) => (<>
+  <SplitBurst l={l} r={r} />
+  <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 60%)'}} />
+  {back.map((b, i) => <Ball key={'b' + i} {...b} />)}
+  {front.map((b, i) => <Ball key={'f' + i} {...b} />)}
+</>);
+T['kor'] = <SceneB l={LRED} r={LBLUE} back={[{c: 'CN', x: 150, y: 230, s: 250, eyes: 'smug', look: 0.4}, {c: 'RU', x: 470, y: 150, s: 180, eyes: 'shades', look: 0.3}, {c: 'JP', x: 820, y: 150, s: 180, helmet: true, look: -0.3}, {c: 'US', x: 1130, y: 220, s: 260, helmet: true, gun: 'l', look: -0.4}]}
+  front={[{c: 'KP', x: 380, y: 470, s: 440, helmet: true, gun: 'r', fire: true, look: 0.6}, {c: 'KR', x: 920, y: 480, s: 420, helmet: true, gun: 'l', fire: true, look: -0.6}]} />;
+T['inpk'] = (<>
+  <SplitBurst l={ORANGE} r={GREEN} />
+  <Ball c="IN" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="PK" x={950} y={460} s={410} helmet gun="l" fire look={-0.6} />
+  <Title parts={[['INDIA ', WHITE_G], ['VS ', GOLD_G], ['PAKISTAN', GREEN_G]]} y={34} size={108} />
+</>);
+T['rare'] = (<>
+  <SplitBurst l={BLUE} r={RED} />
+  <Ball c="US" x={330} y={460} s={410} helmet gun="r" fire look={0.6} />
+  <Ball c="CN" x={950} y={460} s={410} helmet gun="l" fire look={-0.6} />
+  <Title parts={[['RARE ', WHITE_G], ['EARTH ', GOLD_G], ['WAR', RED_G]]} y={34} size={124} />
+</>);
+T['euarmy'] = (<>
+  <SplitBurst l={BLUE} r={RED} />
+  <Ball c="FR" x={330} y={450} s={410} helmet gun="r" fire look={0.6} flagBg={EUBG} />
+  <Earth x={955} y={450} s={410} mood="serious" helmet />
+  <Title parts={[['EUROPE ', WHITE_G], ['VS ', GOLD_G], ['WORLD', RED_G]]} y={34} size={120} />
+</>);
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
