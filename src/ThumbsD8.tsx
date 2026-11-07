@@ -346,5 +346,20 @@ T['cnin'] = (<>
   <Ball c="IN" x={950} y={460} s={410} helmet gun="l" fire look={-0.6} />
   <Title parts={[['CHINA ', RED_G], ['VS ', WHITE_G], ['INDIA', GOLD_G]]} y={34} size={130} />
 </>);
+T['brme'] = (<>
+  <MapA cam={{cx: 4900, cy: 1880, s: 0.62}} skip={['TR', 'IR', 'SA']} col={distinct('TR SY LB IL JO IQ IR SA YE OM AE QA KW BH EG LY SD AF PK CY GE AM AZ TM'.split(' '))} />
+  <CountryChar k={K('TR')} x={330} y={300} w={460} h={230} mood="angry" faceY={0.5} faceR={0.42} look={[0.4, 0.4]} redEyes />
+  <CountryChar k={K('IR')} x={900} y={380} w={420} h={380} mood="angry" faceY={0.45} faceR={0.36} look={[-0.6, 0]} redEyes />
+  <CountryChar k={K('SA')} x={520} y={560} w={430} h={340} mood="angry" faceY={0.45} faceR={0.36} look={[0.3, -0.5]} />
+  <Title parts={[['MIDDLE EAST ', WHITE_G], ['BATTLE ROYALE', RED_G]]} y={16} size={92} rot={0} />
+</>);
+T['euus'] = (<>
+  <MapA cam={{cx: 3000, cy: 1350, s: 0.3}} skip={['US', 'FR', 'DE']} />
+  <CountryChar k={K('US')} x={300} y={400} w={560} h={340} mood="angry" faceY={0.5} faceR={0.4} look={[0.7, 0]} redEyes />
+  <CountryChar k={K('FR')} x={930} y={400} w={360} h={360} mood="angry" faceY={0.5} faceR={0.4} look={[-0.7, 0]} redEyes />
+  <CountryChar k={K('DE')} x={1150} y={250} w={220} h={260} mood="angry" faceY={0.5} faceR={0.38} look={[-0.7, 0]} />
+  <VS x={640} y={410} r={78} />
+  <Title parts={[['EUROPE ', GOLD_G], ['VS ', WHITE_G], ['USA', RED_G]]} y={16} size={120} rot={0} />
+</>);
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
