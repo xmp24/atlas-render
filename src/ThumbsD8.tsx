@@ -332,5 +332,13 @@ T['tri'] = <SceneB l={LBLUE} r={LRED} back={[{c: 'JP', x: 170, y: 200, s: 200, h
   front={[{c: 'US', x: 250, y: 480, s: 380, helmet: true, gun: 'r', fire: true, look: 0.5}, {c: 'CN', x: 1030, y: 480, s: 380, helmet: true, gun: 'l', fire: true, look: -0.5}, {c: 'RU', x: 640, y: 330, s: 400, helmet: true, gun: 'r', fire: true, look: 0}]} />;
 T['ww1'] = <SceneB l={LRED} r={LBLUE} back={[{c: 'TR', x: 140, y: 230, s: 230, look: 0.4}, {c: 'AT', x: 430, y: 150, s: 190, helmet: true, look: 0.3}, {c: 'IT', x: 840, y: 150, s: 190, eyes: 'smug', look: -0.3}, {c: 'US', x: 1140, y: 230, s: 230, helmet: true, look: -0.4}]}
   front={[{c: 'DE', x: 370, y: 480, s: 430, helmet: true, gun: 'r', fire: true, look: 0.6}, {c: 'FR', x: 920, y: 480, s: 420, helmet: true, gun: 'l', fire: true, look: -0.6}, {c: 'GB', x: 1130, y: 560, s: 230, helmet: true, look: -0.5}]} />;
+T['napo'] = (<>
+  <SplitBurst l={BLUE} r={RED} />
+  <Ball c="FR" x={330} y={460} s={410} gun="r" fire crown look={0.6} />
+  <Ball c="GB" x={950} y={460} s={410} helmet gun="l" fire look={-0.6} />
+  <Title parts={[['NAPOLEON ', WHITE_G], ['2026', RED_G]]} y={34} size={124} />
+</>);
+T['brit'] = <SceneB l={LBLUE} r={LRED} back={[{c: 'AU', x: 150, y: 220, s: 220, helmet: true, look: 0.4}, {c: 'CA', x: 430, y: 140, s: 180, helmet: true, look: 0.3}, {c: 'IN', x: 860, y: 150, s: 190, eyes: 'scared', sweat: true, look: -0.3}, {c: 'US', x: 1140, y: 220, s: 230, helmet: true, gun: 'l', look: -0.4}]}
+  front={[{c: 'GB', x: 400, y: 470, s: 450, crown: true, gun: 'r', fire: true, look: 0.6}, {c: 'FR', x: 930, y: 480, s: 410, helmet: true, eyes: 'scared', sweat: true, look: -0.6}]} />;
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
