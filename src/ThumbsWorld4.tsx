@@ -14,7 +14,7 @@ const K = (c: string) => COUNTRIES.findIndex((x) => x.c === c);
 const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
 // ---------- cara estática con brillos en los ojos ----------
-const Face2: React.FC<{r: number; mood: Mood; look?: [number, number]}> = ({r, mood, look = [0, 0]}) => {
+export const Face2: React.FC<{r: number; mood: Mood; look?: [number, number]}> = ({r, mood, look = [0, 0]}) => {
   const ew = r * 0.42, eh = r * 0.5 * (mood === 'shocked' ? 1.15 : 1), ex = r * 0.48, sw = r * 0.09;
   const pr = mood === 'scared' || mood === 'shocked' ? r * 0.13 : r * 0.21;
   const angry = mood === 'angry';
