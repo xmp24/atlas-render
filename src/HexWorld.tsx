@@ -45,6 +45,7 @@ if (typeof window !== 'undefined' && !loaded) {
   const h = delayRender('hexworld-assets', {timeoutInMilliseconds: 120000});
   const jobs: Promise<void>[] = [];
   for (const c of CODE) jobs.push(loadImg('f-' + c, staticFile(`wflags/${c.toLowerCase()}.svg`)));
+  for (const c of ['EU', 'SU']) jobs.push(loadImg('f-' + c, staticFile(`wflags/${c.toLowerCase()}.svg`)));
   for (const n of ICONS) jobs.push(loadImg('i-' + n, staticFile(`hw/icons/${n}.svg`)));
   jobs.push(loadImg('base', staticFile('hw/base.jpg')), loadImg('shade', staticFile('hw/shade.png')), loadImg('marble', staticFile('hw/marble2k.jpg')), loadImg('stars', staticFile('hw/stars.jpg')));
   Promise.all(jobs).then(() => {
@@ -126,10 +127,12 @@ export type DrawOpts = {
 };
 // banderas rasterizadas una vez (dibujar SVG grandes en cada fotograma es muy lento)
 const FLAGBMP = new Map<number, HTMLCanvasElement>();
+// sustitución de bandera por vídeo (p. ej. Francia -> UE): {k: 'EU'}
+export const FLAG_OVR: Record<number, string> = {};
 export const flagBmp = (k: number): CanvasImageSource | null => {
   let c = FLAGBMP.get(k);
   if (c) return c;
-  const im = IMG['f-' + CODE[k]]; if (!im) return null;
+  const im = IMG['f-' + (FLAG_OVR[k] || CODE[k])]; if (!im) return null;
   c = document.createElement('canvas'); c.width = 640; c.height = 480;
   c.getContext('2d')!.drawImage(im, 0, 0, 640, 480);
   FLAGBMP.set(k, c);
