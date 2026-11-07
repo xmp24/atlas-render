@@ -30,6 +30,15 @@ export const FLAG_OF: Record<string, string> = {
   'North Korea': 'kp',
 };
 
+// dos banderas partidas en diagonal (equipos de idioma)
+const Diag = ({a, b, w, h}: F & {a: string; b: string}) => (
+  <>
+    <defs><clipPath id="dg-ul" clipPathUnits="objectBoundingBox"><polygon points="0,0 1,0 0,1" /></clipPath><clipPath id="dg-lr" clipPathUnits="objectBoundingBox"><polygon points="1,0 1,1 0,1" /></clipPath></defs>
+    <g clipPath="url(#dg-ul)"><rect width={w} height={h} fill="none" /><Flag code={a} w={w} h={h} /></g>
+    <g clipPath="url(#dg-lr)"><rect width={w} height={h} fill="none" /><Flag code={b} w={w} h={h} /></g>
+    <line x1={w} y1={0} x2={0} y2={h} stroke="#fff" strokeWidth={Math.max(1, h * 0.05)} />
+  </>
+);
 export const Flag: React.FC<F & {code: string}> = ({code, w, h}) => {
   switch (code) {
     case 'ru': return <H3 w={w} h={h} c={['#ffffff', '#1c57a5', '#d52b1e']} />;
@@ -141,6 +150,16 @@ export const Flag: React.FC<F & {code: string}> = ({code, w, h}) => {
     case 'om': return <><H3 w={w} h={h} c={['#ffffff', '#db161b', '#008000']} /><rect width={w * 0.27} height={h} fill="#db161b" /></>;
     case 'kr': return <><rect width={w} height={h} fill="#fff" /><circle cx={w / 2} cy={h / 2} r={h * 0.22} fill="#cd2e3a" /><path d={`M${w / 2 - h * 0.22},${h / 2} A${h * 0.11},${h * 0.11} 0 0 0 ${w / 2},${h / 2} A${h * 0.11},${h * 0.11} 0 0 1 ${w / 2 + h * 0.22},${h / 2} A${h * 0.22},${h * 0.22} 0 0 1 ${w / 2 - h * 0.22},${h / 2} Z`} fill="#0047a0" /></>;
     case 'is': return <Nordic w={w} h={h} bg="#02529c" cross="#ffffff" inner="#dc1e35" />;
+    case 'mxf': return <><V3 w={w} h={h} c={['#006847', '#ffffff', '#ce1126']} /><circle cx={w / 2} cy={h / 2} r={h * 0.14} fill="#8a5a2b" /><circle cx={w / 2} cy={h / 2} r={h * 0.07} fill="#3a7d2c" /></>;
+    case 'snf': return <><V3 w={w} h={h} c={['#00853f', '#fdef42', '#e31b23']} />{star5(w / 2, h / 2, h * 0.18, '#00853f')}</>;
+    case 'egf': return <><H3 w={w} h={h} c={['#ce1126', '#ffffff', '#000000']} /><circle cx={w / 2} cy={h / 2} r={h * 0.11} fill="#c09300" /></>;
+    case 'kzf': return <><rect width={w} height={h} fill="#00afca" /><circle cx={w / 2} cy={h * 0.45} r={h * 0.17} fill="#fec50c" /><rect x={w * 0.08} y={0} width={w * 0.06} height={h} fill="#fec50c" opacity={0.85} /></>;
+    case 'ten': return <Diag a="us" b="gb" w={w} h={h} />;
+    case 'tes': return <Diag a="es" b="mxf" w={w} h={h} />;
+    case 'tfr': return <Diag a="fr" b="snf" w={w} h={h} />;
+    case 'tar': return <Diag a="sa" b="egf" w={w} h={h} />;
+    case 'tru': return <Diag a="ru" b="kzf" w={w} h={h} />;
+    case 'tzh': return <Flag code="cn" w={w} h={h} />;
     case 'tna': return <><rect width={w} height={h} fill="#6b3fc4" /><rect y={h * 0.62} width={w} height={h * 0.12} fill="#fff" /><rect y={h * 0.8} width={w} height={h * 0.08} fill="#fff" />{star5(w * 0.28, h * 0.36, h * 0.24, '#fff')}{star5(w * 0.62, h * 0.3, h * 0.1, '#ffd23f', 1)}{star5(w * 0.8, h * 0.3, h * 0.1, '#ffd23f', 2)}</>;
     case 'tsa': return <><rect width={w} height={h} fill="#1f9e55" /><polygon points={`0,${h} ${w * 0.35},${h} ${w},0 ${w * 0.65},0`} fill="#ffd23f" />{star5(w * 0.2, h * 0.28, h * 0.17, '#fff')}<circle cx={w * 0.78} cy={h * 0.72} r={h * 0.14} fill="#1d56c9" stroke="#fff" strokeWidth={h * 0.03} /></>;
     case 'teu': return <Flag code="eu" w={w} h={h} />;

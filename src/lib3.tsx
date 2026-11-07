@@ -182,7 +182,7 @@ export const Boom: React.FC<{p: P; t: number; at: number; r: number}> = ({p, t, 
 
 // ---------- personajes ----------
 export type Mood = 'calm' | 'angry' | 'scared' | 'happy' | 'sad' | 'smug' | 'shocked';
-export const Face: React.FC<{x: number; y: number; r: number; mood: Mood; t: number; seed: number; look?: P; talking?: boolean}> = ({x, y, r, mood, t, seed, look = [0, 0], talking}) => {
+export const Face: React.FC<{x: number; y: number; r: number; mood: Mood; t: number; seed: number; look?: P; talking?: boolean; plain?: boolean}> = ({x, y, r, mood, t, seed, look = [0, 0], talking, plain}) => {
   const f = t * 30;
   const blink = (f + seed * 37) % 110 < 4 ? 0.12 : 1;
   const bob = Math.sin((f + seed * 11) / 14) * r * 0.04;
@@ -205,9 +205,9 @@ export const Face: React.FC<{x: number; y: number; r: number; mood: Mood; t: num
       {(mood === 'happy' || mood === 'calm' || mood === 'smug') && [-1, 1].map((sd) => <ellipse key={sd} cx={sd * (ex + r * 0.15)} cy={r * 0.5} rx={r * 0.2} ry={r * 0.11} fill="#ff7fa6" opacity={0.75} />)}
       {[-1, 1].map((sd) => (
         <g key={sd}>
-          <ellipse cx={sd * ex} cy={0} rx={ew} ry={eh} fill={angry ? '#fff2f0' : '#fff'} stroke={INK} strokeWidth={sw} />
-          {blink > 0.5 && <circle cx={sd * ex + look[0] * ew * 0.35} cy={look[1] * eh * 0.3 + (angry ? r * 0.06 : 0)} r={pr} fill={angry ? '#c0141a' : INK} />}
-          {blink > 0.5 && angry && <circle cx={sd * ex + look[0] * ew * 0.35} cy={look[1] * eh * 0.3 + r * 0.06} r={pr * 0.5} fill={INK} />}
+          <ellipse cx={sd * ex} cy={0} rx={ew} ry={eh} fill={angry && !plain ? '#fff2f0' : '#fff'} stroke={INK} strokeWidth={plain ? sw * 1.5 : sw} />
+          {blink > 0.5 && <circle cx={sd * ex + look[0] * ew * 0.35} cy={look[1] * eh * 0.3 + (angry ? r * 0.06 : 0)} r={plain ? pr * 1.15 : pr} fill={angry && !plain ? '#c0141a' : INK} />}
+          {blink > 0.5 && angry && !plain && <circle cx={sd * ex + look[0] * ew * 0.35} cy={look[1] * eh * 0.3 + r * 0.06} r={pr * 0.5} fill={INK} />}
           {angry && <path d={`M${sd * (ex + ew * 1.1)},${-eh * 1.15} L${sd * (ex - ew * 0.9)},${-eh * 0.55}`} stroke={INK} strokeWidth={sw * 1.6} strokeLinecap="round" />}
           {mood === 'smug' && blink > 0.5 && <rect x={sd * ex - ew * 1.05} y={-eh * 1.1} width={ew * 2.1} height={eh * 0.8} fill="#fff" />}
           {mood === 'smug' && <path d={`M${sd * (ex + ew)},${-eh * 0.32} L${sd * (ex - ew)},${-eh * 0.32}`} stroke={INK} strokeWidth={sw * 1.3} strokeLinecap="round" />}

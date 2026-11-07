@@ -10,7 +10,7 @@ const K = (c: string) => COUNTRIES.findIndex((x) => x.c === c);
 const W = 1280, H = 720;
 
 // silueta del país (piezas grandes), rellena con su bandera, contorno negro grueso y cara
-export const CountryChar: React.FC<{k: number; x: number; y: number; w: number; h: number; mood: Mood; look?: [number, number]; minFrac?: number; faceY?: number; faceR?: number; tilt?: number; redEyes?: boolean; near?: number; stroke?: number}> = ({k, x, y, w, h, mood, look = [0, 0], minFrac = 0.004, near = 0.9, stroke = 1, faceY = 0.5, faceR = 0.2, tilt = 0, redEyes}) => {
+export const CountryChar: React.FC<{k: number; x: number; y: number; w: number; h: number; mood: Mood; look?: [number, number]; minFrac?: number; faceY?: number; faceR?: number; tilt?: number; redEyes?: boolean; faceX?: number; plain?: boolean; outline?: number; near?: number; stroke?: number}> = ({k, x, y, w, h, mood, look = [0, 0], minFrac = 0.004, near = 0.9, stroke = 1, faceY = 0.5, faceR = 0.2, tilt = 0, redEyes, faceX = 0.5, plain, outline}) => {
   const ref = useRef<HTMLCanvasElement>(null);
   const all = PIECES_OF[k].map((i) => PIECES[i]).filter((p) => p.path && p.bbox[2] - p.bbox[0] < 2500);
   const mp = all.reduce((a, p) => (p.area > a.area ? p : a), all[0]);
@@ -41,10 +41,10 @@ export const CountryChar: React.FC<{k: number; x: number; y: number; w: number; 
   const fr = Math.min(w, h) * faceR;
   return (
     <div style={{position: 'absolute', left: x - w / 2, top: y - h / 2, width: w, height: h, transform: `rotate(${tilt}deg)`}}>
-      <canvas ref={ref} style={{width: w, height: h}} />
+      <canvas ref={ref} style={{width: w, height: h, filter: outline ? `saturate(1.45) contrast(1.12) drop-shadow(${outline}px 0 0 #0a0a0a) drop-shadow(-${outline}px 0 0 #0a0a0a) drop-shadow(0 ${outline}px 0 #0a0a0a) drop-shadow(0 -${outline}px 0 #0a0a0a) drop-shadow(0 ${outline * 2}px ${outline}px rgba(0,0,0,0.55))` : undefined}} />
       <svg width={w} height={h} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', filter: 'drop-shadow(0 0 4px #fff) drop-shadow(0 0 2px #fff)'}}>
         {redEyes && <><circle cx={w / 2 - fr * 0.42} cy={h * faceY - fr * 0.05} r={fr * 0.42} fill="#ff2a2a" opacity={0.55} /><circle cx={w / 2 + fr * 0.42} cy={h * faceY - fr * 0.05} r={fr * 0.42} fill="#ff2a2a" opacity={0.55} /></>}
-        <Face x={w / 2} y={h * faceY} r={fr} mood={mood} t={1} seed={k} look={look} />
+        <Face x={w * faceX} y={h * faceY} r={fr} mood={mood} t={((30 + k * 37) % 110) < 6 ? 2 : 1} seed={k} plain={plain} look={look} />
       </svg>
     </div>
   );

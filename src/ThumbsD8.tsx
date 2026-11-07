@@ -5,6 +5,7 @@ import {COUNTRIES} from './HexWorld';
 import {INK, Face} from './lib3';
 import {WorldBg, CountryChar, VS} from './ThumbsMap';
 import {FLAG_OVR} from './HexWorld';
+import {PIECES, PIECES_OF, CAREA} from './PolyWorld';
 import {CBall, AK, EyesSvg} from './ThumbsCB';
 import SJ from './hw/states.json';
 import {WarHelmet, Muzzle} from './ThumbsFinal';
@@ -360,6 +361,100 @@ T['euus'] = (<>
   <CountryChar k={K('DE')} x={1150} y={250} w={220} h={260} mood="angry" faceY={0.5} faceR={0.38} look={[-0.7, 0]} />
   <VS x={640} y={410} r={78} />
   <Title parts={[['EUROPE ', GOLD_G], ['VS ', WHITE_G], ['USA', RED_G]]} y={16} size={120} rot={0} />
+</>);
+T['swap'] = (<>
+  <MapA cam={{cx: 3000, cy: 1500, s: 0.26}} skip={['US', 'LU']} mood="shocked" />
+  <CountryChar k={K('US')} x={330} y={420} w={500} h={300} mood="scared" faceY={0.5} faceR={0.42} look={[0.6, 0]} />
+  <CountryChar k={K('LU')} x={930} y={410} w={360} h={420} mood="angry" faceY={0.45} faceR={0.42} look={[-0.6, 0]} redEyes />
+  <AK x={760} y={470} w={300} rot={-40} flip />
+  <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0}}>
+    <path d="M520,330 C600,250 700,250 760,320" stroke="#fff" strokeWidth={22} fill="none" strokeLinecap="round" />
+    <path d="M520,330 C600,250 700,250 760,320" stroke="#ffcc00" strokeWidth={12} fill="none" strokeLinecap="round" />
+    <path d="M760,520 C700,590 600,590 520,520" stroke="#fff" strokeWidth={22} fill="none" strokeLinecap="round" />
+    <path d="M760,520 C700,590 600,590 520,520" stroke="#ffcc00" strokeWidth={12} fill="none" strokeLinecap="round" />
+    <polygon points="745,290 790,340 735,345" fill="#ffcc00" stroke="#fff" strokeWidth={5} />
+    <polygon points="535,550 490,500 545,495" fill="#ffcc00" stroke="#fff" strokeWidth={5} />
+  </svg>
+  <Title parts={[['ARMY ', WHITE_G], ['SWAP', RED_G]]} y={16} size={130} rot={0} />
+</>);
+// estilo C (referencia "Battle Royale Asia"): cada país como pegatina con cara sobre agua de dibujo
+const stickerBox = (k: number, minFrac = 0.004, near = 0.9) => {
+  const all = PIECES_OF[k].map((i) => PIECES[i]).filter((p) => p.path && p.bbox[2] - p.bbox[0] < 2500);
+  if (!all.length) return null;
+  const mp = all.reduce((a, p) => (p.area > a.area ? p : a), all[0]);
+  const mr = Math.max(mp.bbox[2] - mp.bbox[0], mp.bbox[3] - mp.bbox[1]);
+  const ps = all.filter((p) => p.area >= CAREA[k] * minFrac && Math.hypot(p.c[0] - mp.c[0], p.c[1] - mp.c[1]) <= mr * near);
+  const b = [1e9, 1e9, -1e9, -1e9];
+  for (const p of ps) { b[0] = Math.min(b[0], p.bbox[0]); b[1] = Math.min(b[1], p.bbox[1]); b[2] = Math.max(b[2], p.bbox[2]); b[3] = Math.max(b[3], p.bbox[3]); }
+  return b;
+};
+const WaterBg: React.FC = () => (<>
+  <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, #3fd7f0 0%, #1aa9dd 55%, #0b6fb0 100%)'}} />
+  <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, opacity: 0.35}}>
+    {Array.from({length: 26}, (_, i) => Array.from({length: 12}, (_, j) => { const x = j * 120 + (i % 2) * 60 - 20, y = i * 30 + 10;
+      return <path key={i + '-' + j} d={`M${x},${y} q15,-10 30,0 t30,0`} stroke="#d8fbff" strokeWidth={3} fill="none" strokeLinecap="round" />; }))}
+  </svg>
+</>);
+const StickerMap: React.FC<{cam: {cx: number; cy: number; s: number}; codes: string[]; big?: string[]; grow?: number}> = ({cam, codes, big = [], grow = 1.12}) => (<>
+  <WaterBg />
+  {[...codes.filter((c) => !big.includes(c)), ...big].map((c) => { const k = K(c); if (k < 0) return null; const b = stickerBox(k); if (!b) return null;
+    const g = big.includes(c) ? grow : 1;
+    const x = ((b[0] + b[2]) / 2 - cam.cx) * cam.s + W / 2, y = ((b[1] + b[3]) / 2 - cam.cy) * cam.s + H / 2;
+    const w = ((b[2] - b[0]) * cam.s / 0.9) * g, h = ((b[3] - b[1]) * cam.s / 0.9) * g;
+    if (x + w / 2 < -40 || x - w / 2 > W + 40 || y + h / 2 < -40 || y - h / 2 > H + 40 || Math.max(w, h) < 14) return null;
+    const cap = big.includes(c) ? 78 : 44; const fr = Math.min(big.includes(c) ? 0.3 : 0.34, cap / Math.min(w, h));
+    return <CountryChar key={c} k={k} x={x} y={y} w={w} h={h} mood="angry" faceY={0.5} faceR={fr} stroke={big.includes(c) ? 0.5 : Math.min(1, 160 / Math.max(w, h)) * 0.6 + 0.25} />; })}
+  <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,20,60,0.35) 100%)'}} />
+</>);
+const ASIA = 'TR SY IQ IR SA YE OM AE QA KW JO IL LB AF PK IN NP BT BD LK MM TH LA KH VN MY ID PH CN MN KP KR JP TW KZ UZ TM KG TJ AZ AM GE RU EG'.split(' ');
+const BigTitle: React.FC<{l1: string; l2: string; y?: number; s1?: number; s2?: number}> = ({l1, l2, y = 210, s1 = 110, s2 = 170}) => (<>
+  <Title parts={[[l1, GOLD_G]]} y={y} size={s1} rot={-3} />
+  <Title parts={[[l2, RED_G]]} y={y + s1 * 0.95} size={s2} rot={-3} />
+</>);
+// réplica del modelo "BATTLE ROYALE ASIA"
+const Title3D: React.FC<{text: string; y: number; size: number; fill: string; edge: string; ext: string; rot?: number}> = ({text, y, size, fill, edge, ext, rot = -2}) => {
+  const base: React.CSSProperties = {position: 'absolute', left: 0, top: 0, width: '100%', textAlign: 'center', fontFamily: 'Luckiest', fontSize: size, lineHeight: 1, whiteSpace: 'nowrap', letterSpacing: size * 0.02};
+  const depth = Math.round(size * 0.09);
+  return (
+    <div style={{position: 'absolute', left: -300, width: W + 600, top: y, height: size * 1.25, transform: `rotate(${rot}deg)`}}>
+      <div style={{...base, top: depth + size * 0.04, color: 'rgba(0,0,0,0.45)', WebkitTextStroke: `${size * 0.2}px rgba(0,0,0,0.45)`, filter: `blur(${size * 0.04}px)`}}>{text}</div>
+      {Array.from({length: depth}, (_, d) => <div key={d} style={{...base, top: depth - d, color: ext, WebkitTextStroke: `${size * 0.16}px ${ext}`}}>{text}</div>)}
+      <div style={{...base, color: edge, WebkitTextStroke: `${size * 0.16}px ${edge}`}}>{text}</div>
+      <div style={{...base, background: fill, WebkitBackgroundClip: 'text', color: 'transparent'}}>{text}</div>
+      <div style={{...base, background: 'linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.15) 38%, rgba(255,255,255,0) 50%)', WebkitBackgroundClip: 'text', color: 'transparent'}}>{text}</div>
+    </div>
+  );
+};
+const YEL = 'linear-gradient(180deg, #fffbd0 0%, #fff23a 35%, #ffd200 60%, #ff9a00 100%)';
+const ORG = 'linear-gradient(180deg, #ffd23a 0%, #ff8a10 30%, #ff3a10 58%, #d40a0a 100%)';
+const ASIA_ALL = 'TR SY IQ IR SA YE OM AE QA KW JO IL LB CY GE AM AZ AF PK IN NP BT BD LK MM TH LA KH VN MY ID PH CN MN KP KR JP TW KZ UZ TM KG TJ RU'.split(' ');
+const ExplodedAsia: React.FC<{big?: string[]; fy?: Record<string, number>; fx?: Record<string, number>; cx?: number}> = ({big = [], fy = {}, fx = {}, cx = 5520}) => {
+  const cam = {cx, cy: 1720, s: 0.72};
+  return (<>
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 48%, #3ae6ef 0%, #16bfd3 45%, #0b9ab3 80%, #06708a 100%)'}} />
+    <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, opacity: 0.22}}>
+      {Array.from({length: 26}, (_, i) => Array.from({length: 12}, (_, j) => { const x = j * 120 + (i % 2) * 60 - 20, y = i * 30 + 10;
+        return <path key={i + '-' + j} d={`M${x},${y} q15,-10 30,0 t30,0`} stroke="#bff6ff" strokeWidth={3} fill="none" strokeLinecap="round" />; }))}
+    </svg>
+    {[...ASIA_ALL.filter((c) => !big.includes(c)), ...big].map((c) => { const k = K(c); if (k < 0) return null; const b = stickerBox(k); if (!b) return null;
+      const g = (big.includes(c) ? 1.0 : 0.9);
+      const x = ((b[0] + b[2]) / 2 - cam.cx) * cam.s + W / 2, y = ((b[1] + b[3]) / 2 - cam.cy) * cam.s + H / 2;
+      const w = ((b[2] - b[0]) * cam.s / 0.9) * g, h = ((b[3] - b[1]) * cam.s / 0.9) * g;
+      if (x + w / 2 < -60 || x - w / 2 > W + 60 || y + h / 2 < -60 || y - h / 2 > H + 60 || Math.max(w, h) < 22) return null;
+      const fr = Math.min(0.3, (big.includes(c) ? 62 : 36) / Math.min(w, h), 0.42);
+      return <CountryChar key={c} k={k} x={x} y={y} w={w} h={h} mood="angry" faceY={fy[c] ?? 0.5} faceX={fx[c] ?? 0.5} faceR={Math.max(fr, 0.12)} stroke={1.0} plain outline={big.includes(c) ? 5 : 3} />; })}
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,15,25,0.4) 100%)'}} />
+  </>);
+};
+T['cnin'] = (<>
+  <ExplodedAsia big={['CN', 'IN']} fy={{IN: 0.66, CN: 0.5}} fx={{CN: 0.74}} />
+  <Title3D text="CHINA VS" y={196} size={96} fill={YEL} edge="#0d0603" ext="#4a2200" />
+  <Title3D text="INDIA" y={276} size={200} fill={ORG} edge="#0d0302" ext="#5a0a02" />
+</>);
+T['inpk'] = (<>
+  <ExplodedAsia big={['IN', 'PK']} fy={{IN: 0.66, PK: 0.55}} fx={{PK: 0.5}} cx={5880} />
+  <Title3D text="INDIA VS" y={196} size={96} fill={YEL} edge="#0d0603" ext="#4a2200" />
+  <Title3D text="PAKISTAN" y={284} size={156} fill={ORG} edge="#0d0302" ext="#5a0a02" />
 </>);
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
