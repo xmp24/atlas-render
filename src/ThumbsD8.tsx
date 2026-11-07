@@ -2,8 +2,9 @@
 import React from 'react';
 import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {COUNTRIES} from './HexWorld';
-import {INK} from './lib3';
-import {WorldBg} from './ThumbsMap';
+import {INK, Face} from './lib3';
+import {WorldBg, CountryChar, VS} from './ThumbsMap';
+import {FLAG_OVR} from './HexWorld';
 import {CBall, AK, EyesSvg} from './ThumbsCB';
 import SJ from './hw/states.json';
 import {WarHelmet, Muzzle} from './ThumbsFinal';
@@ -312,5 +313,24 @@ T['euarmy'] = (<>
   <Earth x={955} y={450} s={410} mood="serious" helmet />
   <Title parts={[['EUROPE ', WHITE_G], ['VS ', GOLD_G], ['WORLD', RED_G]]} y={34} size={120} />
 </>);
+// estilo A: mapa con siluetas-personaje (texto arriba y abajo)
+const SetFlag: React.FC<{c: string; to: string}> = ({c, to}) => { FLAG_OVR[K(c)] = to; return null; };
+const MapA: React.FC<{cam: any; skip: string[]; mood?: any; col?: Record<number, string>}> = ({cam, skip, mood = 'scared', col}) => (<>
+  <WorldBg cam={cam} skip={skip} blur={1.2} mood={mood} colOver={col} />
+  <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%)'}} />
+  <Embers seed={51} n={30} col="#ffe08a" />
+</>);
+T['ussr'] = (<>
+  <SetFlag c="RU" to="SU" />
+  <MapA cam={{cx: 5300, cy: 1500, s: 0.24}} skip={['RU', 'KZ', 'UA']} col={Object.fromEntries('RU UA BY KZ UZ TM KG TJ GE AM AZ MD LT LV EE'.split(' ').map((c) => [K(c), '#d4141c']))} />
+  <svg width={W} height={H} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', filter: 'drop-shadow(0 0 6px #fff) drop-shadow(0 6px 0 rgba(0,0,0,0.5))'}}><Face x={700} y={330} r={150} mood="angry" t={1} seed={3} /></svg>
+  <Ball c="RU" x={1090} y={470} s={250} helmet gun="l" fire look={-0.5} flagBg={`url(${staticFile('wflags/su.svg')}) 18% center / cover`} />
+  <Title parts={[['THE ', WHITE_G], ['USSR', RED_G]]} y={16} size={120} rot={0} />
+  <Title parts={[['RETURNS', RED_G]]} y={586} size={120} rot={0} />
+</>);
+T['tri'] = <SceneB l={LBLUE} r={LRED} back={[{c: 'JP', x: 170, y: 200, s: 200, helmet: true, look: 0.3}, {c: 'KP', x: 1110, y: 190, s: 210, eyes: 'smug', look: -0.3}]}
+  front={[{c: 'US', x: 250, y: 480, s: 380, helmet: true, gun: 'r', fire: true, look: 0.5}, {c: 'CN', x: 1030, y: 480, s: 380, helmet: true, gun: 'l', fire: true, look: -0.5}, {c: 'RU', x: 640, y: 330, s: 400, helmet: true, gun: 'r', fire: true, look: 0}]} />;
+T['ww1'] = <SceneB l={LRED} r={LBLUE} back={[{c: 'TR', x: 140, y: 230, s: 230, look: 0.4}, {c: 'AT', x: 430, y: 150, s: 190, helmet: true, look: 0.3}, {c: 'IT', x: 840, y: 150, s: 190, eyes: 'smug', look: -0.3}, {c: 'US', x: 1140, y: 230, s: 230, helmet: true, look: -0.4}]}
+  front={[{c: 'DE', x: 370, y: 480, s: 430, helmet: true, gun: 'r', fire: true, look: 0.6}, {c: 'FR', x: 920, y: 480, s: 420, helmet: true, gun: 'l', fire: true, look: -0.6}, {c: 'GB', x: 1130, y: 560, s: 230, helmet: true, look: -0.5}]} />;
 export const ThumbD8: React.FC<{id: string}> = ({id}) => <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>{T[id]}</AbsoluteFill>;
 export const D8_IDS = Object.keys(T);
