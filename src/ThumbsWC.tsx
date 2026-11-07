@@ -72,5 +72,5 @@ export const ThumbTour: React.FC<{v: string; c: TCfg}> = ({v, c}) => {
     </AbsoluteFill>
   );
 };
-const WC: TCfg = {order: ['USA', 'BRA', 'ENG', 'FRA', 'ARG', 'ESP', 'GER', 'POR'], big: 'ARG', n: '16 TEAMS', a: 'ARG', b: 'FRA', pa: 52, tug: 300, cam: [800, 600, 1.0], table: [['ARG', 27], ['FRA', 24], ['BRA', 18], ['ENG', 12], ['MAR', 9]], t1: 'WORLD CUP', t2: 'OF', t3: 'WAR', pill: '16 TEAMS · 195 COUNTRIES · 1 TROPHY'};
+const WC: TCfg = {order: ['USA', 'BRA', 'ENG', 'FRA', 'ARG', 'ESP', 'GER', 'POR'], big: 'ARG', n: '16 TEAMS', a: 'ARG', b: 'FRA', pa: 52, tug: 300, cam: [800, 600, 1.0], table: [['ARG', 27], ['FRA', 24], ['BRA', 18], ['ENG', 12], ['MAR', 9]], t1: 'WORLD CUP', t2: 'OF', t3: 'WAR', pill: '16 TEAMS · 1 TROPHY'};
 export const ThumbWC: React.FC<{v: string}> = ({v}) => <ThumbTour v={v} c={WC} />;
