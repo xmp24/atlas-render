@@ -25,7 +25,7 @@ export const ThumbTour: React.FC<{v: string; c: TCfg}> = ({v, c}) => {
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.65) 100%)'}} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 40, display: 'flex', justifyContent: 'center'}}><Box bg="#fff" size={130}>{c.n}, <span style={{color: RED}}>1 WINNER</span></Box></div>
       <div style={{position: 'absolute', left: 0, right: 0, top: 300, display: 'flex', justifyContent: 'center', gap: 18, alignItems: 'flex-end'}}>
-        {c.order.map((tm, i) => <div key={tm} style={{transform: `translateY(${i % 2 ? 30 : 0}px)`}}><Avatar size={tm === c.big ? 300 : 260} code={TFLAG(tm)} mood="angry" t={0.5} seed={i} look={[i < c.order.length / 2 ? 1 : -1, 0]} id={`ta-${tm}`} /></div>)}
+        {c.order.map((tm, i) => <div key={tm} style={{transform: `translateY(${i % 2 ? 30 : 0}px)`}}><Avatar size={c.order.length > 6 ? (tm === c.big ? 250 : 208) : (tm === c.big ? 300 : 260)} code={TFLAG(tm)} mood="angry" t={0.5} seed={i} look={[i < c.order.length / 2 ? 1 : -1, 0]} id={`ta-${tm}`} /></div>)}
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, bottom: 40, display: 'flex', justifyContent: 'center'}}><Box bg={YELLOW} size={140} rot={2}>WHO WINS? 🏆</Box></div>
     </AbsoluteFill>
@@ -64,7 +64,7 @@ export const ThumbTour: React.FC<{v: string; c: TCfg}> = ({v, c}) => {
           {c.table.map(([tm, p], i) => (
             <div key={tm} style={{display: 'flex', alignItems: 'center', gap: 16, height: 104, borderTop: '4px solid #e2d3b1'}}>
               <div style={{...font, fontSize: 56, color: INK, width: 40}}>{i + 1}</div><Avatar size={84} code={TFLAG(tm)} mood="angry" t={0.5} seed={i} id={`tt5-${tm}`} />
-              <div style={{...font, fontSize: 52, color: INK, flex: 1}}>{TNAME[tm].charAt(0) + TNAME[tm].slice(1).toLowerCase()}</div><div style={{...font, fontSize: 58, color: i === 0 ? ORANGE : BLUE}}>{p}%</div>
+              <div style={{...font, fontSize: 52, color: INK, flex: 1}}>{TNAME[tm].length <= 3 ? TNAME[tm] : TNAME[tm].charAt(0) + TNAME[tm].slice(1).toLowerCase()}</div><div style={{...font, fontSize: 58, color: i === 0 ? ORANGE : BLUE}}>{p}%</div>
             </div>
           ))}
         </div>
