@@ -5,7 +5,11 @@ import {SameArmy, SA_FRAMES} from './SameArmy';
 import {Indo, INDO_FRAMES} from './Indo';
 import {Indo2, indoFrames} from './Indo2';
 import {WarCont as WarLang} from './War8';
+import {ThumbLang} from './ThumbsLang';
 import LANGTL from './lang-tl.json';
+import {WarCont as WarSp8} from './War9';
+import {ThumbSp8} from './ThumbsSp8';
+import SP8TL from './sp8-tl.json';
 import {StatesBR, BRUS_FRAMES} from './StatesBR';
 import {ThumbD5, D5_IDS} from './ThumbsD5';
 import {ThumbD6, D6_IDS} from './ThumbsD6';
@@ -74,6 +78,9 @@ export const RootHW: React.FC = () => (
     <Composition id="V-usla" component={Indo2} durationInFrames={indoFrames('usla')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'usla'}} />
     <Composition id="V-ww3" component={Indo2} durationInFrames={indoFrames('ww3')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww3'}} />
     <Composition id="V-survive" component={Indo2} durationInFrames={indoFrames('survive')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'survive'}} />
+    {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-lang-${v}`} component={ThumbLang} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
+    {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-sp8-${v}`} component={ThumbSp8} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
+    <Composition id="V-sp8" component={WarSp8} durationInFrames={Math.round((SP8TL as any).duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="V-lang" component={WarLang} durationInFrames={Math.round((LANGTL as any).duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="V-ww2" component={Indo2} durationInFrames={indoFrames('ww2')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww2'}} />
     <Composition id="V-swap" component={Indo2} durationInFrames={indoFrames('swap')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'swap'}} />

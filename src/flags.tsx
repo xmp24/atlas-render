@@ -154,6 +154,16 @@ export const Flag: React.FC<F & {code: string}> = ({code, w, h}) => {
     case 'snf': return <><V3 w={w} h={h} c={['#00853f', '#fdef42', '#e31b23']} />{star5(w / 2, h / 2, h * 0.18, '#00853f')}</>;
     case 'egf': return <><H3 w={w} h={h} c={['#ce1126', '#ffffff', '#000000']} /><circle cx={w / 2} cy={h / 2} r={h * 0.11} fill="#c09300" /></>;
     case 'kzf': return <><rect width={w} height={h} fill="#00afca" /><circle cx={w / 2} cy={h * 0.45} r={h * 0.17} fill="#fec50c" /><rect x={w * 0.08} y={0} width={w * 0.06} height={h} fill="#fec50c" opacity={0.85} /></>;
+    case 'brf': return <><rect width={w} height={h} fill="#009b3a" /><polygon points={`${w * 0.08},${h / 2} ${w / 2},${h * 0.1} ${w * 0.92},${h / 2} ${w / 2},${h * 0.9}`} fill="#fedf00" /><circle cx={w / 2} cy={h / 2} r={h * 0.21} fill="#002776" /><path d={`M${w / 2 - h * 0.2},${h * 0.47} Q${w / 2},${h * 0.4} ${w / 2 + h * 0.2},${h * 0.53}`} stroke="#fff" strokeWidth={h * 0.04} fill="none" /></>;
+    case 'inf': return <><H3 w={w} h={h} c={['#ff9933', '#ffffff', '#138808']} /><circle cx={w / 2} cy={h / 2} r={h * 0.12} fill="none" stroke="#000080" strokeWidth={h * 0.025} /><circle cx={w / 2} cy={h / 2} r={h * 0.025} fill="#000080" /></>;
+    case 'tus': return <Flag code="us" w={w} h={h} />;
+    case 'tbr': return <Flag code="brf" w={w} h={h} />;
+    case 'tuk': return <Flag code="gb" w={w} h={h} />;
+    case 'tfn': return <Flag code="fr" w={w} h={h} />;
+    case 'trs': return <Flag code="ru" w={w} h={h} />;
+    case 'tin': return <Flag code="inf" w={w} h={h} />;
+    case 'tcn': return <Flag code="cn" w={w} h={h} />;
+    case 'tjp': return <Flag code="jp" w={w} h={h} />;
     case 'ten': return <Diag a="us" b="gb" w={w} h={h} />;
     case 'tes': return <Diag a="es" b="mxf" w={w} h={h} />;
     case 'tfr': return <Diag a="fr" b="snf" w={w} h={h} />;

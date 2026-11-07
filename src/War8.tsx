@@ -413,7 +413,7 @@ const MatchIntro: React.FC<{t: number}> = ({t}) => {
 };
 // cuadro del torneo
 type Slot = {team: string | null; win?: boolean; lose?: boolean};
-const BR = TL.bracket as {qf: string[][]; qfw: string[]; semi: string[]; semiw: string; fin: string[]; note: string};
+const BR = (TL.bracket || {qf: [], qfw: [], semi: [], fin: []}) as {qf: string[][]; qfw: string[]; semi: string[]; semiw: string; fin: string[]; note: string};
 const bracketState = (stage: number) => {
   return {
     qf: BR.qf.map((p, i) => p.map((tm) => (tm === BR.qfw[i] ? {team: tm, win: stage >= i + 1} : {team: tm, lose: stage >= i + 1}))) as Slot[][],
@@ -427,10 +427,43 @@ const SlotBox: React.FC<{s: Slot; t: number; pop: number}> = ({s, t, pop}) => (
     {s.team ? <><div style={{width: 60, height: 60}}><Avatar size={60} code={TFLAG(s.team)} mood={s.lose ? 'sad' : s.win ? 'happy' : 'calm'} t={t} seed={s.team.charCodeAt(1)} id={`br-${s.team}-${Math.round(pop * 10)}`} /></div><div style={{...font, fontSize: 32, whiteSpace: 'nowrap', color: s.lose ? '#555' : INK, textDecoration: s.lose ? 'line-through' : 'none'}}>{TNAME[s.team]}</div></> : <div style={{...font, fontSize: 40, color: '#fff', width: '100%', textAlign: 'center'}}>?</div>}
   </div>
 );
+type GSlot = {team: string; show: number; res: number; win: boolean};
+const GBracket: React.FC<{t: number; t0: number; t1: number; stage: number}> = ({t, t0, t1, stage}) => {
+  const G = TL.brk as {cols: {label: string; matches: GSlot[][]}[]; next: Record<string, string>; note?: [number, string]};
+  const k = popT(t, t0, 12) * lerp(t, t1 - 0.35, t1, 1, 0);
+  const pulse = 0.5 + 0.5 * Math.sin(t * 7);
+  const nk = G.next[String(stage)];
+  const line = '6px solid rgba(255,255,255,0.75)';
+  const sl = (s: GSlot): Slot => (stage >= s.show ? {team: s.team, win: stage >= s.res && s.res > 0 && s.win, lose: stage >= s.res && s.res > 0 && !s.win} : {team: null});
+  const sc = G.cols[0].matches.length > 3 ? 0.82 : 1;
+  return (
+    <AbsoluteFill style={{zIndex: 16, background: `rgba(8,15,30,${0.82 * k})`, alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{transform: `scale(${(0.9 + 0.1 * k) * sc})`, opacity: k, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22}}>
+        <div style={{...font, fontSize: 76, color: YELLOW, textShadow: `5px 5px 0 ${INK}`}}>🏆 WORLD CUP OF WAR</div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 46}}>
+          {G.cols.map((col, ci) => (
+            <div key={ci} style={{display: 'flex', flexDirection: 'column', gap: 26, justifyContent: 'center'}}>
+              {col.label && <div style={{...font, fontSize: 34, color: ci === G.cols.length - 1 ? YELLOW : '#fff', textAlign: 'center'}}>{col.label}</div>}
+              {col.matches.map((m, mi) => {
+                const key = `c${ci}m${mi}`;
+                return <div key={mi} style={{display: 'flex', flexDirection: 'column', gap: 8, padding: 8, borderLeft: ci ? line : undefined, ...(nk === key ? {boxShadow: `0 0 0 6px rgba(255,210,63,${0.4 + 0.6 * pulse})`, borderRadius: 24} : {})}}>
+                  {m.map((s, si) => <SlotBox key={si} s={sl(s)} t={t} pop={stage === s.res && s.win ? 1 + 0.08 * lerp(t, t0 + 0.6, t0 + 1.0, 1, 0) : 1} />)}
+                </div>;
+              })}
+              {G.note && ci === G.cols.length - 1 && stage === G.note[0] && <div style={{background: GREEN, border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 16px 0', ...font, fontSize: 28, color: '#fff', textAlign: 'center', maxWidth: 400}}>{G.note[1]}</div>}
+            </div>
+          ))}
+          <div style={{fontSize: 150, transform: `translateY(${Math.sin(t * 3) * 6}px)`}}>🏆</div>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
 const Bracket: React.FC<{t: number}> = ({t}) => {
   const br = (TL.brackets as [number, number, number][]).find(([a, b]) => t >= a && t < b);
   if (!br) return null;
   const [t0, t1, stage] = br;
+  if (TL.brk) return <GBracket t={t} t0={t0} t1={t1} stage={stage} />;
   const k = popT(t, t0, 12) * lerp(t, t1 - 0.35, t1, 1, 0);
   const st = bracketState(stage);
   const pulse = 0.5 + 0.5 * Math.sin(t * 7);
