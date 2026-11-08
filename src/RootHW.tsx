@@ -25,6 +25,12 @@ import {ThumbAsia4} from './ThumbsAsia4';
 import A4TL from './asia4-tl.json';
 import {WarAS3, ThumbAS3} from './War15';
 import A3TL from './asia3-tl.json';
+import {WarCont as WarCur} from './War17';
+import {ThumbCur} from './ThumbsCur';
+import TLCur from './cur-tl.json';
+import {WarCont as WarBig6} from './War16';
+import {ThumbBig6} from './ThumbsBig6';
+import TLBig6 from './big6-tl.json';
 import {StatesBR, BRUS_FRAMES} from './StatesBR';
 import {ThumbD5, D5_IDS} from './ThumbsD5';
 import {ThumbD6, D6_IDS} from './ThumbsD6';
@@ -108,6 +114,10 @@ export const RootHW: React.FC = () => (
     <Composition id="V-asia4" component={WarAsia4} durationInFrames={Math.round((A4TL as any).duration * 30)} fps={30} width={1920} height={1080} />
     {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-asia3-${v}`} component={ThumbAS3} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
     <Composition id="V-asia3" component={WarAS3} durationInFrames={Math.round((A3TL as any).duration * 30)} fps={30} width={1920} height={1080} />
+    {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-big6-${v}`} component={ThumbBig6} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
+    <Composition id="V-big6" component={WarBig6} durationInFrames={Math.round((TLBig6 as any).duration * 30)} fps={30} width={1920} height={1080} />
+    {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-cur-${v}`} component={ThumbCur} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
+    <Composition id="V-cur" component={WarCur} durationInFrames={Math.round((TLCur as any).duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="V-lang" component={WarLang} durationInFrames={Math.round((LANGTL as any).duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="V-ww2" component={Indo2} durationInFrames={indoFrames('ww2')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww2'}} />
     <Composition id="V-swap" component={Indo2} durationInFrames={indoFrames('swap')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'swap'}} />
