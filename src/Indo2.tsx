@@ -168,7 +168,7 @@ const Bubbles: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     const a = popT(t, t0, 12) * lerp(d, dd - 0.25, dd, 1, 0);
     out.push(
       <div key={t0} style={{position: 'absolute', left: sx, top: sy, transform: `translate(-50%,-100%) scale(${a})`, transformOrigin: '50% 100%', zIndex: 19}}>
-        <div style={{position: 'relative', background: '#fff', border: `4px solid ${INK}`, borderRadius: 18, padding: '8px 18px 4px', ...font2, fontSize: 30, color: INK, whiteSpace: 'nowrap', boxShadow: '0 5px 0 rgba(0,0,0,0.3)'}}>
+        <div style={{position: 'relative', background: '#fff', border: `4px solid ${INK}`, borderRadius: 18, padding: '8px 18px 4px', ...font2, fontSize: X.D.duel ? 40 : 30, color: INK, whiteSpace: 'nowrap', boxShadow: '0 5px 0 rgba(0,0,0,0.3)'}}>
           {text}
           <div style={{position: 'absolute', left: '50%', bottom: -16, width: 24, height: 24, background: '#fff', borderRight: `4px solid ${INK}`, borderBottom: `4px solid ${INK}`, transform: 'translateX(-50%) rotate(45deg)'}} />
         </div>
@@ -336,7 +336,7 @@ const Chips: React.FC<{t: number}> = ({t}) => {
     <div style={{position: 'absolute', bottom: 54 + 95 * win(X.D.letterbox, t), left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 36}}>
       <div style={{transform: `translateY(${(1 - a) * 160}px) scale(${0.7 + 0.3 * a})`, opacity: Math.min(1, a * 1.5), display: 'flex', alignItems: 'center', gap: 16, background: CREAM, border: `5px solid ${INK}`, borderRadius: 22, padding: '8px 28px 4px 12px', boxShadow: '0 8px 0 rgba(0,0,0,0.35)'}}>
         {k >= 0 && <FlagImg k={k} w={58} round />}
-        <span style={{...font, fontSize: 44, color: INK}}>{text}</span>
+        <span style={{...font, fontSize: X.D.duel ? 54 : 44, color: INK}}>{text}</span>
       </div>
     </div>
   );
@@ -1230,14 +1230,18 @@ const DuelHud: React.FC<{t: number}> = ({t}) => {
             <span style={{fontSize: 48}}>{i === 1 ? Dd.na : Dd.nb}</span>
             <span style={{fontSize: 60, color: low ? (Math.floor(t * 4) % 2 ? '#ff4d4d' : '#fff') : YELLOW}}>{Math.max(0, Math.round(v))}%</span>
           </div>
-          <div style={{height: 46, background: '#1a1f2b', border: `6px solid ${INK}`, borderRadius: 26, overflow: 'hidden', position: 'relative', display: 'flex', justifyContent: i === 1 ? 'flex-start' : 'flex-end'}}>
+          <div style={{height: 46, background: '#1a1f2b', border: `6px solid ${INK}`, borderRadius: 26, overflow: 'hidden', position: 'relative', display: 'flex', justifyContent: i === 1 ? 'flex-start' : 'flex-end', boxShadow: hit.length ? `0 0 ${30 * Math.max(0, 1 - (t - hit[0][0]))}px 10px ${hit[0][2] > 0 ? '#ff2020' : '#30ff70'}` : 'none', transform: hit.length && hit[0][2] > 0 ? `translateX(${Math.sin(t * 60) * 8 * Math.max(0, 1 - (t - hit[0][0]) * 1.5)}px)` : undefined}}>
             <div style={{position: 'absolute', top: 0, bottom: 0, [i === 1 ? 'left' : 'right']: 0, width: `${g}%`, background: '#fff', opacity: 0.85} as any} />
             <div style={{position: 'absolute', top: 0, bottom: 0, [i === 1 ? 'left' : 'right']: 0, width: `${v}%`, background: `repeating-linear-gradient(${i === 1 ? 45 : -45}deg, ${col}, ${col} 18px, ${shade(col)} 18px, ${shade(col)} 36px)`} as any} />
             <div style={{position: 'absolute', left: 0, right: 0, top: 4, height: 10, background: 'rgba(255,255,255,0.35)', borderRadius: 8}} />
           </div>
-          <div style={{...font2, fontSize: 24, color: '#dfe6f5', marginTop: 4, textAlign: i === 1 ? 'left' : 'right', textShadow: `2px 2px 0 ${INK}`}}>🪖 TROOPS LEFT</div>
+          <div style={{display: 'flex', flexDirection: i === 1 ? 'row' : 'row-reverse', justifyContent: 'space-between', alignItems: 'center', marginTop: 4}}>
+            <div style={{...font, fontSize: 34, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>🪖 {fmt(Math.round((Dd.sold[i - 1] * v) / 100 + (v > 0 ? (Math.floor(t * 7) % 9) * 37 : 0)))}</div>
+            <div style={{display: 'flex', gap: 2, fontSize: 30}}>{(Dd.powers as any[]).filter((p) => p.by === k && p.kind !== 'curse' && t > p.ts).map((p, j) => <span key={j} style={{filter: 'drop-shadow(2px 2px 0 #000)'}}>{p.emoji}</span>)}</div>
+          </div>
+          {(Dd.fire as any[] || []).filter((f) => f[2] === i && t >= f[0] && t < f[1]).map((f, j) => <div key={j} style={{position: 'absolute', top: -6, [i === 1 ? 'right' : 'left']: 90, transform: `scale(${popT(t, f[0], 10) * (1 + 0.06 * Math.sin(t * 12))}) rotate(${i === 1 ? 4 : -4}deg)`, background: 'linear-gradient(180deg,#ffe14d,#ff6a00)', border: `5px solid ${INK}`, borderRadius: 14, padding: '2px 12px 0', ...font, fontSize: 32, color: '#fff', textShadow: `3px 3px 0 ${INK}`} as any}>🔥 ON FIRE</div>)}
         </div>
-        {hit.map((h, j) => { const d = t - h[0]; return <div key={j} style={{position: 'absolute', [i === 1 ? 'left' : 'right']: 280, top: 70 + d * 60, opacity: lerp(d, 1.0, 1.6, 1, 0), transform: `scale(${popT(t, h[0], 12) * 1.2})`, ...font, fontSize: 72, color: h[2] > 0 ? '#ff3b3b' : '#4dff7a', textShadow: `5px 5px 0 ${INK}`} as any}>{h[2] > 0 ? `-${h[2]}%` : `+${-h[2]}%`}</div>; })}
+        {hit.map((h, j) => { const d = t - h[0]; return <div key={j} style={{position: 'absolute', [i === 1 ? 'left' : 'right']: 280, top: 70 + d * 60, opacity: lerp(d, 1.0, 1.6, 1, 0), transform: `scale(${popT(t, h[0], 12) * 1.2})`, ...font, fontSize: 72, color: h[2] > 0 ? '#ff3b3b' : '#4dff7a', textShadow: `5px 5px 0 ${INK}`} as any}>{h[2] > 0 ? `-${h[2]}%` : `+${-h[2]}%`}{Math.abs(h[2]) >= 5 && <div style={{fontSize: 34, color: '#fff'}}>{h[2] > 0 ? '-' : '+'}{fmt(Math.round(Math.abs(h[2]) * Dd.sold[i - 1] / 100))} SOLDIERS</div>}</div>; })}
       </div>
     );
   };
@@ -1254,6 +1258,7 @@ const DuelHud: React.FC<{t: number}> = ({t}) => {
         </div>}
       </div>
       {side(2)}
+      {tm && t - tm[0] < 1.6 && t >= tm[0] && <div style={{position: 'fixed', left: 0, right: 0, top: 300, textAlign: 'center', opacity: lerp(t - tm[0], 1.2, 1.6, 1, 0)}}><span style={{display: 'inline-block', transform: `scale(${popT(t, tm[0], 10)})`, background: 'rgba(14,20,32,0.92)', border: `8px solid ${YELLOW}`, borderRadius: 30, padding: '10px 40px 0', ...font, fontSize: 90, color: '#fff', textShadow: `6px 6px 0 ${INK}`}}>{tm[2]} <span style={{color: YELLOW}}>{mmss(tm[1] - tm[0])}</span></span></div>}
       {tm && rem <= 5 && rem > 0 && (() => { const n = Math.ceil(rem); const f = rem - Math.floor(rem); return <div style={{position: 'fixed', left: 0, right: 0, top: 175, textAlign: 'center', ...font, fontSize: 190, color: '#fff', opacity: (0.25 + 0.6 * f) * 0.85, transform: `scale(${1.25 - 0.25 * f})`, textShadow: `9px 9px 0 ${INK}, 0 0 50px ${RED}`}}>{n}</div>; })()}
     </div>
   );
@@ -1288,14 +1293,18 @@ const DuelSpin: React.FC<{t: number}> = ({t}) => {
   const r = (Dd.spins as any[]).find((x) => t >= x.t0 - 0.3 && t < x.t1 + 0.3); if (!r) return null;
   const a = lerp(t, r.t0 - 0.3, r.t0, 0, 1) * lerp(t, r.t1, r.t1 + 0.3, 1, 0);
   const n = r.items.length, seg = 360 / n; const spinEnd = r.t0 + (r.t1 - r.t0) * 0.66;
-  const total = 360 * 5 + (360 - (r.pick * seg + seg / 2)) + (hsh(r.t0) - 0.5) * seg * 0.6;
-  const rot = total * lerp(t, r.t0 + 0.15, spinEnd, 0, 1, Easing.out(Easing.cubic));
+  const land = 360 - (r.pick * seg + seg / 2) + (hsh(r.t0) - 0.5) * seg * 0.5;
+  let rot = 0;
+  if (r.style === 'nearmiss') { const pre = 360 * 4 + land - seg * 0.55; const tp = r.t0 + (spinEnd - r.t0) * 0.82; rot = t < tp ? pre * lerp(t, r.t0 + 0.15, tp, 0, 1, Easing.out(Easing.cubic)) : pre + seg * 0.55 * lerp(t, tp + 0.25, spinEnd + 0.15, 0, 1, Easing.inOut(Easing.quad)); }
+  else if (r.style === 'reverse') rot = -(360 * 5 + (360 - land)) * lerp(t, r.t0 + 0.15, spinEnd, 0, 1, Easing.out(Easing.cubic)) ;
+  else rot = (360 * 5 + land) * lerp(t, r.t0 + 0.15, spinEnd, 0, 1, Easing.out(Easing.cubic));
   const done = t > spinEnd;
   const enter = popT(t, r.t0 - 0.2, 10);
   return (
     <AbsoluteFill style={{zIndex: 42, background: `radial-gradient(circle at 50% 58%, rgba(10,14,30,${0.35 * a}) 20%, rgba(4,6,14,${0.8 * a}) 75%)`, opacity: a}}>
       <div style={{position: 'absolute', top: 205, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 76, color: YELLOW, textShadow: `6px 6px 0 ${INK}`, transform: `scale(${enter})`}}>{r.title}</div>
-      {r.sub && <div style={{position: 'absolute', top: 290, left: 0, right: 0, textAlign: 'center', ...font2, fontSize: 34, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>{r.sub}</div>}
+      {r.sub && <div style={{position: 'absolute', top: 292, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 44, color: '#ff6b6b', textShadow: `4px 4px 0 ${INK}`, transform: `scale(${1 + 0.03 * Math.sin(t * 8)})`}}>{r.sub}</div>}
+      {r.style === 'nearmiss' && t > r.t0 + (r.t1 - r.t0) * 0.66 * 0.8 && t < r.t0 + (r.t1 - r.t0) * 0.66 + 0.2 && <div style={{position: 'absolute', top: 640, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 120, color: YELLOW, textShadow: `8px 8px 0 ${INK}`, transform: `rotate(-6deg) scale(${1 + 0.1 * Math.sin(t * 20)})`}}>WAIT... 😱</div>}
       <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, transform: `scale(${enter})`, transformOrigin: '960px 690px'}}><DWheel items={r.items} cols={r.cols} rot={rot} R={300} cx={960} cy={690} fs={r.fs || 40} /></svg>
       {done && <div style={{position: 'absolute', left: 0, right: 0, top: 560, display: 'flex', justifyContent: 'center'}}>
         <div style={{transform: `scale(${popT(t, spinEnd, 9) * (1 + 0.04 * Math.sin(t * 10))}) rotate(-2deg)`, background: r.rcol || YELLOW, border: `9px solid ${INK}`, borderRadius: 30, padding: '14px 46px 6px', ...font, fontSize: 96, color: r.rtext || INK, textAlign: 'center', boxShadow: '0 14px 0 rgba(0,0,0,0.45)'}}>{r.result}</div>
@@ -1350,7 +1359,7 @@ const PowerBanner: React.FC<{t: number}> = ({t}) => {
           <div style={{transform: `translateX(${lerp(t, 0, 0.5, 600, 0, Easing.out(Easing.back(1.4)))}px)`}}><Ball k={Dd.b} size={220} mood="angry" t={t} look={[-1, 0]} /></div>
         </div>
         <div style={{marginTop: 30, transform: `scale(${popT(t, 0.8, 9)}) rotate(-2deg)`, background: YELLOW, border: `9px solid ${INK}`, borderRadius: 28, padding: '10px 50px 2px', ...font, fontSize: 84, color: INK}}>BUT WITH SUPERPOWERS ⚡</div>
-        <div style={{marginTop: 22, ...font, fontSize: 44, color: '#fff', textShadow: `4px 4px 0 ${INK}`, opacity: lerp(t, 1.4, 1.8, 0, 1)}}>A NEW POWER EVERY MINUTE · LAST ARMY STANDING WINS</div>
+        <div style={{marginTop: 22, ...font, fontSize: 44, color: '#fff', textShadow: `4px 4px 0 ${INK}`, opacity: lerp(t, 1.4, 1.8, 0, 1)}}>ONLY ONE ARMY SURVIVES · GUESS WHO IN THE COMMENTS 👇</div>
       </AbsoluteFill>,
     );
   }
@@ -1366,6 +1375,7 @@ const PowerFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const Dd = X.D.duel; if (!Dd) return null;
   const out: React.ReactNode[] = [];
   (Dd.powers as any[]).forEach((p, pi) => {
+    if (p.kind === 'tsunami' && t > p.t1 && t < p.t1 + 40) { (p.pts as number[][]).forEach(([wx, wy], i) => { const [x, y] = toS(wx, wy, cam); out.push(<circle key={`fl${pi}-${i}`} cx={x} cy={y} r={60 * Math.min(2, cam.s)} fill="#2f8cff" opacity={0.3 * lerp(t, p.t1 + 30, p.t1 + 40, 1, 0)} />); }); }
     if (t < p.t0 || t > p.t1 + 1.5) return;
     const d = t - p.t0; const fade = lerp(t, p.t1, p.t1 + 1.5, 1, 0);
     const P = (p.pts as number[][]).map(([x, y]) => toS(x, y, cam));
@@ -1381,9 +1391,9 @@ const PowerFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
         out.push(<path key={`w${pi}-${w}`} d={`M${ox + Math.cos(a0) * R},${oy + Math.sin(a0) * R} A${R},${R} 0 0,1 ${ox + Math.cos(a1) * R},${oy + Math.sin(a1) * R}`} fill="none" stroke={w === 0 ? '#f4fbff' : '#2f8cff'} strokeWidth={w === 0 ? 26 : 44 - w * 8} opacity={(w === 0 ? 0.95 : 0.65 - w * 0.12) * fade} strokeLinecap="round" />); }
       P.forEach(([x, y], i) => { const hit = p.ts + 6.5 * (Math.hypot(x - ox, y - oy) / maxR); const e = t - hit; if (e > 0) out.push(<circle key={`wf${pi}-${i}`} cx={x} cy={y} r={Math.min(150, 40 + e * 90)} fill="#2f8cff" opacity={0.35 * fade} />); }); }
     if (p.kind === 'freeze') P.forEach(([x, y], i) => { const e = t - p.ts - i * 0.25; if (e < 0) return; const R = Math.min(260, e * 300);
-      out.push(<g key={`f${pi}-${i}`} opacity={fade}><circle cx={x} cy={y} r={R} fill="#bfe9ff" opacity={0.45} /><circle cx={x} cy={y} r={R} fill="none" stroke="#fff" strokeWidth={6} strokeDasharray="14 10" />{Array.from({length: 6}).map((_, j) => <line key={j} x1={x} y1={y} x2={x + Math.cos(j * 1.047) * R * 0.8} y2={y + Math.sin(j * 1.047) * R * 0.8} stroke="#fff" strokeWidth={5} opacity={0.8} />)}</g>); });
+      out.push(<g key={`f${pi}-${i}`} opacity={fade}>{Array.from({length: 9}).map((_, j) => { const an = j * 0.7 + i; const L = R * (0.5 + hsh(i * 9 + j) * 0.6); return <polygon key={'sp' + j} points={`${x + Math.cos(an - 0.12) * 30},${y + Math.sin(an - 0.12) * 30} ${x + Math.cos(an) * L},${y + Math.sin(an) * L} ${x + Math.cos(an + 0.12) * 30},${y + Math.sin(an + 0.12) * 30}`} fill="#e8fbff" stroke="#6cc8f0" strokeWidth={4} opacity={0.9} />; })}<circle cx={x} cy={y} r={R} fill="#bfe9ff" opacity={0.45} /><circle cx={x} cy={y} r={R} fill="none" stroke="#fff" strokeWidth={6} strokeDasharray="14 10" />{Array.from({length: 6}).map((_, j) => <line key={j} x1={x} y1={y} x2={x + Math.cos(j * 1.047) * R * 0.8} y2={y + Math.sin(j * 1.047) * R * 0.8} stroke="#fff" strokeWidth={5} opacity={0.8} />)}</g>); });
     if (p.kind === 'quake') P.forEach(([x, y], i) => { const e = t - p.ts - i * 0.4; if (e < 0) return; const L = Math.min(1, e / 1.2);
-      out.push(<g key={`q${pi}-${i}`} opacity={fade}>{Array.from({length: 7}).map((_, j) => { const ang = j * 0.9 + i; let px = x, py = y; const seg: string[] = [`${px},${py}`]; for (let s = 0; s < 6; s++) { px += Math.cos(ang + (hsh(i * 13 + j * 7 + s) - 0.5) * 1.2) * 40 * L; py += Math.sin(ang + (hsh(i * 17 + j * 3 + s) - 0.5) * 1.2) * 40 * L; seg.push(`${px},${py}`); } return <polyline key={j} points={seg.join(' ')} fill="none" stroke="#2a1606" strokeWidth={9} strokeLinejoin="round" />; })}
+      out.push(<g key={`q${pi}-${i}`} opacity={fade}>{Array.from({length: 7}).map((_, j) => { const ang = j * 0.9 + i; let px = x, py = y; const seg: string[] = [`${px},${py}`]; for (let s = 0; s < 6; s++) { px += Math.cos(ang + (hsh(i * 13 + j * 7 + s) - 0.5) * 0.9) * 70 * L; py += Math.sin(ang + (hsh(i * 17 + j * 3 + s) - 0.5) * 0.9) * 70 * L; seg.push(`${px},${py}`); } return <g key={j}><polyline points={seg.join(' ')} fill="none" stroke="#ff7a1e" strokeWidth={26} strokeLinejoin="round" opacity={0.5} /><polyline points={seg.join(' ')} fill="none" stroke="#1a0c02" strokeWidth={14} strokeLinejoin="round" /></g>; })}
         {[0, 0.5, 1].map((o) => { const ee = (e + o) % 1.5; return <ellipse key={o} cx={x} cy={y} rx={ee * 220} ry={ee * 120} fill="none" stroke="#c9a46a" strokeWidth={8} opacity={1 - ee / 1.5} />; })}</g>); });
     if (p.kind === 'volcano') { const [x, y] = P[0]; const e = t - p.ts; if (e >= 0) {
       const g: React.ReactNode[] = [<circle key="glow" cx={x} cy={y} r={70 + 30 * Math.sin(t * 8)} fill="#ff5a00" opacity={0.6 * fade} />, <circle key="lava" cx={x} cy={y} r={Math.min(320, e * 70)} fill="#ff3d00" opacity={0.28 * fade} />];
@@ -1400,9 +1410,9 @@ const PowerFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
         <line x1={x + 200} y1={-80} x2={x} y2={y} stroke="#ff2b4a" strokeWidth={w * 2.2} opacity={0.35} strokeLinecap="round" /><line x1={x + 200} y1={-80} x2={x} y2={y} stroke="#ff6b7a" strokeWidth={w} strokeLinecap="round" /><line x1={x + 200} y1={-80} x2={x} y2={y} stroke="#fff" strokeWidth={w * 0.35} strokeLinecap="round" />
         {e > 0 && <circle cx={x} cy={y} r={60 + e * 200} fill="#ff6b7a" opacity={0.4 * (1 - e / 1.6)} />}</g>); });
     if (p.kind === 'clones') { const [ox, oy] = toS(p.from[0], p.from[1], cam); for (let i = 0; i < 40; i++) { const ts = p.ts + i * 0.06; if (t < ts) continue; const tg = P[i % P.length]; const e = t - ts; const f = Math.min(1, Math.max(0, (e - 0.6) / 4.5));
-        const bx = ox + ((i % 8) - 3.5) * 46, by = oy + (Math.floor(i / 8) - 2) * 46; const x = bx + (tg[0] - bx) * Easing.inOut(Easing.quad)(f), y = by + (tg[1] - by) * Easing.inOut(Easing.quad)(f) + Math.abs(Math.sin(t * 10 + i)) * -8;
+        const bx = ox + ((i % 8) - 3.5) * 64, by = oy + (Math.floor(i / 8) - 2) * 64; const x = bx + (tg[0] - bx) * Easing.inOut(Easing.quad)(f), y = by + (tg[1] - by) * Easing.inOut(Easing.quad)(f) + Math.abs(Math.sin(t * 10 + i)) * -8;
         const s = popT(t, ts, 12);
-        out.push(<g key={`c${pi}-${i}`} transform={`translate(${x},${y}) scale(${s})`} opacity={fade}><circle r={20} fill="#fff" stroke={INK} strokeWidth={4} /><path d="M-20,0 A20,20 0 0,1 20,0 Z" fill="#e5322d" /><circle r={20} fill="none" stroke={INK} strokeWidth={4} /><circle cx={-6} cy={-2} r={4} fill={INK} /><circle cx={6} cy={-2} r={4} fill={INK} /></g>); } }
+        out.push(<g key={`c${pi}-${i}`} transform={`translate(${x},${y}) scale(${s * 1.5})`} opacity={fade}><circle r={20} fill="#fff" stroke={INK} strokeWidth={4} /><path d="M-20,0 A20,20 0 0,1 20,0 Z" fill="#e5322d" /><circle r={20} fill="none" stroke={INK} strokeWidth={4} /><circle cx={-6} cy={-2} r={4} fill={INK} /><circle cx={6} cy={-2} r={4} fill={INK} /></g>); } }
     if (p.kind === 'curse') { const [x, y] = P[0]; const e = t - p.ts; if (e >= 0) out.push(<g key={`cu${pi}`} opacity={fade}>{Array.from({length: 12}).map((_, j) => { const ee = (e * 0.8 + j * 0.15) % 1.8; return <circle key={j} cx={x + (hsh(j) - 0.5) * 160} cy={y - ee * 160} r={30 + ee * 30} fill="#7b2cbf" opacity={0.55 * (1 - ee / 1.8)} />; })}<text x={x} y={y + 30} textAnchor="middle" fontSize={120}>💀</text></g>); }
   });
   for (const c of Dd.chests as any[]) {
@@ -1458,6 +1468,10 @@ const DuelEnd: React.FC<{t: number}> = ({t}) => {
           {t > E.t0 + 3.4 && <div style={{marginTop: 12, background: '#ffd23f', border: `6px solid ${INK}`, borderRadius: 20, padding: '8px 18px 2px', ...font, fontSize: 44, color: INK, textAlign: 'center', transform: `scale(${popT(t, E.t0 + 3.4, 10)})`}}>{E.best[0]} {E.best[1]}</div>}
         </div>
       </div>}
+      {E.next && t > E.next[0] && <AbsoluteFill style={{background: `rgba(5,8,18,${0.9 * lerp(t, E.next[0], E.next[0] + 0.4, 0, 1)})`, zIndex: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{...font, fontSize: 100, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, transform: `scale(${popT(t, E.next[0], 10)})`}}>NEXT EPISODE? YOU DECIDE 👇</div>
+        <div style={{display: 'flex', gap: 40, marginTop: 30}}>{(E.next[1] as string[][]).map(([a_, b_, txt], j) => <div key={j} style={{transform: `scale(${popT(t, E.next[0] + 0.4 + j * 0.3, 10)})`, background: CREAM, border: `8px solid ${INK}`, borderRadius: 28, padding: '24px 30px', textAlign: 'center', width: 640}}><div style={{fontSize: 100, whiteSpace: 'nowrap'}}>{a_} ⚔️ {b_}</div><div style={{...font, fontSize: 62, color: INK}}>{txt}</div><div style={{...font, fontSize: 50, color: RED, marginTop: 6}}>COMMENT {String.fromCharCode(65 + j)} 👇</div></div>)}</div>
+      </AbsoluteFill>}
       {t > E.t0 + 5.4 && <div style={{position: 'absolute', left: 0, right: 0, bottom: 50, display: 'flex', justifyContent: 'center'}}>
         <div style={{transform: `scale(${popT(t, E.t0 + 5.4, 9) * (1 + 0.03 * Math.sin(t * 6))}) rotate(-1.5deg)`, background: RED, border: `9px solid ${INK}`, borderRadius: 28, padding: '10px 46px 2px', ...font, fontSize: 80, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{E.ask}</div>
       </div>}
@@ -1484,6 +1498,92 @@ const MiniWheel: React.FC<{t: number}> = ({t}) => {
     out.push(<div key={'ask' + tq} style={{position: 'absolute', left: 30, top: 200, zIndex: 39, transform: `scale(${a}) rotate(-1.5deg)`, transformOrigin: 'left center', background: '#fff', border: `6px solid ${INK}`, borderRadius: 22, padding: '10px 22px 4px', ...font, fontSize: 40, color: INK, boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}>{txt}</div>);
   }
   return <>{out}</>;
+};
+const replayAt = (tR: number) => { const Dd = X.D.duel; if (!Dd || !Dd.replays) return null; return (Dd.replays as any[]).find((r) => tR >= r[0] && tR < r[1]) || null; };
+const DuelReal: React.FC<{tR: number}> = ({tR}) => {
+  const Dd = X.D.duel; if (!Dd) return null; const out: React.ReactNode[] = [];
+  const rp = replayAt(tR);
+  if (rp) { const a = Math.min(1, (tR - rp[0]) / 0.2, (rp[1] - tR) / 0.2);
+    out.push(<AbsoluteFill key="rp" style={{zIndex: 48, opacity: a, pointerEvents: 'none'}}>
+      <div style={{position: 'absolute', inset: 0, border: '18px solid rgba(255,255,255,0.9)', boxShadow: 'inset 0 0 80px rgba(0,0,0,0.6)'}} />
+      <div style={{position: 'absolute', left: 60, top: 230, display: 'flex', alignItems: 'center', gap: 14, background: RED, border: `6px solid ${INK}`, borderRadius: 18, padding: '6px 22px 0', ...font, fontSize: 60, color: '#fff'}}><span style={{width: 26, height: 26, borderRadius: 13, background: '#fff', opacity: Math.floor(tR * 3) % 2 ? 1 : 0.2}} />{rp[2] || 'REPLAY'}</div>
+      <div style={{position: 'absolute', right: 60, top: 240, ...font, fontSize: 48, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>⏪ SLOW MOTION</div>
+    </AbsoluteFill>); }
+  for (const [r0, r1, txt, sub] of (Dd.teaser || []) as any[]) {
+    if (tR < r0 || tR >= r1) continue; const a = popT(tR, r0, 12);
+    out.push(<AbsoluteFill key={'tz' + r0} style={{zIndex: 49, pointerEvents: 'none'}}>
+      <div style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)'}} />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center', transform: `scale(${a}) rotate(-3deg)`}}>
+        <div style={{...font, fontSize: 150, color: YELLOW, textShadow: `9px 9px 0 ${INK}`}}>{txt}</div>
+        {sub && <div style={{...font, fontSize: 70, color: '#fff', textShadow: `6px 6px 0 ${INK}`}}>{sub}</div>}
+      </div>
+    </AbsoluteFill>);
+    if (tR - r0 < 0.12) out.push(<AbsoluteFill key={'tf' + r0} style={{zIndex: 50, background: '#fff', opacity: 1 - (tR - r0) / 0.12}} />);
+  }
+  return <>{out}</>;
+};
+const DuelExtra: React.FC<{t: number}> = ({t}) => {
+  const Dd = X.D.duel; if (!Dd) return null; const out: React.ReactNode[] = [];
+  // reglas numeradas
+  for (const [r0, r1, rows] of (Dd.rules || []) as any[]) {
+    if (t < r0 - 0.2 || t > r1 + 0.3) continue; const a = lerp(t, r1, r1 + 0.3, 1, 0);
+    out.push(<div key="rules" style={{position: 'absolute', left: 0, right: 0, bottom: 70, zIndex: 45, display: 'flex', justifyContent: 'center', gap: 12, opacity: a}}>
+      {(rows as string[][]).map(([ic, tx], i) => { const ti = r0 + i * 0.45; if (t < ti) return null; return (
+        <div key={i} style={{transform: `scale(${popT(t, ti, 11)}) rotate(${i % 2 ? 1.5 : -1.5}deg)`, display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: `5px solid ${INK}`, borderRadius: 20, padding: '5px 14px 1px', boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}>
+          <span style={{width: 40, height: 40, borderRadius: 20, background: INK, color: YELLOW, ...font, fontSize: 28, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{i + 1}</span>
+          <span style={{fontSize: 32}}>{ic}</span><span style={{...font, fontSize: 29, color: INK, whiteSpace: 'nowrap'}}>{tx}</span>
+        </div>); })}
+    </div>);
+  }
+  // registro de capturas (como el battle royale)
+  const fd = ((Dd.feed || []) as any[]).filter((f) => f[0] <= t && t < f[0] + 9).slice(-5);
+  if (t > (Dd.hud[0] || 0) + 1 && t < X.D.winT) out.push(<div key="feed" style={{position: 'absolute', left: 22, bottom: 150, zIndex: 33, display: 'flex', flexDirection: 'column', gap: 6}}>
+    {fd.map((f, i) => { const a = popT(t, f[0], 12) * lerp(t, f[0] + 8.4, f[0] + 9, 1, 0); return (
+      <div key={f[0] + '' + i} style={{transform: `translateX(${(1 - a) * -260}px)`, opacity: a, display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(14,20,32,0.88)', border: `3px solid ${INK}`, borderRadius: 10, padding: '4px 12px 0'}}>
+        <FlagImg k={f[1]} w={40} h={28} /><span style={{...font, fontSize: 28, color: f[3] || YELLOW}}>{f[2]}</span>
+      </div>); })}
+  </div>);
+  // misiones
+  for (const m of (Dd.missions || []) as any[]) {
+    if (t < m.t0 || t > m.t1 + 2.4) continue; const prog = Math.min(1, (t - m.t0) / (m.t1 - m.t0)); const done = t >= m.t1;
+    const a = popT(t, m.t0, 10) * lerp(t, m.t1 + 2.0, m.t1 + 2.4, 1, 0);
+    out.push(<div key={'mi' + m.t0} style={{position: 'absolute', left: 24, top: 200, zIndex: 37, transform: `scale(${a})`, transformOrigin: 'left top', width: 560, background: CREAM, border: `6px solid ${INK}`, borderRadius: 20, padding: '10px 18px', boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 10}}><FlagImg k={m.k} w={50} h={34} /><span style={{...font, fontSize: 32, color: RED}}>🎯 MISSION</span></div>
+      <div style={{...font, fontSize: 36, color: INK, marginTop: 4}}>{m.text}</div>
+      <div style={{height: 22, background: '#ddd', border: `4px solid ${INK}`, borderRadius: 12, marginTop: 8, overflow: 'hidden'}}><div style={{width: `${(done ? 1 : prog) * 100}%`, height: '100%', background: done ? (m.ok ? '#22a95b' : RED) : YELLOW}} /></div>
+      {done && <div style={{position: 'absolute', right: -20, top: -24, transform: `scale(${popT(t, m.t1, 10)}) rotate(8deg)`, background: m.ok ? '#22a95b' : RED, border: `6px solid ${INK}`, borderRadius: 18, padding: '4px 14px 0', ...font, fontSize: 44, color: '#fff'}}>{m.ok ? '✅ DONE' : '❌ FAILED'}</div>}
+    </div>);
+  }
+  return <>{out}</>;
+};
+const BossFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const Dd = X.D.duel; if (!Dd || !Dd.boss) return null; const out: React.ReactNode[] = [];
+  for (const b of Dd.boss as any[]) {
+    if (t < b.t0 || t > b.t1 + 1.5) continue;
+    const f = Math.min(1, (t - b.t0) / (b.t1 - b.t0)); const P = b.path as number[][]; const sg = f * (P.length - 1); const i0 = Math.min(P.length - 2, Math.floor(sg)); const ff = sg - i0;
+    const [x, y] = toS(P[i0][0] + (P[i0 + 1][0] - P[i0][0]) * ff, P[i0][1] + (P[i0 + 1][1] - P[i0][1]) * ff, cam);
+    const hp = Math.max(0, dval(b.hp, t, 1)); const dead = t >= b.t1; const sz = 150 * Math.min(1.6, cam.s / 2.5);
+    const flash = (b.hp as number[][]).some((h) => t >= h[0] && t < h[0] + 0.15);
+    out.push(<g key={'boss' + b.t0} opacity={dead ? lerp(t, b.t1, b.t1 + 1.5, 1, 0) : 1}>
+      {!dead && <ellipse cx={x} cy={y + sz * 0.35} rx={sz * 0.6} ry={sz * 0.16} fill="rgba(0,0,0,0.35)" />}
+      {!dead && <g transform={`translate(${x},${y}) scale(${b.flip ? -1 : 1},1)`}>
+        <rect x={-sz * 0.55} y={-sz * 0.05} width={sz * 1.1} height={sz * 0.34} rx={sz * 0.12} fill="#3d3f45" stroke={INK} strokeWidth={6} />
+        {Array.from({length: 5}).map((_, j) => <circle key={j} cx={-sz * 0.42 + j * sz * 0.21} cy={sz * 0.12} r={sz * 0.07} fill="#777" stroke={INK} strokeWidth={4} transform={`rotate(${t * 300} ${-sz * 0.42 + j * sz * 0.21} ${sz * 0.12})`} />)}
+        <rect x={-sz * 0.4} y={-sz * 0.32} width={sz * 0.8} height={sz * 0.3} rx={sz * 0.08} fill={b.col} stroke={INK} strokeWidth={6} />
+        <rect x={sz * 0.25} y={-sz * 0.24} width={sz * 0.55} height={sz * 0.08} fill="#2a2a2a" stroke={INK} strokeWidth={4} />
+        <circle cx={-sz * 0.05} cy={-sz * 0.18} r={sz * 0.17} fill={flash ? '#fff' : b.col} stroke={INK} strokeWidth={6} />
+        <circle cx={-sz * 0.1} cy={-sz * 0.2} r={sz * 0.035} fill={INK} /><circle cx={sz * 0.02} cy={-sz * 0.2} r={sz * 0.035} fill={INK} />
+      </g>}
+      {!dead && <g transform={`translate(${x - 140},${y - sz * 0.75})`}>
+        <rect width={280} height={58} rx={12} fill="rgba(14,20,32,0.92)" stroke={INK} strokeWidth={4} />
+        <text x={140} y={24} textAnchor="middle" fontSize={22} style={{fontFamily: 'Lilita'}} fill={YELLOW}>{b.name}</text>
+        <rect x={12} y={32} width={256} height={16} rx={8} fill="#333" /><rect x={12} y={32} width={256 * hp} height={16} rx={8} fill={hp > 0.5 ? '#3bd16f' : hp > 0.25 ? '#ffb000' : '#ff3030'} />
+      </g>}
+      {dead && t < b.t1 + 1.2 && <circle cx={x} cy={y} r={40 + (t - b.t1) * 400} fill="#ffb000" opacity={0.6 * (1 - (t - b.t1) / 1.2)} />}
+    </g>);
+  }
+  if (!out.length) return null;
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 13, overflow: 'visible'}}>{out}</svg>;
 };
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]; noHud?: boolean}> = ({noHud = false, audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
@@ -1515,11 +1615,12 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   return (
     <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
       {showMap && (
-        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
+        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
           <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver}} />
           <Arrows t={t} cam={camL} />
           <Laser t={t} cam={camL} />
           <PowerFX t={t} cam={camL} />
+          <BossFX t={t} cam={camL} />
           {!CO && !noHud && <>
           {t < D.winT + 0.3 && <Labels t={t} cam={camL} />}
           <Stamps t={t} cam={camL} />
@@ -1551,7 +1652,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <BigHP t={t} />
       </>}
       {V2 && <Cinema t={t} />}
-      <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.42) 100%)', pointerEvents: 'none', zIndex: 15}} />
+      <AbsoluteFill style={{background: `radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,${D.duel ? 0.22 : 0.42}) 100%)`, pointerEvents: 'none', zIndex: 15}} />
       {!CO && !noHud && <>
       <Hud t={t} cam={cam} />
       <Battle t={t} />
@@ -1566,6 +1667,8 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <DuelSpin t={t} />
       <DuelEnd t={t} />
       <MiniWheel t={t} />
+      <DuelExtra t={t} />
+      <DuelReal tR={tR} />
       <Reveal t={t} />
       <Summit t={t} />
       <Glitch t={t} />
