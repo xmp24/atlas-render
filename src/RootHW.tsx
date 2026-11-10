@@ -19,7 +19,7 @@ import {ThumbInid} from './ThumbsInid';
 import {WarCont as WarAsia1} from './War12';
 import {ThumbAsia1} from './ThumbsAsia1';
 import A1TL from './asia1-tl.json';
-import {WarAS2, ThumbAS2} from './War13';
+import {WarAS2, ThumbAS2, ThumbIID, ThumbIID2} from './War13';
 import A2TL from './asia2-tl.json';
 import {WarCont as WarAsia4} from './War14';
 import {ThumbAsia4} from './ThumbsAsia4';
@@ -119,6 +119,8 @@ export const RootHW: React.FC = () => (
     <Composition id="V-big6" component={WarBig6} durationInFrames={Math.round((TLBig6 as any).duration * 30)} fps={30} width={1920} height={1080} />
     {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-cur-${v}`} component={ThumbCur} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
     <Composition id="V-cur" component={WarCur} durationInFrames={Math.round((TLCur as any).duration * 30)} fps={30} width={1920} height={1080} />
+    {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-iid-${v}`} component={ThumbIID} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
+    <Composition id="TL-iid-B2" component={ThumbIID2} durationInFrames={1} fps={30} width={1920} height={1080} />
     <Composition id="V-lang" component={WarLang} durationInFrames={Math.round((LANGTL as any).duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="V-ww2" component={Indo2} durationInFrames={indoFrames('ww2')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww2'}} />
     <Composition id="V-swap" component={Indo2} durationInFrames={indoFrames('swap')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'swap'}} />

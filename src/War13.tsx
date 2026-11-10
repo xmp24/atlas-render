@@ -777,3 +777,120 @@ export const ThumbAS2: React.FC<{v: string}> = ({v}) => {
     </AbsoluteFill>
   );
 };
+
+// ===== miniaturas India vs Indonesia con superpoderes (modelos de los vídeos de referencia) =====
+export const ThumbIID: React.FC<{v: string}> = ({v}) => {
+  const MAP = (cx: number, cy: number, s: number) => <><Ocean t={0} /><WorldMap t={0} cam={{cx, cy, s}} /></>;
+  if (v === 'A') {
+    const pw = ['⚡', '☄️', '🌊', '🌋', '🛰️'];
+    return (
+      <AbsoluteFill style={{background: '#1d5e9f', overflow: 'hidden'}}>
+        {MAP(1466, 548, 2.0)}
+        <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.6) 100%)'}} />
+        <div style={{position: 'absolute', left: 0, right: 0, top: 40, display: 'flex', justifyContent: 'center'}}><BOX bg="#fff" size={124}>10 POWERS, <span style={{color: RED}}>1 WINNER</span></BOX></div>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 290, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 26}}>
+          <Avatar size={330} code="inf" mood="angry" t={0.5} seed={1} look={[1, 0]} id="ia-in" />
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10}}>
+            {pw.map((e, i) => <div key={i} style={{width: 92, height: 92, borderRadius: 46, background: '#fff', border: `7px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 54, transform: `translateX(${(i % 2 ? 1 : -1) * 16}px)`, boxShadow: '0 6px 0 rgba(0,0,0,0.45)'}}>{e}</div>)}
+          </div>
+          <Avatar size={330} code="idf" mood="angry" t={0.5} seed={2} look={[-1, 0]} id="ia-id" />
+        </div>
+        <div style={{position: 'absolute', left: 0, right: 0, bottom: 40, display: 'flex', justifyContent: 'center'}}><BOX bg={YELLOW} size={140} rot={2}>WHO WINS? 🏆</BOX></div>
+      </AbsoluteFill>
+    );
+  }
+  if (v === 'B') {
+    const A = '#ff8a1e', Ad = '#b85a08', B = '#e5322d', Bd = '#8f1714';
+    return (
+      <AbsoluteFill style={{background: '#1d5e9f', overflow: 'hidden'}}>
+        {MAP(1466, 560, 2.3)}
+        <AbsoluteFill style={{background: 'linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.1) 45%, rgba(0,0,0,0.5))'}} />
+        <div style={{position: 'absolute', left: 60, right: 60, top: 50, display: 'flex', alignItems: 'center', gap: 24, background: 'rgba(16,22,34,0.9)', border: '8px solid #fff', borderRadius: 40, padding: '18px 28px'}}>
+          <Avatar size={190} code="inf" mood="scared" t={0.5} seed={5} look={[1, 0]} id="ib-in" />
+          <div style={{flex: 1}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', ...font, fontSize: 84, color: '#fff'}}><span style={{color: '#ffd3a8'}}>1%</span><span style={{fontSize: 70}}>⚡</span><span style={{color: '#ffc4c4'}}>1%</span></div>
+            <div style={{height: 70, borderRadius: 35, overflow: 'hidden', border: `8px solid ${INK}`, display: 'flex', marginTop: 8}}>
+              <div style={{width: '50%', background: `repeating-linear-gradient(45deg, ${A}, ${A} 22px, ${Ad} 22px, ${Ad} 44px)`}} />
+              <div style={{flex: 1, background: `repeating-linear-gradient(-45deg, ${B}, ${B} 22px, ${Bd} 22px, ${Bd} 44px)`}} />
+            </div>
+          </div>
+          <Avatar size={190} code="idf" mood="scared" t={0.5} seed={2} look={[-1, 0]} id="ib-id" />
+        </div>
+        <div style={{position: 'absolute', left: 0, right: 0, bottom: 60, display: 'flex', justifyContent: 'center'}}><BOX bg={RED} size={128} color="#fff">INDIA vs INDONESIA</BOX></div>
+      </AbsoluteFill>
+    );
+  }
+  const rows: [string, string][] = [['🛰️', 'Space laser'], ['🌋', 'Volcano'], ['☄️', 'Meteor'], ['🌊', 'Tsunami'], ['👥', 'Clone army']];
+  return (
+    <AbsoluteFill style={{background: '#1d5e9f', overflow: 'hidden'}}>
+      {MAP(1383, 555, 1.5)}
+      <AbsoluteFill style={{background: 'linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.1) 55%)'}} />
+      <div style={{position: 'absolute', left: 60, top: 70, zIndex: 6}}>
+        <div style={TXT(150, '#ff9a2e')}>INDIA</div>
+        <div style={{...TXT(150, YELLOW), marginTop: 10}}>VS</div>
+        <div style={{...TXT(150, '#fff'), marginTop: 10}}>INDONESIA</div>
+        <div style={{marginTop: 40, display: 'inline-block', background: INK, border: '7px solid #fff', borderRadius: 24, padding: '10px 30px 2px', ...font, fontSize: 64, color: YELLOW}}>10 SUPERPOWERS · 1 WINNER</div>
+      </div>
+      <div style={{position: 'absolute', right: 50, top: 120, width: 600, zIndex: 6, transform: 'rotate(2deg)'}}>
+        <div style={{background: CREAM, border: `10px solid ${INK}`, borderRadius: 30, padding: '20px 26px', boxShadow: '0 14px 0 rgba(0,0,0,0.5)'}}>
+          <div style={{...font, fontSize: 60, color: INK, textAlign: 'center', marginBottom: 8}}>🏆 TOP 5 POWERS</div>
+          {rows.map(([e, n], i) => (
+            <div key={n} style={{display: 'flex', alignItems: 'center', gap: 16, height: 104, borderTop: '4px solid #e2d3b1'}}>
+              <div style={{...font, fontSize: 56, color: INK, width: 40}}>{i + 1}</div><div style={{fontSize: 64, width: 90, textAlign: 'center'}}>{e}</div>
+              <div style={{...font, fontSize: 58, color: INK, flex: 1}}>{n}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const SIL: React.FC<{cx: number; cy: number; s: number; cs: [string, string][]; lines?: boolean}> = ({cx, cy, s, cs, lines = false}) => {
+  const tr = `translate(${960 - cx * s},${540 - cy * s}) scale(${s})`;
+  const pcs = (c: string) => PIECES.filter((p) => p.code === c);
+  return (
+    <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
+      <defs><filter id="silg" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation={9} /></filter></defs>
+      <defs><clipPath id="silclip">{cs.map(([c]) => pcs(c).map((p, i) => <path key={c + i} d={p.d} transform={tr} />))}</clipPath></defs>
+      <g transform={tr}>
+        {cs.map(([c, col]) => <g key={c}>
+          {!lines && <g filter="url(#silg)">{pcs(c).map((p, i) => <path key={i} d={p.d} fill="none" stroke={col} strokeWidth={30 / s} opacity={1} />)}</g>}
+          {lines && pcs(c).map((p, i) => <path key={'w' + i} d={p.d} fill="none" stroke="#fff" strokeWidth={5.5 / s} strokeLinejoin="round" />)}
+          {lines && pcs(c).map((p, i) => <path key={'k' + i} d={p.d} fill="none" stroke={INK} strokeWidth={3.5 / s} strokeLinejoin="round" />)}
+        </g>)}
+      </g>
+    </svg>
+  );
+};
+export const ThumbIID2: React.FC = () => {
+  const cx = 1512, cy = 556, s = 2.12;
+  const A = '#ff9a2e', B = '#ff3b3b';
+  return (
+    <AbsoluteFill style={{background: '#1d5e9f', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', inset: 0, filter: 'saturate(0.8) brightness(0.62)'}}><Ocean t={0} /><WorldMap t={0} cam={{cx, cy, s}} /></div>
+      <SIL cx={cx} cy={cy} s={s} cs={[['IN', A], ['ID', B]]} />
+      <div style={{position: 'absolute', inset: 0, clipPath: 'url(#silclip)', filter: 'saturate(1.35) brightness(1.12)'}}><Ocean t={0} /><WorldMap t={0} cam={{cx, cy, s}} /></div>
+      <SIL cx={cx} cy={cy} s={s} cs={[['IN', A], ['ID', B]]} lines />
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 58%, rgba(255,210,80,0.10) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.45) 100%)'}} />
+      <div style={{position: 'absolute', left: 50, right: 50, top: 36, height: 230, borderRadius: 50, background: 'linear-gradient(180deg, #2a3550 0%, #121a2c 60%, #0b111e 100%)', border: '9px solid #fff', boxShadow: '0 0 50px 8px rgba(255,200,60,0.55), 0 14px 0 rgba(0,0,0,0.5)'}}>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 70, borderRadius: '42px 42px 0 0', background: 'linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0))'}} />
+      </div>
+      <div style={{position: 'absolute', left: 70, top: 22}}><div style={{filter: 'drop-shadow(0 0 22px rgba(255,154,46,0.9))'}}><Avatar size={250} code="inf" mood="scared" t={0.5} seed={5} look={[1, 0]} id="ic-in" /></div></div>
+      <div style={{position: 'absolute', right: 70, top: 22}}><div style={{filter: 'drop-shadow(0 0 22px rgba(255,59,59,0.9))'}}><Avatar size={250} code="idf" mood="scared" t={0.5} seed={2} look={[-1, 0]} id="ic-id" /></div></div>
+      <div style={{position: 'absolute', left: 340, right: 340, top: 58, display: 'flex', justifyContent: 'space-between', ...font, fontSize: 104}}>
+        <span style={{color: '#fff', WebkitTextStroke: `4px ${INK}`, textShadow: `0 0 26px ${A}, 6px 6px 0 ${INK}`}}>1%</span>
+        <span style={{color: '#fff', WebkitTextStroke: `4px ${INK}`, textShadow: `0 0 26px ${B}, 6px 6px 0 ${INK}`}}>1%</span>
+      </div>
+      <div style={{position: 'absolute', left: 340, right: 340, top: 172, height: 74, borderRadius: 40, border: `9px solid ${INK}`, overflow: 'hidden', display: 'flex', boxShadow: '0 0 30px rgba(255,255,255,0.35)'}}>
+        <div style={{width: '50%', background: `repeating-linear-gradient(45deg, ${A}, ${A} 24px, #c96a10 24px, #c96a10 48px)`, boxShadow: `inset 0 0 22px rgba(255,240,180,0.7)`}} />
+        <div style={{flex: 1, background: `repeating-linear-gradient(-45deg, ${B}, ${B} 24px, #a01818 24px, #a01818 48px)`, boxShadow: `inset 0 0 22px rgba(255,200,200,0.6)`}} />
+        <div style={{position: 'absolute', left: 0, right: 0, top: 6, height: 16, borderRadius: 10, background: 'rgba(255,255,255,0.45)', margin: '0 18px'}} />
+      </div>
+      <div style={{position: 'absolute', left: 870, top: 92, width: 180, height: 180, borderRadius: 90, background: 'radial-gradient(circle, #fff7b0 0%, #ffd23f 45%, #ff9a00 100%)', border: `9px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 110, boxShadow: '0 0 60px 18px rgba(255,210,60,0.85)'}}>⚡</div>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 34, display: 'flex', justifyContent: 'center'}}>
+        <div style={{transform: 'rotate(-2deg)', background: 'linear-gradient(180deg, #ff4b3e, #d4110e)', border: `12px solid ${INK}`, borderRadius: 32, padding: '6px 50px 0', ...font, fontSize: 120, color: '#fff', textShadow: `6px 6px 0 ${INK}`, boxShadow: '0 0 40px rgba(255,60,40,0.6), 0 14px 0 rgba(0,0,0,0.5)', whiteSpace: 'nowrap'}}>INDIA <span style={{color: YELLOW}}>vs</span> INDONESIA</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
