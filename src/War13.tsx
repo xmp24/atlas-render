@@ -894,3 +894,33 @@ export const ThumbIID2: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+export const ThumbIID3: React.FC = () => {
+  const cam = {cx: 1458, cy: 566, s: 3.0};
+  const sc = (lon: number, lat: number) => { const p = proj([lon, lat]) as [number, number]; return [960 + (p[0] - cam.cx) * cam.s, 540 + (p[1] - cam.cy) * cam.s]; };
+  const eyes: any[] = [[...sc(78.0, 21.5), 175, 1], [...sc(114.0, 0.2), 125, 2], [...sc(101.6, -0.4), 62, 3]];
+  const big = (txt: React.ReactNode, size: number, grad: string, stroke: number) => (
+    <div style={{position: 'relative', ...font, fontSize: size, lineHeight: 1, whiteSpace: 'nowrap', letterSpacing: 2}}>
+      <span style={{position: 'absolute', left: 0, top: 0, color: INK, WebkitTextStroke: `${stroke}px ${INK}`, transform: 'translate(0, 14px)'}}>{txt}</span>
+      <span style={{position: 'absolute', left: 0, top: 0, color: INK, WebkitTextStroke: `${stroke}px ${INK}`}}>{txt}</span>
+      <span style={{position: 'relative', background: grad, WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent'}}>{txt}</span>
+    </div>
+  );
+  return (
+    <AbsoluteFill style={{background: '#1d5e9f', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', inset: 0, filter: 'saturate(0.85) brightness(0.6)'}}><Ocean t={0} /><WorldMap t={0} cam={cam} /></div>
+      <SIL cx={cam.cx} cy={cam.cy} s={cam.s} cs={[['IN', '#ffb347'], ['ID', '#ff4b4b']]} />
+      <div style={{position: 'absolute', inset: 0, clipPath: 'url(#silclip)', filter: 'saturate(1.4) brightness(1.12)'}}><Ocean t={0} /><WorldMap t={0} cam={cam} /></div>
+      <SIL cx={cam.cx} cy={cam.cy} s={cam.s} cs={[['IN', '#ffb347'], ['ID', '#ff4b4b']]} lines />
+      <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
+        {eyes.map(([x, y, r, sd]) => <Face key={sd} x={x} y={y} r={r} mood="angry" t={0.5} seed={sd} look={[sd === 1 ? 0.7 : -0.7, 0.3]} />)}
+      </svg>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 26, display: 'flex', justifyContent: 'center'}}>
+        {big('INDIA vs INDONESIA', 170, 'linear-gradient(180deg, #fff7c2 0%, #ffd23f 45%, #ff9a00 100%)', 28)}
+      </div>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 40, display: 'flex', justifyContent: 'center'}}>
+        {big('SUPERPOWERS ⚡', 205, 'linear-gradient(180deg, #ff9a8a 0%, #ff3b2e 40%, #c40d0d 100%)', 30)}
+      </div>
+    </AbsoluteFill>
+  );
+};
