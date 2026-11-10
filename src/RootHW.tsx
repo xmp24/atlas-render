@@ -131,6 +131,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-tri" component={Indo2} durationInFrames={indoFrames('tri')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'tri'}} />
     <Composition id="V-euarmy" component={Indo2} durationInFrames={indoFrames('euarmy')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'euarmy'}} />
     <Composition id="V-rare" component={Indo2} durationInFrames={indoFrames('rare')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'rare'}} />
+    <Composition id="V-inid" component={Indo2} durationInFrames={indoFrames('inid')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'inid'}} />
     <Composition id="V-inpk" component={Indo2} durationInFrames={indoFrames('inpk')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'inpk'}} />
     <Composition id="V-kor" component={Indo2} durationInFrames={indoFrames('kor')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'kor'}} />
     <Composition id="V-cart" component={Indo2} durationInFrames={indoFrames('cart')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'cart'}} />

@@ -45,12 +45,13 @@ import J_ilir from './hw/ilir.json';
 import J_nato from './hw/nato.json';
 import J_tw27 from './hw/tw27.json';
 import J_grl from './hw/grl.json';
+import J_inid from './hw/inid.json';
 
 type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CEv[]; ID: number; MKB: Map<any, any[]>; ALLY: number[]};
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -239,6 +240,7 @@ const Pill: React.FC<{children: React.ReactNode; bg?: string; style?: React.CSSP
 );
 const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const D = X.D;
+  if (D.duel) return null;
   if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
   if (D.mode === 'camp') return <HudCamp t={t} cam={cam} />;
   const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
@@ -1205,6 +1207,224 @@ const ColdOpen: React.FC<{tR: number}> = ({tR}) => {
   </>;
 };
 // @@BRFX@@
+// ======================= DUELO CON SUPERPODERES =======================
+const dval = (bars: number[][], t: number, i: number) => {
+  if (t <= bars[0][0]) return bars[0][i];
+  for (let j = 1; j < bars.length; j++) if (t < bars[j][0]) { const a = bars[j - 1], b = bars[j]; return a[i] + (b[i] - a[i]) * Easing.out(Easing.quad)((t - a[0]) / (b[0] - a[0])); }
+  return bars[bars.length - 1][i];
+};
+const mmss = (s: number) => { const v = Math.max(0, Math.ceil(s)); return `${Math.floor(v / 60)}:${String(v % 60).padStart(2, '0')}`; };
+const hsh = (n: number) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const DuelHud: React.FC<{t: number}> = ({t}) => {
+  const Dd = X.D.duel; if (!Dd) return null;
+  const a = lerp(t, Dd.hud[0], Dd.hud[0] + 0.4, 0, 1) * lerp(t, Dd.hud[1] - 0.3, Dd.hud[1], 1, 0); if (a <= 0) return null;
+  const side = (i: number) => {
+    const k = i === 1 ? Dd.a : Dd.b; const v = dval(Dd.bars, t, i); const g = Math.max(v, dval(Dd.bars, t - 0.7, i));
+    const col = i === 1 ? Dd.ca : Dd.cb; const low = v <= 15; const shake = low ? Math.sin(t * 40) * 2 : 0;
+    const hit = (Dd.hits as any[]).filter((h) => h[1] === i && t >= h[0] && t < h[0] + 1.6);
+    return (
+      <div style={{display: 'flex', flexDirection: i === 1 ? 'row' : 'row-reverse', alignItems: 'center', gap: 12, width: 700, flexShrink: 0, position: 'relative'}}>
+        <div style={{transform: `scale(${1 + (hit.length ? 0.12 * Math.max(0, 1 - (t - hit[0][0]) * 2) : 0)}) translateX(${shake}px)`}}><Ball k={k} size={118} mood={v < 20 ? 'scared' : v > dval(Dd.bars, t, 3 - i) ? 'smug' : 'angry'} t={t} look={[i === 1 ? 1 : -1, 0]} /></div>
+        <div style={{flex: 1, minWidth: 0}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: i === 1 ? 'row' : 'row-reverse', ...font, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>
+            <span style={{fontSize: 48}}>{i === 1 ? Dd.na : Dd.nb}</span>
+            <span style={{fontSize: 60, color: low ? (Math.floor(t * 4) % 2 ? '#ff4d4d' : '#fff') : YELLOW}}>{Math.max(0, Math.round(v))}%</span>
+          </div>
+          <div style={{height: 46, background: '#1a1f2b', border: `6px solid ${INK}`, borderRadius: 26, overflow: 'hidden', position: 'relative', display: 'flex', justifyContent: i === 1 ? 'flex-start' : 'flex-end'}}>
+            <div style={{position: 'absolute', top: 0, bottom: 0, [i === 1 ? 'left' : 'right']: 0, width: `${g}%`, background: '#fff', opacity: 0.85} as any} />
+            <div style={{position: 'absolute', top: 0, bottom: 0, [i === 1 ? 'left' : 'right']: 0, width: `${v}%`, background: `repeating-linear-gradient(${i === 1 ? 45 : -45}deg, ${col}, ${col} 18px, ${shade(col)} 18px, ${shade(col)} 36px)`} as any} />
+            <div style={{position: 'absolute', left: 0, right: 0, top: 4, height: 10, background: 'rgba(255,255,255,0.35)', borderRadius: 8}} />
+          </div>
+          <div style={{...font2, fontSize: 24, color: '#dfe6f5', marginTop: 4, textAlign: i === 1 ? 'left' : 'right', textShadow: `2px 2px 0 ${INK}`}}>🪖 TROOPS LEFT</div>
+        </div>
+        {hit.map((h, j) => { const d = t - h[0]; return <div key={j} style={{position: 'absolute', [i === 1 ? 'left' : 'right']: 280, top: 70 + d * 60, opacity: lerp(d, 1.0, 1.6, 1, 0), transform: `scale(${popT(t, h[0], 12) * 1.2})`, ...font, fontSize: 72, color: h[2] > 0 ? '#ff3b3b' : '#4dff7a', textShadow: `5px 5px 0 ${INK}`} as any}>{h[2] > 0 ? `-${h[2]}%` : `+${-h[2]}%`}</div>; })}
+      </div>
+    );
+  };
+  const tm = (Dd.timers as any[]).find((x) => t >= x[0] && t < x[1] + 0.8);
+  const rem = tm ? tm[1] - t : 0; const urgent = tm && rem <= 10 && rem > 0;
+  return (
+    <div style={{position: 'absolute', left: 0, right: 0, top: 18, zIndex: 34, opacity: a, display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 20}}>
+      {side(1)}
+      <div style={{width: 230, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{...font, fontSize: 64, color: '#fff', textShadow: `5px 5px 0 ${INK}`, marginTop: 10}}>VS</div>
+        {tm && rem > -0.8 && <div style={{marginTop: 6, background: urgent ? (Math.floor(t * 2) % 2 ? RED : '#8a1010') : 'rgba(14,20,32,0.92)', border: `5px solid ${INK}`, borderRadius: 18, padding: '6px 16px 0', textAlign: 'center', transform: `scale(${urgent ? 1 + 0.06 * Math.sin(t * 12) : 1})`}}>
+          <div style={{...font2, fontSize: 22, color: YELLOW}}>{tm[2]}</div>
+          <div style={{...font, fontSize: 64, color: '#fff', lineHeight: 1}}>{mmss(rem)}</div>
+        </div>}
+      </div>
+      {side(2)}
+      {tm && rem <= 5 && rem > 0 && (() => { const n = Math.ceil(rem); const f = rem - Math.floor(rem); return <div style={{position: 'fixed', left: 0, right: 0, top: 380, textAlign: 'center', ...font, fontSize: 300, color: '#fff', opacity: 0.25 + 0.75 * f, transform: `scale(${1.3 - 0.3 * f})`, textShadow: `12px 12px 0 ${INK}, 0 0 60px ${RED}`}}>{n}</div>; })()}
+    </div>
+  );
+};
+const shade = (h: string) => { const n = parseInt(h.slice(1), 16); const r = (n >> 16) * 0.6, g = ((n >> 8) & 255) * 0.6, b = (n & 255) * 0.6; return `rgb(${r | 0},${g | 0},${b | 0})`; };
+const DWheel: React.FC<{items: string[]; cols: string[]; rot: number; R: number; cx: number; cy: number; fs?: number}> = ({items, cols, rot, R, cx, cy, fs = 40}) => {
+  const n = items.length, seg = 360 / n;
+  return (
+    <g transform={`translate(${cx},${cy})`}>
+      <circle r={R + 26} fill={INK} /><circle r={R + 16} fill="#ffd23f" />
+      {Array.from({length: 24}).map((_, i) => <circle key={i} cx={Math.cos((i / 24) * Math.PI * 2) * (R + 21)} cy={Math.sin((i / 24) * Math.PI * 2) * (R + 21)} r={6} fill={i % 2 ? '#fff' : RED} />)}
+      <g transform={`rotate(${rot})`}>
+        {items.map((it, i) => {
+          const a0 = ((i * seg - 90) * Math.PI) / 180, a1 = (((i + 1) * seg - 90) * Math.PI) / 180, am = (a0 + a1) / 2;
+          return (
+            <g key={i}>
+              <path d={`M0,0 L${Math.cos(a0) * R},${Math.sin(a0) * R} A${R},${R} 0 0,1 ${Math.cos(a1) * R},${Math.sin(a1) * R} Z`} fill={cols[i % cols.length]} stroke={INK} strokeWidth={6} />
+              <g transform={`translate(${Math.cos(am) * R * 0.58},${Math.sin(am) * R * 0.58}) rotate(${(am * 180) / Math.PI + (Math.cos(am) < 0 ? 180 : 0)})`}>
+                <text textAnchor="middle" y={fs * 0.35} fontSize={fs} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={INK} strokeWidth={7} paintOrder="stroke">{it}</text>
+              </g>
+            </g>
+          );
+        })}
+      </g>
+      <circle r={58} fill={CREAM} stroke={INK} strokeWidth={8} /><text textAnchor="middle" y={22} fontSize={60}>⚡</text>
+      <path d={`M-34,${-R - 64} L34,${-R - 64} L0,${-R + 10} Z`} fill={RED} stroke={INK} strokeWidth={7} strokeLinejoin="round" />
+    </g>
+  );
+};
+const DuelSpin: React.FC<{t: number}> = ({t}) => {
+  const Dd = X.D.duel; if (!Dd) return null;
+  const r = (Dd.spins as any[]).find((x) => t >= x.t0 - 0.3 && t < x.t1 + 0.3); if (!r) return null;
+  const a = lerp(t, r.t0 - 0.3, r.t0, 0, 1) * lerp(t, r.t1, r.t1 + 0.3, 1, 0);
+  const n = r.items.length, seg = 360 / n; const spinEnd = r.t0 + (r.t1 - r.t0) * 0.66;
+  const total = 360 * 5 + (360 - (r.pick * seg + seg / 2)) + (hsh(r.t0) - 0.5) * seg * 0.6;
+  const rot = total * lerp(t, r.t0 + 0.15, spinEnd, 0, 1, Easing.out(Easing.cubic));
+  const done = t > spinEnd;
+  const enter = popT(t, r.t0 - 0.2, 10);
+  return (
+    <AbsoluteFill style={{zIndex: 42, background: `radial-gradient(circle at 50% 58%, rgba(10,14,30,${0.35 * a}) 20%, rgba(4,6,14,${0.8 * a}) 75%)`, opacity: a}}>
+      <div style={{position: 'absolute', top: 205, left: 0, right: 0, textAlign: 'center', ...font, fontSize: 76, color: YELLOW, textShadow: `6px 6px 0 ${INK}`, transform: `scale(${enter})`}}>{r.title}</div>
+      {r.sub && <div style={{position: 'absolute', top: 290, left: 0, right: 0, textAlign: 'center', ...font2, fontSize: 34, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>{r.sub}</div>}
+      <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, transform: `scale(${enter})`, transformOrigin: '960px 690px'}}><DWheel items={r.items} cols={r.cols} rot={rot} R={300} cx={960} cy={690} fs={r.fs || 40} /></svg>
+      {done && <div style={{position: 'absolute', left: 0, right: 0, top: 560, display: 'flex', justifyContent: 'center'}}>
+        <div style={{transform: `scale(${popT(t, spinEnd, 9) * (1 + 0.04 * Math.sin(t * 10))}) rotate(-2deg)`, background: r.rcol || YELLOW, border: `9px solid ${INK}`, borderRadius: 30, padding: '14px 46px 6px', ...font, fontSize: 96, color: r.rtext || INK, textAlign: 'center', boxShadow: '0 14px 0 rgba(0,0,0,0.45)'}}>{r.result}</div>
+      </div>}
+    </AbsoluteFill>
+  );
+};
+const KIND_TINT: Record<string, string> = {freeze: 'rgba(120,200,255,0.30)', volcano: 'rgba(255,80,0,0.22)', lightning: 'rgba(20,10,60,0.35)', quake: 'rgba(90,60,20,0.18)', curse: 'rgba(80,0,120,0.30)', laser: 'rgba(255,40,60,0.18)', tsunami: 'rgba(0,80,200,0.18)', tornado: 'rgba(60,60,60,0.22)', meteor: 'rgba(255,120,0,0.15)', clones: 'rgba(255,255,255,0)'};
+const PowerBanner: React.FC<{t: number}> = ({t}) => {
+  const Dd = X.D.duel; if (!Dd) return null;
+  const p = (Dd.powers as any[]).find((x) => t >= x.t0 && t < x.t1 + 0.4); const out: React.ReactNode[] = [];
+  if (p) {
+    const d = t - p.t0; const tint = KIND_TINT[p.kind] || 'transparent';
+    const ta = lerp(t, p.t0, p.t0 + 0.4, 0, 1) * lerp(t, p.t1 - 0.6, p.t1 + 0.4, 1, 0);
+    out.push(<AbsoluteFill key="tint" style={{zIndex: 14, background: p.kind === 'freeze' ? `radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(150,220,255,${0.75 * ta}) 100%)` : tint, opacity: ta * (p.kind === 'lightning' ? (Math.floor(t * 14) % 5 === 0 ? 0.3 : 1) : 1), pointerEvents: 'none'}} />);
+    if (p.kind === 'freeze') for (let i = 0; i < 70; i++) { const x = hsh(i) * 1920 + Math.sin(t * 1.5 + i) * 30; const y = ((hsh(i + 9) * 1200 + d * (80 + hsh(i + 3) * 120)) % 1200) - 60; out.push(<div key={'s' + i} style={{position: 'absolute', left: x, top: y, fontSize: 18 + hsh(i + 5) * 26, opacity: 0.85 * ta, zIndex: 15, color: '#fff'}}>❄</div>); }
+    if (d < 2.6) {
+      const k = popT(t, p.t0 + 0.05, 9); const fa = lerp(d, 2.1, 2.6, 1, 0);
+      out.push(
+        <div key="bn" style={{position: 'absolute', left: 0, right: 0, top: 300, zIndex: 41, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: fa}}>
+          <div style={{fontSize: 170, transform: `scale(${k}) rotate(${Math.sin(t * 9) * 6}deg)`, filter: 'drop-shadow(0 10px 0 rgba(0,0,0,0.5))'}}>{p.emoji}</div>
+          <div style={{transform: `scale(${k})`, background: p.col, border: `9px solid ${INK}`, borderRadius: 28, padding: '10px 44px 2px', ...font, fontSize: 104, color: '#fff', textShadow: `6px 6px 0 ${INK}`, boxShadow: '0 14px 0 rgba(0,0,0,0.5)'}}>{p.name}{p.mult > 1 ? ' x2' : ''}</div>
+          <div style={{marginTop: 14, ...font, fontSize: 46, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>{p.sub}</div>
+        </div>,
+      );
+    }
+  }
+  for (const c of Dd.combos as any[]) { const d = t - c[0]; if (d < 0 || d > 2.6) continue; out.push(
+    <div key={'cb' + c[0]} style={{position: 'absolute', left: 0, right: 0, top: 360, zIndex: 43, display: 'flex', justifyContent: 'center', opacity: lerp(d, 2.1, 2.6, 1, 0)}}>
+      <div style={{transform: `scale(${popT(t, c[0], 10) * (1 + 0.05 * Math.sin(t * 16))}) rotate(-4deg)`, background: 'linear-gradient(180deg, #ffe14d, #ff6a00 55%, #d4110e)', border: `10px solid ${INK}`, borderRadius: 34, padding: '16px 60px 4px', ...font, fontSize: 150, color: '#fff', textShadow: `8px 8px 0 ${INK}`, boxShadow: '0 0 80px 20px rgba(255,120,0,0.7)'}}>🔥 COMBO x2 🔥</div>
+    </div>); }
+  for (const c of Dd.curses as any[]) { const d = t - c[0]; if (d < 0 || d > 3.4) continue; out.push(
+    <AbsoluteFill key={'cu' + c[0]} style={{zIndex: 43, background: `rgba(60,0,90,${0.45 * lerp(d, 0, 0.3, 0, 1) * lerp(d, 2.8, 3.4, 1, 0)})`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', opacity: lerp(d, 2.8, 3.4, 1, 0)}}>
+      <div style={{fontSize: 220, transform: `scale(${popT(t, c[0], 8)}) translateY(${Math.sin(t * 6) * 10}px)`}}>💀</div>
+      <div style={{transform: `scale(${popT(t, c[0] + 0.2, 9)})`, background: '#5b1a8f', border: `9px solid ${INK}`, borderRadius: 28, padding: '10px 44px 2px', ...font, fontSize: 96, color: '#fff', textShadow: `6px 6px 0 ${INK}`}}>CURSE!</div>
+      <div style={{marginTop: 16, ...font, fontSize: 50, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>{c[2]}</div>
+    </AbsoluteFill>); }
+  for (const c of Dd.chests as any[]) { const d = t - c.topen; if (d < 0 || d > 3.2) continue; out.push(
+    <div key={'ch' + c.t0} style={{position: 'absolute', left: 0, right: 0, bottom: 150, zIndex: 41, display: 'flex', justifyContent: 'center', opacity: lerp(d, 2.7, 3.2, 1, 0)}}>
+      <div style={{transform: `scale(${popT(t, c.topen, 10)})`, display: 'flex', alignItems: 'center', gap: 20, background: c.good ? '#1f9e55' : '#c81e1e', border: `8px solid ${INK}`, borderRadius: 26, padding: '10px 34px 4px', boxShadow: '0 12px 0 rgba(0,0,0,0.45)'}}>
+        <span style={{fontSize: 90}}>{c.icon}</span><span style={{...font, fontSize: 70, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{c.text}</span>
+      </div>
+    </div>); }
+  const hk = Dd.hook; if (t < hk[1] + 0.4) {
+    const ha = lerp(t, hk[1] - 0.4, hk[1] + 0.4, 1, 0);
+    out.push(
+      <AbsoluteFill key="hook" style={{zIndex: 44, background: `rgba(5,8,18,${0.55 * ha})`, opacity: ha, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+        <div style={{...font, fontSize: 120, color: '#fff', textShadow: `8px 8px 0 ${INK}`, marginBottom: 10, transform: `scale(${popT(t, 0.1, 9)})`}}>INDIA <span style={{color: YELLOW}}>vs</span> INDONESIA</div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 40}}>
+          <div style={{transform: `translateX(${lerp(t, 0, 0.5, -600, 0, Easing.out(Easing.back(1.4)))}px)`}}><Ball k={Dd.a} size={220} mood="angry" t={t} look={[1, 0]} /></div>
+          <div style={{...font, fontSize: 150, color: '#fff', textShadow: `8px 8px 0 ${INK}`, transform: `scale(${popT(t, 0.45, 9)})`}}>VS</div>
+          <div style={{transform: `translateX(${lerp(t, 0, 0.5, 600, 0, Easing.out(Easing.back(1.4)))}px)`}}><Ball k={Dd.b} size={220} mood="angry" t={t} look={[-1, 0]} /></div>
+        </div>
+        <div style={{marginTop: 30, transform: `scale(${popT(t, 0.8, 9)}) rotate(-2deg)`, background: YELLOW, border: `9px solid ${INK}`, borderRadius: 28, padding: '10px 50px 2px', ...font, fontSize: 84, color: INK}}>BUT WITH SUPERPOWERS ⚡</div>
+        <div style={{marginTop: 22, ...font, fontSize: 44, color: '#fff', textShadow: `4px 4px 0 ${INK}`, opacity: lerp(t, 1.4, 1.8, 0, 1)}}>A NEW POWER EVERY MINUTE · LAST ARMY STANDING WINS</div>
+      </AbsoluteFill>,
+    );
+  }
+  return <>{out}</>;
+};
+// efectos de poderes sobre el mapa
+const bolt = (x0: number, y0: number, x1: number, y1: number, seed: number) => {
+  const pts: string[] = []; const n = 10;
+  for (let i = 0; i <= n; i++) { const f = i / n; const j = i === 0 || i === n ? 0 : (hsh(seed * 31 + i) - 0.5) * 90 * (1 - f * 0.5); pts.push(`${x0 + (x1 - x0) * f + j},${y0 + (y1 - y0) * f}`); }
+  return pts.join(' ');
+};
+const PowerFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const Dd = X.D.duel; if (!Dd) return null;
+  const out: React.ReactNode[] = [];
+  (Dd.powers as any[]).forEach((p, pi) => {
+    if (t < p.t0 || t > p.t1 + 1.5) return;
+    const d = t - p.t0; const fade = lerp(t, p.t1, p.t1 + 1.5, 1, 0);
+    const P = (p.pts as number[][]).map(([x, y]) => toS(x, y, cam));
+    if (p.kind === 'lightning') P.forEach(([x, y], i) => { for (let r = 0; r < 3; r++) { const tt = p.ts + i * 0.32 + r * 1.9; const e = t - tt; if (e < 0 || e > 0.7) continue; const a = 1 - e / 0.7; const pts = bolt(x + (hsh(i + r) - 0.5) * 300, -80, x, y, i * 7 + r + Math.floor(t * 20));
+      const pts2 = bolt(x + (hsh(i + r + 5) - 0.5) * 420, -80, x, y, i * 11 + r + 3 + Math.floor(t * 20)); out.push(<g key={`l${pi}-${i}-${r}`} opacity={a}><polyline points={pts} fill="none" stroke="#6ec6ff" strokeWidth={70} opacity={0.3} /><polyline points={pts} fill="none" stroke="#bfe8ff" strokeWidth={26} opacity={0.8} /><polyline points={pts} fill="none" stroke="#fff" strokeWidth={10} /><polyline points={pts2} fill="none" stroke="#fff" strokeWidth={5} opacity={0.8} /><circle cx={x} cy={y} r={60 + 120 * e} fill="#bfe8ff" opacity={0.6 * a} /></g>); } });
+    if (p.kind === 'meteor') P.forEach(([x, y], i) => { const ti = p.ts + i * 0.9; const e = t - (ti - 1.5);
+      if (e > 0 && e < 1.5) { const f = Easing.in(Easing.quad)(e / 1.5); const sx = x + 900 * (1 - f), sy = y - 1000 * (1 - f); const r = 34 + 14 * Math.sin(t * 30);
+        out.push(<g key={`m${pi}-${i}`}><line x1={sx} y1={sy} x2={sx + 260} y2={sy - 290} stroke="url(#mtrail)" strokeWidth={r * 1.6} strokeLinecap="round" /><circle cx={sx} cy={sy} r={r * 1.4} fill="#ff7a00" opacity={0.5} /><circle cx={sx} cy={sy} r={r} fill="#ffd23f" stroke="#7a2a00" strokeWidth={6} /></g>); }
+      const e2 = t - ti; if (e2 >= 0 && e2 < 2.4) { const R = 40 + 520 * Easing.out(Easing.cubic)(Math.min(1, e2 / 1.4));
+        out.push(<g key={`mi${pi}-${i}`} opacity={lerp(e2, 1.2, 2.4, 1, 0)}><circle cx={x} cy={y} r={R} fill="none" stroke="#fff" strokeWidth={22 * (1 - e2 / 2.4)} /><circle cx={x} cy={y} r={R * 0.6} fill="#ff8a1e" opacity={0.45} /><circle cx={x} cy={y} r={R * 0.3} fill="#fff4b0" opacity={0.7} /></g>); } });
+    if (p.kind === 'tsunami') { const [ox, oy] = toS(p.from[0], p.from[1], cam); const maxR = Math.max(...P.map(([x, y]) => Math.hypot(x - ox, y - oy))) + 200; const f = Easing.inOut(Easing.quad)(Math.min(1, Math.max(0, (t - p.ts) / 6.5)));
+      for (let w = 0; w < 4; w++) { const R = Math.max(10, maxR * f - w * 70); const ang = Math.atan2(P[0][1] - oy, P[0][0] - ox); const a0 = ang - 0.9, a1 = ang + 0.9;
+        out.push(<path key={`w${pi}-${w}`} d={`M${ox + Math.cos(a0) * R},${oy + Math.sin(a0) * R} A${R},${R} 0 0,1 ${ox + Math.cos(a1) * R},${oy + Math.sin(a1) * R}`} fill="none" stroke={w === 0 ? '#f4fbff' : '#2f8cff'} strokeWidth={w === 0 ? 26 : 44 - w * 8} opacity={(w === 0 ? 0.95 : 0.65 - w * 0.12) * fade} strokeLinecap="round" />); }
+      P.forEach(([x, y], i) => { const hit = p.ts + 6.5 * (Math.hypot(x - ox, y - oy) / maxR); const e = t - hit; if (e > 0) out.push(<circle key={`wf${pi}-${i}`} cx={x} cy={y} r={Math.min(150, 40 + e * 90)} fill="#2f8cff" opacity={0.35 * fade} />); }); }
+    if (p.kind === 'freeze') P.forEach(([x, y], i) => { const e = t - p.ts - i * 0.25; if (e < 0) return; const R = Math.min(260, e * 300);
+      out.push(<g key={`f${pi}-${i}`} opacity={fade}><circle cx={x} cy={y} r={R} fill="#bfe9ff" opacity={0.45} /><circle cx={x} cy={y} r={R} fill="none" stroke="#fff" strokeWidth={6} strokeDasharray="14 10" />{Array.from({length: 6}).map((_, j) => <line key={j} x1={x} y1={y} x2={x + Math.cos(j * 1.047) * R * 0.8} y2={y + Math.sin(j * 1.047) * R * 0.8} stroke="#fff" strokeWidth={5} opacity={0.8} />)}</g>); });
+    if (p.kind === 'quake') P.forEach(([x, y], i) => { const e = t - p.ts - i * 0.4; if (e < 0) return; const L = Math.min(1, e / 1.2);
+      out.push(<g key={`q${pi}-${i}`} opacity={fade}>{Array.from({length: 7}).map((_, j) => { const ang = j * 0.9 + i; let px = x, py = y; const seg: string[] = [`${px},${py}`]; for (let s = 0; s < 6; s++) { px += Math.cos(ang + (hsh(i * 13 + j * 7 + s) - 0.5) * 1.2) * 40 * L; py += Math.sin(ang + (hsh(i * 17 + j * 3 + s) - 0.5) * 1.2) * 40 * L; seg.push(`${px},${py}`); } return <polyline key={j} points={seg.join(' ')} fill="none" stroke="#2a1606" strokeWidth={9} strokeLinejoin="round" />; })}
+        {[0, 0.5, 1].map((o) => { const ee = (e + o) % 1.5; return <ellipse key={o} cx={x} cy={y} rx={ee * 220} ry={ee * 120} fill="none" stroke="#c9a46a" strokeWidth={8} opacity={1 - ee / 1.5} />; })}</g>); });
+    if (p.kind === 'volcano') { const [x, y] = P[0]; const e = t - p.ts; if (e >= 0) {
+      const g: React.ReactNode[] = [<circle key="glow" cx={x} cy={y} r={70 + 30 * Math.sin(t * 8)} fill="#ff5a00" opacity={0.6 * fade} />, <circle key="lava" cx={x} cy={y} r={Math.min(320, e * 70)} fill="#ff3d00" opacity={0.28 * fade} />];
+      for (let i = 0; i < 26; i++) { const s0 = (i * 0.37) % 4; const ee = ((e - s0) % 4 + 4) % 4; if (e < s0) continue; const r = 30 + ee * 40; g.push(<circle key={'pl' + i} cx={x + (hsh(i) - 0.5) * 60 + ee * 18} cy={y - ee * 110 - hsh(i + 2) * 40} r={r} fill={i % 3 ? '#5a5a5a' : '#3a3a3a'} opacity={(0.75 - ee * 0.18) * fade} />); }
+      for (let i = 0; i < 18; i++) { const s0 = (i * 0.29) % 3; const ee = ((e - s0) % 1.6 + 1.6) % 1.6; if (e < s0) continue; const vx = (hsh(i + 40) - 0.5) * 520, vy = -420 - hsh(i + 7) * 320; g.push(<circle key={'lb' + i} cx={x + vx * ee} cy={y + vy * ee + 500 * ee * ee} r={9} fill="#ffb000" stroke="#c42a00" strokeWidth={3} opacity={fade} />); }
+      out.push(<g key={`v${pi}`}>{g}</g>); } }
+    if (p.kind === 'tornado') { const path = P; const e = Math.max(0, t - p.ts); const f = Math.min(1, e / (p.t1 - p.ts)); const seg = f * (path.length - 1); const i0 = Math.min(path.length - 2, Math.floor(seg)); const ff = seg - i0;
+      const x = path[i0][0] + (path[i0 + 1][0] - path[i0][0]) * ff, y = path[i0][1] + (path[i0 + 1][1] - path[i0][1]) * ff;
+      out.push(<g key={`tn${pi}`} opacity={fade}>{Array.from({length: 9}).map((_, j) => <ellipse key={j} cx={x + Math.sin(t * 8 + j) * (6 + j * 3)} cy={y - j * 34} rx={30 + j * 16} ry={10 + j * 4} fill="none" stroke={j % 2 ? '#d7dde6' : '#9aa3b0'} strokeWidth={10} opacity={0.85} />)}
+        {Array.from({length: 14}).map((_, j) => { const an = t * 6 + j; const rr = 40 + (j % 5) * 30; return <rect key={'d' + j} x={x + Math.cos(an) * rr} y={y - 60 - (j % 7) * 30 + Math.sin(an) * 12} width={10} height={10} fill="#5b4a3a" />; })}</g>); }
+    if (p.kind === 'laser') P.forEach(([x, y], i) => { const tt = p.ts + i * 1.1; const e = t - tt; if (e < -0.8 || e > 1.6) return;
+      const a = e < 0 ? 0.7 : lerp(e, 1.1, 1.6, 1, 0); const w = e < 0 ? 6 : 70 + 26 * Math.sin(e * 40);
+      out.push(<g key={`z${pi}-${i}`} opacity={a}>{e < 0 && <circle cx={x} cy={y} r={60 + (1 + e) * 70} fill="none" stroke="#ff2b4a" strokeWidth={6} strokeDasharray="14 10" />}
+        <line x1={x + 200} y1={-80} x2={x} y2={y} stroke="#ff2b4a" strokeWidth={w * 2.2} opacity={0.35} strokeLinecap="round" /><line x1={x + 200} y1={-80} x2={x} y2={y} stroke="#ff6b7a" strokeWidth={w} strokeLinecap="round" /><line x1={x + 200} y1={-80} x2={x} y2={y} stroke="#fff" strokeWidth={w * 0.35} strokeLinecap="round" />
+        {e > 0 && <circle cx={x} cy={y} r={60 + e * 200} fill="#ff6b7a" opacity={0.4 * (1 - e / 1.6)} />}</g>); });
+    if (p.kind === 'clones') { const [ox, oy] = toS(p.from[0], p.from[1], cam); for (let i = 0; i < 40; i++) { const ts = p.ts + i * 0.06; if (t < ts) continue; const tg = P[i % P.length]; const e = t - ts; const f = Math.min(1, Math.max(0, (e - 0.6) / 4.5));
+        const bx = ox + ((i % 8) - 3.5) * 46, by = oy + (Math.floor(i / 8) - 2) * 46; const x = bx + (tg[0] - bx) * Easing.inOut(Easing.quad)(f), y = by + (tg[1] - by) * Easing.inOut(Easing.quad)(f) + Math.abs(Math.sin(t * 10 + i)) * -8;
+        const s = popT(t, ts, 12);
+        out.push(<g key={`c${pi}-${i}`} transform={`translate(${x},${y}) scale(${s})`} opacity={fade}><circle r={20} fill="#fff" stroke={INK} strokeWidth={4} /><path d="M-20,0 A20,20 0 0,1 20,0 Z" fill="#e5322d" /><circle r={20} fill="none" stroke={INK} strokeWidth={4} /><circle cx={-6} cy={-2} r={4} fill={INK} /><circle cx={6} cy={-2} r={4} fill={INK} /></g>); } }
+    if (p.kind === 'curse') { const [x, y] = P[0]; const e = t - p.ts; if (e >= 0) out.push(<g key={`cu${pi}`} opacity={fade}>{Array.from({length: 12}).map((_, j) => { const ee = (e * 0.8 + j * 0.15) % 1.8; return <circle key={j} cx={x + (hsh(j) - 0.5) * 160} cy={y - ee * 160} r={30 + ee * 30} fill="#7b2cbf" opacity={0.55 * (1 - ee / 1.8)} />; })}<text x={x} y={y + 30} textAnchor="middle" fontSize={120}>💀</text></g>); }
+  });
+  for (const c of Dd.chests as any[]) {
+    if (t < c.t0 || t > c.topen + 2.5) continue;
+    const [x, y] = toS(c.x, c.y, cam); const e = t - c.t0; const fall = Math.min(1, e / 1.6); const cy_ = y - 600 * (1 - Easing.out(Easing.quad)(fall));
+    const opened = t > c.topen; const oa = opened ? lerp(t, c.topen + 1.6, c.topen + 2.5, 1, 0) : 1;
+    const race = (sx: number, sy: number, k: number, arrive: number, j: number) => { const [ax, ay] = toS(sx, sy, cam); const f = Math.min(1, Math.max(0, (t - c.t0 - 1.2) / (arrive - c.t0 - 1.2))); const px = ax + (x - ax) * f, py = ay + (y - ay) * f - Math.abs(Math.sin(t * 12)) * 10;
+      return <foreignObject key={'r' + j} x={px - 34} y={py - 34} width={68} height={68}><div style={{width: 68, height: 68}}><Ball k={k} size={68} mood="angry" t={t} /></div></foreignObject>; };
+    out.push(<g key={'chest' + c.t0} opacity={oa}>
+      {!opened && <circle cx={x} cy={y} r={70 + 10 * Math.sin(t * 6)} fill="#ffd23f" opacity={0.35} />}
+      {fall < 1 && <><path d={`M${x - 70},${cy_ - 120} Q${x},${cy_ - 200} ${x + 70},${cy_ - 120} Z`} fill="#fff" stroke={INK} strokeWidth={5} /><line x1={x - 70} y1={cy_ - 120} x2={x - 20} y2={cy_ - 30} stroke={INK} strokeWidth={3} /><line x1={x + 70} y1={cy_ - 120} x2={x + 20} y2={cy_ - 30} stroke={INK} strokeWidth={3} /></>}
+      <text x={x} y={cy_ + 30} textAnchor="middle" fontSize={opened ? 0 : 90}>🎁</text>
+      {!opened && fall >= 1 && <text x={x} y={cy_ - 60} textAnchor="middle" fontSize={56} style={{fontFamily: 'Lilita'}} fill={YELLOW} stroke={INK} strokeWidth={7} paintOrder="stroke">?</text>}
+      {opened && <><circle cx={x} cy={y} r={40 + (t - c.topen) * 260} fill="none" stroke={c.good ? '#ffd23f' : '#ff3b3b'} strokeWidth={14} opacity={1 - (t - c.topen) / 2.5} /><text x={x} y={y + 40} textAnchor="middle" fontSize={130} transform={`translate(0,${-(t - c.topen) * 30})`}>{c.icon}</text></>}
+      {race(c.ax, c.ay, Dd.a, c.k === Dd.a ? c.topen : c.topen + 0.8, 1)}
+      {race(c.bx, c.by, Dd.b, c.k === Dd.b ? c.topen : c.topen + 0.8, 2)}
+    </g>);
+  }
+  if (!out.length) return null;
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 13, overflow: 'visible'}}><defs><linearGradient id="mtrail" x1="0" y1="0" x2="1" y2="-1"><stop offset="0" stopColor="#ffd23f" /><stop offset="1" stopColor="#ff5a00" stopOpacity="0" /></linearGradient></defs>{out}</svg>;
+};
+
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]}> = ({audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
   if (X.D.flagOvr) for (const kk in X.D.flagOvr) FLAG_OVR[+kk] = X.D.flagOvr[kk];
@@ -1239,6 +1459,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
           <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver}} />
           <Arrows t={t} cam={camL} />
           <Laser t={t} cam={camL} />
+          <PowerFX t={t} cam={camL} />
           {!CO && <>
           {t < D.winT + 0.3 && <Labels t={t} cam={camL} />}
           <Stamps t={t} cam={camL} />
@@ -1280,6 +1501,9 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <Cards t={t} />
       <Ranking t={t} />
       <Roulettes t={t} />
+      <DuelHud t={t} />
+      <PowerBanner t={t} />
+      <DuelSpin t={t} />
       <Reveal t={t} />
       <Summit t={t} />
       <Glitch t={t} />
