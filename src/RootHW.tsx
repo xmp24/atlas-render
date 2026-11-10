@@ -89,6 +89,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-brus" component={StatesBR} durationInFrames={BRUS_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     <Composition id="S-wbsa" component={Indo2} durationInFrames={indoFrames('wbsa')} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'wbsa', W: 1080, H: 1920, zf: 0.85, sdur: 81.3, hook: ['12 COUNTRIES', 'ONE WHEEL DECIDES'], cta: ['DID YOU GUESS', 'THE WINNER? 👇']}} />
     <Composition id="S-wbca" component={Indo2} durationInFrames={900} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'wbram', W: 1080, H: 1920, zf: 0.8, segs: [[190.0, 3.6], [463.4, 2.6], [468.9, 3.6], [473.7, 3.0], [476.8, 8.2], [485.6, 9.0]], hook: ['CANADA VS THE USA', 'THE WHEEL DECIDES...'], cta: ['WHO WINS THE AMERICAS?', 'FULL BATTLE ON THE CHANNEL']}} />
+    <Composition id="V-dbras" component={Indo2} durationInFrames={indoFrames('dbras')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbras'}} />
     <Composition id="V-wbram" component={Indo2} durationInFrames={indoFrames('wbram')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'wbram'}} />
     <Composition id="V-breu" component={Indo2} durationInFrames={indoFrames('breu')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'breu'}} />
     <Composition id="V-braf" component={Indo2} durationInFrames={indoFrames('braf')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'braf'}} />
