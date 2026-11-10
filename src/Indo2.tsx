@@ -168,7 +168,7 @@ const Bubbles: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     const a = popT(t, t0, 12) * lerp(d, dd - 0.25, dd, 1, 0);
     out.push(
       <div key={t0} style={{position: 'absolute', left: sx, top: sy, transform: `translate(-50%,-100%) scale(${a})`, transformOrigin: '50% 100%', zIndex: 19}}>
-        <div style={{position: 'relative', background: '#fff', border: `4px solid ${INK}`, borderRadius: 18, padding: '8px 18px 4px', ...font2, fontSize: X.D.duel ? 40 : 30, color: INK, whiteSpace: 'nowrap', boxShadow: '0 5px 0 rgba(0,0,0,0.3)'}}>
+        <div style={{position: 'relative', background: '#fff', border: `4px solid ${INK}`, borderRadius: 18, padding: '8px 18px 4px', ...font2, fontSize: X.D.duel ? 46 : 30, color: INK, whiteSpace: 'nowrap', boxShadow: '0 5px 0 rgba(0,0,0,0.3)'}}>
           {text}
           <div style={{position: 'absolute', left: '50%', bottom: -16, width: 24, height: 24, background: '#fff', borderRight: `4px solid ${INK}`, borderBottom: `4px solid ${INK}`, transform: 'translateX(-50%) rotate(45deg)'}} />
         </div>
@@ -1235,12 +1235,17 @@ const DuelHud: React.FC<{t: number}> = ({t}) => {
             <div style={{position: 'absolute', top: 0, bottom: 0, [i === 1 ? 'left' : 'right']: 0, width: `${v}%`, background: `repeating-linear-gradient(${i === 1 ? 45 : -45}deg, ${col}, ${col} 18px, ${shade(col)} 18px, ${shade(col)} 36px)`} as any} />
             <div style={{position: 'absolute', left: 0, right: 0, top: 4, height: 10, background: 'rgba(255,255,255,0.35)', borderRadius: 8}} />
           </div>
-          <div style={{display: 'flex', flexDirection: i === 1 ? 'row' : 'row-reverse', justifyContent: 'space-between', alignItems: 'center', marginTop: 4}}>
+          <div style={{display: 'flex', flexDirection: i === 1 ? 'row' : 'row-reverse', justifyContent: 'space-between', alignItems: 'center', marginTop: 4, opacity: lerp(t, Dd.hud2 || 0, (Dd.hud2 || 0) + 0.4, 0, 1)}}>
             <div style={{...font, fontSize: 34, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>🪖 {fmt(Math.round((Dd.sold[i - 1] * v) / 100 + (v > 0 ? (Math.floor(t * 7) % 9) * 37 : 0)))}</div>
             <div style={{display: 'flex', gap: 2, fontSize: 30}}>{(Dd.powers as any[]).filter((p) => p.by === k && p.kind !== 'curse' && t > p.ts).map((p, j) => <span key={j} style={{filter: 'drop-shadow(2px 2px 0 #000)'}}>{p.emoji}</span>)}</div>
           </div>
           {(Dd.fire as any[] || []).filter((f) => f[2] === i && t >= f[0] && t < f[1]).map((f, j) => <div key={j} style={{position: 'absolute', top: -6, [i === 1 ? 'right' : 'left']: 90, transform: `scale(${popT(t, f[0], 10) * (1 + 0.06 * Math.sin(t * 12))}) rotate(${i === 1 ? 4 : -4}deg)`, background: 'linear-gradient(180deg,#ffe14d,#ff6a00)', border: `5px solid ${INK}`, borderRadius: 14, padding: '2px 12px 0', ...font, fontSize: 32, color: '#fff', textShadow: `3px 3px 0 ${INK}`} as any}>🔥 ON FIRE</div>)}
         </div>
+        {((Dd.status || []) as any[]).filter((st) => st[2] === i && t >= st[0] && t < st[1]).slice(-1).map((st, j) => <div key={'st' + j} style={{position: 'absolute', top: 176, [i === 1 ? 'left' : 'right']: 130, transform: `scale(${popT(t, st[0], 10) * lerp(t, st[1] - 0.3, st[1], 1, 0)}) rotate(${i === 1 ? -2 : 2}deg)`, background: st[4], border: `5px solid ${INK}`, borderRadius: 16, padding: '4px 16px 0', ...font, fontSize: 34, color: '#fff', textShadow: `3px 3px 0 ${INK}`, whiteSpace: 'nowrap', boxShadow: `0 0 ${14 + 8 * Math.sin(t * 6)}px ${st[4]}`} as any}>{st[3]}</div>)}
+        {i === 1 && Dd.explain && t >= Dd.explain && t < Dd.explain + 3.6 && <div style={{position: 'absolute', top: 178, left: 140, transform: `scale(${popT(t, Dd.explain, 10) * lerp(t, Dd.explain + 3.3, Dd.explain + 3.6, 1, 0)}) translateY(${Math.sin(t * 8) * 6}px)`, transformOrigin: 'left top', display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+          <div style={{...font, fontSize: 70, color: YELLOW, textShadow: `5px 5px 0 ${INK}`, lineHeight: 0.8, marginLeft: 60}}>⬆</div>
+          <div style={{background: '#fff', border: `6px solid ${INK}`, borderRadius: 20, padding: '6px 20px 0', ...font, fontSize: 40, color: INK, whiteSpace: 'nowrap', boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}>THIS IS THEIR ARMY · <span style={{color: RED}}>0% = LOSE</span></div>
+        </div>}
         {hit.map((h, j) => { const d = t - h[0]; return <div key={j} style={{position: 'absolute', [i === 1 ? 'left' : 'right']: 280, top: 70 + d * 60, opacity: lerp(d, 1.0, 1.6, 1, 0), transform: `scale(${popT(t, h[0], 12) * 1.2})`, ...font, fontSize: 72, color: h[2] > 0 ? '#ff3b3b' : '#4dff7a', textShadow: `5px 5px 0 ${INK}`} as any}>{h[2] > 0 ? `-${h[2]}%` : `+${-h[2]}%`}{Math.abs(h[2]) >= 5 && <div style={{fontSize: 34, color: '#fff'}}>{h[2] > 0 ? '-' : '+'}{fmt(Math.round(Math.abs(h[2]) * Dd.sold[i - 1] / 100))} SOLDIERS</div>}</div>; })}
       </div>
     );
@@ -1354,9 +1359,9 @@ const PowerBanner: React.FC<{t: number}> = ({t}) => {
       <AbsoluteFill key="hook" style={{zIndex: 44, background: `rgba(5,8,18,${0.55 * ha})`, opacity: ha, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <div style={{...font, fontSize: 120, color: '#fff', textShadow: `8px 8px 0 ${INK}`, marginBottom: 10, transform: `scale(${popT(t, 0.1, 9)})`}}>INDIA <span style={{color: YELLOW}}>vs</span> INDONESIA</div>
         <div style={{display: 'flex', alignItems: 'center', gap: 40}}>
-          <div style={{transform: `translateX(${lerp(t, 0, 0.5, -600, 0, Easing.out(Easing.back(1.4)))}px)`}}><Ball k={Dd.a} size={220} mood="angry" t={t} look={[1, 0]} /></div>
+          <div style={{position: 'relative', transform: `translateX(${lerp(t, 0, 0.5, -600, 0, Easing.out(Easing.back(1.4)))}px)`}}><Ball k={Dd.a} size={220} mood="angry" t={t} look={[1, 0]} />{((Dd.hookLines || []) as any[]).filter((h) => h[1] === 'a' && t >= h[0]).map((h, j) => <div key={j} style={{position: 'absolute', top: 50, right: '100%', marginRight: 24, transform: `scale(${popT(t, h[0], 11)})`, transformOrigin: 'right center', background: '#fff', border: `6px solid ${INK}`, borderRadius: 24, padding: '8px 22px 2px', ...font, fontSize: 42, color: INK, whiteSpace: 'nowrap', boxShadow: '0 8px 0 rgba(0,0,0,0.45)'} as any}>{h[2]}</div>)}</div>
           <div style={{...font, fontSize: 150, color: '#fff', textShadow: `8px 8px 0 ${INK}`, transform: `scale(${popT(t, 0.45, 9)})`}}>VS</div>
-          <div style={{transform: `translateX(${lerp(t, 0, 0.5, 600, 0, Easing.out(Easing.back(1.4)))}px)`}}><Ball k={Dd.b} size={220} mood="angry" t={t} look={[-1, 0]} /></div>
+          <div style={{position: 'relative', transform: `translateX(${lerp(t, 0, 0.5, 600, 0, Easing.out(Easing.back(1.4)))}px)`}}><Ball k={Dd.b} size={220} mood="angry" t={t} look={[-1, 0]} />{((Dd.hookLines || []) as any[]).filter((h) => h[1] === 'b' && t >= h[0]).map((h, j) => <div key={j} style={{position: 'absolute', top: 50, left: '100%', marginLeft: 24, transform: `scale(${popT(t, h[0], 11)})`, transformOrigin: 'left center', background: '#fff', border: `6px solid ${INK}`, borderRadius: 24, padding: '8px 22px 2px', ...font, fontSize: 42, color: INK, whiteSpace: 'nowrap', boxShadow: '0 8px 0 rgba(0,0,0,0.45)'} as any}>{h[2]}</div>)}</div>
         </div>
         <div style={{marginTop: 30, transform: `scale(${popT(t, 0.8, 9)}) rotate(-2deg)`, background: YELLOW, border: `9px solid ${INK}`, borderRadius: 28, padding: '10px 50px 2px', ...font, fontSize: 84, color: INK}}>BUT WITH SUPERPOWERS ⚡</div>
         <div style={{marginTop: 22, ...font, fontSize: 44, color: '#fff', textShadow: `4px 4px 0 ${INK}`, opacity: lerp(t, 1.4, 1.8, 0, 1)}}>ONLY ONE ARMY SURVIVES · GUESS WHO IN THE COMMENTS 👇</div>
@@ -1537,7 +1542,12 @@ const DuelExtra: React.FC<{t: number}> = ({t}) => {
   }
   // registro de capturas (como el battle royale)
   const fd = ((Dd.feed || []) as any[]).filter((f) => f[0] <= t && t < f[0] + 9).slice(-5);
-  if (t > (Dd.hud[0] || 0) + 1 && t < X.D.winT) out.push(<div key="feed" style={{position: 'absolute', left: 22, bottom: 150, zIndex: 33, display: 'flex', flexDirection: 'column', gap: 6}}>
+  const miniOn = ((Dd.minis || []) as any[]).some((m) => t >= m.t0 - 0.3 && t < m.t1 + 0.5);
+  for (const [w0, wt] of (Dd.where || []) as any[]) { if (t < w0 || t > w0 + 3.6) continue;
+    out.push(<div key={'wh' + w0} style={{position: 'absolute', left: 0, right: 0, top: 300, zIndex: 36, display: 'flex', justifyContent: 'center', opacity: lerp(t, w0 + 3.2, w0 + 3.6, 1, 0)}}>
+      <div style={{transform: `scale(${popT(t, w0, 11)})`, background: 'rgba(14,20,32,0.9)', border: `5px solid #fff`, borderRadius: 40, padding: '6px 26px 0', ...font, fontSize: 40, color: '#fff', textShadow: `3px 3px 0 ${INK}`, whiteSpace: 'nowrap'}}>{wt}</div>
+    </div>); }
+  if (!miniOn && t > (Dd.hud[0] || 0) + 1 && t < X.D.winT) out.push(<div key="feed" style={{position: 'absolute', left: 22, bottom: 150, zIndex: 33, display: 'flex', flexDirection: 'column', gap: 6}}>
     {fd.map((f, i) => { const a = popT(t, f[0], 12) * lerp(t, f[0] + 8.4, f[0] + 9, 1, 0); return (
       <div key={f[0] + '' + i} style={{transform: `translateX(${(1 - a) * -260}px)`, opacity: a, display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(14,20,32,0.88)', border: `3px solid ${INK}`, borderRadius: 10, padding: '4px 12px 0'}}>
         <FlagImg k={f[1]} w={40} h={28} /><span style={{...font, fontSize: 28, color: f[3] || YELLOW}}>{f[2]}</span>
