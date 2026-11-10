@@ -15,6 +15,7 @@ import {ThumbWC} from './ThumbsWC';
 import WCTL from './wc-tl.json';
 import {WarBRA, ThumbBRA} from './War11';
 import BRATL from './bra-tl.json';
+import {ThumbInid} from './ThumbsInid';
 import {WarCont as WarAsia1} from './War12';
 import {ThumbAsia1} from './ThumbsAsia1';
 import A1TL from './asia1-tl.json';
@@ -131,6 +132,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-tri" component={Indo2} durationInFrames={indoFrames('tri')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'tri'}} />
     <Composition id="V-euarmy" component={Indo2} durationInFrames={indoFrames('euarmy')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'euarmy'}} />
     <Composition id="V-rare" component={Indo2} durationInFrames={indoFrames('rare')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'rare'}} />
+    {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-inid-${v}`} component={ThumbInid} durationInFrames={indoFrames('inid')} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
     <Composition id="V-inid" component={Indo2} durationInFrames={indoFrames('inid')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'inid'}} />
     <Composition id="V-inpk" component={Indo2} durationInFrames={indoFrames('inpk')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'inpk'}} />
     <Composition id="V-kor" component={Indo2} durationInFrames={indoFrames('kor')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'kor'}} />
