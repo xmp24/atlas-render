@@ -14,6 +14,8 @@ import JU from './hw/usa.json';
 import JL from './hw/latam.json';
 import JH from './hw/hormuz.json';
 import J_breu from './hw/breu.json';
+import J_wbram from './hw/wbram.json';
+import J_wbsa from './hw/wbsa.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -51,7 +53,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -271,7 +273,7 @@ const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
       </div>
       {/* días */}
       <div style={{position: 'absolute', top: 18, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 20, transform: `translateY(${(1 - show) * -120}px)`}}>
-        <Pill bg="#1b1f2b" style={{padding: '4px 22px 0', ...font, fontSize: 40, color: YELLOW, border: `4px solid ${RED}`}}>📅 DAY {day}</Pill>
+        {!D.wbr && <Pill bg="#1b1f2b" style={{padding: '4px 22px 0', ...font, fontSize: 40, color: YELLOW, border: `4px solid ${RED}`}}>📅 DAY {day}</Pill>}
       </div>
       {ch && <div style={{position: 'absolute', top: 20, right: 20 + (1 - show) * -600, zIndex: 20}}><Pill bg={YELLOW} style={{padding: '4px 16px 0', ...font, fontSize: 26, color: INK}}>{(D.chapters as any[]).indexOf(ch) + 1} · {ch[1]}</Pill></div>}
       {sk && sn > 1 && (
@@ -629,7 +631,7 @@ const Roulettes: React.FC<{t: number}> = ({t}) => {
 const POWERS0 = ['TSUNAMI', 'EMP', 'LASER', 'CLONES', 'MIND', 'QUAKE', 'FREEZE', 'NUKE'];
 const POWERSU = ['TSUNAMI', 'EMP', 'BLACKOUT', 'CLONES', 'LASER', 'QUAKE', 'FREEZE', 'DRONES'];
 const Reveal: React.FC<{t: number}> = ({t}) => {
-  const r = X.D.reveal; if (t < r.t0 || t > r.t1) return null;
+  const r = X.D.reveal; if (!r || t < r.t0 || t > r.t1) return null;
   const tl = r.t0 + 1.0, ts = tl + 0.2, te = ts + 1.8;
   const a = lerp(t, r.t0, r.t0 + 0.3, 0, 1) * lerp(t, r.t1 - 0.4, r.t1, 1, 0);
   const pick = 2, seg = 45; const total = 360 * 3 + (360 - (pick * seg + seg / 2));
@@ -839,7 +841,7 @@ const HudBR: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
         </div>
       </div>
       <div style={{position: 'absolute', top: 18, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 20, transform: `translateY(${(1 - show) * -120}px)`}}>
-        <Pill bg="#1b1f2b" style={{padding: '4px 22px 0', ...font, fontSize: 40, color: YELLOW, border: `4px solid ${RED}`}}>📅 DAY {day}</Pill>
+        {!D.wbr && <Pill bg="#1b1f2b" style={{padding: '4px 22px 0', ...font, fontSize: 40, color: YELLOW, border: `4px solid ${RED}`}}>📅 DAY {day}</Pill>}
       </div>
       {ch && <div style={{position: 'absolute', top: 20, right: 20 + (1 - show) * -600, zIndex: 20}}><Pill bg={YELLOW} style={{padding: '4px 16px 0', ...font, fontSize: 26, color: INK}}>ROUND {(D.chapters as any[]).indexOf(ch) + 1} · {ch[1]}</Pill></div>}
       <div style={{position: 'absolute', left: 20 + (1 - show) * -500, bottom: 20, zIndex: 20, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}>
@@ -1376,6 +1378,144 @@ const bolt = (x0: number, y0: number, x1: number, y1: number, seed: number) => {
   for (let i = 0; i <= n; i++) { const f = i / n; const j = i === 0 || i === n ? 0 : (hsh(seed * 31 + i) - 0.5) * 90 * (1 - f * 0.5); pts.push(`${x0 + (x1 - x0) * f + j},${y0 + (y1 - y0) * f}`); }
   return pts.join(' ');
 };
+
+// ================= Battle royale de ruletas (wbr) =================
+const wbrSeg = (w: number[]) => { const tot = w.reduce((a, b) => a + b, 0); let acc = 0; return w.map((x) => { const a0 = (acc / tot) * 360; acc += x; return [a0, (acc / tot) * 360]; }); };
+const WWheel: React.FC<{items: string[]; w: number[]; cols: string[]; rot: number; R: number; cx: number; cy: number; fs: number; pct?: boolean}> = ({items, w, cols, rot, R, cx, cy, fs, pct}) => {
+  const sg = wbrSeg(w); const tot = w.reduce((a, b) => a + b, 0);
+  return (
+    <g transform={`translate(${cx},${cy})`}>
+      <circle r={R + 24} fill={INK} /><circle r={R + 14} fill="#ffd23f" />
+      {Array.from({length: 24}).map((_, i) => <circle key={i} cx={Math.cos((i / 24) * Math.PI * 2) * (R + 19)} cy={Math.sin((i / 24) * Math.PI * 2) * (R + 19)} r={5} fill={i % 2 ? '#fff' : RED} />)}
+      <g transform={`rotate(${rot})`}>
+        {sg.map(([d0, d1], i) => {
+          const a0 = ((d0 - 90) * Math.PI) / 180, a1 = ((d1 - 90) * Math.PI) / 180, am = (a0 + a1) / 2; const big = d1 - d0 > 180 ? 1 : 0;
+          const span = d1 - d0; const f = Math.min(fs, fs * Math.max(0.55, span / 70));
+          return (
+            <g key={i}>
+              <path d={`M0,0 L${Math.cos(a0) * R},${Math.sin(a0) * R} A${R},${R} 0 ${big},1 ${Math.cos(a1) * R},${Math.sin(a1) * R} Z`} fill={cols[i % cols.length]} stroke={INK} strokeWidth={5} />
+              <g transform={`translate(${Math.cos(am) * R * 0.6},${Math.sin(am) * R * 0.6}) rotate(${(am * 180) / Math.PI + (Math.cos(am) < 0 ? 180 : 0)})`}>
+                <text textAnchor="middle" y={f * 0.35} fontSize={f} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={INK} strokeWidth={6} paintOrder="stroke">{items[i].length > 13 ? items[i].slice(0, 12) + '.' : items[i]}</text>
+                {pct && <text textAnchor="middle" y={f * 0.35 + f * 0.95} fontSize={f * 0.75} style={{fontFamily: 'Lilita'}} fill="#ffe680" stroke={INK} strokeWidth={5} paintOrder="stroke">{Math.round((w[i] / tot) * 100)}%</text>}
+              </g>
+            </g>
+          );
+        })}
+      </g>
+      <circle r={42} fill={INK} /><circle r={34} fill="#ffd23f" /><text textAnchor="middle" y={13} fontSize={34} style={{fontFamily: 'Lilita'}} fill={INK}>VS</text>
+      <path d={`M-26,${-R - 52} L26,${-R - 52} L0,${-R + 8} Z`} fill="#ff5fa2" stroke={INK} strokeWidth={6} strokeLinejoin="round" />
+    </g>
+  );
+};
+const wbrRot = (r: any, t: number) => {
+  const sg = wbrSeg(r.w); const [a0, a1] = sg[r.pick]; const span = a1 - a0; const se = r.t0 + (r.t1 - r.t0) * 0.66;
+  if (r.style === 'nearmiss') {
+    const a = a1 - 0.07 * span; const target = 360 * 5 + 360 - a; const pre = target - 0.2 * span - 6; const tp = r.t0 + (se - r.t0) * 0.82;
+    return t < tp ? pre * lerp(t, r.t0 + 0.1, tp, 0, 1, Easing.out(Easing.cubic)) : pre + (target - pre) * lerp(t, tp + 0.3, se, 0, 1, Easing.inOut(Easing.quad));
+  }
+  const a = a0 + span * (0.25 + 0.5 * hsh(r.t0 * 7.3)); return (360 * 5 + 360 - a) * lerp(t, r.t0 + 0.1, se, 0, 1, Easing.out(Easing.cubic));
+};
+const WbrHud: React.FC<{t: number}> = ({t}) => {
+  const WB = X.D.wbr; if (!WB) return null; const out: React.ReactNode[] = [];
+  const S_ = SHORT; const CX = VW / 2;
+  // selector tipo tragaperras
+  const s = (WB.sel as any[]).find((x) => t >= x[0] - 0.25 && t < x[1] + 0.35);
+  if (s) {
+    const [t0, t1, lst, pick, n] = s; const a = lerp(t, t0 - 0.25, t0 + 0.1, 0, 1) * lerp(t, t1, t1 + 0.35, 1, 0);
+    const p = pick * lerp(t, t0 + 0.1, t1 - 0.7, 0, 1, Easing.out(Easing.cubic)); const base = Math.floor(p); const fr = p - base; const rh = S_ ? 92 : 76; const done = t > t1 - 0.7;
+    const W_ = S_ ? 760 : 600;
+    out.push(<AbsoluteFill key="sel" style={{zIndex: 41, background: `rgba(4,8,18,${0.45 * a})`, opacity: a}}>
+      <div style={{position: 'absolute', left: CX - W_ / 2, top: VH / 2 - rh * 3.1, width: W_, height: rh * 5 + 70, background: 'linear-gradient(180deg,#141b2e,#0b101d)', border: '6px solid #ffd23f', borderRadius: 28, boxShadow: '0 0 40px rgba(255,210,63,0.45), 0 14px 0 rgba(0,0,0,0.5)', overflow: 'hidden', transform: `scale(${popT(t, t0 - 0.2, 12)})`}}>
+        <div style={{position: 'absolute', top: 0, left: 0, right: 0, height: 52, background: '#ffd23f', display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: S_ ? 32 : 26, color: INK}}>🎲 SELECTION POOL · {n} COUNTRIES</div>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 60, height: rh * 5, overflow: 'hidden'}}>
+          {[-3, -2, -1, 0, 1, 2, 3].map((d) => { const i = base + d; if (i < 0 || i >= lst.length) return null; const y = (d - fr + 2) * rh; const ctr = Math.abs(d - fr) < 0.5;
+            return <div key={i} style={{position: 'absolute', left: 18, right: 18, top: y + 4, height: rh - 8, display: 'flex', alignItems: 'center', gap: 16, padding: '0 18px', borderRadius: 14, background: ctr ? (done ? 'rgba(255,210,63,0.95)' : 'rgba(255,255,255,0.14)') : 'rgba(255,255,255,0.05)', opacity: 1 - Math.min(0.75, Math.abs(d - fr) * 0.3)}}>
+              <FlagImg k={lst[i]} w={S_ ? 74 : 60} h={S_ ? 50 : 40} /><span style={{...font, fontSize: S_ ? 46 : 38, color: ctr && done ? INK : '#fff', whiteSpace: 'nowrap'}}>{SNAME(lst[i])}</span></div>; })}
+          <div style={{position: 'absolute', left: 10, right: 10, top: rh * 2, height: rh, border: '5px solid #ffd23f', borderRadius: 16, boxShadow: '0 0 24px #ffd23f'}} />
+        </div>
+      </div>
+      {done && <div style={{position: 'absolute', left: 0, right: 0, top: VH / 2 + rh * 2.4 + 40, display: 'flex', justifyContent: 'center'}}><div style={{transform: `scale(${popT(t, t1 - 0.7, 9)})`, background: INK, border: '5px solid #ffd23f', borderRadius: 20, padding: '8px 26px 2px', ...font, fontSize: S_ ? 48 : 40, color: '#ffd23f', display: 'flex', alignItems: 'center', gap: 14}}><FlagImg k={lst[pick]} w={56} h={38} />SELECTED: {SNAME(lst[pick])}</div></div>}
+    </AbsoluteFill>);
+  }
+  // ruleta activa
+  const r = (WB.wheels as any[]).find((x) => t >= x.t0 - 0.25 && t < x.t1 + 0.3);
+  if (r) {
+    const a = lerp(t, r.t0 - 0.25, r.t0 + 0.05, 0, 1) * lerp(t, r.t1, r.t1 + 0.3, 1, 0); const se = r.t0 + (r.t1 - r.t0) * 0.66;
+    const R = S_ ? 300 : r.kind === 'war' ? 250 : 235; const cx = S_ ? CX : VW - 400; const cy = S_ ? VH - 640 : 590;
+    const nm = r.style === 'nearmiss' && t > r.t0 + (se - r.t0) * 0.8 && t < se + 0.15;
+    out.push(<div key="wh" style={{position: 'absolute', inset: 0, zIndex: 40, opacity: a, pointerEvents: 'none'}}>
+      <div style={{position: 'absolute', left: cx - 340, width: 680, top: cy - R - 128, textAlign: 'center', ...font, fontSize: S_ ? 56 : 44, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>{r.title}</div>
+      <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, transform: `scale(${popT(t, r.t0 - 0.25, 12)})`, transformOrigin: `${cx}px ${cy}px`}}><WWheel items={r.items} w={r.w} cols={r.cols} rot={wbrRot(r, t)} R={R} cx={cx} cy={cy} fs={r.kind === 'war' ? 34 : 30} pct={r.kind === 'war'} /></svg>
+      {nm && <div style={{position: 'absolute', left: cx - 300, width: 600, top: cy - 60, textAlign: 'center', ...font, fontSize: 96, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, transform: `rotate(-6deg) scale(${1 + 0.1 * Math.sin(t * 20)})`}}>WAIT... 😱</div>}
+      {t > se && <div style={{position: 'absolute', left: cx - 420, width: 840, top: cy + R + 40, display: 'flex', justifyContent: 'center'}}><div style={{transform: `scale(${popT(t, se, 9)})`, background: r.rcol || YELLOW, border: `7px solid ${INK}`, borderRadius: 22, padding: '8px 28px 2px', ...font, fontSize: S_ ? 58 : 46, color: r.kind === 'war' ? INK : '#fff', textShadow: r.kind === 'war' ? 'none' : `3px 3px 0 ${INK}`, whiteSpace: 'nowrap', boxShadow: '0 10px 0 rgba(0,0,0,0.4)'}}>{r.result}</div></div>}
+    </div>);
+  }
+  // cabecera
+  const h = [...(WB.hdr as any[])].reverse().find((x) => t >= x.t0 && t < x.t1);
+  if (h) {
+    const a = popT(t, h.t0, 13); const top = S_ ? 250 : 16;
+    let body: React.ReactNode = null;
+    if (h.kind === 'vs') {
+      const v = WB.vs[h.i]; const fa = v.fa; const se = v.t0 + 0.3 + (v.t1 - v.t0 - 0.5) * 0.66; const fin = t > se;
+      body = (<div style={{width: S_ ? 1000 : 1020, background: 'rgba(12,16,28,0.94)', border: '5px solid #fff', borderRadius: 24, padding: '8px 18px 10px'}}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', ...font, color: '#fff'}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: 10}}>{(v.a as number[]).map((k) => <FlagImg key={k} k={k} w={52} h={36} />)}<div><div style={{fontSize: 36, lineHeight: 1}}>{v.an}</div><div style={{...font2, fontSize: 18, color: '#ffd23f'}}>{fmt(v.pa)} POWER</div></div></div>
+          <div style={{width: 64, height: 64, borderRadius: 32, background: '#ff5fa2', border: `5px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 30, color: '#fff', transform: `scale(${1 + 0.08 * Math.sin(t * 8)})`}}>VS</div>
+          <div style={{display: 'flex', alignItems: 'center', gap: 10, flexDirection: 'row-reverse', textAlign: 'right'}}>{(v.b as number[]).map((k) => <FlagImg key={k} k={k} w={52} h={36} />)}<div><div style={{fontSize: 36, lineHeight: 1}}>{v.bn}</div><div style={{...font2, fontSize: 18, color: '#ffd23f'}}>{fmt(v.pb)} POWER</div></div></div>
+        </div>
+        <div style={{marginTop: 8, height: 30, borderRadius: 15, overflow: 'hidden', display: 'flex', border: `4px solid ${INK}`, ...font, fontSize: 20, color: '#fff'}}>
+          <div style={{width: `${fa * 100}%`, background: fin && v.win === 1 ? '#7a2020' : '#e5322d', paddingLeft: 10, display: 'flex', alignItems: 'center'}}>{Math.round(fa * 100)}% WIN</div>
+          <div style={{flex: 1, background: fin && v.win === 0 ? '#183a7a' : '#1f6fe0', paddingRight: 10, display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>{Math.round((1 - fa) * 100)}% WIN</div>
+        </div>
+        {h.spin && <div style={{textAlign: 'center', ...font, fontSize: 26, color: '#ffd23f', marginTop: 4}}>SPIN {h.spin} OF 3 · SCORE {h.score[0]} - {h.score[1]}</div>}
+      </div>);
+    } else if (h.kind === 'win') {
+      body = (<div style={{display: 'flex', alignItems: 'center', gap: 18, background: 'linear-gradient(180deg,#ffe680,#ffb800)', border: `6px solid ${INK}`, borderRadius: 24, padding: '8px 26px 4px', boxShadow: '0 0 40px rgba(255,200,40,0.7)'}}>
+        <FlagImg k={h.lk} w={64} h={44} style={{filter: 'grayscale(1)', opacity: 0.7}} />
+        <div style={{textAlign: 'center'}}><div style={{...font, fontSize: S_ ? 54 : 50, color: INK, lineHeight: 1}}>🏆 {h.text}</div><div style={{...font2, fontSize: 22, color: INK}}>{h.sub}</div></div>
+        <FlagImg k={h.k} w={64} h={44} /></div>);
+    } else {
+      body = (<div style={{display: 'flex', alignItems: 'center', gap: 16, background: 'rgba(12,16,28,0.94)', border: `5px solid ${h.col || '#ffd23f'}`, borderRadius: 24, padding: '8px 26px 4px', maxWidth: VW - 60}}>
+        {h.k !== undefined && <FlagImg k={h.k} w={60} h={40} />}
+        <div><div style={{...font, fontSize: S_ ? 46 : 40, color: h.kind === 'event' ? '#fff' : '#ffd23f', lineHeight: 1.05, whiteSpace: 'nowrap'}}>{h.text}</div>{h.sub && <div style={{...font2, fontSize: S_ ? 26 : 22, color: '#cfd6e6'}}>{h.sub}</div>}</div></div>);
+    }
+    out.push(<div key="hdr" style={{position: 'absolute', left: 0, right: 0, top, zIndex: 39, display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - a) * -60}px)`, opacity: a}}>{body}</div>);
+  }
+  // reglas
+  for (const [r0, r1, rows] of (WB.rules || []) as any[]) {
+    if (t < r0 - 0.2 || t > r1 + 0.3) continue; const a = lerp(t, r1, r1 + 0.3, 1, 0);
+    out.push(<div key="rules" style={{position: 'absolute', left: 0, right: 0, bottom: S_ ? 300 : 70, zIndex: 45, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, opacity: a, padding: '0 20px'}}>
+      {(rows as string[][]).map(([ic, tx], i) => { const ti = r0 + i * 0.45; if (t < ti) return null; return (
+        <div key={i} style={{transform: `scale(${popT(t, ti, 11)}) rotate(${i % 2 ? 1.5 : -1.5}deg)`, display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: `5px solid ${INK}`, borderRadius: 20, padding: '5px 14px 1px', boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}>
+          <span style={{width: 40, height: 40, borderRadius: 20, background: INK, color: YELLOW, ...font, fontSize: 28, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{i + 1}</span>
+          <span style={{fontSize: 32}}>{ic}</span><span style={{...font, fontSize: 30, color: INK, whiteSpace: 'nowrap'}}>{tx}</span>
+        </div>); })}
+    </div>);
+  }
+  return <>{out}</>;
+};
+const WbrFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const WB = X.D.wbr; if (!WB) return null; const out: React.ReactNode[] = [];
+  for (const [t0, t1, x, y, ang, r] of WB.cmp as any[]) {
+    if (t < t0 - 0.2 || t > t1 + 0.4) continue;
+    const [sx, sy] = toS(x, y, cam); const R = Math.max(80, Math.min(320, r * cam.s)); const a = lerp(t, t0 - 0.2, t0 + 0.1, 0, 1) * lerp(t, t1, t1 + 0.4, 1, 0);
+    const an = ang - 720 - 47 + (720 + 47) * lerp(t, t0 + 0.1, t1 - 0.5, 0, 1, Easing.out(Easing.cubic)); const rad = (an * Math.PI) / 180; const L = R * 1.35;
+    const tx = sx + Math.cos(rad) * L, ty = sy + Math.sin(rad) * L; const lock = t > t1 - 0.5;
+    out.push(<g key={'c' + t0} opacity={a}>
+      <circle cx={sx} cy={sy} r={R} fill="rgba(20,180,255,0.10)" stroke="#5fd4ff" strokeWidth={6} strokeDasharray="22 14" transform={`rotate(${t * 40} ${sx} ${sy})`} />
+      <circle cx={sx} cy={sy} r={R * 0.25} fill="none" stroke="#5fd4ff" strokeWidth={4} />
+      <line x1={sx} y1={sy} x2={tx} y2={ty} stroke={INK} strokeWidth={22} strokeLinecap="round" />
+      <line x1={sx} y1={sy} x2={tx} y2={ty} stroke={lock ? '#ff3b3b' : '#5fd4ff'} strokeWidth={12} strokeLinecap="round" strokeDasharray={lock ? undefined : '30 12'} />
+      <polygon points={`${tx + Math.cos(rad) * 40},${ty + Math.sin(rad) * 40} ${tx + Math.cos(rad + 2.5) * 34},${ty + Math.sin(rad + 2.5) * 34} ${tx + Math.cos(rad - 2.5) * 34},${ty + Math.sin(rad - 2.5) * 34}`} fill={lock ? '#ff3b3b' : '#5fd4ff'} stroke={INK} strokeWidth={6} strokeLinejoin="round" />
+      {lock && <circle cx={tx} cy={ty} r={30 + 40 * ((t - (t1 - 0.5)) % 0.6)} fill="none" stroke="#ff3b3b" strokeWidth={6} opacity={1 - ((t - (t1 - 0.5)) % 0.6) / 0.6} />}
+    </g>);
+  }
+  for (const [t0, x, y, txt, col] of WB.pops as any[]) {
+    const d = t - t0; if (d < 0 || d > 2.0) continue; const [sx, sy] = toS(x, y, cam);
+    out.push(<text key={'p' + t0 + txt} x={sx} y={sy - 40 - d * 50} textAnchor="middle" fontSize={64 * popT(t, t0, 10)} style={{fontFamily: 'Lilita'}} fill={col} stroke={INK} strokeWidth={9} paintOrder="stroke" opacity={lerp(d, 1.5, 2.0, 1, 0)}>{txt}</text>);
+  }
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, pointerEvents: 'none'}}>{out}</svg>;
+};
 const PowerFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const Dd = X.D.duel; if (!Dd) return null;
   const out: React.ReactNode[] = [];
@@ -1630,6 +1770,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
           <Arrows t={t} cam={camL} />
           <Laser t={t} cam={camL} />
           <PowerFX t={t} cam={camL} />
+          <WbrFX t={t} cam={camL} />
           <BossFX t={t} cam={camL} />
           {!CO && !noHud && <>
           {t < D.winT + 0.3 && <Labels t={t} cam={camL} />}
@@ -1672,6 +1813,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <Cards t={t} />
       <Ranking t={t} />
       <Roulettes t={t} />
+      <WbrHud t={t} />
       <DuelHud t={t} />
       <PowerBanner t={t} />
       <DuelSpin t={t} />

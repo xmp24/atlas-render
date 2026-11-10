@@ -924,3 +924,49 @@ export const ThumbIID3: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+const PixEyes: React.FC<{x: number; y: number; r: number}> = ({x, y, r}) => {
+  const eye = (dx: number, flip: number) => (
+    <g transform={`translate(${x + dx},${y}) scale(${flip},1)`}>
+      <path d={`M ${-r} ${-r * 0.7} L ${r * 0.95} ${-r * 0.1} Q ${r * 1.0} ${r * 0.85} ${0} ${r * 0.85} Q ${-r * 1.05} ${r * 0.85} ${-r} ${-r * 0.7} Z`} fill="#fff" stroke="#111" strokeWidth={r * 0.16} strokeLinejoin="round" />
+      <circle cx={r * 0.12} cy={r * 0.28} r={r * 0.44} fill="#e0261d" />
+      <path d={`M ${r * 0.12} ${-r * 0.08} C ${r * 0.34} ${r * 0.2} ${r * 0.36} ${r * 0.52} ${r * 0.12} ${r * 0.58} C ${-r * 0.12} ${r * 0.52} ${-r * 0.1} ${r * 0.2} ${r * 0.12} ${-r * 0.08} Z`} fill="#ffd43b" />
+    </g>
+  );
+  return <g style={{filter: 'drop-shadow(0 6px 0 rgba(0,0,0,0.45))'}}>{eye(-r * 1.25, 1)}{eye(r * 1.25, -1)}</g>;
+};
+export const ThumbIID4: React.FC = () => {
+  const [h] = React.useState(() => delayRender('font'));
+  React.useEffect(() => { const f = new FontFace('Silk', `url(${staticFile('pix700.woff2')})`); f.load().then((ff) => { (document as any).fonts.add(ff); continueRender(h); }); }, []);
+  const cam = {cx: 1462, cy: 562, s: 4.3};
+  const sc = (lon: number, lat: number) => { const p = proj([lon, lat]) as [number, number]; return [960 + (p[0] - cam.cx) * cam.s, 540 + (p[1] - cam.cy) * cam.s]; };
+  const E: [number, number][] = [[77.8, 23.2], [114.2, -0.4]];
+  const PIX = (txt: string, size: number, top: string, bot: string, out: string) => {
+    const st = (n: number) => Array.from({length: n}, (_, i) => `${(i % 2 ? 1 : -1) * 0}px ${i + 1}px 0 ${out}`).join(',');
+    const ring = [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]].map(([a, b]) => `${a * size * 0.06}px ${b * size * 0.06}px 0 #160b05`).join(',');
+    return (
+      <div style={{position: 'relative', fontFamily: 'Silk', fontWeight: 700, fontSize: size, lineHeight: 1, whiteSpace: 'nowrap', letterSpacing: size * 0.02}}>
+        <span style={{position: 'absolute', left: 0, top: 0, color: '#160b05', textShadow: `${ring}, 0 ${size * 0.12}px 0 #160b05, 0 0 ${size * 0.25}px rgba(0,0,0,0.85)`}}>{txt}</span>
+        <span style={{position: 'absolute', left: 0, top: 0, color: out, transform: `translateY(${size * 0.035}px)`}}>{txt}</span>
+        <span style={{position: 'relative', background: `linear-gradient(180deg, ${top} 0%, ${top} 46%, ${bot} 54%, ${bot} 100%)`, WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent'}}>{txt}</span>
+        <span style={{position: 'absolute', left: 0, top: 0, background: 'linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.55) 9%, rgba(255,255,255,0) 10%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent'}}>{txt}</span>
+      </div>
+    );
+  };
+  return (
+    <AbsoluteFill style={{background: '#1d5e9f', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', inset: 0, filter: 'saturate(1.3) brightness(1.02)'}}><Ocean t={0} /><WorldMap t={0} cam={cam} dbg={{noFaces: true}} /></div>
+      <SIL cx={cam.cx} cy={cam.cy} s={cam.s} cs={[['IN', '#111'], ['ID', '#111']]} lines />
+      <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
+        {([[110, 26.5, 62], [96.5, 21.5, 34], [101, 15.5, 30], [122.5, 12, 26], [104.8, 12.6, 20]] as number[][]).map(([lo, la, r], k) => <PixEyes key={k} x={sc(lo, la)[0]} y={sc(lo, la)[1]} r={r} />)}
+        <PixEyes x={sc(...E[0])[0]} y={sc(...E[0])[1]} r={110} />
+        <PixEyes x={sc(...E[1])[0]} y={sc(...E[1])[1]} r={100} />
+      </svg>
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 100%)'}} />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 250, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20}}>
+        {PIX('INDIA VS', 175, '#ffe680', '#e8b21c', '#a8660a')}
+        {PIX('INDONESIA', 290, '#ff5a4a', '#d81f1f', '#7d0b0b')}
+      </div>
+    </AbsoluteFill>
+  );
+};

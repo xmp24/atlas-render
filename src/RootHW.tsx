@@ -19,7 +19,7 @@ import {ThumbInid} from './ThumbsInid';
 import {WarCont as WarAsia1} from './War12';
 import {ThumbAsia1} from './ThumbsAsia1';
 import A1TL from './asia1-tl.json';
-import {WarAS2, ThumbAS2, ThumbIID, ThumbIID2, ThumbIID3} from './War13';
+import {WarAS2, ThumbAS2, ThumbIID, ThumbIID2, ThumbIID3, ThumbIID4} from './War13';
 import A2TL from './asia2-tl.json';
 import {WarCont as WarAsia4} from './War14';
 import {ThumbAsia4} from './ThumbsAsia4';
@@ -87,6 +87,9 @@ export const RootHW: React.FC = () => (
     <Composition id="CpS3" component={Cup} durationInFrames={408} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[90.6, 3.0], [93.6, 5.6], [99.6, 5.0]], hook: ["THE UK PUSHED THEM", "INTO THE SEA..."], cta: ["WHO WINS", "THE WORLD WAR CUP?"]}} />
     <Composition id="CpS4" component={Cup} durationInFrames={480} fps={30} width={1080} height={1920} defaultProps={{audio: false, W: 1080, H: 1920, zf: 0.8, segs: [[315.2, 4.4], [341.6, 3.8], [347.5, 3.2], [358.5, 4.6]], hook: ["MISSILES", "VS FIGHTER JETS"], cta: ["THE FINAL:", "USA VS CHINA"]}} />
     <Composition id="V-brus" component={StatesBR} durationInFrames={BRUS_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
+    <Composition id="S-wbsa" component={Indo2} durationInFrames={indoFrames('wbsa')} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'wbsa', W: 1080, H: 1920, zf: 0.85, sdur: 81.3, hook: ['12 COUNTRIES', 'ONE WHEEL DECIDES'], cta: ['DID YOU GUESS', 'THE WINNER? 👇']}} />
+    <Composition id="S-wbca" component={Indo2} durationInFrames={900} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'wbram', W: 1080, H: 1920, zf: 0.8, segs: [[190.0, 3.6], [463.4, 2.6], [468.9, 3.6], [473.7, 3.0], [476.8, 8.2], [485.6, 9.0]], hook: ['CANADA VS THE USA', 'THE WHEEL DECIDES...'], cta: ['WHO WINS THE AMERICAS?', 'FULL BATTLE ON THE CHANNEL']}} />
+    <Composition id="V-wbram" component={Indo2} durationInFrames={indoFrames('wbram')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'wbram'}} />
     <Composition id="V-breu" component={Indo2} durationInFrames={indoFrames('breu')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'breu'}} />
     <Composition id="V-braf" component={Indo2} durationInFrames={indoFrames('braf')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'braf'}} />
     <Composition id="V-bras" component={Indo2} durationInFrames={indoFrames('bras')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'bras'}} />
@@ -122,6 +125,7 @@ export const RootHW: React.FC = () => (
     {['A', 'B', 'C'].map((v) => <Composition key={v} id={`TL-iid-${v}`} component={ThumbIID} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
     <Composition id="TL-iid-B2" component={ThumbIID2} durationInFrames={1} fps={30} width={1920} height={1080} />
     <Composition id="TL-iid-C3" component={ThumbIID3} durationInFrames={1} fps={30} width={1920} height={1080} />
+    <Composition id="TL-iid-D4" component={ThumbIID4} durationInFrames={1} fps={30} width={1920} height={1080} />
     <Composition id="V-lang" component={WarLang} durationInFrames={Math.round((LANGTL as any).duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="V-ww2" component={Indo2} durationInFrames={indoFrames('ww2')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'ww2'}} />
     <Composition id="V-swap" component={Indo2} durationInFrames={indoFrames('swap')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'swap'}} />
