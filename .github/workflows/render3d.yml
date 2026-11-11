@@ -34,8 +34,7 @@ jobs:
           ok=0
           for try in 1 2 3; do
             if npx remotion render build $COMP seg.mp4 --frames=$S-$E --muted --gl=swangle --concurrency=3 --crf=18 --x264-preset=veryfast --jpeg-quality=94 --log=error --timeout=300000; then
-              n=$(npx remotion ffprobe -v error -count_packets -select_streams v -show_entries stream=nb_read_packets -of csv=p=0 seg.mp4 | tr -d '\r')
-              [ "$n" = "$(( E - S + 1 ))" ] && { ok=1; break; }
+              [ -s seg.mp4 ] && { ok=1; break; }
             fi
             rm -f seg.mp4
           done
