@@ -21,6 +21,7 @@ import J_dbras2 from './hw/dbras2.json';
 import J_dbras3 from './hw/dbras3.json';
 import J_tlua from './hw/tlua.json';
 import J_tlde from './hw/tlde.json';
+import J_dbras4 from './hw/dbras4.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -58,7 +59,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -1419,7 +1420,7 @@ const wbrRot = (r: any, t: number) => {
     const a = a1 - 0.07 * span; const target = 360 * 5 + 360 - a; const pre = target - 0.2 * span - 6; const tp = r.t0 + (se - r.t0) * 0.82;
     return t < tp ? pre * lerp(t, r.t0 + 0.1, tp, 0, 1, Easing.out(Easing.cubic)) : pre + (target - pre) * lerp(t, tp + 0.3, se, 0, 1, Easing.inOut(Easing.quad));
   }
-  const a = a0 + span * (0.25 + 0.5 * hsh(r.t0 * 7.3)); return (360 * 5 + 360 - a) * lerp(t, r.t0 + 0.1, se, 0, 1, Easing.out(Easing.cubic));
+  const a = a0 + span * (0.25 + 0.5 * ((r.t0 * 7.3 * 1.618) % 1)); return (360 * 5 + 360 - a) * lerp(t, r.t0 + 0.1, se, 0, 1, Easing.out(Easing.cubic));
 };
 const WbrHud: React.FC<{t: number}> = ({t}) => {
   const WB = X.D.wbr; if (!WB) return null; const out: React.ReactNode[] = [];
@@ -1577,6 +1578,7 @@ const DbrHud: React.FC<{t: number}> = ({t}) => {
               </div>);
           })}
           <div style={{marginTop: S_ ? 5 : 8, textAlign: 'center', background: col, border: `4px solid ${INK}`, borderRadius: 14, ...font, fontSize: S_ ? 28 : 32, color: '#fff', textShadow: `3px 3px 0 ${INK}`, padding: '2px 0 0'}}>⚡ POWER {fmt(tot)}</div>
+          {d.wmod && d.wmod[side] !== 0 && <div style={{marginTop: 6, textAlign: 'center', transform: `scale(${popT(t, d.cnt[1] - 0.3, 9) * (1 + 0.05 * Math.sin(t * 8))})`, background: d.wmod[side] > 0 ? '#e8f6ff' : '#ff5a3a', border: `4px solid ${INK}`, borderRadius: 14, ...font, fontSize: S_ ? 26 : 30, color: d.wmod[side] > 0 ? '#1a5fa8' : '#fff', padding: '2px 0 0'}}>{d.wmod[side] > 0 ? '❄️' : '🔥'} STORM {d.wmod[side] > 0 ? '+' : ''}{Math.round(d.wmod[side] * 100)}%</div>}
         </div>);
     };
     out.push(<React.Fragment key="pa">{panel(0)}{panel(1)}</React.Fragment>);
@@ -1669,25 +1671,51 @@ const EvHud: React.FC<{t: number}> = ({t}) => {
   const DB = X.D.dbr; if (!DB || !DB.events) return null; const out: React.ReactNode[] = []; const S_ = SHORT;
   // reloj de cuenta atrás al próximo evento
   const evs = DB.events as any[]; const ev1end = DB.ev1 && DB.ev1.out ? DB.ev1.out[0] + 3.2 : 0;
-  const nxt = evs.find((e: any, i: number) => t < e[0] && (i === 0 ? t > X.D.war_t : t > ev1end));
-  if (nxt) {
-    const rem = nxt[0] - t;
+  const nxt = evs.find((e: any, i: number) => t < e[0] && (i === 0 ? t > X.D.war_t : t > (DB.ev1end ?? ev1end)));
+  const cds: any[] = [];
+  if (nxt) cds.push([nxt[0], '🎉 SPECIAL EVENT IN', '🎉 SPECIAL EVENT', '#ffd23f', 0]);
+  if (DB.wxcd && t > DB.wxcd[0] && t < DB.wxcd[1]) cds.push([DB.wxcd[1], '🌦️ WEATHER CHANGE IN', '🌧️ WEATHER CHANGE', '#5fd4ff', 1]);
+  for (const [tgt, lab, big, colw, slot] of cds) {
+    const rem = tgt - t;
     if (rem > 5) {
       const big = rem <= 60; const flash = rem <= 30 && Math.floor(t * 4) % 2 === 0;
       const sc = (big ? 1.25 : 0.9) * (rem <= 60 && rem > 59 ? popT(t, nxt[0] - 60, 8) : 1);
       const mm = Math.floor(rem / 60), ss = Math.floor(rem % 60);
-      out.push(<div key="evc" style={{position: 'absolute', right: S_ ? 20 : 22, bottom: S_ ? 760 : 120, zIndex: 46, transform: `scale(${sc})`, transformOrigin: 'right bottom'}}>
-        <div style={{background: rem <= 30 ? (flash ? '#ff2020' : '#fff') : 'rgba(12,16,28,0.94)', border: `5px solid ${rem <= 30 ? INK : '#ffd23f'}`, borderRadius: 18, padding: '6px 16px 2px', textAlign: 'center', boxShadow: rem <= 60 ? '0 0 26px rgba(255,210,63,0.6)' : undefined}}>
-          <div style={{...font, fontSize: 20, color: rem <= 30 ? (flash ? '#fff' : RED) : '#ffd23f'}}>🎉 SPECIAL EVENT IN</div>
+      out.push(<div key={'evc' + slot} style={{position: 'absolute', right: S_ ? 20 : 22, bottom: (S_ ? 760 : 120) + slot * 150, zIndex: 46, transform: `scale(${sc})`, transformOrigin: 'right bottom'}}>
+        <div style={{background: rem <= 30 ? (flash ? '#ff2020' : '#fff') : 'rgba(12,16,28,0.94)', border: `5px solid ${rem <= 30 ? INK : colw}`, borderRadius: 18, padding: '6px 16px 2px', textAlign: 'center', boxShadow: rem <= 60 ? '0 0 26px rgba(255,210,63,0.6)' : undefined}}>
+          <div style={{...font, fontSize: 20, color: rem <= 30 ? (flash ? '#fff' : RED) : colw}}>{lab}</div>
           <div style={{...font, fontSize: 46, color: rem <= 30 ? (flash ? '#fff' : INK) : '#fff', lineHeight: 1}}>{mm}:{String(ss).padStart(2, '0')}</div>
         </div></div>);
     } else {
       const n = Math.ceil(rem); const f = rem - Math.floor(rem);
-      out.push(<AbsoluteFill key="evbig" style={{zIndex: 47, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none'}}>
+      out.push(<AbsoluteFill key={'evbig' + slot} style={{zIndex: 47, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none'}}>
         <div style={{textAlign: 'center', transform: `scale(${1 + f * 0.6})`, opacity: 0.4 + 0.6 * f}}>
-          <div style={{...font, fontSize: 60, color: '#ffd23f', textShadow: `5px 5px 0 ${INK}`}}>🎉 SPECIAL EVENT</div>
+          <div style={{...font, fontSize: 60, color: colw, textShadow: `5px 5px 0 ${INK}`}}>{big}</div>
           <div style={{...font, fontSize: 300, color: n % 2 ? '#ff2b2b' : '#fff', textShadow: `14px 14px 0 ${INK}`, lineHeight: 1}}>{n}</div></div></AbsoluteFill>);
     }
+  }
+  // temporal
+  const WXd = DB.weather;
+  if (WXd && t >= WXd.t0 && t < WXd.t1 + 2) {
+    const a = lerp(t, WXd.t0, WXd.t0 + 1.0, 0, 1) * lerp(t, WXd.t1, WXd.t1 + 2, 1, 0);
+    const drops = Array.from({length: 140}, (_, i) => { const x0 = ((i * 137.5) % VW); const sp = 900 + (i % 7) * 120; const y = ((t * sp + i * 97) % (VH + 200)) - 100; return <line key={i} x1={x0 + y * 0.18} y1={y} x2={x0 + y * 0.18 + 9} y2={y + 46} stroke="rgba(190,215,255,0.55)" strokeWidth={2.4} />; });
+    out.push(<div key="rain" style={{position: 'absolute', inset: 0, zIndex: 30, opacity: a, pointerEvents: 'none', background: 'rgba(20,30,60,0.18)'}}><svg width={VW} height={VH}>{drops}</svg></div>);
+    if (t > WXd.t0 + 1.6 && t < WXd.intro[1]) {
+      const p = popT(t, WXd.t0 + 1.6, 10) * lerp(t, WXd.intro[1] - 0.3, WXd.intro[1], 1, 0); const alive_ = new Set<number>();
+      for (const k of X.D.parts as number[]) { let o = k; for (const e of X.D.elim as any[]) if (e[1] === k && e[0] <= t) o = -1; if (o >= 0) alive_.add(k); }
+      const grp = [[-0.25, '🔥 HOT', '#ff5a3a'], [-0.10, '🌤️ WARM', '#ffa53a'], [0.10, '🌥️ COOL', '#7fc8ff'], [0.25, '❄️ COLD', '#e8f6ff']];
+      out.push(<AbsoluteFill key="wxi" style={{zIndex: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: p}}>
+        <div style={{transform: `scale(${p})`, width: S_ ? VW - 40 : 1300, background: 'rgba(10,16,32,0.95)', border: '7px solid #5fd4ff', borderRadius: 28, padding: '14px 26px 18px'}}>
+          <div style={{textAlign: 'center', ...font, fontSize: 58, color: '#5fd4ff', textShadow: `4px 4px 0 ${INK}`}}>🌧️ STORM SEASON · RAIN & SNOW</div>
+          <div style={{textAlign: 'center', ...font2, fontSize: 26, color: '#fff', marginBottom: 10}}>FOR ~2 MINUTES THE WEATHER CHANGES EVERY WHEEL</div>
+          {grp.map(([m, lab, col]: any, gi) => { const ks = Object.entries(WXd.mods).filter(([c, v]: any) => Math.abs(v - m) < 0.001).map(([c]) => CODEK[c]).filter((k: number) => alive_.has(k));
+            return <div key={gi} style={{display: 'flex', alignItems: 'center', gap: 14, marginTop: 8, transform: `translateX(${(1 - popT(t, WXd.t0 + 1.9 + gi * 0.25, 10)) * -200}px)`}}>
+              <span style={{...font, fontSize: 36, color: col, width: 210}}>{lab}</span>
+              <span style={{...font, fontSize: 44, color: m > 0 ? '#4dff7a' : '#ff6b6b', width: 120}}>{m > 0 ? '+' : ''}{Math.round(m * 100)}%</span>
+              <div style={{display: 'flex', gap: 6, flexWrap: 'wrap', flex: 1}}>{ks.map((k: number) => <FlagImg key={k} k={k} w={52} h={35} />)}</div></div>; })}
+        </div></AbsoluteFill>);
+    }
+    if (t > WXd.intro[1]) out.push(<div key="wxp" style={{position: 'absolute', left: 18, bottom: S_ ? 300 : 26, zIndex: 41}}><Pill bg="rgba(10,16,32,0.92)" style={{padding: '4px 16px 0', border: '4px solid #5fd4ff', ...font, fontSize: 26, color: '#5fd4ff'}}>🌧️ STORM ACTIVE · ❄️ COLD +25% · 🔥 HOT -25%</Pill></div>);
   }
   // Evento 1: Capture the Base
   const E = DB.ev1;
