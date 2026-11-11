@@ -1679,7 +1679,7 @@ const EvHud: React.FC<{t: number}> = ({t}) => {
     const rem = tgt - t;
     if (rem > 5) {
       const big = rem <= 60; const flash = rem <= 30 && Math.floor(t * 4) % 2 === 0;
-      const sc = (big ? 1.25 : 0.9) * (rem <= 60 && rem > 59 ? popT(t, nxt[0] - 60, 8) : 1);
+      const sc = (big ? 1.25 : 0.9) * (rem <= 60 && rem > 59 ? popT(t, tgt - 60, 8) : 1);
       const mm = Math.floor(rem / 60), ss = Math.floor(rem % 60);
       out.push(<div key={'evc' + slot} style={{position: 'absolute', right: S_ ? 20 : 22, bottom: (S_ ? 760 : 120) + slot * 150, zIndex: 46, transform: `scale(${sc})`, transformOrigin: 'right bottom'}}>
         <div style={{background: rem <= 30 ? (flash ? '#ff2020' : '#fff') : 'rgba(12,16,28,0.94)', border: `5px solid ${rem <= 30 ? INK : colw}`, borderRadius: 18, padding: '6px 16px 2px', textAlign: 'center', boxShadow: rem <= 60 ? '0 0 26px rgba(255,210,63,0.6)' : undefined}}>
