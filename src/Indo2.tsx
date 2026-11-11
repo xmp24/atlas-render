@@ -19,6 +19,8 @@ import J_wbsa from './hw/wbsa.json';
 import J_dbras from './hw/dbras.json';
 import J_dbras2 from './hw/dbras2.json';
 import J_dbras3 from './hw/dbras3.json';
+import J_tlua from './hw/tlua.json';
+import J_tlde from './hw/tlde.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -56,7 +58,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -246,6 +248,7 @@ const Pill: React.FC<{children: React.ReactNode; bg?: string; style?: React.CSSP
 const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const D = X.D;
   if (D.duel) return null;
+  if (D.mode === 'tl') return <TlHud t={t} />;
   if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
   if (D.mode === 'camp') return <HudCamp t={t} cam={cam} />;
   const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
@@ -1786,6 +1789,41 @@ const EvFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   }
   return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, pointerEvents: 'none'}}>{out}</svg>;
 };
+
+// ================= timelapse (tl) =================
+const TlHud: React.FC<{t: number}> = ({t}) => {
+  const T = X.D.tlx; if (!T) return null; const S_ = SHORT;
+  const ks = T.keys as any[]; let i = 0; for (let j = 0; j < ks.length; j++) if (t >= ks[j][0]) i = j;
+  const k = ks[i]; const pct = kf(ks.map((x: any) => [x[0], x[3]]), t); const pop = popT(t, k[0], 12);
+  const ev = [...(T.events as any[])].reverse().find((e) => t >= e[0] && t < e[0] + e[2]);
+  return (<>
+    <div style={{position: 'absolute', left: 0, right: 0, top: S_ ? 210 : 20, zIndex: 40, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{...font, fontSize: S_ ? 50 : 46, color: '#fff', textShadow: `4px 4px 0 ${INK}`, textAlign: 'center', padding: '0 30px'}}>{T.title}</div>
+      <div style={{marginTop: 8, transform: `scale(${0.92 + 0.08 * pop})`, background: T.col, border: `7px solid ${INK}`, borderRadius: 26, padding: '6px 34px 0', ...font, fontSize: S_ ? 92 : 80, color: '#fff', textShadow: `5px 5px 0 ${INK}`, boxShadow: '0 12px 0 rgba(0,0,0,0.45)', minWidth: 420, textAlign: 'center'}}>{k[1]}</div>
+      <div style={{marginTop: 14, width: S_ ? VW - 120 : 760, background: 'rgba(12,16,28,0.92)', border: '5px solid #fff', borderRadius: 20, padding: '8px 16px 10px'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', ...font, fontSize: S_ ? 30 : 28, color: '#fff'}}><span>{T.barLabel}</span><span style={{color: T.col2 || '#ffd23f'}}>{pct.toFixed(T.dec ?? 1)}{T.unit ?? '%'}</span></div>
+        <div style={{marginTop: 6, height: 26, background: '#20283c', borderRadius: 13, overflow: 'hidden'}}><div style={{width: `${Math.min(100, pct / (T.max || 100) * 100)}%`, height: '100%', background: T.col}} /></div>
+      </div>
+    </div>
+    {ev && <div style={{position: 'absolute', left: 0, right: 0, bottom: S_ ? 420 : 110, zIndex: 41, display: 'flex', justifyContent: 'center', padding: '0 30px'}}>
+      <div style={{transform: `scale(${popT(t, ev[0], 10)}) rotate(-1.5deg)`, background: '#fff', border: `6px solid ${INK}`, borderRadius: 22, padding: '8px 24px 2px', ...font, fontSize: S_ ? 44 : 40, color: INK, textAlign: 'center', boxShadow: '0 10px 0 rgba(0,0,0,0.45)'}}>{ev[1]}</div></div>}
+    <div style={{position: 'absolute', left: 0, right: 0, bottom: S_ ? 300 : 30, zIndex: 41, textAlign: 'center', ...font2, fontSize: S_ ? 24 : 20, color: '#e8eefc', textShadow: `2px 2px 0 ${INK}`}}>{T.note}</div>
+  </>);
+};
+const TlFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const T = X.D.tlx; if (!T || !T.arrows) return null; const out: React.ReactNode[] = [];
+  for (const [t0, t1, x0, y0, x1, y1, col, icon] of T.arrows as any[]) {
+    if (t < t0 || t > t1 + 0.4) continue; const u = lerp(t, t0, t1, 0, 1, Easing.out(Easing.quad)); const a = lerp(t, t1, t1 + 0.4, 1, 0);
+    const [sx, sy] = toS(x0, y0, cam); const [ex, ey] = toS(x1, y1, cam); const x = sx + (ex - sx) * u, y = sy + (ey - sy) * u; const ang = Math.atan2(ey - sy, ex - sx);
+    out.push(<g key={t0 + '_' + x0} opacity={a}>
+      <line x1={sx} y1={sy} x2={x} y2={y} stroke={INK} strokeWidth={22} strokeLinecap="round" />
+      <line x1={sx} y1={sy} x2={x} y2={y} stroke={col} strokeWidth={13} strokeLinecap="round" />
+      <polygon points={`${x + Math.cos(ang) * 34},${y + Math.sin(ang) * 34} ${x + Math.cos(ang + 2.4) * 30},${y + Math.sin(ang + 2.4) * 30} ${x + Math.cos(ang - 2.4) * 30},${y + Math.sin(ang - 2.4) * 30}`} fill={col} stroke={INK} strokeWidth={6} strokeLinejoin="round" />
+      {icon && [0.3, 0.55, 0.8].map((q) => { const px = sx + (x - sx) * q, py = sy + (y - sy) * q; return <text key={q} x={px} y={py + 12 + 4 * Math.sin(t * 12 + q * 9)} textAnchor="middle" fontSize={34}>{icon}</text>; })}
+    </g>);
+  }
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, pointerEvents: 'none'}}>{out}</svg>;
+};
 const WbrFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const WB = X.D.wbr; if (!WB) return null; const out: React.ReactNode[] = [];
   for (const [t0, t1, x, y, ang, r] of WB.cmp as any[]) {
@@ -2058,12 +2096,13 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
     <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
       {showMap && (
         <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver}} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : COLD_END) ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver}} />
           <Arrows t={t} cam={camL} />
           <Laser t={t} cam={camL} />
           <PowerFX t={t} cam={camL} />
           <WbrFX t={t} cam={camL} />
           <EvFX t={t} cam={camL} />
+          <TlFX t={t} cam={camL} />
           <BossFX t={t} cam={camL} />
           {!CO && !noHud && <>
           {t < D.winT + 0.3 && <Labels t={t} cam={camL} />}
@@ -2074,7 +2113,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       )}
       {split && (
         <AbsoluteFill style={{clipPath: 'inset(0 0 0 50%)', transform: `translate(${shx}px,${shy}px)`}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > COLD_END ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver}} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : COLD_END) ? D.war : null, empire: t > COLD_END ? (D.mode === 'br' ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver}} />
           <Arrows t={t} cam={camR} />
         </AbsoluteFill>
       )}
