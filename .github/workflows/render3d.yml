@@ -1,0 +1,51 @@
+name: render3d
+run-name: render3d ${{ inputs.comp }} (${{ inputs.tag }})
+on:
+  workflow_dispatch:
+    inputs:
+      comp: {required: true}
+      frames: {required: true}
+      jobs: {default: '20'}
+      tag: {required: true}
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        i: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+    defaults:
+      run: {working-directory: lungs}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm ci --no-audit --no-fund
+      - run: npx remotion bundle src/index.ts --out-dir=build && npx remotion browser ensure
+      - name: Render
+        env: {I: '${{ matrix.i }}', N: '${{ inputs.jobs }}', TOTAL: '${{ inputs.frames }}', COMP: '${{ inputs.comp }}'}
+        run: |
+          set -e
+          PER=$(( (TOTAL + N - 1) / N )); S=$(( I * PER )); E=$(( S + PER - 1 )); [ $E -ge $TOTAL ] && E=$(( TOTAL - 1 ))
+          ok=0
+          for try in 1 2 3; do
+            if npx remotion render build $COMP seg.mp4 --frames=$S-$E --muted --gl=swangle --concurrency=4 --crf=18 --x264-preset=veryfast --jpeg-quality=94 --log=error; then
+              n=$(npx remotion ffprobe -v error -count_packets -select_streams v -show_entries stream=nb_read_packets -of csv=p=0 seg.mp4 | tr -d '\r')
+              [ "$n" = "$(( E - S + 1 ))" ] && { ok=1; break; }
+            fi
+            rm -f seg.mp4
+          done
+          [ $ok = 1 ]
+          openssl rand -hex 32 > k.txt
+          openssl pkeyutl -encrypt -pubin -inkey render_pub.pem -in k.txt -out k.enc
+          openssl enc -aes-256-cbc -pbkdf2 -pass file:k.txt -in seg.mp4 -out seg.bin
+          rm -f k.txt seg.mp4; mkdir -p ../out && mv seg.bin k.enc ../out/ && echo "$S $E" > ../out/range.txt
+      - name: Push
+        working-directory: out
+        run: |
+          git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm "seg ${{ matrix.i }}"
+          for t in 1 2 3 4 5 6 7 8 9 10; do git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/out-${{ inputs.tag }}-${{ matrix.i }} && exit 0; sleep $(( 5 + RANDOM % 15 + t * 4 )); done; exit 1
