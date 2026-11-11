@@ -18,6 +18,7 @@ import J_wbram from './hw/wbram.json';
 import J_wbsa from './hw/wbsa.json';
 import J_dbras from './hw/dbras.json';
 import J_dbras2 from './hw/dbras2.json';
+import J_dbras3 from './hw/dbras3.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -55,7 +56,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -1440,7 +1441,7 @@ const WbrHud: React.FC<{t: number}> = ({t}) => {
     </AbsoluteFill>);
   }
   // ruleta activa
-  const r = (WB.wheels as any[]).find((x) => x.kind !== 'duel' && t >= x.t0 - 0.25 && t < x.t1 + 0.3);
+  const r = (WB.wheels as any[]).find((x) => x.kind !== 'duel' && x.kind !== 'tb' && t >= x.t0 - 0.25 && t < x.t1 + 0.3);
   if (r) {
     const a = lerp(t, r.t0 - 0.25, r.t0 + 0.05, 0, 1) * lerp(t, r.t1, r.t1 + 0.3, 1, 0); const se = r.t0 + (r.t1 - r.t0) * 0.66;
     const R = S_ ? 300 : r.kind === 'war' ? 250 : 235; const cx = S_ ? CX : VW - 400; const cy = S_ ? VH - 640 : 590;
@@ -1498,8 +1499,11 @@ const WbrHud: React.FC<{t: number}> = ({t}) => {
 };
 
 // ================= Duelos al mejor de 5 (dbr) =================
-const DCATS = [['🪖', 'ARMY'], ['✈️', 'AIR FORCE'], ['⚓', 'NAVY'], ['🚀', 'MISSILES'], ['🎖️', 'ELITE']];
-const DATK = ['GROUND ASSAULT!', 'AIR STRIKE!', 'NAVAL STRIKE!', 'MISSILE BARRAGE!', 'SPECIAL FORCES!'];
+const DCATS = [['🪖', 'ARMY'], ['✈️', 'AIR FORCE'], ['⚓', 'NAVY'], ['🚀', 'MISSILES'], ['🛡️', 'TANKS'], ['💣', 'ARTILLERY'], ['🛸', 'DRONES'], ['🚁', 'HELICOPTERS'], ['🪂', 'PARATROOPERS']];
+const DCATS5 = [['🪖', 'ARMY'], ['✈️', 'AIR FORCE'], ['⚓', 'NAVY'], ['🚀', 'MISSILES'], ['🎖️', 'ELITE']];
+const TBN = [['👑', 'KING OF THE HILL', 'TIME IN THE ZONE'], ['🚩', 'CAPTURE THE FLAG', 'FLAG CARRIED HOME'], ['🎯', 'ELITE SHOOTOUT', 'ELITE SOLDIERS LEFT'], ['🏛️', 'CAPITAL RUSH', 'CAPITAL HP']];
+const DATK = ['GROUND ASSAULT!', 'AIR STRIKE!', 'NAVAL STRIKE!', 'MISSILE BARRAGE!', 'TANK ASSAULT!', 'ARTILLERY BARRAGE!', 'DRONE SWARM!', 'HELICOPTER RAID!', 'AIRBORNE ASSAULT!'];
+const kfHP = (hp: any[], t: number, side: number) => { let prev = 100, cur = 100, t0 = -1e9; for (const k of hp) { if (t < k[0]) break; prev = cur; cur = k[1 + side]; t0 = k[0]; } return {v: prev + (cur - prev) * Math.min(1, Math.max(0, (t - t0) / 1.0)), prev, cur, t0}; };
 const DbrHud: React.FC<{t: number}> = ({t}) => {
   const DB = X.D.dbr; if (!DB) return null; const out: React.ReactNode[] = [];
   const d = (DB.duels as any[]).find((x) => t >= x.t0 - 0.2 && t < x.t1 + 0.3);
@@ -1516,17 +1520,18 @@ const DbrHud: React.FC<{t: number}> = ({t}) => {
     const last = done.length ? done[done.length - 1] : null;
     // barras de vida grandes arriba
     const hpBar = (side: number) => {
-      const k = side === 0 ? d.a : d.b; const nm = side === 0 ? d.an : d.bn; const hp = hpOf(side === 0 ? lostA : lostB, side); const col = side === 0 ? '#e5322d' : '#1f6fe0';
-      const hit = last && t - last.atk[0] < 1.6 && t > last.atk[0] && ((last.wa ? 1 : 0) === side);
+      const k = side === 0 ? d.a : d.b; const nm = side === 0 ? d.an : d.bn; const H = d.hp ? kfHP(d.hp, t, side) : null; const hp = H ? H.v / 100 : hpOf(side === 0 ? lostA : lostB, side); const ghost = H ? Math.max(hp, (H.prev - (H.prev - H.cur) * Math.min(1, Math.max(0, (t - H.t0 - 0.9) / 0.5))) / 100) : hp; const col = side === 0 ? '#e5322d' : '#1f6fe0';
+      const fur = (d.fury || []).find((f: any) => f[1] === side && t >= f[0]);
+      const hit = H ? (t - H.t0 < 1.0 && t > H.t0 && H.cur < H.prev) : (last && t - last.atk[0] < 1.6 && t > last.atk[0] && ((last.wa ? 1 : 0) === side));
       const W_ = S_ ? (VW - 210) / 2 : VW / 2 - 200;
       return (
         <div style={{width: W_, flexShrink: 0, display: 'flex', flexDirection: side === 0 ? 'row' : 'row-reverse', alignItems: 'center', gap: 10, transform: `translateX(${hit ? Math.sin(t * 60) * 8 : 0}px)`}}>
           <FlagImg k={k} w={S_ ? 70 : 84} h={S_ ? 48 : 58} />
           <div style={{flex: 1}}>
-            <div style={{...font, fontSize: S_ ? 30 : 40, color: '#fff', textShadow: `3px 3px 0 ${INK}`, textAlign: side === 0 ? 'left' : 'right', lineHeight: 1, whiteSpace: 'nowrap'}}>{nm}</div>
+            <div style={{...font, fontSize: S_ ? 30 : 40, color: '#fff', textShadow: `3px 3px 0 ${INK}`, textAlign: side === 0 ? 'left' : 'right', lineHeight: 1, whiteSpace: 'nowrap'}}>{nm}{fur && <span style={{marginLeft: 12, marginRight: 12, fontSize: S_ ? 24 : 28, color: '#ff8a1f', display: 'inline-block', transform: `scale(${popT(t, fur[0], 9) * (1 + 0.06 * Math.sin(t * 10))})`}}>🔥 FURY +15%</span>}</div>
             <div style={{marginTop: 4, height: S_ ? 38 : 46, background: '#2a0f12', border: `5px solid ${INK}`, borderRadius: 24, overflow: 'hidden', position: 'relative', display: 'flex', justifyContent: side === 0 ? 'flex-start' : 'flex-end', boxShadow: hit ? '0 0 30px 8px #ff2020' : `0 0 16px ${col}`}}>
-              <div style={{width: `${hp * 100}%`, background: hp > 0.5 ? 'linear-gradient(180deg,#5dff8a,#1fa64a)' : hp > 0.2 ? 'linear-gradient(180deg,#ffe14d,#e0a400)' : 'linear-gradient(180deg,#ff6b6b,#c41e1e)'}} />
-              {[1, 2].map((q) => <div key={q} style={{position: 'absolute', top: 0, bottom: 0, left: `${(q / 3) * 100}%`, width: 5, background: INK}} />)}
+              <div style={{position: 'absolute', top: 0, bottom: 0, [side === 0 ? 'left' : 'right']: 0, width: `${ghost * 100}%`, background: '#fff8', zIndex: 0} as any} />
+              <div style={{position: 'relative', zIndex: 1, width: `${hp * 100}%`, background: hp > 0.5 ? 'linear-gradient(180deg,#5dff8a,#1fa64a)' : hp > 0.2 ? 'linear-gradient(180deg,#ffe14d,#e0a400)' : 'linear-gradient(180deg,#ff6b6b,#c41e1e)'}} />
               <div style={{position: 'absolute', left: 0, right: 0, top: 6, height: 8, margin: '0 14px', borderRadius: 4, background: 'rgba(255,255,255,0.3)'}} />
               <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: S_ ? 24 : 28, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>❤️ {Math.round(hp * 100)}%</div>
             </div>
@@ -1540,13 +1545,13 @@ const DbrHud: React.FC<{t: number}> = ({t}) => {
         <div style={{display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(10,14,26,0.94)', border: '5px solid #fff', borderRadius: 22, padding: '2px 18px 0'}}>
           <span style={{...font, fontSize: S_ ? 50 : 60, color: '#ff6b6b'}}>{sc[0]}</span><span style={{...font, fontSize: 36, color: '#fff'}}>-</span><span style={{...font, fontSize: S_ ? 50 : 60, color: '#6ba8ff'}}>{sc[1]}</span>
         </div>
-        <div style={{display: 'flex', gap: 4, marginTop: 6}}>{[0, 1, 2, 3, 4].map((i) => { const s_ = sp.find((x) => x.cat === i && t >= x.se); return <div key={i} style={{width: S_ ? 28 : 34, height: S_ ? 28 : 34, borderRadius: 17, border: `4px solid ${INK}`, background: s_ ? (s_.wa ? '#e5322d' : '#1f6fe0') : 'rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: S_ ? 13 : 16}}>{DCATS[i][0]}</div>; })}</div>
+        <div style={{display: 'flex', gap: 4, marginTop: 6}}>{Array.from({length: d.ncat || 5}, (_, i) => i).map((i) => { const s_ = sp.find((x) => x.cat === i && t >= x.se); return <div key={i} style={{width: S_ ? 28 : 34, height: S_ ? 28 : 34, borderRadius: 17, border: `4px solid ${INK}`, background: s_ ? (s_.wa ? '#e5322d' : '#1f6fe0') : 'rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: S_ ? 13 : 16}}>{DCATS[i][0]}</div>; })}</div>
       </div>
     </div>);
     out.push(<div key="sub" style={{position: 'absolute', top: S_ ? 360 : 112, left: 0, right: 0, zIndex: 38, opacity: a, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       {d.title && <div style={{...font, fontSize: S_ ? 36 : 32, color: '#ffd23f', textShadow: `3px 3px 0 ${INK}`}}>{d.title}</div>}
-      {cur && t < cur.atk[1] && <div style={{...font, fontSize: S_ ? 32 : 28, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>ROUND {cur.cat + 1} · {DCATS[cur.cat][0]} {DCATS[cur.cat][1]}</div>}
-      {tied && !(cur && cur.final && t > cur.se) && <div style={{marginTop: 4, ...font, fontSize: S_ ? 50 : 44, color: '#ff3b3b', textShadow: `4px 4px 0 ${INK}`, transform: `scale(${1 + 0.06 * Math.sin(t * 9)})`}}>2 - 2 · SUDDEN DEATH!</div>}
+      {cur && cur.cat >= 0 && t < cur.atk[1] && <div style={{...font, fontSize: S_ ? 32 : 28, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>ROUND {cur.cat + 1} · {DCATS[cur.cat][0]} {DCATS[cur.cat][1]}</div>}
+      {tied && !d.tb && !(cur && cur.final && t > cur.se) && <div style={{marginTop: 4, ...font, fontSize: S_ ? 50 : 44, color: '#ff3b3b', textShadow: `4px 4px 0 ${INK}`, transform: `scale(${1 + 0.06 * Math.sin(t * 9)})`}}>2 - 2 · SUDDEN DEATH!</div>}
     </div>);
     // paneles laterales: solo stats + poder total
     const panel = (side: number) => {
@@ -1555,11 +1560,11 @@ const DbrHud: React.FC<{t: number}> = ({t}) => {
       const pos: any = S_ ? {bottom: 230, [side === 0 ? 'left' : 'right']: 12 + (1 - a) * -520, width: VW / 2 - 24} : {top: 160, [side === 0 ? 'left' : 'right']: 16 + (1 - a) * -420, width: 340};
       return (
         <div style={{position: 'absolute', ...pos, zIndex: 38, background: 'linear-gradient(180deg,rgba(18,24,40,0.93),rgba(10,14,26,0.93))', border: `5px solid ${col}`, borderRadius: 22, padding: S_ ? '6px 12px 8px' : '6px 14px 10px', boxShadow: `0 0 20px ${col}77, 0 8px 0 rgba(0,0,0,0.4)`}}>
-          {DCATS.map(([ic, nmc], i) => {
-            const v = Math.round(st[i] * cntF); const mx = Math.max(st[i], ot[i]);
+          {(d.ncat ? DCATS.slice(0, d.ncat) : DCATS5).map(([ic, nmc], i) => {
+            const v = Math.round(st[i] * cntF); const cmp_ = (d.ncat || 5) > 5; const mx = Math.max(st[i], ot[i]);
             const act = cur && cur.cat === i && t < cur.atk[1]; const won = sp.find((x) => x.cat === i && t >= x.se); const w = won && ((won.wa ? 0 : 1) === side);
             return (
-              <div key={i} style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: S_ ? 3 : 6, padding: '2px 8px', borderRadius: 12, background: act ? 'rgba(255,210,63,0.22)' : 'rgba(255,255,255,0.05)', border: act ? '3px solid #ffd23f' : '3px solid transparent', opacity: t < d.cnt[0] + 0.15 * i ? 0 : 1}}>
+              <div key={i} style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: S_ || cmp_ ? 2 : 6, padding: cmp_ ? '0 8px' : '2px 8px', borderRadius: 12, background: act ? 'rgba(255,210,63,0.22)' : 'rgba(255,255,255,0.05)', border: act ? '3px solid #ffd23f' : '3px solid transparent', opacity: t < d.cnt[0] + 0.15 * i ? 0 : 1}}>
                 <span style={{fontSize: S_ ? 22 : 26, width: 30}}>{ic}</span>
                 <div style={{flex: 1}}>
                   <div style={{display: 'flex', justifyContent: 'space-between', ...font, fontSize: S_ ? 18 : 19, color: '#cfd6e6'}}><span>{nmc}</span><span style={{color: '#fff', fontSize: S_ ? 22 : 23}}>{fmt(v)}</span></div>
@@ -1592,6 +1597,38 @@ const DbrHud: React.FC<{t: number}> = ({t}) => {
         <div style={{transform: `scale(${p}) rotate(-2deg)`, display: 'flex', alignItems: 'center', gap: 14, background: cur.final ? 'linear-gradient(180deg,#ff5a4a,#b80d0d)' : 'rgba(12,16,28,0.94)', border: `6px solid ${cur.final ? INK : '#ffd23f'}`, borderRadius: 22, padding: '6px 26px 2px', ...font, fontSize: cur.final ? 54 : 44, color: '#fff', textShadow: `3px 3px 0 ${INK}`, whiteSpace: 'nowrap'}}>
           <FlagImg k={ak} w={58} h={40} />{cur.final ? '💥 FINAL ASSAULT!' : `${DCATS[cur.cat][0]} ${DATK[cur.cat]}`}</div></div>);
     }
+    // desempate
+    const tb = d.tb;
+    if (tb && t >= tb.t0 - 0.2 && t < tb.g1 + 0.6) {
+      if (t < tb.g0) {
+        const w = (X.D.wbr.wheels as any[]).find((x) => x.kind === 'tb' && Math.abs(x.t0 - tb.t0) < 0.01);
+        if (w) { const cx = VW / 2, cy = S_ ? VH * 0.53 : 640, R = S_ ? 250 : 215; const wa = lerp(t, tb.t0 - 0.2, tb.t0 + 0.1, 0, 1) * lerp(t, tb.g0 - 0.3, tb.g0, 1, 0);
+          out.push(<div key="tbw" style={{position: 'absolute', inset: 0, zIndex: 40, opacity: wa}}>
+            <div style={{position: 'absolute', left: 0, right: 0, top: cy - R - (S_ ? 130 : 110), textAlign: 'center', ...font, fontSize: S_ ? 58 : 50, color: '#ff3b3b', textShadow: `5px 5px 0 ${INK}`, transform: `scale(${1 + 0.05 * Math.sin(t * 8)})`}}>2 - 2 · ⚖️ TIEBREAKER!</div>
+            <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0}}><WWheel items={w.items} w={w.w} cols={w.cols} rot={wbrRot(w, t)} R={R} cx={cx} cy={cy} fs={24} /></svg>
+            {t > tb.se && <div style={{position: 'absolute', left: 0, right: 0, top: cy + R + 26, display: 'flex', justifyContent: 'center'}}><div style={{transform: `scale(${popT(t, tb.se, 9)})`, background: '#ffd23f', border: `6px solid ${INK}`, borderRadius: 20, padding: '6px 22px 0', ...font, fontSize: 44, color: INK}}>{w.result}</div></div>}
+          </div>); }
+      } else {
+        const [ic, nm_, lab] = TBN[tb.kind]; const pa = kf(tb.pa, t), pb = kf(tb.pb, t); const done = t > tb.g1;
+        const val = (side: number) => { const me = side === 0 ? pa : pb, op = side === 0 ? pb : pa;
+          if (tb.kind === 2) { const n0 = side === 0 ? tb.na : tb.nb; return {txt: `${Math.max(0, Math.round(n0 * (1 - op / 100)))}`, f: Math.max(0, 1 - op / 100)}; }
+          if (tb.kind === 3) return {txt: `${Math.max(0, Math.round(100 - op))}%`, f: Math.max(0, 1 - op / 100)};
+          return {txt: `${Math.round(me)}%`, f: me / 100}; };
+        const row = (side: number) => { const v = val(side); const col = side === 0 ? '#e5322d' : '#1f6fe0'; const k = side === 0 ? d.a : d.b; const wn = done && tb.win === side;
+          return (<div style={{display: 'flex', alignItems: 'center', gap: 12, marginTop: 8}}>
+            <FlagImg k={k} w={56} h={38} />
+            <div style={{flex: 1, height: 34, background: '#20283c', border: `4px solid ${INK}`, borderRadius: 17, overflow: 'hidden'}}><div style={{width: `${v.f * 100}%`, height: '100%', background: col, boxShadow: wn ? '0 0 20px #ffd23f' : undefined}} /></div>
+            <span style={{...font, fontSize: 38, color: wn ? '#ffd23f' : '#fff', width: 110, textAlign: 'right'}}>{v.txt}</span></div>); };
+        const p = popT(t, tb.g0, 10);
+        out.push(<div key="tbg" style={{position: 'absolute', left: 0, right: 0, top: S_ ? 470 : 160, zIndex: 40, display: 'flex', justifyContent: 'center', opacity: lerp(t, tb.g1 + 0.3, tb.g1 + 0.6, 1, 0)}}>
+          <div style={{transform: `scale(${p})`, width: S_ ? VW - 60 : 760, background: 'rgba(10,14,26,0.94)', border: '6px solid #ffd23f', borderRadius: 24, padding: '10px 22px 14px', boxShadow: '0 0 40px rgba(255,210,63,0.4)'}}>
+            <div style={{textAlign: 'center', ...font, fontSize: 44, color: '#ffd23f', textShadow: `3px 3px 0 ${INK}`}}>{ic} {nm_}</div>
+            <div style={{textAlign: 'center', ...font2, fontSize: 22, color: '#cfd6e6'}}>{lab}</div>
+            {row(0)}{row(1)}
+            {!done && <div style={{textAlign: 'center', marginTop: 6, ...font, fontSize: 30, color: '#fff'}}>⏱️ {Math.max(0, tb.g1 - t).toFixed(1)}s</div>}
+          </div></div>);
+      }
+    }
   }
   // absorción de poder
   const ab = (DB.absorbs as any[]).find((x) => t >= x.t0 && t < x.t1 + 0.3);
@@ -1602,7 +1639,7 @@ const DbrHud: React.FC<{t: number}> = ({t}) => {
       <div style={{transform: `scale(${popT(t, ab.t0, 11)})`, width: Math.min(980, VW - 40), background: 'linear-gradient(180deg,#1b2440,#0d1324)', border: '7px solid #4dff7a', borderRadius: 30, padding: '18px 36px 24px', boxShadow: '0 0 60px rgba(77,255,122,0.45)'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, ...font, fontSize: 46, color: '#fff'}}>
           <FlagImg k={ab.a} w={84} h={58} /><span>{ab.an}</span><span style={{color: '#4dff7a'}}>ABSORBS</span><span style={{filter: 'grayscale(1)', opacity: 0.8, display: 'flex', alignItems: 'center', gap: 10}}><FlagImg k={ab.b} w={60} h={42} />{ab.bn}</span></div>
-        {DCATS.map(([ic, nmc], i) => { const v = ab.frm[i] + (ab.to[i] - ab.frm[i]) * f; return (
+        {(ab.frm.length === 4 ? DCATS.slice(0, 4) : DCATS5).map(([ic, nmc], i) => { const v = ab.frm[i] + (ab.to[i] - ab.frm[i]) * f; return (
           <div key={i} style={{display: 'flex', alignItems: 'center', gap: 14, marginTop: 10}}>
             <span style={{fontSize: 34, width: 44}}>{ic}</span><span style={{...font, fontSize: 26, color: '#cfd6e6', width: 160}}>{nmc}</span>
             <div style={{flex: 1, height: 22, background: '#20283c', borderRadius: 11, overflow: 'hidden', position: 'relative'}}><div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${(v / mx) * 100}%`, background: 'linear-gradient(90deg,#1fa64a,#5dff8a)'}} /><div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${(ab.frm[i] / mx) * 100}%`, background: '#e5322d'}} /></div>
@@ -1620,6 +1657,134 @@ const DbrHud: React.FC<{t: number}> = ({t}) => {
   const n = aliveAt(t);
   if (!d && t > X.D.war_t && t < X.D.winT) out.push(<div key="alv" style={{position: 'absolute', left: 18, top: 18, zIndex: 20}}><Pill bg="#1b1f2b" style={{padding: '4px 18px 0', display: 'flex', alignItems: 'baseline', gap: 10, border: `4px solid ${RED}`}}><span style={{...font, fontSize: 26, color: '#ff9a8f'}}>👥 ALIVE</span><span style={{...font, fontSize: 48, color: '#fff'}}>{n}</span><span style={{...font, fontSize: 24, color: '#9aa'}}>/ {X.D.parts.length}</span></Pill></div>);
   return <>{out}</>;
+};
+
+const kf = (pk: number[][], t: number) => { if (!pk || !pk.length) return 0; if (t <= pk[0][0]) return pk[0][1]; for (let i = 1; i < pk.length; i++) if (t <= pk[i][0]) { const [a, va] = pk[i - 1], [b, vb] = pk[i]; return va + (vb - va) * (t - a) / Math.max(1e-6, b - a); } return pk[pk.length - 1][1]; };
+const TEAMCOL = ['#e5322d', '#1f6fe0', '#ff8a1f', '#22a95b', '#7b2cbf', '#13b5c8', '#ffd23f', '#8a5a2b'];
+// ================= eventos especiales (HUD) =================
+const EvHud: React.FC<{t: number}> = ({t}) => {
+  const DB = X.D.dbr; if (!DB || !DB.events) return null; const out: React.ReactNode[] = []; const S_ = SHORT;
+  // reloj de cuenta atrás al próximo evento
+  const evs = DB.events as any[]; const ev1end = DB.ev1 && DB.ev1.out ? DB.ev1.out[0] + 3.2 : 0;
+  const nxt = evs.find((e: any, i: number) => t < e[0] && (i === 0 ? t > X.D.war_t : t > ev1end));
+  if (nxt) {
+    const rem = nxt[0] - t;
+    if (rem > 5) {
+      const big = rem <= 60; const flash = rem <= 30 && Math.floor(t * 4) % 2 === 0;
+      const sc = (big ? 1.25 : 0.9) * (rem <= 60 && rem > 59 ? popT(t, nxt[0] - 60, 8) : 1);
+      const mm = Math.floor(rem / 60), ss = Math.floor(rem % 60);
+      out.push(<div key="evc" style={{position: 'absolute', right: S_ ? 20 : 22, bottom: S_ ? 760 : 120, zIndex: 46, transform: `scale(${sc})`, transformOrigin: 'right bottom'}}>
+        <div style={{background: rem <= 30 ? (flash ? '#ff2020' : '#fff') : 'rgba(12,16,28,0.94)', border: `5px solid ${rem <= 30 ? INK : '#ffd23f'}`, borderRadius: 18, padding: '6px 16px 2px', textAlign: 'center', boxShadow: rem <= 60 ? '0 0 26px rgba(255,210,63,0.6)' : undefined}}>
+          <div style={{...font, fontSize: 20, color: rem <= 30 ? (flash ? '#fff' : RED) : '#ffd23f'}}>🎉 SPECIAL EVENT IN</div>
+          <div style={{...font, fontSize: 46, color: rem <= 30 ? (flash ? '#fff' : INK) : '#fff', lineHeight: 1}}>{mm}:{String(ss).padStart(2, '0')}</div>
+        </div></div>);
+    } else {
+      const n = Math.ceil(rem); const f = rem - Math.floor(rem);
+      out.push(<AbsoluteFill key="evbig" style={{zIndex: 47, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none'}}>
+        <div style={{textAlign: 'center', transform: `scale(${1 + f * 0.6})`, opacity: 0.4 + 0.6 * f}}>
+          <div style={{...font, fontSize: 60, color: '#ffd23f', textShadow: `5px 5px 0 ${INK}`}}>🎉 SPECIAL EVENT</div>
+          <div style={{...font, fontSize: 300, color: n % 2 ? '#ff2b2b' : '#fff', textShadow: `14px 14px 0 ${INK}`, lineHeight: 1}}>{n}</div></div></AbsoluteFill>);
+    }
+  }
+  // Evento 1: Capture the Base
+  const E = DB.ev1;
+  if (E && t >= E.t0 && t < E.out[0] + 3.2) {
+    if (t >= E.intro[0] && t < E.intro[1]) {
+      const a = popT(t, E.intro[0], 10) * lerp(t, E.intro[1] - 0.3, E.intro[1], 1, 0);
+      out.push(<AbsoluteFill key="e1i" style={{zIndex: 44, background: `rgba(4,8,18,${0.6 * a})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: a}}>
+        <div style={{...font, fontSize: S_ ? 54 : 64, color: '#ffd23f', textShadow: `5px 5px 0 ${INK}`}}>🏰 CAPTURE THE BASE</div>
+        <div style={{...font2, fontSize: S_ ? 26 : 30, color: '#fff', marginBottom: 16, textAlign: 'center'}}>{E.teams.length} TEAMS · {E.teams.length - 1} BUNKERS · THE TEAM LEFT OUTSIDE IS ELIMINATED</div>
+        <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 14, width: S_ ? VW - 40 : 1500}}>
+          {(E.teams as number[][]).map((tm, i) => <div key={i} style={{transform: `scale(${popT(t, E.intro[0] + 0.15 * i, 11)})`, width: S_ ? 240 : 340, background: 'rgba(12,16,28,0.95)', border: `5px solid ${TEAMCOL[i]}`, borderRadius: 18, padding: '6px 10px'}}>
+            <div style={{...font, fontSize: 30, color: TEAMCOL[i], textAlign: 'center'}}>TEAM {i + 1}</div>
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center'}}>{tm.map((k) => <FlagImg key={k} k={k} w={S_ ? 46 : 62} h={S_ ? 31 : 42} />)}</div></div>)}
+        </div></AbsoluteFill>);
+    }
+    // estado de equipos (columna)
+    if (t > E.intro[1]) {
+      const sv = (i: number) => (E.saved as any[]).find((x) => x[1] === i && t >= x[0]);
+      out.push(<div key="e1s" style={{position: 'absolute', left: 16, top: S_ ? 420 : 110, zIndex: 40, display: 'flex', flexDirection: 'column', gap: 6}}>
+        {(E.teams as number[][]).map((tm, i) => { const ok = sv(i); const dead = t >= E.out[0] && i === E.out[1];
+          return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 6, background: dead ? '#5a0d0d' : ok ? 'rgba(20,90,40,0.95)' : 'rgba(12,16,28,0.92)', border: `4px solid ${TEAMCOL[i]}`, borderRadius: 14, padding: '3px 8px', transform: ok && t - ok[0] < 0.5 ? `scale(${popT(t, ok[0], 9)})` : undefined}}>
+            <span style={{...font, fontSize: 20, color: TEAMCOL[i], width: 26}}>{i + 1}</span>
+            {tm.map((k) => <FlagImg key={k} k={k} w={34} h={23} />)}
+            <span style={{fontSize: 22, marginLeft: 4}}>{dead ? '❌' : ok ? '✅' : '⚠️'}</span></div>; })}
+      </div>);
+    }
+    const sc = (E.scenes as any[]).find((x) => t >= x.t0 && t < x.t1);
+    if (sc) {
+      const tw = E.teams[sc.w], tl = sc.l !== null && sc.l !== undefined ? E.teams[sc.l] : null; const idx = (E.scenes as any[]).indexOf(sc);
+      out.push(<div key="e1h" style={{position: 'absolute', left: 0, right: 0, top: S_ ? 250 : 18, zIndex: 41, display: 'flex', justifyContent: 'center'}}>
+        <div style={{transform: `scale(${popT(t, sc.t0, 11)})`, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(12,16,28,0.95)', border: `5px solid ${sc.last ? '#ff3b3b' : '#ffd23f'}`, borderRadius: 22, padding: '6px 22px 2px'}}>
+          <span style={{...font, fontSize: S_ ? 36 : 42, color: '#ffd23f'}}>🏰 {sc.last ? 'THE LAST BUNKER' : `BUNKER ${idx + 1}`}</span>
+          <span style={{...font, fontSize: 30, color: TEAMCOL[sc.w]}}>TEAM {sc.w + 1}</span>
+          {tl && <><span style={{...font, fontSize: 28, color: '#fff'}}>VS</span><span style={{...font, fontSize: 30, color: TEAMCOL[sc.l]}}>TEAM {sc.l + 1}</span></>}
+        </div></div>);
+      if (t >= sc.tcap) out.push(<div key="e1sv" style={{position: 'absolute', left: 0, right: 0, top: S_ ? 620 : 200, zIndex: 41, display: 'flex', justifyContent: 'center'}}>
+        <div style={{transform: `scale(${popT(t, sc.tcap, 8)}) rotate(-4deg)`, background: '#22c55e', border: `7px solid ${INK}`, borderRadius: 22, padding: '6px 30px 0', ...font, fontSize: S_ ? 62 : 72, color: '#fff', textShadow: `4px 4px 0 ${INK}`, display: 'flex', alignItems: 'center', gap: 12}}>✅ TEAM {sc.w + 1} SAVED {tw.map((k: number) => <FlagImg key={k} k={k} w={50} h={34} />)}</div></div>);
+    }
+  }
+  // Evento 2: blitz
+  const bz = ((DB.blitz || []) as any[]).find((x) => t >= x.t0 && t < x.t1);
+  if (bz) {
+    const u = lerp(t, bz.t0 + 0.4, bz.t1 - 0.6, 0, 1);
+    const hv = (arr: number[]) => { const i = Math.min(arr.length - 2, Math.floor(u * (arr.length - 1))); const f = u * (arr.length - 1) - i; return arr[i] + (arr[i + 1] - arr[i]) * Math.min(1, f * 1.4); };
+    const bar = (k: number, nm: string, v: number, col: string, side: number) => (<div style={{display: 'flex', alignItems: 'center', gap: 10, flexDirection: side ? 'row-reverse' : 'row', width: S_ ? 440 : 640}}>
+      <FlagImg k={k} w={70} h={48} /><div style={{flex: 1}}><div style={{...font, fontSize: 32, color: '#fff', textAlign: side ? 'right' : 'left'}}>{nm}</div>
+      <div style={{height: 34, background: '#2a0f12', border: `5px solid ${INK}`, borderRadius: 18, overflow: 'hidden', display: 'flex', justifyContent: side ? 'flex-end' : 'flex-start'}}><div style={{width: `${v}%`, background: v > 50 ? '#3ddc6a' : v > 20 ? '#ffd23f' : '#ff3b3b', boxShadow: `0 0 12px ${col}`}} /></div></div></div>);
+    out.push(<div key="bz" style={{position: 'absolute', left: 0, right: 0, top: S_ ? 240 : 14, zIndex: 41, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8}}>
+      <div style={{transform: `scale(${popT(t, bz.t0, 11)})`, ...font, fontSize: S_ ? 44 : 50, color: '#ffd23f', textShadow: `4px 4px 0 ${INK}`}}>⚡ 1V1 BLITZ #{bz.n}</div>
+      <div style={{display: 'flex', gap: 30, alignItems: 'center'}}>{bar(bz.a, bz.an, hv(bz.hpa), '#e5322d', 0)}<span style={{...font, fontSize: 40, color: '#fff'}}>VS</span>{bar(bz.b, bz.bn, hv(bz.hpb), '#1f6fe0', 1)}</div></div>);
+  }
+  // estadística del momento + bracket
+  const st = ((DB.stats || []) as any[]).find((x) => t >= x[0] && t < x[1]);
+  if (st) {
+    const a = popT(t, st[0], 10) * lerp(t, st[1] - 0.3, st[1], 1, 0);
+    out.push(<div key="st" style={{position: 'absolute', left: 0, right: 0, bottom: S_ ? 330 : 90, zIndex: 43, display: 'flex', justifyContent: 'center', opacity: a}}>
+      <div style={{transform: `scale(${a})`, background: 'rgba(12,16,28,0.95)', border: '6px solid #ffd23f', borderRadius: 24, padding: '10px 30px 12px', textAlign: 'center', maxWidth: VW - 60}}>
+        <div style={{...font, fontSize: S_ ? 40 : 46, color: '#ffd23f'}}>{st[2]}</div>
+        <div style={{...font, fontSize: S_ ? 30 : 36, color: '#fff'}}>{st[3]}</div>
+        <div style={{display: 'flex', gap: 6, justifyContent: 'center', marginTop: 8, flexWrap: 'wrap'}}>{(st[4] as number[]).map((k, i) => <div key={k} style={{transform: `scale(${popT(t, st[0] + 0.2 + i * 0.06, 12)})`}}><FlagImg k={k} w={52} h={35} /></div>)}</div>
+      </div></div>);
+  }
+  return <>{out}</>;
+};
+// ================= eventos y desempates (mapa) =================
+const EvFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const DB = X.D.dbr; if (!DB) return null; const out: React.ReactNode[] = [];
+  const d = (DB.duels as any[]).find((x) => x.tb && t >= x.tb.g0 - 0.3 && t < x.tb.g1 + 0.5);
+  if (d) {
+    const tb = d.tb; const pa = kf(tb.pa, t), pb = kf(tb.pb, t); const [mx, my] = toS(tb.mid[0], tb.mid[1], cam); const [ax, ay] = toS(tb.ca[0], tb.ca[1], cam); const [bx, by] = toS(tb.cb[0], tb.cb[1], cam);
+    if (tb.kind === 0) {
+      const lead = pa >= pb ? '#e5322d' : '#1f6fe0'; const R = 70 + 10 * Math.sin(t * 5);
+      out.push(<g key="koth"><circle cx={mx} cy={my} r={R} fill={lead + '44'} stroke={lead} strokeWidth={8} strokeDasharray="20 10" transform={`rotate(${t * 60} ${mx} ${my})`} /><text x={mx} y={my + 22} textAnchor="middle" fontSize={64}>👑</text></g>);
+    } else if (tb.kind === 1) {
+      const tok = (sx: number, sy: number, ex: number, ey: number, p: number, k: number, col: string, key: string) => { const u = p / 100; const f = u < 0.5 ? u * 2 : 2 - u * 2; const x = sx + (ex - sx) * f, y = sy + (ey - sy) * f;
+        return <g key={key}><line x1={sx} y1={sy} x2={ex} y2={ey} stroke={col} strokeWidth={5} strokeDasharray="14 10" opacity={0.7} /><circle cx={x} cy={y} r={26} fill={col} stroke={INK} strokeWidth={5} /><text x={x} y={y + 10} textAnchor="middle" fontSize={30}>{u >= 0.5 ? '🚩' : '🏃'}</text></g>; };
+      out.push(tok(ax, ay, bx, by, pa, d.b, '#e5322d', 'fa')); out.push(tok(bx, by, ax, ay, pb, d.a, '#1f6fe0', 'fb'));
+      out.push(<text key="ha" x={ax} y={ay - 34} textAnchor="middle" fontSize={44}>🏠</text>); out.push(<text key="hb" x={bx} y={by - 34} textAnchor="middle" fontSize={44}>🏠</text>);
+    } else if (tb.kind === 3) {
+      for (const [x, y, hp, col, k] of [[ax, ay, 100 - pb, '#e5322d', 'a'], [bx, by, 100 - pa, '#1f6fe0', 'b']] as any[]) out.push(<g key={'cap' + k}><circle cx={x} cy={y} r={46} fill="none" stroke="#ff3b3b" strokeWidth={6} /><text x={x} y={y + 14} textAnchor="middle" fontSize={44}>🏛️</text>
+        <rect x={x - 60} y={y - 82} width={120} height={18} rx={9} fill="#2a0f12" stroke={INK} strokeWidth={4} /><rect x={x - 58} y={y - 80} width={116 * Math.max(0, hp) / 100} height={14} rx={7} fill={col} /></g>);
+    } else {
+      out.push(<g key="el"><circle cx={mx} cy={my} r={60} fill="none" stroke="#ffd23f" strokeWidth={6} /><line x1={mx - 80} y1={my} x2={mx + 80} y2={my} stroke="#ffd23f" strokeWidth={4} /><line x1={mx} y1={my - 80} x2={mx} y2={my + 80} stroke="#ffd23f" strokeWidth={4} /></g>);
+    }
+  }
+  const E = DB.ev1;
+  if (E) for (const sc of E.scenes as any[]) {
+    if (t < sc.t0 - 0.2 || t > sc.t1 + 0.2) continue;
+    const [bx, by] = toS(sc.b[0], sc.b[1], cam); const lead = kf(sc.lead, t); const cap = t >= sc.tcap;
+    const arr = (tw: number[], col: string, f: number, key: string) => { const [sx, sy] = toS(tw[0], tw[1], cam); const x = sx + (bx - sx) * f, y = sy + (by - sy) * f;
+      return <g key={key}><line x1={sx} y1={sy} x2={x} y2={y} stroke={INK} strokeWidth={16} strokeLinecap="round" /><line x1={sx} y1={sy} x2={x} y2={y} stroke={col} strokeWidth={9} strokeLinecap="round" strokeDasharray="22 10" /><circle cx={x} cy={y} r={16} fill={col} stroke={INK} strokeWidth={5} /></g>; };
+    const u = lerp(t, sc.t0 + 0.3, sc.tcap, 0, 1);
+    out.push(arr(sc.tw, TEAMCOL[sc.w], Math.min(1, u * (0.6 + 0.4 * lead)), 'w' + sc.t0));
+    if (sc.tl) out.push(arr(sc.tl, TEAMCOL[sc.l], Math.min(0.85, u * (1.05 - 0.4 * lead)), 'l' + sc.t0));
+    const pr = cap ? 1 : Math.min(0.97, u * lead);
+    out.push(<g key={'bk' + sc.t0}><circle cx={bx} cy={by} r={64} fill="rgba(12,16,28,0.85)" stroke={INK} strokeWidth={8} />
+      <circle cx={bx} cy={by} r={64} fill="none" stroke={cap ? '#22c55e' : TEAMCOL[sc.w]} strokeWidth={10} strokeDasharray={`${pr * 402} 402`} transform={`rotate(-90 ${bx} ${by})`} />
+      <text x={bx} y={by + 22} textAnchor="middle" fontSize={62}>{cap ? '✅' : '🏰'}</text></g>);
+  }
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, pointerEvents: 'none'}}>{out}</svg>;
 };
 const WbrFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const WB = X.D.wbr; if (!WB) return null; const out: React.ReactNode[] = [];
@@ -1898,6 +2063,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
           <Laser t={t} cam={camL} />
           <PowerFX t={t} cam={camL} />
           <WbrFX t={t} cam={camL} />
+          <EvFX t={t} cam={camL} />
           <BossFX t={t} cam={camL} />
           {!CO && !noHud && <>
           {t < D.winT + 0.3 && <Labels t={t} cam={camL} />}
@@ -1942,6 +2108,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <Roulettes t={t} />
       <WbrHud t={t} />
       <DbrHud t={t} />
+      <EvHud t={t} />
       <DuelHud t={t} />
       <PowerBanner t={t} />
       <DuelSpin t={t} />
