@@ -40,7 +40,7 @@ const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 );
 
 /** photo with fast motion: push-in toward a focus point, slight rotation, light leak */
-const MovingPhoto: React.FC<{ f: number; len: number; src: string; from: [number, number, number]; to: [number, number, number]; gray?: number; dim?: number; children?: React.ReactNode }> = ({ f, len, src, from, to, gray = 0, dim = 0, children }) => {
+export const MovingPhoto: React.FC<{ f: number; len: number; src: string; from: [number, number, number]; to: [number, number, number]; gray?: number; dim?: number; children?: React.ReactNode }> = ({ f, len, src, from, to, gray = 0, dim = 0, children }) => {
   const k = ease(interpolate(f, [0, len], [0, 1], clamp));
   const x = from[0] + (to[0] - from[0]) * k, y = from[1] + (to[1] - from[1]) * k, s = from[2] + (to[2] - from[2]) * k;
   return (
@@ -53,14 +53,14 @@ const MovingPhoto: React.FC<{ f: number; len: number; src: string; from: [number
   );
 };
 
-const VHS: React.FC<{ f: number; t: string }> = ({ f, t }) => (
+export const VHS: React.FC<{ f: number; t: string }> = ({ f, t }) => (
   <div style={{ position: "absolute", left: 50, top: 150, fontFamily: "monospace", fontWeight: 700, fontSize: 40, color: "#f2f2f2", textShadow: "2px 0 #ff2a6a, -2px 0 #2affff, 0 0 10px #000", letterSpacing: 2 }}>
     <div>{Math.floor(f / 15) % 2 ? "●" : "○"} REC</div>
     <div>{t}</div>
   </div>
 );
 
-const Stamp: React.FC<{ f: number; s: number; text: string; top: number; color?: string; rot?: number; size?: number }> = ({ f, s, text, top, color = "#e3262b", rot = -8, size = 120 }) => {
+export const Stamp: React.FC<{ f: number; s: number; text: string; top: number; color?: string; rot?: number; size?: number }> = ({ f, s, text, top, color = "#e3262b", rot = -8, size = 120 }) => {
   if (f < s) return null;
   const p = spring({ frame: f - s, fps: 30, config: { damping: 9, stiffness: 240 } });
   return (
@@ -70,7 +70,7 @@ const Stamp: React.FC<{ f: number; s: number; text: string; top: number; color?:
   );
 };
 
-const VictimCard: React.FC<{ f: number; s: number; n: string; name: string; age: string; x: number; gone?: number }> = ({ f, s, n, name, age, x, gone = 1e9 }) => {
+export const VictimCard: React.FC<{ f: number; s: number; n: string; name: string; age: string; x: number; gone?: number }> = ({ f, s, n, name, age, x, gone = 1e9 }) => {
   const p = pop(f, s, 12);
   if (p < 0.01) return null;
   const g = interpolate(f, [gone, gone + 10], [0, 1], clamp);
@@ -86,7 +86,7 @@ const VictimCard: React.FC<{ f: number; s: number; n: string; name: string; age:
 };
 
 /** pixel mosaic block (censor) */
-const Mosaic: React.FC<{ f: number; x: number; y: number; w: number; h: number; o: number }> = ({ f, x, y, w, h, o }) => {
+export const Mosaic: React.FC<{ f: number; x: number; y: number; w: number; h: number; o: number }> = ({ f, x, y, w, h, o }) => {
   if (o <= 0) return null;
   const c = 26, t = Math.floor(f / 2), out = [];
   for (let i = 0; i < w / c; i++) for (let j = 0; j < h / c; j++) {
@@ -97,7 +97,7 @@ const Mosaic: React.FC<{ f: number; x: number; y: number; w: number; h: number; 
 };
 
 // ---------------- scenes ----------------
-const H1: React.FC<{ f: number }> = ({ f }) => {
+export const H1: React.FC<{ f: number }> = ({ f }) => {
   const flash = f > 44 ? interpolate(f, [44, 58], [1, 0.4], clamp) : 0;
   return (
     <MovingPhoto f={f} len={58} src="steps.jpg" from={[0, 0, 1.0]} to={[0, -340, 1.38]} gray={f > 44 ? 1 : 0}>
@@ -133,7 +133,7 @@ const H2: React.FC<{ f: number }> = ({ f }) => (
   </>
 );
 
-const H3: React.FC<{ f: number }> = ({ f }) => (
+export const H3: React.FC<{ f: number }> = ({ f }) => (
   <MovingPhoto f={f} len={42} src="house_aerial.jpg" from={[0, 0, 1.25]} to={[-60, 40, 1.6]} gray={0.3}>
     <AbsoluteFill style={{ background: "#fff", opacity: f < 2 ? 0.6 : 0 }} />
     <Stamp f={f} s={10} text="NEVER CAUGHT" top={520} />
@@ -315,7 +315,7 @@ const Polaroid: React.FC<{ f: number; s: number; x: number; y: number; rot: numb
   );
 };
 
-const EV: React.FC<{ f: number }> = ({ f }) => {
+export const EV: React.FC<{ f: number }> = ({ f }) => {
   const str = interpolate(f, [8, 70], [0, 1], clamp);
   return (
     <AbsoluteFill>
@@ -371,7 +371,7 @@ const UN: React.FC<{ f: number }> = ({ f }) => (
   </>
 );
 
-const END: React.FC<{ f: number }> = ({ f }) => (
+export const END: React.FC<{ f: number }> = ({ f }) => (
   <MovingPhoto f={f} len={60} src="house_aerial.jpg" from={[0, 0, 1.4]} to={[30, 20, 1.55]} gray={0.8} dim={0.55}>
     <div style={{ position: "absolute", top: 640, width: "100%", textAlign: "center", transform: `scale(${pop(f, 0, 10)})` }}>
       <div style={{ fontFamily: TITLE, fontSize: 150, color: "#fff", WebkitTextStroke: `6px ${INK}`, textShadow: "0 10px 0 #000" }}>WHO WAS HE?</div>
@@ -380,7 +380,7 @@ const END: React.FC<{ f: number }> = ({ f }) => (
   </MovingPhoto>
 );
 
-const Subs: React.FC = () => {
+export const Subs: React.FC = () => {
   const f = useCurrentFrame();
   const cur = (SUBS as [number, number, [string, boolean][]][]).find(([a, b]) => f >= a && f < b + 2);
   if (!cur || f >= T.end) return null;
@@ -396,7 +396,7 @@ const Subs: React.FC = () => {
   );
 };
 
-const Grain: React.FC = () => {
+export const Grain: React.FC = () => {
   const f = useCurrentFrame();
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
