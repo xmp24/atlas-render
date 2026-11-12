@@ -1,3 +1,4 @@
+import {MiyaQuiet, Q_FRAMES} from './Miya2/ShortQ';
 import {MiyaPicto} from './Miya2/ShortP';
 import {ThumbStyle, STYLES} from './ThumbsStyles';
 import {ThumbA, ThumbB, ThumbC, W3_KEYS, ThumbFin13} from './ThumbsWorld3';
@@ -41,6 +42,7 @@ import {ThumbHW} from './ThumbHW';
 export const RootHW: React.FC = () => (
   <>
     <Composition id="MiyaPictoN" component={MiyaPicto} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
+    <Composition id="MiyaQuietN" component={MiyaQuiet} durationInFrames={Q_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="MiyaShortN" component={MiyaShort} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="MiyaN" component={Miyazawa} durationInFrames={MIYA_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="HWTest" component={HWTest} durationInFrames={1800} fps={30} width={1920} height={1080} />
