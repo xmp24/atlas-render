@@ -135,3 +135,22 @@ export const BotLayer: React.FC<{ f: number; p: BP; ry?: number; rim?: string; k
     <Bot pos={[0, 0, 0]} ry={ry} p={p} f={f} lHandItem={lHandItem} rHandItem={rHandItem} />
   </ThreeCanvas>
 );
+
+/** final scene: he comes down the stairs toward us (leads back into the kitchen of the opening -> loop) */
+export const DownScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
+  const prog = interpolate(f, [0, len], [0, 1], clamp);
+  const iF = 10.5 - prog * 11.2;                       // step index (13 steps, rise .2, run .26)
+  const i0 = Math.floor(iF), fr = iF - i0;
+  const stepY = (i: number) => (i < 0 ? 0 : (i + 1) * 0.2);
+  const y = stepY(i0) + (stepY(i0 + 1) - stepY(i0)) * Math.max(0, fr * 2 - 1) + Math.sin(Math.PI * fr) * 0.03;
+  const z = 1.8 - iF * 0.26 + (iF < 0 ? 0 : 0);
+  const p = { ...walkBP(prog * Math.PI * 2 * 5.5, 0.75), lean: 8, headX: 14, lLegX: walkBP(prog * Math.PI * 11, 0.75).lLegX - 12, rLegX: walkBP(prog * Math.PI * 11, 0.75).rLegX - 12 };
+  return (
+    <Stage f={f} len={len} shots={[[0, { pos: [-1.35, 1.05, 4.6], look: [0.35, 1.55, 0.6], fov: 54 }, { pos: [-1.25, 1.0, 4.9], look: [0.35, 1.2, 1.2], fov: 54 }]]}>
+      <Stairs7 /><StairsExtras f={f} />
+      <Bot pos={[0.35, y, z]} ry={0} p={p} f={f} glow={0.6} />
+      <Aura f={f} pos={[0.35, y, z]} seed="dn" k={0.8} n={40} />
+      <pointLight position={[0.35, y + 2.0, z + 0.4]} intensity={1.0} distance={2.5} color="#9fb4ff" />
+    </Stage>
+  );
+};
