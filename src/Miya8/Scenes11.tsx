@@ -154,3 +154,17 @@ export const DownScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => 
     </Stage>
   );
 };
+
+/** opening version of the living room: other angle, he turns his head to us while the hours tick by */
+export const LivingOpen3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
+  const turn = interpolate(f, [20, 50], [0, 1], { ...clamp, easing: sm });
+  const p = idleBP(f, { ...STAND, headY: 150 * turn, headX: 2, twist: 12 * turn });
+  return (
+    <Stage f={f} len={len} shots={[[0, { pos: [1.7, 1.45, 1.7], look: [0.45, 1.3, -2.2], fov: 54 }, { pos: [1.5, 1.45, 1.35], look: [0.45, 1.32, -2.2], fov: 53 }]]}>
+      <Living7 /><LivingExtras f={f + 60} />
+      <Bot pos={[0.55, 0, -2.0]} ry={Math.PI} p={p} f={f} glow={interpolate(f, [46, 54], [0, 1], clamp)} />
+      <Aura f={f} pos={[0.55, 0, -2.0]} seed="lo" k={0.7} n={36} />
+      <pointLight position={[0.9, 1.8, -1.2]} intensity={1.3} distance={2.5} color="#9fb4ff" />
+    </Stage>
+  );
+};
