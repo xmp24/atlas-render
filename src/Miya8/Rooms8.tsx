@@ -172,6 +172,13 @@ const winUI = (stage: number) => tex("ui8" + stage, 320, 240, (c) => {
   c.fillStyle = "#c0c0c0"; c.fillRect(40, 50, 240, 130); c.fillStyle = "#000080"; c.fillRect(42, 52, 236, 18); c.fillStyle = "#fff"; c.font = "bold 11px sans-serif"; c.fillText(stage ? "Connected to Internet" : "Dial-up Networking", 48, 65);
   c.fillStyle = "#000"; c.font = "12px sans-serif"; c.fillText(stage ? "Connected at 56,000 bps" : "Dialing...", 60, 100); c.fillText(stage ? "Duration: 000:00:41" : "Verifying user name...", 60, 122);
   c.fillStyle = "#fff"; c.fillRect(60, 140, 200, 14); c.fillStyle = "#000080"; c.fillRect(62, 142, stage ? 196 : 90, 10);
+  if (stage >= 2) {   // browser window opening and loading a page
+    c.fillStyle = "#c0c0c0"; c.fillRect(14, 14, 292, 204); c.fillStyle = "#000080"; c.fillRect(16, 16, 288, 16); c.fillStyle = "#fff"; c.font = "bold 10px sans-serif"; c.fillText("Microsoft Internet Explorer", 20, 28);
+    c.fillStyle = "#fff"; c.fillRect(18, 36, 284, 14); c.fillStyle = "#000"; c.font = "10px monospace"; c.fillText("http://www.", 22, 47);
+    c.fillStyle = "#ffffff"; c.fillRect(18, 54, 284, 150); const rows = Math.min(9, (stage - 2) * 3);
+    for (let i = 0; i < rows; i++) { c.fillStyle = i === 0 ? "#1a3a9a" : "#9a9a9a"; c.fillRect(26, 62 + i * 15, i === 0 ? 160 : 120 + ((i * 37) % 140), i === 0 ? 10 : 6); }
+    c.fillStyle = "#c0c0c0"; c.fillRect(16, 206, 288, 12); c.fillStyle = "#000"; c.fillText(stage < 5 ? "Opening page..." : "Done", 20, 215); c.fillStyle = "#000080"; c.fillRect(200, 208, Math.min(100, (stage - 1) * 25), 8);
+  }
 });
 export const OfficeExtras: React.FC<{ f: number; stage: number }> = ({ f, stage }) => (
   <group>
@@ -230,6 +237,8 @@ export const Bath8: React.FC<{ f: number }> = ({ f }) => (
       <Box p={[0, 2.12, -0.15]} s={[0.85, 0.07, 0.12]} c="#f4f4f2" e="#fff2d8" ei={1.4} />
       <pointLight position={[0, 2.0, 0.2]} intensity={2.2 * (random(`bl${Math.floor(f / 3)}`) > 0.1 ? 1 : 0.2)} distance={3} color="#fff2d8" />
       <Cyl p={[0, 0.99, -0.2]} r1={0.022} h={0.22} c="#c5c9cf" /><Box p={[0, 1.09, -0.12]} s={[0.04, 0.03, 0.14]} c="#c5c9cf" />
+      <mesh position={[0, 0.98, -0.06]}><cylinderGeometry args={[0.007 + Math.sin(f * 1.7) * 0.001, 0.009, 0.2, 8]} /><meshStandardMaterial color="#e8b0b0" transparent opacity={0.6} roughness={0.05} emissive="#802020" emissiveIntensity={0.3} /></mesh>
+      <mesh position={[0, 0.875, -0.06]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.03 + Math.abs(Math.sin(f / 2)) * 0.01, 14]} /><meshBasicMaterial color="#c86a6a" transparent opacity={0.5} /></mesh>
       <Cyl p={[-0.36, 0.95, -0.14]} r1={0.04} h={0.13} c="#8fd0e0" />{[0, 1, 2].map((i) => <Cyl key={i} p={[-0.37 + i * 0.015, 1.06, -0.14]} r1={0.006} h={0.15} c={["#e84a5f", "#3f7fd0", "#f2c94c"][i]} />)}
       {[["#f2c94c", 0.24], ["#e88aa6", 0.32], ["#ffffff", 0.4]].map(([c, x], i) => <Cyl key={i} p={[x as number, 0.97, -0.16]} r1={0.03} h={0.17 + i * 0.02} c={c as string} />)}
       {/* first aid kit open: bandage roll, cotton, scissors */}

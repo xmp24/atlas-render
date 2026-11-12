@@ -26,6 +26,8 @@ export const idleBP = (f: number, base: BP = STAND): BP => ({
   headY: base.headY + Math.sin(f / 53) * 3,
   lArmZ: base.lArmZ - Math.sin(f / 24) * 1.2,
   rArmZ: base.rArmZ + Math.sin(f / 24) * 1.2,
+  lElbow: base.lElbow + Math.sin(f / 7) * 2.5 * (Math.sin(f / 31) > 0.3 ? 1 : 0.2),
+  rElbow: base.rElbow + Math.sin(f / 6.3 + 1) * 2.5 * (Math.sin(f / 29 + 2) > 0.3 ? 1 : 0.2),
   twist: base.twist + Math.sin(f / 61) * 2,
 });
 export const SIT: BP = { ...STAND, bob: -0.36, lean: -4, lLegX: -88, lKnee: 86, rLegX: -86, rKnee: 84, lLegZ: -5, rLegZ: 5 };
@@ -53,7 +55,7 @@ const Part: React.FC<{ geo: THREE.BufferGeometry; p?: [number, number, number]; 
   );
 };
 
-export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem }) => {
+export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0 }) => {
   const G = useMemo(() => ({
     torso: new THREE.CapsuleGeometry(0.075, 0.36, 8, 16),
     upper: new THREE.CapsuleGeometry(0.036, 0.22, 6, 12),
@@ -100,7 +102,7 @@ export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; 
         <group rotation={R(p.lean)}>
           <group scale={[1 + Math.sin(f / 24) * 0.02, 1, 1 + Math.sin(f / 24) * 0.03]}><Part geo={G.torso} p={[0, 0.25, 0]} s={[1.25, 1, 0.9]} /></group>
           {/* hood of his sweatshirt, folded on the back of the neck, and drawstrings */}
-          <group position={[0, 0.5, -0.075]} rotation={R(18)}><Part geo={G.head} s={[0.62, 0.36, 0.42]} outline={1.06} /></group>
+          <group position={[0, 0.47, -0.095]} rotation={R(22)}><Part geo={G.head} s={[0.5, 0.26, 0.3]} outline={1.05} /></group>
           {[-1, 1].map((sd) => <mesh key={"ds" + sd} position={[sd * 0.03, 0.4, 0.085]}><cylinderGeometry args={[0.006, 0.006, 0.14, 6]} /><meshStandardMaterial color="#9a9aa2" /></mesh>)}
           {arm(-1)}{arm(1)}
           <group position={[0, 0.5, 0]} rotation={R(p.headX, p.headY, 0)}>
@@ -109,8 +111,9 @@ export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; 
               <Part geo={G.head} outline={1.04} />
               {/* angry glowing eyes */}
               {[-1, 1].map((sd) => (
-                <mesh key={sd} geometry={G.eye} material={m.eye} position={[sd * 0.072, 0.0, 0.188]} rotation={[0, sd * 0.35, sd * 0.42]} scale={[0.052, 0.019 * blink, 0.02]} />
+                <mesh key={sd} geometry={G.eye} material={m.eye} position={[sd * 0.072, 0.0, 0.188]} rotation={[0, sd * 0.35, sd * 0.42]} scale={[0.052 * (1 + glow * 0.25), 0.019 * blink * (1 + glow * 0.3), 0.02]} />
               ))}
+              {glow > 0 && <pointLight position={[0, 0, 0.32]} intensity={glow * 1.6} distance={0.9} color="#ffffff" />}
               {/* glossy highlight arc */}
               <mesh position={[-0.09, 0.11, 0.14]} rotation={[0, -0.4, 0.6]}><torusGeometry args={[0.07, 0.006, 6, 24, 1.6]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.75} /></mesh>
             </group>
