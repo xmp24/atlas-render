@@ -1,3 +1,6 @@
+import { Miya8, V8_FRAMES } from "../Miya8/Video8";
+import { RoomTest } from "../Miya8/Scenes8";
+import { BotTest } from "../Miya8/BotTest";
 import { Miya7, V7_FRAMES } from "../Miya7/Video7";
 import { Bake } from "../Miya7/Bake";
 import { StickTest } from "../Miya7/StickTest";
@@ -21,4 +24,7 @@ export const MiyaRoot: React.FC = () => (<>
   <Composition id="StickTest" component={StickTest} durationInFrames={66} fps={30} width={1080} height={1920} />
   {["rei","stairs","living","bath","office"].map((r) => <Composition key={r} id={"Bake-" + r} component={Bake} durationInFrames={1} fps={30} width={1080} height={1920} defaultProps={{ room: r }} />)}
   <Composition id="Miya7N" component={Miya7} durationInFrames={V7_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
+  <Composition id="BotTest" component={BotTest} durationInFrames={60} fps={30} width={1080} height={1920} />
+  {["rei","stairs","living","bath","office"].map((r) => <Composition key={"rt"+r} id={"RT-" + r} component={RoomTest} durationInFrames={1} fps={30} width={1080} height={1920} defaultProps={{ room: r }} />)}
+  <Composition id="Miya8N" component={Miya8} durationInFrames={V8_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
 </>);

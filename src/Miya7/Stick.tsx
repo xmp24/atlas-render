@@ -125,3 +125,35 @@ export const Stick: React.FC<{ x: number; y: number; h?: number; p: SP; view?: "
     </g>
   );
 };
+
+// ---------- back view with 2-bone IK (ladder climbing) ----------
+const ik2 = (sx: number, sy: number, tx: number, ty: number, l1: number, l2: number, out: number): [number, number] => {
+  let dx = tx - sx, dy = ty - sy; let d = Math.hypot(dx, dy);
+  const maxd = l1 + l2 - 0.5; if (d > maxd) { dx *= maxd / d; dy *= maxd / d; d = maxd; }
+  const a = Math.acos(Math.max(-1, Math.min(1, (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d))));
+  const base = Math.atan2(dy, dx); const ang = base + a * out;
+  return [sx + Math.cos(ang) * l1, sy + Math.sin(ang) * l1];
+};
+/** back-view stickman: hips at (hx,hy) in world px; hands/feet at world targets; s = px per rig unit */
+export const StickIK: React.FC<{ hx: number; hy: number; s: number; lh: [number, number]; rh: [number, number]; lf: [number, number]; rf: [number, number]; headTilt?: number; opacity?: number }> = ({ hx, hy, s, lh, rh, lf, rf, headTilt = 0, opacity = 1 }) => {
+  const shY = hy - 185 * s, shL: [number, number] = [hx - 30 * s, shY + 6 * s], shR: [number, number] = [hx + 30 * s, shY + 6 * s];
+  const hpL: [number, number] = [hx - 14 * s, hy], hpR: [number, number] = [hx + 14 * s, hy];
+  const eL = ik2(shL[0], shL[1], lh[0], lh[1], 102 * s, 96 * s, -1), eR = ik2(shR[0], shR[1], rh[0], rh[1], 102 * s, 96 * s, 1);
+  const kL = ik2(hpL[0], hpL[1], lf[0], lf[1], 105 * s, 100 * s, 1), kR = ik2(hpR[0], hpR[1], rf[0], rf[1], 105 * s, 100 * s, -1);
+  const T: React.FC<{ d: string; w: number }> = ({ d, w }) => (<g><path d={d} stroke={LINE} strokeWidth={(w + 8) * s} fill="none" strokeLinecap="round" strokeLinejoin="round" /><path d={d} stroke={FILL} strokeWidth={w * s} fill="none" strokeLinecap="round" strokeLinejoin="round" /></g>);
+  const P = (a: number[], b: number[], c: number[]) => `M${a[0]},${a[1]} L${b[0]},${b[1]} L${c[0]},${c[1]}`;
+  const hc: [number, number] = [hx + headTilt * 10 * s, shY - 100 * s];
+  return (
+    <g opacity={opacity}>
+      <T d={P(hpL, kL, lf)} w={30} /><T d={P(hpR, kR, rf)} w={30} />
+      <ellipse cx={lf[0]} cy={lf[1]} rx={22 * s} ry={11 * s} fill={FILL} stroke={LINE} strokeWidth={4 * s} />
+      <ellipse cx={rf[0]} cy={rf[1]} rx={22 * s} ry={11 * s} fill={FILL} stroke={LINE} strokeWidth={4 * s} />
+      <path d={`M${hx - 36 * s},${shY} L${hx + 36 * s},${shY} L${hx + 22 * s},${hy + 10 * s} L${hx - 22 * s},${hy + 10 * s} Z`} fill={FILL} stroke={LINE} strokeWidth={5 * s} strokeLinejoin="round" />
+      <T d={P(shL, eL, lh)} w={24} /><T d={P(shR, eR, rh)} w={24} />
+      <circle cx={lh[0]} cy={lh[1]} r={16 * s} fill={FILL} stroke={LINE} strokeWidth={4 * s} /><circle cx={rh[0]} cy={rh[1]} r={16 * s} fill={FILL} stroke={LINE} strokeWidth={4 * s} />
+      <rect x={hx - 12 * s} y={shY - 22 * s} width={24 * s} height={26 * s} fill={FILL} />
+      <circle cx={hc[0]} cy={hc[1]} r={86 * s} fill={LINE} /><circle cx={hc[0]} cy={hc[1]} r={82 * s} fill={FILL} />
+      <path d={`M${hc[0] - 58 * s},${hc[1] - 26 * s} A${66 * s},${66 * s} 0 0 1 ${hc[0] - 8 * s},${hc[1] - 66 * s}`} stroke="#fff" strokeWidth={4 * s} fill="none" opacity={0.6} strokeLinecap="round" />
+    </g>
+  );
+};
