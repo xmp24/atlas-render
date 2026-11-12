@@ -1,3 +1,6 @@
+import { Miya7, V7_FRAMES } from "../Miya7/Video7";
+import { Bake } from "../Miya7/Bake";
+import { StickTest } from "../Miya7/StickTest";
 import { Miya3D, Q3_FRAMES } from "../Miya3/Video3";
 import { Test3 } from "../Miya3/Test3";
 import { MiyaQuiet, Q_FRAMES } from "../Miya2/ShortQ";
@@ -15,4 +18,7 @@ export const MiyaRoot: React.FC = () => (<>
 <Composition id="MiyaShortN" component={MiyaShort} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
   <Composition id="Test3" component={Test3} durationInFrames={60} fps={30} width={1080} height={1920} />
   <Composition id="Miya3DN" component={Miya3D} durationInFrames={Q3_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
+  <Composition id="StickTest" component={StickTest} durationInFrames={66} fps={30} width={1080} height={1920} />
+  {["rei","stairs","living","bath","office"].map((r) => <Composition key={r} id={"Bake-" + r} component={Bake} durationInFrames={1} fps={30} width={1080} height={1920} defaultProps={{ room: r }} />)}
+  <Composition id="Miya7N" component={Miya7} durationInFrames={V7_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
 </>);
