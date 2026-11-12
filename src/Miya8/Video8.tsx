@@ -85,10 +85,10 @@ const PostIt: React.FC<{ f: number; s: number; img: string; name: string; age: s
 };
 
 // ---------------- scenes ----------------
-const Typed: React.FC<{ f: number; text: string; s?: number; top?: number }> = ({ f, text, s = 6, top = 1330 }) => {
+const Typed: React.FC<{ f: number; text: string; s?: number; top?: number }> = ({ f, text, s = 6, top = 300 }) => {
   const n = Math.max(0, Math.min(text.length, Math.floor((f - s) / 1.6)));
   if (f < s) return null;
-  return <div style={{ position: "absolute", top, width: "100%", textAlign: "center", fontFamily: "monospace", fontWeight: 700, fontSize: 40, color: "#efe7d6", letterSpacing: 6, textShadow: "0 4px 16px #000" }}>{text.slice(0, n)}<span style={{ opacity: Math.floor(f / 8) % 2 ? 1 : 0 }}>_</span></div>;
+  return <div style={{ position: "absolute", top, left: 56, fontFamily: "monospace", fontWeight: 700, fontSize: 36, color: "#efe7d6", letterSpacing: 5, textShadow: "0 3px 10px #000, 0 0 2px #000" }}><span style={{ color: "#ff3b30" }}>▸ </span>{text.slice(0, n)}<span style={{ opacity: Math.floor(f / 8) % 2 ? 1 : 0 }}>_</span></div>;
 };
 const inside = (mins: number) => `${Math.floor(mins / 60)}h ${String(mins % 60).padStart(2, "0")}m`;
 
@@ -103,7 +103,7 @@ const Hook: React.FC<{ f: number }> = ({ f }) => {
       <Img src={staticFile("miya2/steps.jpg")} style={{ position: "absolute", width: "100%", height: "100%", objectFit: "cover", filter: "blur(30px) brightness(0.3)", transform: "scale(1.3)" }} />
       <div style={{ position: "absolute", left: "50%", top: "50%", width: 1920 * 1.333, height: 1920, transform: `translate(-50%,-50%) translateY(${ty}px) scale(${z}) ${glitch ? `translateX(${(random("g" + f) - 0.5) * 40}px)` : ""}` }}>
         <Img src={staticFile("miya2/steps.jpg")} style={{ width: "100%", height: "100%", filter: `grayscale(${gray}) contrast(1.1) brightness(${1 - gray * 0.2}) sepia(${0.2 * (1 - gray)})` }} />
-        <Img src={S7("k_front.png")} style={{ position: "absolute", left: "45%", top: "6%", height: "30%", opacity: ghost, filter: "blur(1px) brightness(0.85)" }} />
+        <Img src={S7("k_front.png")} style={{ position: "absolute", left: "46.5%", top: "11%", height: "23%", opacity: ghost, filter: `blur(${1.5 - ghost}px) brightness(0.8) drop-shadow(0 0 30px rgba(0,0,0,0.9))`, transform: `translateX(${Math.sin(f / 7) * 4}px)` }} />
       </div>
       {glitch && <AbsoluteFill style={{ background: `linear-gradient(0deg, transparent ${random("a" + f) * 80}%, rgba(255,0,60,0.25) ${random("a" + f) * 80 + 3}%, transparent ${random("a" + f) * 80 + 6}%)`, mixBlendMode: "screen" }} />}
       <AbsoluteFill style={{ background: "#fff", opacity: interpolate(f, [0, 5], [0.9, 0], clamp) + interpolate(f, [104, 108], [0, 0.8], clamp) }} />
@@ -223,7 +223,16 @@ const Entry: React.FC<{ f: number }> = ({ f }) => {
         <rect x={576} y={356} width={146} height={166} fill="#1d2640" opacity={0.93} />
         <rect x={576} y={356} width={146} height={166} fill="#c9d6e6" opacity={0.07} />
         <rect x={578} y={358} width={70 * open} height={162} fill="#020306" />
-        {open > 0.5 && <path d={`M580,360 Q${600 + Math.sin(f / 4) * 14},440 ${592 + Math.sin(f / 5) * 18},520 L578,520 Z`} fill="#e9eef2" opacity={0.85} />}
+        {/* fly screen: mesh, then a knife cut opens a flap (how he really got in) */}
+        {(() => { const cut = interpolate(f, [92, 104], [0, 1], clamp); const flap = interpolate(f, [104, 112], [0, 1], clamp); return (
+          <g opacity={1 - open * 0.6}>
+            {Array.from({ length: 16 }).map((_, i) => <line key={"m" + i} x1={650} y1={358 + i * 10.4} x2={720} y2={358 + i * 10.4} stroke="#8c97ad" strokeWidth={0.8} opacity={0.35} />)}
+            {Array.from({ length: 8 }).map((_, i) => <line key={"n" + i} x1={652 + i * 9.4} y1={358} x2={652 + i * 9.4} y2={520} stroke="#8c97ad" strokeWidth={0.8} opacity={0.35} />)}
+            {cut > 0 && <path d={`M660,370 L${660 + 50 * Math.min(1, cut * 2)},370 L${710},${370 + 120 * Math.max(0, cut * 2 - 1)}`} stroke="#d8dde8" strokeWidth={2} fill="none" opacity={0.9} />}
+            {flap > 0 && <path d={`M660,370 L710,370 L710,490 Z`} fill="#05070c" opacity={flap} />}
+          </g>); })()}
+        {open > 0.5 && <path d={`M580,360 Q${598 + Math.sin(f / 4) * 10},440 ${590 + Math.sin(f / 5) * 12},520 L578,520 Z`} fill="#6f7d96" opacity={0.6} />}
+        {open > 0.5 && <path d={`M582,362 Q${594 + Math.sin(f / 4) * 8},440 ${586 + Math.sin(f / 5) * 9},518`} stroke="#9aa6bb" strokeWidth={2} fill="none" opacity={0.5} />}
         {/* moths at the wall lamp */}
         {[0, 1, 2].map((i) => <circle key={i} cx={352 + Math.sin(f / (4 + i) + i * 2) * 22} cy={782 + Math.cos(f / (5 + i) + i) * 16} r={2} fill="#fff8e0" />)}
         {prints}
@@ -238,7 +247,7 @@ const Entry: React.FC<{ f: number }> = ({ f }) => {
 };
 
 const Dead: React.FC<{ f: number }> = ({ f }) => {
-  const black = interpolate(f, [0, 14, 28], [1, 1, 0], clamp);
+  const black = interpolate(f, [0, 3, 14], [1, 1, 0], clamp);
   const off = [0, 1, 2, 3].map((i) => interpolate(f, [30 + i * 9, 36 + i * 9], [0, 1], clamp));
   return (
     <>
@@ -270,9 +279,9 @@ const Alive: React.FC<{ f: number; bg: string; people: [string, number, number, 
     </AbsoluteFill>
   );
 };
-const Room3D: React.FC<{ f: number; C: React.FC<{ f: number; len: number }>; len: number; label: string; alive?: React.ReactNode; over?: React.ReactNode; chip?: [string, number] }> = ({ f, C, len, label, alive, over, chip }) => (
+const Room3D: React.FC<{ f: number; C: React.FC<{ f: number; len: number }>; len: number; label: string; alive?: React.ReactNode; over?: React.ReactNode; chip?: [string, number]; grade?: string; dutch?: number }> = ({ f, C, len, label, alive, over, chip, grade, dutch = 0 }) => (
   <AbsoluteFill>
-    <C f={f} len={len} />
+    <AbsoluteFill style={{ filter: grade, transform: dutch ? `rotate(${dutch}deg) scale(${1 + Math.abs(dutch) * 0.03})` : undefined }}><C f={f} len={len} /></AbsoluteFill>
     <Flicker f={f} seed={label} o={0.3} />
     <Vig o={0.6} />
     {label && <Typed f={f} text={label} s={10} />}
@@ -281,10 +290,10 @@ const Room3D: React.FC<{ f: number; C: React.FC<{ f: number; len: number }>; len
     {alive}
   </AbsoluteFill>
 );
-const Rei: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={ReiScene3} len={90} label="REI'S ROOM" chip={["12:05 AM", 5]}
+const Rei: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={ReiScene3} len={90} label="REI'S ROOM · 2F" chip={["12:05 AM", 5]} grade="saturate(0.82) hue-rotate(-6deg) contrast(1.06)"
   over={<PostIt f={f} s={10} img="v_rei.jpg" name="REI" age="6" x={850} y={330} rot={4} gone={10} w={200} />}
   alive={<Alive f={f} bg="room_rei.png" people={[["rei.png", 330, 1560, 520]]} />} />;
-const Stairs: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={StairsScene3} len={125} label="THE STAIRS" chip={["12:10 AM", 10]}
+const Stairs: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={StairsScene3} len={125} label="THE STAIRS" chip={["12:10 AM", 10]} grade="sepia(0.12) contrast(1.08) saturate(0.9)" dutch={-3}
   over={<><PostIt f={f} s={10} img="v_mikio.jpg" name="MIKIO" age="44" x={850} y={330} rot={3} gone={10} w={200} />{f > 96 && <Stamp f={f} s={96} text="THE BLADE SNAPPED" top={1130} size={64} color="#fff" rot={-3} />}</>}
   alive={<Alive f={f} bg="room_stairs.png" people={[["mikio.png", 300, 1700, 760]]} />} />;
 
@@ -305,7 +314,7 @@ const Kitchen: React.FC<{ f: number }> = ({ f }) => {
   const ring = interpolate(f, [100, 110], [0, 1], clamp);
   return (
     <AbsoluteFill>
-      <World f={f} keys={[[0, 483, 1000, 1.2], [70, 470, 980, 1.3], [160, 400, 880, 1.9]]} {...KIT}>
+      <World f={f} keys={[[0, 483, 1000, 1.2], [70, 470, 980, 1.3], [160, 505, 975, 1.72]]} {...KIT}>
         <circle cx={452} cy={352} r={300 + Math.sin(f / 7) * 12} fill="#ffd9a0" opacity={0.06} />
         {/* kids' drawings taped to the cabinet doors */}
         <g transform="translate(160,470) rotate(-4)"><rect width={90} height={70} fill="#fbf8ee" /><circle cx={70} cy={16} r={8} fill="#f2c94c" /><path d="M14,58 L14,30 L30,30 M40,58 L40,26 M60,58 L60,34" stroke="#d8352a" strokeWidth={3} /><rect x={36} y={-6} width={22} height={10} fill="#e9e0b8" opacity={0.8} /></g>
@@ -321,32 +330,51 @@ const Kitchen: React.FC<{ f: number }> = ({ f }) => {
       <Typed f={f} text="THE KITCHEN" s={10} />
       <PostIt f={f} s={10} img="v_yasuko.jpg" name="YASUKO" age="41" x={820} y={330} rot={-4} gone={10} w={190} />
       <PostIt f={f} s={26} img="v_niina.jpg" name="NIINA" age="8" x={820} y={640} rot={4} gone={26} w={190} />
-      {f > 110 && <Stamp f={f} s={110} text="1 KNIFE MISSING" top={1130} size={70} color="#fff" rot={-3} />}
+      {f > 110 && <Stamp f={f} s={110} text="1 KNIFE MISSING" top={930} size={62} color="#fff" rot={-3} />}
       <Chip t="12:15 AM" f={f} inside={inside(15)} />
       <Alive f={f} bg="kitchen.png" people={[["yasuko.png", 200, 1640, 700], ["niina.png", 560, 1640, 520]]} />
     </AbsoluteFill>
   );
 };
-const Stay: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={LivingScene3} len={55} label="" chip={["12:30 AM", 30]} />;
-const FRIDGE = { src: S7("fridge_clean.png"), iw: 1065, ih: 1477 };
+const Stay: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={LivingScene3} len={55} label="LIVING ROOM" chip={["12:30 AM", 30]} grade="saturate(0.85) contrast(1.05)" />;
+const FRIDGE = { src: S7("fridge_nok.png"), iw: 1065, ih: 1477 };
 const Fridge: React.FC<{ f: number }> = ({ f }) => {
-  const br = 1 + Math.sin(f / 9) * 0.006;
+  // back-view killer (IK): left hand takes the red ice-cream bar, brings it to his mouth; right hand holds the door
+  const sc = 1.35, hx = 690 + Math.sin(f / 30) * 3, feetY = 1330, hy = feetY - 205 * sc + Math.sin(f / 11) * 3;
+  const reach = interpolate(f, [0, 11], [0, 1], { ...clamp, easing: ez }), back = interpolate(f, [15, 27], [0, 1], { ...clamp, easing: ez });
+  const rest: [number, number] = [640, 1010], bar: [number, number] = [556, 552], mouth: [number, number] = [688, 700];
+  const bite = f > 28 ? Math.max(0, Math.sin((f - 28) / 2.6)) * 22 : 0;
+  const lh: [number, number] = back > 0 ? [bar[0] + (mouth[0] - bar[0]) * back, bar[1] + (mouth[1] - bar[1]) * back + bite] : [rest[0] + (bar[0] - rest[0]) * reach, rest[1] + (bar[1] - rest[1]) * reach];
+  const taken = f >= 13;
   return (
     <AbsoluteFill>
-      <World f={f} keys={[[0, 560, 760, 1.35], [42, 600, 760, 1.5]]} {...FRIDGE} under={<PImg src={S7("fridge_killer.png")} x={0} y={0} w={1065} h={1477} style={{ transformOrigin: "990px 1380px", transform: `scale(${br},${1 / br})` }} />}>
-        {/* magnets and a child's drawing on the fridge door */}
+      <World f={f} keys={[[0, 505, 820, 1.42], [42, 520, 790, 1.5]]} {...FRIDGE}>
+        <rect x={830} y={0} width={300} height={1477} fill="url(#rdark)" />
         <g transform="translate(790,470) rotate(3)"><rect width={70} height={56} fill="#fbf8ee" /><path d="M10,46 L22,20 L34,46 M46,46 L46,24" stroke="#d8352a" strokeWidth={3} fill="none" /></g>
         {[[800, 620, "#d8352a"], [850, 640, "#2f7ad6"], [820, 680, "#f2c94c"]].map(([x, y, c], i) => <circle key={i} cx={x as number} cy={y as number} r={9} fill={c as string} stroke="#222" strokeWidth={1.5} />)}
+        <defs><linearGradient id="icg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="rgb(222,208,192)" /><stop offset="1" stopColor="rgb(196,179,159)" /></linearGradient>
+          <linearGradient id="rdark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#000" stopOpacity="0" /><stop offset="0.35" stopColor="#000" stopOpacity="0.75" /><stop offset="1" stopColor="#000" stopOpacity="0.9" /></linearGradient>
+          <radialGradient id="fglow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stopColor="#fff4d6" stopOpacity="0.5" /><stop offset="1" stopColor="#fff4d6" stopOpacity="0" /></radialGradient></defs>
+        {taken && <rect x={542} y={507} width={29} height={79} fill="url(#icg)" />}
+        <ellipse cx={620} cy={780} rx={330} ry={420} fill="url(#fglow)" opacity={0.55 + 0.05 * Math.sin(f / 3)} />
+        {/* cold vapour rolling out of the fridge */}
+        {Array.from({ length: 9 }).map((_, i) => { const q = ((f + i * 7) % 50) / 50; return <ellipse key={"v" + i} cx={520 + i * 30 + q * 40} cy={1060 + q * 160} rx={50 + q * 60} ry={18 + q * 14} fill="#e8f0ff" opacity={Math.sin(Math.PI * q) * 0.13} style={{ filter: "blur(10px)" }} />; })}
         {[0, 1, 2].map((i) => <ellipse key={i} cx={960 - i * 26} cy={1290 + i * 18} rx={6} ry={3} fill="#5a0a0e" opacity={0.8} />)}
-        <rect x={500} y={400} width={250} height={680} fill="#fff6d0" opacity={0.05 + 0.03 * Math.sin(f / 3)} />
+        <ellipse cx={hx} cy={feetY + 4} rx={150} ry={22} fill="#000" opacity={0.5} />
+        <StickIK hx={hx} hy={hy} s={sc} lh={lh} rh={[838, 760]} lf={[hx - 40, feetY]} rf={[hx + 44, feetY - 2]} headTilt={back * -0.5 + Math.sin(f / 17) * 0.15} />
+        {/* rim light from the fridge on his outline */}
+        <path d={`M${hx - 52},${hy - 185 * sc} L${hx - 34},${hy}`} stroke="#fff1cc" strokeWidth={5} opacity={0.45} style={{ filter: "blur(2px)" }} />
+        {(() => { const hcx = hx + (back * -0.5 + Math.sin(f / 17) * 0.15) * 10 * sc, hcy = hy - 285 * sc, r = 86 * sc; const P = (d: number) => `${hcx + Math.cos(d * Math.PI / 180) * r},${hcy + Math.sin(d * Math.PI / 180) * r}`; return <path d={`M${P(150)} A${r},${r} 0 0 1 ${P(250)}`} stroke="#fff1cc" strokeWidth={6} fill="none" opacity={0.55} strokeLinecap="round" style={{ filter: "blur(1.5px)" }} />; })()}
+        {taken && back < 0.9 && <g transform={`translate(${lh[0]},${lh[1]}) rotate(${-20 + back * 40})`}><rect x={-13} y={-44} width={26} height={52} rx={11} fill="#c8473f" stroke="#7a1f1a" strokeWidth={2} /><rect x={-4} y={6} width={8} height={24} rx={3} fill="#d9b27a" /></g>}
       </World>
       <Vig o={0.55} />
       <Chip t="12:41 AM" f={f} inside={inside(41)} />
     </AbsoluteFill>
   );
 };
-const Bath: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={BathScene3} len={33} label="" chip={["12:52 AM", 52]} />;
-const Office: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={OfficeScene3} len={45} label="" chip={["1:18 AM", 78]} />;
+const Bath: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={BathScene3} len={33} label="BATHROOM · 2F" chip={["12:52 AM", 52]} grade="saturate(0.75) contrast(1.1) brightness(0.96)" dutch={2} />;
+const Office: React.FC<{ f: number }> = ({ f }) => <Room3D f={f} C={OfficeScene3} len={45} label="OFFICE · 2F" chip={["1:18 AM", 78]} grade="saturate(0.85) contrast(1.06)"
+  over={f > 14 && <div style={{ position: "absolute", right: 60, top: 560, transform: `scale(${pop(f, 14, 11)})`, transformOrigin: "100% 50%", background: "rgba(8,12,24,0.88)", border: "3px solid #4a7dff", borderRadius: 12, padding: "8px 20px", fontFamily: "monospace", fontWeight: 700, fontSize: 34, color: "#cfe0ff", boxShadow: "0 0 24px rgba(74,125,255,0.5)" }}><span style={{ color: Math.floor(f / 5) % 2 ? "#3dff7a" : "#1a6a33" }}>●</span> ONLINE 1:18 AM</div>} />;
 const JAR = { src: S7("jar_fixed.png"), iw: 1086, ih: 1448 };
 const Tag: React.FC<{ f: number; s: number; x: number; y: number; text: string }> = ({ f, s, x, y, text }) => {
   if (f < s) return null; const p = pop(f, s, 10);
@@ -358,7 +386,7 @@ const Evidence: React.FC<{ f: number }> = ({ f }) => (
     <Vig o={0.55} />
     <Tag f={f} s={14} x={90} y={560} text="HIS BLOOD" />
     <Tag f={f} s={36} x={560} y={760} text="FINGERPRINTS" />
-    <Tag f={f} s={58} x={150} y={1000} text="HIS CLOTHES" />
+    <Tag f={f} s={58} x={660} y={1010} text="HIS CLOTHES" />
   </AbsoluteFill>
 );
 const Fact: React.FC<{ f: number; s: number; big: string; small: string; top: number }> = ({ f, s, big, small, top }) => {
@@ -402,7 +430,7 @@ const End: React.FC<{ f: number }> = ({ f }) => {
       </World>
       <Vig o={0.6} />
       <div style={{ position: "absolute", top: 300, width: "100%", textAlign: "center", transform: `scale(${pop(f, 4, 12)})` }}>
-        <div style={{ fontFamily: "Lilita One", fontSize: 140, color: "#fff", WebkitTextStroke: `6px ${INK}`, textShadow: "0 10px 0 #000" }}>WHO WAS HE?</div>
+        <div style={{ fontFamily: "Lilita One", fontSize: 116, color: "#fff", WebkitTextStroke: `6px ${INK}`, textShadow: "0 10px 0 #000" }}>WHO WAS HE?</div>
         <div style={{ display: "inline-block", marginTop: 20, background: "#e3262b", color: "#fff", fontFamily: "Lilita One", fontSize: 52, padding: "10px 34px", borderRadius: 16, border: `5px solid ${INK}` }}>COMMENT YOUR THEORY ↓</div>
       </div>
     </>
@@ -455,6 +483,7 @@ const Scene: React.FC<{ C: React.FC<{ f: number }>; i: number }> = ({ C, i }) =>
 export const Miya8: React.FC<{ audio?: boolean }> = ({ audio = false }) => (
   <AbsoluteFill style={{ background: "#000" }}>
     {LIST.map(([a, b, C], i) => <Sequence key={i} from={a} durationInFrames={b - a}><Scene C={C} i={i} /></Sequence>)}
+    <AbsoluteFill style={{ background: "linear-gradient(180deg, transparent 70%, rgba(0,0,0,0.38) 78%, rgba(0,0,0,0.38) 88%, transparent 96%)", pointerEvents: "none" }} />
     <Subs />
     <Grade />
     {audio && <Audio src={staticFile("miya8/mix.wav")} />}

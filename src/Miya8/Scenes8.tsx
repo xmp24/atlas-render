@@ -27,10 +27,10 @@ const Stage: React.FC<{ f: number; len: number; a: Cam; b: Cam; children: React.
 export const ReiScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
   const p = idleBP(f, { ...STAND, headX: 14, lean: 6 });
   return (
-    <Stage f={f} len={len} a={{ pos: [1.1, 1.45, 2.6], look: [-0.5, 0.95, -1.4], fov: 64 }} b={{ pos: [0.85, 1.4, 2.0], look: [-0.6, 0.95, -1.4], fov: 60 }}>
+    <Stage f={f} len={len} a={{ pos: [1.45, 1.55, 3.0], look: [-0.45, 0.9, -1.4], fov: 66 }} b={{ pos: [1.2, 1.5, 2.5], look: [-0.5, 0.92, -1.4], fov: 63 }}>
       <ReiRoom7 /><ReiExtras f={f} />
       <Bot pos={[0.05, 0, -0.05]} ry={-2.1} p={p} f={f} />
-      <Aura f={f} pos={[0.05, 0, -0.05]} seed="rei" />
+      <Aura f={f} pos={[0.05, 0, -0.05]} seed="rei" k={1.0} n={56} />
       <pointLight position={[0.1, 1.9, 1.0]} intensity={1.6} distance={2.5} color="#9fb4ff" />
     </Stage>
   );
@@ -38,10 +38,10 @@ export const ReiScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
 export const StairsScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
   const p = idleBP(f, { ...STAND, headX: -14 });
   return (
-    <Stage f={f} len={len} a={{ pos: [-1.4, 1.25, 4.2], look: [0.35, 1.7, 0], fov: 62 }} b={{ pos: [-1.0, 1.35, 3.6], look: [0.35, 2.1, 0], fov: 60 }}>
+    <Stage f={f} len={len} a={{ pos: [-1.9, 1.15, 4.9], look: [0.45, 1.75, 0], fov: 62 }} b={{ pos: [-1.55, 1.25, 4.4], look: [0.45, 2.05, 0], fov: 60 }}>
       <Stairs7 /><StairsExtras f={f} />
-      <Bot pos={[-0.35, 0, 1.55]} ry={Math.PI * 0.9} p={p} f={f} />
-      <Aura f={f} pos={[-0.35, 0, 1.55]} seed="st" k={0.8} n={44} />
+      <Bot pos={[-0.55, 0, 1.75]} ry={Math.PI * 0.82} p={p} f={f} />
+      <Aura f={f} pos={[-0.55, 0, 1.75]} seed="st" k={0.8} n={44} />
       <pointLight position={[-0.4, 1.9, 3.3]} intensity={1.4} distance={2.5} color="#9fb4ff" />
     </Stage>
   );
