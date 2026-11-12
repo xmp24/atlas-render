@@ -2,7 +2,7 @@ import React from "react";
 import { ThreeCanvas } from "@remotion/three";
 import { interpolate } from "remotion";
 import { Rig } from "../Miya3/Kit3";
-import { Bot, Aura, STAND, TYPE, idleBP, mixBP, BP } from "./Bot3";
+import { Bot, Aura, STAND, TYPE, idleBP, mixBP, BP, walkBP } from "./Bot3";
 import { ReiRoom7, Stairs7, Living7, Office7, ReiExtras, StairsExtras, LivingExtras, OfficeExtras, Bath8 } from "./Rooms8";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
@@ -26,13 +26,19 @@ const Stage: React.FC<{ f: number; len: number; a: Cam; b: Cam; children: React.
 };
 
 export const ReiScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
-  const look = interpolate(f, [20, 70], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
-  const p = idleBP(f, { ...STAND, headX: 14 + 8 * look, headY: -28 * look, lean: 6, twist: -6 * look });
+  const look = interpolate(f, [26, 70], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
+  const wk = interpolate(f, [0, 22], [0, 1], clamp), stop = interpolate(f, [16, 26], [1, 0], clamp);
+  const ph = wk * Math.PI * 2.2;
+  const idle = idleBP(f, { ...STAND, headX: 14 + 8 * look, headY: -28 * look, lean: 6, twist: -6 * look });
+  const p = stop > 0 ? mixBP(idle, walkBP(ph, 1), stop) : idle;
+  const bx = 0.05 + (1 - (wk < 1 ? 1 - Math.pow(1 - wk, 2) : 1)) * 0.38, bz = -0.05 + (1 - (wk < 1 ? 1 - Math.pow(1 - wk, 2) : 1)) * 0.3;
+  const lag = Math.max(0, wk - 0.15);
+  const ax = 0.05 + (1 - (lag < 1 ? 1 - Math.pow(1 - lag, 2) : 1)) * 0.38, az = -0.05 + (1 - (lag < 1 ? 1 - Math.pow(1 - lag, 2) : 1)) * 0.3;
   return (
     <Stage f={f} len={len} a={{ pos: [1.45, 1.55, 3.0], look: [-0.45, 0.9, -1.4], fov: 66 }} b={{ pos: [1.2, 1.5, 2.5], look: [-0.5, 0.92, -1.4], fov: 63 }}>
       <ReiRoom7 /><ReiExtras f={f} />
-      <Bot pos={[0.05, 0, -0.05]} ry={-2.1} p={p} f={f} />
-      <Aura f={f} pos={[0.05, 0, -0.05]} seed="rei" k={1.35} n={64} />
+      <Bot pos={[bx, 0, bz]} ry={-2.1} p={p} f={f} />
+      <Aura f={f} pos={[ax, 0, az]} seed="rei" k={1.1} n={56} />
       <pointLight position={[0.1, 1.9, 1.0]} intensity={1.6} distance={2.5} color="#9fb4ff" />
     </Stage>
   );
@@ -41,7 +47,7 @@ export const StairsScene3: React.FC<{ f: number; len: number }> = ({ f, len }) =
   const down = interpolate(f, [30, 80], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
   const p = idleBP(f, { ...STAND, headX: -14 + 40 * down, headY: 18 * down, lean: 4 * down });
   return (
-    <Stage f={f} len={len} a={{ pos: [-1.9, 1.15, 4.9], look: [0.45, 1.75, 0], fov: 62 }} b={{ pos: [-1.55, 1.25, 4.4], look: [0.45, 2.05, 0], fov: 60 }}>
+    <Stage f={f} len={len} cut={[62, { pos: [0.9, 0.55, 4.6], look: [-0.45, 1.25, 1.75], fov: 58 }, { pos: [0.8, 0.6, 4.3], look: [-0.45, 1.3, 1.75], fov: 56 }]} a={{ pos: [-1.9, 1.15, 4.9], look: [0.45, 1.75, 0], fov: 62 }} b={{ pos: [-1.55, 1.25, 4.4], look: [0.45, 2.05, 0], fov: 60 }}>
       <Stairs7 /><StairsExtras f={f} />
       <Bot pos={[-0.55, 0, 1.75]} ry={Math.PI * 0.82} p={p} f={f} />
       <Aura f={f} pos={[-0.55, 0, 1.75]} seed="st" k={0.75} n={44} />
@@ -51,7 +57,7 @@ export const StairsScene3: React.FC<{ f: number; len: number }> = ({ f, len }) =
 };
 /** "And the killer stayed": behind the sofa, by the window; slowly turns his head to the camera */
 export const LivingScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
-  const turn = interpolate(f, [12, 46], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
+  const turn = interpolate(f, [6, 32], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
   const base: BP = { ...STAND, headY: 0, headX: 2 };
   const p = idleBP(f, { ...base, headY: -150 * turn, twist: -12 * turn });
   return (

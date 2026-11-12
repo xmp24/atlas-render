@@ -137,9 +137,12 @@ const ik2 = (sx: number, sy: number, tx: number, ty: number, l1: number, l2: num
   return [sx + Math.cos(ang) * l1, sy + Math.sin(ang) * l1];
 };
 /** back-view stickman: hips at (hx,hy) in world px; hands/feet at world targets; s = px per rig unit */
-export const StickIK: React.FC<{ hx: number; hy: number; s: number; lh: [number, number]; rh: [number, number]; lf: [number, number]; rf: [number, number]; headTilt?: number; opacity?: number }> = ({ hx, hy, s, lh, rh, lf, rf, headTilt = 0, opacity = 1 }) => {
+export const StickIK: React.FC<{ hx: number; hy: number; s: number; lh: [number, number]; rh: [number, number]; lf: [number, number]; rf: [number, number]; headTilt?: number; opacity?: number }> = ({ hx, hy, s, lh: lh0, rh: rh0, lf: lf0, rf: rf0, headTilt = 0, opacity = 1 }) => {
   const shY = hy - 185 * s, shL: [number, number] = [hx - 30 * s, shY + 6 * s], shR: [number, number] = [hx + 30 * s, shY + 6 * s];
   const hpL: [number, number] = [hx - 14 * s, hy], hpR: [number, number] = [hx + 14 * s, hy];
+  // never stretch a limb: pull unreachable targets back inside its length
+  const reach = (o: [number, number], t: [number, number], L: number): [number, number] => { const dx = t[0] - o[0], dy = t[1] - o[1], d = Math.hypot(dx, dy); return d <= L ? t : [o[0] + dx / d * L, o[1] + dy / d * L]; };
+  const lh = reach(shL, lh0, 196 * s), rh = reach(shR, rh0, 196 * s), lf = reach(hpL, lf0, 203 * s), rf = reach(hpR, rf0, 203 * s);
   const eL = ik2(shL[0], shL[1], lh[0], lh[1], 102 * s, 96 * s, -1), eR = ik2(shR[0], shR[1], rh[0], rh[1], 102 * s, 96 * s, 1);
   const kL = ik2(hpL[0], hpL[1], lf[0], lf[1], 105 * s, 100 * s, 1), kR = ik2(hpR[0], hpR[1], rf[0], rf[1], 105 * s, 100 * s, -1);
   const T: React.FC<{ d: string; w: number }> = ({ d, w }) => (<g><path d={d} stroke={LINE} strokeWidth={(w + 8) * s} fill="none" strokeLinecap="round" strokeLinejoin="round" /><path d={d} stroke={FILL} strokeWidth={w * s} fill="none" strokeLinecap="round" strokeLinejoin="round" /></g>);

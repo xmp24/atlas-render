@@ -1,4 +1,5 @@
 import { Miya8, V8_FRAMES } from "../Miya8/Video8";
+import { Miya10, V10_FRAMES } from "../Miya8/Video10";
 import { Miya9, V9_FRAMES } from "../Miya8/Video9";
 import { RoomTest } from "../Miya8/Scenes8";
 import { BotTest } from "../Miya8/BotTest";
@@ -27,6 +28,7 @@ export const MiyaRoot: React.FC = () => (<>
   <Composition id="Miya7N" component={Miya7} durationInFrames={V7_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
   <Composition id="BotTest" component={BotTest} durationInFrames={60} fps={30} width={1080} height={1920} />
   {["rei","stairs","living","bath","office"].map((r) => <Composition key={"rt"+r} id={"RT-" + r} component={RoomTest} durationInFrames={1} fps={30} width={1080} height={1920} defaultProps={{ room: r }} />)}
+  <Composition id="Miya10N" component={Miya10} durationInFrames={V10_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
   <Composition id="Miya9N" component={Miya9} durationInFrames={V9_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
   <Composition id="Miya8N" component={Miya8} durationInFrames={V8_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false }} />
 </>);

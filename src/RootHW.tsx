@@ -1,4 +1,5 @@
 import {Miya8, V8_FRAMES} from './Miya8/Video8';
+import {Miya10, V10_FRAMES} from './Miya8/Video10';
 import {Miya9, V9_FRAMES} from './Miya8/Video9';
 import {Miya7, V7_FRAMES} from './Miya7/Video7';
 import {Miya3D, Q3_FRAMES} from './Miya3/Video3';
@@ -49,6 +50,7 @@ export const RootHW: React.FC = () => (
     <Composition id="MiyaQuietN" component={MiyaQuiet} durationInFrames={Q_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="Miya3DN" component={Miya3D} durationInFrames={Q3_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="Miya7N" component={Miya7} durationInFrames={V7_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
+    <Composition id="Miya10N" component={Miya10} durationInFrames={V10_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="Miya9N" component={Miya9} durationInFrames={V9_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="Miya8N" component={Miya8} durationInFrames={V8_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="MiyaShortN" component={MiyaShort} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />

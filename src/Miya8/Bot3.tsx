@@ -20,8 +20,8 @@ export const bpTrack = (f: number, keys: [number, BP][]): BP => {
 /** breathing idle with slow weight shift and micro head motion */
 export const idleBP = (f: number, base: BP = STAND): BP => ({
   ...base,
-  bob: base.bob + Math.sin(f / 24) * 0.006,
-  lean: base.lean + Math.sin(f / 24) * 0.8,
+  bob: base.bob + Math.sin(f / 24) * 0.011,
+  lean: base.lean + Math.sin(f / 24) * 1.6,
   headX: base.headX + Math.sin(f / 37) * 1.5,
   headY: base.headY + Math.sin(f / 53) * 3,
   lArmZ: base.lArmZ - Math.sin(f / 24) * 1.2,
@@ -98,7 +98,10 @@ export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; 
       <group position={[0, 0.86 + p.bob, 0]} rotation={R(0, p.twist, 0)}>
         {leg(-1)}{leg(1)}
         <group rotation={R(p.lean)}>
-          <Part geo={G.torso} p={[0, 0.25, 0]} s={[1.25, 1, 0.9]} />
+          <group scale={[1 + Math.sin(f / 24) * 0.02, 1, 1 + Math.sin(f / 24) * 0.03]}><Part geo={G.torso} p={[0, 0.25, 0]} s={[1.25, 1, 0.9]} /></group>
+          {/* hood of his sweatshirt, folded on the back of the neck, and drawstrings */}
+          <group position={[0, 0.5, -0.075]} rotation={R(18)}><Part geo={G.head} s={[0.62, 0.36, 0.42]} outline={1.06} /></group>
+          {[-1, 1].map((sd) => <mesh key={"ds" + sd} position={[sd * 0.03, 0.4, 0.085]}><cylinderGeometry args={[0.006, 0.006, 0.14, 6]} /><meshStandardMaterial color="#9a9aa2" /></mesh>)}
           {arm(-1)}{arm(1)}
           <group position={[0, 0.5, 0]} rotation={R(p.headX, p.headY, 0)}>
             <Part geo={G.torso} p={[0, 0.0, 0]} s={[0.35, 0.18, 0.35]} outline={1.12} />
@@ -114,6 +117,7 @@ export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; 
           </group>
         </group>
       </group>
+      <mesh position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.32, 32]} /><meshBasicMaterial color="#000" transparent opacity={0.38} depthWrite={false} /></mesh>
       {extra}
     </group>
   );

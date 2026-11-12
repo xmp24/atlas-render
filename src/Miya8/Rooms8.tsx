@@ -81,8 +81,9 @@ const clockTex = (hh: number, mm: number) => tex(`clk${hh}${mm}`, 128, 128, (c) 
   c.lineWidth = 6; c.beginPath(); c.moveTo(64, 64); c.lineTo(64 + Math.sin(ah) * 28, 64 - Math.cos(ah) * 28); c.stroke();
   c.lineWidth = 4; c.beginPath(); c.moveTo(64, 64); c.lineTo(64 + Math.sin(am) * 42, 64 - Math.cos(am) * 42); c.stroke();
 });
-export const WallClock8: React.FC<{ p: [number, number, number]; hh: number; mm: number; ry?: number; r?: number }> = ({ p, hh, mm, ry = 0, r = 0.2 }) => (
-  <group position={p} rotation={[0, ry, 0]}><Cyl p={[0, 0, -0.01]} r1={r + 0.02} h={0.04} c="#3b2b20" rot={[Math.PI / 2, 0, 0]} /><mesh position={[0, 0, 0.012]}><circleGeometry args={[r, 40]} /><meshStandardMaterial map={clockTex(hh, mm)} /></mesh></group>
+export const WallClock8: React.FC<{ p: [number, number, number]; hh: number; mm: number; ry?: number; r?: number; f?: number }> = ({ p, hh, mm, ry = 0, r = 0.2, f = 0 }) => (
+  <group position={p} rotation={[0, ry, 0]}><Cyl p={[0, 0, -0.01]} r1={r + 0.02} h={0.04} c="#3b2b20" rot={[Math.PI / 2, 0, 0]} /><mesh position={[0, 0, 0.012]}><circleGeometry args={[r, 40]} /><meshStandardMaterial map={clockTex(hh, mm)} /></mesh>
+    <group position={[0, 0, 0.02]} rotation={[0, 0, -Math.floor(f / 15) * Math.PI / 30]}><mesh position={[0, r * 0.4, 0]}><boxGeometry args={[r * 0.03, r * 0.85, 0.004]} /><meshBasicMaterial color="#c8102e" /></mesh></group></group>
 );
 const calTex8 = () => tex("cal8", 128, 170, (c) => { c.fillStyle = "#fff"; c.fillRect(0, 0, 128, 170); c.fillStyle = "#d8352a"; c.fillRect(0, 0, 128, 36); c.fillStyle = "#fff"; c.font = "bold 22px sans-serif"; c.textAlign = "center"; c.fillText("DEC 2000", 64, 26); c.font = "12px sans-serif"; for (let d = 1; d <= 31; d++) { const q = (d + 4) % 7, r = Math.floor((d + 4) / 7); const x = 12 + q * 17, y = 58 + r * 22; c.fillStyle = "#333"; c.fillText(String(d), x, y); if (d < 30) { c.strokeStyle = "#d8352a"; c.lineWidth = 2; c.beginPath(); c.moveTo(x - 6, y - 9); c.lineTo(x + 6, y + 2); c.stroke(); } if (d === 30) { c.strokeStyle = "#d8352a"; c.beginPath(); c.arc(x, y - 4, 9, 0, 7); c.stroke(); } } });
 export const Calendar8: React.FC<{ p: [number, number, number]; ry?: number }> = ({ p, ry = 0 }) => <mesh position={p} rotation={[0, ry, 0]}><planeGeometry args={[0.32, 0.42]} /><meshStandardMaterial map={calTex8()} /></mesh>;
@@ -97,8 +98,8 @@ export const ReiExtras: React.FC<{ f: number }> = ({ f }) => (
     <Taped p={[-0.05, 1.55, -2.54]} s={[0.3, 0.22]} k="b" kind={2} rz={-0.06} />
     <Taped p={[2.54, 1.6, -1.6]} s={[0.36, 0.27]} k="c" kind={1} ry={-Math.PI / 2} rz={0.04} />
     {/* moon night light */}
-    <group position={[-2.5, 0.35, 0.2]} rotation={[0, Math.PI / 2, 0]}><mesh><circleGeometry args={[0.08, 24, 0, Math.PI * 1.3]} /><meshStandardMaterial color="#fff2b0" emissive="#ffe08a" emissiveIntensity={1.4} /></mesh></group>
-    <pointLight position={[-2.3, 0.35, 0.2]} intensity={0.8} distance={1.5} color="#ffe08a" />
+    <group position={[-2.5, 0.35, 0.2]} rotation={[0, Math.PI / 2, 0]}><mesh><circleGeometry args={[0.08, 24, 0, Math.PI * 1.3]} /><meshStandardMaterial color="#fff2b0" emissive="#ffe08a" emissiveIntensity={f < 30 ? 1.4 : f < 36 ? (Math.floor(f) % 2 ? 1.4 : 0.1) : 0.05} /></mesh></group>
+    <pointLight position={[-2.3, 0.35, 0.2]} intensity={f < 30 ? 0.8 : f < 36 ? (Math.floor(f) % 2 ? 0.8 : 0) : 0} distance={1.5} color="#ffe08a" />
     {/* toy cars on the shelf, slippers, open drawer with clothes, papers on the floor (the house was ransacked) */}
     {[0, 1, 2, 3].map((i) => <Box key={i} p={[2.2, 1.43, -0.95 + i * 0.16]} s={[0.06, 0.05, 0.12]} c={["#d8262b", "#2f7ad6", "#f2c94c", "#3f9a4a"][i]} rough={0.35} />)}
     <Box p={[-0.85, 0.03, 0.35]} s={[0.1, 0.04, 0.22]} c="#4a7fd0" r={[0, 0.3, 0]} /><Box p={[-0.68, 0.03, 0.3]} s={[0.1, 0.04, 0.22]} c="#4a7fd0" r={[0, -0.2, 0]} />
@@ -107,7 +108,7 @@ export const ReiExtras: React.FC<{ f: number }> = ({ f }) => (
       <Box p={[0.3, 0.44, 0.45]} s={[0.25, 0.05, 0.2]} c="#e88aa6" r={[0, 0.3, 0.1]} />
     </group>
     <Paper p={[0.9, 0.003, 0.2]} r={0.4} /><Paper p={[1.2, 0.004, 0.55]} r={-0.7} /><Paper p={[0.6, 0.005, 1.2]} r={1.2} c="#efe9d0" />
-    <WallClock8 p={[1.6, 2.15, -2.54]} hh={12} mm={5} r={0.14} />
+    <WallClock8 p={[1.6, 2.15, -2.54]} hh={12} mm={5} r={0.14} f={f} />
     <Calendar8 p={[2.54, 1.25, -2.2]} ry={-Math.PI / 2} />
     <Shaft p={[0.9, 0.9, -1.8]} r={[0.55, 0, 0]} top={0.5} bottom={1.0} h={2.2} color="#9fb4ff" o={0.16} />
     <DustPts f={f} c={[0.4, 1.0, -1.0]} s={[2.5, 1.8, 2]} />
@@ -121,8 +122,10 @@ export const StairsExtras: React.FC<{ f: number }> = ({ f }) => (
     <group position={[-1.75, 0, 0.9]}>
       <Box p={[0, 0.38, 0]} s={[0.45, 0.04, 0.35]} c="#6b4428" />{[[-0.18, -0.13], [0.18, -0.13], [-0.18, 0.13], [0.18, 0.13]].map(([x, z], i) => <Box key={i} p={[x, 0.18, z]} s={[0.03, 0.36, 0.03]} c="#5a3820" />)}
       <Box p={[0, 0.44, 0]} s={[0.2, 0.08, 0.16]} c="#e8e4d8" rough={0.4} />
-      <Box p={[0.12, 0.25, 0.1]} s={[0.18, 0.04, 0.05]} c="#e8e4d8" r={[0, 0.3, 1.2]} />
-      <mesh position={[0.08, 0.32, 0.06]}><torusGeometry args={[0.06, 0.006, 6, 20, 4]} /><meshStandardMaterial color="#d8d4c8" /></mesh>
+      <group position={[0.18, 0.38, 0.1]} rotation={[Math.sin(f / 9) * 0.25, 0, Math.sin(f / 11) * 0.12]}>
+        <mesh position={[0, -0.12, 0]}><cylinderGeometry args={[0.005, 0.005, 0.24, 6]} /><meshStandardMaterial color="#d8d4c8" /></mesh>
+        <Box p={[0, -0.26, 0]} s={[0.05, 0.18, 0.04]} c="#e8e4d8" />
+      </group>
       <Contact p={[0, 0, 0]} s={[0.7, 0.6]} />
     </group>
     {/* the snapped kitchen knife: blade and handle apart on the floor */}
@@ -136,7 +139,7 @@ export const StairsExtras: React.FC<{ f: number }> = ({ f }) => (
     {/* faint smear on the wall (out of focus) */}
     <mesh position={[0.92, 1.6, 0.3]} rotation={[0, -Math.PI / 2, 0]}><planeGeometry args={[0.6, 0.5]} /><meshBasicMaterial map={bloodTex()} transparent opacity={0.55} depthWrite={false} /></mesh>
     <Taped p={[0.92, 1.25, 1.9]} s={[0.36, 0.27]} k="s" kind={1} ry={-Math.PI / 2} rz={0.03} />
-    <WallClock8 p={[-2.04, 1.95, 0.0]} hh={12} mm={10} ry={Math.PI / 2} r={0.16} />
+    <WallClock8 p={[-2.04, 1.95, 0.0]} hh={12} mm={10} ry={Math.PI / 2} r={0.16} f={f} />
     <Shaft p={[0.35, 3.4, -2.2]} r={[-0.9, 0, 0]} top={0.3} bottom={0.9} h={2.4} color="#ffd59a" o={0.18} />
     <DustPts f={f} c={[0.3, 2.0, 0.5]} s={[2, 3, 3]} />
   </group>
@@ -149,11 +152,15 @@ export const LivingExtras: React.FC<{ f: number }> = ({ f }) => (
     <group position={[-2.2, 0, 0.6]}><Box p={[0, 0.25, 0]} s={[0.35, 0.5, 0.3]} c="#d9d4c8" rough={0.4} /><Box p={[0.18, 0.25, 0]} s={[0.01, 0.3, 0.22]} c="#ff6a20" e="#ff5a10" ei={2.5} /><pointLight position={[0.4, 0.3, 0]} intensity={1.6} distance={2.2} color="#ff7a30" /></group>
     {/* half-finished tea, homework open, toy half-built */}
     <Cyl p={[-0.45, 0.47, 0.5]} r1={0.04} h={0.08} c="#e9e4d8" /><Cyl p={[-0.45, 0.5, 0.5]} r1={0.034} h={0.01} c="#7a8a3a" />
+    {[0, 1, 2, 3].map((i) => { const q = ((f + i * 9) % 36) / 36; return <mesh key={"st" + i} position={[-0.45 + Math.sin(q * 6 + i) * 0.02, 0.53 + q * 0.22, 0.5]}><sphereGeometry args={[0.02 + q * 0.03, 8, 6]} /><meshBasicMaterial color="#ffffff" transparent opacity={Math.sin(Math.PI * q) * 0.18 * Math.max(0.2, 1 - f / 60)} depthWrite={false} /></mesh>; })}
+    {/* sheer curtain moving in the draft from the open window upstairs */}
+    <mesh position={[0.15, 1.45, -2.48]} rotation={[Math.sin(f / 13) * 0.06, Math.sin(f / 17) * 0.05, 0]}><planeGeometry args={[0.7, 1.3, 1, 8]} /><meshStandardMaterial color="#e8eef8" transparent opacity={0.22} side={THREE.DoubleSide} depthWrite={false} /></mesh>
+    <spotLight position={[0.5, 2.15, -2.5]} target-position={[0.3, 0, 0.9]} angle={0.6} penumbra={0.6} intensity={6} distance={7} color="#9fb4ff" castShadow />
     <Box p={[0.05, 0.43, 0.95]} s={[0.3, 0.01, 0.21]} c="#f4f1e8" r={[0, 0.2, 0]} /><Box p={[0.12, 0.44, 0.9]} s={[0.12, 0.012, 0.012]} c="#d8352a" r={[0, 0.8, 0]} />
     <group position={[0.9, 0.02, 1.4]}>{[0, 1, 2, 3, 4].map((i) => <Box key={i} p={[i * 0.05, 0.03 + (i > 2 ? 0.05 : 0), (i % 2) * 0.05]} s={[0.05, 0.05, 0.05]} c={["#d8262b", "#2f7ad6", "#f2c94c", "#3f9a4a", "#ffffff"][i]} />)}</group>
     {/* drawers pulled out, papers scattered */}
     <Paper p={[0.4, 0.004, 1.6]} r={0.3} /><Paper p={[0.75, 0.005, 1.85]} r={-0.6} /><Paper p={[-1.0, 0.004, 1.7]} r={1.0} c="#efe9d0" />
-    <WallClock8 p={[-1.3, 2.15, -2.64]} hh={12} mm={30} />
+    <WallClock8 p={[-1.3, 2.15, -2.64]} hh={12} mm={30} f={f} />
     <Calendar8 p={[2.69, 1.6, -1.2]} ry={-Math.PI / 2} />
     <Shaft p={[0.9, 0.85, -1.9]} r={[0.6, 0, 0]} top={0.6} bottom={1.1} h={2.3} color="#9fb4ff" o={0.14} />
     <DustPts f={f} c={[0.6, 1.0, -1.2]} s={[2.5, 1.8, 2]} />
@@ -176,7 +183,7 @@ export const OfficeExtras: React.FC<{ f: number; stage: number }> = ({ f, stage 
     <Box p={[1.53, 0.65, -0.8]} s={[0.4, 0.22, 0.5]} c="#8e949c" metal={0.4} rough={0.5} />
     <Paper p={[0.9, 0.004, -0.2]} r={0.5} /><Paper p={[1.2, 0.005, 0.1]} r={-0.4} /><Paper p={[-0.5, 0.004, 0.2]} r={1.2} c="#efe9d0" /><Paper p={[0.3, 0.006, 0.45]} r={-1.1} />
     <Calendar8 p={[-0.6, 1.8, -2.24]} />
-    <WallClock8 p={[0.9, 2.15, -2.24]} hh={1} mm={18} r={0.15} />
+    <WallClock8 p={[0.9, 2.15, -2.24]} hh={1} mm={18} r={0.15} f={f} />
     <Shaft p={[-0.05, 0.9, -1.2]} r={[-1.2, 0, 0]} top={0.12} bottom={0.7} h={1.3} color="#8fbfff" o={0.22} />
     <DustPts f={f} c={[0, 1.0, -1.2]} s={[1.6, 1.2, 1.2]} n={80} />
   </group>
@@ -187,7 +194,9 @@ const tileRelief = () => TX.tiles("#e7eef0", "#b9c8cd", 16, 9);
 export const Bath8: React.FC<{ f: number }> = ({ f }) => (
   <group>
     {/* shell */}
-    <Box p={[0, -0.05, 0]} s={[4, 0.1, 4]} map={TX.tiles("#a9bcc4", "#869aa2", 9, 9)} rough={0.35} />
+    <Box p={[0, -0.05, 0]} s={[4, 0.1, 4]} map={TX.tiles("#a9bcc4", "#869aa2", 9, 9)} rough={0.18} metal={0.15} />
+    {[0, 1].map((i) => { const q = ((f + i * 14) % 28) / 28; return <mesh key={"dr" + i} position={[0.45 + i * 0.1, 0.84 * (1 - q * q), -1.42]}><sphereGeometry args={[0.012, 8, 6]} /><meshStandardMaterial color="#7a0a10" roughness={0.2} /></mesh>; })}
+    {[0, 1, 2].map((i) => <mesh key={"pd" + i} position={[0.48 + i * 0.05, 0.003, -1.4 + i * 0.03]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.02 + i * 0.012 + Math.min(0.02, f * 0.0006), 14]} /><meshBasicMaterial color="#5a0a0e" /></mesh>)}
     <Box p={[0, 2.55, 0]} s={[4, 0.1, 4]} c="#eef0ec" />
     <Box p={[0, 1.25, -2]} s={[4, 2.5, 0.1]} map={tileRelief()} rough={0.3} />
     <Box p={[-2, 1.25, 0]} s={[0.1, 2.5, 4]} map={tileRelief()} rough={0.3} />
@@ -238,7 +247,7 @@ export const Bath8: React.FC<{ f: number }> = ({ f }) => (
     <Box p={[0.6, 0.008, -0.95]} s={[0.7, 0.012, 0.45]} c="#5b8fb0" />
     <Box p={[0.3, 0.025, -0.55]} s={[0.1, 0.04, 0.24]} c="#7aa0c0" r={[0, 0.2, 0]} /><Box p={[0.45, 0.025, -0.5]} s={[0.1, 0.04, 0.24]} c="#7aa0c0" r={[0, -0.1, 0]} />
     <Contact p={[0.75, 0, -1.72]} s={[1.3, 0.8]} /><Contact p={[-1.2, 0, -1.25]} s={[1.8, 1.8]} /><Contact p={[1.65, 0, 0.8]} s={[0.9, 0.9]} />
-    <WallClock8 p={[1.94, 2.05, 0.6]} hh={12} mm={52} ry={-Math.PI / 2} r={0.13} />
+    <WallClock8 p={[1.94, 2.05, 0.6]} hh={12} mm={52} ry={-Math.PI / 2} r={0.13} f={f} />
     <Pendant7 p={[0.2, 1.95, -0.2]} k={0.55} />
     <hemisphereLight args={["#6b7aa8", "#1a1a1a", 0.4]} />
     <DustPts f={f} c={[0.4, 1.3, -0.8]} s={[2, 1.6, 1.5]} n={70} />
