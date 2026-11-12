@@ -56,6 +56,8 @@ const Head: React.FC<{ cx: number; cy: number; view: "side" | "front" | "three" 
     <g>
       <circle cx={cx} cy={cy} r={r + 4} fill={LINE} />
       <circle cx={cx} cy={cy} r={r} fill={FILL} />
+      <circle cx={cx} cy={cy} r={r} fill="url(#stkShade2)" />
+      <defs><radialGradient id="stkShade2" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stopColor="#5a5a62" stopOpacity="0.55" /><stop offset="0.6" stopColor="#2b2b2f" stopOpacity="0" /><stop offset="1" stopColor="#000" stopOpacity="0.45" /></radialGradient></defs>
       <path d={`M${cx - r * 0.72},${cy - r * 0.32} A${r * 0.8},${r * 0.8} 0 0 1 ${cx - r * 0.1},${cy - r * 0.8}`} stroke="#fff" strokeWidth={5} fill="none" strokeLinecap="round" opacity={0.85} />
       <ellipse cx={cx - r * 0.42} cy={cy - r * 0.5} rx={10} ry={5} fill="#fff" opacity={0.35} transform={`rotate(-40,${cx - r * 0.42},${cy - r * 0.5})`} />
       {view !== "back" && (() => {
@@ -152,7 +154,10 @@ export const StickIK: React.FC<{ hx: number; hy: number; s: number; lh: [number,
       <T d={P(shL, eL, lh)} w={24} /><T d={P(shR, eR, rh)} w={24} />
       <circle cx={lh[0]} cy={lh[1]} r={16 * s} fill={FILL} stroke={LINE} strokeWidth={4 * s} /><circle cx={rh[0]} cy={rh[1]} r={16 * s} fill={FILL} stroke={LINE} strokeWidth={4 * s} />
       <rect x={hx - 12 * s} y={shY - 22 * s} width={24 * s} height={26 * s} fill={FILL} />
+      <path d={`M${hx - 26 * s},${shY + 12 * s} L${hx - 15 * s},${hy}`} stroke="rgba(255,255,255,0.22)" strokeWidth={5 * s} strokeLinecap="round" />
       <circle cx={hc[0]} cy={hc[1]} r={86 * s} fill={LINE} /><circle cx={hc[0]} cy={hc[1]} r={82 * s} fill={FILL} />
+      <circle cx={hc[0]} cy={hc[1]} r={82 * s} fill="url(#stkShade)" />
+      <defs><radialGradient id="stkShade" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stopColor="#5a5a62" stopOpacity="0.55" /><stop offset="0.6" stopColor="#2b2b2f" stopOpacity="0" /><stop offset="1" stopColor="#000" stopOpacity="0.45" /></radialGradient></defs>
       <path d={`M${hc[0] - 58 * s},${hc[1] - 26 * s} A${66 * s},${66 * s} 0 0 1 ${hc[0] - 8 * s},${hc[1] - 66 * s}`} stroke="#fff" strokeWidth={4 * s} fill="none" opacity={0.6} strokeLinecap="round" />
     </g>
   );

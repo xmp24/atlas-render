@@ -143,12 +143,12 @@ export const Aura: React.FC<{ f: number; pos: [number, number, number]; n?: numb
         const s = (0.28 + 0.55 * q) * (0.7 + random(seed + "s" + i) * 0.6);
         return (
           <sprite key={i} position={[x, y0 + q * 0.7, z]} scale={[s, s, s]}>
-            <spriteMaterial map={t} color={i % 5 === 0 ? "#1a0508" : "#050507"} transparent opacity={Math.sin(Math.PI * q) * 0.42 * k} depthWrite={false} rotation={q * 2 + i} />
+            <spriteMaterial map={t} color={i % 4 === 0 ? "#3a060c" : "#050507"} transparent opacity={Math.min(0.85, Math.sin(Math.PI * q) * 0.42 * k)} depthWrite={false} rotation={q * 2 + i} />
           </sprite>
         );
       })}
-      {Array.from({ length: 8 }).map((_, i) => {
-        const L = 60, age = (f + i * 8) % L, q = age / L, ang = random(seed + "e" + i) * 6.28;
+      {Array.from({ length: Math.round(8 * k) + 4 }).map((_, i) => {
+        const L = 60, age = (f + i * 7) % L, q = age / L, ang = random(seed + "e" + i) * 6.28;
         return (
           <sprite key={"e" + i} position={[Math.cos(ang) * 0.3, 0.3 + q * 1.6, Math.sin(ang) * 0.3]} scale={[0.05, 0.05, 0.05]}>
             <spriteMaterial map={t} color="#ff5a1f" transparent opacity={Math.sin(Math.PI * q) * 0.7 * k} blending={THREE.AdditiveBlending} depthWrite={false} />

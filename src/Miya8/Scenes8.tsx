@@ -10,8 +10,9 @@ const ez = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3)
 const L3 = (a: number[], b: number[], k: number) => a.map((v, i) => v + (b[i] - v) * k) as [number, number, number];
 type Cam = { pos: [number, number, number]; look: [number, number, number]; fov: number };
 
-const Stage: React.FC<{ f: number; len: number; a: Cam; b: Cam; children: React.ReactNode }> = ({ f, len, a, b, children }) => {
-  const k = ez(interpolate(f, [0, len], [0, 1], clamp));
+const Stage: React.FC<{ f: number; len: number; a: Cam; b: Cam; children: React.ReactNode; cut?: [number, Cam, Cam] }> = ({ f, len, a: a0, b: b0, children, cut }) => {
+  let a = a0, b = b0, k = ez(interpolate(f, [0, len], [0, 1], clamp));
+  if (cut && f >= cut[0]) { a = cut[1]; b = cut[2]; k = ez(interpolate(f, [cut[0], len], [0, 1], clamp)); }
   // subtle handheld breathing of the camera operator
   const hx = Math.sin(f / 23) * 0.012 + Math.sin(f / 9.7) * 0.004, hy = Math.sin(f / 31) * 0.01;
   const pos = L3(a.pos, b.pos, k); pos[0] += hx; pos[1] += hy;
@@ -25,23 +26,25 @@ const Stage: React.FC<{ f: number; len: number; a: Cam; b: Cam; children: React.
 };
 
 export const ReiScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
-  const p = idleBP(f, { ...STAND, headX: 14, lean: 6 });
+  const look = interpolate(f, [20, 70], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
+  const p = idleBP(f, { ...STAND, headX: 14 + 8 * look, headY: -28 * look, lean: 6, twist: -6 * look });
   return (
     <Stage f={f} len={len} a={{ pos: [1.45, 1.55, 3.0], look: [-0.45, 0.9, -1.4], fov: 66 }} b={{ pos: [1.2, 1.5, 2.5], look: [-0.5, 0.92, -1.4], fov: 63 }}>
       <ReiRoom7 /><ReiExtras f={f} />
       <Bot pos={[0.05, 0, -0.05]} ry={-2.1} p={p} f={f} />
-      <Aura f={f} pos={[0.05, 0, -0.05]} seed="rei" k={1.0} n={56} />
+      <Aura f={f} pos={[0.05, 0, -0.05]} seed="rei" k={1.35} n={64} />
       <pointLight position={[0.1, 1.9, 1.0]} intensity={1.6} distance={2.5} color="#9fb4ff" />
     </Stage>
   );
 };
 export const StairsScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => {
-  const p = idleBP(f, { ...STAND, headX: -14 });
+  const down = interpolate(f, [30, 80], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
+  const p = idleBP(f, { ...STAND, headX: -14 + 40 * down, headY: 18 * down, lean: 4 * down });
   return (
     <Stage f={f} len={len} a={{ pos: [-1.9, 1.15, 4.9], look: [0.45, 1.75, 0], fov: 62 }} b={{ pos: [-1.55, 1.25, 4.4], look: [0.45, 2.05, 0], fov: 60 }}>
       <Stairs7 /><StairsExtras f={f} />
       <Bot pos={[-0.55, 0, 1.75]} ry={Math.PI * 0.82} p={p} f={f} />
-      <Aura f={f} pos={[-0.55, 0, 1.75]} seed="st" k={0.8} n={44} />
+      <Aura f={f} pos={[-0.55, 0, 1.75]} seed="st" k={0.75} n={44} />
       <pointLight position={[-0.4, 1.9, 3.3]} intensity={1.4} distance={2.5} color="#9fb4ff" />
     </Stage>
   );
@@ -65,9 +68,9 @@ export const BathScene3: React.FC<{ f: number; len: number }> = ({ f, len }) => 
   const p: BP = { ...idleBP(f, STAND), headX: 28, lArmX: -62, lArmZ: 28, lElbow: -64, rArmX: -55 + Math.sin(w) * 10, rArmZ: -18 + Math.cos(w) * 12, rElbow: -70 + Math.sin(w) * 14 };
   const wrap = interpolate(f, [0, len], [0.25, 1], clamp);
   return (
-    <Stage f={f} len={len} a={{ pos: [1.5, 1.55, 1.6], look: [0.45, 1.1, -1.6], fov: 58 }} b={{ pos: [1.25, 1.5, 1.1], look: [0.5, 1.15, -1.6], fov: 54 }}>
+    <Stage f={f} len={len} a={{ pos: [1.55, 1.6, 1.25], look: [0.62, 1.2, -1.7], fov: 54 }} b={{ pos: [1.35, 1.55, 0.75], look: [0.65, 1.25, -1.7], fov: 50 }}>
       <Bath8 f={f} />
-      <Bot pos={[0.75, 0, -1.08]} ry={Math.PI} p={p} f={f} lHandItem={<mesh position={[0, 0.06, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.048, 0.018, 8, 24, Math.PI * 2 * wrap]} /><meshStandardMaterial color="#f7f6f0" /></mesh>} />
+      <Bot pos={[0.75, 0, -1.08]} ry={Math.PI} p={p} f={f} lHandItem={<mesh position={[0, 0.06, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.055, 0.026, 8, 24, Math.PI * 2 * wrap]} /><meshStandardMaterial color="#f7f6f0" /></mesh>} />
       <pointLight position={[1.4, 1.9, -0.3]} intensity={1.2} distance={2.5} color="#9fb4ff" />
     </Stage>
   );
@@ -79,7 +82,7 @@ export const OfficeScene3: React.FC<{ f: number; len: number }> = ({ f, len }) =
     <Stage f={f} len={len} a={{ pos: [1.6, 1.42, 1.1], look: [-0.1, 0.95, -1.7], fov: 58 }} b={{ pos: [1.25, 1.38, 0.55], look: [-0.1, 1.0, -1.7], fov: 54 }}>
       <Office7 /><OfficeExtras f={f} stage={f > 12 ? 1 : 0} />
       <Bot pos={[0, 0, -1.08]} ry={Math.PI} p={p} f={f} />
-      <pointLight position={[-0.05, 1.15, -1.45]} intensity={2.2 + Math.sin(f / 2) * 0.3} distance={2.2} color="#8fbfff" />
+      <pointLight position={[-0.05, 1.15, -1.45]} intensity={2.4 + Math.sin(f / 2) * 0.35 + (Math.floor(f / 3) % 5 === 0 ? 0.8 : 0)} distance={2.6} color="#8fbfff" />
     </Stage>
   );
 };

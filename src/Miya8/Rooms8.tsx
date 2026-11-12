@@ -7,6 +7,18 @@ import { ReiRoom7, Stairs7, Living7, Office7, Pendant7 } from "../Miya7/Rooms7";
 
 const tex = textTex;
 // ---------- realism helpers ----------
+/** bathroom mirror: reflected tiles + light bar + the killer's own face looking back (front view, glowing eyes) */
+const mirrorTex = () => tex("mirror9", 380, 400, (c) => {
+  const g = c.createLinearGradient(0, 0, 0, 400); g.addColorStop(0, "#7d8f99"); g.addColorStop(0.5, "#56656d"); g.addColorStop(1, "#3c464c"); c.fillStyle = g; c.fillRect(0, 0, 380, 400);
+  c.strokeStyle = "rgba(255,255,255,0.12)"; c.lineWidth = 2; for (let i = 0; i < 12; i++) { c.beginPath(); c.moveTo(i * 34, 0); c.lineTo(i * 34, 400); c.stroke(); c.beginPath(); c.moveTo(0, i * 34); c.lineTo(380, i * 34); c.stroke(); }
+  const lb = c.createLinearGradient(0, 0, 0, 40); lb.addColorStop(0, "rgba(255,244,220,0.9)"); lb.addColorStop(1, "rgba(255,244,220,0)"); c.fillStyle = lb; c.fillRect(30, 0, 320, 40);
+  c.globalAlpha = 0.85; c.fillStyle = "#1c1c22"; c.beginPath(); c.ellipse(255, 400, 95, 55, 0, Math.PI, 0); c.fill(); c.fillRect(225, 320, 60, 40);
+  c.beginPath(); c.arc(255, 260, 70, 0, Math.PI * 2); c.fill(); c.globalAlpha = 1;
+  c.strokeStyle = "rgba(255,255,255,0.35)"; c.lineWidth = 4; c.beginPath(); c.arc(255, 260, 66, Math.PI * 1.05, Math.PI * 1.45); c.stroke();
+  const eye = (x: number, d: number) => { c.fillStyle = "#fff"; c.shadowColor = "#fff"; c.shadowBlur = 12; c.beginPath(); c.moveTo(x - 24 * d, 222); c.quadraticCurveTo(x, 214, x + 24 * d, 206); c.quadraticCurveTo(x + 6 * d, 244, x - 24 * d, 222); c.fill(); c.shadowBlur = 0; };
+  c.save(); c.translate(255, 262); c.scale(0.72, 0.72); c.translate(-190, -230); eye(158, -1); eye(222, 1); c.restore();
+  const sh = c.createLinearGradient(0, 0, 380, 400); sh.addColorStop(0.3, "rgba(255,255,255,0)"); sh.addColorStop(0.45, "rgba(255,255,255,0.12)"); sh.addColorStop(0.55, "rgba(255,255,255,0)"); c.fillStyle = sh; c.fillRect(0, 0, 380, 400);
+});
 const radial = () => tex("radial8", 128, 128, (c) => { const g = c.createRadialGradient(64, 64, 0, 64, 64, 64); g.addColorStop(0, "rgba(0,0,0,0.75)"); g.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = g; c.fillRect(0, 0, 128, 128); });
 /** soft contact shadow under furniture so nothing floats */
 export const Contact: React.FC<{ p: [number, number, number]; s: [number, number]; o?: number }> = ({ p, s, o = 0.6 }) => (
@@ -113,6 +125,12 @@ export const StairsExtras: React.FC<{ f: number }> = ({ f }) => (
       <mesh position={[0.08, 0.32, 0.06]}><torusGeometry args={[0.06, 0.006, 6, 20, 4]} /><meshStandardMaterial color="#d8d4c8" /></mesh>
       <Contact p={[0, 0, 0]} s={[0.7, 0.6]} />
     </group>
+    {/* the snapped kitchen knife: blade and handle apart on the floor */}
+    <group position={[-0.4, 0.012, 2.35]} rotation={[0, 0.6, 0]}>
+      <Box p={[0, 0, 0]} s={[0.15, 0.006, 0.035]} c="#d9dde2" metal={0.9} rough={0.2} />
+      <Box p={[0.2, 0, 0.09]} s={[0.11, 0.022, 0.028]} c="#3a2618" r={[0, 0.5, 0]} /><Box p={[0.14, 0, 0.06]} s={[0.04, 0.006, 0.03]} c="#d9dde2" metal={0.9} rough={0.2} r={[0, 0.5, 0]} />
+      {[[-0.05, 0.07], [0.08, -0.06], [0.25, 0.02]].map(([x, z], i) => <mesh key={i} position={[x, 0.001, z]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.015 + i * 0.008, 12]} /><meshBasicMaterial color="#5a0a0e" /></mesh>)}
+    </group>
     {/* kadomatsu-style new year decoration and shimekazari by the entrance */}
     <group position={[-1.8, 0, 2.6]}><Cyl p={[0, 0.2, 0]} r1={0.16} h={0.4} c="#8a6a3a" />{[0, 1, 2].map((i) => <Cyl key={i} p={[(i - 1) * 0.07, 0.55 + i * 0.06, 0]} r1={0.035} h={0.7 + i * 0.1} c="#5f8f3e" />)}<Sph p={[0, 0.45, 0.1]} r={0.1} c="#2f5a2a" s={[1.6, 0.6, 1]} /></group>
     {/* faint smear on the wall (out of focus) */}
@@ -199,7 +217,7 @@ export const Bath8: React.FC<{ f: number }> = ({ f }) => (
       <Box p={[0, 0.84, 0]} s={[1.0, 0.08, 0.56]} c="#ffffff" rough={0.18} />
       <Box p={[0, 0.86, 0.02]} s={[0.5, 0.04, 0.36]} c="#dfe6e8" rough={0.1} />
       {[[-0.1, 0.05], [0.08, -0.02], [0.02, 0.08]].map(([x, z], i) => <mesh key={i} position={[x, 0.885, z]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.012 + i * 0.006, 12]} /><meshBasicMaterial color="#6a0a0e" /></mesh>)}
-      <Box p={[0, 1.62, -0.2]} s={[0.85, 0.9, 0.14]} c="#e6e2d8" /><Box p={[0, 1.62, -0.125]} s={[0.76, 0.8, 0.01]} c="#8ea6b4" metal={0.95} rough={0.05} />
+      <Box p={[0, 1.62, -0.2]} s={[0.85, 0.9, 0.14]} c="#e6e2d8" /><mesh position={[0, 1.62, -0.118]}><planeGeometry args={[0.76, 0.8]} /><meshBasicMaterial map={mirrorTex()} toneMapped={false} /></mesh>
       <Box p={[0, 2.12, -0.15]} s={[0.85, 0.07, 0.12]} c="#f4f4f2" e="#fff2d8" ei={1.4} />
       <pointLight position={[0, 2.0, 0.2]} intensity={2.2 * (random(`bl${Math.floor(f / 3)}`) > 0.1 ? 1 : 0.2)} distance={3} color="#fff2d8" />
       <Cyl p={[0, 0.99, -0.2]} r1={0.022} h={0.22} c="#c5c9cf" /><Box p={[0, 1.09, -0.12]} s={[0.04, 0.03, 0.14]} c="#c5c9cf" />
