@@ -7,6 +7,7 @@ import {Thumb6, V6_KEYS} from './ThumbsWorld6';
 import React from 'react';
 import {Composition} from 'remotion';
 import {Miyazawa, MIYA_FRAMES} from './Miya/Video';
+import {MiyaShort, SHORT_FRAMES} from './Miya2/Short';
 import {HWTest} from './HWTest';
 import {SameArmy, SA_FRAMES} from './SameArmy';
 import {Indo, INDO_FRAMES} from './Indo';
@@ -38,6 +39,7 @@ import {ShortHW, SHW_IDS, shwFrames} from './ShortHW';
 import {ThumbHW} from './ThumbHW';
 export const RootHW: React.FC = () => (
   <>
+    <Composition id="MiyaShortN" component={MiyaShort} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="MiyaN" component={Miyazawa} durationInFrames={MIYA_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="HWTest" component={HWTest} durationInFrames={1800} fps={30} width={1920} height={1080} />
     <Composition id="SameArmy" component={SameArmy} durationInFrames={SA_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: true}} />
