@@ -95,6 +95,7 @@ const soldier = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number
 };
 
 export type PolyOpts = {W: number; H: number; night?: number | null; squads?: boolean; focus?: number[] | null; t: number; markers?: any[] | null; capitalsOff?: boolean; hl?: number | null; war?: any; empire?: number | null; lit?: number[] | null; empireCol?: string | null; waves?: boolean; ghost?: Map<number, number> | null; extra?: any; empireFlag?: boolean};
+const CWMESH = new Map<string, (Path2D | null)[]>();
 export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof polyState>, cam: Cam, o: PolyOpts) => {
   const {W, H} = o; const s = cam.s;
   const os = ownerStats(st.owner);
@@ -175,6 +176,14 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
       ctx.restore();
     }
   }
+  const CWo = (o as any).cw;
+  if (CWo) {
+    for (const p of PIECES) {
+      if (p.k === undefined || !p.path || !vis(p.bbox) || !CWo.dead[p.k]) continue;
+      ctx.fillStyle = 'rgba(10,10,16,0.62)'; ctx.fill(p.path);
+      ctx.globalAlpha = 0.34; ctx.fillStyle = CWo.cols[CWo.team[p.k]] || '#000'; ctx.fill(p.path); ctx.globalAlpha = 1;
+    }
+  }
   if (o.lit && o.lit.length) {
     ctx.fillStyle = 'rgba(4,8,26,0.34)';
     for (const p of PIECES) { if (p.k === undefined || !p.path || !vis(p.bbox) || o.lit.includes(st.owner[p.k])) continue; ctx.fill(p.path); }
@@ -199,6 +208,20 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   ctx.strokeStyle = 'rgba(255,255,255,0.32)'; ctx.lineWidth = 1.1 / s; ctx.stroke();
   ctx.beginPath(); ctxPath(mesh(TOPO as any, (TOPO as any).objects.countries, (a: any, b: any) => a === b || st.owner[a.__k] !== st.owner[b.__k]) as any);
   ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.max(2.2 / s, 4); ctx.stroke();
+  if (CWo) {
+    let ms = CWMESH.get(CWo.key);
+    if (!ms) {
+      const gp = geoPath(proj);
+      ms = (CWo.cols as string[]).map((_: string, T: number) => (CWo.has[T] ? new Path2D(gp(mesh(TOPO as any, (TOPO as any).objects.countries, (a: any, b: any) => (a === b ? CWo.team[a.__k] === T : (CWo.team[a.__k] === T) !== (CWo.team[b.__k] === T))) as any) || '') : null));
+      CWMESH.set(CWo.key, ms); if (CWMESH.size > 60) CWMESH.delete(CWMESH.keys().next().value as string);
+    }
+    ms.forEach((m: Path2D | null, T: number) => {
+      if (!m) return;
+      ctx.strokeStyle = 'rgba(0,0,0,0.78)'; ctx.lineWidth = 12 / s; ctx.stroke(m);
+      ctx.strokeStyle = CWo.cols[T]; ctx.lineWidth = 6.5 / s; ctx.stroke(m);
+      ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1.6 / s; ctx.stroke(m);
+    });
+  }
   if (o.hl != null) {
     const pul = 0.7 + 0.3 * Math.sin(o.t * 6);
     const hm = mesh(TOPO as any, (TOPO as any).objects.countries, (a: any, b: any) => (a === b ? st.owner[a.__k] === o.hl : (st.owner[a.__k] === o.hl) !== (st.owner[b.__k] === o.hl)));
