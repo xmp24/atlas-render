@@ -20,7 +20,7 @@ const L3 = (a: number[], b: number[], k: number) => a.map((v, i) => v + (b[i] - 
 type Cam = { pos: [number, number, number]; look: [number, number, number]; fov: number; shift?: number };
 type Shot = [number, Cam, Cam];
 
-export const T2 = { hook: 0, drag: 150, strap: 262, stone: 360, first: 458, lapse: 552, sleep: 686, death: 752, end: 870, fin: 975 };
+export const T2 = { hook: 0, drag: 150, strap: 262, stone: 360, first: 458, lapse: 552, sleep: 686, death: 752, end: 870, fin: 955 };
 export const GOTA2_FRAMES = T2.fin;
 
 /** camera rig with a vertical lens shift so a face can sit above the subtitles without tilting the camera */
@@ -164,6 +164,8 @@ const StoneScene: React.FC<{ f: number }> = ({ f }) => {
       <ambientLight intensity={0.16} color="#5a6a90" />
       <spotLight position={[0.9, 2.4, 1.3]} target-position={[0, 0.3, 0]} angle={0.55} penumbra={0.8} intensity={9} distance={6} color="#d4e2f6" castShadow />
       <pointLight position={[-1.2, 0.9, 0.4]} intensity={2} distance={3.5} color="#ff9a4a" />
+      <pointLight position={[0.4, 2.0, -0.5]} intensity={2.4} distance={3} color="#ffa860" />
+      <mesh position={[-0.9, 1.5, -1.36]}><planeGeometry args={[0.5, 0.5]} /><meshBasicMaterial map={glowTex()} color="#ff9040" transparent opacity={0.5} depthWrite={false} blending={THREE.AdditiveBlending} /></mesh>
       <mesh position={[0, -0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[8, 8]} /><meshStandardMaterial map={masonry("f", [80, 74, 66], 6, 6, 6)} roughness={0.9} /></mesh>
       <mesh position={[0, 1.4, -1.4]}><planeGeometry args={[6, 3.2]} /><meshStandardMaterial map={masonry("w", [128, 114, 98], 3, 1.6)} bumpMap={masonry("w", [128, 114, 98], 3, 1.6)} bumpScale={3} roughness={0.95} /></mesh>
       <mesh position={[0, 0.1, 0]} scale={[1, 0.46, 0.85]} castShadow receiveShadow><sphereGeometry args={[0.5, 48, 28]} /><meshStandardMaterial map={rock} bumpMap={rock} bumpScale={4} roughness={0.85} /></mesh>
@@ -238,7 +240,7 @@ const DeathScene: React.FC<{ f: number }> = ({ f }) => {
 // 9. end: high wide shot, the drip goes on
 const END_HITS = [14, 40, 66, 92];
 const EndScene: React.FC<{ f: number }> = ({ f }) => (
-  <Stage f={f} len={T2.fin - T2.end} shots={[[0, C([0.75, 2.95, 1.75], [-0.3, 0.95, 0], 40, -0.04), C([0.6, 3.0, 1.6], [-0.32, 0.93, 0], 40, -0.04)]]}>
+  <Stage f={f} len={T2.fin - T2.end} shots={[[0, C([0.75, 2.95, 1.75], [-0.3, 0.95, 0], 40, -0.04), C([0.4, 2.65, 1.4], [-0.4, 0.95, 0], 40, -0.04)]]}>
     <Room f={f + 3500} candle={0.05} torch={0.32}>
       <Prisoner f={f} k={0} eyes="dead" tired={1} wet={1} look={LOOK + 0.35} />
       <Drops f={f} hits={END_HITS} />
