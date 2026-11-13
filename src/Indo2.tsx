@@ -1,7 +1,7 @@
 // Can Indonesia Conquer the World? v2 — invasiones con pelotones por tierra (1920x1080). Versiones 'a' y 'b'.
 import React from 'react';
 import {AbsoluteFill, Audio, Easing, Img, staticFile, useCurrentFrame} from 'remotion';
-import {FlagCanvas, makeCam, CamKey, Cam, COUNTRIES, MAINCOL, NK, FLAG_OVR} from './HexWorld';
+import {FlagCanvas, makeCam, CamKey, Cam, COUNTRIES, MAINCOL, NK, FLAG_OVR, FICK} from './HexWorld';
 import {Globe} from './Globe';
 import {PolyCanvas, PolyMini, polyState, ownerStats, CEv, CAREA, MAINPIECE, PIECES_C} from './PolyWorld';
 import {Face, Mood, INK, YELLOW, RED, CREAM, font, font2, lerp, popT, fmt} from './lib3';
@@ -24,6 +24,7 @@ import J_tlde from './hw/tlde.json';
 import J_dbras4 from './hw/dbras4.json';
 import J_dbreu from './hw/dbreu.json';
 import J_cw from './hw/cw.json';
+import J_da from './hw/da.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -61,7 +62,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -74,7 +75,7 @@ const NAME = (k: number) => COUNTRIES[k].n;
 const UP = (k: number) => NAME(k).toUpperCase();
 const COLD_END = 9.0;
 const tmapAt = (t: number) => { const m = X.D.tmap as number[][]; let c = m[0]; for (const e of m) { if (e[0] <= t) c = e; else break; } return c[1] + (t - c[0]) * (c[2] ?? 1); };
-const pst = (t: number) => polyState(X.CEV, t, tmapAt(t), t < COLD_END);
+const pst = (t: number) => polyState(X.CEV, t, tmapAt(t), t < (X.D.coldEnd ?? COLD_END));
 const kfv = (pk: number[][], t: number, i = 1) => {
   if (t <= pk[0][0]) return pk[0][i];
   for (let j = 1; j < pk.length; j++) if (t <= pk[j][0]) { const u = (t - pk[j - 1][0]) / (pk[j][0] - pk[j - 1][0]); return pk[j - 1][i] + (pk[j][i] - pk[j - 1][i]) * u; }
@@ -113,7 +114,7 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const stl = pst(Math.max(0, t - 1.2)); const osl = ownerStats(stl.owner);
   const s2 = cam.s * cam.s;
   const best = new Int32Array(NK).fill(-1); const bestA = new Float64Array(NK);
-  for (let k = 0; k < NK; k++) { if (MAINPIECE[k] < 0) continue; const o = st.owner[k]; const ar = CAREA[k] * (o === k ? 1.6 : 1); if (ar > bestA[o]) { bestA[o] = ar; best[o] = k; } }
+  for (let k = 0; k < NK; k++) { if (MAINPIECE[k] < 0 || (FICK.has(k) !== !!X.D.fic)) continue; const o = st.owner[k]; const ar = CAREA[k] * (o === k ? 1.6 : 1); if (ar > bestA[o]) { bestA[o] = ar; best[o] = k; } }
   const cand: number[] = [];
   for (let k = 0; k < NK; k++) {
     if (!os.a[k] || best[k] < 0 || os.a[k] * s2 < 14000) continue;
@@ -252,7 +253,7 @@ const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const D = X.D;
   if (D.duel) return null;
   if (D.mode === 'tl') return <TlHud t={t} />;
-  if (D.mode === 'cw') return null;
+  if (D.mode === 'cw' || D.mode === 'da') return null;
   if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
   if (D.mode === 'camp') return <HudCamp t={t} cam={cam} />;
   const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
@@ -292,7 +293,7 @@ const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
         </div>
       )}
       <div style={{position: 'absolute', left: 20 + (1 - show) * -500, bottom: 20, zIndex: 20, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}>
-        <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={cam} w={260} h={135} VW={VW} VH={VH} />
+        <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cam} w={260} h={135} VW={VW} VH={VH} />
       </div>
       <div style={{position: 'absolute', right: 22, bottom: 12, ...font2, fontSize: 16, color: 'rgba(255,255,255,0.85)', textShadow: '0 2px 3px #000', zIndex: 20, opacity: show}}>Hypothetical simulation · Power points are fictional</div>
     </>
@@ -408,7 +409,7 @@ const Ranking: React.FC<{t: number}> = ({t}) => {
   );
 };
 const Chapter: React.FC<{t: number}> = ({t}) => {
-  if (X.D.splash || X.D.mode === 'cw') return null;
+  if (X.D.splash || X.D.mode === 'cw' || X.D.mode === 'da') return null;
   const c = (X.D.chapters as any[]).filter(([t0]) => t >= t0 - 0.1 && t < t0 + 1.7).slice(-1)[0];
   if (!c) return null;
   const [t0, title] = c; const n = (X.D.chapters as any[]).indexOf(c) + 1;
@@ -694,7 +695,7 @@ const Title: React.FC<{t: number}> = ({t}) => {
     <div style={{...font, fontSize: 132, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, lineHeight: 1.05}}>{X.D.title2 ? X.D.title2[1] : 'CONQUER THE WORLD?'}</div></div>;
 };
 const Ending: React.FC<{t: number}> = ({t}) => {
-  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'cw') return null;
+  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'cw' || X.D.mode === 'da') return null;
   const a = popT(t, t0, 10);
   const V2 = X.D.ver !== 'a';
   const pk = X.D.indo as number[][]; const pmax = pk[pk.length - 1][1]; const tA = X.D.war_t, tB = X.D.winT;
@@ -855,7 +856,7 @@ const HudBR: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
       </div>
       {ch && !D.dbr && <div style={{position: 'absolute', top: 20, right: 20 + (1 - show) * -600, zIndex: 20}}><Pill bg={YELLOW} style={{padding: '4px 16px 0', ...font, fontSize: 26, color: INK}}>{D.dbr ? ch[1] : <>ROUND {(D.chapters as any[]).indexOf(ch) + 1} · {ch[1]}</>}</Pill></div>}
       <div style={{position: 'absolute', left: 20 + (1 - show) * -500, bottom: 20, zIndex: 20, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}>
-        <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={cam} w={260} h={135} VW={VW} VH={VH} />
+        <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cam} w={260} h={135} VW={VW} VH={VH} />
       </div>
       <div style={{position: 'absolute', right: 22, bottom: 12, ...font2, fontSize: 16, color: 'rgba(255,255,255,0.85)', textShadow: '0 2px 3px #000', zIndex: 20, opacity: show}}>Hypothetical simulation · Power points are fictional</div>
     </>
@@ -1177,7 +1178,7 @@ const HudCamp: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     </div>
     {ch && <div style={{position: 'absolute', top: 20, right: 20 + (1 - show) * -600, zIndex: 20}}><Pill bg={YELLOW} style={{padding: '4px 16px 0', ...font, fontSize: 26, color: INK}}>{(D.chapters as any[]).indexOf(ch) + 1} · {ch[1]}</Pill></div>}
     <div style={{position: 'absolute', left: 20 + (1 - show) * -500, bottom: 20, zIndex: 20, border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden', boxShadow: '0 5px 0 rgba(0,0,0,0.35)'}}>
-      <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={cam} w={260} h={135} VW={VW} VH={VH} />
+      <PolyMini cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cam} w={260} h={135} VW={VW} VH={VH} />
     </div>
     <div style={{position: 'absolute', right: 22, bottom: 12, ...font2, fontSize: 16, color: 'rgba(255,255,255,0.85)', textShadow: '0 2px 3px #000', zIndex: 20, opacity: show}}>{D.disclaimer || 'Hypothetical simulation · Not a prediction'}</div>
   </>);
@@ -2550,6 +2551,185 @@ const CwHud: React.FC<{t: number}> = ({t}) => {
   return <>{out}</>;
 };
 
+// ================= $1 ARMY vs $100,000,000 ARMY (modo 'da') =================
+const DA_C0 = '#ec6a1c', DA_C0D = '#8a3606', DA_C1 = '#1d3f9a', DA_C1L = '#5b8cff';
+const daE = (x: number) => { x = Math.max(0, Math.min(1, x)); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const daB = (x: number) => { x = Math.max(0, Math.min(1, x)); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const daKv = (K: number[][] | undefined, t: number, def = 0) => { if (!K || !K.length) return def; let v = def; for (const [t0, v1, d = 0] of K) { if (t < t0) break; const k = d <= 0 ? 1 : daE((t - t0) / d); v = v + (v1 - v) * k; } return v; };
+const daStep = (K: any[] | undefined, t: number, def: any) => { let v = def; for (const [t0, v1] of K ?? []) { if (t < t0) break; v = v1; } return v; };
+const daMoney = (v: number) => '$' + Math.round(v).toLocaleString('en-US');
+const DaIco: React.FC<{n: string; x: number; y: number; s: number; op?: number}> = ({n, x, y, s, op = 1}) => <image href={staticFile(`hw/icons/${n}.svg`)} x={x - s / 2} y={y - s / 2} width={s} height={s} opacity={op} />;
+const DAICON: Record<string, string> = {shack: 'house', camp: 'house', barracks: 'military-fort', tanks: 'battle-tank', arty: 'cannon', air: 'jet-fighter', port: 'anchor', missiles: 'missile-pod', radar: 'radar-dish', heli: 'helicopter', hq: 'crown', bunker: 'bunker', fort: 'military-fort', guns: 'cannon', navy: 'battleship', drones: 'radar-sweep'};
+const DaFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const A = X.D.da; if (!A) return null; const out: React.ReactNode[] = [];
+  const S = Math.max(0.6, Math.min(1.35, cam.s / 2.2));
+  const on = (x: number, y: number, m = 120) => x > -m && x < VW + m && y > -m && y < VH + m;
+  // bases del gigante
+  for (const b of (A.bases ?? []) as any[]) {
+    const [key, bx, by, kind, name] = b; if (t < (b[5] ?? -1)) continue; const [x, y] = toS(bx, by, cam); if (!on(x, y)) continue;
+    const dead = daStep(A.bdead?.[key], t, 0) === 1; const r = 26 * S;
+    out.push(<g key={'b' + key}>
+      <rect x={x - r} y={y - r} width={r * 2} height={r * 2} rx={r * 0.35} fill={dead ? '#3a3a3a' : DA_C1} stroke={INK} strokeWidth={4 * S} />
+      <DaIco n={DAICON[kind] ?? 'military-fort'} x={x} y={y} s={r * 1.45} op={dead ? 0.35 : 1} />
+      {dead && <g stroke="#e53935" strokeWidth={6 * S} strokeLinecap="round"><line x1={x - r * 0.7} y1={y - r * 0.7} x2={x + r * 0.7} y2={y + r * 0.7} /><line x1={x + r * 0.7} y1={y - r * 0.7} x2={x - r * 0.7} y2={y + r * 0.7} /></g>}
+      {cam.s > 1.3 && <text x={x} y={y + r + 22 * S} textAnchor="middle" fontSize={18 * S} style={{fontFamily: 'Fredoka', fontWeight: 700}} fill="#fff" stroke={INK} strokeWidth={5 * S} paintOrder="stroke">{name}</text>}
+    </g>);
+  }
+  // guarnición aparcada (cazas, buques, tanques) — iconos pequeños
+  for (const [i, g] of ((A.gar ?? []) as any[]).entries()) {
+    const [kind, gx, gy, t0, t1, td, side] = g; if (t < t0 || t > t1) continue; const [x, y] = toS(gx, gy, cam); if (!on(x, y)) continue;
+    const dk = td != null && t > td ? Math.min(1, (t - td) / 0.6) : 0; if (dk >= 1) continue; const r = 13 * S;
+    out.push(<g key={'g' + i} opacity={1 - dk}><circle cx={x} cy={y} r={r} fill={dk ? '#555' : side === 0 ? '#2a1608' : DA_C1} stroke={side === 0 ? DA_C0 : INK} strokeWidth={3 * S} /><DaIco n={kind === 'jet' ? 'jet-fighter' : kind === 'ship' ? 'battleship' : kind === 'heli' ? 'helicopter' : 'battle-tank'} x={x} y={y} s={r * 1.5} /></g>);
+  }
+  // edificios del retador (construcción + precio)
+  for (const [i, b] of ((A.blds ?? []) as any[]).entries()) {
+    if (t < b.t0 || (b.t1 != null && t > b.t1 + 0.5)) continue; const [x, y] = toS(b.x, b.y, cam); if (!on(x, y)) continue;
+    const k = t - b.t0; const prog = Math.min(1, k / 0.8); const built = daB((k - 0.8) / 0.35); const outk = b.t1 != null ? Math.min(1, Math.max(0, (t - b.t1) / 0.5)) : 0;
+    const dead = b.dead != null && t > b.dead; const r = (b.big ? 30 : 22) * S;
+    out.push(<g key={'c' + i} opacity={1 - outk}>
+      {k < 0.9 && <><circle cx={x} cy={y} r={r} fill="rgba(0,0,0,0.45)" stroke="#fff" strokeOpacity={0.4} strokeWidth={2 * S} strokeDasharray={`${4 * S} ${4 * S}`} />
+        <path d={`M ${x} ${y - r} A ${r} ${r} 0 ${prog > 0.5 ? 1 : 0} 1 ${x + r * Math.sin(prog * 6.283)} ${y - r * Math.cos(prog * 6.283)}`} fill="none" stroke="#ffd23f" strokeWidth={5 * S} /></>}
+      {k >= 0.8 && <g transform={`translate(${x},${y}) scale(${built})`}>
+        <circle r={r} fill={dead ? '#444' : '#2a1608'} stroke={DA_C0} strokeWidth={4 * S} /><circle r={r + 2.5 * S} fill="none" stroke={INK} strokeWidth={2 * S} /><DaIco n={DAICON[b.k] ?? 'house'} x={0} y={0} s={r * 1.35} op={dead ? 0.35 : 1} />
+        {b.n ? <g><circle cx={r * 0.85} cy={-r * 0.85} r={r * 0.48} fill="#fff" stroke={INK} strokeWidth={2.5 * S} /><text x={r * 0.85} y={-r * 0.85 + r * 0.18} textAnchor="middle" fontSize={r * 0.52} style={{fontFamily: 'Lilita'}} fill={INK}>{b.n}</text></g> : null}
+      </g>}
+      {b.price && k > 0.8 && k < 3.0 && <g opacity={Math.min(1, (3.0 - k) / 0.4)} transform={`translate(${x},${y - r - 20 * S - (k - 0.8) * 8})`}>
+        <rect x={-46 * S} y={-15 * S} width={92 * S} height={28 * S} rx={8 * S} fill="#0d2a14" stroke="#3ddc6a" strokeWidth={2.5 * S} />
+        <text y={6 * S} textAnchor="middle" fontSize={18 * S} style={{fontFamily: 'Lilita'}} fill="#5dff8a">-{b.price}</text></g>}
+    </g>);
+  }
+  // banderas de récord por nivel
+  for (const [i, f] of ((A.flags ?? []) as any[]).entries()) {
+    const [t0, fx, fy, lab] = f; if (t < t0) continue; const [x, y] = toS(fx, fy, cam); if (!on(x, y)) continue;
+    const k = daB((t - t0) / 0.45); const h = 54 * S * k;
+    out.push(<g key={'f' + i}><line x1={x} y1={y} x2={x} y2={y - h} stroke={INK} strokeWidth={4 * S} />
+      <path d={`M ${x} ${y - h} L ${x + 34 * S * k} ${y - h + 10 * S} L ${x} ${y - h + 20 * S} Z`} fill={DA_C0} stroke={INK} strokeWidth={2.5 * S} />
+      <rect x={x - 26 * S} y={y + 4 * S} width={52 * S} height={22 * S} rx={6 * S} fill="#111d" stroke={DA_C0} strokeWidth={2 * S} opacity={k} />
+      <text x={x} y={y + 20 * S} textAnchor="middle" fontSize={15 * S} style={{fontFamily: 'Lilita'}} fill="#fff" opacity={k}>{lab}</text></g>);
+  }
+  // ciudades tomadas
+  for (const [name, cx, cy, st] of (A.cities ?? []) as any[]) {
+    const v = daStep(st, t, 0); if (!v) continue; const [x, y] = toS(cx, cy, cam); if (!on(x, y)) continue;
+    const pul = 0.6 + 0.4 * Math.sin(t * 6);
+    out.push(<g key={'k' + name}>{v === 1 ? <circle cx={x} cy={y} r={30 * S * (1 + 0.15 * pul)} fill="none" stroke="#ff4d3a" strokeWidth={4 * S} opacity={pul} />
+      : <g><line x1={x + 10 * S} y1={y} x2={x + 10 * S} y2={y - 40 * S} stroke={INK} strokeWidth={3.5 * S} /><path d={`M ${x + 10 * S} ${y - 40 * S} L ${x + 38 * S} ${y - 32 * S} L ${x + 10 * S} ${y - 24 * S} Z`} fill={DA_C0} stroke={INK} strokeWidth={2 * S} /></g>}</g>);
+  }
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}>{out}</svg>;
+};
+
+const DA_LV = ['$1', '$100', '$1K', '$10K', '$100K', '$1M', '$100M'];
+const DA_TH = ['CALM', 'GUARDS', 'POLICE', 'ARMY', 'AIR FORCE', 'TOTAL WAR'];
+const DA_THC = ['#3b86ff', '#22a95b', '#ffcc00', '#ff6a00', '#e5322d', '#8a1cff'];
+const DaPanel: React.FC<{style: React.CSSProperties; col?: string; children: React.ReactNode}> = ({style, col = '#ffffff33', children}) => (
+  <div style={{position: 'absolute', background: 'linear-gradient(180deg, rgba(12,16,26,0.92), rgba(6,9,16,0.92))', border: `3px solid ${col}`, borderRadius: 14, boxShadow: '0 6px 0 rgba(0,0,0,0.45)', ...style}}>{children}</div>);
+const DaCard: React.FC<{c: any; t: number}> = ({c, t}) => {
+  const lt = t - c.t; const k = daB(lt / 0.35); const o = Math.min(1, lt / 0.2, (c.d - lt) / 0.25);
+  if (o <= 0) return null;
+  if (c.type === 'level') return <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', background: `rgba(4,8,16,${0.55 * o})`, zIndex: 40}}>
+    <div style={{textAlign: 'center', opacity: o, transform: `scale(${0.7 + 0.3 * k})`}}>
+      <div style={{...font2, fontSize: 40, color: '#ffd23f', letterSpacing: 8}}>LEVEL {c.n} / 7</div>
+      <div style={{height: 6, width: 520 * daE(lt / 0.5), background: '#ffd23f', margin: '10px auto 14px', borderRadius: 3}} />
+      <div style={{...font, fontSize: 210, color: '#5dff8a', lineHeight: 0.95, WebkitTextStroke: `14px ${INK}`, paintOrder: 'stroke fill'}}>{c.money}</div>
+      {c.sub && <div style={{...font2, fontSize: 40, color: '#fff', marginTop: 8, letterSpacing: 2}}>{c.sub}</div>}
+    </div></AbsoluteFill>;
+  if (c.type === 'shop') { const n = c.items.length; const gap = c.gap ?? 0.42;
+    return <DaPanel col="#3ddc6a88" style={{right: 26, top: 300, width: 470, padding: '14px 20px', opacity: o, transform: `translateX(${(1 - k) * 520}px)`, zIndex: 35}}>
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline'}}><div style={{...font, fontSize: 34, color: '#fff'}}>{c.title ?? 'SHOPPING'}</div><div style={{...font2, fontSize: 22, color: '#5dff8a'}}>BUDGET {c.budget}</div></div>
+      <div style={{height: 3, background: '#ffffff22', margin: '8px 0'}} />
+      {c.items.map((it: any, i: number) => { const a = Math.min(1, Math.max(0, (lt - 0.35 - i * gap) / 0.2)); return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 12, height: 46, opacity: a, transform: `translateX(${(1 - a) * 30}px)`}}>
+        <div style={{width: 40, height: 40, borderRadius: 10, background: DA_C0, border: `2px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Img src={staticFile(`hw/icons/${DAICON[it.i] ?? it.i}.svg`)} style={{width: 28, height: 28}} /></div>
+        <div style={{...font2, fontSize: 25, color: '#eee', flex: 1}}>{it.name}</div><div style={{...font, fontSize: 28, color: '#ff8a80'}}>{it.price}</div></div>; })}
+      <div style={{height: 3, background: '#ffffff22', margin: '8px 0'}} />
+      <div style={{display: 'flex', justifyContent: 'space-between', opacity: Math.min(1, Math.max(0, (lt - 0.4 - n * gap) / 0.2))}}><div style={{...font, fontSize: 30, color: '#fff'}}>REMAINING</div><div style={{...font, fontSize: 30, color: '#5dff8a'}}>$0</div></div>
+    </DaPanel>; }
+  if (c.type === 'ready') return <DaPanel col={DA_C0} style={{left: '50%', top: 170, transform: `translateX(-50%) scale(${0.8 + 0.2 * k})`, padding: '12px 30px', opacity: o, textAlign: 'center', zIndex: 35}}>
+    <div style={{...font, fontSize: 40, color: DA_C0, letterSpacing: 2}}>ARMY READY</div>
+    <div style={{display: 'flex', gap: 30, justifyContent: 'center', marginTop: 6}}>{c.lines.map(([ic, nn, lab]: string[], i: number) => <div key={i} style={{textAlign: 'center', minWidth: 90}}>
+      <Img src={staticFile(`hw/icons/${DAICON[ic] ?? ic}.svg`)} style={{width: 46, height: 46}} /><div style={{...font, fontSize: 38, color: '#fff', lineHeight: 1}}>{nn}</div><div style={{...font2, fontSize: 18, color: '#aab'}}>{lab}</div></div>)}</div></DaPanel>;
+  if (c.type === 'predict') { const cd = Math.max(0, Math.ceil(c.d - 0.3 - lt));
+    return <div style={{position: 'absolute', left: 0, right: 0, top: 150, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: o, zIndex: 35}}>
+      <div style={{...font, fontSize: 60, color: '#fff', WebkitTextStroke: `10px ${INK}`, paintOrder: 'stroke fill', transform: `scale(${0.8 + 0.2 * k})`}}>HOW FAR WILL THEY GET? <span style={{color: '#ffd23f'}}>{cd || ''}</span></div>
+      <div style={{display: 'flex', gap: 20, marginTop: 10}}>{c.opts.map((op: string, i: number) => <div key={i} style={{...font, fontSize: 34, color: '#fff', background: 'rgba(8,12,20,0.9)', border: `3px solid ${['#3ddc6a', '#ffd23f', '#ff6a5a'][i]}`, borderRadius: 12, padding: '4px 20px', transform: `scale(${daB((lt - 0.2 - i * 0.12) / 0.3)})`}}>{['A', 'B', 'C'][i]} · {op}</div>)}</div></div>; }
+  if (c.type === 'result') return <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', background: `rgba(4,8,16,${0.45 * o})`, zIndex: 40}}>
+    <DaPanel col={c.win ? '#ffd23f' : '#ff5a4a'} style={{position: 'relative', padding: '20px 44px', textAlign: 'center', opacity: o, transform: `scale(${0.8 + 0.2 * k})`, minWidth: 860}}>
+      <div style={{...font2, fontSize: 28, color: '#aab', letterSpacing: 3}}>LEVEL {c.n} · {c.money}</div>
+      <div style={{...font, fontSize: 78, color: c.win ? '#ffd23f' : '#fff', lineHeight: 1.05}}>{c.verdict}</div>
+      <div style={{display: 'flex', gap: 18, justifyContent: 'center', marginTop: 14}}>{c.stats.map(([v, lab]: string[], i: number) => <div key={i} style={{background: '#ffffff10', border: '2px solid #ffffff22', borderRadius: 12, padding: '8px 18px', minWidth: 190, opacity: Math.min(1, Math.max(0, (lt - 0.3 - i * 0.2) / 0.2))}}>
+        <div style={{...font, fontSize: 44, color: '#fff', lineHeight: 1}}>{v}</div><div style={{...font2, fontSize: 18, color: '#9aa'}}>{lab}</div></div>)}</div></DaPanel></AbsoluteFill>;
+  if (c.type === 'title') return <AbsoluteFill style={{alignItems: 'center', justifyContent: c.pos === 'top' ? 'flex-start' : 'center', paddingTop: c.pos === 'top' ? 150 : 0, zIndex: 38}}>
+    <div style={{textAlign: 'center', opacity: o, transform: `scale(${0.75 + 0.25 * k})`}}>
+      {c.pre && <div style={{...font2, fontSize: 36, color: '#ffd23f', letterSpacing: 6, marginBottom: 6}}>{c.pre}</div>}
+      <div style={{...font, fontSize: c.fs ?? 104, color: c.col ?? '#fff', lineHeight: 1.0, WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill'}}>{c.text}</div>
+      {c.sub && <div style={{...font, fontSize: (c.fs ?? 104) * 0.42, color: c.subcol ?? '#ffd23f', marginTop: 10, WebkitTextStroke: `7px ${INK}`, paintOrder: 'stroke fill'}}>{c.sub}</div>}</div></AbsoluteFill>;
+  if (c.type === 'pres') return <DaPanel col={c.side === 1 ? DA_C1L : DA_C0} style={{[c.side === 1 ? 'right' : 'left']: 40, top: 220, width: 520, padding: '18px 24px', opacity: o, transform: `translateX(${(1 - k) * (c.side === 1 ? 600 : -600)}px)`, zIndex: 35} as any}>
+    <div style={{display: 'flex', alignItems: 'center', gap: 16}}><Img src={staticFile(`wflags/${c.side === 1 ? 'xg' : 'xc'}.svg`)} style={{width: 96, height: 64, borderRadius: 8, border: `3px solid ${INK}`}} />
+      <div><div style={{...font2, fontSize: 22, color: '#aab', letterSpacing: 3}}>{c.pre}</div><div style={{...font, fontSize: 56, color: '#fff', lineHeight: 1}}>{c.name}</div></div></div>
+    <div style={{height: 3, background: '#ffffff22', margin: '12px 0'}} />
+    {c.lines.map(([ic, txt]: string[], i: number) => { const a = Math.min(1, Math.max(0, (lt - 0.4 - i * 0.35) / 0.25)); return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 14, height: 54, opacity: a}}>
+      <div style={{width: 44, height: 44, borderRadius: 10, background: c.side === 1 ? DA_C1 : DA_C0, border: `2px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Img src={staticFile(`hw/icons/${DAICON[ic] ?? ic}.svg`)} style={{width: 30, height: 30}} /></div>
+      <div style={{...font2, fontSize: 30, color: '#eee'}}>{txt}</div></div>; })}</DaPanel>;
+  if (c.type === 'rules') return <div style={{position: 'absolute', left: 0, right: 0, bottom: 60, display: 'flex', justifyContent: 'center', gap: 22, zIndex: 35}}>{c.items.map(([ic, h, sub]: string[], i: number) => { const a = Math.min(o, Math.max(0, (lt - i * 0.5) / 0.3)); return <DaPanel key={i} col="#ffd23f88" style={{position: 'relative', width: 400, padding: '12px 18px', opacity: a, transform: `translateY(${(1 - a) * 60}px)`}}>
+    <div style={{display: 'flex', alignItems: 'center', gap: 14}}><div style={{...font, fontSize: 54, color: '#ffd23f', width: 40}}>{i + 1}</div><div><div style={{...font, fontSize: 38, color: '#fff', lineHeight: 1}}>{h}</div><div style={{...font2, fontSize: 21, color: '#aab'}}>{sub}</div></div></div></DaPanel>; })}</div>;
+  if (c.type === 'alert') return <div style={{position: 'absolute', left: 0, right: 0, top: 150, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: o, zIndex: 36}}>
+    <div style={{...font, fontSize: 58, color: '#fff', background: c.col ?? '#c62828', border: `4px solid ${INK}`, borderRadius: 14, padding: '2px 34px', boxShadow: `0 0 ${30 + 20 * Math.sin(lt * 10)}px ${c.col ?? '#c62828'}`, transform: `scale(${0.8 + 0.2 * k})`}}>{c.text}</div>
+    {c.sub && <div style={{...font2, fontSize: 30, color: '#fff', marginTop: 8, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>{c.sub}</div>}</div>;
+  if (c.type === 'final') return <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', background: `rgba(4,8,16,${0.62 * o})`, zIndex: 40}}>
+    <div style={{textAlign: 'center', opacity: o}}><div style={{...font, fontSize: 70, color: '#ffd23f', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill'}}>{c.title}</div>
+      <div style={{display: 'flex', gap: 16, alignItems: 'flex-end', height: 480, marginTop: 20}}>{c.rows.map(([lab, pct, txt, win]: [string, number, string, number], i: number) => { const g = daE((lt - 0.4 - i * 0.3) / 0.6);
+        return <div key={i} style={{width: 190, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end'}}>
+          <div style={{...font, fontSize: 28, color: '#fff', opacity: g}}>{txt}</div>
+          <div style={{width: 130, height: Math.max(6, 380 * pct * g), background: win ? 'linear-gradient(#ffd23f,#e09000)' : `linear-gradient(${DA_C0},${DA_C0D})`, border: `3px solid ${INK}`, borderRadius: '12px 12px 0 0'}} />
+          <div style={{...font, fontSize: 40, color: '#5dff8a', marginTop: 6}}>{lab}</div></div>; })}</div></div></AbsoluteFill>;
+  return null;
+};
+const DaHud: React.FC<{t: number}> = ({t}) => {
+  const A = X.D.da; if (!A) return null; const out: React.ReactNode[] = [];
+  // cinemática: dinero arriba a la izquierda
+  const ci = ((A.cine ?? []) as any[]).find((c) => t >= c[0] && t < c[1]);
+  if (ci) { const lt = t - ci[0]; const k = daB(lt / 0.4); const o = Math.min(1, (ci[1] - t) / 0.3);
+    out.push(<div key="ci" style={{position: 'absolute', left: 70, top: 130, opacity: o, transform: `translateX(${(1 - k) * -300}px)`, zIndex: 41}}>
+      <div style={{...font, fontSize: 130, color: '#5dff8a', lineHeight: 1, WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill'}}>{ci[2]}</div>
+      <div style={{...font2, fontSize: 36, color: '#fff', letterSpacing: 4, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>{ci[3]}</div></div>); }
+  const hv = ((A.hud ?? []) as number[][]).find(([a, b]) => t >= a && t <= b);
+  if (hv) {
+    const ho = Math.min(1, (t - hv[0]) / 0.4, (hv[1] - t) / 0.4);
+    const money = daKv(A.money, t, 0); const lvl = daStep(A.level, t, 0); const thr = daKv(A.threat, t, 0); const ti = Math.max(0, Math.min(5, Math.round(thr)));
+    const dist = daKv(A.dist, t, 0); const dmg = daKv(A.dmg, t, 0); const recs = ((A.flags ?? []) as any[]).filter((f) => t >= f[0]);
+    out.push(<AbsoluteFill key="hud" style={{opacity: ho, zIndex: 30}}>
+      <DaPanel col={DA_C0} style={{left: 24, top: 22, padding: '8px 20px 10px', minWidth: 330}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 10}}><Img src={staticFile('wflags/xc.svg')} style={{width: 36, height: 24, borderRadius: 4}} /><div style={{...font2, fontSize: 22, color: '#ffb27a', letterSpacing: 1}}>THE CHALLENGER</div></div>
+        <div style={{...font, fontSize: 56, color: '#5dff8a', lineHeight: 1.05}}>{daMoney(money)}</div>
+        <div style={{height: 2, background: '#ffffff22', margin: '6px 0'}} />
+        <div style={{display: 'flex', alignItems: 'center', gap: 10}}><Img src={staticFile('wflags/xg.svg')} style={{width: 36, height: 24, borderRadius: 4}} /><div style={{...font2, fontSize: 20, color: '#9fbaff'}}>THE GIANT</div><div style={{...font, fontSize: 30, color: '#cfe0ff', marginLeft: 'auto'}}>$50,000,000</div></div>
+      </DaPanel>
+      <div style={{position: 'absolute', right: 24, top: 22, display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'flex-end'}}>
+        {DA_LV.map((l, i) => { const cur = i === lvl; const r = daStep((A.lres ?? {})[i], t, 0);
+          return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 8}}>
+            {r ? <div style={{...font, fontSize: 18, color: r === 2 ? '#ffd23f' : '#ff8a80'}}>{r === 2 ? 'WON' : 'FAILED'}</div> : null}
+            <div style={{...font, fontSize: cur ? 34 : 24, color: cur ? INK : '#fff', background: cur ? '#ffd23f' : i < lvl ? 'rgba(60,60,70,0.85)' : 'rgba(8,12,20,0.85)', border: `3px solid ${cur ? '#fff' : '#ffffff40'}`, borderRadius: 10, padding: '0 12px', minWidth: 96, textAlign: 'center'}}>{l}</div></div>; })}
+      </div>
+      <div style={{position: 'absolute', left: 560, top: 24, width: 800}}>
+        <div style={{...font2, fontSize: 22, color: '#fff', textAlign: 'center', letterSpacing: 2, WebkitTextStroke: `5px ${INK}`, paintOrder: 'stroke fill'}}>DISTANCE TO THE CAPITAL</div>
+        <div style={{position: 'relative', height: 30, background: 'rgba(8,12,20,0.85)', border: '3px solid #fff', borderRadius: 16, marginTop: 4}}>
+          <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${dist * 100}%`, background: `linear-gradient(90deg, ${DA_C0D}, ${DA_C0})`, borderRadius: 13}} />
+          {recs.map((f: any, i: number) => <div key={i} style={{position: 'absolute', left: `${f[4] * 100}%`, top: -2, transform: 'translateX(-50%)', textAlign: 'center'}}><div style={{width: 3, height: 30, background: '#fff', margin: '0 auto'}} /><div style={{...font, fontSize: 16, color: '#fff', WebkitTextStroke: `4px ${INK}`, paintOrder: 'stroke fill'}}>{f[3]}</div></div>)}
+          <div style={{position: 'absolute', right: -30, top: -16, width: 56, height: 56, borderRadius: 28, background: DA_C1, border: `3px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Img src={staticFile('hw/icons/crown.svg')} style={{width: 34, height: 34}} /></div>
+        </div>
+      </div>
+      <DaPanel col={DA_C1L} style={{left: 24, bottom: 22, padding: '8px 16px', display: 'flex', alignItems: 'center', gap: 14}}>
+        <Img src={staticFile('wflags/xg.svg')} style={{width: 66, height: 44, borderRadius: 6, border: `2px solid ${INK}`}} />
+        <div><div style={{...font2, fontSize: 18, color: '#9fbaff', letterSpacing: 1}}>GIANT RESPONSE</div>
+          <div style={{display: 'flex', gap: 4, marginTop: 4}}>{DA_TH.map((_, i) => <div key={i} style={{width: 38, height: 16, borderRadius: 4, background: i <= thr + 0.01 ? DA_THC[i] : '#ffffff1c', border: '1px solid #ffffff55'}} />)}</div>
+          <div style={{...font, fontSize: 30, color: DA_THC[ti], marginTop: 2}}>{DA_TH[ti]}</div></div>
+      </DaPanel>
+      {dmg > 0 && <DaPanel col="#ff5a4a" style={{right: 24, bottom: 22, padding: '6px 20px', textAlign: 'right'}}>
+        <div style={{...font2, fontSize: 18, color: '#ff9a8f', letterSpacing: 1}}>DAMAGE TO THE GIANT</div><div style={{...font, fontSize: 46, color: '#fff', lineHeight: 1.05}}>{daMoney(dmg)}</div></DaPanel>}
+    </AbsoluteFill>);
+  }
+  for (const [i, c] of ((A.cards ?? []) as any[]).entries()) if (t >= c.t && t < c.t + c.d) out.push(<DaCard key={'c' + i} c={c} t={t} />);
+  return <>{out}</>;
+};
+
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]; noHud?: boolean}> = ({noHud = false, audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
   if (X.D.flagOvr) for (const kk in X.D.flagOvr) FLAG_OVR[+kk] = X.D.flagOvr[kk];
@@ -2581,9 +2761,10 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
     <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
       {showMap && (
         <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : COLD_END) ? D.war : null, empire: t > COLD_END ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t)} as any} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t), fic: !!X.D.fic} as any} />
           <Arrows t={t} cam={camL} />
           <CwFX t={t} cam={camL} />
+          <DaFX t={t} cam={camL} />
           <Laser t={t} cam={camL} />
           <PowerFX t={t} cam={camL} />
           <WbrFX t={t} cam={camL} />
@@ -2599,7 +2780,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       )}
       {split && (
         <AbsoluteFill style={{clipPath: 'inset(0 0 0 50%)', transform: `translate(${shx}px,${shy}px)`}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < COLD_END} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : COLD_END) ? D.war : null, empire: t > COLD_END ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver}} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, fic: !!X.D.fic} as any} />
           <Arrows t={t} cam={camR} />
         </AbsoluteFill>
       )}
@@ -2633,6 +2814,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <Roulettes t={t} />
       <WbrHud t={t} />
       <CwHud t={t} />
+      <DaHud t={t} />
       <DbrHud t={t} />
       <EvHud t={t} />
       <DuelHud t={t} />

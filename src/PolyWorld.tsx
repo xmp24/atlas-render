@@ -4,7 +4,7 @@ import {geoNaturalEarth1, geoPath} from 'd3-geo';
 import {mesh} from 'topojson-client';
 import WJ from './world.json';
 import TOPO from './worldtopo.json';
-import {IMG, MAINCOL, DARKCOL, KOF, NK, MAPW, MAPH, flagBmp, Cam, RIVERS, LAKES, CITIES} from './HexWorld';
+import {IMG, MAINCOL, DARKCOL, KOF, NK, MAPW, MAPH, flagBmp, Cam, RIVERS, LAKES, CITIES, FIC, FICK} from './HexWorld';
 import {drawOcc, drawUnits} from './WarLayer';
 
 const W4 = 4; // world.json está a 1920x1080; nuestro mapa es 4x
@@ -76,6 +76,11 @@ export const ownerStats = (owner: Int16Array) => {
 };
 const RIVER_P = typeof Path2D !== 'undefined' ? RIVERS.map(([sr, d]) => [sr, new Path2D(d)] as const) : [];
 const LAKE_P = typeof Path2D !== 'undefined' ? LAKES.map((d) => new Path2D(d)) : [];
+const FRIV_P = typeof Path2D !== 'undefined' && FIC ? FIC.rivers.map(([sr, d]) => [sr, new Path2D(d)] as const) : [];
+const FLAKE_P = typeof Path2D !== 'undefined' && FIC ? FIC.lakes.map((d) => new Path2D(d)) : [];
+const FBOX = FIC ? FIC.box.map((v) => v / 4) : [0, 0, 0, 0];
+const inFbox = (b: number[]) => b[0] >= FBOX[0] && b[2] <= FBOX[2] && b[1] >= FBOX[1] && b[3] <= FBOX[3];
+const ficSkip = (p: {k: number; bbox: number[]}, fic: boolean) => (FICK.has(p.k) ? !fic : fic && inFbox(p.bbox));
 const patCache = new Map<number, CanvasPattern>();
 let WAVE: CanvasPattern | null = null;
 let BASE_SOFT: HTMLCanvasElement | null = null;
@@ -147,8 +152,9 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   const pats = new Map<number, CanvasPattern | string>();
   const P = (k: number) => { let v = pats.get(k); if (!v) { v = patOf(k); pats.set(k, v); } return v; };
   ctx.save(); ctx.scale(W4, W4);
+  const FICO = !!(o as any).fic;
   for (const p of PIECES) {
-    if (p.k === undefined || !p.path || !vis(p.bbox)) continue;
+    if (p.k === undefined || !p.path || !vis(p.bbox) || ficSkip(p, FICO)) continue;
     const w = wipeOf.get(p.k); const o2 = w ? w.to : st.owner[p.k];
     const base = w ? w.from : o2;
     const CO = (o as any).colOver as Record<number, string> | undefined;
@@ -190,7 +196,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   }
   if (o.lit && o.lit.length) {
     ctx.fillStyle = 'rgba(4,8,26,0.34)';
-    for (const p of PIECES) { if (p.k === undefined || !p.path || !vis(p.bbox) || o.lit.includes(st.owner[p.k])) continue; ctx.fill(p.path); }
+    for (const p of PIECES) { if (p.k === undefined || !p.path || !vis(p.bbox) || ficSkip(p, FICO) || o.lit.includes(st.owner[p.k])) continue; ctx.fill(p.path); }
   }
   if (o.war) drawOcc(ctx, o.war, o.t, s, vis, PIECES);
   if ((o as any).extra) (o as any).extra(ctx, o.t, s, vis);
@@ -205,6 +211,12 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
     ctx.globalAlpha = 0.9 * a; ctx.fillStyle = '#5aa7dd'; for (const p of LAKE_P) ctx.fill(p);
     ctx.globalAlpha = 1;
   }
+  if (FICO) {
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (const [sr, p] of FRIV_P) { ctx.globalAlpha = sr === 1 ? 0.95 : 0.75; ctx.strokeStyle = sr === 1 ? '#bfe6ff' : '#7fc3ee'; ctx.lineWidth = sr === 1 ? Math.max(3.2 / s, 5.5) : Math.max(1.4 / s, (6 - sr) * 0.9); ctx.stroke(p); if (sr === 1) { ctx.strokeStyle = '#4aa3e0'; ctx.lineWidth = Math.max(1.8 / s, 3.2); ctx.stroke(p); } }
+    ctx.globalAlpha = 0.95; for (const p of FLAKE_P) { ctx.fillStyle = '#4aa3e0'; ctx.fill(p); ctx.strokeStyle = '#bfe6ff'; ctx.lineWidth = Math.max(1 / s, 1.5); ctx.stroke(p); }
+    ctx.globalAlpha = 1;
+  }
   // fronteras: finas entre países, gruesas entre imperios
   const ctxPath = geoPath(proj, ctx);
   ctx.lineJoin = 'round'; ctx.lineCap = 'round';
@@ -212,6 +224,12 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   ctx.strokeStyle = 'rgba(255,255,255,0.32)'; ctx.lineWidth = 1.1 / s; ctx.stroke();
   ctx.beginPath(); ctxPath(mesh(TOPO as any, (TOPO as any).objects.countries, (a: any, b: any) => a === b || st.owner[a.__k] !== st.owner[b.__k]) as any);
   ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.max(2.2 / s, 4); ctx.stroke();
+  if (FICO) {
+    ctx.save(); ctx.scale(W4, W4);
+    for (const p of PIECES) { if (p.k === undefined || !p.path || !FICK.has(p.k) || !vis(p.bbox)) continue; ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = Math.max(5 / s, 9) / W4; ctx.stroke(p.path); }
+    for (const p of PIECES) { if (p.k === undefined || !p.path || !FICK.has(p.k) || !vis(p.bbox)) continue; ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.max(2.2 / s, 4) / W4; ctx.stroke(p.path); }
+    ctx.restore();
+  }
   if (CWo) {
     let ms = CWMESH.get(CWo.key);
     if (!ms) {

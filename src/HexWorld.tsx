@@ -12,6 +12,8 @@ export const COUNTRIES = (ST as any).countries as {c: string; n: string; cont: s
 export const NK = COUNTRIES.length;
 export const CODE = COUNTRIES.map((c) => c.c);
 export const KOF: Record<string, number> = Object.fromEntries(CODE.map((c, i) => [c, i]));
+export const FIC = ((ST as any).fic || null) as null | {codes: string[]; rivers: [number, string][]; lakes: string[]; box: number[]; border: number[][]};
+export const FICK = new Set<number>((FIC ? FIC.codes : []).map((c) => KOF[c]));
 export const RIVERS = (ST as any).rivers as [number, string][];
 export const LAKES = (ST as any).lakes as string[];
 export const CITIES = (ST as any).cities as [string, number, number, number][];
@@ -152,7 +154,7 @@ export const drawMap = (ctx: CanvasRenderingContext2D, d: HWD, t: number, cam: C
   if (IMG.base) ctx.drawImage(IMG.base, 0, 0, MAPW, MAPH);
   const x0 = cam.cx - W / 2 / s - HR * 2, x1 = cam.cx + W / 2 / s + HR * 2, y0 = cam.cy - H / 2 / s - HR * 2, y1 = cam.cy + H / 2 / s + HR * 2;
   const vis: number[] = [];
-  for (let i = 0; i < NCELL; i++) if (CX[i] > x0 && CX[i] < x1 && CY[i] > y0 && CY[i] < y1) vis.push(i);
+  for (let i = 0; i < NCELL; i++) if (CX[i] > x0 && CX[i] < x1 && CY[i] > y0 && CY[i] < y1 && !FICK.has(O0[i])) vis.push(i);
   const r = HR * 1.02;
   // trozos de <=900 celdas por dueño: un Path2D con miles de subtrayectos es lentísimo de rellenar
   const pathsA = new Map<number, Path2D[]>(); const pcount = new Map<number, number>();
