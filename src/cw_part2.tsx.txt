@@ -1,0 +1,451 @@
+// ===================== CONTINENTS WAR =====================
+const CWST = new Map<number, any>();
+const cwState = (t: number) => {
+  const C = X.D.cw; if (!C) return null;
+  const key0 = Math.round(t * 30); const hit = CWST.get(key0); if (hit) return hit;
+  const team = new Int16Array(NK).fill(-1); const dead = new Uint8Array(NK);
+  for (const e of C.tev as number[][]) { if (e[0] > t) break; team[e[1]] = e[2]; dead[e[1]] = e[3]; }
+  const has = (C.teams as any[]).map((_: any, i: number) => team.some((v) => v === i));
+  let key = ''; for (let k = 0; k < NK; k++) key += String.fromCharCode(65 + team[k] + 1);
+  const st = {team, dead, has, key, cols: (C.teams as any[]).map((T: any) => T.col)};
+  CWST.set(key0, st); if (CWST.size > 200) CWST.delete(CWST.keys().next().value as number);
+  return st;
+};
+const cwLit = (t: number): number[] | null => {
+  const C = X.D.cw; if (!C) return null; const it = (C.intro as any[]).find((x) => t >= x[0] && t < x[1]); if (!it) return null;
+  const st = cwState(t); if (!st) return null; const out: number[] = []; for (let k = 0; k < NK; k++) if (st.team[k] === it[2]) out.push(k); return out;
+};
+const kfl = (pk: number[][], t: number) => { if (!pk.length) return 0; if (t <= pk[0][0]) return pk[0][1]; for (let i = 1; i < pk.length; i++) if (t <= pk[i][0]) { const u = (t - pk[i - 1][0]) / Math.max(1e-6, pk[i][0] - pk[i - 1][0]); return pk[i - 1][1] + (pk[i][1] - pk[i - 1][1]) * u; } return pk[pk.length - 1][1]; };
+const eocf = (u: number) => { u = Math.min(1, Math.max(0, u)); return 1 - Math.pow(1 - u, 3); };
+const cwElimT = (i: number) => { const e = (X.D.cw.elim as any[]).find((x) => x[1] === i); return e ? e[0] : 1e9; };
+const fmtN = (v: number) => Math.round(v).toLocaleString('en-US');
+const cwMmss = (s: number) => `${Math.floor(Math.max(0, s) / 60)}:${String(Math.floor(Math.max(0, s) % 60)).padStart(2, '0')}`;
+const cwAdj = (n: string) => ({EUROPE: 'EUROPEAN', ASIA: 'ASIAN', 'NORTH AMERICA': 'N. AMERICAN', AFRICA: 'AFRICAN', 'SOUTH AMERICA': 'S. AMERICAN', OCEANIA: 'OCEANIAN'} as any)[n] || n;
+const cwXY = (k: number) => (X.D.cw.capxy || {})[k] as number[] | undefined;
+const cwIntroAt = (t: number) => (X.D.cw.intro as any[]).find((x) => t >= x[0] - 0.2 && t < x[1] + 0.3);
+const cwFirstSeen = (i: number) => { const it = (X.D.cw.intro as any[]).find((x) => x[2] === i); return it ? it[0] + 1.2 : 0; };
+
+const ChestSVG: React.FC<{rar: number; open: number; shake: number}> = ({rar, open, shake}) => {
+  const col = ['#9a6a3a', '#3a8cff', '#a64dff', '#ffc21a'][rar]; const rim = ['#5a3a1a', '#1a4f9e', '#5a1a9e', '#a87a00'][rar];
+  return (
+    <svg width={300} height={270} viewBox="-150 -160 300 270" style={{overflow: 'visible'}}>
+      {open > 0 && Array.from({length: 14}).map((_, i) => { const a = (i / 14) * Math.PI * 2 + open; const L = 60 + 160 * open; return <line key={i} x1={0} y1={-40} x2={Math.cos(a) * L} y2={-40 + Math.sin(a) * L} stroke={col} strokeWidth={12} opacity={0.75 * (1 - open * 0.6)} strokeLinecap="round" />; })}
+      {open > 0 && <circle cx={0} cy={-40} r={40 + 140 * open} fill={rar === 3 ? '#fff4b0' : '#ffffff'} opacity={0.55 * (1 - open)} />}
+      <g transform={`rotate(${shake > 0 ? Math.sin(shake * 40) * 6 : 0})`}>
+        <rect x={-110} y={-30} width={220} height={120} rx={16} fill={col} stroke={INK} strokeWidth={9} />
+        <rect x={-110} y={-30} width={220} height={24} fill={rim} stroke={INK} strokeWidth={6} />
+        <rect x={-20} y={-12} width={40} height={48} rx={7} fill="#ffd23f" stroke={INK} strokeWidth={6} />
+        <g transform={`translate(0,-30) translate(0,${-open * 40}) scale(1,${1 - open * 0.55})`}>
+          <path d="M-114,0 L-114,-50 Q0,-104 114,-50 L114,0 Z" fill={col} stroke={INK} strokeWidth={9} strokeLinejoin="round" />
+          <path d="M-66,-6 L-66,-66 M66,-6 L66,-66" stroke={rim} strokeWidth={16} />
+        </g>
+      </g>
+    </svg>
+  );
+};
+
+const CwFace: React.FC<{mood: 'scared' | 'dead' | 'idle'; r: number; t: number}> = ({mood, r, t}) => {
+  const jx = mood === 'scared' ? Math.sin(t * 60) * r * 0.05 : 0;
+  return (
+    <g transform={`translate(${jx},0)`}>
+      <circle r={r} fill={mood === 'dead' ? '#9aa0a8' : '#ffd23f'} stroke={INK} strokeWidth={r * 0.12} />
+      {mood === 'scared' && <>
+        <path d={`M${-r * 0.55},${-r * 0.45} L${-r * 0.15},${-r * 0.55} M${r * 0.55},${-r * 0.45} L${r * 0.15},${-r * 0.55}`} stroke={INK} strokeWidth={r * 0.1} strokeLinecap="round" />
+        <circle cx={-r * 0.33} cy={-r * 0.12} r={r * 0.2} fill="#fff" stroke={INK} strokeWidth={r * 0.06} /><circle cx={r * 0.33} cy={-r * 0.12} r={r * 0.2} fill="#fff" stroke={INK} strokeWidth={r * 0.06} />
+        <circle cx={-r * 0.33} cy={-r * 0.1} r={r * 0.07} fill={INK} /><circle cx={r * 0.33} cy={-r * 0.1} r={r * 0.07} fill={INK} />
+        <ellipse cx={0} cy={r * 0.45} rx={r * 0.18} ry={r * 0.24} fill={INK} />
+        <path d={`M${r * 0.75},${-r * 0.6} q${r * 0.12},${r * 0.25} 0,${r * 0.32} q${-r * 0.12},${-r * 0.07} 0,${-r * 0.32}`} fill="#7fd0ff" stroke={INK} strokeWidth={r * 0.04} />
+      </>}
+      {mood === 'dead' && <>
+        {[-1, 1].map((sd) => <path key={sd} d={`M${sd * r * 0.33 - r * 0.15},${-r * 0.27} l${r * 0.3},${r * 0.3} m0,${-r * 0.3} l${-r * 0.3},${r * 0.3}`} stroke={INK} strokeWidth={r * 0.11} strokeLinecap="round" />)}
+        <path d={`M${-r * 0.3},${r * 0.45} L${r * 0.3},${r * 0.45}`} stroke={INK} strokeWidth={r * 0.1} strokeLinecap="round" />
+        <path d={`M${r * 0.12},${r * 0.45} q${r * 0.12},${r * 0.28} ${r * 0.22},0`} fill="#ff6b8a" stroke={INK} strokeWidth={r * 0.05} />
+      </>}
+      {mood === 'idle' && <>
+        <circle cx={-r * 0.33} cy={-r * 0.12} r={r * 0.11} fill={INK} /><circle cx={r * 0.33} cy={-r * 0.12} r={r * 0.11} fill={INK} />
+        <path d={`M${-r * 0.3},${r * 0.35} Q0,${r * 0.6} ${r * 0.3},${r * 0.35}`} stroke={INK} strokeWidth={r * 0.1} fill="none" strokeLinecap="round" />
+      </>}
+    </g>
+  );
+};
+
+const CwFX: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  const C = X.D.cw; if (!C) return null; const out: React.ReactNode[] = [];
+  const S = Math.max(0.55, Math.min(1.5, cam.s / 0.9)); const st = cwState(t); const winT = C.win ? C.win[0] : 1e9;
+  // nombres grandes de los continentes en vistas amplias
+  if (st && cam.s < 0.5 && t < winT && !cwIntroAt(t)) {
+    (C.teams as any[]).forEach((T: any, i: number) => {
+      if (t > cwElimT(i) + 1) return; const xs: number[] = [], ys: number[] = [];
+      for (let k = 0; k < NK; k++) if (st.team[k] === i && !st.dead[k]) { const xy = cwXY(k); if (xy) { xs.push(xy[0]); ys.push(xy[1]); } }
+      if (!xs.length) return; xs.sort((a, b) => a - b); ys.sort((a, b) => a - b);
+      const [x, y] = toS(xs[Math.floor(xs.length / 2)], ys[Math.floor(ys.length / 2)], cam); const a = Math.min(1, (0.5 - cam.s) / 0.1);
+      out.push(<g key={'lab' + i} opacity={a}><text x={x} y={y + 60} textAnchor="middle" fontSize={44} style={{fontFamily: 'Lilita'}} fill={T.col} stroke={INK} strokeWidth={10} paintOrder="stroke">{T.emo} {T.name}</text></g>);
+    });
+  }
+  // bases
+  (C.teams as any[]).forEach((T: any, i: number) => {
+    if (t > cwElimT(i) || t > winT || t < cwFirstSeen(i)) return;
+    const [x, y] = toS(T.hq[0], T.hq[1], cam); if (x < -100 || x > VW + 100 || y < -100 || y > VH + 100) return;
+    const act = (C.turns as any[]).find((u) => t >= u.t0 && t < u.t1 && u.team === i);
+    const r = 30 * S * (act ? 1 + 0.08 * Math.sin(t * 8) : 1);
+    out.push(<g key={'hq' + i}>
+      {act && <circle cx={x} cy={y} r={r * 2.1} fill={T.col} opacity={0.25 + 0.1 * Math.sin(t * 6)} />}
+      <circle cx={x} cy={y} r={r} fill={T.col} stroke={INK} strokeWidth={6} />
+      <text x={x} y={y + r * 0.36} textAnchor="middle" fontSize={r * 1.05}>{T.emo}</text>
+      <text x={x} y={y + r + 24 * S} textAnchor="middle" fontSize={20 * S} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={INK} strokeWidth={6} paintOrder="stroke">{T.name} HQ</text>
+    </g>);
+  });
+  // calaveras sobre los países destruidos
+  if (st && t < winT) for (const r of C.res as any[]) {
+    if (r[2] !== 'dead' || t < r[0]) continue; const k = r[1]; if (!st.dead[k]) continue; const xy = cwXY(k); if (!xy) continue;
+    const [x, y] = toS(xy[0], xy[1], cam); if (x < -80 || x > VW + 80 || y < -80 || y > VH + 80) continue;
+    const e = t - r[0]; const big = e < 1.6 ? 1 + 1.6 * (1 - e / 1.6) * popT(t, r[0], 10) : 1; const sz = 30 * Math.min(1.3, S) * big;
+    out.push(<g key={'sk' + r[0] + k}>{e < 1.6 && <text x={x} y={y - 70} textAnchor="middle" fontSize={40} style={{fontFamily: 'Lilita'}} fill="#ff3b3b" stroke={INK} strokeWidth={9} paintOrder="stroke" opacity={lerp(e, 1.2, 1.6, 1, 0)}>DESTROYED</text>}<text x={x} y={y + sz * 0.35} textAnchor="middle" fontSize={sz}>💀</text></g>);
+  }
+  // refuerzos que caen en la base / caja de suministros
+  for (const [t0, t1, wx, wy, emo, n] of C.drops as any[]) {
+    if (t < t0 || t > t1 + 0.4) continue; const [x, y] = toS(wx, wy, cam); const a = lerp(t, t1, t1 + 0.4, 1, 0);
+    if (n < 0) {
+      const f = Math.min(1, (t - t0) / 1.3); const yy = y - 520 * (1 - Easing.out(Easing.quad)(f));
+      out.push(<g key={'cr' + t0} opacity={a}>
+        {f < 1 && <><path d={`M${x - 70},${yy - 150} Q${x},${yy - 230} ${x + 70},${yy - 150}`} fill="#fff" stroke={INK} strokeWidth={5} /><line x1={x - 66} y1={yy - 150} x2={x} y2={yy - 40} stroke={INK} strokeWidth={3} /><line x1={x + 66} y1={yy - 150} x2={x} y2={yy - 40} stroke={INK} strokeWidth={3} /></>}
+        <circle cx={x} cy={yy} r={90 + 10 * Math.sin(t * 6)} fill="#ffd23f" opacity={0.25} />
+        <text x={x} y={yy + 40} textAnchor="middle" fontSize={120}>📦</text>
+      </g>);
+      continue;
+    }
+    for (let j = 0; j < n; j++) {
+      const td = t0 + j * 0.07; const e = t - td; if (e < 0) continue;
+      const ang = (j / n) * Math.PI * 2 + 0.4; const rr = (55 + (j % 3) * 26) * S;
+      const tx = x + Math.cos(ang) * rr, ty = y + Math.sin(ang) * rr * 0.6;
+      const f = Math.min(1, e / 0.45); const yy = ty - 260 * (1 - Easing.out(Easing.back(1.6))(f));
+      out.push(<text key={'d' + t0 + '-' + j} x={tx} y={yy} textAnchor="middle" fontSize={56 * S} opacity={a}>{emo}</text>);
+    }
+  }
+  // atacantes resaltados y objetivo
+  for (const u of C.turns as any[]) {
+    if (u.atk && t >= u.atk[0] && t < u.atk[0] + 3.2) {
+      const T0 = C.teams[u.team];
+      (u.atk[1] as number[]).forEach((k, j) => { const xy = cwXY(k); if (!xy) return; const [x, y] = toS(xy[0], xy[1], cam); const p = 0.5 + 0.5 * Math.sin(t * 9 + j);
+        out.push(<g key={'at' + u.t0 + k}><circle cx={x} cy={y} r={34 + 10 * p} fill="none" stroke={T0.col} strokeWidth={8} /><text x={x} y={y - 52} textAnchor="middle" fontSize={30} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={T0.col} strokeWidth={8} paintOrder="stroke">⚔️ {SNAME(k)}</text></g>); });
+    }
+    if (!u.target || !u.atk) continue; const tl = u.target[0], te = u.atk[0] + 3.4; if (t < tl || t > te) continue;
+    const k = u.target[1]; const T0 = (C.teams as any[])[u.target[2]]; const wx = cwXY(k);
+    if (!wx) continue; const [x, y] = toS(wx[0], wx[1], cam); const p = 0.5 + 0.5 * Math.sin(t * 10);
+    out.push(<g key={'tg' + tl}><circle cx={x} cy={y} r={46 + 10 * p} fill="none" stroke="#ff3b3b" strokeWidth={8} /><line x1={x - 74} y1={y} x2={x - 30} y2={y} stroke="#ff3b3b" strokeWidth={8} /><line x1={x + 30} y1={y} x2={x + 74} y2={y} stroke="#ff3b3b" strokeWidth={8} /><line x1={x} y1={y - 74} x2={x} y2={y - 30} stroke="#ff3b3b" strokeWidth={8} /><line x1={x} y1={y + 30} x2={x} y2={y + 74} stroke="#ff3b3b" strokeWidth={8} />
+      <text x={x} y={y - 90} textAnchor="middle" fontSize={38} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={T0 ? T0.col : INK} strokeWidth={9} paintOrder="stroke">🎯 {SNAME(k)}</text></g>);
+  }
+  // barras de vida en capitales debilitadas
+  for (const [k, pk] of C.caphp as any[]) {
+    const v = kfl(pk, t); if (v >= 99.5 || (st && st.dead[k] && v <= 0.5)) continue;
+    const xy = cwXY(k); if (!xy) continue; const [x, y] = toS(xy[0], xy[1], cam);
+    if (x < -60 || x > VW + 60 || y < -60 || y > VH + 60) continue;
+    const w = 110 * Math.min(1.2, S); const col = v > 60 ? '#4dff7a' : v > 30 ? '#ffd23f' : '#ff3b3b';
+    out.push(<g key={'ch' + k}><rect x={x - w / 2 - 5} y={y - 44} width={w + 10} height={26} rx={9} fill={INK} /><rect x={x - w / 2} y={y - 39} width={w * v / 100} height={16} rx={6} fill={col} />
+      <text x={x} y={y - 52} textAnchor="middle" fontSize={24} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={INK} strokeWidth={6} paintOrder="stroke">🩸 {Math.round(v)}%</text></g>);
+  }
+  // continente eliminado: sus capitales parpadean en rojo
+  for (const [t0, i] of (C.elimfx || []) as any[]) {
+    if (t < t0 || t > t0 + 2.4) continue; const p = 0.5 + 0.5 * Math.sin((t - t0) * 14);
+    for (let k = 0; k < NK; k++) { if (!st || st.team[k] !== i && !(st.dead[k] && X.D.cw.tev)) continue; }
+    (C.capall?.[i] || []).forEach((xy: number[], j: number) => { const [x, y] = toS(xy[0], xy[1], cam); out.push(<circle key={'ef' + t0 + j} cx={x} cy={y} r={26 + 18 * p} fill="#ff3b3b" opacity={0.45 * lerp(t, t0 + 1.8, t0 + 2.4, 1, 0)} />); });
+  }
+  // caza de ciudades
+  for (const ev of C.cities as any[]) {
+    if (t < ev.t0 || t > ev.t1) continue;
+    for (const [wx, wy, name, tf, tdie] of ev.pts as any[]) {
+      if (t < tf - 0.1) continue; const [x, y] = toS(wx, wy, cam); const dead = tdie && t > tdie; const r = 44 * Math.min(1.6, Math.max(0.8, cam.s / 1.4));
+      const pop = popT(t, tf, 10); const saved = !tdie && t > tf + 1.6;
+      out.push(<g key={'cf' + tf} transform={`translate(${x},${y - r * 1.4}) scale(${pop})`}>
+        {dead && t < tdie + 1.0 && <circle r={r * (1 + (t - tdie) * 6)} fill="#ffb000" opacity={0.6 * (1 - (t - tdie))} />}
+        <CwFace mood={dead ? 'dead' : saved ? 'idle' : 'scared'} r={r} t={t} />
+        <text y={r + 36} textAnchor="middle" fontSize={34} style={{fontFamily: 'Lilita'}} fill="#fff" stroke={INK} strokeWidth={8} paintOrder="stroke">{name}</text>
+        {saved && <text y={-r - 14} textAnchor="middle" fontSize={32} style={{fontFamily: 'Lilita'}} fill="#4dff7a" stroke={INK} strokeWidth={7} paintOrder="stroke">SAFE... 😮‍💨</text>}
+        {dead && <text y={-r - 14} textAnchor="middle" fontSize={36} style={{fontFamily: 'Lilita'}} fill="#ff3b3b" stroke={INK} strokeWidth={8} paintOrder="stroke">💀 DESTROYED</text>}
+      </g>);
+    }
+  }
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, pointerEvents: 'none', zIndex: 12, overflow: 'visible'}}>{out}</svg>;
+};
+
+const CwBar: React.FC<{i: number; t: number; w: number; act: boolean}> = ({i, t, w, act}) => {
+  const C = X.D.cw; const T = C.teams[i]; const v = Math.max(0, kfl(C.hp[i], t)); const vg = Math.max(0, kfl(C.hp[i], t - 0.8));
+  const pw = kfl(C.pw[i], t); const cnt = Math.round(kfl(C.cnt[i], t)); const dead = t >= cwElimT(i);
+  const low = v < 25 && !dead; const fl = low ? 0.5 + 0.5 * Math.sin(t * 9) : 0;
+  const hit = (C.turns as any[]).find((u) => u.dp && u.dp[1] === i && t >= u.dp[0] && t < u.dp[0] + 0.5); const sh = hit ? Math.sin(t * 70) * 6 : 0;
+  return (
+    <div style={{width: w, background: dead ? 'rgba(40,40,46,0.94)' : 'rgba(10,14,26,0.94)', border: `6px solid ${act ? '#fff' : dead ? '#555' : T.col}`, borderRadius: 22, padding: '8px 12px 10px', boxShadow: act ? `0 0 28px 8px ${T.col}` : '0 6px 0 rgba(0,0,0,0.45)', filter: dead ? 'grayscale(1)' : undefined, position: 'relative', transform: `translateX(${sh}px)`}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+        <div style={{width: 54, height: 54, borderRadius: '50%', background: T.col, border: `4px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32}}>{T.emo}</div>
+        <div style={{flex: 1, overflow: 'hidden'}}>
+          <div style={{...font, fontSize: T.name.length > 10 ? 27 : 33, color: '#fff', whiteSpace: 'nowrap', lineHeight: 1.05}}>{T.name}</div>
+          <div style={{...font, fontSize: 22, color: '#cfe3ff', lineHeight: 1.1}}>🏳️ {cnt} / {T.n0} COUNTRIES</div>
+        </div>
+        <div style={{...font, fontSize: 40, color: dead ? '#999' : v < 25 ? '#ff5a5a' : '#fff'}}>{dead ? '💀' : `${Math.round(v)}%`}</div>
+      </div>
+      <div style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 6}}>
+        <span style={{...font, fontSize: 17, color: '#9fb3d0'}}>TERRITORY</span>
+        <div style={{position: 'relative', flex: 1, height: 24, background: '#2a2f3a', borderRadius: 10, border: `3px solid ${INK}`, overflow: 'hidden'}}>
+          <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${vg}%`, background: '#fff', opacity: 0.85}} />
+          <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${v}%`, background: low ? `rgb(255,${Math.round(60 + 80 * fl)},60)` : `linear-gradient(180deg, ${T.col}, ${T.col2})`}} />
+        </div>
+      </div>
+      <div style={{...font, fontSize: 20, color: '#ffe680', marginTop: 4}}>⚡ {fmtN(pw)} POWER</div>
+      {dead && <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: 46, color: '#ff3b3b', textShadow: `4px 4px 0 ${INK}`, transform: 'rotate(-6deg)'}}>ELIMINATED</div>}
+    </div>
+  );
+};
+
+const CwWheelRot = (wd: any, t: number) => wd.tg * eocf((t - wd.t0 - 0.05) / Math.max(0.01, wd.se - wd.t0 - 0.05));
+const CW_STEPS = [['📦', 'CHEST'], ['🎯', 'TARGET'], ['🎡', 'ATTACKERS'], ['💥', 'RESULT']];
+
+const CwHud: React.FC<{t: number}> = ({t}) => {
+  const C = X.D.cw; if (!C) return null; const out: React.ReactNode[] = []; const CX = VW / 2;
+  const winT = C.win ? C.win[0] : 1e9; const g0 = C.g0 || 0;
+  const act = (C.turns as any[]).find((u) => t >= u.t0 && t < u.t1);
+  // --- paneles de continentes (6; al caer Oceanía/Sudamérica quedan los 4 de las esquinas) ---
+  const POS: [number, number][] = [[20, 18], [VW - 470, 18], [20, VH - 186], [VW - 470, VH - 186], [20, VH / 2 - 90], [VW - 470, VH / 2 - 90]];
+  if (t < winT + 0.5) (C.teams as any[]).forEach((_: any, i: number) => {
+    const fs = cwFirstSeen(i); if (t < fs - 0.4) return;
+    const et = cwElimT(i); if (i >= 4 && t > et + 5.5) return;
+    const p = popT(t, fs - 0.4, 9) * (i >= 4 ? lerp(t, et + 4.5, et + 5.5, 1, 0) : 1);
+    const [x, y] = POS[i];
+    out.push(<div key={'p' + i} style={{position: 'absolute', left: x, top: y, transform: `scale(${p})`, transformOrigin: i % 2 ? 'right center' : 'left center', zIndex: 30, opacity: Math.min(1, p * 1.5)}}><CwBar i={i} t={t} w={450} act={!!act && act.team === i} /></div>);
+  });
+  // --- gancho ---
+  if (C.hook && t < C.hook[1] + 0.4) {
+    const a = lerp(t, C.hook[1], C.hook[1] + 0.4, 1, 0);
+    out.push(<AbsoluteFill key="hook" style={{zIndex: 44, background: `rgba(4,8,18,${0.35 * a})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: a}}>
+      <div style={{...font, fontSize: 140, color: '#fff', textShadow: `9px 9px 0 ${INK}`, transform: `scale(${popT(t, 0.05, 9)})`, lineHeight: 1}}>6 CONTINENTS</div>
+      <div style={{...font, fontSize: 104, color: YELLOW, textShadow: `8px 8px 0 ${INK}`, transform: `scale(${popT(t, 0.45, 9)})`}}>GO TO WAR</div>
+      <div style={{...font, fontSize: 72, color: '#ff5a5a', textShadow: `6px 6px 0 ${INK}`, transform: `scale(${popT(t, 1.1, 9)})`}}>ONLY 1 SURVIVES</div>
+    </AbsoluteFill>);
+  }
+  // --- presentación de continentes ---
+  const it = cwIntroAt(t);
+  if (it) {
+    const [t0, t1, i, lead, n, pw] = it; const T = C.teams[i]; const a = lerp(t, t0 - 0.2, t0 + 0.2, 0, 1) * lerp(t, t1, t1 + 0.3, 1, 0);
+    const order = (C.intro as any[]).findIndex((x) => x[2] === i); const rk = 6 - order;
+    out.push(<div key={'in' + i} style={{position: 'absolute', left: CX - 430, bottom: 40, width: 860, zIndex: 40, opacity: a, transform: `translateY(${(1 - popT(t, t0, 9)) * 120}px)`}}>
+      <div style={{background: 'rgba(10,14,26,0.95)', border: `9px solid ${T.col}`, borderRadius: 30, padding: '14px 26px 16px', boxShadow: `0 0 40px ${T.col}`, display: 'flex', alignItems: 'center', gap: 22}}>
+        <div style={{width: 130, height: 130, borderRadius: '50%', background: T.col, border: `7px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 80, flexShrink: 0}}>{T.emo}</div>
+        <div style={{flex: 1}}>
+          <div style={{display: 'flex', alignItems: 'baseline', gap: 14}}><span style={{...font, fontSize: 70, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>{T.name}</span><span style={{...font, fontSize: 30, color: rk === 1 ? '#4dff7a' : rk >= 5 ? '#ff6b6b' : '#ffd23f'}}>#{rk} {rk === 1 ? 'STRONGEST' : rk === 6 ? 'WEAKEST' : ''}</span></div>
+          <div style={{display: 'flex', gap: 14, marginTop: 6, opacity: popT(t, t0 + 1.0, 10)}}>
+            <span style={{background: '#22283a', borderRadius: 14, padding: '4px 14px 0', ...font, fontSize: 32, color: '#cfe3ff'}}>🏳️ {n} COUNTRIES</span>
+            <span style={{background: '#22283a', borderRadius: 14, padding: '4px 14px 0', ...font, fontSize: 32, color: '#ffe680'}}>⚡ {fmtN(pw)} POWER</span>
+          </div>
+          <div style={{display: 'flex', alignItems: 'center', gap: 12, marginTop: 8, opacity: popT(t, t0 + 1.8, 10)}}><span style={{...font, fontSize: 30, color: '#fff'}}>💪 STRONGEST:</span><FlagImg k={lead} w={60} h={40} /><span style={{...font, fontSize: 34, color: T.col}}>{SNAME(lead)}</span></div>
+        </div>
+      </div></div>);
+  }
+  // --- reglas ---
+  for (const [t0, t1, j] of C.rules as any[]) {
+    if (t < t0 - 0.2 || t > t1 + 0.3) continue; const a = lerp(t, t0 - 0.2, t0 + 0.2, 0, 1) * lerp(t, t1, t1 + 0.3, 1, 0);
+    const chip = (txt: string, col: string, d: number) => <div style={{background: col, border: `5px solid ${INK}`, borderRadius: 18, padding: '6px 20px 0', ...font, fontSize: 40, color: '#fff', textShadow: `3px 3px 0 ${INK}`, transform: `scale(${popT(t, t0 + d, 10)})`}}>{txt}</div>;
+    const body = j === 0 ? <>
+      <div style={{display: 'flex', gap: 20, alignItems: 'center'}}><ChestSVG rar={3} open={Math.min(1, Math.max(0, (t - t0 - 1.2) / 0.6))} shake={t < t0 + 1.2 ? t : 0} /><div style={{display: 'flex', flexDirection: 'column', gap: 12}}>{chip('👥 TROOPS · 🛡️ TANKS · ✈️ JETS', '#2f6bff', 1.6)}{chip('= MORE ⚡ POWER', '#11943c', 2.2)}{chip('💖 RARE CHESTS REVIVE FALLEN COUNTRIES', '#a64dff', 3.0)}</div></div></>
+      : j === 1 ? <>
+      <div style={{display: 'flex', gap: 16, marginTop: 6}}>{chip('🪖 1 = WEAKEN', '#ff9a1f', 1.0)}{chip('⚔️ 2 = DESTROY', '#e0202a', 1.6)}{chip('💥 3 = DESTROY + NEIGHBOUR', '#7a00e0', 2.2)}</div>
+      <div style={{marginTop: 18, ...font, fontSize: 38, color: '#ffe680', opacity: popT(t, t0 + 3.0, 10)}}>⚡ MORE POWER = BIGGER SLICES ON THE WHEEL</div></>
+      : <>
+      <div style={{display: 'flex', gap: 16, marginTop: 6}}>{chip('💀 LOSE ALL YOUR COUNTRIES = ELIMINATED', '#c8141e', 1.0)}</div>
+      <div style={{display: 'flex', gap: 16, marginTop: 14}}>{chip('🎉 SPECIAL EVENTS EVERY FEW MINUTES', '#ff8a1a', 1.8)}{chip('🏆 LAST ONE STANDING WINS', '#11943c', 2.6)}</div></>;
+    const title = ['📦 EVERY TURN, A CONTINENT OPENS A CHEST', '🎯 THE ARROW PICKS AN ENEMY · 🎡 THE WHEEL PICKS HOW MANY ATTACK', '🏆 HOW TO WIN'][j];
+    out.push(<AbsoluteFill key={'ru' + j} style={{zIndex: 43, background: `rgba(4,8,18,${0.62 * a})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: a}}>
+      <div style={{...font, fontSize: 34, color: '#fff', background: '#22283a', borderRadius: 14, padding: '4px 18px 0', marginBottom: 12}}>📖 RULE {j + 1} / 3</div>
+      <div style={{...font, fontSize: j === 1 ? 56 : 70, color: YELLOW, textShadow: `6px 6px 0 ${INK}`, textAlign: 'center', maxWidth: 1700, transform: `scale(${popT(t, t0, 10)})`}}>{title}</div>
+      <div style={{marginTop: 22, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>{body}</div>
+    </AbsoluteFill>);
+  }
+  // --- gancho 2 ---
+  if (C.hook2 && t >= C.hook2[0] - 0.2 && t < C.hook2[1] + 0.3) {
+    const [t0, t1] = C.hook2; const a = lerp(t, t0 - 0.2, t0 + 0.2, 0, 1) * lerp(t, t1, t1 + 0.3, 1, 0);
+    out.push(<AbsoluteFill key="h2" style={{zIndex: 43, background: `rgba(30,0,0,${0.55 * a})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: a}}>
+      <div style={{display: 'flex', gap: 30}}>{[5, 4].map((i, j) => <div key={i} style={{width: 150, height: 150, borderRadius: '50%', background: C.teams[i].col, border: `8px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 92, transform: `scale(${popT(t, t0 + j * 0.2, 10)}) rotate(${Math.sin(t * 12 + j) * 6}deg)`}}>{C.teams[i].emo}</div>)}</div>
+      <div style={{...font, fontSize: 72, color: '#fff', textShadow: `6px 6px 0 ${INK}`, marginTop: 16}}>OCEANIA & SOUTH AMERICA ARE THE WEAKEST</div>
+      <div style={{background: '#c8141e', border: `7px solid ${INK}`, borderRadius: 24, padding: '10px 34px 2px', ...font, fontSize: 66, color: '#fff', marginTop: 14, transform: `scale(${popT(t, t0 + 0.8, 10)})`}}>⚠️ CAN THEY SURVIVE 5 MINUTES?</div>
+    </AbsoluteFill>);
+  }
+  // --- cuenta atrás ---
+  const cd = (C.cds as any[]).filter((c) => t >= c[0] && t < c[1] && !(C.total && t >= C.total[0])).slice(-1)[0];
+  if (cd) {
+    const rem = cd[1] - t; const urgent = rem < 30; const fl = urgent && Math.floor(t * 4) % 2 === 0;
+    out.push(<div key="cd" style={{position: 'absolute', top: 20, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 31}}>
+      <div style={{background: fl ? cd[3] : 'rgba(10,14,26,0.92)', border: `5px solid ${cd[3]}`, borderRadius: 18, padding: '4px 20px 0', ...font, fontSize: urgent ? 40 : 34, color: fl ? '#fff' : cd[3], transform: `scale(${rem < 5 ? 1.25 + 0.1 * Math.sin(t * 20) : 1})`}}>{cd[2]} <span style={{color: '#fff'}}>{cwMmss(rem)}</span></div>
+    </div>);
+  }
+  // --- turno: cartel + indicador de pasos + explicación ---
+  if (act) {
+    const T = C.teams[act.team]; const a = lerp(t, act.t0, act.t0 + 0.25, 0, 1);
+    const st = act.st as number[]; let cur = -1; st.forEach((x, j) => { if (t >= x) cur = j; });
+    out.push(<div key="tb" style={{position: 'absolute', top: 84, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 33, opacity: a}}>
+      <div style={{background: T.col, border: `6px solid ${INK}`, borderRadius: 22, padding: '6px 30px 0', ...font, fontSize: t < act.t0 + 1.5 ? 58 : 40, color: '#fff', textShadow: `4px 4px 0 ${INK}`, transform: `scale(${popT(t, act.t0, 10)})`}}>{T.emo} {T.name}'S TURN</div>
+      {st.length > 0 && <div style={{display: 'flex', gap: 8, marginTop: 8}}>{CW_STEPS.map(([e, l], j) => <div key={j} style={{background: j === cur ? '#ffd23f' : j < cur ? 'rgba(77,255,122,0.85)' : 'rgba(20,26,40,0.9)', border: `4px solid ${INK}`, borderRadius: 14, padding: '3px 12px 0', ...font, fontSize: 24, color: j === cur || j < cur ? INK : '#8a96ad', transform: `scale(${j === cur ? 1.12 : 1})`}}>{j < cur ? '✔' : e} {l}</div>)}</div>}
+    </div>);
+    if (act.tut && cur >= 0) {
+      const tn = cwAdj(T.name);
+      const caps = [`📦 ${T.name} OPENS A CHEST → TROOPS & WEAPONS = MORE POWER`, `🎯 THE ARROW CHOOSES WHICH ENEMY COUNTRY ${T.name} ATTACKS`, `🎡 HOW MANY ${tn} COUNTRIES JOIN THE ATTACK? 1 = WEAKEN · 2 = DESTROY · 3 = DESTROY + NEIGHBOUR`, `💥 EVERY DESTROYED COUNTRY = LESS TERRITORY FOR ITS CONTINENT`];
+      out.push(<div key="tut" style={{position: 'absolute', left: 500, right: 500, bottom: 28, display: 'flex', justifyContent: 'center', zIndex: 39}}>
+        <div style={{background: '#fff', border: `6px solid ${INK}`, borderRadius: 20, padding: '8px 22px 2px', ...font, fontSize: 30, color: INK, textAlign: 'center', transform: `scale(${popT(t, st[cur], 10)})`}}><span style={{color: '#c8141e'}}>HOW IT WORKS · </span>{caps[cur]}</div></div>);
+    }
+    // cofre
+    if (act.chest) {
+      const [tc, rar] = act.chest; const tre = act.reel ? act.reel[0] : tc + 2; const op = Math.min(1, Math.max(0, (t - (tc + 0.9)) / 0.5));
+      if (t >= tc - 0.1 && t < tre + 0.3) {
+        const a2 = lerp(t, tre - 0.1, tre + 0.3, 1, 0); const RN = ['COMMON', 'RARE', 'EPIC', 'LEGENDARY'][rar]; const RC = ['#c88a4a', '#3a8cff', '#a64dff', '#ffc21a'][rar];
+        out.push(<div key="ch" style={{position: 'absolute', left: CX - 150, top: VH / 2 - 190, zIndex: 34, opacity: a2, transform: `scale(${popT(t, tc, 10)})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <ChestSVG rar={rar} open={op} shake={t < tc + 0.9 ? t : 0} />
+          <div style={{marginTop: -10, background: RC, border: `5px solid ${INK}`, borderRadius: 16, padding: '4px 18px 0', ...font, fontSize: 36, color: '#fff', textShadow: `3px 3px 0 ${INK}`, whiteSpace: 'nowrap'}}>{rar === 3 ? '✨ ' : ''}{RN} CHEST</div></div>);
+      }
+    }
+  }
+  // --- selector de recompensa ---
+  const reels: any[] = (C.turns as any[]).filter((u) => u.reel).map((u) => ({t0: u.reel[0], t1: u.reel[1], items: u.reel[2], pick: u.reel[3], rar: u.reel[4], kind: 'turn', team: u.team}));
+  for (const r of C.reels as any[]) reels.push({t0: r[0], t1: r[1], items: r[2], pick: r[3], kind: r[4], cols: r[5], team: r[6]});
+  for (const r of reels) {
+    if (t < r.t0 - 0.2 || t > r.t1 + 0.5) continue;
+    const a = lerp(t, r.t0 - 0.2, r.t0 + 0.1, 0, 1) * lerp(t, r.t1 + 0.15, r.t1 + 0.5, 1, 0);
+    const se = r.t1 - 0.35; const p = r.pick * eocf((t - r.t0) / (se - r.t0)); const base = Math.floor(p); const fr = p - base; const done = t > se;
+    const mini = r.kind === 'mini'; const rh = mini ? 54 : 84; const Wd = mini ? 330 : 640;
+    let cx = CX, cy = VH / 2 - 10;
+    if (mini) { const pos = [[260, 330], [VW - 260, 330], [260, VH - 380], [VW - 260, VH - 380]]; [cx, cy] = pos[r.team] || [CX, VH / 2]; }
+    const brd = r.kind === 'tm' ? '#ffd23f' : r.kind === 'mini' ? r.cols[0] : ['#c88a4a', '#3a8cff', '#a64dff', '#ffc21a'][r.rar];
+    const head = r.kind === 'tm' ? '🪂 WHO GETS THE CRATE?' : mini ? `${C.teams[r.team].emo} ${C.teams[r.team].name}` : `🎁 WHAT'S INSIDE THE CHEST?`;
+    out.push(<div key={'rl' + r.t0 + (r.team ?? '')} style={{position: 'absolute', left: cx - Wd / 2, top: cy - rh * 1.5 - 30, width: Wd, height: rh * 3 + 52, background: 'linear-gradient(180deg,#141b2e,#0b101d)', border: `7px solid ${brd}`, borderRadius: 26, overflow: 'hidden', zIndex: 35, opacity: a, transform: `scale(${popT(t, r.t0 - 0.2, 12)})`, boxShadow: `0 0 34px ${brd}, 0 12px 0 rgba(0,0,0,0.5)`}}>
+      <div style={{position: 'absolute', top: 0, left: 0, right: 0, height: 46, background: brd, display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: mini ? 22 : 30, color: INK}}>{head}</div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 50, height: rh * 3, overflow: 'hidden'}}>
+        {[-2, -1, 0, 1, 2].map((d) => { const i = base + d; if (i < 0 || i >= r.items.length) return null; const y = (d - fr + 1) * rh; const ctr = Math.abs(d - fr) < 0.5; const itm = r.items[i];
+          const bg = r.kind === 'tm' ? r.cols[i] : ctr ? (done ? 'rgba(255,210,63,0.95)' : 'rgba(255,255,255,0.16)') : 'rgba(255,255,255,0.05)';
+          return <div key={i} style={{position: 'absolute', left: 12, right: 12, top: y + 3, height: rh - 6, display: 'flex', alignItems: 'center', gap: 16, padding: '0 18px', borderRadius: 14, background: bg, opacity: 1 - Math.min(0.7, Math.abs(d - fr) * 0.35), border: ctr && done ? `4px solid ${INK}` : undefined, transform: ctr && done ? `scale(${1 + 0.05 * Math.sin(t * 14)})` : undefined}}>
+            <span style={{fontSize: mini ? 30 : 50}}>{itm[0]}</span><span style={{...font, fontSize: mini ? 24 : 40, color: ctr && done && r.kind !== 'tm' ? INK : '#fff', textShadow: r.kind === 'tm' ? `3px 3px 0 ${INK}` : undefined}}>{itm[1]}</span></div>; })}
+      </div>
+    </div>);
+  }
+  // --- ganancia ---
+  for (const u of C.turns as any[]) {
+    if (!u.gain) continue; const [tg, emo, txt, g] = u.gain; if (t < tg || t > tg + 2.0) continue;
+    const a = lerp(t, tg + 1.6, tg + 2.0, 1, 0);
+    out.push(<div key={'g' + tg} style={{position: 'absolute', left: 0, right: 0, top: VH / 2 - 150, textAlign: 'center', zIndex: 36, opacity: a}}>
+      <div style={{...font, fontSize: 84, color: g > 0 ? '#4dff7a' : '#ff9a8f', textShadow: `6px 6px 0 ${INK}`, transform: `scale(${popT(t, tg, 10)})`}}>{emo} {txt}</div>
+      {g > 0 && <div style={{...font, fontSize: 54, color: '#ffe680', textShadow: `5px 5px 0 ${INK}`, opacity: popT(t, tg + 0.5, 10)}}>⚡ +{fmtN(g)} POWER FOR {C.teams[u.team].name}</div>}</div>);
+  }
+  // --- tarjeta de objetivo ---
+  for (const u of C.turns as any[]) {
+    if (!u.target) continue; const [tt0, k, tm] = u.target; if (t < tt0 + 0.3 || t > tt0 + 2.0) continue;
+    const a = lerp(t, tt0 + 1.6, tt0 + 2.0, 1, 0); const T = C.teams[tm];
+    out.push(<div key={'tc' + tt0} style={{position: 'absolute', left: 0, right: 0, top: VH / 2 + 80, display: 'flex', justifyContent: 'center', zIndex: 36, opacity: a}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 18, background: 'rgba(10,14,26,0.95)', border: `7px solid #ff3b3b`, borderRadius: 24, padding: '10px 26px 6px', transform: `scale(${popT(t, tt0 + 0.3, 10)})`}}>
+        <span style={{...font, fontSize: 46, color: '#ff3b3b'}}>🎯 TARGET:</span><FlagImg k={k} w={84} h={56} /><span style={{...font, fontSize: 56, color: '#fff'}}>{SNAME(k)}</span><span style={{...font, fontSize: 34, color: T.col}}>({T.name})</span></div></div>);
+  }
+  // --- ruleta 1-2-3 ---
+  for (const wd of C.wheels as any[]) {
+    if (t < wd.t0 - 0.3 || t > wd.t1 + 0.4) continue;
+    const a = lerp(t, wd.t0 - 0.3, wd.t0, 0, 1) * lerp(t, wd.t1, wd.t1 + 0.4, 1, 0); const rot = CwWheelRot(wd, Math.min(t, wd.se));
+    const R = 200; const cx = CX, cy = VH / 2 + 30; const T = C.teams[wd.team]; const TT = C.teams[wd.tt];
+    const settled = t > wd.se; const items = ['1·WEAKEN', '2·DESTROY', '3·DESTROY+'];
+    out.push(<div key={'w' + wd.t0} style={{position: 'absolute', left: 0, top: 0, width: VW, height: VH, zIndex: 34, opacity: a, pointerEvents: 'none'}}>
+      <div style={{position: 'absolute', left: cx - 500, top: cy - R - 112, width: 1000, textAlign: 'center', ...font, fontSize: 44, color: '#fff', textShadow: `5px 5px 0 ${INK}`}}>🎡 HOW MANY {cwAdj(T.name)} COUNTRIES ATTACK?</div>
+      {wd.mods && <div style={{position: 'absolute', left: cx - 400, top: cy - R - 60, width: 800, display: 'flex', justifyContent: 'center', gap: 10}}>{[[T, wd.mods[0]], [TT, wd.mods[1]]].map(([tm, m]: any, i) => m ? <span key={i} style={{background: m > 0 ? '#e8f6ff' : '#ff5a3a', border: `4px solid ${INK}`, borderRadius: 12, padding: '2px 12px 0', ...font, fontSize: 26, color: m > 0 ? '#1a5fa8' : '#fff'}}>STORM {m > 0 ? '❄️' : '🔥'} {tm.name} {m > 0 ? '+' : ''}{Math.round(m * 100)}%</span> : null)}</div>}
+      <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0}}><WWheel items={items} w={wd.w} cols={['#ff9a1f', '#e0202a', '#7a00e0']} rot={rot} R={R} cx={cx} cy={cy} fs={34} pct /></svg>
+      {settled && <div style={{position: 'absolute', left: cx - 500, top: cy + R + 34, width: 1000, textAlign: 'center', ...font, fontSize: 54, whiteSpace: 'nowrap', color: '#fff', textShadow: `5px 5px 0 ${INK}`, transform: `scale(${popT(t, wd.se, 12)})`}}>{['🪖 1 COUNTRY ATTACKS → WEAKEN', '⚔️ 2 COUNTRIES ATTACK → DESTROY', '💥 3 COUNTRIES ATTACK → DESTROY + NEIGHBOUR'][wd.pick]}</div>}
+    </div>);
+  }
+  // --- atacantes ---
+  for (const u of C.turns as any[]) {
+    if (!u.atk) continue; const t0 = u.atk[0]; if (t < t0 || t > t0 + 2.6) continue; const a = lerp(t, t0 + 2.2, t0 + 2.6, 1, 0); const T = C.teams[u.team];
+    out.push(<div key={'ak' + t0} style={{position: 'absolute', left: 0, right: 0, top: 210, display: 'flex', justifyContent: 'center', zIndex: 36, opacity: a}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 12, background: T.col, border: `6px solid ${INK}`, borderRadius: 22, padding: '8px 22px 4px', transform: `scale(${popT(t, t0, 10)})`}}>
+        {(u.atk[1] as number[]).map((k: number, j: number) => <React.Fragment key={k}>{j > 0 && <span style={{...font, fontSize: 40, color: '#fff'}}>+</span>}<FlagImg k={k} w={60} h={40} /><span style={{...font, fontSize: 36, color: '#fff', textShadow: `3px 3px 0 ${INK}`}}>{SNAME(k)}</span></React.Fragment>)}
+        <span style={{...font, fontSize: 40, color: YELLOW, textShadow: `3px 3px 0 ${INK}`}}>ATTACK!</span></div></div>);
+  }
+  // --- resultado ---
+  for (const u of C.turns as any[]) {
+    if (!u.dp) continue; const [tr, tt, drop, k] = u.dp; if (t < tr || t > tr + 2.6) continue;
+    const a = lerp(t, tr + 2.2, tr + 2.6, 1, 0); const T = C.teams[tt]; const dead = u.out === 'kill';
+    const r2 = (C.res as any[]).find((r) => Math.abs(r[0] - tr) < 0.05 && r[1] === k); const hpv = r2 && r2[2] === 'weak' ? r2[4] : 0;
+    const nb = u.nb !== undefined ? (C.res as any[]).find((r) => r[1] === u.nb && r[0] > tr && r[0] < tr + 1) : null;
+    out.push(<AbsoluteFill key={'rs' + tr} style={{zIndex: 37, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 110, opacity: a, pointerEvents: 'none'}}>
+      <div style={{transform: `scale(${popT(t, tr, 10)})`, background: dead ? '#8e0f17' : '#b35a00', border: `8px solid ${INK}`, borderRadius: 26, padding: '12px 30px 8px', textAlign: 'center', boxShadow: `0 0 0 7px ${T.col}`}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 16, justifyContent: 'center'}}><FlagImg k={k} w={84} h={56} /><span style={{...font, fontSize: 60, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>{SNAME(k)} {dead ? 'DESTROYED 💀' : `WEAKENED 🩸 ${hpv}%`}</span></div>
+        {!dead && <div style={{...font2, fontSize: 28, color: '#ffe0b0'}}>ONE MORE HIT AND IT FALLS</div>}
+        {nb && <div style={{...font, fontSize: 34, color: '#fff', marginTop: 4}}>+ {SNAME(nb[1])} {nb[2] === 'dead' ? 'ALSO DESTROYED 💀' : `WEAKENED 🩸 ${nb[4]}%`}</div>}
+        <div style={{...font, fontSize: 32, color: '#ffd23f', marginTop: 4}}>{T.emo} {T.name} −{drop}% TERRITORY</div></div></AbsoluteFill>);
+  }
+  // --- tarjetas ---
+  for (const [t0, t1, title, sub, col] of C.cards as any[]) {
+    if (t < t0 || t > t1 + 0.4) continue; const a = lerp(t, t1, t1 + 0.4, 1, 0);
+    out.push(<AbsoluteFill key={'cd' + t0} style={{zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: a, pointerEvents: 'none', background: title.includes('ELIMINATED') ? `rgba(40,0,0,${0.45 * a})` : undefined}}>
+      <div style={{transform: `scale(${popT(t, t0, 10)})`, background: 'rgba(10,14,26,0.95)', border: `10px solid ${col}`, borderRadius: 30, padding: '20px 56px 14px', textAlign: 'center', boxShadow: `0 0 50px ${col}`}}>
+        <div style={{...font, fontSize: 90, color: '#fff', textShadow: `6px 6px 0 ${INK}`}}>{title}</div>
+        <div style={{...font, fontSize: 40, color: col}}>{sub}</div></div></AbsoluteFill>);
+  }
+  // --- eventos ---
+  for (const [t0, t1, title, sub, col, emo] of C.events as any[]) {
+    if (t < t0 - 0.1 || t > t1 + 0.4) continue; const a = lerp(t, t0 - 0.1, t0 + 0.15, 0, 1) * lerp(t, t1, t1 + 0.4, 1, 0);
+    out.push(<AbsoluteFill key={'ev' + t0} style={{zIndex: 42, background: `rgba(4,6,14,${0.6 * a})`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: a}}>
+      <div style={{...font, fontSize: 34, color: '#fff', background: '#22283a', borderRadius: 14, padding: '4px 18px 0', marginBottom: 6}}>🎉 SPECIAL EVENT</div>
+      <div style={{fontSize: 160, transform: `scale(${popT(t, t0, 9)}) rotate(${Math.sin(t * 6) * 6}deg)`}}>{emo}</div>
+      <div style={{background: col, border: `8px solid ${INK}`, borderRadius: 28, padding: '10px 46px 0', ...font, fontSize: 104, color: '#fff', textShadow: `7px 7px 0 ${INK}`, transform: `scale(${popT(t, t0 + 0.12, 10)})`}}>{title}</div>
+      <div style={{marginTop: 16, ...font, fontSize: 46, color: '#fff', textShadow: `4px 4px 0 ${INK}`, opacity: popT(t, t0 + 0.4, 10), maxWidth: 1500, textAlign: 'center'}}>{sub}</div></AbsoluteFill>);
+  }
+  // --- los 4 finalistas ---
+  if (C.four && t >= C.four[0] && t < C.four[1] + 0.4) {
+    const a = lerp(t, C.four[1], C.four[1] + 0.4, 1, 0);
+    out.push(<AbsoluteFill key="four" style={{zIndex: 41, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: a, background: `rgba(4,6,14,${0.45 * a})`}}>
+      <div style={{...font, fontSize: 130, color: YELLOW, textShadow: `9px 9px 0 ${INK}`, transform: `scale(${popT(t, C.four[0], 9)})`}}>⚔️ THE FINAL FOUR</div>
+      <div style={{...font, fontSize: 44, color: '#fff', textShadow: `4px 4px 0 ${INK}`}}>OCEANIA AND SOUTH AMERICA ARE GONE</div></AbsoluteFill>);
+  }
+  // --- clasificación ---
+  const rankBox = (t0: number, title: string, sub?: (i: number) => string) => {
+    const st = cwState(t); if (!st) return null;
+    const rows = [0, 1, 2, 3, 4, 5].map((i) => ({i, n: Math.round(kfl(C.cnt[i], t)), v: kfl(C.hp[i], t), d: t >= cwElimT(i), e: cwElimT(i)})).sort((a, b) => (a.d === b.d ? (a.d ? b.e - a.e : b.v - a.v) : a.d ? 1 : -1));
+    return <div style={{transform: `scale(${popT(t, t0, 10)})`, background: 'rgba(10,14,26,0.96)', border: `8px solid ${YELLOW}`, borderRadius: 30, padding: '16px 30px', width: 900}}>
+      <div style={{...font, fontSize: 60, color: YELLOW, textAlign: 'center', textShadow: `4px 4px 0 ${INK}`}}>{title}</div>
+      {rows.map((r, j) => { const T = C.teams[r.i]; return <div key={r.i} style={{display: 'flex', alignItems: 'center', gap: 16, marginTop: 8, opacity: r.d ? 0.55 : popT(t, t0 + 0.3 + j * 0.12, 10), filter: r.d ? 'grayscale(1)' : undefined}}>
+        <span style={{...font, fontSize: 44, color: '#fff', width: 50}}>{j + 1}</span>
+        <div style={{width: 56, height: 56, borderRadius: '50%', background: T.col, border: `4px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32}}>{T.emo}</div>
+        <span style={{...font, fontSize: 40, color: '#fff', flex: 1}}>{T.name}</span>
+        <span style={{...font, fontSize: 34, color: r.d ? '#ff5a5a' : '#cfe3ff'}}>{sub ? sub(r.i) : r.d ? '💀 ELIMINATED' : `🏳️ ${r.n} · ${Math.round(r.v)}%`}</span></div>; })}
+    </div>;
+  };
+  for (const [t0, t1] of C.ranks as any[]) {
+    if (t < t0 || t > t1 + 0.4) continue; const a = lerp(t, t1, t1 + 0.4, 1, 0);
+    out.push(<AbsoluteFill key={'rk' + t0} style={{zIndex: 41, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: a, background: `rgba(4,6,14,${0.5 * a})`}}>{rankBox(t0, '📊 STANDINGS')}</AbsoluteFill>);
+  }
+  // --- tormenta ---
+  if (C.storm && t >= C.storm[0] - 0.5 && t < C.storm[1] + 1.5) {
+    const a = lerp(t, C.storm[0] - 0.5, C.storm[0] + 0.5, 0, 1) * lerp(t, C.storm[1], C.storm[1] + 1.5, 1, 0);
+    const drops = Array.from({length: 120}, (_, i) => { const x0 = (i * 137.5) % VW; const sp = 900 + (i % 7) * 120; const y = ((t * sp + i * 97) % (VH + 200)) - 100; return <line key={i} x1={x0 + y * 0.18} y1={y} x2={x0 + y * 0.18 + 9} y2={y + 46} stroke="rgba(190,215,255,0.55)" strokeWidth={2.4} />; });
+    out.push(<div key="rain" style={{position: 'absolute', inset: 0, zIndex: 29, opacity: a, pointerEvents: 'none', background: 'rgba(20,30,60,0.2)'}}><svg width={VW} height={VH}>{drops}</svg></div>);
+    const m = C.storm[2]; const badge = [0, 1, 2, 3].filter((i) => m[i]).map((i) => `${m[i] > 0 ? '❄️' : '🔥'} ${C.teams[i].name} ${m[i] > 0 ? '+' : ''}${Math.round(m[i] * 100)}%`).join('  ·  ');
+    out.push(<div key="stb" style={{position: 'absolute', bottom: 22, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 31, opacity: a}}><div style={{background: 'rgba(10,16,32,0.92)', border: '5px solid #5fd4ff', borderRadius: 16, padding: '4px 18px 0', ...font, fontSize: 26, color: '#5fd4ff'}}>🌧️ STORM · {badge}</div></div>);
+  }
+  // --- guerra total ---
+  if (C.total && t >= C.total[0] && t < winT) {
+    const pul = 0.5 + 0.5 * Math.sin(t * 5);
+    out.push(<AbsoluteFill key="tw" style={{zIndex: 28, pointerEvents: 'none', background: `radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(200,0,0,${0.25 + 0.15 * pul}) 100%)`}} />);
+    out.push(<div key="twb" style={{position: 'absolute', top: 22, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 31}}><div style={{background: '#c8141e', border: `6px solid ${INK}`, borderRadius: 18, padding: '4px 26px 0', ...font, fontSize: 46, color: '#fff', textShadow: `4px 4px 0 ${INK}`, transform: `scale(${1 + 0.04 * pul})`}}>⚔️ TOTAL WAR</div>
+      <div style={{marginTop: 8, background: 'rgba(10,14,26,0.9)', borderRadius: 12, padding: '3px 14px 0', ...font, fontSize: 26, color: '#fff'}}>EVERYONE ATTACKS AT ONCE · LAST ONE STANDING WINS</div></div>);
+  }
+  // --- preguntas a comentarios ---
+  for (const [t0, t1, txt] of C.asks as any[]) {
+    if (t < t0 || t > t1 + 0.4) continue; const a = lerp(t, t0, t0 + 0.3, 0, 1) * lerp(t, t1, t1 + 0.4, 1, 0);
+    out.push(<div key={'ask' + t0} style={{position: 'absolute', left: 0, right: 0, bottom: 34, display: 'flex', justifyContent: 'center', zIndex: 32, opacity: a}}><div style={{background: '#fff', border: `6px solid ${INK}`, borderRadius: 20, padding: '6px 26px 0', ...font, fontSize: 42, color: INK, transform: `scale(${popT(t, t0, 10)})`}}>{txt}</div></div>);
+  }
+  // --- ganador + resumen ---
+  if (C.win && t >= C.win[0]) {
+    const T = C.teams[C.win[1]]; const a = popT(t, C.win[0], 9); const rc = C.recap; const inR = rc && t >= rc[0];
+    out.push(<AbsoluteFill key="win" style={{zIndex: 46, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `radial-gradient(circle, rgba(255,210,63,${0.2 * a}) 0%, rgba(0,0,0,${(inR ? 0.7 : 0.5) * a}) 75%)`}}>
+      {Array.from({length: 40}, (_, i) => { const x = (i * 173) % VW; const sp = 200 + (i * 53) % 160; const y = -100 + ((t - C.win[0]) * sp + i * 97) % (VH + 200); return <div key={i} style={{position: 'absolute', left: x, top: y, width: 18, height: 30, background: ['#ffd23f', T.col, '#fff', '#4dff7a'][i % 4], transform: `rotate(${t * 200 + i * 40}deg)`}} />; })}
+      {!inR ? <>
+        <div style={{fontSize: 130, transform: `scale(${a})`}}>🏆</div>
+        <div style={{width: 260, height: 260, borderRadius: '50%', background: T.col, border: `12px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 160, transform: `scale(${a})`}}>{T.emo}</div>
+        <div style={{...font, fontSize: 120, color: YELLOW, textShadow: `8px 8px 0 ${INK}`, marginTop: 10, transform: `scale(${a})`}}>{T.name} WINS</div>
+        <div style={{...font, fontSize: 64, color: '#fff', textShadow: `5px 5px 0 ${INK}`, opacity: popT(t, C.win[0] + 0.8, 10)}}>THE CONTINENTS WAR 🌍</div></>
+      : <>{rankBox(rc[0], '🏁 FINAL RESULTS', (i) => { const e = (rc[2] as any[]).find((x) => x[0] === i); return i === C.win[1] ? '🏆 WINNER' : `💀 FELL AT ${cwMmss(e[1] - g0)}`; })}
+        <div style={{marginTop: 24, background: '#fff', border: `6px solid ${INK}`, borderRadius: 20, padding: '8px 26px 0', ...font, fontSize: 46, color: INK, opacity: popT(t, rc[0] + 1.5, 10)}}>💬 WHICH CONTINENT SHOULD WIN NEXT TIME? 👇</div></>}
+    </AbsoluteFill>);
+  }
+  return <>{out}</>;
+};

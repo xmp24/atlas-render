@@ -179,8 +179,12 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   const CWo = (o as any).cw;
   if (CWo) {
     for (const p of PIECES) {
+      if (p.k === undefined || !p.path || !vis(p.bbox) || CWo.dead[p.k] || CWo.team[p.k] < 0) continue;
+      ctx.globalAlpha = 0.3; ctx.fillStyle = CWo.cols[CWo.team[p.k]]; ctx.fill(p.path); ctx.globalAlpha = 1;
+    }
+    for (const p of PIECES) {
       if (p.k === undefined || !p.path || !vis(p.bbox) || !CWo.dead[p.k]) continue;
-      ctx.fillStyle = 'rgba(10,10,16,0.62)'; ctx.fill(p.path);
+      ctx.fillStyle = 'rgba(14,14,20,0.78)'; ctx.fill(p.path);
       ctx.globalAlpha = 0.34; ctx.fillStyle = CWo.cols[CWo.team[p.k]] || '#000'; ctx.fill(p.path); ctx.globalAlpha = 1;
     }
   }
@@ -217,8 +221,8 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
     }
     ms.forEach((m: Path2D | null, T: number) => {
       if (!m) return;
-      ctx.strokeStyle = 'rgba(0,0,0,0.78)'; ctx.lineWidth = 12 / s; ctx.stroke(m);
-      ctx.strokeStyle = CWo.cols[T]; ctx.lineWidth = 6.5 / s; ctx.stroke(m);
+      ctx.strokeStyle = 'rgba(0,0,0,0.8)'; ctx.lineWidth = 15 / s; ctx.stroke(m);
+      ctx.strokeStyle = CWo.cols[T]; ctx.lineWidth = 9 / s; ctx.stroke(m);
       ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1.6 / s; ctx.stroke(m);
     });
   }
