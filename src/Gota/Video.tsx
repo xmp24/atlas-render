@@ -70,7 +70,7 @@ const Room: React.FC<{ f: number; straps?: number[]; valve?: number; torch?: num
     <Table straps={straps} />
     <DripRig valve={valve} />
     {/* soft key from above the board so the faces read, warm like the torches */}
-    <pointLight position={[-0.3, 2.6, 1.2]} intensity={1.4 * (0.4 + 0.6 * torch)} distance={4} color="#ffc896" />
+    <pointLight position={[-0.3, 2.6, 1.2]} intensity={2.4 * (0.4 + 0.6 * torch)} distance={4.5} color="#ffc896" />
     <pointLight position={[-0.9, 1.7, -0.8]} intensity={0.7} distance={2.5} color="#7a9ad8" />
     {children}
   </group>
@@ -88,7 +88,7 @@ const HookScene: React.FC<{ f: number }> = ({ f }) => (
 );
 const DOOR: [number, number] = [1.9, -2.7], NEAR: [number, number] = [0.55, 0.95];
 const DragScene: React.FC<{ f: number }> = ({ f }) => {
-  const q = interpolate(f, [0, 128], [0, 1], clamp);
+  const q = interpolate(f, [0, 128], [0.18, 0.82], clamp);
   const x = DOOR[0] + (NEAR[0] - DOOR[0]) * q, z = DOOR[1] + (NEAR[1] - DOOR[1]) * q;
   const ry = Math.atan2(NEAR[0] - DOOR[0], NEAR[1] - DOOR[1]);
   const rx = Math.cos(ry), rz = -Math.sin(ry), ph = f * 0.3, d = 0.6;
@@ -102,6 +102,8 @@ const DragScene: React.FC<{ f: number }> = ({ f }) => {
         <Guard pos={[x - rx * d, 0, z - rz * d]} ry={ry} p={g(-1, 0.4)} f={f} />
         <Guard pos={[x + rx * d, 0, z + rz * d]} ry={ry} p={g(1, 0.4 + Math.PI)} f={f + 50} />
         <Contact p={[x, 0, z]} s={[1.8, 1.0]} o={0.35} />
+        <pointLight position={[x - 0.6, 2.3, z - 1.2]} intensity={3.5} distance={4} color="#9db6ff" />
+        <pointLight position={[x + 0.8, 1.6, z + 1.2]} intensity={1.6} distance={3.5} color="#ffb070" />
       </Room>
     </Stage>
   );
@@ -129,9 +131,9 @@ const STONE_HITS = randImpacts("sn", 8, 160, 15, 16);
 const StoneScene: React.FC<{ f: number }> = ({ f }) => {
   const rock = rockTex(), g = interpolate(f, [0, 150], [0.15, 1], clamp);
   return (
-    <Stage f={f} len={T.valve - T.stone} fog={[3, 9]} shots={[[0, C([0.0, 0.78, 1.45], [0, 0.45, 0], 36), C([0.12, 0.72, 1.3], [0, 0.45, 0], 36)]]}>
+    <Stage f={f} len={T.valve - T.stone} fog={[3, 9]} shots={[[0, C([0.0, 0.7, 1.05], [0, 0.4, 0], 38), C([0.1, 0.66, 0.92], [0, 0.4, 0], 38)]]}>
       <ambientLight intensity={0.12} color="#5a6a90" />
-      <spotLight position={[0.8, 2.2, 1.2]} target-position={[0, 0.3, 0]} angle={0.5} penumbra={0.8} intensity={5} distance={6} color="#cfdcf2" castShadow />
+      <spotLight position={[0.8, 2.2, 1.2]} target-position={[0, 0.3, 0]} angle={0.5} penumbra={0.8} intensity={11} distance={6} color="#cfdcf2" castShadow />
       <pointLight position={[-1.0, 0.8, 0.4]} intensity={1.2} distance={3} color="#ff9a4a" />
       <mesh position={[0, -0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[8, 8]} /><meshStandardMaterial map={stoneTex("f2", [70, 66, 60], 6, 6)} roughness={0.9} /></mesh>
       <mesh position={[0, 0.1, 0]} scale={[1, 0.45, 0.85]} castShadow receiveShadow><sphereGeometry args={[0.5, 40, 24]} /><meshStandardMaterial map={rock} roughness={0.85} /></mesh>
@@ -175,7 +177,7 @@ const ValveScene: React.FC<{ f: number }> = ({ f }) => {
 };
 const FIRST_HITS = [99, 141];
 const FirstScene: React.FC<{ f: number }> = ({ f }) => (
-  <Stage f={f} len={T.lapse - T.first} shots={[[0, C([-0.3, 1.55, 1.1], [-0.74, 1.4, 0], 34), C([-0.36, 1.52, 1.0], [-0.75, 1.4, 0], 34)]]}>
+  <Stage f={f} len={T.lapse - T.first} shots={[[0, C([-0.2, 1.38, 1.8], [-0.74, 1.12, 0], 36), C([-0.27, 1.36, 1.65], [-0.75, 1.12, 0], 36)]]}>
     <Room f={f + 1800} candle={0.85}>
       <Prisoner f={f} k={0.35} flinch={flinchAt(f, FIRST_HITS)} eyes={FIRST_HITS.some((t) => f >= t && f < t + 5) ? "closed" : "scared"} />
       <Drops f={f} falls={[FIRST_HITS[0] - 20]} slow={2.2} />
@@ -200,8 +202,9 @@ const SLEEP_HITS = [34, 112];
 const SleepScene: React.FC<{ f: number }> = ({ f }) => {
   const drowsy = f < SLEEP_HITS[0];
   return (
-    <Stage f={f} len={T.death - T.sleep} shots={[[0, C([-0.28, 1.72, 1.1], [-0.7, 1.0, 0], 37), C([-0.34, 1.68, 1.0], [-0.71, 1.0, 0], 36)], [42, C([0.95, 1.75, 1.55], [0.05, 0.95, 0], 38), C([0.85, 1.72, 1.45], [0.0, 0.95, 0], 38)], [80, C([-0.42, 1.36, 0.85], [-0.75, 1.38, 0], 34), C([-0.46, 1.35, 0.8], [-0.75, 1.36, 0], 34)]]}>
+    <Stage f={f} len={T.death - T.sleep} shots={[[0, C([-0.28, 1.72, 1.1], [-0.7, 1.0, 0], 37), C([-0.34, 1.68, 1.0], [-0.71, 1.0, 0], 36)], [42, C([0.7, 1.6, 1.3], [0.05, 0.98, 0], 38), C([0.62, 1.58, 1.22], [0.0, 0.98, 0], 38)], [80, C([-0.2, 1.38, 1.8], [-0.74, 1.12, 0], 36), C([-0.26, 1.37, 1.7], [-0.75, 1.12, 0], 36)]]}>
       <Room f={f + 2600} candle={0.15} torch={0.8}>
+        <pointLight position={[0.3, 1.8, 1.0]} intensity={f >= 42 && f < 80 ? 2.5 : 0} distance={2.5} color="#ffc896" />
         <Prisoner f={f} k={1.4} flinch={flinchAt(f, SLEEP_HITS)} eyes={drowsy && f > 8 && f < 32 ? "closed" : "scared"} struggle={f >= 42 && f < 80 ? 1 : 0} />
         <Drops f={f} falls={fallsFrom(SLEEP_HITS)} />
         <Drops f={f} falls={[SLEEP_HITS[1] + 60]} />
