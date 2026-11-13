@@ -1,4 +1,5 @@
 import { Miya8, V8_FRAMES } from "../Miya8/Video8";
+import { Gota, GOTA_FRAMES } from "../Gota/Video";
 import { Miya14, V14_FRAMES } from "../Miya8/Video14";
 import { Miya13, V13_FRAMES } from "../Miya8/Video13";
 import { Miya12, V12_FRAMES } from "../Miya8/Video12";
@@ -33,6 +34,7 @@ export const MiyaRoot: React.FC = () => (<>
   <Composition id="BotTest" component={BotTest} durationInFrames={60} fps={30} width={1080} height={1920} />
   {["rei","stairs","living","bath","office"].map((r) => <Composition key={"rt"+r} id={"RT-" + r} component={RoomTest} durationInFrames={1} fps={30} width={1080} height={1920} defaultProps={{ room: r }} />)}
   <Composition id="Miya14N" component={Miya14} durationInFrames={V14_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false, subs: true }} />
+  <Composition id="GotaN" component={Gota} durationInFrames={GOTA_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false, subs: true }} />
   <Composition id="Miya13N" component={Miya13} durationInFrames={V13_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false, subs: true }} />
   <Composition id="Miya13NS" component={Miya13} durationInFrames={V13_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false, subs: false }} />
   <Composition id="Miya12N" component={Miya12} durationInFrames={V12_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: false, subs: true }} />

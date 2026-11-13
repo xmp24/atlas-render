@@ -45,17 +45,21 @@ const mats = () => (MAT ??= {
   line: new THREE.MeshBasicMaterial({ color: "#000000", side: THREE.BackSide }),
   eye: new THREE.MeshStandardMaterial({ color: "#ffffff", emissive: "#ffffff", emissiveIntensity: 1.6 }),
 });
+const TINTS: Record<string, THREE.Material> = {};
+const tintMat = (c: string) => (TINTS[c] ??= new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.55, metalness: 0.02, clearcoat: 0.15, clearcoatRoughness: 0.6 }));
+const PUPIL = new THREE.MeshBasicMaterial({ color: "#111111" });
+const BotStyle = React.createContext<{ body?: THREE.Material }>({});
 const Part: React.FC<{ geo: THREE.BufferGeometry; p?: [number, number, number]; r?: [number, number, number]; s?: [number, number, number]; outline?: number }> = ({ geo, p = [0, 0, 0], r = [0, 0, 0], s = [1, 1, 1], outline = 1.07 }) => {
-  const m = mats();
+  const m = mats(); const st = React.useContext(BotStyle);
   return (
     <group position={p} rotation={r} scale={s}>
-      <mesh geometry={geo} material={m.body} castShadow receiveShadow />
+      <mesh geometry={geo} material={st.body ?? m.body} castShadow receiveShadow />
       <mesh geometry={geo} material={m.line} scale={[outline, outline, outline]} />
     </group>
   );
 };
 
-export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0 }) => {
+export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number; tint?: string; eyes?: "angry" | "scared" | "dead" | "closed"; helmet?: boolean; hood?: boolean; ground?: boolean; rot?: [number, number, number] }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0, tint, eyes = "angry", helmet, hood = true, ground = true, rot }) => {
   const G = useMemo(() => ({
     torso: new THREE.CapsuleGeometry(0.075, 0.36, 8, 16),
     upper: new THREE.CapsuleGeometry(0.036, 0.22, 6, 12),
@@ -96,23 +100,33 @@ export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; 
     );
   };
   return (
-    <group position={pos} rotation={[0, ry, 0]} scale={scale}>
+    <BotStyle.Provider value={{ body: tint ? tintMat(tint) : undefined }}>
+    <group position={pos} rotation={rot ?? [0, ry, 0]} scale={scale}>
       <group position={[0, 0.86 + p.bob, 0]} rotation={R(0, p.twist, 0)}>
         {leg(-1)}{leg(1)}
         <group rotation={R(p.lean)}>
           <group scale={[1 + Math.sin(f / 24) * 0.02, 1, 1 + Math.sin(f / 24) * 0.03]}><Part geo={G.torso} p={[0, 0.25, 0]} s={[1.25, 1, 0.9]} /></group>
           {/* hood of his sweatshirt, folded on the back of the neck, and drawstrings */}
-          <group position={[0, 0.47, -0.095]} rotation={R(22)}><Part geo={G.head} s={[0.5, 0.26, 0.3]} outline={1.05} /></group>
-          {[-1, 1].map((sd) => <mesh key={"ds" + sd} position={[sd * 0.03, 0.4, 0.085]}><cylinderGeometry args={[0.006, 0.006, 0.14, 6]} /><meshStandardMaterial color="#9a9aa2" /></mesh>)}
+          {hood && <group position={[0, 0.47, -0.095]} rotation={R(22)}><Part geo={G.head} s={[0.5, 0.26, 0.3]} outline={1.05} /></group>}
+          {hood && [-1, 1].map((sd) => <mesh key={"ds" + sd} position={[sd * 0.03, 0.4, 0.085]}><cylinderGeometry args={[0.006, 0.006, 0.14, 6]} /><meshStandardMaterial color="#9a9aa2" /></mesh>)}
           {arm(-1)}{arm(1)}
           <group position={[0, 0.5, 0]} rotation={R(p.headX, p.headY, 0)}>
             <Part geo={G.torso} p={[0, 0.0, 0]} s={[0.35, 0.18, 0.35]} outline={1.12} />
             <group position={[0, 0.22, 0]}>
               <Part geo={G.head} outline={1.04} />
               {/* angry glowing eyes */}
-              {[-1, 1].map((sd) => (
+              {eyes === "angry" && [-1, 1].map((sd) => (
                 <mesh key={sd} geometry={G.eye} material={m.eye} position={[sd * 0.072, 0.0, 0.188]} rotation={[0, sd * 0.35, sd * 0.42]} scale={[0.052 * (1 + glow * 0.25), 0.019 * blink * (1 + glow * 0.3), 0.02]} />
               ))}
+              {eyes === "scared" && [-1, 1].map((sd) => (
+                <group key={sd} position={[sd * 0.075, 0.02, 0.18]} rotation={[0, sd * 0.38, 0]}>
+                  <mesh geometry={G.eye} material={m.eye} scale={[0.045, 0.05 * blink, 0.02]} />
+                  <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.008 + Math.sin(f / 3) * 0.006, -0.004, 0.016]} scale={[0.014, 0.016 * blink, 0.01]} />
+                </group>
+              ))}
+              {eyes === "closed" && [-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.075, 0.0, 0.195]} rotation={[0, sd * 0.38, 0]}><boxGeometry args={[0.07, 0.008, 0.01]} /><meshBasicMaterial color="#111" /></mesh>)}
+              {eyes === "dead" && [-1, 1].map((sd) => <group key={sd} position={[sd * 0.075, 0.0, 0.195]} rotation={[0, sd * 0.38, 0]}>{[1, -1].map((k) => <mesh key={k} rotation={[0, 0, k * 0.75]}><boxGeometry args={[0.075, 0.012, 0.01]} /><meshBasicMaterial color="#111" /></mesh>)}</group>)}
+              {helmet && <group position={[0, 0.07, 0]}><mesh scale={[1, 0.62, 1]}><sphereGeometry args={[0.225, 28, 16, 0, Math.PI * 2, 0, Math.PI / 2]} /><meshStandardMaterial color="#5a5e66" metalness={0.75} roughness={0.35} /></mesh><mesh position={[0, 0.005, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.235, 0.022, 8, 32]} /><meshStandardMaterial color="#44474e" metalness={0.8} roughness={0.3} /></mesh><mesh position={[0, -0.02, 0.21]}><boxGeometry args={[0.03, 0.14, 0.02]} /><meshStandardMaterial color="#44474e" metalness={0.8} roughness={0.3} /></mesh></group>}
               {glow > 0 && <pointLight position={[0, 0, 0.32]} intensity={glow * 1.6} distance={0.9} color="#ffffff" />}
               {/* glossy highlight arc */}
               <mesh position={[-0.09, 0.11, 0.14]} rotation={[0, -0.4, 0.6]}><torusGeometry args={[0.07, 0.006, 6, 24, 1.6]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.75} /></mesh>
@@ -120,9 +134,10 @@ export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; 
           </group>
         </group>
       </group>
-      <mesh position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.32, 32]} /><meshBasicMaterial color="#000" transparent opacity={0.38} depthWrite={false} /></mesh>
+      {ground && <mesh position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.32, 32]} /><meshBasicMaterial color="#000" transparent opacity={0.38} depthWrite={false} /></mesh>}
       {extra}
     </group>
+    </BotStyle.Provider>
   );
 };
 
