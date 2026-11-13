@@ -49,7 +49,7 @@ const shaftTex = () => textTex("shaft", 64, 256, (c) => { const g = c.createLine
 let ENV: THREE.Texture | null = null;
 export const useEnv = () => { const { gl } = useThree(); if (!ENV) { const pm = new THREE.PMREMGenerator(gl); ENV = pm.fromScene(new RoomEnvironment(), 0.04).texture; } return ENV; };
 const WMAT: Record<string, THREE.Material> = {};
-export const waterMat = (env: THREE.Texture, op = 0.62, k = "d") => (WMAT[k + op] ??= new THREE.MeshPhysicalMaterial({ color: "#9fd0f2", roughness: 0.02, metalness: 0.1, envMap: env, envMapIntensity: 1.1, transparent: true, opacity: op * 0.85, clearcoat: 1, clearcoatRoughness: 0, emissive: "#0d2234", emissiveIntensity: 0.25, depthWrite: false }));
+export const waterMat = (env: THREE.Texture, op = 0.62, k = "d") => (WMAT[k + op] ??= new THREE.MeshPhysicalMaterial({ color: "#86c2ea", roughness: 0.02, metalness: 0.1, envMap: env, envMapIntensity: 0.9, transparent: true, opacity: op * 0.62, clearcoat: 1, clearcoatRoughness: 0, emissive: "#0a2a44", emissiveIntensity: 0.4, depthWrite: false }));
 
 /* ---------------- props ---------------- */
 export const Torch: React.FC<{ p: [number, number, number]; ry?: number; f: number; on?: number; seed?: string; speed?: number }> = ({ p, ry = 0, f, on = 1, seed = "t", speed = 1 }) => {

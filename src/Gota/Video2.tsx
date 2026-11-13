@@ -86,6 +86,7 @@ const Room: React.FC<{ f: number; straps?: number[]; valve?: number; torch?: num
     <DripRig valve={valve} />
     <pointLight position={[-0.2, 2.5, 1.3]} intensity={2.2 * kl * (0.45 + 0.55 * torch)} distance={4.5} color="#ffc896" />
     <pointLight position={[-1.2, 1.9, -0.9]} intensity={1.0 * kl} distance={3} color="#7f9fe0" />
+    <pointLight position={[-1.7, 2.1, 0.9]} intensity={1.3 * kl} distance={3.2} color="#86a6e8" />
     {children}
   </group>
 );
@@ -180,10 +181,10 @@ const FIRST_HIT = 65;
 const FirstScene: React.FC<{ f: number }> = ({ f }) => {
   const v = interpolate(f, [2, 22], [0, 0.6], { ...clamp, easing: ez });
   const hand = interpolate(f, [0, 4, 22, 28], [0.6, 1, 1, 0.6], clamp);
-  const G: BP = mixBP({ ...STAND }, { ...STAND, headX: -14, rArmX: -150, rArmZ: 4, rElbow: -14 + Math.sin(f / 2.5) * 8 * (f > 2 && f < 22 ? 1 : 0) }, hand);
+  const G: BP = mixBP({ ...STAND }, { ...STAND, headX: -14, lArmX: -150, lArmZ: -14, lElbow: -14 + Math.sin(f / 2.5) * 8 * (f > 2 && f < 22 ? 1 : 0) }, hand);
   const wet = interpolate(f, [FIRST_HIT, FIRST_HIT + 8], [0, 0.35], clamp);
   return (
-    <Stage f={f} len={T2.lapse - T2.first} shots={[[0, C([0.35, 1.72, 1.75], [-0.74, 1.62, 0.1], 40), C([0.25, 1.7, 1.65], [-0.74, 1.62, 0.1], 40)], [26, C([-0.42, 1.4, 0.98], [-0.76, 1.38, 0], 30, 0.04), C([-0.46, 1.36, 0.9], [-0.76, 1.33, 0], 30, 0.04)]]}>
+    <Stage f={f} len={T2.lapse - T2.first} shots={[[0, C([-0.72, 1.95, -1.35], [-0.84, 1.6, 0.35], 42), C([-0.8, 1.92, -1.25], [-0.84, 1.6, 0.35], 42)], [26, C([-0.42, 1.4, 0.98], [-0.76, 1.38, 0], 30, 0.04), C([-0.46, 1.36, 0.9], [-0.76, 1.33, 0], 30, 0.04)]]}>
       <Room f={f + 1800} valve={v} candle={0.85}>
         <Prisoner f={f} k={0.4} flinch={flinchAt(f, [FIRST_HIT])} eyes={f >= FIRST_HIT && f < FIRST_HIT + 7 ? "closed" : "scared"} wet={wet} />
         {f < 26 && <Guard pos={[-0.95, 0, 0.62]} ry={Math.PI + 0.25} p={G} f={f} />}
