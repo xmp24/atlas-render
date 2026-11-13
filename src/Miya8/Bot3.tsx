@@ -59,7 +59,7 @@ const Part: React.FC<{ geo: THREE.BufferGeometry; p?: [number, number, number]; 
   );
 };
 
-export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number; tint?: string; eyes?: "angry" | "scared" | "dead" | "closed"; helmet?: boolean; hood?: boolean; ground?: boolean; rot?: [number, number, number] }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0, tint, eyes = "angry", helmet, hood = true, ground = true, rot }) => {
+export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number; tint?: string; eyes?: "angry" | "scared" | "dead" | "closed"; helmet?: boolean; hood?: boolean; ground?: boolean; rot?: [number, number, number]; tired?: number; pupil?: number; xk?: number }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0, tint, eyes = "angry", helmet, hood = true, ground = true, rot, tired = 0, pupil = 1, xk = 1 }) => {
   const G = useMemo(() => ({
     torso: new THREE.CapsuleGeometry(0.075, 0.36, 8, 16),
     upper: new THREE.CapsuleGeometry(0.036, 0.22, 6, 12),
@@ -121,11 +121,12 @@ export const Bot: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; 
               {eyes === "scared" && [-1, 1].map((sd) => (
                 <group key={sd} position={[sd * 0.075, 0.02, 0.18]} rotation={[0, sd * 0.38, 0]}>
                   <mesh geometry={G.eye} material={m.eye} scale={[0.045, 0.05 * blink, 0.02]} />
-                  <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.008 + Math.sin(f / 3) * 0.006, -0.004, 0.016]} scale={[0.014, 0.016 * blink, 0.01]} />
+                  <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.008 + Math.sin(f / 3) * 0.006, -0.004, 0.016]} scale={[0.014 * pupil, 0.016 * blink * pupil, 0.01]} />
                 </group>
               ))}
-              {eyes === "closed" && [-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.075, 0.0, 0.195]} rotation={[0, sd * 0.38, 0]}><boxGeometry args={[0.07, 0.008, 0.01]} /><meshBasicMaterial color="#111" /></mesh>)}
-              {eyes === "dead" && [-1, 1].map((sd) => <group key={sd} position={[sd * 0.075, 0.0, 0.195]} rotation={[0, sd * 0.38, 0]}>{[1, -1].map((k) => <mesh key={k} rotation={[0, 0, k * 0.75]}><boxGeometry args={[0.075, 0.012, 0.01]} /><meshBasicMaterial color="#111" /></mesh>)}</group>)}
+              {eyes === "closed" && [-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.075, 0.012, 0.192]} rotation={[0, sd * 0.38, Math.PI]}><torusGeometry args={[0.03, 0.0055, 6, 16, Math.PI]} /><meshBasicMaterial color="#111" /></mesh>)}
+              {tired > 0 && [-1, 1].map((sd) => <mesh key={"t" + sd} position={[sd * 0.075, -0.012, 0.18]} rotation={[0, sd * 0.38, 0]} scale={[0.05, 0.045, 0.02]} geometry={G.eye}><meshBasicMaterial color="#4a2c24" transparent opacity={0.3 * tired} depthWrite={false} /></mesh>)}
+              {eyes === "dead" && [-1, 1].map((sd) => <group key={sd} position={[sd * 0.075, 0.0, 0.195]} rotation={[0, sd * 0.38, 0]} scale={[xk, xk, 1]}>{[1, -1].map((k) => <mesh key={k} rotation={[0, 0, k * 0.75]}><boxGeometry args={[0.075, 0.012, 0.01]} /><meshBasicMaterial color="#111" /></mesh>)}</group>)}
               {helmet && <group position={[0, 0.07, 0]}><mesh scale={[1, 0.62, 1]}><sphereGeometry args={[0.225, 28, 16, 0, Math.PI * 2, 0, Math.PI / 2]} /><meshStandardMaterial color="#5a5e66" metalness={0.75} roughness={0.35} /></mesh><mesh position={[0, 0.005, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.235, 0.022, 8, 32]} /><meshStandardMaterial color="#44474e" metalness={0.8} roughness={0.3} /></mesh><mesh position={[0, -0.02, 0.21]}><boxGeometry args={[0.03, 0.14, 0.02]} /><meshStandardMaterial color="#44474e" metalness={0.8} roughness={0.3} /></mesh></group>}
               {glow > 0 && <pointLight position={[0, 0, 0.32]} intensity={glow * 1.6} distance={0.9} color="#ffffff" />}
               {/* glossy highlight arc */}
