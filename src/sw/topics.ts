@@ -100,4 +100,157 @@ const BUNKERS: Topic = {
   source: 'Bunkers & shelters (approx.) · average of published figures, estimates where no data · details in description',
 };
 
-export const TOPICS: Record<string, Topic> = {bunkers: BUNKERS, wars: WARS, spend: SPEND, battles: BATTLES, invaded: INVADED, peace: PEACE, bases: BASES};
+
+const WW3: Topic = {
+  id: 'ww3', title: ['How *SAFE* is your country', 'if *WW3* starts?'],
+  vals: {CHE: 92, IRL: 90, ISL: 86, PRT: 84, AUT: 80, ESP: 76, MLT: 80, SVN: 72, ALB: 70, ITA: 62, HRV: 66, MNE: 66, MKD: 64, BIH: 60, GRC: 60, SWE: 52, SRB: 56, LUX: 50, CYP: 46, HUN: 44, NOR: 46, DNK: 44, NLD: 40, CZE: 40, SVK: 34, BGR: 36,
+    FRA: 32, BEL: 30, TUR: 30, ARM: 30, AZE: 30, KOS: 50, DEU: 24, GBR: 22, ROU: 24, FIN: 26, GEO: 20, MDA: 14, POL: 14, LTU: 8, LVA: 8, EST: 7, BLR: 5, RUS: 4, UKR: 3, USA: 34},
+  fmt: (v) => `${v}%`,
+  bands: [B('80%+', 80, 100, BLUE[0], BLUE[1], 'vhappy'), B('60-79%', 60, 79, GREEN[0], GREEN[1], 'happy'), B('40-59%', 40, 59, YEL[0], YEL[1], 'neutral'), B('20-39%', 20, 39, ORA[0], ORA[1], 'serious'), B('10-19%', 10, 19, RED[0], RED[1], 'angry'), B('<10%', 0, 9, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {CHE: {txt: ['Neutral + bunkers', '= 92%']}, IRL: {txt: ['Island. Neutral.', 'Pass the Guinness']}, ISL: {txt: ['Too far away', 'to bother']}, PRT: {txt: ['End of Europe.', 'Literally']}, ESP: {txt: ['Siesta through', 'the apocalypse']},
+    GBR: {txt: ['Nuclear target', 'with tea']}, DEU: {txt: ['Right in', 'the middle']}, POL: {txt: ['First in line.', 'Again']}, FIN: {txt: ['1,340 km of', 'Russian border']}, RUS: {txt: []}, USA: {txt: ['Nuclear', 'target #1']}},
+  noFace: ['RUS', 'UKR'],
+  slots: {POL: {m: [760, 985]}, SWE: {m: [612, 690]}},
+  source: 'Approx. safety score (Atlas of War estimate): distance to likely front, nuclear targets, neutrality, food & shelters',
+  usa: true,
+};
+
+const DRAFT: Topic = {
+  id: 'draft', title: ['Until what *AGE* can your', 'country *DRAFT* you?'],
+  vals: {SWE: 70, FRA: 70, FIN: 65, RUS: 65, GBR: 65, UKR: 60, BLR: 60, DEU: 60, POL: 60, EST: 60, CZE: 60, SVK: 60, SRB: 60, LVA: 55, BGR: 55, HRV: 55, ALB: 55, MKD: 55, ARM: 55, DNK: 50, AUT: 50, CYP: 50, ROU: 50, SVN: 50, BIH: 50, MNE: 50, MDA: 50, AZE: 50,
+    LTU: 45, ITA: 45, BEL: 45, GRC: 45, NOR: 44, TUR: 41, HUN: 40, KOS: 40, GEO: 40, LUX: 40, CHE: 37, PRT: 35, NLD: 35, ESP: 25, ISL: 0, IRL: 0, USA: 25},
+  fmt: (v) => (v === 0 ? '—' : `${v}`),
+  bands: [B('<40', 0, 39, BLUE[0], BLUE[1], 'vhappy'), B('40-49', 40, 49, GREEN[0], GREEN[1], 'happy'), B('50-54', 50, 54, YEL[0], YEL[1], 'neutral'), B('55-59', 55, 59, ORA[0], ORA[1], 'serious'), B('60-65', 60, 65, RED[0], RED[1], 'angry'), B('70', 66, 70, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {SWE: {txt: ['Total defence duty:', 'age 16 to 70']}, FRA: {txt: ['Reserve up to 70.', 'Grandpa, get up']}, FIN: {txt: []}, ESP: {txt: ['Only 19 to 25.', 'Phew']}, ISL: {txt: ['No army.', 'No draft']},
+    IRL: {txt: ['Never had', 'a draft']}, USA: {txt: ['Selective Service:', '18 to 25']}, GBR: {txt: ['Recall age', 'raised to 65']}, DEU: {txt: ['Up to 60', 'in wartime']}, CHE: {txt: ['Done by 37.', 'Then cheese']}, RUS: {txt: []}, POL: {txt: []}},
+  noFace: ['RUS', 'UKR'],
+  slots: {POL: {m: [760, 985]}, SWE: {m: [612, 690]}},
+  source: 'Max age for wartime call-up / reserve duty (men, approx.) · national laws; estimates where unclear',
+  usa: true,
+};
+
+const CYBER: Topic = {
+  id: 'cyber', title: ['How many *CYBERATTACKS* hit', 'your country every week?'],
+  vals: {UKR: 2950, RUS: 2600, ITA: 2350, PRT: 2250, TUR: 2050, GRC: 2000, ESP: 1950, AZE: 1900, POL: 1850, GEO: 1800, BLR: 1750, ARM: 1750, BEL: 1700, MDA: 1700, ROU: 1650, CZE: 1600, SRB: 1600, ALB: 1600, BGR: 1600, CYP: 1600,
+    GBR: 1550, LTU: 1550, NLD: 1500, EST: 1500, SVK: 1500, BIH: 1500, MKD: 1500, DEU: 1450, FRA: 1450, HUN: 1450, HRV: 1450, MNE: 1450, AUT: 1400, LVA: 1400, KOS: 1400, IRL: 1350, CHE: 1300, SVN: 1300, LUX: 1300, NOR: 1250, SWE: 1200, DNK: 1150, FIN: 1100, ISL: 900, USA: 1450},
+  fmt: (v) => (v >= 1000 ? `${(v / 1000).toFixed(1)}K` : `${v}`),
+  bands: [B('<1.2K', 0, 1199, BLUE[0], BLUE[1], 'vhappy'), B('1.2-1.4K', 1200, 1399, GREEN[0], GREEN[1], 'happy'), B('1.4-1.6K', 1400, 1599, YEL[0], YEL[1], 'neutral'), B('1.6-2K', 1600, 1999, ORA[0], ORA[1], 'serious'), B('2-2.5K', 2000, 2499, RED[0], RED[1], 'angry'), B('2.5K+', 2500, 3000, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {UKR: {txt: []}, RUS: {txt: []}, ITA: {txt: ['Password:', 'pizza123']}, PRT: {txt: ['Most hit', 'in the West']}, ISL: {txt: ['Hackers get lost', 'in the snow']}, FIN: {txt: []},
+    ESP: {txt: ['Hackers', 'love siesta']}, DEU: {txt: ['Still using', 'fax. Safe']}, GBR: {txt: ['Keep calm and', 'change password']}, USA: {txt: ['Hold my', 'firewall']}, SWE: {txt: []}, TUR: {txt: []}},
+  noFace: ['UKR'],
+  slots: {POL: {m: [760, 985]}, SWE: {m: [612, 690]}},
+  source: 'Avg. weekly cyberattacks per organization (2025, approx.) · Check Point Research regional data + estimates',
+  usa: true,
+};
+
+const SL = {POL: {m: [760, 985] as [number, number]}, SWE: {m: [612, 690] as [number, number]}};
+const IQ: Topic = {
+  id: 'iq', title: ['What is the average *IQ*', 'in your country?'],
+  vals: {DEU: 100, NLD: 100, FIN: 100, CHE: 99, LUX: 99, SWE: 99, BEL: 99, AUT: 99, ISL: 99, GBR: 99, EST: 99, DNK: 98, NOR: 98, POL: 98, CZE: 98, HUN: 98, ITA: 97, FRA: 97, ESP: 97, SVN: 97, SVK: 97, LVA: 97, HRV: 97, RUS: 97, LTU: 96, IRL: 96, BLR: 96, MLT: 96,
+    UKR: 95, PRT: 94, BIH: 93, BGR: 93, ARM: 93, GRC: 92, ROU: 92, MKD: 91, MDA: 91, CYP: 91, SRB: 90, MNE: 89, TUR: 89, GEO: 86, ALB: 85, AZE: 85, KOS: 84, USA: 98},
+  bands: [B('<88', 80, 87, '#7a00e0', '#7a00e0', 'serious'), B('88-91', 88, 91, RED[0], RED[1], 'serious'), B('92-94', 92, 94, ORA[0], ORA[1], 'neutral'), B('95-96', 95, 96, YEL[0], YEL[1], 'neutral'), B('97-98', 97, 98, GREEN[0], GREEN[1], 'happy'), B('99+', 99, 101, BLUE[0], BLUE[1], 'vhappy')],
+  fun: {DEU: {txt: ['Engineered', 'brains']}, ITA: {txt: ['Pasta-powered']}, ESP: {txt: ['Smart enough', 'for siesta']}, USA: {txt: ['Freedom', 'IQ']}, GBR: {txt: ['Tea helps']}, FIN: {txt: []}, CHE: {txt: ['Neutral', 'and nerdy']}, POL: {txt: []}, ISL: {txt: ['Cold =', 'more thinking']}},
+  slots: SL, usa: true,
+  source: 'Average national IQ (approx.) · Lynn & Becker (2019) estimates · these figures are highly debated',
+};
+const HEIGHT: Topic = {
+  id: 'height', title: ['How *TALL* are men', 'in your country?'],
+  vals: {NLD: 183.8, MNE: 183.3, EST: 182.8, BIH: 181.4, DNK: 181.4, ISL: 181, CZE: 181, LVA: 181, LTU: 181, BEL: 181.7, SRB: 180.6, HRV: 180.5, SVN: 180.3, SVK: 180, NOR: 180, FIN: 180, SWE: 180, DEU: 180, POL: 180, UKR: 179, BLR: 179, AUT: 179, LUX: 179, KOS: 179, IRL: 178.9,
+    CHE: 178, GRC: 178, BGR: 178, MKD: 178, ITA: 177.8, GBR: 177.5, FRA: 177, HUN: 177, CYP: 177, ESP: 176.6, RUS: 176.5, MDA: 176, TUR: 176, GEO: 176, ROU: 175, ARM: 175, ALB: 174, PRT: 173.9, MLT: 173, AZE: 172, USA: 177},
+  fmt: (v) => `${Math.round(v)}`,
+  bands: [B('<175', 160, 174.9, BLUE[0], BLUE[1], 'vhappy'), B('175-177', 175, 176.9, GREEN[0], GREEN[1], 'happy'), B('177-179', 177, 178.9, YEL[0], YEL[1], 'neutral'), B('179-181', 179, 180.9, ORA[0], ORA[1], 'serious'), B('181-183', 181, 182.9, RED[0], RED[1], 'angry'), B('183+', 183, 190, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {PRT: {txt: ['Short but', 'happy']}, USA: {txt: ['177 cm.', 'In feet: 5’9’’']}, ESP: {txt: ['Siesta stunts', 'growth']}, DEU: {txt: []}, ITA: {txt: ['Shoes add', '+3 cm']}, GBR: {txt: []}, SWE: {txt: []}, TUR: {txt: []}, ISL: {txt: ['Viking genes']}},
+  slots: SL, usa: true,
+  source: 'Average height of men, cm (approx.) · NCD-RisC / national surveys · Netherlands & Montenegro = tallest',
+};
+const LIFE: Topic = {
+  id: 'life', title: ['How *LONG* do people live', 'in your country?'],
+  vals: {CHE: 84, ESP: 84, ITA: 83.5, ISL: 83, NOR: 83, SWE: 83, LUX: 83, FRA: 83, MLT: 83, IRL: 82.6, CYP: 82, PRT: 82, NLD: 82, BEL: 82, AUT: 82, FIN: 82, DNK: 82, GRC: 81.5, SVN: 81.5, DEU: 81, GBR: 81,
+    CZE: 79.5, ALB: 79.5, EST: 79, POL: 78.5, HRV: 78.5, TUR: 78, SVK: 78, MNE: 77, HUN: 77, BIH: 77, MKD: 76.5, SRB: 76.5, LTU: 76.5, KOS: 76, ROU: 76, LVA: 75.5, BGR: 75.5, ARM: 75, GEO: 74, AZE: 74, BLR: 74, RUS: 73, MDA: 72, UKR: 71, USA: 78.4},
+  fmt: (v) => `${Math.round(v)}`,
+  bands: [B('<74', 60, 73.9, '#7a00e0', '#7a00e0', 'demon'), B('74-76', 74, 75.9, RED[0], RED[1], 'angry'), B('76-78', 76, 77.9, ORA[0], ORA[1], 'serious'), B('78-80', 78, 79.9, YEL[0], YEL[1], 'neutral'), B('80-82', 80, 81.9, GREEN[0], GREEN[1], 'happy'), B('82+', 82, 90, BLUE[0], BLUE[1], 'vhappy')],
+  fun: {ESP: {txt: ['Olive oil', 'works']}, CHE: {txt: ['Chocolate', 'works too']}, ITA: {txt: ['Nonna', 'approved']}, USA: {txt: ['78. Healthcare', 'not included']}, RUS: {txt: []}, DEU: {txt: []}, GBR: {txt: []}, POL: {txt: []}, ISL: {txt: ['Fish + fresh air']}},
+  slots: SL, usa: true,
+  source: 'Life expectancy at birth, years (approx., 2023) · WHO / Eurostat / World Bank',
+};
+const FIRST: Topic = {
+  id: 'first', title: ['At what *AGE* do people lose', 'their *VIRGINITY*?'],
+  vals: {ISL: 15.6, DEU: 15.9, DNK: 16.1, SWE: 16.2, AUT: 16.3, NOR: 16.5, FIN: 16.5, CZE: 16.5, BGR: 16.5, GBR: 16.5, RUS: 16.9, NLD: 17, CHE: 17, SVN: 17, LUX: 17, FRA: 17.2, GRC: 17.2, EST: 17.2, BEL: 17.3, IRL: 17.3, SVK: 17.3, PRT: 17.4, HUN: 17.4, SRB: 17.4, UKR: 17.4,
+    ESP: 17.5, LVA: 17.5, BLR: 17.5, ITA: 17.6, ROU: 17.6, HRV: 17.6, POL: 18, TUR: 18, LTU: 18, BIH: 18, MNE: 18, CYP: 18, MKD: 18.3, ALB: 18.5, MDA: 18.5, KOS: 19, GEO: 20.5, ARM: 21, AZE: 21, MLT: 18.5, USA: 17},
+  fmt: (v) => v.toFixed(1),
+  bands: [B('<16.5', 15, 16.49, BLUE[0], BLUE[1], 'vhappy'), B('16.5-17', 16.5, 16.99, GREEN[0], GREEN[1], 'happy'), B('17-17.4', 17, 17.49, YEL[0], YEL[1], 'neutral'), B('17.5-17.9', 17.5, 17.99, ORA[0], ORA[1], 'serious'), B('18-19', 18, 19.99, RED[0], RED[1], 'angry'), B('20+', 20, 25, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {},
+  slots: SL, usa: true,
+  source: 'Average age at first sexual experience (approx.) · Durex Global Sex Survey + national surveys',
+};
+const MARRY: Topic = {
+  id: 'marry', title: ['At what *AGE* do people', '*MARRY* in your country?'],
+  vals: {ESP: 37, IRL: 36, SWE: 35, ITA: 35, PRT: 35, FRA: 35, ISL: 35, NLD: 34, BEL: 34, LUX: 34, DNK: 34, NOR: 34, DEU: 33, FIN: 33, GBR: 33, SVN: 33, GRC: 33, CHE: 32, AUT: 32, MLT: 32, CZE: 31, EST: 31, HUN: 31, SVK: 31, CYP: 31,
+    HRV: 30.5, LVA: 30, BGR: 30, SRB: 30, POL: 29, LTU: 29, ROU: 29, MNE: 29, BIH: 28, MKD: 28, ALB: 27, KOS: 27, MDA: 27, GEO: 27, ARM: 27, UKR: 26, BLR: 26, RUS: 26, TUR: 26, AZE: 25, USA: 29},
+  fmt: (v) => `${Math.round(v)}`,
+  bands: [B('<27', 20, 26.9, BLUE[0], BLUE[1], 'vhappy'), B('27-28', 27, 28.9, GREEN[0], GREEN[1], 'happy'), B('29-30', 29, 30.9, YEL[0], YEL[1], 'neutral'), B('31-32', 31, 32.9, ORA[0], ORA[1], 'serious'), B('33-34', 33, 34.9, RED[0], RED[1], 'angry'), B('35+', 35, 40, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {ESP: {txt: ['37?! Mum is', 'still waiting']}, ITA: {txt: ['Still living', 'with mamma']}, IRL: {txt: ['After the', 'pub closes']}, TUR: {txt: ['Grandma', 'is happy']}, USA: {txt: ['Vegas', 'speed']}, SWE: {txt: ['Why marry?', 'Sambo life']}, RUS: {txt: []}, DEU: {txt: []}, POL: {txt: []}},
+  slots: SL, usa: true,
+  source: 'Average age at first marriage, men & women (approx.) · Eurostat / UN data',
+};
+const DIVORCE: Topic = {
+  id: 'divorce', title: ['How many marriages end', 'in *DIVORCE*?'],
+  vals: {PRT: 64, LUX: 60, RUS: 58, ESP: 57, UKR: 55, EST: 52, FRA: 51, BEL: 50, LVA: 50, LTU: 50, BLR: 50, FIN: 48, SWE: 47, CYP: 47, DNK: 45, CZE: 45, MDA: 45, GBR: 42, AUT: 40, CHE: 40, NLD: 39, NOR: 39, HUN: 38, ISL: 37, ITA: 37, SVK: 37, DEU: 36, SVN: 35,
+    POL: 33, BGR: 33, GRC: 30, GEO: 30, HRV: 25, ROU: 25, ARM: 25, AZE: 25, TUR: 25, SRB: 20, ALB: 20, IRL: 15, MLT: 15, MNE: 15, BIH: 10, MKD: 10, KOS: 10, USA: 45},
+  fmt: (v) => `${v}%`,
+  bands: [B('<20%', 0, 19, BLUE[0], BLUE[1], 'vhappy'), B('20-34%', 20, 34, GREEN[0], GREEN[1], 'happy'), B('35-44%', 35, 44, YEL[0], YEL[1], 'neutral'), B('45-54%', 45, 54, ORA[0], ORA[1], 'serious'), B('55-59%', 55, 59, RED[0], RED[1], 'angry'), B('60%+', 60, 100, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {PRT: {txt: ['Love is', 'temporary']}, ESP: {txt: ['Drama level:', 'telenovela']}, IRL: {txt: ['Divorce legal', 'only since 1996']}, ITA: {txt: ['Mamma says', 'no divorce']}, USA: {txt: ['Vegas wedding,', 'Vegas divorce']}, POL: {txt: []}, DEU: {txt: []}, GBR: {txt: []}},
+  slots: SL, usa: true,
+  source: 'Divorces per 100 marriages (approx., recent years) · Eurostat / national statistics',
+};
+const HAPPY: Topic = {
+  id: 'happy', title: ['How *HAPPY* is', 'your country?'],
+  vals: {FIN: 7.7, DNK: 7.5, ISL: 7.5, SWE: 7.3, NLD: 7.3, NOR: 7.3, LUX: 7.1, CHE: 6.9, BEL: 6.9, IRL: 6.9, CZE: 6.9, KOS: 6.9, LTU: 6.8, AUT: 6.8, SVN: 6.8, DEU: 6.8, GBR: 6.7, FRA: 6.6, ROU: 6.6, POL: 6.5, ESP: 6.5, EST: 6.4, SRB: 6.4, MLT: 6.4, ITA: 6.4,
+    SVK: 6.2, LVA: 6.2, HRV: 6.1, HUN: 6.1, PRT: 6.0, CYP: 6.0, MDA: 6.0, GRC: 5.9, RUS: 5.9, MNE: 5.8, BIH: 5.8, BLR: 5.8, BGR: 5.6, MKD: 5.4, ALB: 5.4, ARM: 5.4, GEO: 5.1, UKR: 4.9, TUR: 4.9, AZE: 4.9, USA: 6.7},
+  fmt: (v) => v.toFixed(1),
+  bands: [B('<5', 0, 4.99, '#7a00e0', '#7a00e0', 'demon'), B('5-5.4', 5, 5.49, RED[0], RED[1], 'angry'), B('5.5-5.9', 5.5, 5.99, ORA[0], ORA[1], 'serious'), B('6-6.4', 6, 6.49, YEL[0], YEL[1], 'neutral'), B('6.5-6.9', 6.5, 6.99, GREEN[0], GREEN[1], 'happy'), B('7+', 7, 10, BLUE[0], BLUE[1], 'vhappy')],
+  fun: {FIN: {txt: []}, DNK: {txt: []}, ISL: {txt: ['Hot springs', 'help']}, TUR: {txt: ['Inflation', 'says hi']}, ESP: {txt: ['Happy? Sí,', 'after siesta']}, GBR: {txt: ['Mustn’t', 'grumble']}, USA: {txt: ['Happy-ish']}, ITA: {txt: []}, POL: {txt: []}, SWE: {txt: []}},
+  slots: SL, usa: true,
+  source: 'Happiness score out of 10 (approx.) · World Happiness Report 2025',
+};
+const OBESE: Topic = {
+  id: 'obese', title: ['How many adults are', '*OBESE* in your country?'],
+  vals: {TUR: 32, MLT: 29, GBR: 28, HUN: 27, MNE: 26, LTU: 26, RUS: 26, IRL: 25, CZE: 25, BGR: 25, BLR: 25, SRB: 24, HRV: 24, UKR: 24, GRC: 23, POL: 23, LVA: 23, ESP: 23, FIN: 23, MKD: 23, GEO: 23, ISL: 22, EST: 22, ROU: 22, DEU: 22, SVN: 22, ALB: 22, AZE: 22,
+    SVK: 21, PRT: 21, NOR: 21, LUX: 21, BIH: 21, MDA: 21, CYP: 21, KOS: 20, ARM: 20, BEL: 19, AUT: 19, SWE: 19, FRA: 18, NLD: 18, DNK: 18, ITA: 17, CHE: 12, USA: 42},
+  fmt: (v) => `${v}%`,
+  bands: [B('<18%', 0, 17.9, BLUE[0], BLUE[1], 'vhappy'), B('18-20%', 18, 20.9, GREEN[0], GREEN[1], 'happy'), B('21-23%', 21, 23.9, YEL[0], YEL[1], 'neutral'), B('24-26%', 24, 26.9, ORA[0], ORA[1], 'serious'), B('27-30%', 27, 29.9, RED[0], RED[1], 'angry'), B('30%+', 30, 50, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {USA: {txt: ['42%.', 'Supersize me']}, ITA: {txt: ['Pasta, but', 'make it walk']}, CHE: {txt: ['Mountains', 'keep us fit']}, GBR: {txt: ['Fish & chips', 'strikes back']}, TUR: {txt: ['Kebab', 'power']}, FRA: {txt: ['Small portions,', 'big wine']}, POL: {txt: []}, DEU: {txt: []}},
+  slots: SL, usa: true,
+  source: 'Adults with obesity, % (approx., 2022) · WHO / NCD-RisC',
+};
+const BILL: Topic = {
+  id: 'bill', title: ['How many *BILLIONAIRES*', 'live in your country?'],
+  vals: {DEU: 171, RUS: 140, ITA: 74, GBR: 55, FRA: 53, SWE: 43, CHE: 40, TUR: 35, ESP: 30, NOR: 15, NLD: 13, POL: 13, CZE: 12, AUT: 10, DNK: 10, BEL: 10, GRC: 10, IRL: 9, FIN: 8, UKR: 6, CYP: 6, PRT: 4, HUN: 4, LUX: 4,
+    ROU: 2, EST: 2, HRV: 2, BGR: 2, ISL: 1, LVA: 1, LTU: 1, SVK: 1, SVN: 1, GEO: 1, ARM: 1, SRB: 0, AZE: 0, BLR: 0, MDA: 0, ALB: 0, BIH: 0, MNE: 0, MKD: 0, KOS: 0, MLT: 0, USA: 902},
+  bands: [B('0', 0, 0, BLUE[0], BLUE[0], 'vhappy'), B('1-5', 1, 5, GREEN[0], GREEN[1], 'happy'), B('6-15', 6, 15, YEL[0], YEL[1], 'neutral'), B('16-50', 16, 50, ORA[0], ORA[1], 'serious'), B('51-150', 51, 150, RED[0], RED[1], 'angry'), B('150+', 151, 1000, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {USA: {txt: ['902.', 'Not a typo']}, DEU: {txt: ['Old money,', 'new cars']}, RUS: {txt: ['Oligarchs', 'count?']}, ITA: {txt: ['Fashion', 'pays']}, ESP: {txt: ['Zara made', 'a few']}, SWE: {txt: ['IKEA, Spotify,', 'H&M...']}, CHE: {txt: ['They just', 'moved here']}, ISL: {txt: ['Just one']}, POL: {txt: []}},
+  slots: SL, usa: true,
+  source: 'Number of billionaires (approx.) · Forbes World’s Billionaires List 2025',
+};
+const TAX: Topic = {
+  id: 'tax', title: ['How much *TAX* do the rich', 'pay in your country?'],
+  vals: {FIN: 57, DNK: 56, FRA: 55, AUT: 55, BEL: 53, PRT: 53, SWE: 52, SVN: 50, NLD: 49.5, IRL: 48, DEU: 47.5, ITA: 47, ESP: 47, NOR: 47, ISL: 46, LUX: 46, GBR: 45, GRC: 44, CHE: 40, TUR: 40, POL: 36, CYP: 35, MLT: 35, HRV: 35, LTU: 32, LVA: 31,
+    SVK: 25, AZE: 25, SRB: 25, CZE: 23, ALB: 23, UKR: 23, EST: 22, RUS: 22, GEO: 20, ARM: 20, BLR: 20, MKD: 18, HUN: 15, MNE: 15, MDA: 12, ROU: 10, BGR: 10, BIH: 10, KOS: 10, USA: 37},
+  fmt: (v) => `${Math.round(v)}%`,
+  bands: [B('<15%', 0, 14.9, BLUE[0], BLUE[1], 'vhappy'), B('15-24%', 15, 24.9, GREEN[0], GREEN[1], 'happy'), B('25-34%', 25, 34.9, YEL[0], YEL[1], 'neutral'), B('35-44%', 35, 44.9, ORA[0], ORA[1], 'serious'), B('45-52%', 45, 52.9, RED[0], RED[1], 'angry'), B('53%+', 53, 70, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {FIN: {txt: []}, BGR: {txt: []}, FRA: {txt: ['The state', 'says merci']}, USA: {txt: ['+ state tax', 'surprise']}, CHE: {txt: ['Depends on', 'the canton']}, ITA: {txt: []}, ESP: {txt: ['Hacienda', 'somos todos']}, DEU: {txt: []}, GBR: {txt: []}, POL: {txt: []}},
+  slots: SL, usa: true,
+  source: 'Top personal income tax rate, % (approx., 2025) · OECD / Tax Foundation / national rates',
+};
+const RETIRE: Topic = {
+  id: 'retire', title: ['At what *AGE* can you', '*RETIRE* in your country?'],
+  vals: {DNK: 67, ITA: 67, GRC: 67, ISL: 67, NOR: 67, NLD: 67, DEU: 66, ESP: 66.5, PRT: 66.5, IRL: 66, GBR: 66, SWE: 66, MNE: 66, BEL: 65, FIN: 65, CHE: 65, AUT: 65, LUX: 65, POL: 65, HUN: 65, SVN: 65, HRV: 65, LVA: 65, ROU: 65, SRB: 65, BIH: 65, ALB: 65.5, KOS: 65,
+    GEO: 65, AZE: 65, CYP: 65, EST: 64.8, BGR: 64.6, CZE: 64.5, LTU: 64.5, RUS: 64, MKD: 64, MLT: 64, SVK: 63, MDA: 63.5, BLR: 63, ARM: 63, FRA: 62.8, UKR: 60, TUR: 60, USA: 67},
+  fmt: (v) => (Number.isInteger(v) ? `${v}` : v.toFixed(1)),
+  bands: [B('<62', 50, 61.9, BLUE[0], BLUE[1], 'vhappy'), B('62-63', 62, 63.9, GREEN[0], GREEN[1], 'happy'), B('64', 64, 64.9, YEL[0], YEL[1], 'neutral'), B('65', 65, 65.9, ORA[0], ORA[1], 'serious'), B('66', 66, 66.9, RED[0], RED[1], 'angry'), B('67+', 67, 75, '#7a00e0', '#7a00e0', 'demon')],
+  fun: {FRA: {txt: ['62.8 and', 'still protesting']}, ITA: {txt: ['67. Mamma mia']}, TUR: {txt: []}, USA: {txt: ['Work till', 'you drop']}, ESP: {txt: ['66.5 and', 'counting']}, GBR: {txt: []}, DEU: {txt: []}, POL: {txt: []}, ISL: {txt: ['Retire at 67,', 'then fish']}},
+  slots: SL, usa: true,
+  source: 'Statutory retirement age for men (approx., 2025-26) · OECD Pensions at a Glance / national laws · Denmark rising to 70',
+};
+
+export const TOPICS: Record<string, Topic> = {bunkers: BUNKERS, wars: WARS, spend: SPEND, battles: BATTLES, invaded: INVADED, peace: PEACE, bases: BASES, ww3: WW3, draft: DRAFT, cyber: CYBER, iq: IQ, height: HEIGHT, life: LIFE, first: FIRST, marry: MARRY, divorce: DIVORCE, happy: HAPPY, obese: OBESE, bill: BILL, tax: TAX, retire: RETIRE};
