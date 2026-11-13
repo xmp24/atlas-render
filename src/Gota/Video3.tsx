@@ -71,7 +71,7 @@ const Prisoner: React.FC<{ f: number; k?: number; flinch?: number; eyes?: "scare
     lLegX: struggle * sn("ll") * 8, rLegX: struggle * sn("rl") * 8, lKnee: 1 + struggle * Math.abs(sn("lk")) * 16, rKnee: 1 + struggle * Math.abs(sn("rk")) * 16,
   };
   return <>
-    <Bot pos={[0.9 + n("px", 1) * tr, 0.945 + n("py", 0.9) * tr + flinch * 0.01, n("pz", 1.1) * tr]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={p} f={f} outfit="prisoner" eyes={eyes} hood={false} ground={false} tired={tired} pupil={pupil} xk={xk} mouth={mouth ?? (flinch > 0.3 ? "scream" : eyes === "dead" ? "slack" : eyes === "closed" ? "flat" : "grit")} brows={eyes === "dead" ? 0 : brows} look={gaze ?? [noise2D("gx", f / 14, 0) * 0.8, noise2D("gy", f / 17, 0) * 0.6]} />
+    <Bot pos={[0.9 + n("px", 1) * tr, 0.945 + n("py", 0.9) * tr + flinch * 0.01, n("pz", 1.1) * tr]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={p} f={f} outfit="prisoner" eyes={eyes} hood={false} ground={false} tired={tired} pupil={pupil} xk={xk} mouth={mouth ?? (flinch > 0.3 ? "scream" : eyes === "dead" ? "slack" : eyes === "closed" ? "flat" : "fear")} brows={eyes === "dead" ? 0 : brows} look={gaze ?? [noise2D("gx", f / 14, 0) * 0.8, noise2D("gy", f / 17, 0) * 0.6]} />
     {(wet > 0 || sweat > 0) && <Wet wet={wet} sweat={sweat} look={look} />}
   </>;
 };
@@ -209,7 +209,7 @@ const FirstScene: React.FC<{ f: number }> = ({ f }) => {
   const G: BP = mixBP({ ...STAND }, { ...STAND, headX: -14, lArmX: -150, lArmZ: -14, lElbow: -14 + Math.sin(f / 2.5) * 8 * (f > 2 && f < 22 ? 1 : 0) }, hand);
   const wet = interpolate(f, [FIRST_HIT, FIRST_HIT + 8], [0, 0.35], clamp);
   return (
-    <Stage f={f} len={T3.lapse - T3.first} shots={[[0, C([-0.72, 1.95, -1.35], [-0.84, 1.6, 0.35], 42), C([-0.8, 1.92, -1.25], [-0.84, 1.6, 0.35], 42)], [26, C([-0.42, 1.4, 0.98], [-0.76, 1.38, 0], 30, 0.04), C([-0.46, 1.36, 0.9], [-0.76, 1.33, 0], 30, 0.04)]]}>
+    <Stage f={f} len={T3.lapse - T3.first} shots={[[0, C([-0.72, 1.95, -1.35], [-0.84, 1.6, 0.35], 42), C([-0.8, 1.92, -1.25], [-0.84, 1.6, 0.35], 42)], [26, C([0.5, 1.66, 0.14], [-0.75, 1.2, 0.02], 42, 0.13), C([0.4, 1.63, 0.12], [-0.75, 1.2, 0.02], 41, 0.13)]]}>
       <Room f={f + 1800} valve={v} candle={0.85}>
         <Prisoner f={f} k={0.4} flinch={flinchAt(f, [FIRST_HIT])} eyes={f >= FIRST_HIT && f < FIRST_HIT + 7 ? "closed" : "scared"} wet={wet} />
         {f < 26 && <Guard pos={[-0.95, 0, 0.62]} ry={Math.PI + 0.25} p={G} f={f} />}
@@ -251,7 +251,7 @@ const DeathScene: React.FC<{ f: number }> = ({ f }) => {
   const still = interpolate(f, [LAST, LAST + 16], [1, 0], clamp), xk = interpolate(f, [LAST + 3, LAST + 12], [0, 1], { ...clamp, easing: eo });
   const torch = interpolate(f, [LAST, LAST + 26], [0.85, 0.3], clamp);
   return (
-    <Stage f={f} len={T3.end - T3.death} shots={[[0, C([0.18, 1.88, 0.17], [-0.73, 1.0, 0.03], 36, 0.1), C([0.3, 1.95, 0.22], [-0.72, 1.0, 0.03], 38, 0.1)], [66, C([-0.36, 1.46, 0.95], [-0.76, 1.3, 0], 31, 0.03), C([-0.3, 1.5, 1.0], [-0.75, 1.28, 0], 31, 0.03)], [LAST + 6, C([0.2, 1.9, 0.18], [-0.72, 1.0, 0.03], 36, 0.1), C([0.55, 2.3, 0.35], [-0.66, 0.98, 0.03], 42, 0.1)]]}>
+    <Stage f={f} len={T3.end - T3.death} shots={[[0, C([0.18, 1.88, 0.17], [-0.73, 1.0, 0.03], 36, 0.1), C([0.3, 1.95, 0.22], [-0.72, 1.0, 0.03], 38, 0.1)], [66, C([0.45, 1.64, 0.13], [-0.75, 1.2, 0.02], 41, 0.13), C([0.37, 1.62, 0.12], [-0.75, 1.2, 0.02], 40, 0.13)], [LAST + 6, C([0.2, 1.9, 0.18], [-0.72, 1.0, 0.03], 36, 0.1), C([0.55, 2.3, 0.35], [-0.66, 0.98, 0.03], 42, 0.1)]]}>
       <Room f={f + 3300} candle={0.06} torch={torch}>
         <Prisoner f={f} k={2.2 * still} flinch={flinchAt(f, [...DEATH_HITS, LAST]) * Math.max(still, f < LAST + 8 ? 1 : 0)} eyes={f >= LAST + 3 ? "dead" : "scared"} xk={xk} struggle={f < 60 ? 0.7 : 0} tired={1} sweat={1} wet={1} pupil={0.55} look={LOOK + interpolate(f, [LAST + 4, LAST + 26], [0, 0.35], clamp)} />
         <Drops f={f} hits={DEATH_HITS} />
