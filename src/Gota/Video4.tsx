@@ -262,7 +262,7 @@ const StoneScene: React.FC<{ f: number }> = ({ f }) => {
   const hr = 0.03 + 0.08 * Math.round(g * 25) / 25, depth = 0.004 + 0.06 * Math.round(g * 25) / 25;
   const top = 0.18;
   return (
-    <Stage f={f} len={T4.first - T4.stone} fog={[3, 10]} shots={[[0, C([0.0, 0.85, 1.2], [0, 0.42, 0], 38, 0.1), C([0.12, 0.78, 1.02], [0, 0.4, 0], 38, 0.1)]]}>
+    <Stage f={f} len={T4.first - T4.stone} fog={[3, 10]} shots={[[0, C([0.0, 0.85, 1.2], [0, 0.42, 0], 38, 0.1), C([0.1, 0.8, 1.08], [0, 0.4, 0], 38, 0.1)], [50, C([0.45, 0.95, 0.75], [0, 0.2, 0], 36, 0.08), C([0.4, 0.9, 0.68], [0, 0.2, 0], 35, 0.08)]]}>
       <ambientLight intensity={0.3} color="#6a7aa0" />
       <spotLight position={[0.9, 2.4, 1.3]} target-position={[0, 0.3, 0]} angle={0.55} penumbra={0.8} intensity={17} distance={6} color="#d4e2f6" castShadow />
       <pointLight position={[-1.2, 0.9, 0.5]} intensity={2.4} distance={3.5} color="#ff9a4a" />
