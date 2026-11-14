@@ -40,6 +40,23 @@ export const walkBP = (ph: number, amp = 1): BP => {
 
 export type Mouth = "none" | "fear" | "scream" | "grit" | "flat" | "slack";
 // ---------- clothing textures ----------
+const gskinTex = () => cv("gskin", 128, 128, (c) => { c.fillStyle = "#b98e68"; c.fillRect(0, 0, 128, 128); stains(c, 128, 128, "gs", 14, "rgba(90,50,30,0.15)"); });
+const stubTex = (dense: number) => cv("stub" + dense, 256, 256, (c) => { for (let i = 0; i < 3200 * dense; i++) { c.fillStyle = `rgba(30,20,14,${0.25 + random("st" + dense + i) * 0.4})`; c.fillRect(random("sx" + dense + i) * 256, random("sy" + dense + i) * 256, 1, 1 + random("sl" + dense + i) * 1.5); } });
+/** hair tufts / stubble / beard */
+const Hair: React.FC<{ kind: "prisoner" | "guard"; f: number }> = ({ kind }) => {
+  const hairMat = <meshStandardMaterial color={kind === "prisoner" ? "#3a2a1c" : "#1e1612"} roughness={0.95} />;
+  return <group>
+    {/* stubble (prisoner) or short beard (guard) on the jaw */}
+    <mesh scale={1.012}><sphereGeometry args={[0.205, 40, 20, Math.PI / 2 - 0.95, 1.9, 2.05, 0.75]} /><meshStandardMaterial map={stubTex(kind === "prisoner" ? 1 : 2)} transparent opacity={kind === "prisoner" ? 0.42 : 0.95} depthWrite={false} roughness={1} /></mesh>
+    {kind === "prisoner" && <>
+      {Array.from({ length: 22 }).map((_, i) => { const th = 0.15 + random("ht" + i) * 1.05, ph = -Math.PI / 2 + (random("hp" + i) - 0.5) * 3.6; const n = new THREE.Vector3(Math.sin(th) * Math.cos(ph), Math.cos(th), -Math.sin(th) * Math.sin(ph));
+        const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), n.clone().add(new THREE.Vector3((random("hx" + i) - 0.5) * 0.8, 0.3, (random("hz" + i) - 0.5) * 0.8)).normalize());
+        return <mesh key={i} position={n.clone().multiplyScalar(0.198).toArray()} quaternion={q}><coneGeometry args={[0.028 + random("hr" + i) * 0.02, 0.07 + random("hl" + i) * 0.06, 6]} />{hairMat}</mesh>; })}
+      <mesh position={[0, 0.03, -0.02]} scale={1.03}><sphereGeometry args={[0.205, 32, 16, 0, Math.PI * 2, 0, 1.15]} />{hairMat}</mesh>
+    </>}
+    {kind === "guard" && <mesh position={[0, -0.13, 0.12]} rotation={[0.6, 0, 0]} scale={[1, 0.7, 0.6]}><sphereGeometry args={[0.07, 16, 10]} /><meshStandardMaterial color="#1e1612" roughness={1} /></mesh>}
+  </group>;
+};
 const cv = (key: string, w: number, h: number, draw: (c: CanvasRenderingContext2D) => void) => { const t = TEXC[key]; if (t) return t; const c = document.createElement("canvas"); c.width = w; c.height = h; draw(c.getContext("2d")!); const tx = new THREE.CanvasTexture(c); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 8; return (TEXC[key] = tx); };
 const TEXC: Record<string, THREE.Texture> = {};
 const weave = (c: CanvasRenderingContext2D, w: number, h: number, base: string, a = 0.12) => { c.fillStyle = base; c.fillRect(0, 0, w, h); for (let y = 0; y < h; y += 3) { c.fillStyle = `rgba(0,0,0,${a * (0.5 + random("wy" + y) * 0.5)})`; c.fillRect(0, y, w, 1); } for (let x = 0; x < w; x += 3) { c.fillStyle = `rgba(255,255,255,${a * 0.5 * random("wx" + x)})`; c.fillRect(x, 0, 1, h); } };
@@ -60,10 +77,11 @@ const OUTFITS = (k: "prisoner" | "guard") => (OUT[k] ??= k === "prisoner" ? (() 
 })() : (() => {
   const dark = new THREE.MeshPhysicalMaterial({ color: "#232327", roughness: 0.48, clearcoat: 0.3, clearcoatRoughness: 0.45 });
   const boot = cloth(leatherTex("bt", "#3a2618"), [1, 1], 0.6, { metalness: 0.05 });
-  return { head: dark, neck: cloth(mailTex(), [2, 1], 0.4, { metalness: 0.8 }), torso: cloth(leatherTex("jk", "#4a3220"), [1, 1], 0.7), upper: cloth(mailTex(), [2, 2], 0.4, { metalness: 0.8, color: "#bbbbbb" }), fore: cloth(leatherTex("br", "#5a3c24"), [1, 1], 0.65), hand: cloth(leatherTex("gl", "#2a1c12"), [1, 1], 0.6), thigh: cloth(trouserTex(), [1, 1]), shin: boot, foot: boot };
+  const gskin = new THREE.MeshPhysicalMaterial({ map: gskinTex(), roughness: 0.55, clearcoat: 0.15 });
+  return { head: gskin, neck: cloth(mailTex(), [2, 1], 0.4, { metalness: 0.8 }), torso: cloth(leatherTex("jk", "#4a3220"), [1, 1], 0.7), upper: cloth(mailTex(), [2, 2], 0.4, { metalness: 0.8, color: "#bbbbbb" }), fore: cloth(leatherTex("br", "#5a3c24"), [1, 1], 0.65), hand: cloth(leatherTex("gl", "#2a1c12"), [1, 1], 0.6), thigh: cloth(trouserTex(), [1, 1]), shin: boot, foot: boot };
 })());
 /** clothing pieces that are not body parts: rope belt / torn hem (prisoner); tabard, belt, buckle, keys (guard) */
-const Outfit: React.FC<{ kind: "prisoner" | "guard" }> = ({ kind }) => {
+const Outfit: React.FC<{ kind: "prisoner" | "guard"; f: number }> = ({ kind, f }) => {
   if (kind === "prisoner") return <group>
     <mesh position={[0, 0.06, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.28, 0.95, 1]}><torusGeometry args={[0.1, 0.012, 8, 28]} /><meshStandardMaterial color="#8a7448" roughness={1} /></mesh>
     <mesh position={[0.06, 0.03, 0.09]} rotation={[0.2, 0, 0.3]}><cylinderGeometry args={[0.008, 0.006, 0.09, 6]} /><meshStandardMaterial color="#8a7448" roughness={1} /></mesh>
@@ -71,7 +89,7 @@ const Outfit: React.FC<{ kind: "prisoner" | "guard" }> = ({ kind }) => {
     <mesh position={[0, 0.43, 0.075]} rotation={[0.3, 0, 0]}><torusGeometry args={[0.045, 0.01, 6, 16, Math.PI]} /><meshStandardMaterial color="#7a6a4e" roughness={1} /></mesh>
   </group>;
   return <group>
-    {[1, -1].map((sd) => <mesh key={sd} position={[0, 0.2, sd * 0.088]} rotation={[0, sd < 0 ? Math.PI : 0, 0]}><planeGeometry args={[0.2, 0.5]} /><meshStandardMaterial map={tabardTex()} roughness={0.9} side={THREE.DoubleSide} /></mesh>)}
+    {[1, -1].map((sd) => <group key={sd} position={[0, 0.44, sd * 0.09]} rotation={[sd * Math.sin(f / 9 + sd) * 0.07, 0, 0]}><mesh position={[0, -0.24, 0]} rotation={[0, sd < 0 ? Math.PI : 0, 0]}><planeGeometry args={[0.2, 0.5]} /><meshStandardMaterial map={tabardTex()} roughness={0.9} side={THREE.DoubleSide} /></mesh></group>)}
     <mesh position={[0, 0.06, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.3, 0.98, 1]}><torusGeometry args={[0.104, 0.016, 8, 28]} /><meshStandardMaterial color="#2a1a10" roughness={0.6} /></mesh>
     <mesh position={[0, 0.06, 0.103]}><boxGeometry args={[0.05, 0.04, 0.012]} /><meshStandardMaterial color="#b8973e" metalness={0.85} roughness={0.25} /></mesh>
     <group position={[0.12, 0.02, 0.03]}><mesh rotation={[0, Math.PI / 2, 0]}><torusGeometry args={[0.03, 0.005, 6, 16]} /><meshStandardMaterial color="#6a6a70" metalness={0.9} roughness={0.3} /></mesh>{[0, 1, 2].map((i) => <mesh key={i} position={[0.005, -0.04 - i * 0.004, (i - 1) * 0.015]} rotation={[0, 0, 0.2 * (i - 1)]}><boxGeometry args={[0.008, 0.05, 0.004]} /><meshStandardMaterial color="#8a7a50" metalness={0.85} roughness={0.3} /></mesh>)}</group>
@@ -114,7 +132,7 @@ const Part: React.FC<{ geo: THREE.BufferGeometry; p?: [number, number, number]; 
   );
 };
 
-export const Bot4: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number; tint?: string; eyes?: "angry" | "scared" | "dead" | "closed"; helmet?: boolean; hood?: boolean; ground?: boolean; rot?: [number, number, number]; tired?: number; pupil?: number; xk?: number; outfit?: "prisoner" | "guard"; mouth?: Mouth; brows?: number; look?: [number, number] }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0, tint, eyes = "angry", helmet, hood = true, ground = true, rot, tired = 0, pupil = 1, xk = 1, outfit, mouth = "none", brows = 0, look = [0, 0] }) => {
+export const Bot4: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number; tint?: string; eyes?: "angry" | "scared" | "dead" | "closed"; helmet?: boolean; hood?: boolean; ground?: boolean; rot?: [number, number, number]; tired?: number; pupil?: number; xk?: number; lid?: number; breath?: number; bamp?: number; outfit?: "prisoner" | "guard"; mouth?: Mouth; brows?: number; look?: [number, number] }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0, tint, eyes = "angry", helmet, hood = true, ground = true, rot, tired = 0, pupil = 1, xk = 1, lid = 0, breath = 1, bamp = 1, outfit, mouth = "none", brows = 0, look = [0, 0] }) => {
   const G = useMemo(() => ({
     torso: new THREE.CapsuleGeometry(0.075, 0.36, 8, 16),
     upper: new THREE.CapsuleGeometry(0.036, 0.22, 6, 12),
@@ -137,6 +155,7 @@ export const Bot4: React.FC<{ pos: [number, number, number]; ry?: number; p: BP;
         <group position={[0, -0.29, 0]} rotation={R(el)}>
           <Part geo={G.fore} p={[0, -0.13, 0]} k="fore" />
           <Part geo={G.hand} p={[0, -0.28, 0]} k="hand" />
+          {outfit && <Part geo={G.hand} p={[-side * 0.028, -0.255, 0.03]} r={[0.5, 0, -side * 0.5]} s={[0.42, 0.62, 0.42]} k="hand" outline={1.1} />}
           <group position={[0, -0.29, 0]}>{side < 0 ? lHandItem : rHandItem}</group>
         </group>
       </group>
@@ -160,16 +179,17 @@ export const Bot4: React.FC<{ pos: [number, number, number]; ry?: number; p: BP;
       <group position={[0, 0.86 + p.bob, 0]} rotation={R(0, p.twist, 0)}>
         {leg(-1)}{leg(1)}
         <group rotation={R(p.lean)}>
-          <group scale={[1 + Math.sin(f / 24) * 0.02, 1, 1 + Math.sin(f / 24) * 0.03]}><Part geo={G.torso} p={[0, 0.25, 0]} s={outfit ? [1.38, 1.02, 1.05] : [1.25, 1, 0.9]} k="torso" />
-            {outfit && <Outfit kind={outfit} />}</group>
+          <group scale={[1 + Math.sin(f * breath / 24) * 0.02 * bamp, 1, 1 + Math.sin(f * breath / 24) * 0.03 * bamp]}><Part geo={G.torso} p={[0, 0.25, 0]} s={outfit ? [1.38, 1.02, 1.05] : [1.25, 1, 0.9]} k="torso" />
+            {outfit && <Outfit kind={outfit} f={f} />}</group>
           {/* hood of his sweatshirt, folded on the back of the neck, and drawstrings */}
           {hood && <group position={[0, 0.47, -0.095]} rotation={R(22)}><Part geo={G.head} s={[0.5, 0.26, 0.3]} outline={1.05} /></group>}
           {hood && [-1, 1].map((sd) => <mesh key={"ds" + sd} position={[sd * 0.03, 0.4, 0.085]}><cylinderGeometry args={[0.006, 0.006, 0.14, 6]} /><meshStandardMaterial color="#9a9aa2" /></mesh>)}
           {arm(-1)}{arm(1)}
           <group position={[0, 0.5, 0]} rotation={R(p.headX, p.headY, 0)}>
             <Part geo={G.torso} p={[0, 0.0, 0]} s={[0.35, 0.18, 0.35]} outline={1.12} k="neck" />
-            <group position={[0, 0.22, 0]}>
+            <group position={[0, outfit ? 0.195 : 0.22, 0]} scale={outfit ? 0.86 : 1}>
               <Part geo={G.head} outline={1.04} k="head" />
+              {outfit && <Hair kind={outfit} f={f} />}
               <Face mouth={mouth} brows={brows} eyes={eyes} f={f} G={G} />
               {/* angry glowing eyes */}
               {eyes === "angry" && [-1, 1].map((sd) => (
@@ -177,8 +197,8 @@ export const Bot4: React.FC<{ pos: [number, number, number]; ry?: number; p: BP;
               ))}
               {eyes === "scared" && [-1, 1].map((sd) => (
                 <group key={sd} position={[sd * 0.075, 0.02, 0.18]} rotation={[0, sd * 0.38, 0]}>
-                  <mesh geometry={G.eye} material={m.eye} scale={[0.045, 0.05 * blink, 0.02]} />
-                  <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.008 + look[0] * 0.01 + Math.sin(f / 3) * 0.004, -0.004 + look[1] * 0.01, 0.016]} scale={[0.014 * pupil, 0.016 * blink * pupil, 0.01]} />
+                  <mesh geometry={G.eye} material={m.eye} position={[0, -lid * 0.014, 0]} scale={[outfit === "guard" ? 0.04 : 0.045, 0.05 * blink * (1 - 0.62 * lid) * (outfit === "guard" ? 0.7 : 1), 0.02]} />
+                  <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.008 + look[0] * 0.01 + Math.sin(f / 3) * 0.004, -0.004 - lid * 0.01 + look[1] * 0.01, 0.016]} scale={[0.014 * pupil, 0.016 * blink * pupil * (1 - 0.4 * lid), 0.01]} />
                 </group>
               ))}
               {eyes === "closed" && [-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.075, 0.012, 0.192]} rotation={[0, sd * 0.38, Math.PI]}><torusGeometry args={[0.03, 0.0055, 6, 16, Math.PI]} /><meshBasicMaterial color="#111" /></mesh>)}
@@ -187,7 +207,7 @@ export const Bot4: React.FC<{ pos: [number, number, number]; ry?: number; p: BP;
               {helmet && <group position={[0, 0.07, 0]}><mesh scale={[1, 0.62, 1]}><sphereGeometry args={[0.225, 28, 16, 0, Math.PI * 2, 0, Math.PI / 2]} /><meshStandardMaterial color="#5a5e66" metalness={0.75} roughness={0.35} /></mesh><mesh position={[0, 0.005, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.235, 0.022, 8, 32]} /><meshStandardMaterial color="#44474e" metalness={0.8} roughness={0.3} /></mesh><mesh position={[0, -0.02, 0.21]}><boxGeometry args={[0.03, 0.14, 0.02]} /><meshStandardMaterial color="#44474e" metalness={0.8} roughness={0.3} /></mesh></group>}
               {glow > 0 && <pointLight position={[0, 0, 0.32]} intensity={glow * 1.6} distance={0.9} color="#ffffff" />}
               {/* glossy highlight arc */}
-              <mesh position={[-0.09, 0.11, 0.14]} rotation={[0, -0.4, 0.6]}><torusGeometry args={[0.07, 0.006, 6, 24, 1.6]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.75} /></mesh>
+              {!outfit && <mesh position={[-0.09, 0.11, 0.14]} rotation={[0, -0.4, 0.6]}><torusGeometry args={[0.07, 0.006, 6, 24, 1.6]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.75} /></mesh>}
             </group>
           </group>
         </group>
