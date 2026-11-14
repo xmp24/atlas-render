@@ -27,6 +27,7 @@ import J_cw from './hw/cw.json';
 import J_da from './hw/da.json';
 import J_dbram from './hw/dbram.json';
 import J_dbrin from './hw/dbrin.json';
+import J_idw from './hw/idw.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -64,7 +65,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, dbram: J_dbram, dbrin: J_dbrin, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -2735,6 +2736,18 @@ const DaHud: React.FC<{t: number}> = ({t}) => {
   return <>{out}</>;
 };
 
+const BuffHud: React.FC<{t: number}> = ({t}) => {
+  const B = (X.D.buffs || []) as any[]; if (!B.length) return null;
+  const act = B.filter((b) => t >= b[0] - 0.2 && t < b[1] + 0.4);
+  if (!act.length) return null;
+  return <div style={{position: 'absolute', right: 22, top: 78, zIndex: 38, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end'}}>
+    {act.map((b, i) => { const [t0, t1, ico, name, col] = b; const left = Math.max(0, t1 - t); const a = Math.min(1, (t - t0 + 0.2) / 0.3, (t1 + 0.4 - t) / 0.4); const pct = Math.max(0, Math.min(1, left / (t1 - t0)));
+      return <div key={i} style={{opacity: a, transform: `scale(${popT(t, t0, 10)})`, transformOrigin: 'right center', background: 'rgba(10,14,26,0.94)', border: `4px solid ${col}`, borderRadius: 16, padding: '6px 14px 6px 10px', minWidth: 330, boxShadow: `0 0 ${16 + 8 * Math.sin(t * 6)}px ${col}`}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 10}}><span style={{fontSize: 34}}>{ico}</span><div style={{flex: 1}}><div style={{...font, fontSize: 28, color: '#fff', lineHeight: 1}}>{name}</div>
+          <div style={{height: 8, background: '#ffffff22', borderRadius: 4, marginTop: 4, overflow: 'hidden'}}><div style={{width: `${pct * 100}%`, height: '100%', background: col}} /></div></div>
+          <span style={{...font, fontSize: 30, color: col}}>{Math.floor(left / 60)}:{String(Math.floor(left % 60)).padStart(2, '0')}</span></div></div>; })}
+  </div>;
+};
 export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: number; off?: number; zf?: number; sdur?: number; hook?: string[]; cta?: string[]; segs?: number[][]; noHud?: boolean}> = ({noHud = false, audio = true, v = 'a', W = 1920, H = 1080, off = 0, zf = 1, sdur = 0, hook, cta, segs}) => {
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
   if (X.D.flagOvr) for (const kk in X.D.flagOvr) FLAG_OVR[+kk] = X.D.flagOvr[kk];
@@ -2820,6 +2833,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <WbrHud t={t} />
       <CwHud t={t} />
       <DaHud t={t} />
+      <BuffHud t={t} />
       <DbrHud t={t} />
       <EvHud t={t} />
       <DuelHud t={t} />
