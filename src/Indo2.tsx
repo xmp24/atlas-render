@@ -1080,7 +1080,7 @@ const BLK: Record<string, React.FC<{t: number; b: any}>> = {
     const x0 = (VW - W_) / 2, y0 = 250; const keep = b.keep; const xs = b.xsT, xe = b.xsEnd;
     const order = ks.map((_, i) => i).filter((i) => i !== keep);
     const tx = (j: number) => xs + (xe - xs) * Math.pow((j + 1) / order.length, 0.62);
-    const nCross = order.filter((_, j) => t >= tx(j)).length; const left = n - nCross;
+    const nCross = order.filter((_, j) => t >= tx(j)).length; const left0 = n - nCross; const left = b.n0 ? Math.max(1, Math.round(1 + (b.n0 - 1) * (left0 - 1) / (n - 1))) : left0;
     const fin = t >= xe + 0.15; const fz = fin ? Easing.out(Easing.cubic)(Math.min(1, (t - xe - 0.15) / 0.7)) : 0;
     const o = Math.min(1, (b.t1 - t) / 0.3); const lastX = order.map((_, j) => tx(j)).filter((v) => v <= t).slice(-1)[0] ?? -9;
     const shk = t - lastX < 0.12 ? (1 - (t - lastX) / 0.12) * 6 : 0;
