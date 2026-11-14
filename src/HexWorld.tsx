@@ -14,6 +14,7 @@ export const CODE = COUNTRIES.map((c) => c.c);
 export const KOF: Record<string, number> = Object.fromEntries(CODE.map((c, i) => [c, i]));
 export const FIC = ((ST as any).fic || null) as null | {patch: number[]; codes: string[]; rivers: [number, string][]; lakes: string[]; box: number[]; border: number[][]};
 export const FICK = new Set<number>((FIC ? FIC.codes : []).map((c) => KOF[c]));
+export const FICHIDE = new Set<number>((FIC && (FIC as any).hide ? (FIC as any).hide : []).map((c: string) => KOF[c]));
 export const RIVERS = (ST as any).rivers as [number, string][];
 export const LAKES = (ST as any).lakes as string[];
 export const CITIES = (ST as any).cities as [string, number, number, number][];

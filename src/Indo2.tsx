@@ -1,7 +1,7 @@
 // Can Indonesia Conquer the World? v2 — invasiones con pelotones por tierra (1920x1080). Versiones 'a' y 'b'.
 import React from 'react';
 import {AbsoluteFill, Audio, Easing, Img, staticFile, useCurrentFrame} from 'remotion';
-import {FlagCanvas, makeCam, CamKey, Cam, COUNTRIES, MAINCOL, NK, FLAG_OVR, FICK} from './HexWorld';
+import {FlagCanvas, makeCam, CamKey, Cam, COUNTRIES, MAINCOL, NK, FLAG_OVR, FICK, FICHIDE} from './HexWorld';
 import {Globe} from './Globe';
 import {PolyCanvas, PolyMini, polyState, ownerStats, CEv, CAREA, MAINPIECE, PIECES_C} from './PolyWorld';
 import {Face, Mood, INK, YELLOW, RED, CREAM, font, font2, lerp, popT, fmt} from './lib3';
@@ -26,6 +26,7 @@ import J_dbreu from './hw/dbreu.json';
 import J_cw from './hw/cw.json';
 import J_da from './hw/da.json';
 import J_dbram from './hw/dbram.json';
+import J_dbrin from './hw/dbrin.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -63,7 +64,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, dbram: J_dbram, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, dbram: J_dbram, dbrin: J_dbrin, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -115,7 +116,7 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const stl = pst(Math.max(0, t - 1.2)); const osl = ownerStats(stl.owner);
   const s2 = cam.s * cam.s;
   const best = new Int32Array(NK).fill(-1); const bestA = new Float64Array(NK);
-  for (let k = 0; k < NK; k++) { if (MAINPIECE[k] < 0 || (FICK.has(k) !== !!X.D.fic)) continue; const o = st.owner[k]; const ar = CAREA[k] * (o === k ? 1.6 : 1); if (ar > bestA[o]) { bestA[o] = ar; best[o] = k; } }
+  for (let k = 0; k < NK; k++) { if (MAINPIECE[k] < 0 || (FICK.has(k) && !X.D.fic) || (X.D.fic && FICHIDE.has(k))) continue; const o = st.owner[k]; const ar = CAREA[k] * (o === k ? 1.6 : 1); if (ar > bestA[o]) { bestA[o] = ar; best[o] = k; } }
   const cand: number[] = [];
   for (let k = 0; k < NK; k++) {
     if (!os.a[k] || best[k] < 0 || os.a[k] * s2 < 14000) continue;
@@ -1441,7 +1442,7 @@ const WbrHud: React.FC<{t: number}> = ({t}) => {
     const W_ = S_ ? 760 : 600;
     out.push(<AbsoluteFill key="sel" style={{zIndex: 41, background: `rgba(4,8,18,${0.45 * a})`, opacity: a}}>
       <div style={{position: 'absolute', left: CX - W_ / 2, top: VH / 2 - rh * 3.1, width: W_, height: rh * 5 + 70, background: 'linear-gradient(180deg,#141b2e,#0b101d)', border: '6px solid #ffd23f', borderRadius: 28, boxShadow: '0 0 40px rgba(255,210,63,0.45), 0 14px 0 rgba(0,0,0,0.5)', overflow: 'hidden', transform: `scale(${popT(t, t0 - 0.2, 12)})`}}>
-        <div style={{position: 'absolute', top: 0, left: 0, right: 0, height: 52, background: '#ffd23f', display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: S_ ? 32 : 26, color: INK}}>🎲 SELECTION POOL · {n} COUNTRIES</div>
+        <div style={{position: 'absolute', top: 0, left: 0, right: 0, height: 52, background: '#ffd23f', display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: S_ ? 32 : 26, color: INK}}>🎲 SELECTION POOL · {n} {X.D.unitPl || 'COUNTRIES'}</div>
         <div style={{position: 'absolute', left: 0, right: 0, top: 60, height: rh * 5, overflow: 'hidden'}}>
           {[-3, -2, -1, 0, 1, 2, 3].map((d) => { const i = base + d; if (i < 0 || i >= lst.length) return null; const y = (d - fr + 2) * rh; const ctr = Math.abs(d - fr) < 0.5;
             return <div key={i} style={{position: 'absolute', left: 18, right: 18, top: y + 4, height: rh - 8, display: 'flex', alignItems: 'center', gap: 16, padding: '0 18px', borderRadius: 14, background: ctr ? (done ? 'rgba(255,210,63,0.95)' : 'rgba(255,255,255,0.14)') : 'rgba(255,255,255,0.05)', opacity: 1 - Math.min(0.75, Math.abs(d - fr) * 0.3)}}>

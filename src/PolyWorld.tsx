@@ -4,7 +4,7 @@ import {geoNaturalEarth1, geoPath} from 'd3-geo';
 import {mesh} from 'topojson-client';
 import WJ from './world.json';
 import TOPO from './worldtopo.json';
-import {IMG, MAINCOL, DARKCOL, KOF, NK, MAPW, MAPH, flagBmp, Cam, RIVERS, LAKES, CITIES, FIC, FICK} from './HexWorld';
+import {IMG, MAINCOL, DARKCOL, KOF, NK, MAPW, MAPH, flagBmp, Cam, RIVERS, LAKES, CITIES, FIC, FICK, FICHIDE} from './HexWorld';
 import {drawOcc, drawUnits} from './WarLayer';
 
 const W4 = 4; // world.json está a 1920x1080; nuestro mapa es 4x
@@ -80,7 +80,7 @@ const FRIV_P = typeof Path2D !== 'undefined' && FIC ? FIC.rivers.map(([sr, d]) =
 const FLAKE_P = typeof Path2D !== 'undefined' && FIC ? FIC.lakes.map((d) => new Path2D(d)) : [];
 const FBOX = FIC ? FIC.box.map((v) => v / 4) : [0, 0, 0, 0];
 const inFbox = (b: number[]) => b[0] >= FBOX[0] && b[2] <= FBOX[2] && b[1] >= FBOX[1] && b[3] <= FBOX[3];
-const ficSkip = (p: {k: number; bbox: number[]}, fic: boolean) => (FICK.has(p.k) ? !fic : fic && inFbox(p.bbox));
+const ficSkip = (p: {k: number; bbox: number[]}, fic: boolean) => (FICK.has(p.k) ? !fic : fic && (inFbox(p.bbox) || FICHIDE.has(p.k)));
 const patCache = new Map<number, CanvasPattern>();
 let WAVE: CanvasPattern | null = null;
 let BASE_SOFT: HTMLCanvasElement | null = null;
