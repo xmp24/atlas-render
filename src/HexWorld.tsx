@@ -12,7 +12,7 @@ export const COUNTRIES = (ST as any).countries as {c: string; n: string; cont: s
 export const NK = COUNTRIES.length;
 export const CODE = COUNTRIES.map((c) => c.c);
 export const KOF: Record<string, number> = Object.fromEntries(CODE.map((c, i) => [c, i]));
-export const FIC = ((ST as any).fic || null) as null | {codes: string[]; rivers: [number, string][]; lakes: string[]; box: number[]; border: number[][]};
+export const FIC = ((ST as any).fic || null) as null | {patch: number[]; codes: string[]; rivers: [number, string][]; lakes: string[]; box: number[]; border: number[][]};
 export const FICK = new Set<number>((FIC ? FIC.codes : []).map((c) => KOF[c]));
 export const RIVERS = (ST as any).rivers as [number, string][];
 export const LAKES = (ST as any).lakes as string[];
@@ -49,6 +49,7 @@ if (typeof window !== 'undefined' && !loaded) {
   for (const c of CODE) jobs.push(loadImg('f-' + c, staticFile(`wflags/${c.toLowerCase()}.svg`)));
   for (const c of ['EU', 'SU']) jobs.push(loadImg('f-' + c, staticFile(`wflags/${c.toLowerCase()}.svg`)));
   for (const n of ICONS) jobs.push(loadImg('i-' + n, staticFile(`hw/icons/${n}.svg`)));
+  if ((ST as any).fic) jobs.push(loadImg('ficbase', staticFile('hw/fic_base.png')), loadImg('ficshade', staticFile('hw/fic_shade.png')));
   jobs.push(loadImg('base', staticFile('hw/base.jpg')), loadImg('shade', staticFile('hw/shade.png')), loadImg('marble', staticFile('hw/marble2k.jpg')), loadImg('stars', staticFile('hw/stars.jpg')));
   Promise.all(jobs).then(() => {
     // color principal de cada bandera

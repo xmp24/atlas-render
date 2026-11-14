@@ -113,6 +113,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
     if (s > 1.6 && !BASE_SOFT) { const c = document.createElement('canvas'); c.width = 1920; c.height = 1080; const g = c.getContext('2d')!; g.filter = 'blur(2px)'; g.drawImage(IMG.base, 0, 0, 1920, 1080); BASE_SOFT = c; }
     ctx.drawImage(s > 1.6 && BASE_SOFT ? BASE_SOFT : IMG.base, 0, 0, MAPW, MAPH);
   }
+  if ((o as any).fic && FIC && IMG.ficbase) ctx.drawImage(IMG.ficbase, FIC.patch[0], FIC.patch[1], FIC.patch[2], FIC.patch[3]);
   if (o.waves && s > 0.9) {
     if (!WAVE) { const c = document.createElement('canvas'); c.width = 140; c.height = 70; const g = c.getContext('2d')!; g.strokeStyle = 'rgba(255,255,255,0.13)'; g.lineWidth = 3; g.lineCap = 'round';
       for (const [oy, ox] of [[18, 0], [53, 70]]) { g.beginPath(); for (let x = -10; x <= 150; x += 4) { const y = oy + Math.sin(((x + ox) / 140) * Math.PI * 2) * 5; if (x === -10) g.moveTo(x, y); else g.lineTo(x, y); } g.stroke(); }
@@ -202,7 +203,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   if ((o as any).extra) (o as any).extra(ctx, o.t, s, vis);
   ctx.restore();
   // relieve
-  if (IMG.shade) { ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = 0.9 * Math.max(0.25, Math.min(1, (3.2 - s) / 1.8)); ctx.drawImage(IMG.shade, 0, 0, MAPW, MAPH); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  if (IMG.shade) { ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = 0.9 * Math.max(0.25, Math.min(1, (3.2 - s) / 1.8)); ctx.drawImage(IMG.shade, 0, 0, MAPW, MAPH); if (FICO && FIC && IMG.ficshade) ctx.drawImage(IMG.ficshade, FIC.patch[0], FIC.patch[1], FIC.patch[2], FIC.patch[3]); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   // ríos y lagos
   if (s > 0.38) {
     const a = Math.min(1, (s - 0.38) / 0.3);

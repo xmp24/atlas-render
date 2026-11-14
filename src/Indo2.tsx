@@ -25,6 +25,7 @@ import J_dbras4 from './hw/dbras4.json';
 import J_dbreu from './hw/dbreu.json';
 import J_cw from './hw/cw.json';
 import J_da from './hw/da.json';
+import J_dbram from './hw/dbram.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -62,7 +63,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, dbram: J_dbram, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -1109,7 +1110,10 @@ const BLK: Record<string, React.FC<{t: number; b: any}>> = {
             <Ball k={k} size={70} mood="angry" t={t + i} /><span style={{...font, fontSize: 34, color: '#fff', width: 300, whiteSpace: 'nowrap'}}>{SNAME(k)}</span>
             <div style={{flex: 1, height: 44, background: '#2a3040', border: `4px solid ${INK}`, borderRadius: 12, overflow: 'hidden'}}><div style={{width: `${w * 100}%`, height: '100%', background: `linear-gradient(90deg, ${MAINCOL[k]}, #ffffff66)`}} /></div>
             <span style={{...font, fontSize: 34, color: YELLOW, width: 220}}>{lab}</span></div>); })}
-      </div></AbsoluteFill>; },
+      </div>
+      {b.stamp && t >= b.stampT && <div style={{position: 'absolute', left: 0, right: 0, top: 380, display: 'flex', justifyContent: 'center', transform: `rotate(-8deg) scale(${2.2 - 1.2 * popT(t, b.stampT, 14)})`, opacity: Math.min(1, (t - b.stampT) / 0.12)}}>
+        <div style={{...font, fontSize: 92, color: '#ff2b3b', border: '12px solid #ff2b3b', borderRadius: 24, padding: '10px 40px 0', background: 'rgba(10,10,16,0.88)', textShadow: `4px 4px 0 ${INK}`}}>{b.stamp}</div></div>}
+      </AbsoluteFill>; },
   stat: ({t, b}) => { const o = fadeIO(t, b.t0, b.t1, 0.15); const v = Math.round(lerp(t, b.t0 + 0.2, b.t1 - 0.6, b.from, b.to, Easing.out(Easing.cubic)));
     return <AbsoluteFill style={{background: `radial-gradient(circle, rgba(0,0,0,${0.35 * o}) 20%, rgba(0,0,0,${0.7 * o}) 100%)`, opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       {b.pre && <div style={{...BIG(70), marginBottom: 10}}>{b.pre}</div>}
@@ -1710,7 +1714,7 @@ const EvHud: React.FC<{t: number}> = ({t}) => {
       const grp = [[-0.25, '🔥 HOT', '#ff5a3a'], [-0.10, '🌤️ WARM', '#ffa53a'], [0.10, '🌥️ COOL', '#7fc8ff'], [0.25, '❄️ COLD', '#e8f6ff']];
       out.push(<AbsoluteFill key="wxi" style={{zIndex: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: p}}>
         <div style={{transform: `scale(${p})`, width: S_ ? VW - 40 : 1300, background: 'rgba(10,16,32,0.95)', border: '7px solid #5fd4ff', borderRadius: 28, padding: '14px 26px 18px'}}>
-          <div style={{textAlign: 'center', ...font, fontSize: 58, color: '#5fd4ff', textShadow: `4px 4px 0 ${INK}`}}>🌧️ STORM SEASON · RAIN & SNOW</div>
+          <div style={{textAlign: 'center', ...font, fontSize: 58, color: '#5fd4ff', textShadow: `4px 4px 0 ${INK}`}}>{WXd.head || '🌧️ STORM SEASON · RAIN & SNOW'}</div>
           <div style={{textAlign: 'center', ...font2, fontSize: 26, color: '#fff', marginBottom: 10}}>FOR ~2 MINUTES THE WEATHER CHANGES EVERY WHEEL</div>
           {grp.map(([m, lab, col]: any, gi) => { const ks = Object.entries(WXd.mods).filter(([c, v]: any) => Math.abs(v - m) < 0.001).map(([c]) => CODEK[c]).filter((k: number) => alive_.has(k));
             return <div key={gi} style={{display: 'flex', alignItems: 'center', gap: 14, marginTop: 8, transform: `translateX(${(1 - popT(t, WXd.t0 + 1.9 + gi * 0.25, 10)) * -200}px)`}}>
@@ -1731,7 +1735,7 @@ const EvHud: React.FC<{t: number}> = ({t}) => {
         <div style={{...font2, fontSize: S_ ? 26 : 30, color: '#fff', marginBottom: 16, textAlign: 'center'}}>{E.teams.length} TEAMS · {E.teams.length - 1} BUNKERS · THE TEAM LEFT OUTSIDE IS ELIMINATED</div>
         <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 14, width: S_ ? VW - 40 : 1500}}>
           {(E.teams as number[][]).map((tm, i) => <div key={i} style={{transform: `scale(${popT(t, E.intro[0] + 0.15 * i, 11)})`, width: S_ ? 240 : 340, background: 'rgba(12,16,28,0.95)', border: `5px solid ${TEAMCOL[i]}`, borderRadius: 18, padding: '6px 10px'}}>
-            <div style={{...font, fontSize: 30, color: TEAMCOL[i], textAlign: 'center'}}>TEAM {i + 1}</div>
+            <div style={{...font, fontSize: 30, color: TEAMCOL[i], textAlign: 'center'}}>{E.names ? E.names[i] : `TEAM ${i + 1}`}</div>
             <div style={{display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center'}}>{tm.map((k) => <FlagImg key={k} k={k} w={S_ ? 46 : 62} h={S_ ? 31 : 42} />)}</div></div>)}
         </div></AbsoluteFill>);
     }
@@ -1752,11 +1756,11 @@ const EvHud: React.FC<{t: number}> = ({t}) => {
       out.push(<div key="e1h" style={{position: 'absolute', left: 0, right: 0, top: S_ ? 250 : 18, zIndex: 41, display: 'flex', justifyContent: 'center'}}>
         <div style={{transform: `scale(${popT(t, sc.t0, 11)})`, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(12,16,28,0.95)', border: `5px solid ${sc.last ? '#ff3b3b' : '#ffd23f'}`, borderRadius: 22, padding: '6px 22px 2px'}}>
           <span style={{...font, fontSize: S_ ? 36 : 42, color: '#ffd23f'}}>🏰 {sc.last ? 'THE LAST BUNKER' : `BUNKER ${idx + 1}`}</span>
-          <span style={{...font, fontSize: 30, color: TEAMCOL[sc.w]}}>TEAM {sc.w + 1}</span>
-          {tl && <><span style={{...font, fontSize: 28, color: '#fff'}}>VS</span><span style={{...font, fontSize: 30, color: TEAMCOL[sc.l]}}>TEAM {sc.l + 1}</span></>}
+          <span style={{...font, fontSize: 30, color: TEAMCOL[sc.w]}}>{E.names ? E.names[sc.w] : `TEAM ${sc.w + 1}`}</span>
+          {tl && <><span style={{...font, fontSize: 28, color: '#fff'}}>VS</span><span style={{...font, fontSize: 30, color: TEAMCOL[sc.l]}}>{E.names ? E.names[sc.l] : `TEAM ${sc.l + 1}`}</span></>}
         </div></div>);
       if (t >= sc.tcap) out.push(<div key="e1sv" style={{position: 'absolute', left: 0, right: 0, top: S_ ? 620 : 200, zIndex: 41, display: 'flex', justifyContent: 'center'}}>
-        <div style={{transform: `scale(${popT(t, sc.tcap, 8)}) rotate(-4deg)`, background: '#22c55e', border: `7px solid ${INK}`, borderRadius: 22, padding: '6px 30px 0', ...font, fontSize: S_ ? 62 : 72, color: '#fff', textShadow: `4px 4px 0 ${INK}`, display: 'flex', alignItems: 'center', gap: 12}}>✅ TEAM {sc.w + 1} SAVED {tw.map((k: number) => <FlagImg key={k} k={k} w={50} h={34} />)}</div></div>);
+        <div style={{transform: `scale(${popT(t, sc.tcap, 8)}) rotate(-4deg)`, background: '#22c55e', border: `7px solid ${INK}`, borderRadius: 22, padding: '6px 30px 0', ...font, fontSize: S_ ? 62 : 72, color: '#fff', textShadow: `4px 4px 0 ${INK}`, display: 'flex', alignItems: 'center', gap: 12}}>✅ {E.names ? E.names[sc.w] : `TEAM ${sc.w + 1}`} SAVED {tw.map((k: number) => <FlagImg key={k} k={k} w={50} h={34} />)}</div></div>);
     }
   }
   // Evento 2: blitz

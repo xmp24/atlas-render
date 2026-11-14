@@ -96,6 +96,7 @@ export const RootHW: React.FC = () => (
     <Composition id="S-tlua" component={Indo2} durationInFrames={1195} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'tlua', W: 1080, H: 1920, zf: 1.0, sdur: 39.84, hook: ["RUSSIA vs UKRAINE", "EVERY MONTH IN 40s"], cta: ["WHAT HAPPENS NEXT?", "COMMENT \ud83d\udc47"]}} />
     <Composition id="S-tlde" component={Indo2} durationInFrames={1309} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'tlde', W: 1080, H: 1920, zf: 1.0, sdur: 43.64, hook: ["GERMANY'S EMPIRE", "RISE AND FALL"], cta: ["WHICH MONTH SHOCKED YOU?", "COMMENT \ud83d\udc47"]}} />
     <Composition id="TL-dbr4-A" component={ThumbDbr4} durationInFrames={indoFrames('dbras4')} fps={30} width={1920} height={1080} defaultProps={{v: 'A'}} />
+    <Composition id="V-dbram" component={Indo2} durationInFrames={indoFrames('dbram')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbram'}} />
     <Composition id="V-da" component={Indo2} durationInFrames={indoFrames('da')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'da'}} />
     <Composition id="V-cw" component={Indo2} durationInFrames={indoFrames('cw')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'cw'}} />
     <Composition id="V-dbreu" component={Indo2} durationInFrames={indoFrames('dbreu')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbreu'}} />
