@@ -1074,6 +1074,37 @@ const BLK: Record<string, React.FC<{t: number; b: any}>> = {
       </div>
     </AbsoluteFill>;
   },
+  elim: ({t, b}) => {
+    const ks: number[] = b.ks; const n = ks.length; const cols = b.cols || 10; const sz = b.size || 112; const gap = 18;
+    const W_ = cols * (sz + gap) - gap; const rows = Math.ceil(n / cols); const H_ = rows * (sz + gap + 8);
+    const x0 = (VW - W_) / 2, y0 = 250; const keep = b.keep; const xs = b.xsT, xe = b.xsEnd;
+    const order = ks.map((_, i) => i).filter((i) => i !== keep);
+    const tx = (j: number) => xs + (xe - xs) * Math.pow((j + 1) / order.length, 0.62);
+    const nCross = order.filter((_, j) => t >= tx(j)).length; const left = n - nCross;
+    const fin = t >= xe + 0.15; const fz = fin ? Easing.out(Easing.cubic)(Math.min(1, (t - xe - 0.15) / 0.7)) : 0;
+    const o = Math.min(1, (b.t1 - t) / 0.3); const lastX = order.map((_, j) => tx(j)).filter((v) => v <= t).slice(-1)[0] ?? -9;
+    const shk = t - lastX < 0.12 ? (1 - (t - lastX) / 0.12) * 6 : 0;
+    return <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 45%, #2a1018 0%, #07080d 72%)', opacity: o, transform: `translate(${Math.sin(t * 90) * shk}px, ${Math.cos(t * 70) * shk}px)`}}>
+      <div style={{position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center', opacity: 1 - fz}}>
+        <span style={{...font, fontSize: 150, color: left <= 3 ? '#ff2b3b' : '#fff', textShadow: `8px 8px 0 ${INK}`, display: 'inline-block', transform: `scale(${t - lastX < 0.2 ? 1.12 - 0.12 * (t - lastX) / 0.2 : 1})`}}>{left}</span>
+        <span style={{...font, fontSize: 70, color: YELLOW, textShadow: `5px 5px 0 ${INK}`, marginLeft: 22}}>{b.unit || 'COUNTRIES'} LEFT</span></div>
+      {ks.map((k, i) => { const r = Math.floor(i / cols), c = i % cols; const rowN = Math.min(cols, n - r * cols); const ox = (cols - rowN) * (sz + gap) / 2;
+        const x = x0 + ox + c * (sz + gap), y = y0 + r * (sz + gap + 8); const ti = b.t0 + 0.08 + i * (b.step || 0.025); const u = popT(t, ti, 12);
+        const j = order.indexOf(i); const crossed = j >= 0 && t >= tx(j); const cu = crossed ? Math.min(1, (t - tx(j)) / 0.25) : 0;
+        if (i === keep) { const cx = VW / 2 - 120 - sz * 3.2, cy = VH / 2 - sz * 1.6 - 20; const px = x + (cx - x) * fz, py = y + (cy - y) * fz; const scl = 1 + 2.2 * fz;
+          return <div key={k} style={{position: 'absolute', left: px, top: py, width: sz, height: sz, transform: `scale(${u * scl})`, transformOrigin: 'top left', zIndex: 5}}>
+            {fin && <div style={{position: 'absolute', left: -sz * 0.6, top: -sz * 0.6, width: sz * 2.2, height: sz * 2.2, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,210,63,0.75) 0%, rgba(255,210,63,0) 65%)', transform: `rotate(${t * 40}deg)`}} />}
+            <div style={{position: 'absolute', inset: 0, borderRadius: '50%', background: '#111', border: `5px solid ${YELLOW}`, display: 'flex', alignItems: 'center', justifyContent: 'center', ...font, fontSize: sz * 0.66, color: YELLOW, boxShadow: `0 0 ${20 + 14 * Math.sin(t * 9)}px #ffd23f`}}>?</div></div>; }
+        return <div key={k} style={{position: 'absolute', left: x, top: y, width: sz, height: sz + 8, transform: `translateY(${(1 - u) * -600}px) scale(${1 - 0.25 * cu})`, opacity: (crossed ? 1 - 0.65 * cu : 1) * (1 - fz), filter: crossed ? `grayscale(${cu})` : undefined}}>
+          <Ball k={k} size={sz} mood={crossed ? 'scared' : 'angry'} t={t + i} />
+          {crossed && <span style={{position: 'absolute', left: 0, right: 0, top: -sz * 0.18, textAlign: 'center', ...font, fontSize: sz * 1.15, color: '#ff1f2f', lineHeight: 1, transform: `scale(${1.8 - 0.8 * popT(t, tx(j), 16)})`, textShadow: `4px 4px 0 ${INK}`}}>✕</span>}
+        </div>; })}
+      {fin && <div style={{position: 'absolute', left: VW / 2 - 40, top: VH / 2 - 170, opacity: fz, transform: `translateX(${(1 - fz) * 200}px)`}}>
+        <div style={{...font, fontSize: 104, color: '#fff', textShadow: `7px 7px 0 ${INK}`, lineHeight: 0.95}}>{b.fin1 || 'ONLY ONE'}</div>
+        <div style={{...font, fontSize: 104, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, lineHeight: 0.95}}>{b.fin2 || 'SURVIVES'}</div>
+        {b.pill && <div style={{marginTop: 22, opacity: popT(t, xe + 0.9, 10)}}><Pill bg={RED} style={{padding: '6px 22px 0', ...font, fontSize: 38, color: '#fff'}}>{b.pill}</Pill></div>}</div>}
+    </AbsoluteFill>;
+  },
   mapTitle: ({t, b}) => { const a = popT(t, b.t0 + 0.15, 10) * lerp(t, b.t1 - 0.3, b.t1, 1, 0); return <AbsoluteFill style={{pointerEvents: 'none'}}>
     <div style={{position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center', transform: `scale(${0.7 + 0.3 * a})`, opacity: a}}>
       <div style={{...BIG(90), textShadow: `6px 6px 0 ${INK}`}}>{b.l1}</div><div style={{...BIG(130, YELLOW), marginTop: 6}}>{b.l2}</div></div>
@@ -1216,7 +1247,7 @@ const ColdOpen: React.FC<{tR: number}> = ({tR}) => {
     {inClip && <AbsoluteFill style={{zIndex: 61, pointerEvents: 'none', background: 'rgba(120,20,10,0.18)', mixBlendMode: 'overlay'}} />}
     <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 120 * lb, background: '#000', zIndex: 62}} />
     <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 120 * lb, background: '#000', zIndex: 62}} />
-    {inClip && ci >= 0 && C.tags && C.tags[ci] && <div style={{position: 'absolute', left: 60, bottom: 30, zIndex: 63, ...font, fontSize: 40, color: '#fff', opacity: 0.85 * popT(tR, clips[ci][0] + 0.2, 8), letterSpacing: 4}}>{C.tags[ci]}</div>}
+    {inClip && ci >= 0 && C.tags && C.tags[ci] && <div style={{position: 'absolute', left: 0, right: 0, bottom: 150, zIndex: 63, display: 'flex', justifyContent: 'center'}}><div style={{...font, fontSize: 96, color: ci % 2 ? YELLOW : '#fff', textShadow: `7px 7px 0 ${INK}`, WebkitTextStroke: `4px ${INK}`, paintOrder: 'stroke fill', transform: `scale(${1.5 - 0.5 * popT(tR, clips[ci][0] + 0.05, 14)}) rotate(${ci % 2 ? 2 : -2}deg)`, opacity: popT(tR, clips[ci][0] + 0.05, 14)}}>{C.tags[ci]}</div></div>}
     <AbsoluteFill style={{zIndex: 64, background: '#000', opacity: black, pointerEvents: 'none'}} />
     {flash > 0 && <AbsoluteFill style={{zIndex: 65, background: '#fff', opacity: flash * 0.7}} />}
     {tR >= C.p0 && <AbsoluteFill style={{zIndex: 66, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 18, pointerEvents: 'none'}}>
