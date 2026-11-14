@@ -52,7 +52,7 @@ export const IronMaiden: React.FC<{ open: number; f: number }> = ({ open, f }) =
   const doorL = useMemo(() => new THREE.LatheGeometry(pts, 16, Math.PI * 1.5, Math.PI / 2), [pts]);
   const mat = <meshStandardMaterial map={iron} metalness={0.6} roughness={0.5} envMap={env} envMapIntensity={0.4} side={THREE.DoubleSide} />;
   const spikeM = <meshStandardMaterial color="#9a958e" metalness={0.85} roughness={0.3} />;
-  const spike = (key: string, a: number, y: number, r: number) => <mesh key={key} position={[Math.sin(a) * r, y, Math.cos(a) * r]} quaternion={new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(-Math.sin(a), 0, -Math.cos(a)))}><coneGeometry args={[0.016, 0.15, 6]} />{spikeM}</mesh>;
+  const spike = (key: string, a: number, y: number, r: number) => <mesh key={key} position={[Math.sin(a) * r, y, Math.cos(a) * r]} quaternion={new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(-Math.sin(a), 0, -Math.cos(a)))}><coneGeometry args={[0.024, 0.22, 6]} />{spikeM}</mesh>;
   return <group>
     <mesh geometry={body} castShadow>{mat}</mesh>
     {Array.from({ length: 14 }).map((_, i) => spike("b" + i, Math.PI / 2 + 0.25 + random("bs" + i) * (Math.PI - 0.5), 0.45 + random("by" + i) * 1.3, 0.34))}
@@ -90,8 +90,9 @@ export const MuseumSet: React.FC<{ f: number; open: number; dim?: number; spot?:
       {[-0.3, 0.05, 0.35].map((x, i) => <mesh key={i} position={[x, 1.1, 0]} rotation={[0, 0, 0.3 * i]}><torusGeometry args={[0.08, 0.015, 8, 16]} /><meshStandardMaterial map={ironTex()} metalness={0.7} /></mesh>)}</group>
     {/* spotlights */}
     <spotLight position={[0, 5.5, 1.2]} target-position={[0, 1.3, -1.25]} angle={0.32} penumbra={0.5} intensity={60 * spot} distance={12} decay={1.6} color="#ffe8c8" castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
-    <spotLight position={[-3.6, 5, 0.5]} target-position={[-3.6, 1.2, -2.2]} angle={0.3} penumbra={0.6} intensity={18 * dim} distance={9} decay={1.6} color="#ffe0c0" />
-    <spotLight position={[3.6, 5, 0.5]} target-position={[3.6, 1.2, -2.2]} angle={0.3} penumbra={0.6} intensity={18 * dim} distance={9} decay={1.6} color="#ffe0c0" />
+    <spotLight position={[-3.6, 5, 0.5]} target-position={[-3.6, 1.2, -2.2]} angle={0.3} penumbra={0.6} intensity={45 * dim} distance={9} decay={1.6} color="#ffe0c0" />
+    <pointLight position={[-3.4, 2.2, -1.2]} intensity={3 * dim} distance={3.5} color="#ffd8b0" /><pointLight position={[3.4, 2.2, -1.2]} intensity={3 * dim} distance={3.5} color="#ffd8b0" />
+    <spotLight position={[3.6, 5, 0.5]} target-position={[3.6, 1.2, -2.2]} angle={0.3} penumbra={0.6} intensity={45 * dim} distance={9} decay={1.6} color="#ffe0c0" />
     {visitors.map(([p, ry, k], i) => <Bot key={i} pos={p} ry={ry} p={idleBP(f + i * 30, { ...STAND, lArmX: i === 1 ? -50 : 4, lElbow: i === 1 ? -60 : -10, headX: -6 })} f={f + i * 30} outfit={k} hood={false} eyes="scared" pupil={0.9} scale={0.98} />)}
     <Mist f={f} n={8} area={[-5, 5, -2, 3]} y={0.2} col="#5a4a48" o={0.05} />
   </group>;
@@ -122,6 +123,8 @@ export const SquareSet: React.FC<{ f: number; stage: "tie" | "strike" | "raised"
     {houses.map(([p, ry, w, d, h], i) => <House key={i} p={p} ry={ry} w={w} d={d} h={h} seed={"sq" + i} lit={1} />)}
     {/* church tower */}
     <Tower p={[-2, 0, -14]} w={3.2} h={12} tex={stone} cap="spire" capCol="#2e3236" />
+    <pointLight position={[2.5, 4.5, 4]} intensity={9} distance={14} decay={1.5} color="#ffb880" />
+    <pointLight position={[-3, 3.5, 2]} intensity={4} distance={10} decay={1.5} color="#9aa8d8" />
     {/* scaffold */}
     <group position={[0, 0, 0]}>
       <Box p={[0, 0.9, 0]} s={[4.2, 0.14, 3.2]} map={wood} />
@@ -154,7 +157,7 @@ export const SquareSet: React.FC<{ f: number; stage: "tie" | "strike" | "raised"
 /* ================= Sicily: temple court with the brazen bull ================= */
 export const Bull: React.FC<{ f: number; heat: number; door: number; roar?: number }> = ({ f, heat, door, roar = 0 }) => {
   const env = useEnv();
-  const br = <meshPhysicalMaterial color="#5e3e1e" metalness={0.9} roughness={0.42} envMap={env} envMapIntensity={0.9} emissive="#ff3008" emissiveIntensity={heat * 0.18} clearcoat={0.3} />;
+  const br = <meshPhysicalMaterial color="#5e3e1e" metalness={0.9} roughness={0.42} envMap={env} envMapIntensity={0.9} emissive="#ff3008" emissiveIntensity={heat * 0.035} clearcoat={0.3} />;
   const horn = <meshPhysicalMaterial color="#c8b48a" metalness={0.6} roughness={0.35} envMap={env} />;
   return <group>
     {/* barrel body, deep chest and shoulder hump */}
@@ -191,7 +194,7 @@ export const Bull: React.FC<{ f: number; heat: number; door: number; roar?: numb
     <group position={[-0.07, 1.32, 0.44]} rotation={[0, -door * 1.6, 0]}><group position={[0.27, 0, 0.0]}><mesh rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.27, 0.27, 0.05, 24]} />{br}</mesh><mesh position={[0.15, 0, 0.03]}><sphereGeometry args={[0.03, 8, 6]} /><meshStandardMaterial color="#3a2010" metalness={0.9} /></mesh></group></group>
     <mesh position={[0.2, 1.32, 0.43]}><torusGeometry args={[0.28, 0.03, 8, 24]} /><meshStandardMaterial color="#3a2410" metalness={0.9} roughness={0.35} /></mesh>
     {door > 0.1 && <mesh position={[0.2, 1.32, 0.42]}><circleGeometry args={[0.27, 24]} /><meshBasicMaterial color="#000" /></mesh>}
-    {heat > 0 && <mesh position={[0, 0.8, 0]} rotation={[Math.PI / 2, 0, 0]}><circleGeometry args={[0.7, 24]} /><meshBasicMaterial color="#ff5010" transparent opacity={heat * 0.4} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} /></mesh>}
+    {heat > 0 && <mesh position={[0, 0.8, 0]} rotation={[Math.PI / 2, 0, 0]}><circleGeometry args={[0.7, 24]} /><meshBasicMaterial color="#ff5010" transparent opacity={heat * 0.15} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} /></mesh>}
   </group>;
 };
 export const SicilySet: React.FC<{ f: number; heat: number; door: number; roar?: number; tyrant?: boolean; victim?: "none" | "walk" | "tyrant"; sculptor?: boolean; walk?: number }> = ({ f, heat, door, roar = 0, tyrant = true, victim = "none", sculptor = false, walk = 0 }) => {
@@ -245,7 +248,7 @@ export const Boats: React.FC<{ f: number; honey: number; flies: number; day: num
     <group position={[0, 0.1, 0]} rotation={[0, Math.PI, 0]}>
       <Bot pos={[0.15, 0, 0]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={{ ...STAND, headX: -4, headY: Math.sin(f / 30) * 10 * (1 - day), lArmZ: -18, rArmZ: 18 }} f={f} outfit="prisoner" hood={false} eyes={day > 0.85 ? "closed" : "scared"} mouth={day > 0.6 ? "slack" : "fear"} brows={1} tired={day} lid={day * 0.7} pupil={0.8} ground={false} />
     </group>
-    {honey > 0 && <mesh position={[1.44, 0.12, 0]} scale={[0.85, 0.6, 0.85]}><sphereGeometry args={[0.215, 24, 16]} /><meshPhysicalMaterial color="#d8901a" roughness={0.08} transparent opacity={0.22 * honey} clearcoat={1} depthWrite={false} /></mesh>}
+    {honey > 0 && Array.from({ length: 14 }).map((_, i) => { const a = random("ha" + i) * Math.PI * 2, b = random("hb" + i) * 1.2; return <mesh key={"h" + i} position={[1.44 + Math.cos(a) * Math.sin(b) * 0.2, 0.12 + Math.cos(b) * 0.2, Math.sin(a) * Math.sin(b) * 0.2]} scale={[1, 1.6, 1]}><sphereGeometry args={[0.018 * honey, 10, 8]} /><meshPhysicalMaterial color="#e09a20" roughness={0.05} clearcoat={1} emissive="#5a3000" emissiveIntensity={0.3} /></mesh>; })}
     {/* hands and feet out of the sides */}
     {[[-1.0, 0.36], [-1.0, -0.36], [0.6, 0.36], [0.6, -0.36]].map(([x, z], i) => <mesh key={i} position={[x, 0.09, z * 1.12]}><sphereGeometry args={[0.045, 12, 10]} /><meshStandardMaterial color="#d9c3a6" roughness={0.6} /></mesh>)}
     {/* flies */}
@@ -257,9 +260,9 @@ export const MarshSet: React.FC<{ f: number; honey: number; flies: number; day: 
   const env = useEnv();
   return <group>
     <Sky kind={night ? "night" : "haze"} f={f} stars={night ? 0.8 : 0} sun={night ? undefined : [-14, 26, -70]} sunCol="#fff0b0" moon={night ? [-20, 30, -70] : undefined} clouds={6} cloudCol={night ? "#2a3048" : "#c8c0a0"} />
-    <ambientLight intensity={night ? 0.15 : 0.35} color={night ? "#5a6a9a" : "#d8d0a8"} />
+    <ambientLight intensity={night ? 0.35 : 0.35} color={night ? "#5a6a9a" : "#d8d0a8"} />
     <hemisphereLight args={[night ? "#3a4a7a" : "#fff0c0", "#2a2a18", night ? 0.25 : 0.6]} />
-    <directionalLight position={[-14, 26, -20]} intensity={night ? 0.5 : 3.2 * sunK} color={night ? "#9aa8d8" : "#fff2c8"} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={8} shadow-camera-bottom={-8} />
+    <directionalLight position={[-14, 26, -20]} intensity={night ? 1.6 : 3.2 * sunK} color={night ? "#9aa8d8" : "#fff2c8"} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={8} shadow-camera-bottom={-8} />
     {/* stagnant water + muddy banks */}
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow><planeGeometry args={[80, 80]} /><meshStandardMaterial color="#2a2e1a" roughness={0.98} /></mesh>
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0, 0]}><circleGeometry args={[9, 48]} /><meshPhysicalMaterial color="#2a3a22" roughness={0.12} metalness={0.3} envMap={env} envMapIntensity={0.5} transparent opacity={0.92} /></mesh>
@@ -274,6 +277,6 @@ export const MarshSet: React.FC<{ f: number; honey: number; flies: number; day: 
     {guards && [[-3.2, 3], [3.4, 2.6]].map(([x, z], i) => <Bot key={i} pos={[x, 0, z]} ry={Math.atan2(-x, -z)} p={idleBP(f + i * 30, { ...STAND, rArmX: -20, rElbow: -70 })} f={f + i * 30} outfit="guard" hood={false} helmet eyes="angry"
       rHandItem={<group rotation={[Math.PI / 2 - 0.2, 0, 0]}><mesh position={[0, 0.3, 0]}><cylinderGeometry args={[0.018, 0.018, 2.2, 8]} /><meshStandardMaterial color="#4a3020" /></mesh><mesh position={[0, 1.45, 0]}><coneGeometry args={[0.05, 0.22, 4]} /><meshStandardMaterial color="#b08a50" metalness={0.9} roughness={0.3} /></mesh></group>} />)}
     {/* heat haze dust */}
-    <Mist f={f} n={10} area={[-10, 10, -8, 6]} y={0.4} col={night ? "#5a6a8a" : "#e8e0b0"} o={0.06} s={4} />
+    <Mist f={f} n={8} area={[-10, 10, -8, -2]} y={0.4} col={night ? "#5a6a8a" : "#e8e0b0"} o={0.04} s={4} />
   </group>;
 };

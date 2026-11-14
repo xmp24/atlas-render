@@ -20,7 +20,7 @@ type SC = { at: number; C: React.FC<{ f: number; len: number }>; tr?: "fade" | "
 
 /* ---------------- 3D shots ---------------- */
 const Strap: React.FC<{ f: number; len: number; shots: Shot[]; lift?: (f: number) => number; weight?: number; pain?: number; exp?: number }> = ({ f, len, shots, lift = () => 0, weight = 0, pain = 0, exp = 1.2 }) => {
-  const l = lift(f);
+  const l = lift(f); exp *= 1.25;
   return <Stage f={f} len={len} shots={shots} exp={exp} fog={["#08080b", 9, 22]}><StrappadoSet f={f} lift={l} weight={weight} sway={l} crank={l * 14} pain={pain * l} /></Stage>;
 };
 const Rat: React.FC<{ f: number; len: number; shots: Shot[]; potOn?: number; heat?: number; ratIn?: number; panic?: number; cut?: number; lit?: number; exp?: number }> = ({ f, len, shots, potOn = 0, heat = 0, ratIn = 0, panic = 0, cut = 0, lit = 1, exp = 1.2 }) =>
@@ -38,7 +38,7 @@ const Rack: React.FC<{ f: number; len: number; shots: Shot[]; turn?: number; str
   <Stage f={f} len={len} shots={shots} exp={exp} fog={["#08080b", 9, 22]}><RackSet f={f} turn={turn} strain={strain} noPrisoner={empty} /></Stage>;
 const Tow: React.FC<{ f: number; len: number; shots: Shot[] }> = ({ f, len, shots }) => <Stage f={f} len={len} shots={shots} exp={1.25} fog={["#0a0e18", 25, 90]}><TowerExt f={f} /></Stage>;
 const Mus: React.FC<{ f: number; len: number; shots: Shot[]; open?: number; dim?: number; spot?: number; exp?: number }> = ({ f, len, shots, open = 0, dim = 1, spot = 1, exp = 1.2 }) =>
-  <Stage f={f} len={len} shots={shots} exp={exp} fog={["#050404", 8, 20]}><MuseumSet f={f} open={open} dim={dim} spot={spot} /></Stage>;
+  <Stage f={f} len={len} shots={shots} exp={exp * 1.3} fog={["#050404", 8, 20]}><MuseumSet f={f} open={open} dim={dim} spot={spot} /></Stage>;
 const Sq: React.FC<{ f: number; len: number; shots: Shot[]; stage: "tie" | "strike" | "raised" | "judge"; sky?: "dusk" | "storm" | "sunset"; exp?: number }> = ({ f, len, shots, stage, sky = "dusk", exp = 1.1 }) =>
   <Stage f={f} len={len} shots={shots} exp={exp} fog={[sky === "storm" ? "#16181e" : "#3a2430", 18, 60]}><SquareSet f={f} stage={stage} sky={sky} /></Stage>;
 const Sic: React.FC<{ f: number; len: number; shots: Shot[]; heat?: number; door?: number; roar?: number; sculptor?: boolean; victim?: "none" | "walk" | "tyrant"; walk?: number; exp?: number }> = ({ f, len, shots, heat = 0, door = 0, roar = 0, sculptor, victim = "none", walk = 0, exp = 1.05 }) =>
@@ -78,7 +78,7 @@ const SCENES: SC[] = [
   { at: 0, tr: "cut", C: ({ f, len }) => <Mar f={f} len={len} flies={0.8} day={0.4} exp={0.85} shots={[[0, C([2.4, 0.7, 1.2], HEADM, 30), C([2.1, 0.6, 1.05], HEADM, 26)]]} /> },
   { at: L(1), C: ({ f, len }) => <Mar f={f} len={len} flies={1} day={0.7} shots={[[0, C([6.5, 3.2, 5.5], [0.5, 0.2, 0], 36), C([5.2, 2.4, 4.4], [0.6, 0.2, 0], 34)]]} /> },
   { at: L(3), tr: "flash", C: ({ f, len }) => <Sic f={f} len={len} heat={1} roar={1} exp={0.8} shots={[[0, C([-3.8, 1.2, 4.2], [0.6, 1.5, 0], 40), C([-3.2, 1.1, 3.6], [0.6, 1.5, 0], 38)]]} /> },
-  { at: L(3) + 58, tr: "flash", C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="storm" shots={[[0, C([4, 2.2, 6], [0, 4.8, 0], 40), C([3.2, 2.4, 5.2], [0, 5, 0], 38)]]} /> },
+  { at: L(3) + 58, tr: "flash", C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="storm" shots={[[0, C([5, 3.0, 8.5], [0, 4.6, 0], 40), C([4.2, 3.0, 7.6], [0, 4.8, 0], 38)]]} /> },
   { at: L(4), tr: "flash", C: ({ f, len }) => <Rack f={f} len={len} turn={1 + f / 20} strain={0.9} shots={[[0, C([0.4, 1.5, 1.3], [-0.2, 0.9, 0.2], 36), C([0.2, 1.45, 1.1], [-0.3, 0.9, 0.2], 34)]]} /> },
   { at: L(5), tr: "dark", C: ({ f, len }) => <Mus f={f} len={len} open={k01(f, 30, 120)} shots={[[0, C([0, 1.5, 5.5], [0, 1.4, -1.2], 36), C([0, 1.55, 3.6], [0, 1.5, -1.2], 34)]]} /> },
   { at: L(7), tr: "dark", C: ({ f, len }) => <Strap f={f} len={len} exp={0.75} shots={[[0, C([-3.2, 2.2, 3.6], [0.4, 1.6, -1], 46), C([-2.8, 2.1, 3.2], [0.5, 1.6, -1], 46)]]} /> },
@@ -93,7 +93,7 @@ const SCENES: SC[] = [
   // #7 STRAPPADO
   { at: L(18), tr: "dark", C: ({ f, len }) => <Strap f={f} len={len} shots={[[0, STW, STW2]]} /> },
   { at: L(21), C: ({ f, len }) => <Strap f={f} len={len} shots={[[0, C([1.4, 1.3, 2.0], [0, 1.2, 0], 40), C([1.2, 1.6, 1.8], [0, 3.4, 0], 40)]]} /> },
-  { at: L(22), C: ({ f, len }) => <Strap f={f} len={len} shots={[[0, C([-0.8, 1.2, -1.3], [0, 1.0, 0], 36), C([-0.6, 1.25, -1.1], [0, 1.0, 0], 34)]]} /> },
+  { at: L(22), C: ({ f, len }) => <Strap f={f} len={len} shots={[[0, C([-1.4, 1.4, -2.0], [0, 1.0, 0], 38), C([-1.2, 1.4, -1.8], [0, 1.0, 0], 36)]]} /> },
   { at: L(23), C: ({ f, len }) => <Strap f={f} len={len} lift={(g) => k01(g, 12, 110)} pain={1} shots={[[0, C([2.6, 1.5, 1.9], [0, 1.6, 0], 42), C([2.3, 1.7, 1.7], [0, 1.9, 0], 42)]]} /> },
   { at: L(25), C: ({ f, len }) => <Strap f={f} len={len} lift={() => 1} weight={1} pain={1} shots={[[0, C([0.9, 0.9, 1.3], [0, 0.9, 0], 38), C([0.8, 1.4, 1.2], [0, 1.7, 0], 38)]]} /> },
   { at: L(26), C: ({ f, len }) => <Strap f={f} len={len} lift={(g) => g < 40 ? 1 : g < 48 ? 1 - 0.85 * sm(40, 48, g) : 0.15 + 0.05 * Math.exp(-(g - 48) / 6) * Math.cos((g - 48) / 2)} weight={1} pain={1} shots={[[0, C([-3.4, 1.4, 2.6], [0, 1.5, 0], 44), C([-3.1, 1.4, 2.3], [0, 1.4, 0], 44)]]} /> },
@@ -103,21 +103,21 @@ const SCENES: SC[] = [
   { at: L(33), tr: "dark", C: ({ f, len }) => <Strap f={f} len={len} lift={() => 0.95} exp={0.9} shots={[[0, C([0, 1.9, 2.4], [0, 1.9, 0], 44), C([0, 2.3, 5.0], [0, 2.0, 0], 46)]]} /> },
   // #6 RAT
   { at: L(35), tr: "dark", C: ({ f, len }) => <Rat f={f} len={len} shots={[[0, RATW, RATW2]]} /> },
-  { at: L(37), C: ({ f, len }) => <Rat f={f} len={len} shots={[[0, C([1.3, 1.25, 0.9], [0.75, 0.95, 0.28], 30), C([1.2, 1.2, 0.75], [0.75, 0.95, 0.28], 28)]]} /> },
+  { at: L(37), C: ({ f, len }) => <Rat f={f} len={len} shots={[[0, C([0.95, 1.35, 1.25], [0.75, 0.95, 0.28], 32), C([0.88, 1.3, 1.1], [0.75, 0.95, 0.28], 30)]]} /> },
   { at: L(38), C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={k01(f, 10, 50)} shots={[[0, C([1.1, 1.8, 1.7], [-0.1, 1.0, 0], 38), C([1.0, 1.7, 1.5], [-0.1, 1.0, 0], 36)]]} /> },
   { at: L(39), C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={1} heat={k01(f, 10, 70)} panic={k01(f, 50, 90)} shots={[[0, C([0.9, 1.75, 1.5], [-0.1, 1.0, 0], 36), C([0.8, 1.7, 1.35], [-0.1, 1.0, 0], 34)]]} /> },
   { at: L(40), C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={1} heat={1} panic={1} cut={1} shots={[[0, C([0.7, 1.45, 0.9], [-0.1, 1.05, 0], 32), C([0.62, 1.42, 0.8], [-0.1, 1.05, 0], 30)]]} /> },
   { at: L(42), tr: "dark", C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={1} heat={0.8} panic={0.8} exp={0.75} shots={[[0, C([-1.8, 1.7, 1.6], [0, 1.0, 0], 38), C([-1.5, 1.6, 1.3], [0, 1.0, 0], 36)]]} /> },
-  { at: L(45), C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={1} lit={0} shots={[[0, C([0.7, 1.4, 0.9], [-0.1, 1.08, 0], 32), C([0.0, 1.45, 1.05], [-0.1, 1.08, 0], 32)]]} /> },
-  { at: L(48), C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={1} panic={0.3} lit={0} shots={[[0, C([-0.4, 1.3, 0.7], [-0.6, 1.0, 0], 30), C([-0.35, 1.28, 0.62], [-0.6, 1.0, 0], 28)]]} /> },
-  { at: L(50), C: ({ f, len }) => <Drip f={f} len={len} hits={[20]} shots={[[0, C([-0.4, 1.3, 0.5], [-0.76, 1.15, 0], 30), C([-0.42, 1.28, 0.45], [-0.76, 1.15, 0], 28)]]} /> },
+  { at: L(45), C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={1} lit={0} shots={[[0, C([1.0, 1.6, 1.3], [-0.1, 1.05, 0], 34), C([0.2, 1.65, 1.45], [-0.1, 1.05, 0], 34)]]} /> },
+  { at: L(48), C: ({ f, len }) => <Rat f={f} len={len} ratIn={1} potOn={1} panic={0.3} lit={0} shots={[[0, C([-0.9, 1.6, 1.2], [-0.5, 1.0, 0], 34), C([-0.85, 1.55, 1.1], [-0.5, 1.0, 0], 32)]]} /> },
+  { at: L(50), C: ({ f, len }) => <Drip f={f} len={len} hits={[20]} shots={[[0, C([-0.1, 1.55, 0.95], [-0.72, 1.12, 0], 34), C([-0.15, 1.52, 0.88], [-0.72, 1.12, 0], 32)]]} /> },
   // #5 WATER DROP
   { at: L(51), tr: "dark", C: ({ f, len }) => <Drip f={f} len={len} shots={[[0, DRW, DRW2]]} /> },
   { at: L(53), C: ({ f, len }) => <Drip f={f} len={len} shots={[[0, C([-2.2, 2.2, 2.2], [-0.2, 1.0, 0], 44), C([-1.9, 2.0, 1.9], [-0.2, 1.0, 0], 42)]]} /> },
   { at: L(55), tr: "dark", C: StoneShot },
   { at: L(57), tr: "dark", C: ({ f, len }) => <Drip f={f} len={len} hits={[L(58) - L(57) + 40, L(59) - L(57) + 6]} shots={[[0, C([0.2, 1.75, 1.3], [-0.7, 1.15, 0], 36), C([-0.1, 1.6, 0.85], [-0.75, 1.15, 0], 32)]]} /> },
   { at: L(60), C: ({ f, len }) => <Drip f={f} len={len} hits={randHits("lp", 6, len, 6, 14)} tired={k01(f, 0, len) * 0.7} fspeed={1.3} day={Math.max(0, Math.sin(f / 40))} shots={[[0, C([1.0, 3.3, 1.8], [-0.2, 0.8, -0.2], 44), C([0.8, 3.25, 2.0], [-0.2, 0.8, -0.2], 44)]]} /> },
-  { at: L(64), C: ({ f, len }) => <Drip f={f} len={len} hits={randHits("lq", 10, len, 12, 20)} tired={0.8} shots={[[0, C([-0.35, 1.36, 0.45], [-0.72, 1.12, 0], 30), C([-0.38, 1.34, 0.42], [-0.72, 1.12, 0], 28)]]} /> },
+  { at: L(64), C: ({ f, len }) => <Drip f={f} len={len} hits={randHits("lq", 10, len, 12, 20)} tired={0.8} shots={[[0, C([-0.1, 1.55, 0.95], [-0.72, 1.12, 0], 34), C([-0.15, 1.52, 0.88], [-0.72, 1.12, 0], 32)]]} /> },
   { at: L(65), C: ({ f, len }) => <Drip f={f} len={len} tired={0.6} exp={0.7} shots={[[0, DRW2, DRW]]} /> },
   { at: L(69), tr: "dark", C: ({ f, len }) => <Drip f={f} len={len} hits={randHits("lr", 10, len, 14, 22)} tired={0.9} exp={0.85} shots={[[0, C([0.6, 1.6, 1.4], [-0.6, 1.1, 0], 38), C([0.2, 1.45, 0.9], [-0.7, 1.1, 0], 34)]]} /> },
   // #4 RACK
@@ -131,27 +131,27 @@ const SCENES: SC[] = [
   // TWIST: IRON MAIDEN
   { at: L(87), tr: "cut", C: Black },
   { at: L(88), tr: "fade", C: ({ f, len }) => <Mus f={f} len={len} dim={0.5} spot={k01(f, 20, 60)} shots={[[0, C([0, 1.7, 6.5], [0, 1.4, -1.2], 38), C([0, 1.6, 4.6], [0, 1.4, -1.2], 36)]]} /> },
-  { at: L(90), C: ({ f, len }) => <Mus f={f} len={len} open={k01(f, 5, 60)} shots={[[0, C([0.8, 1.6, 1.2], [0, 1.4, -1.25], 34), C([0.5, 1.55, 0.9], [0, 1.4, -1.25], 32)]]} /> },
-  { at: L(92), C: ({ f, len }) => <Mus f={f} len={len} open={1} dim={0.5} shots={[[0, C([-0.6, 1.9, 1.0], [0, 1.5, -1.25], 32), C([-0.4, 1.8, 0.8], [0, 1.5, -1.25], 30)]]} /> },
+  { at: L(90), C: ({ f, len }) => <Mus f={f} len={len} open={k01(f, 5, 60)} shots={[[0, C([1.1, 1.8, 2.6], [0, 1.5, -1.25], 36), C([0.8, 1.75, 2.2], [0, 1.5, -1.25], 34)]]} /> },
+  { at: L(92), C: ({ f, len }) => <Mus f={f} len={len} open={1} dim={0.5} shots={[[0, C([-0.9, 1.9, 1.9], [0, 1.5, -1.25], 34), C([-0.7, 1.85, 1.6], [0, 1.5, -1.25], 32)]]} /> },
   { at: L(94), C: ({ f, len }) => <Mus f={f} len={len} open={1} shots={[[0, C([2.5, 1.4, 3.6], [0, 1.3, -1.2], 38), C([1.8, 1.5, 3.2], [0, 1.3, -1.2], 38)]]} /> },
   { at: L(96), C: ({ f, len }) => <Mus f={f} len={len} open={1} shots={[[0, C([-1.5, 1.4, 1.5], [-3.6, 1.2, -2.2], 40), C([1.5, 1.4, 1.5], [3.6, 1.2, -2.2], 40)]]} /> },
   { at: L(97), C: ({ f, len }) => <Mus f={f} len={len} open={1} dim={0.4} shots={[[0, C([0, 1.5, 3.0], [0, 1.4, -1.2], 34), C([0, 1.55, 2.6], [0, 1.45, -1.2], 32)]]} /> },
   // #3 WHEEL
   { at: L(99), tr: "dark", C: ({ f, len }) => <Sq f={f} len={len} stage="tie" shots={[[0, SQW, SQW2]]} /> },
   { at: L(101), C: ({ f, len }) => <Sq f={f} len={len} stage="tie" shots={[[0, C([0, 14, 14], [0, 0, -1], 40), C([3, 11, 12], [0, 0, -1], 40)]]} /> },
-  { at: L(103), C: ({ f, len }) => <Sq f={f} len={len} stage="tie" shots={[[0, C([3.0, 1.6, 7.6], [0, 1.6, 4], 40), C([-2.0, 1.6, 7.6], [0, 1.6, 4], 40)]]} /> },
+  { at: L(103), C: ({ f, len }) => <Sq f={f} len={len} stage="tie" shots={[[0, C([3.0, 2.6, 8.8], [0, 1.3, 4], 40), C([-2.0, 2.6, 8.8], [0, 1.3, 4], 40)]]} /> },
   { at: L(106), C: ({ f, len }) => <Sq f={f} len={len} stage="tie" shots={[[0, C([1.6, 3.2, 2.4], [0, 1.1, 0], 38), C([1.3, 3.0, 2.0], [0, 1.1, 0], 36)]]} /> },
   { at: L(107), C: ({ f, len }) => <Sq f={f} len={len} stage="strike" shots={[[0, C([-4.2, 3.6, 7.2], [0, 1.4, 0], 34), C([-3.6, 3.4, 6.4], [0, 1.4, 0], 32)]]} /> },
-  { at: L(108), tr: "dark", C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="storm" shots={[[0, C([3, 1.4, 5.5], [0, 4.8, 0], 42), C([2.2, 1.5, 4.6], [0, 5.1, 0], 40)]]} /> },
-  { at: L(110), C: ({ f, len }) => <Sq f={f} len={len} stage="judge" shots={[[0, C([-0.4, 2.5, 1.0], [-1.5, 2.2, -1.0], 36), C([-0.6, 2.45, 0.8], [-1.5, 2.25, -1.0], 34)]]} /> },
-  { at: L(113), tr: "dark", C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="storm" exp={0.9} shots={[[0, C([-6, 1.5, 9], [0, 4.5, 0], 40), C([-5, 1.6, 8], [0, 4.6, 0], 40)]]} /> },
-  { at: L(114), C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="sunset" exp={0.8} shots={[[0, C([0, 1.2, 10], [0, 4.6, 0], 36), C([0, 1.3, 8], [0, 4.8, 0], 36)]]} /> },
+  { at: L(108), tr: "dark", C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="storm" shots={[[0, C([3, 1.6, 4.6], [0, 4.8, 0], 44), C([2.4, 1.7, 3.9], [0, 5.1, 0], 42)]]} /> },
+  { at: L(110), C: ({ f, len }) => <Sq f={f} len={len} stage="judge" shots={[[0, C([0.2, 2.6, 1.8], [-1.5, 2.1, -1.0], 38), C([0.0, 2.55, 1.6], [-1.5, 2.15, -1.0], 36)]]} /> },
+  { at: L(113), tr: "dark", C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="storm" exp={0.9} shots={[[0, C([-7, 3.4, 13.5], [0, 4.2, 0], 40), C([-6, 3.4, 12.5], [0, 4.3, 0], 40)]]} /> },
+  { at: L(114), C: ({ f, len }) => <Sq f={f} len={len} stage="raised" sky="sunset" exp={0.8} shots={[[0, C([0, 2.6, 14], [0, 4.4, 0], 36), C([0, 2.8, 12.5], [0, 4.6, 0], 36)]]} /> },
   // #2 BRAZEN BULL
   { at: L(116), tr: "dark", C: ({ f, len }) => <Sic f={f} len={len} shots={[[0, SIW, SIW2]]} /> },
   { at: L(118), C: ({ f, len }) => <Sic f={f} len={len} shots={[[0, C([-2, 6, 16], [0, 2.5, -4], 40), C([1, 5, 14], [0, 2.5, -4], 40)]]} /> },
   { at: L(120), C: ({ f, len }) => <Sic f={f} len={len} shots={[[0, C([2.3, 1.5, 3.4], [4.2, 1.25, 1.2], 32), C([2.6, 1.5, 3.0], [4.2, 1.3, 1.2], 30)]]} /> },
   { at: L(122), C: ({ f, len }) => <Sic f={f} len={len} sculptor shots={[[0, C([-3.8, 1.8, 5.2], [0, 1.4, 0.4], 40), C([-3.0, 1.7, 4.4], [0, 1.4, 0.4], 38)]]} /> },
-  { at: L(123), C: ({ f, len }) => <Sic f={f} len={len} door={k01(f, 4, 30)} shots={[[0, C([0.3, 1.6, 2.6], [0.2, 1.55, 0.5], 32), C([0.25, 1.6, 2.3], [0.2, 1.55, 0.5], 30)]]} /> },
+  { at: L(123), C: ({ f, len }) => <Sic f={f} len={len} door={k01(f, 4, 30)} shots={[[0, C([0.6, 1.7, 3.4], [0.3, 1.4, 0.4], 36), C([0.5, 1.65, 3.0], [0.3, 1.4, 0.4], 34)]]} /> },
   { at: L(124), C: ({ f, len }) => <Sic f={f} len={len} door={1} heat={k01(f, 0, 30)} shots={[[0, C([-1.6, 0.4, 2.6], [0, 0.6, 0], 40), C([-1.4, 0.45, 2.3], [0, 0.65, 0], 38)]]} /> },
   { at: L(125), C: ({ f, len }) => <Sic f={f} len={len} door={1} heat={1} roar={k01(f, 60, 100)} shots={[[0, C([3.2, 1.8, 1.9], [1.5, 1.4, 0], 36), C([2.9, 1.75, 1.6], [1.5, 1.4, 0], 34)]]} /> },
   { at: L(127), tr: "dark", C: ({ f, len }) => <Sic f={f} len={len} sculptor victim="walk" walk={k01(f, 20, 200)} door={1 - k01(f, 210, 240)} heat={k01(f, 200, 250)} exp={0.9} shots={[[0, C([-4.4, 1.9, 5.8], [-0.4, 1.3, 0.6], 40), C([-3.6, 1.8, 4.8], [-0.2, 1.3, 0.6], 38)]]} /> },
@@ -160,13 +160,13 @@ const SCENES: SC[] = [
   // #1 SCAPHISM
   { at: L(134), tr: "dark", C: ({ f, len }) => <Mar f={f} len={len} honey={0} shots={[[0, MAW, MAW2]]} /> },
   { at: L(136), C: ({ f, len }) => <Mar f={f} len={len} honey={0} shots={[[0, C([-8, 3, 9], [0, 0.5, 0], 40), C([-6, 2.6, 8], [0, 0.4, 0], 40)]]} /> },
-  { at: L(137), C: ({ f, len }) => <Mar f={f} len={len} honey={0} shots={[[0, C([2.6, 1.3, -2.0], [0.2, 0.15, 0], 36), C([-1.0, 1.4, 2.6], [0.4, 0.15, 0], 36)]]} /> },
+  { at: L(137), C: ({ f, len }) => <Mar f={f} len={len} honey={0} shots={[[0, C([3.6, 1.9, -2.6], [0.2, 0.15, 0], 38), C([-1.6, 2.0, 3.6], [0.4, 0.15, 0], 38)]]} /> },
   { at: L(139), C: ({ f, len }) => <Mar f={f} len={len} honey={k01(f, 60, 120)} shots={[[0, C([2.3, 0.75, 1.3], HEADM, 30), C([2.1, 0.7, 1.15], HEADM, 28)]]} /> },
   { at: L(141), C: ({ f, len }) => <Mar f={f} len={len} shots={[[0, C([0, 6, 9], [0, 0, 0], 40), C([0, 5, 8], [0, 0, 0], 38)]]} /> },
   { at: L(142), C: ({ f, len }) => <Mar f={f} len={len} flies={k01(f, 0, 40)} day={0.3} shots={[[0, C([2.2, 0.65, 1.1], HEADM, 28), C([2.05, 0.62, 1.0], HEADM, 26)]]} /> },
   { at: L(143), C: ({ f, len }) => <Mar f={f} len={len} flies={1} day={0.4} guards shots={[[0, C([-5.5, 1.8, 6.5], [0, 0.6, 0], 40), C([-4.6, 1.7, 5.6], [0, 0.6, 0], 38)]]} /> },
-  { at: L(146), C: ({ f, len }) => { const ph = Math.floor(f / 13); return <Mar f={f} len={len} flies={1} day={Math.min(1, f / len)} night={ph % 2 === 1} exp={ph % 2 ? 1.3 : 1} shots={[[0, C([4.2, 1.5, 3.0], [0.5, 0.2, 0], 36), C([3.6, 1.3, 2.6], [0.6, 0.2, 0], 34)]]} />; } },
-  { at: L(148), tr: "dark", C: ({ f, len }) => <Mar f={f} len={len} night flies={0.4} day={1} exp={1.1} shots={[[0, C([5.5, 2.0, 4.5], [0.5, 0.2, 0], 38), C([6.5, 2.6, 5.5], [0.5, 0.2, 0], 40)]]} /> },
+  { at: L(146), C: ({ f, len }) => { const ph = Math.floor(f / 13); return <Mar f={f} len={len} flies={1} day={Math.min(1, f / len)} night={ph % 2 === 1} exp={ph % 2 ? 1.6 : 1} shots={[[0, C([4.2, 1.5, 3.0], [0.5, 0.2, 0], 36), C([3.6, 1.3, 2.6], [0.6, 0.2, 0], 34)]]} />; } },
+  { at: L(148), tr: "dark", C: ({ f, len }) => <Mar f={f} len={len} night flies={0.4} day={1} exp={1.5} shots={[[0, C([5.5, 2.0, 4.5], [0.5, 0.2, 0], 38), C([6.5, 2.6, 5.5], [0.5, 0.2, 0], 40)]]} /> },
   // END
   { at: L(150), tr: "dark", C: ({ f, len }) => <Strap f={f} len={len} exp={0.6} shots={[[0, C([-3.2, 2.0, 3.6], [0.6, 1.6, -1], 46), C([-2.6, 1.9, 3.0], [0.6, 1.6, -1], 44)]]} /> },
 ];
@@ -224,7 +224,7 @@ const Overlays: React.FC = () => {
     {at(L(146), L(148) - L(146), (f) => <Counter f={f} len={L(148) - L(146)} label="DAY" value={Math.min(17, 1 + Math.floor(f / 13 / 2) + Math.floor(Math.max(0, f - 120) / 6))} icon={Math.floor(f / 13) % 2 ? "moon" : "sun"} />)}
     {at(L(146) + 10, L(148) - L(146), (f) => <Card f={f} len={L(148) - L(146) - 16} kicker="ACCORDING TO PLUTARCH" title="Mithridates" body="A Persian soldier condemned by the king. He lasted 17 days." icon="scroll" />)}
     {/* end */}
-    {at(L(150), TORT_FRAMES - L(150), (f) => <RankBoard f={f} reveal={7} len={TORT_FRAMES - L(150)} hl={f > 60 ? 6 : -1} x={f < L(153) - L(150) ? 650 : 1180} title="THE FINAL RANKING" />)}
+    {at(L(150), TORT_FRAMES - L(150), (f) => <RankBoard f={f} reveal={7} len={L(155) - L(150) + 6} hl={f > 60 ? 6 : -1} x={f < L(153) - L(150) ? 650 : 1180} title="THE FINAL RANKING" />)}
     {at(L(150), TORT_FRAMES - L(150), (f) => <EndScreen f={f} len={TORT_FRAMES - L(150)} askAt={L(153) - L(150)} nextAt={L(155) - L(150)} />)}
   </>;
 };
