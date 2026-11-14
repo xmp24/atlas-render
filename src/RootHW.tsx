@@ -1,4 +1,5 @@
 import {Miya8, V8_FRAMES} from './Miya8/Video8';
+import {Gota5} from './Gota/Video5';
 import {Gota4, GOTA4_FRAMES} from './Gota/Video4';
 import {Gota3, GOTA3_FRAMES} from './Gota/Video3';
 import {Gota2, GOTA2_FRAMES} from './Gota/Video2';
@@ -63,6 +64,7 @@ export const RootHW: React.FC = () => (
     <Composition id="Gota2N" component={Gota2} durationInFrames={GOTA2_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />
     <Composition id="Gota3N" component={Gota3} durationInFrames={GOTA3_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />
     <Composition id="Gota4N" component={Gota4} durationInFrames={GOTA4_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />
+    <Composition id="Gota5N" component={Gota5} durationInFrames={GOTA4_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />
     <Composition id="Miya13N" component={Miya13} durationInFrames={V13_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />
     <Composition id="Miya13NS" component={Miya13} durationInFrames={V13_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: false}} />
     <Composition id="Miya12N" component={Miya12} durationInFrames={V12_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />
