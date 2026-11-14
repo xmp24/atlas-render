@@ -66,19 +66,19 @@ const LIE: BP = { ...STAND, lean: 0, headX: 0, lArmX: 0, lArmZ: -7, lElbow: -4, 
 const LOOK = -0.35;
 /** prisoner strapped face-up; k = tremble, flinch 0..1, struggle = pulling against the straps (smooth noise, not a sine) */
 const Prisoner: React.FC<{ f: number; k?: number; flinch?: number; eyes?: "scared" | "closed" | "dead"; look?: number; struggle?: number; tired?: number; pupil?: number; xk?: number; wet?: number; sweat?: number; mouth?: Mouth; brows?: number; gaze?: [number, number]; lid?: number; breath?: number; still?: boolean; tears?: number }> = ({ f, k = 0.3, flinch = 0, eyes = "scared", look = LOOK, struggle = 0, tired = 0, pupil = 1, xk = 1, wet = 0, sweat = 0, mouth, brows = 1, gaze, lid, breath = 1, still = false, tears = 0 }) => {
-  const n = (s: string, sp = 1.3) => noise2D(s, f / sp, 0);
-  const sn = (s: string) => noise2D(s, f / 9, 0); // slow effortful pulls
-  const tr = k * 0.01;
+  const n = (s: string, sp = 2.2) => noise2D(s, f / sp, 0);
+  const sn = (s: string) => noise2D(s, f / 16, 0); // slow effortful pulls
+  const kk = k * 0.35, st = struggle * 0.55, fl = flinch * 0.6, tr = kk * 0.003;
   const p: BP = { ...LIE,
-    headY: look * 30 + n("hy", 4) * 8 * k + struggle * sn("sh") * 22,
-    headX: -flinch * 16 + n("hx", 2) * 4 * k - struggle * Math.abs(sn("sx")) * 10,
-    lArmX: struggle * sn("la") * 14 + n("la") * 3 * k, rArmX: struggle * sn("ra") * 14 + n("ra") * 3 * k,
-    lArmZ: -7 - struggle * Math.abs(sn("lz")) * 9, rArmZ: 7 + struggle * Math.abs(sn("rz")) * 9,
-    lElbow: -4 - struggle * Math.abs(sn("le")) * 30 - flinch * 28, rElbow: -4 - struggle * Math.abs(sn("re")) * 30 - flinch * 28,
-    lLegX: struggle * sn("ll") * 8, rLegX: struggle * sn("rl") * 8, lKnee: 1 + struggle * Math.abs(sn("lk")) * 16 + flinch * 12, rKnee: 1 + struggle * Math.abs(sn("rk")) * 16 + flinch * 12,
+    headY: look * 30 + n("hy", 7) * 5 * kk + st * sn("sh") * 16,
+    headX: -fl * 12 + n("hx", 4) * 2 * kk - st * Math.abs(sn("sx")) * 6,
+    lArmX: st * sn("la") * 10 + n("la") * 1.5 * kk, rArmX: st * sn("ra") * 10 + n("ra") * 1.5 * kk,
+    lArmZ: -7 - st * Math.abs(sn("lz")) * 6, rArmZ: 7 + st * Math.abs(sn("rz")) * 6,
+    lElbow: -6 - st * Math.abs(sn("le")) * 22 - fl * 14, rElbow: -6 - st * Math.abs(sn("re")) * 22 - fl * 14,
+    lLegX: st * sn("ll") * 5, rLegX: st * sn("rl") * 5, lKnee: 2 + st * Math.abs(sn("lk")) * 10 + fl * 6, rKnee: 2 + st * Math.abs(sn("rk")) * 10 + fl * 6,
   };
   return <>
-    <Bot pos={[0.9 + n("px", 1) * tr, 0.945 + n("py", 0.9) * tr + flinch * 0.01, n("pz", 1.1) * tr]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={p} f={f} outfit="prisoner" eyes={eyes} hood={false} ground={false} tired={tired} pupil={pupil} xk={xk} lid={lid ?? tired * 0.45} breath={breath} bamp={still ? 0 : 2.4} mouth={mouth ?? (flinch > 0.3 ? "scream" : eyes === "dead" ? "slack" : eyes === "closed" ? "flat" : "fear")} brows={eyes === "dead" ? 0 : brows} look={gaze ?? [noise2D("gx", f / 14, 0) * 0.8, noise2D("gy", f / 17, 0) * 0.6]} />
+    <Bot pos={[0.9 + n("px", 3) * tr, 0.945 + n("py", 3) * tr + fl * 0.004, n("pz", 3) * tr]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={p} f={f} outfit="prisoner" eyes={eyes} hood={false} ground={false} tired={tired} pupil={pupil} xk={xk} lid={lid ?? tired * 0.45} breath={breath} bamp={still ? 0 : 2.4} mouth={mouth ?? (flinch > 0.3 ? "scream" : eyes === "dead" ? "slack" : eyes === "closed" ? "flat" : "fear")} brows={eyes === "dead" ? 0 : brows} look={gaze ?? [noise2D("gx", f / 30, 0) * 0.6, noise2D("gy", f / 36, 0) * 0.4]} />
     {(wet > 0 || sweat > 0) && <Wet wet={wet} sweat={sweat} look={look} />}
     {!still && eyes !== "dead" && <Vapor f={f} rate={breath} />}
     {tears > 0 && <Tears f={f} k={tears} look={look} />}
@@ -91,7 +91,7 @@ const Vapor: React.FC<{ f: number; rate: number }> = ({ f, rate }) => { const pe
 /** tears running from the eye corners toward the temples */
 const Tears: React.FC<{ f: number; k: number; look: number }> = ({ f, k }) => { const env = useEnv(); return <>{[-1, 1].map((sd) => { const q = ((f * 0.012 + (sd > 0 ? 0.5 : 0)) % 1); return <mesh key={sd} material={waterMat(env, 0.9, "t")} position={[HEAD[0] - 0.02 + q * 0.03, HEAD[1] + 0.16 - q * 0.1, sd * (0.075 + q * 0.06) + 0.03]} scale={[1, 1.5, 1]}><sphereGeometry args={[0.006 * k, 8, 6]} /></mesh>; })}</>; };
 const Guard: React.FC<{ pos: [number, number, number]; ry: number; p: BP; f: number }> = ({ pos, ry, p, f }) => <Bot pos={pos} ry={ry} p={p} f={f} scale={1.08} helmet hood={false} outfit="guard" eyes="scared" brows={-1} mouth="flat" pupil={0.8} look={[0, -0.3]} />;
-const flinchAt = (f: number, hits: number[]) => { let v = 0; for (const t of hits) { const q = (f - t) / 12; if (q >= 0 && q < 1) v = Math.max(v, Math.sin(Math.PI * Math.min(1, q * 2.4)) * (1 - q) * 1.2); } return Math.min(1, v); };
+const flinchAt = (f: number, hits: number[]) => { let v = 0; for (const t of hits) { const q = (f - t) / 16; if (q >= 0 && q < 1) { const a = Math.min(1, q * 5); v = Math.max(v, (a * a * (3 - 2 * a)) * Math.pow(1 - q, 1.6)); } } return Math.min(1, v); };
 const randHits = (seed: string, from: number, to: number, min: number, max: number) => { const o: number[] = []; let t = from; let i = 0; while (t < to) { o.push(Math.round(t)); t += min + random(seed + i++) * (max - min); } return o; };
 /** drops for a list of impact frames */
 const Drops: React.FC<{ f: number; hits: number[]; slow?: number; form?: number }> = ({ f, hits, slow = 1, form = 8 }) => <>{hits.map((h, i) => <Drop key={i} f={f} t0={h - 9 * slow} slow={slow} form={Math.min(form, i > 0 ? Math.max(2, h - hits[i - 1] - 9 * slow) : form)} />)}</>;
@@ -188,6 +188,14 @@ const StairsRoom: React.FC<{ f: number; len: number; z: [number, number]; c0: [n
 );
 
 // ---------- new sets from the user's images ----------
+/** shared drag gait: guards' steps match the ground they cover (no sliding), the prisoner is held by the upper arms and shuffles, resisting a little */
+const dragGait = (dist: number, f: number, stairs = false) => {
+  const cyc = stairs ? 0.6 : 1.17, gA = stairs ? 0.45 : 0.85, ph = (dist / cyc) * Math.PI * 2;
+  const res = noise2D("dr", f / 16, 0), pw = walkBP(ph + Math.PI / 2, gA * 0.6);
+  const pp: BP = { ...pw, lean: -5 + res * 3, headX: 14 + noise2D("dh", f / 20, 0) * 4, headY: noise2D("dy", f / 24, 0) * 14, lArmX: -26, lArmZ: -24, lElbow: -30, rArmX: -26, rArmZ: 24, rElbow: -30, lKnee: pw.lKnee + (stairs ? 16 : 8), rKnee: pw.rKnee + (stairs ? 16 : 8) };
+  const g = (side: -1 | 1): BP => { const w = walkBP(ph + (side < 0 ? 0 : Math.PI), gA); const kb = stairs ? 10 : 0; return side < 0 ? { ...w, lean: 3, rArmX: -32, rArmZ: 34, rElbow: -38, lKnee: w.lKnee + kb, rKnee: w.rKnee + kb } : { ...w, lean: 3, lArmX: -32, lArmZ: -34, lElbow: -38, lKnee: w.lKnee + kb, rKnee: w.rKnee + kb }; };
+  return { pp, g, res };
+};
 /** castle exterior at night: rain, lightning; the guards haul the prisoner across the yard to the dungeon gate */
 const CASTLE_FIRE: [number, number, number][] = [[480, 632, 12], [920, 640, 12]];
 const Rain: React.FC<{ f: number }> = ({ f }) => <svg width={W} height={H} style={{ position: "absolute" }}>{Array.from({ length: 140 }).map((_, i) => { const x = random("rx" + i) * (W + 300) - 150, sp = 60 + random("rv" + i) * 40, y = ((random("ry" + i) * H + f * sp) % (H + 200)) - 100, l = 30 + random("rl" + i) * 40; return <line key={i} x1={x} y1={y} x2={x - l * 0.25} y2={y + l} stroke="rgba(190,205,230,0.32)" strokeWidth={1.5 + random("rw" + i)} />; })}</svg>;
@@ -195,10 +203,8 @@ const LIGHTNING = [8, 12];
 const CastleScene: React.FC<{ f: number }> = ({ f }) => {
   const len = T4.study - T4.castle, fl = Math.max(0, ...LIGHTNING.map((t) => (f >= t && f < t + 5 ? 1 - (f - t) / 5 : 0)));
   const q = interpolate(f, [0, len], [0, 1], clamp), x = -0.55 + 1.3 * q, z = -4.4 - 1.7 * q, ry = Math.atan2(1.3, -1.7);
-  const rx = Math.cos(ry), rz = -Math.sin(ry), ph = (q * 2.15) / 0.235, res = noise2D("cs", f / 10, 0);
-  const pw = walkBP(ph * 1.5, 0.35);
-  const pp: BP = { ...pw, lean: -12 + res * 6, headX: 10, headY: noise2D("ch2", f / 9, 0) * 40, lArmX: -14, lArmZ: -46, lElbow: -14, rArmX: -14, rArmZ: 46, rElbow: -14, lKnee: pw.lKnee + 16, rKnee: pw.rKnee + 16, bob: pw.bob - 0.05 };
-  const g = (side: -1 | 1, o: number): BP => { const w = walkBP(ph + o, 0.9); return side < 0 ? { ...w, lean: 4, rArmX: -24, rArmZ: 40, rElbow: -30 } : { ...w, lean: 4, lArmX: -24, lArmZ: -40, lElbow: -30 }; };
+  const rx = Math.cos(ry), rz = -Math.sin(ry);
+  const { pp, g, res } = dragGait(q * 2.15, f);
   return <>
     <PhotoShot f={f} len={len} img="gota/castle.png" cam={XCAM as PCam} z={[1.04, 1.16]} c0={[0.5, 0.56]} c1={[0.58, 0.6]} fire={CASTLE_FIRE}>
       <ambientLight intensity={0.3 + fl * 1.2} color="#8090b8" /><hemisphereLight args={["#4a5a7a", "#1a120a", 0.3]} />
@@ -208,8 +214,8 @@ const CastleScene: React.FC<{ f: number }> = ({ f }) => {
       <directionalLight position={[2, 5, -9]} intensity={0.5} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} shadow-camera-left={-5} shadow-camera-right={5} shadow-camera-top={5} shadow-camera-bottom={-5} />
       <Catcher p={[0, 0.002, -5]} s={[10, 8]} o={0.5} />
       <Bot pos={[x, 0, z]} ry={ry + res * 0.1} p={pp} f={f} outfit="prisoner" eyes="scared" hood={false} mouth="scream" brows={1} look={[0.6, 0.3]} breath={2.6} />
-      <Guard pos={[x - rx * 0.56, 0, z - rz * 0.56]} ry={ry} p={g(-1, 0.3)} f={f} />
-      <Guard pos={[x + rx * 0.56, 0, z + rz * 0.56]} ry={ry} p={g(1, 0.3 + Math.PI)} f={f + 50} />
+      <Guard pos={[x - rx * 0.5, 0, z - rz * 0.5]} ry={ry} p={g(-1)} f={f} />
+      <Guard pos={[x + rx * 0.5, 0, z + rz * 0.5]} ry={ry} p={g(1)} f={f + 50} />
     </PhotoShot>
     <Rain f={f} />
     <AbsoluteFill style={{ background: "#c8d8ff", opacity: fl * 0.3, mixBlendMode: "screen" }} />
@@ -251,18 +257,16 @@ const CellScene: React.FC<{ f: number }> = ({ f }) => {
 };
 /** corridor of cells: they haul him toward the camera */
 const CorridorScene: React.FC<{ f: number }> = ({ f }) => {
-  const z = interpolate(f, [0, T4.drag - T4.corr], [-8.5, -5.0], clamp), ph = (z + 8.5) / 0.235, res = noise2D("cr", f / 10, 0);
-  const pw = walkBP(ph * 1.5, 0.35);
-  const pp: BP = { ...pw, lean: -10 + res * 6, headX: 16 + res * 8, headY: noise2D("ch", f / 9, 0) * 30, lArmX: -14, lArmZ: -46, lElbow: -14, rArmX: -14, rArmZ: 46, rElbow: -14, lKnee: pw.lKnee + 16, rKnee: pw.rKnee + 16, bob: pw.bob - 0.05 };
-  const g = (side: -1 | 1, o: number): BP => { const w = walkBP(ph + o, 0.9); return side < 0 ? { ...w, lean: 4, rArmX: -24, rArmZ: 40, rElbow: -30 } : { ...w, lean: 4, lArmX: -24, lArmZ: -40, lElbow: -30 }; };
+  const z = interpolate(f, [0, T4.drag - T4.corr], [-8.2, -6.4], clamp);
+  const { pp, g, res } = dragGait(z + 8.2, f);
   return <PhotoShot f={f} len={T4.drag - T4.corr} img="gota/corridor.png" cam={KCAM as PCam} z={[1.18, 1.24]} c0={[0.5, 0.45]} fire={[[258, 435, 10], [853, 432, 10], [372, 440, 7], [738, 440, 7]]}>
     <ambientLight intensity={0.3} color="#b08a68" /><hemisphereLight args={["#6a5a4a", "#1a120a", 0.3]} />
     {[[-0.9, 2.1, -4.5], [0.9, 2.1, -4.5], [-0.9, 2.1, -8], [0.9, 2.1, -8]].map((p, i) => <pointLight key={i} position={p as any} intensity={3.2 * flick(f, i)} distance={5} decay={1.4} color="#ffa050" />)}
     <directionalLight position={[0, 4, -1]} intensity={0.4} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
     <Catcher p={[0, 0.002, -7]} s={[2.4, 10]} o={0.5} />
     <Bot pos={[0, 0, z]} ry={res * 0.12} p={pp} f={f} outfit="prisoner" eyes="scared" hood={false} mouth="fear" brows={1} look={[noise2D("lx", f / 8, 0), 0.4]} breath={2.6} />
-    <Guard pos={[-0.56, 0, z - 0.08]} ry={0} p={g(-1, 0.3)} f={f} />
-    <Guard pos={[0.56, 0, z - 0.04]} ry={0} p={g(1, 0.3 + Math.PI)} f={f + 50} />
+    <Guard pos={[-0.5, 0, z - 0.06]} ry={0} p={g(-1)} f={f} />
+    <Guard pos={[0.5, 0, z - 0.03]} ry={0} p={g(1)} f={f + 50} />
   </PhotoShot>;
 };
 const CastleHUD: React.FC<{ f: number }> = ({ f }) => {
@@ -299,18 +303,16 @@ const HookScene: React.FC<{ f: number }> = ({ f }) => {
 // 2. dragged down the stairs (user's stairs image): two shots, he resists, stumbles on a step
 const STRIDE = 0.235;
 const DragScene: React.FC<{ f: number }> = ({ f }) => {
-  const zf = interpolate(f, [0, 30], [-1.6, 0.3], clamp);
-  const ph = (zf + 2.75) / STRIDE, stumble = interpolate(f, [10, 14, 24], [0, 1, 0], clamp);
-  const res = noise2D("rs", f / 12, 0);
-  const pw = walkBP(ph * 1.5, 0.35);
-  const pp: BP = { ...pw, lean: -10 + res * 6 + stumble * 26, headX: 14 + res * 8 + stumble * 20, headY: noise2D("hy", f / 10, 0) * 30, lArmX: -14, lArmZ: -46, lElbow: -14, rArmX: -14, rArmZ: 46, rElbow: -14, lKnee: pw.lKnee + 16 + stumble * 30, rKnee: pw.rKnee + 16, bob: pw.bob - 0.05 - stumble * 0.08 };
-  const g = (side: -1 | 1, o: number): BP => { const w = walkBP(ph + o, 0.9); return side < 0 ? { ...w, lean: 4, rArmX: -24, rArmZ: 40, rElbow: -30 - stumble * 20 } : { ...w, lean: 4, lArmX: -24, lArmZ: -40, lElbow: -30 - stumble * 20 }; };
-  const d = 0.56, y = stairY(zf);
+  const zf = interpolate(f, [0, 30], [-1.25, 0.05], clamp);
+  const stumble = interpolate(f, [12, 16, 26], [0, 1, 0], { ...clamp, easing: ez });
+  const G0 = dragGait(zf + 1.25, f, true), res = G0.res, g = G0.g;
+  const pp: BP = { ...G0.pp, lean: G0.pp.lean + stumble * 14, headX: G0.pp.headX + stumble * 12, lKnee: G0.pp.lKnee + stumble * 18, bob: (G0.pp.bob ?? 0) - stumble * 0.04 };
+  const d = 0.5, y = stairY(zf);
   const shotA = false;
   return <StairsRoom f={f} len={30} z={shotA ? [1.12, 1.16] : [1.3, 1.36]} c0={shotA ? [0.46, 0.36] : [0.47, 0.4]} c1={shotA ? [0.46, 0.38] : [0.47, 0.43]}>
     <Bot pos={[0, stairY(zf + 0.05), zf + 0.05]} ry={res * 0.12} p={pp} f={f} outfit="prisoner" eyes="scared" hood={false} mouth={stumble > 0.3 ? "scream" : "fear"} brows={1} look={[noise2D("lx", f / 8, 0), 0.4]} breath={2.5} />
-    <Guard pos={[-d, stairY(zf - 0.08), zf - 0.08]} ry={0} p={g(-1, 0.3)} f={f} />
-    <Guard pos={[d, stairY(zf - 0.04), zf - 0.04]} ry={0} p={g(1, 0.3 + Math.PI)} f={f + 50} />
+    <Guard pos={[-d, stairY(zf - 0.06), zf - 0.06]} ry={0} p={g(-1)} f={f} />
+    <Guard pos={[d, stairY(zf - 0.03), zf - 0.03]} ry={0} p={g(1)} f={f + 50} />
   </StairsRoom>;
 };
 // 3. bound: pushed onto the board (photo) -> wrist cuff snaps -> straps thrown and cinched -> head stock + pin
@@ -407,7 +409,7 @@ const LAPSE_HITS = randHits("lp2", 0, 148, 3, 8);
 const LapseScene: React.FC<{ f: number }> = ({ f }) => {
   const q = interpolate(f, [0, 148], [0, 1], clamp);
   const cyc = q * 2.5, day = Math.pow(Math.max(0, Math.sin(cyc * Math.PI * 2 - Math.PI / 2) * 0.5 + 0.5), 0.8), sun = cyc % 1;
-  const pr = <Prisoner f={f * 2.2} k={0.5 + q * 1.4} flinch={flinchAt(f, LAPSE_HITS) * 0.7} struggle={q * 0.5} tired={q} sweat={q} wet={0.4 + q * 0.6} pupil={1 - q * 0.3} breath={1.5 + q * 2} />;
+  const pr = <Prisoner f={f * 1.4} k={0.5 + q * 1.0} flinch={flinchAt(f, LAPSE_HITS) * 0.7} struggle={q * 0.5} tired={q} sweat={q} wet={0.4 + q * 0.6} pupil={1 - q * 0.3} breath={1.5 + q * 2} />;
   if (f < 50) { const night = 1 - day; const c = (a: number, b: number) => Math.round(a + (b - a) * night);
     return <FrontRoom f={f} len={50} z={[1.05, 1.12]} c0={[0.45, 0.5]} light={0.7 + 0.5 * day} fireSpeed={6} tint={`rgb(${c(255, 120)},${c(245, 135)},${c(235, 175)})`}>
       {pr}{LAPSE_HITS.filter((h) => h < 53).map((h, i) => <Drop key={i} f={f} t0={h - 9} form={3} from={[FOREHEAD[0], 1.511, 0]} size={1.6} />)}
