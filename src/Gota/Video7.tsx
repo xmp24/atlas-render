@@ -65,7 +65,7 @@ const PALE = "#d8d0c2";
 const LIE: BP = { ...STAND, lean: 0, headX: 0, lArmX: 0, lArmZ: -7, lElbow: -4, rArmX: 0, rArmZ: 7, rElbow: -4, lLegX: 0, lLegZ: -2, lKnee: 1, rLegX: 0, rLegZ: 2, rKnee: 1 };
 const LOOK = -0.35;
 /** prisoner strapped face-up; k = tremble, flinch 0..1, struggle = pulling against the straps (smooth noise, not a sine) */
-const Prisoner: React.FC<{ f: number; k?: number; flinch?: number; eyes?: "scared" | "closed" | "dead"; look?: number; struggle?: number; tired?: number; pupil?: number; xk?: number; wet?: number; sweat?: number; mouth?: Mouth; brows?: number; gaze?: [number, number]; lid?: number; breath?: number; still?: boolean; tears?: number }> = ({ f, k = 0.3, flinch = 0, eyes = "scared", look = LOOK, struggle = 0, tired = 0, pupil = 1, xk = 1, wet = 0, sweat = 0, mouth, brows = 1, gaze, lid, breath = 1, still = false, tears = 0 }) => {
+export const Prisoner: React.FC<{ f: number; k?: number; flinch?: number; eyes?: "scared" | "closed" | "dead"; look?: number; struggle?: number; tired?: number; pupil?: number; xk?: number; wet?: number; sweat?: number; mouth?: Mouth; brows?: number; gaze?: [number, number]; lid?: number; breath?: number; still?: boolean; tears?: number }> = ({ f, k = 0.3, flinch = 0, eyes = "scared", look = LOOK, struggle = 0, tired = 0, pupil = 1, xk = 1, wet = 0, sweat = 0, mouth, brows = 1, gaze, lid, breath = 1, still = false, tears = 0 }) => {
   const n = (s: string, sp = 2.2) => noise2D(s, f / sp, 0);
   const sn = (s: string) => noise2D(s, f / 16, 0); // slow effortful pulls
   const kk = k * 0.35, st = struggle * 0.55, fl = flinch * 0.6, tr = kk * 0.003;
@@ -90,13 +90,13 @@ const Vapor: React.FC<{ f: number; rate: number }> = ({ f, rate }) => { const pe
   return <>{[0, 1].map((k) => { const ph = ((f + k * per) % (per * 2)) / per; if (ph > 1) return null; const q = ph; return <sprite key={k} position={[mouth[0] + q * 0.08, mouth[1] + q * 0.12, mouth[2] + q * 0.05]} scale={[0.05 + q * 0.16, 0.05 + q * 0.16, 1]}><spriteMaterial map={VAPT()} color="#d8dce4" transparent opacity={Math.sin(Math.PI * q) * 0.22} depthWrite={false} /></sprite>; })}</>; };
 /** tears running from the eye corners toward the temples */
 const Tears: React.FC<{ f: number; k: number; look: number }> = ({ f, k }) => { const env = useEnv(); return <>{[-1, 1].map((sd) => { const q = ((f * 0.012 + (sd > 0 ? 0.5 : 0)) % 1); return <mesh key={sd} material={waterMat(env, 0.9, "t")} position={[HEAD[0] - 0.02 + q * 0.03, HEAD[1] + 0.16 - q * 0.1, sd * (0.075 + q * 0.06) + 0.03]} scale={[1, 1.5, 1]}><sphereGeometry args={[0.006 * k, 8, 6]} /></mesh>; })}</>; };
-const Guard: React.FC<{ pos: [number, number, number]; ry: number; p: BP; f: number }> = ({ pos, ry, p, f }) => <Bot pos={pos} ry={ry} p={p} f={f} scale={1.08} helmet hood={false} outfit="guard" eyes="scared" brows={-1} mouth="flat" pupil={0.8} look={[0, -0.3]} />;
-const flinchAt = (f: number, hits: number[]) => { let v = 0; for (const t of hits) { const q = (f - t) / 16; if (q >= 0 && q < 1) { const a = Math.min(1, q * 5); v = Math.max(v, (a * a * (3 - 2 * a)) * Math.pow(1 - q, 1.6)); } } return Math.min(1, v); };
-const randHits = (seed: string, from: number, to: number, min: number, max: number) => { const o: number[] = []; let t = from; let i = 0; while (t < to) { o.push(Math.round(t)); t += min + random(seed + i++) * (max - min); } return o; };
+export const Guard: React.FC<{ pos: [number, number, number]; ry: number; p: BP; f: number }> = ({ pos, ry, p, f }) => <Bot pos={pos} ry={ry} p={p} f={f} scale={1.08} helmet hood={false} outfit="guard" eyes="scared" brows={-1} mouth="flat" pupil={0.8} look={[0, -0.3]} />;
+export const flinchAt = (f: number, hits: number[]) => { let v = 0; for (const t of hits) { const q = (f - t) / 16; if (q >= 0 && q < 1) { const a = Math.min(1, q * 5); v = Math.max(v, (a * a * (3 - 2 * a)) * Math.pow(1 - q, 1.6)); } } return Math.min(1, v); };
+export const randHits = (seed: string, from: number, to: number, min: number, max: number) => { const o: number[] = []; let t = from; let i = 0; while (t < to) { o.push(Math.round(t)); t += min + random(seed + i++) * (max - min); } return o; };
 /** drops for a list of impact frames */
-const Drops: React.FC<{ f: number; hits: number[]; slow?: number; form?: number }> = ({ f, hits, slow = 1, form = 8 }) => <>{hits.map((h, i) => <Drop key={i} f={f} t0={h - 9 * slow} slow={slow} form={Math.min(form, i > 0 ? Math.max(2, h - hits[i - 1] - 9 * slow) : form)} />)}</>;
+export const Drops: React.FC<{ f: number; hits: number[]; slow?: number; form?: number }> = ({ f, hits, slow = 1, form = 8 }) => <>{hits.map((h, i) => <Drop key={i} f={f} t0={h - 9 * slow} slow={slow} form={Math.min(form, i > 0 ? Math.max(2, h - hits[i - 1] - 9 * slow) : form)} />)}</>;
 
-const Room: React.FC<{ f: number; bind?: Bind; valve?: number; torch?: number; day?: number; candle?: number; door?: number; sun?: number; tspeed?: number; kl?: number; children?: React.ReactNode }> = ({ f, bind = BOUND, valve = 1, torch = 1, day = 0, candle = 1, door = 0, sun = 0.5, tspeed = 1, kl = 1, children }) => (
+export const Room: React.FC<{ f: number; bind?: Bind; valve?: number; torch?: number; day?: number; candle?: number; door?: number; sun?: number; tspeed?: number; kl?: number; children?: React.ReactNode }> = ({ f, bind = BOUND, valve = 1, torch = 1, day = 0, candle = 1, door = 0, sun = 0.5, tspeed = 1, kl = 1, children }) => (
   <group>
     <Dungeon f={f} torch={torch} day={day} candle={candle} door={door} sun={sun} tspeed={tspeed} />
     <Table bind={bind} />
@@ -341,8 +341,8 @@ const StrapScene: React.FC<{ f: number }> = ({ f }) => {
 };
 
 // 4. the stone the lawyer watched: a drip hollowing rock as years pass
-const STONE_HITS = randHits("sn2", 4, 102, 9, 10);
-const rockTex = () => { const t = textTex("rock3", 1024, 512, (c) => {
+export const STONE_HITS = randHits("sn2", 4, 102, 9, 10);
+export const rockTex = () => { const t = textTex("rock3", 1024, 512, (c) => {
   c.fillStyle = "#6c655d"; c.fillRect(0, 0, 1024, 512);
   for (let i = 0; i < 6000; i++) { const v = 60 + random("rk" + i) * 90; c.fillStyle = `rgba(${v},${v - 4},${v - 10},${0.15 + random("ra" + i) * 0.35})`; const r = 1 + random("rr" + i) * 12; c.beginPath(); c.arc(random("rx" + i) * 1024, random("ry" + i) * 512, r, 0, 7); c.fill(); }
   for (let i = 0; i < 26; i++) { c.strokeStyle = "rgba(22,20,18,0.6)"; c.lineWidth = 1 + random("lw" + i) * 2; c.beginPath(); let x = random("cx" + i) * 1024, y = random("cy" + i) * 512; c.moveTo(x, y); for (let k = 0; k < 9; k++) { x += (random(`c${i}${k}`) - 0.5) * 60; y += (random(`d${i}${k}`) - 0.3) * 50; c.lineTo(x, y); } c.stroke(); }
@@ -351,7 +351,7 @@ const rockTex = () => { const t = textTex("rock3", 1024, 512, (c) => {
 }); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(2, 1); return t; };
 /** a real boulder: displaced icosphere, flattened, with a hollow carved by the drip (depth animated) */
 const ROCKG: Record<string, THREE.BufferGeometry> = {};
-const rockGeo = (hr: number, depth: number) => { const key = `${hr.toFixed(3)}_${depth.toFixed(3)}`; if (ROCKG[key]) return ROCKG[key];
+export const rockGeo = (hr: number, depth: number) => { const key = `${hr.toFixed(3)}_${depth.toFixed(3)}`; if (ROCKG[key]) return ROCKG[key];
   const g = new THREE.IcosahedronGeometry(0.5, 40); const pos = g.attributes.position as THREE.BufferAttribute, col = new Float32Array(pos.count * 3); const v = new THREE.Vector3();
   for (let i = 0; i < pos.count; i++) { v.fromBufferAttribute(pos, i); const n = v.clone().normalize();
     let r = 0.5 * (1 + 0.13 * noise3D("r1", n.x * 1.6, n.y * 1.6, n.z * 1.6) + 0.05 * noise3D("r2", n.x * 5, n.y * 5, n.z * 5) + 0.018 * noise3D("r3", n.x * 14, n.y * 14, n.z * 14));
@@ -364,10 +364,10 @@ const rockGeo = (hr: number, depth: number) => { const key = `${hr.toFixed(3)}_$
     col[i * 3] = (1 - wet * 0.45) * (1 - moss * 0.45); col[i * 3 + 1] = (1 - wet * 0.4) * (1 - moss * 0.15); col[i * 3 + 2] = (1 - wet * 0.3) * (1 - moss * 0.55);
   }
   g.setAttribute("color", new THREE.BufferAttribute(col, 3)); g.computeVertexNormals(); return (ROCKG[key] = g); };
-const caveWallGeo = (() => { let G: THREE.BufferGeometry | null = null; return () => { if (G) return G; const g = new THREE.PlaneGeometry(7, 3.6, 90, 50); const p = g.attributes.position as THREE.BufferAttribute; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i); p.setZ(i, 0.35 * noise3D("cw", x * 0.6, y * 0.6, 0) + 0.08 * noise3D("cw2", x * 2.5, y * 2.5, 0)); } g.computeVertexNormals(); return (G = g); }; })();
-const Pool: React.FC<{ y: number; r: number; f: number }> = ({ y, r, f }) => { const env = useEnv(); return <group position={[0, y, 0]}><mesh rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[r, 40]} /><meshStandardMaterial color="#1a2a34" roughness={0.02} metalness={0.6} envMap={env} envMapIntensity={1.6} /></mesh>
+export const caveWallGeo = (() => { let G: THREE.BufferGeometry | null = null; return () => { if (G) return G; const g = new THREE.PlaneGeometry(7, 3.6, 90, 50); const p = g.attributes.position as THREE.BufferAttribute; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i); p.setZ(i, 0.35 * noise3D("cw", x * 0.6, y * 0.6, 0) + 0.08 * noise3D("cw2", x * 2.5, y * 2.5, 0)); } g.computeVertexNormals(); return (G = g); }; })();
+export const Pool: React.FC<{ y: number; r: number; f: number }> = ({ y, r, f }) => { const env = useEnv(); return <group position={[0, y, 0]}><mesh rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[r, 40]} /><meshStandardMaterial color="#1a2a34" roughness={0.02} metalness={0.6} envMap={env} envMapIntensity={1.6} /></mesh>
   {STONE_HITS.map((h, i) => { const s = (f - h) / 24; if (s < 0 || s > 1) return null; return <mesh key={i} position={[0, 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[0.005 + s * r * 0.95, 0.009 + s * r, 32]} /><meshBasicMaterial color="#d8eef8" transparent opacity={(1 - s) * 0.6} depthWrite={false} /></mesh>; })}</group>; };
-const StoneScene: React.FC<{ f: number }> = ({ f }) => {
+export const StoneScene: React.FC<{ f: number }> = ({ f }) => {
   const rock = rockTex(), g = interpolate(f, [0, 98], [0.1, 1], { ...clamp, easing: (t) => t * t * 0.6 + t * 0.4 });
   const hr = 0.03 + 0.08 * Math.round(g * 25) / 25, depth = 0.004 + 0.06 * Math.round(g * 25) / 25;
   const top = 0.18;
@@ -388,7 +388,7 @@ const StoneScene: React.FC<{ f: number }> = ({ f }) => {
   );
 };
 // 5. the guard pulls the plug from the bucket -> the first drop forms and falls in slow motion
-const FIRST_HIT = 65;
+export const FIRST_HIT = 65;
 const FirstScene: React.FC<{ f: number }> = ({ f }) => {
   const v = interpolate(f, [8, 18], [0, 1], { ...clamp, easing: ez });
   const hand = interpolate(f, [0, 6, 18, 26], [0.5, 1, 1, 0.4], clamp);
@@ -405,7 +405,7 @@ const FirstScene: React.FC<{ f: number }> = ({ f }) => {
   );
 };
 // 6. time-lapse in three fast angles: the real room going day/night, overhead, his face falling apart
-const LAPSE_HITS = randHits("lp2", 0, 148, 3, 8);
+export const LAPSE_HITS = randHits("lp2", 0, 148, 3, 8);
 const LapseScene: React.FC<{ f: number }> = ({ f }) => {
   const q = interpolate(f, [0, 148], [0, 1], clamp);
   const cyc = q * 2.5, day = Math.pow(Math.max(0, Math.sin(cyc * Math.PI * 2 - Math.PI / 2) * 0.5 + 0.5), 0.8), sun = cyc % 1;
@@ -505,7 +505,7 @@ const OriginCard: React.FC<{ f: number }> = ({ f }) => {
     </div>
   </div>;
 };
-const StoneHUD: React.FC<{ f: number }> = ({ f }) => {
+export const StoneHUD: React.FC<{ f: number }> = ({ f }) => {
   const yrs = interpolate(f, [4, 96], [1, 100], { ...clamp, easing: (t) => t * t });
   return <Chip f={f} s={2} top={190}>DROP BY DROP&nbsp;·&nbsp;<span style={{ color: "#8fd0ff" }}>{Math.round(yrs)} {Math.round(yrs) === 1 ? "YEAR" : "YEARS"}</span></Chip>;
 };
