@@ -13,8 +13,15 @@ export const NK = COUNTRIES.length;
 export const CODE = COUNTRIES.map((c) => c.c);
 export const KOF: Record<string, number> = Object.fromEntries(CODE.map((c, i) => [c, i]));
 export const FIC = ((ST as any).fic || null) as null | {patch: number[]; codes: string[]; rivers: [number, string][]; lakes: string[]; box: number[]; border: number[][]};
-export const FICK = new Set<number>((FIC ? FIC.codes : []).map((c) => KOF[c]));
+export const FICSETS: Record<string, any> = (FIC && (FIC as any).sets) || {};
+export const FICROOTK = new Set<number>((FIC ? FIC.codes : []).map((c) => KOF[c]));
+export const FICK = new Set<number>([...(FIC ? FIC.codes : []), ...Object.values(FICSETS).flatMap((v: any) => v.codes)].map((c: string) => KOF[c]));
+export const FICSETK: Record<string, Set<number>> = Object.fromEntries(Object.entries(FICSETS).map(([n, v]: any) => [n, new Set<number>(v.codes.map((c: string) => KOF[c]))]));
+export const FICSETH: Record<string, Set<number>> = Object.fromEntries(Object.entries(FICSETS).map(([n, v]: any) => [n, new Set<number>((v.hide || []).map((c: string) => KOF[c]))]));
 export const FICHIDE = new Set<number>((FIC && (FIC as any).hide ? (FIC as any).hide : []).map((c: string) => KOF[c]));
+// visibilidad por vídeo: fic = true (conjunto raíz) o el nombre de un conjunto ('azur')
+export const ficShow = (k: number, fic: any) => !!fic && (typeof fic === 'string' ? !!FICSETK[fic]?.has(k) : FICROOTK.has(k));
+export const ficHide = (k: number, fic: any) => !!fic && (typeof fic === 'string' ? !!FICSETH[fic]?.has(k) : FICHIDE.has(k));
 export const RIVERS = (ST as any).rivers as [number, string][];
 export const LAKES = (ST as any).lakes as string[];
 export const CITIES = (ST as any).cities as [string, number, number, number][];
@@ -51,6 +58,7 @@ if (typeof window !== 'undefined' && !loaded) {
   for (const c of ['EU', 'SU']) jobs.push(loadImg('f-' + c, staticFile(`wflags/${c.toLowerCase()}.svg`)));
   for (const n of ICONS) jobs.push(loadImg('i-' + n, staticFile(`hw/icons/${n}.svg`)));
   if ((ST as any).fic) jobs.push(loadImg('ficbase', staticFile('hw/fic_base.png')), loadImg('ficshade', staticFile('hw/fic_shade.png')));
+  for (const n of Object.keys(FICSETS)) jobs.push(loadImg('ficbase_' + n, staticFile(`hw/fic_base_${n}.png`)), loadImg('ficshade_' + n, staticFile(`hw/fic_shade_${n}.png`)));
   jobs.push(loadImg('base', staticFile('hw/base.jpg')), loadImg('shade', staticFile('hw/shade.png')), loadImg('marble', staticFile('hw/marble2k.jpg')), loadImg('stars', staticFile('hw/stars.jpg')));
   Promise.all(jobs).then(() => {
     // color principal de cada bandera

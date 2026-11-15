@@ -4,7 +4,7 @@ import {geoNaturalEarth1, geoPath} from 'd3-geo';
 import {mesh} from 'topojson-client';
 import WJ from './world.json';
 import TOPO from './worldtopo.json';
-import {IMG, MAINCOL, DARKCOL, KOF, NK, MAPW, MAPH, flagBmp, Cam, RIVERS, LAKES, CITIES, FIC, FICK, FICHIDE} from './HexWorld';
+import {IMG, MAINCOL, DARKCOL, KOF, NK, MAPW, MAPH, flagBmp, Cam, RIVERS, LAKES, CITIES, FIC, FICK, FICHIDE, FICSETS, ficShow, ficHide} from './HexWorld';
 import {drawOcc, drawUnits} from './WarLayer';
 
 const W4 = 4; // world.json está a 1920x1080; nuestro mapa es 4x
@@ -80,7 +80,9 @@ const FRIV_P = typeof Path2D !== 'undefined' && FIC ? FIC.rivers.map(([sr, d]) =
 const FLAKE_P = typeof Path2D !== 'undefined' && FIC ? FIC.lakes.map((d) => new Path2D(d)) : [];
 const FBOX = FIC ? FIC.box.map((v) => v / 4) : [0, 0, 0, 0];
 const inFbox = (b: number[]) => b[0] >= FBOX[0] && b[2] <= FBOX[2] && b[1] >= FBOX[1] && b[3] <= FBOX[3];
-const ficSkip = (p: {k: number; bbox: number[]}, fic: boolean) => (FICK.has(p.k) ? !fic : fic && (inFbox(p.bbox) || FICHIDE.has(p.k)));
+const ficSkip = (p: {k: number; bbox: number[]}, fic: any) => (FICK.has(p.k) ? !ficShow(p.k, fic) : !!fic && (inFbox(p.bbox) || ficHide(p.k, fic)));
+const FSET_P: Record<string, {riv: (readonly [number, Path2D])[]; lake: Path2D[]}> = typeof Path2D !== 'undefined' ? Object.fromEntries(Object.entries(FICSETS).map(([n, v]: any) => [n, {riv: v.rivers.map(([sr, d]: any) => [sr, new Path2D(d)] as const), lake: v.lakes.map((d: string) => new Path2D(d))}])) : {};
+const ficPatch = (fic: any): [any, any, number[]] | null => !fic || !FIC ? null : typeof fic === 'string' ? (FICSETS[fic] ? [IMG['ficbase_' + fic], IMG['ficshade_' + fic], FICSETS[fic].patch] : null) : [IMG.ficbase, IMG.ficshade, FIC.patch];
 const patCache = new Map<number, CanvasPattern>();
 let WAVE: CanvasPattern | null = null;
 let BASE_SOFT: HTMLCanvasElement | null = null;
@@ -113,7 +115,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
     if (s > 1.6 && !BASE_SOFT) { const c = document.createElement('canvas'); c.width = 1920; c.height = 1080; const g = c.getContext('2d')!; g.filter = 'blur(2px)'; g.drawImage(IMG.base, 0, 0, 1920, 1080); BASE_SOFT = c; }
     ctx.drawImage(s > 1.6 && BASE_SOFT ? BASE_SOFT : IMG.base, 0, 0, MAPW, MAPH);
   }
-  if ((o as any).fic && FIC && IMG.ficbase) ctx.drawImage(IMG.ficbase, FIC.patch[0], FIC.patch[1], FIC.patch[2], FIC.patch[3]);
+  { const fp = ficPatch((o as any).fic); if (fp && fp[0]) ctx.drawImage(fp[0], fp[2][0], fp[2][1], fp[2][2], fp[2][3]); }
   if (o.waves && s > 0.9) {
     if (!WAVE) { const c = document.createElement('canvas'); c.width = 140; c.height = 70; const g = c.getContext('2d')!; g.strokeStyle = 'rgba(255,255,255,0.13)'; g.lineWidth = 3; g.lineCap = 'round';
       for (const [oy, ox] of [[18, 0], [53, 70]]) { g.beginPath(); for (let x = -10; x <= 150; x += 4) { const y = oy + Math.sin(((x + ox) / 140) * Math.PI * 2) * 5; if (x === -10) g.moveTo(x, y); else g.lineTo(x, y); } g.stroke(); }
@@ -153,7 +155,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   const pats = new Map<number, CanvasPattern | string>();
   const P = (k: number) => { let v = pats.get(k); if (!v) { v = patOf(k); pats.set(k, v); } return v; };
   ctx.save(); ctx.scale(W4, W4);
-  const FICO = !!(o as any).fic;
+  const FICO = (o as any).fic || false;
   for (const p of PIECES) {
     if (p.k === undefined || !p.path || !vis(p.bbox) || ficSkip(p, FICO)) continue;
     const w = wipeOf.get(p.k); const o2 = w ? w.to : st.owner[p.k];
@@ -203,7 +205,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   if ((o as any).extra) (o as any).extra(ctx, o.t, s, vis);
   ctx.restore();
   // relieve
-  if (IMG.shade) { ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = 0.9 * Math.max(0.25, Math.min(1, (3.2 - s) / 1.8)); ctx.drawImage(IMG.shade, 0, 0, MAPW, MAPH); if (FICO && FIC && IMG.ficshade) ctx.drawImage(IMG.ficshade, FIC.patch[0], FIC.patch[1], FIC.patch[2], FIC.patch[3]); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  if (IMG.shade) { ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = 0.9 * Math.max(0.25, Math.min(1, (3.2 - s) / 1.8)); ctx.drawImage(IMG.shade, 0, 0, MAPW, MAPH); { const fp = ficPatch(FICO); if (fp && fp[1]) ctx.drawImage(fp[1], fp[2][0], fp[2][1], fp[2][2], fp[2][3]); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   // ríos y lagos
   if (s > 0.38) {
     const a = Math.min(1, (s - 0.38) / 0.3);
@@ -214,8 +216,8 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   }
   if (FICO) {
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    for (const [sr, p] of FRIV_P) { ctx.globalAlpha = sr === 1 ? 0.95 : 0.75; ctx.strokeStyle = sr === 1 ? '#bfe6ff' : '#7fc3ee'; ctx.lineWidth = sr === 1 ? Math.max(3.2 / s, 5.5) : Math.max(1.4 / s, (6 - sr) * 0.9); ctx.stroke(p); if (sr === 1) { ctx.strokeStyle = '#4aa3e0'; ctx.lineWidth = Math.max(1.8 / s, 3.2); ctx.stroke(p); } }
-    ctx.globalAlpha = 0.95; for (const p of FLAKE_P) { ctx.fillStyle = '#4aa3e0'; ctx.fill(p); ctx.strokeStyle = '#bfe6ff'; ctx.lineWidth = Math.max(1 / s, 1.5); ctx.stroke(p); }
+    for (const [sr, p] of (typeof FICO === 'string' ? (FSET_P[FICO]?.riv ?? []) : FRIV_P)) { ctx.globalAlpha = sr === 1 ? 0.95 : 0.75; ctx.strokeStyle = sr === 1 ? '#bfe6ff' : '#7fc3ee'; ctx.lineWidth = sr === 1 ? Math.max(3.2 / s, 5.5) : Math.max(1.4 / s, (6 - sr) * 0.9); ctx.stroke(p); if (sr === 1) { ctx.strokeStyle = '#4aa3e0'; ctx.lineWidth = Math.max(1.8 / s, 3.2); ctx.stroke(p); } }
+    ctx.globalAlpha = 0.95; for (const p of (typeof FICO === 'string' ? (FSET_P[FICO]?.lake ?? []) : FLAKE_P)) { ctx.fillStyle = '#4aa3e0'; ctx.fill(p); ctx.strokeStyle = '#bfe6ff'; ctx.lineWidth = Math.max(1 / s, 1.5); ctx.stroke(p); }
     ctx.globalAlpha = 1;
   }
   // fronteras: finas entre países, gruesas entre imperios
@@ -227,8 +229,8 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.max(2.2 / s, 4); ctx.stroke();
   if (FICO) {
     ctx.save(); ctx.scale(W4, W4);
-    for (const p of PIECES) { if (p.k === undefined || !p.path || !FICK.has(p.k) || !vis(p.bbox)) continue; ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = Math.max(5 / s, 9) / W4; ctx.stroke(p.path); }
-    for (const p of PIECES) { if (p.k === undefined || !p.path || !FICK.has(p.k) || !vis(p.bbox)) continue; ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.max(2.2 / s, 4) / W4; ctx.stroke(p.path); }
+    for (const p of PIECES) { if (p.k === undefined || !p.path || !ficShow(p.k, FICO) || !vis(p.bbox)) continue; ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = Math.max(5 / s, 9) / W4; ctx.stroke(p.path); }
+    for (const p of PIECES) { if (p.k === undefined || !p.path || !ficShow(p.k, FICO) || !vis(p.bbox)) continue; ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.max(2.2 / s, 4) / W4; ctx.stroke(p.path); }
     ctx.restore();
   }
   if (CWo) {
