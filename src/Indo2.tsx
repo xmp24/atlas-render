@@ -2783,6 +2783,14 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
     html.push(<div key="b" style={{position: 'absolute', left: 170, top: 420 - (sold ? bounce * 1.5 : 0)}}><Ball k={km} size={300} mood={sold ? 'happy' : 'calm'} t={t} look={[0.7, 0]} /></div>);
     html.push(<CbBubble key="s" x={400} y={400} text="WHO NEEDS A YACHT?" k={(lt - 0.4) / 0.3} />);
     html.push(<BigMoney key="m" text="+ $1,000,000" k={(lt - 3.0) / 0.35} y={830} fs={130} />);
+  } else if (v === 'cry') {
+    bg = 'radial-gradient(circle at 50% 40%,#2a3550,#0b0f1c 75%)';
+    const bx = 760, by = 470;
+    sv.push(<g key="ch"><path d={`M ${1080} ${640} L ${1460} ${640} L ${1440} ${820} L ${1100} ${820} Z`} fill="#6b3a14" stroke={INK} strokeWidth={10} /><path d={`M ${1080} ${640} L ${1140} ${520} L ${1500} ${520} L ${1460} ${640} Z`} fill="#8a4b1a" stroke={INK} strokeWidth={10} /><ellipse cx={1270} cy={650} rx={170} ry={22} fill="#1a0d05" /></g>);
+    sv.push(<Coin key="c1" x={1100 + Math.min(1, lt / 2.4) * 260} y={860} r={26} spin={lt * 6} />);
+    html.push(<div key="b" style={{position: 'absolute', left: bx - 170, top: by - 170 + Math.sin(lt * 9) * 4}}><Ball k={km} size={340} mood="sad" t={t} look={[0.5, 0.4]} /></div>);
+    for (let i = 0; i < 10; i++) { const k = ((lt * 1.6 + i * 0.27) % 1); const side = i % 2 ? 1 : -1; sv.push(<path key={'tr' + i} d={`M 0 -14 C 9 0 9 10 0 12 C -9 10 -9 0 0 -14 Z`} transform={`translate(${bx + side * 62 + side * k * 20},${by - 10 + k * 260})`} fill="#7cc8ff" stroke={INK} strokeWidth={3} opacity={1 - k} />); }
+    html.push(<BigMoney key="m" text="$0 LEFT" k={(lt - 0.6) / 0.35} y={60} col="#ff5a4a" fs={140} />);
   } else if (v === 'rich') {
     bg = 'radial-gradient(circle at 50% 35%,#3a2a6b,#120c2a 75%)';
     const chx = 960, chy = 700;
