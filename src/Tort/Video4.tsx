@@ -93,7 +93,7 @@ const RAW: SC[] = [
   { at: L("hook", 2), tr: "flash", C: ({ f, len }) => <Ph f={f} len={len} k="p7" z={[1.05, 1.2]} c0={[0.5, 0.55]}><SquarePhoto3D f={f} stage="strike" /></Ph> },
   { at: L("hook", 2) + 52, tr: "cut", C: ({ f, len }) => <Sq f={f} len={len} stage="final" blowAt={16} dead={k01(f, 22, 32)} exp={1.2} shots={[[0, C([-2.2, 3.1, 2.2], [0, 1.1, 0], 38), C([-2.0, 3.0, 2.0], [0, 1.1, 0], 36)]]} /> },
   { at: L("hook", 3), tr: "flash", C: ({ f, len }) => { const ph = Math.floor(f / 10); return <Mar f={f} len={len} flies={1} day={Math.min(1, f / len)} night={ph % 2 === 1} shots={[[0, C([4.2, 1.5, 3.0], [0.5, 0.2, 0], 36), C([3.4, 1.2, 2.4], [0.6, 0.2, 0], 32)]]} />; } },
-  { at: L("hook", 4), tr: "cut", C: ({ f, len }) => <Mar f={f} len={len} night flies={0.3} day={1} exp={0.9} shots={[[0, C([5.5, 2.0, 4.5], [0.5, 0.2, 0], 38), C([6.5, 2.6, 5.5], [0.5, 0.2, 0], 40)]]} /> },
+  { at: L("hook", 4), tr: "cut", C: ({ f, len }) => <Mar f={f} len={len} night flies={0.3} day={1} exp={1.7} shots={[[0, C([5.5, 2.0, 4.5], [0.5, 0.2, 0], 38), C([6.5, 2.6, 5.5], [0.5, 0.2, 0], 40)]]} /> },
   { at: L("hook", 5), tr: "dark", C: ({ f, len }) => <Ph f={f} len={len} k="p12" z={[1.0, 1.3]} c0={[0.5, 0.5]}><CorridorPhoto3D f={f} len={len} prisoner /></Ph> },
   /* CONTEXT */
   { at: L("ctx", 0), tr: "dark", C: ({ f, len }) => <Tow f={f} len={len} shots={[[0, C([14, 3, 30], [0, 8, 0], 40), C([9, 2.6, 25], [0, 8.5, 0], 40)]]} /> },
@@ -162,7 +162,7 @@ const RAW: SC[] = [
   { at: L("t2", 8), C: ({ f, len }) => <Sic f={f} len={len} door={1} heat={k01(f, 0, 30)} shots={[[0, C([-1.6, 0.4, 2.6], [0, 0.6, 0], 40), C([-1.4, 0.45, 2.3], [0, 0.65, 0], 38)]]} /> },
   { at: L("t2", 9), C: ({ f, len }) => <Sic f={f} len={len} door={1} heat={1} roar={k01(f, 60, 100)} shots={[[0, C([3.2, 1.8, 1.9], [1.5, 1.4, 0], 36), C([2.9, 1.75, 1.6], [1.5, 1.4, 0], 34)]]} /> },
   { at: L("t2", 11), tr: "dark", C: ({ f, len }) => <Ph f={f} len={len} k="p8" z={[1.1, 1.25]} c0={[0.62, 0.55]}><SicilyPhoto3D f={f} heat={k01(f, 200, 260)} door={1 - k01(f, 190, 215)} victim="walk" walk={k01(f, 10, 190)} /></Ph> },
-  { at: L("t2", 15), tr: "dark", C: ({ f, len }) => <Ph f={f} len={len} k="p8" z={[1.05, 1.2]} c0={[0.6, 0.55]} exp={0.8} tint="rgba(150,110,120,1)"><SicilyPhoto3D f={f} heat={0} door={1} victim="tyrant" walk={k01(f, 20, len)} /></Ph> },
+  { at: L("t2", 15), tr: "dark", C: ({ f, len }) => <Ph f={f} len={len} k="p8" z={[1.05, 1.2]} c0={[0.6, 0.55]} exp={1.0}><SicilyPhoto3D f={f} heat={0} door={1} victim="tyrant" walk={k01(f, 20, len)} /></Ph> },
   { at: L("t2", 18), tr: "dark", C: ({ f, len }) => <Sic f={f} len={len} heat={1} roar={1} exp={0.6} shots={[[0, C([-2.6, 0.8, 4.8], [0.4, 1.6, 0], 38), C([-2.2, 0.8, 4.2], [0.4, 1.6, 0], 36)]]} /> },
   /* TWIST: IRON MAIDEN */
   { at: L("twist", 0), tr: "dark", C: ({ f, len }) => <Ph f={f} len={len} k="p9" z={[1.0, 1.12]} c0={[0.5, 0.55]}><MuseumPhoto3D f={f} open={0} /></Ph> },
@@ -207,7 +207,7 @@ const Overlays: React.FC = () => {
     </React.Fragment>)}
     {/* x-rays */}
     {at(L("t5", 13), 120, (f) => <XRay f={f} len={120} kind="head" label="NO SLEEP" />)}
-    {at(L("t6", 7), 120, (f) => <XRay f={f} len={120} kind="belly" label="THE STOMACH" />)}
+    {at(L("t6", 7), 120, (f) => <XRay f={f} len={120} kind="belly" label="THE STOMACH" side="l" />)}
     {at(L("t7", 8), 130, (f) => <XRay f={f} len={130} kind="shoulders" label="SHOULDERS" />)}
     {at(L("t4", 6), 120, (f) => <XRay f={f} len={120} kind="joints" label="EVERY JOINT" />)}
     {at(L("t3", 9), 100, (f) => <XRay f={f} len={100} kind="limbs" label="ARMS & LEGS" side="l" />)}
@@ -241,7 +241,7 @@ const Overlays: React.FC = () => {
     {at(L("t7", 8) + 10, span("t7", 6, "t7", 7), (f) => <Ink f={f} len={span("t7", 6, "t7", 7) - 10} shapes={[{ t: "arrow", x: 1300, y: 760, x2: 1040, y2: 640, label: "weights", at: 0 }]} />)}
     {at(L("t7", 10), span("t7", 8, "t7", 9), (f) => <Blueprint f={f} len={span("t7", 8, "t7", 9)} kind="strap" title="THE STRAPPADO" />)}
     {at(L("t7", 11) + 20, span("t7", 9, "t7", 11), (f) => <Poll f={f} len={span("t7", 9, "t7", 11)} q="Would you have confessed?" ans="MOST PEOPLE DID" />)}
-    {at(L("t7", 13) + 6, span("t7", 11, "t7", 14), (f) => <MiniMap f={f} len={span("t7", 11, "t7", 14)} lon={11.25} lat={43.77} label="Florence" year="1513" zoom={1100} />)}
+    {at(L("t7", 15) + 6, span("t7", 15, "t7", 17), (f) => <MiniMap f={f} len={span("t7", 15, "t7", 17) - 6} lon={11.25} lat={43.77} label="Florence" year="1513" zoom={1100} />)}
     {at(L("t7", 15), span("t7", 13, "t7", 15), (f) => <Card3 f={f} len={span("t7", 13, "t7", 15) - 4} kicker="FLORENCE · 1513" title="Niccolò Machiavelli" body="Hoisted six times. He confessed nothing." portrait="cap" pill="REAL" side="l" />)}
     {at(L("t7", 17) + 6, span("t7", 15, "t7", 16), (f) => <Card3 f={f} len={span("t7", 15, "t7", 16) - 4} kicker="WRITTEN THE SAME YEAR" title="The Prince" body="One of the most famous books on power ever written." portrait="cap" side="r" />)}
     {/* 4. rack */}
@@ -261,7 +261,7 @@ const Overlays: React.FC = () => {
     {at(L("t3", 15) + 4, span("t3", 13, "t3", 14), (f) => <MiniMap f={f} len={span("t3", 13, "t3", 14) - 4} lon={13.4} lat={52.5} label="Prussia" year="1841" zoom={1000} />)}
     {/* 6. bull */}
     {at(L("t2", 0) + 136, 150, (f) => <Dossier f={f} len={150} floor={0} idx={6} name="The Brazen Bull" era="c. 550 BC" place="Sicily" dur="Minutes" surv={0} used="Phalaris of Akragas" />)}
-    {at(L("t2", 1) + 160, span("t2", 1, "t2", 3) + 10, (f) => <MiniMap f={f} len={span("t2", 1, "t2", 3) + 6} lon={13.58} lat={37.31} label="Akragas, Sicily" year="c. 550 BC" zoom={1100} left />)}
+    {at(L("t2", 0) + 292, span("t2", 3, "t2", 5), (f) => <MiniMap f={f} len={span("t2", 3, "t2", 5) - 4} lon={13.58} lat={37.31} label="Akragas, Sicily" year="c. 550 BC" zoom={1100} left />)}
     {at(L("t2", 4) + 6, span("t2", 3, "t2", 5), (f) => <Card3 f={f} len={span("t2", 3, "t2", 5) - 4} kicker="TYRANT OF AKRAGAS" title="Phalaris" body="Akragas is today Agrigento, in Sicily." portrait="laurel" pill="REAL" side="r" />)}
     {at(L("t2", 9) + 10, span("t2", 8, "t2", 10), (f) => <Blueprint f={f} len={span("t2", 8, "t2", 10)} kind="bull" title="THE BRAZEN BULL" />)}
     {at(L("t2", 13), span("t2", 12, "t2", 13) + 20, (f) => <Card3 f={f} len={span("t2", 12, "t2", 13) + 16} kicker="THE INVENTOR" title="Perillos" body="Its first victim." portrait="laurel" pill="LEGEND" />)}
@@ -269,7 +269,7 @@ const Overlays: React.FC = () => {
     {/* twist */}
     {at(L("twist", 5) + 4, span("twist", 6, "twist", 7), (f) => <Big f={f} len={span("twist", 6, "twist", 7) - 2} text="NO EVIDENCE" sub="IT WAS EVER USED" color="#ff3a4a" y={330} size={150} />)}
     {at(L("twist", 6) + 6, span("twist", 7, "twist", 9), (f) => <Card3 f={f} len={span("twist", 7, "twist", 9) - 6} kicker="NUREMBERG · 1800s" title="Built for tourists" body="Assembled from old pieces, long after the Middle Ages." pill="MYTH" />)}
-    {at(L("twist", 6) + 6, span("twist", 7, "twist", 9), (f) => <MiniMap f={f} len={span("twist", 7, "twist", 9) - 6} lon={11.08} lat={49.45} label="Nuremberg" year="1800s" zoom={1100} />)}
+    {at(L("twist", 6) + 6, span("twist", 7, "twist", 9), (f) => <MiniMap f={f} len={span("twist", 7, "twist", 9) - 6} lon={11.08} lat={49.45} label="Nuremberg" year="1800s" zoom={1100} left />)}
     {at(L("twist", 9), span("twist", 9, "twist", 11), (f) => <Stamp f={f} len={span("twist", 9, "twist", 11) - 6} text="MYTH" size={220} />)}
     {/* 7. scaphism */}
     {at(L("t1", 0) + 136, 150, (f) => <Dossier f={f} len={150} floor={0} idx={7} name="Scaphism" era="c. 400 BC" place="Ancient Persia" dur="17 days" surv={0} used="Persian kings" />)}
@@ -317,7 +317,7 @@ const Chrome: React.FC = () => {
   </>;
 };
 const hideSubs: [number, number][] = [...SECS.map((sc) => [L(sc, 0) - 44, L(sc, 0) + 30] as [number, number]), [L("t7", 11) + 20, L("t7", 13)]];
-const Shaker: React.FC<{ children: React.ReactNode }> = ({ children }) => { const g = useCurrentFrame(); const [x, y] = shakeAt(g); return <AbsoluteFill style={{ transform: `translate(${x}px, ${y}px) scale(${x || y ? 1.02 : 1})` }}>{children}</AbsoluteFill>; };
+const Shaker: React.FC<{ children: React.ReactNode }> = ({ children }) => { const g = useCurrentFrame(); const [x, y] = shakeAt(g); return <AbsoluteFill style={{ transform: `translate(${x}px, ${y}px) scale(${x || y ? 1.02 : 1})`, filter: "brightness(1.13) saturate(1.06)" }}>{children}</AbsoluteFill>; };
 export const Tort4: React.FC<{ audio?: boolean; clean?: boolean }> = ({ audio = false, clean = false }) => (
   <AbsoluteFill style={{ background: "#000" }}>
     <Shaker>{SCENES.map((s, i) => { const b = i + 1 < SCENES.length ? SCENES[i + 1].at : END; const pre = i > 0 && s.tr !== "cut" && s.tr !== "flash" ? XF : 0; return <Sequence key={i} from={s.at - pre} durationInFrames={b - s.at + pre}><SceneWrap i={i} /></Sequence>; })}</Shaker>
