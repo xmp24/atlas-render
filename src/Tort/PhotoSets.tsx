@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { random } from "remotion";
 import { Bot5 as Bot, Kind } from "./Bot5";
 import { STAND, BP, idleBP } from "../Miya8/Bot3";
-import { Rope } from "./SetsIn";
+import { Rope, RatBody } from "./SetsIn";
 import { Drop } from "../Gota/Dungeon4";
 import { Wheel, Bull, IronMaiden } from "./SetsOut";
 import { Fire, Logs, Crows, Crow, V3 } from "./Common";
@@ -108,12 +108,19 @@ export const Jailer: React.FC<{ f: number; pos: V3; ry: number; walk?: number; l
   return <Bot pos={pos} ry={ry} p={{ ...STAND, lLegX: Math.sin(ph) * 24 * w, rLegX: -Math.sin(ph) * 24 * w, lKnee: Math.max(0, -Math.sin(ph)) * 30 * w, rKnee: Math.max(0, Math.sin(ph)) * 30 * w, bob: Math.abs(Math.sin(ph)) * 0.02 * w, lArmX: -40, lElbow: -60, rArmX: -Math.sin(ph) * 16 * w, headY: look, headX: 4 }}
     f={f} outfit="jailer" hood={false} eyes="calm" brows={-1} lHandItem={<Lantern f={f} />} />;
 };
+/** a rat scurrying along the floor between two points, looping */
+export const Scurry: React.FC<{ f: number; a: V3; b: V3; period?: number; seed?: number }> = ({ f, a, b, period = 90, seed = 0 }) => {
+  const q = ((f + seed * 37) % period) / period; if (q > 0.55) return null; const t = q / 0.55;
+  const p: V3 = [a[0] + (b[0] - a[0]) * t, 0.03, a[2] + (b[2] - a[2]) * t]; const ry = Math.atan2(b[0] - a[0], b[2] - a[2]);
+  return <group position={p} rotation={[0, ry, 0]}><group position={[0, Math.abs(Math.sin(f * 1.4)) * 0.01, 0]}><RatBody f={f} s={1.3} /></group></group>;
+};
 export const CorridorPhoto3D: React.FC<{ f: number; len: number; prisoner?: boolean }> = ({ f, len, prisoner }) => {
   const k = Math.min(1, f / Math.max(1, len)), z = -14 + k * 8.5;
   return <group>
     <PhotoLights key1={[-3, 3, -8]} tgt={[0, 0, -10]} col="#ff9a50" i={0.8} amb={0.35} />
     <Catcher p={[0, 0.002, -10]} s={[4, 20]} o={0.5} />
     <Jailer f={f} pos={[-0.35, 0, z]} ry={0} walk={1} look={Math.sin(f / 40) * 10} />
+    <Scurry f={f} a={[1.5, 0, -5]} b={[1.2, 0, -12]} period={120} />
     {prisoner && <Bot pos={[0.45, 0, z - 1.0]} ry={0} p={{ ...STAND, lLegX: Math.sin(f / 5.5 + 1) * 18, rLegX: -Math.sin(f / 5.5 + 1) * 18, lean: 12, headX: 22, lArmX: 30, rArmX: 30 }} f={f} outfit="prisoner" hood={false} eyes="scared" mouth="fear" brows={1} />}
   </group>;
 };
@@ -125,6 +132,7 @@ export const DripPhoto3D: React.FC<{ f: number; hits: number[]; tired?: number; 
   return <group>
     <PhotoLights key1={[1.5, 4, -3]} tgt={[0, 0.85, -5.5]} col="#9ab0e0" i={1.0} amb={0.3} ambCol="#6a7aa0" />
     <pointLight position={[-1.35, 1.25, -5.0]} intensity={1.6} distance={3} color="#ffb060" />
+    <Scurry f={f} a={[1.9, 0, -4.2]} b={[2.1, 0, -6.6]} period={150} seed={2} />
     <mesh position={[0, 0.852, -5.51]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[2.8, 1.0]} /><shadowMaterial transparent opacity={0.45} /></mesh>
     <Bot pos={[1.53, 0.945, -5.51]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={{ ...STAND, lArmZ: -12, rArmZ: 12, headX: -6 + flinch * 10, headY: Math.sin(f / 23) * 6 * (1 - tired) }} f={f} outfit={outfit} hood={false} eyes={shut ? "closed" : tired > 0.75 ? "closed" : "scared"} mouth={tired > 0.5 ? "slack" : "fear"} brows={1} tired={tired} lid={tired * 0.6} pupil={0.8} ground={false} />
     {/* straps over chest, wrists and the head stock */}

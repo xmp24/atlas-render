@@ -72,7 +72,7 @@ export const Dossier: React.FC<{ f: number; len: number; floor: number; idx: num
     <span style={{ ...OS(22, 500), color: "rgba(255,255,255,0.55)", letterSpacing: 3 }}>{k}</span><span style={{ ...OS(26, 600), color: "#fff" }}>{v}</span></div>;
   return <div style={{ position: "absolute", left: 90, top: 150, width: 560, opacity: a * o, transform: `translateX(${(1 - a) * -60}px)` }}>
     <div style={{ background: "rgba(12,11,12,0.88)", border: `2px solid ${col}66`, borderRadius: 14, padding: "26px 32px", boxShadow: "0 20px 60px rgba(0,0,0,0.6)" }}>
-      <div style={{ ...OS(22, 600), color: col, letterSpacing: 6 }}>FLOOR -{floor} · {idx}/7</div>
+      <div style={{ ...OS(22, 600), color: col, letterSpacing: 6 }}>{floor ? `FLOOR -${floor} · ${idx}/7` : `#${idx} OF 7`}</div>
       <div style={{ ...OS(76, 700), color: "#fff", marginTop: 8 }}>{name}</div>
       <div style={{ marginTop: 14 }}>{row("ERA", era, 0)}{row("PLACE", place, 1)}{row("LASTED", dur, 2)}{row("USED BY", used, 3)}</div>
       <div style={{ marginTop: 18, opacity: pop(f, 22, 10) }}>
@@ -254,13 +254,13 @@ export const Card3: React.FC<{ f: number; len: number; kicker: string; title: st
 };
 
 /* ---------- end screen sized for YouTube end-screen elements ---------- */
-export const EndScreen3: React.FC<{ f: number; askAt: number; nextAt: number }> = ({ f, askAt, nextAt }) => {
+export const EndScreen3: React.FC<{ f: number; askAt: number; nextAt: number; q?: string }> = ({ f, askAt, nextAt, q = "Which one would you never survive?" }) => {
   const a = pop(f, askAt, 12), n = pop(f, nextAt, 14);
   const box = (x: number, t1: string, t2: string) => <div style={{ position: "absolute", left: x, top: 330, width: 700, height: 394, borderRadius: 14, border: `4px solid ${RED}`, background: "linear-gradient(135deg,#1a1210,#050404)", boxShadow: "0 0 40px rgba(208,20,44,0.4)", display: "flex", alignItems: "center", justifyContent: "center", opacity: n, transform: `scale(${0.94 + n * 0.06})` }}>
     <div style={{ ...OS(60, 700), color: "#fff", textAlign: "center", lineHeight: 1.05 }}>{t1}<br /><span style={{ color: RED }}>{t2}</span></div></div>;
   return <AbsoluteFill>
     {f >= askAt && f < nextAt + 10 && <div style={{ position: "absolute", left: 120, top: 760, display: "flex", alignItems: "center", gap: 22, padding: "20px 34px", background: "rgba(10,10,12,0.88)", borderRadius: 18, border: "2px solid rgba(255,255,255,0.2)", opacity: a * (1 - n) }}>
-      <Icon k="skull" s={56} c={RED} /><div><div style={{ ...OS(28, 600), color: "#c8b8a0", letterSpacing: 5 }}>COMMENT BELOW</div><div style={{ ...OS(54, 700), color: "#fff" }}>Which one would you never survive?</div></div></div>}
+      <Icon k="skull" s={56} c={RED} /><div><div style={{ ...OS(28, 600), color: "#c8b8a0", letterSpacing: 5 }}>COMMENT BELOW</div><div style={{ ...OS(54, 700), color: "#fff" }}>{q}</div></div></div>}
     {f >= nextAt && <>
       <AbsoluteFill style={{ background: `rgba(0,0,0,${0.6 * n})` }} />
       <div style={{ position: "absolute", top: 200, width: "100%", textAlign: "center", ...OS(60, 700), color: "#fff", opacity: n, letterSpacing: 6 }}>WATCH NEXT</div>

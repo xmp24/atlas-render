@@ -29,7 +29,7 @@ export type Fire = [number, number, number];
  * A photo used as a set: scaled to cover the frame (width-based), slow 2.5D drift (z zoom + pan c0->c1 in photo-normalised coords),
  * a transparent three.js canvas with the calibrated camera on top for the stickmen, flame flicker on the photo's torches, drifting mist and dust.
  */
-export const PhotoShot: React.FC<{ f: number; len: number; img: string; cam: PCam; z?: [number, number]; c0?: [number, number]; c1?: [number, number]; fire?: Fire[]; exp?: number; tint?: string; mist?: number; dust?: number; floorY?: number; children?: React.ReactNode; over?: React.ReactNode }> = ({ f, len, img, cam, z = [1.05, 1.12], c0 = [0.5, 0.55], c1, fire = [], exp = 1.05, tint, mist = 1, dust = 1, floorY = 0.7, children, over }) => {
+export const PhotoShot: React.FC<{ f: number; len: number; img: string; cam: PCam; z?: [number, number]; c0?: [number, number]; c1?: [number, number]; fire?: Fire[]; exp?: number; tint?: string; mist?: number; dust?: number; floorY?: number; blur?: [number, number]; children?: React.ReactNode; over?: React.ReactNode }> = ({ f, len, img, cam, z = [1.05, 1.12], c0 = [0.5, 0.55], c1, fire = [], exp = 1.05, tint, mist = 1, dust = 1, floorY = 0.7, blur, children, over }) => {
   const W0 = W * 1.0, H0 = Math.round(W0 * cam.size[1] / cam.size[0]), sc = W0 / cam.size[0];
   const k = ez(interpolate(f, [0, Math.max(1, len)], [0, 1], clamp)), zz = z[0] + (z[1] - z[0]) * k;
   const cc = c1 ? [c0[0] + (c1[0] - c0[0]) * k, c0[1] + (c1[1] - c0[1]) * k] : c0;
@@ -37,7 +37,7 @@ export const PhotoShot: React.FC<{ f: number; len: number; img: string; cam: PCa
   left = Math.min(0, Math.max(W - W0 * zz, left)); top = Math.min(0, Math.max(H - H0 * zz, top));
   return <AbsoluteFill style={{ background: "#000", overflow: "hidden" }}>
     <div style={{ position: "absolute", left, top, width: W0, height: H0, transform: `scale(${zz})`, transformOrigin: "0 0" }}>
-      <Img src={staticFile(img)} style={{ position: "absolute", width: W0, height: H0 }} />
+      <Img src={staticFile(img)} style={{ position: "absolute", width: W0, height: H0, filter: blur ? `blur(${blur[0] + (blur[1] - blur[0]) * k}px)` : undefined }} />
       {/* light breathing from the photo's own fires */}
       {fire.map(([x, y, s], i) => { const fl = flick(f, i), X = x * sc, Y = y * sc, S = s * sc; return <React.Fragment key={i}>
         <div style={{ position: "absolute", left: X - S * 8, top: Y - S * 8, width: S * 16, height: S * 16, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,170,80,0.28), rgba(255,120,40,0.07) 45%, transparent 70%)", mixBlendMode: "screen", opacity: 0.6 + (fl - 1) * 3 }} />
@@ -68,5 +68,8 @@ const DirLight: React.FC<{ p: [number, number, number]; t: [number, number, numb
 export const PhotoLights: React.FC<{ key1: [number, number, number]; tgt: [number, number, number]; col?: string; i?: number; amb?: number; ambCol?: string }> = ({ key1, tgt, col = "#ffb070", i = 1.6, amb = 0.35, ambCol = "#8a7a90" }) => <>
   <ambientLight intensity={amb} color={ambCol} />
   <hemisphereLight args={["#c8a888", "#1a120a", 0.35]} />
-  <DirLight p={key1} t={tgt} i={i} col={col} />
+  <DirLight p={key1} t={tgt} i={i * 1.15} col={col} />
+  {/* rim light from behind the subject so characters separate from the painted set */}
+  <directionalLight position={[tgt[0] - (key1[0] - tgt[0]) * 0.6, tgt[1] + 3, tgt[2] - 6]} intensity={i * 0.9} color="#ffd8a8" />
+  <directionalLight position={[0, 2, 4]} intensity={0.35} color="#9ab4e0" />
 </>;
