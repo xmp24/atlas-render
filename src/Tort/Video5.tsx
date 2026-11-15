@@ -220,7 +220,7 @@ const Overlays: React.FC = () => {
     {at(L("t5", 13), 120, (f) => <XRay f={f} len={120} kind="head" label="NO SLEEP" />)}
     {at(L("t6", 7), 120, (f) => <XRay f={f} len={120} kind="belly" label="THE STOMACH" side="l" />)}
     {at(L("t7", 8), 130, (f) => <XRay f={f} len={130} kind="shoulders" label="SHOULDERS" />)}
-    {at(L("t4", 6), 120, (f) => <XRay f={f} len={120} kind="joints" label="EVERY JOINT" />)}
+    {at(L("t4", 6), 120, (f) => <XRay f={f} len={120} kind="joints" label="EVERY JOINT" side="l" />)}
     {at(L("t3", 9), 100, (f) => <XRay f={f} len={100} kind="limbs" label="ARMS & LEGS" side="l" />)}
     {at(L("t2", 9), 110, (f) => <XRay f={f} len={110} kind="heat" label="THE HEAT" side="l" />)}
     {at(L("t1", 10), 120, (f) => <XRay f={f} len={120} kind="skin" label="EXPOSED" side="l" />)}
@@ -283,7 +283,7 @@ const Overlays: React.FC = () => {
     {at(L("t3", 0) + 120, 120, (f) => <Dossier f={f} len={120} floor={0} idx={7} name="The Breaking Wheel" era="1200s – 1841" place="Holy Roman Empire" dur="Hours" surv={0} used="Public executioners" />)}
     {at(L("t3", 8) + 10, span("t3", 7, "t3", 8), (f) => <Blueprint f={f} len={span("t3", 7, "t3", 8)} kind="wheel" title="THE BREAKING WHEEL" />)}
     {at(L("t3", 12) + 6, span("t3", 10, "t3", 13), (f) => <Card3 f={f} len={span("t3", 10, "t3", 13) - 6} kicker="FRENCH · “THE BLOW OF MERCY”" title="Coup de grâce" body="One final blow first, so the condemned would not suffer." pill="REAL" />)}
-    {at(L("t3", 15) + 4, span("t3", 13, "t3", 14), (f) => <MiniMap f={f} len={span("t3", 13, "t3", 14) - 4} lon={13.4} lat={52.5} label="Prussia" year="1841" zoom={1000} />)}
+    {at(L("t3", 15) + 4, span("t3", 13, "t3", 14), (f) => <MiniMap f={f} len={span("t3", 13, "t3", 14) - 4} lon={13.4} lat={52.5} label="Prussia" year="1841" zoom={1000} left />)}
     {/* 6. bull */}
     {at(L("t2", 0) + 120, 120, (f) => <Dossier f={f} len={120} floor={0} idx={8} name="The Brazen Bull" era="c. 550 BC" place="Sicily" dur="Minutes" surv={0} used="Phalaris of Akragas" />)}
     {at(L("t2", 0) + 292, span("t2", 3, "t2", 5), (f) => <MiniMap f={f} len={span("t2", 3, "t2", 5) - 4} lon={13.58} lat={37.31} label="Akragas, Sicily" year="c. 550 BC" zoom={1100} left />)}
