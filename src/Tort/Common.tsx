@@ -22,7 +22,7 @@ export type Shot = [number, Cam, Cam];
 const Rig: React.FC<{ pos: V3; look: V3; fov: number; exp: number }> = ({ pos, look, fov, exp }) => {
   const { camera, gl } = useThree();
   useLayoutEffect(() => {
-    gl.toneMapping = THREE.ACESFilmicToneMapping; gl.toneMappingExposure = exp;
+    gl.toneMapping = THREE.ACESFilmicToneMapping; gl.toneMappingExposure = exp * 1.15;
     const c = camera as THREE.PerspectiveCamera;
     c.position.set(...pos); c.lookAt(...look); c.fov = fov; c.updateProjectionMatrix();
   });

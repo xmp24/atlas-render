@@ -72,7 +72,7 @@ export const Dossier: React.FC<{ f: number; len: number; floor: number; idx: num
     <span style={{ ...OS(22, 500), color: "rgba(255,255,255,0.55)", letterSpacing: 3 }}>{k}</span><span style={{ ...OS(26, 600), color: "#fff" }}>{v}</span></div>;
   return <div style={{ position: "absolute", left: 90, top: 150, width: 560, opacity: a * o, transform: `translateX(${(1 - a) * -60}px)` }}>
     <div style={{ background: "rgba(12,11,12,0.88)", border: `2px solid ${col}66`, borderRadius: 14, padding: "26px 32px", boxShadow: "0 20px 60px rgba(0,0,0,0.6)" }}>
-      <div style={{ ...OS(22, 600), color: col, letterSpacing: 6 }}>{floor ? `FLOOR -${floor} · ${idx}/7` : `#${idx} OF 7`}</div>
+      <div style={{ ...OS(22, 600), color: col, letterSpacing: 6 }}>{floor ? `FLOOR -${floor} · ${idx}/7` : `#${idx} OF 9`}</div>
       <div style={{ ...OS(76, 700), color: "#fff", marginTop: 8 }}>{name}</div>
       <div style={{ marginTop: 14 }}>{row("ERA", era, 0)}{row("PLACE", place, 1)}{row("LASTED", dur, 2)}{row("USED BY", used, 3)}</div>
       <div style={{ marginTop: 18, opacity: pop(f, 22, 10) }}>

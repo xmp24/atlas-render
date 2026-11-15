@@ -1,0 +1,991 @@
+{
+ "secs": {
+  "hook": 0.35,
+  "ctx": 14.797,
+  "t5": 28.207,
+  "wh": 83.331,
+  "t6": 125.696,
+  "t7": 172.642,
+  "kh": 224.902,
+  "t4": 268.99,
+  "t3": 326.377,
+  "t2": 373.877,
+  "t1": 429.362,
+  "end": 476.269
+ },
+ "lines": [
+  {
+   "sec": "hook",
+   "text": "From torture with a single drop of water...",
+   "start": 0.35,
+   "end": 3.119
+  },
+  {
+   "sec": "hook",
+   "text": "to a man who was kept alive for seventeen days...",
+   "start": 3.382,
+   "end": 6.576
+  },
+  {
+   "sec": "hook",
+   "text": "until there was nothing left.",
+   "start": 6.764,
+   "end": 8.596
+  },
+  {
+   "sec": "hook",
+   "text": "These are the nine worst tortures in history.",
+   "start": 9.046,
+   "end": 12.082
+  },
+  {
+   "sec": "hook",
+   "text": "Each one worse than the last.",
+   "start": 12.232,
+   "end": 14.272
+  },
+  {
+   "sec": "ctx",
+   "text": "For most of history, torture wasn't a secret.",
+   "start": 14.797,
+   "end": 17.742
+  },
+  {
+   "sec": "ctx",
+   "text": "It was the law.",
+   "start": 17.855,
+   "end": 18.982
+  },
+  {
+   "sec": "ctx",
+   "text": "In medieval courts, a confession was called the queen of proofs.",
+   "start": 19.244,
+   "end": 23.234
+  },
+  {
+   "sec": "ctx",
+   "text": "And pain was the fastest way to get one.",
+   "start": 23.384,
+   "end": 26.207
+  },
+  {
+   "sec": "t5",
+   "text": "Number one.",
+   "start": 28.207,
+   "end": 29.13
+  },
+  {
+   "sec": "t5",
+   "text": "The water drop.",
+   "start": 29.317,
+   "end": 30.531
+  },
+  {
+   "sec": "t5",
+   "text": "You've probably heard it called Chinese water torture.",
+   "start": 30.906,
+   "end": 34.317
+  },
+  {
+   "sec": "t5",
+   "text": "But it isn't Chinese.",
+   "start": 34.429,
+   "end": 36.03
+  },
+  {
+   "sec": "t5",
+   "text": "An Italian lawyer, Hippolytus de Marsiliis, described it five hundred years ago,",
+   "start": 36.33,
+   "end": 41.892
+  },
+  {
+   "sec": "t5",
+   "text": "after watching drops of water slowly carve a hole in stone.",
+   "start": 42.005,
+   "end": 45.823
+  },
+  {
+   "sec": "t5",
+   "text": "The prisoner was strapped down, his head locked in place.",
+   "start": 46.16,
+   "end": 49.557
+  },
+  {
+   "sec": "t5",
+   "text": "And a single cold drop fell on his forehead.",
+   "start": 49.707,
+   "end": 52.404
+  },
+  {
+   "sec": "t5",
+   "text": "Then another.",
+   "start": 52.629,
+   "end": 53.644
+  },
+  {
+   "sec": "t5",
+   "text": "At random intervals, so the mind could never relax.",
+   "start": 53.869,
+   "end": 57.262
+  },
+  {
+   "sec": "t5",
+   "text": "No sleep.",
+   "start": 57.562,
+   "end": 58.508
+  },
+  {
+   "sec": "t5",
+   "text": "No rest.",
+   "start": 58.62,
+   "end": 59.543
+  },
+  {
+   "sec": "t5",
+   "text": "Hours became days.",
+   "start": 59.656,
+   "end": 61.196
+  },
+  {
+   "sec": "t5",
+   "text": "It was said to drive people to madness.",
+   "start": 61.496,
+   "end": 63.995
+  },
+  {
+   "sec": "t5",
+   "text": "No marks. No blood. Nothing to prove it ever happened.",
+   "start": 64.295,
+   "end": 67.94
+  },
+  {
+   "sec": "t5",
+   "text": "Years ago, a TV experiment put it to the test.",
+   "start": 68.24,
+   "end": 71.6
+  },
+  {
+   "sec": "t5",
+   "text": "Free to move, it was just annoying.",
+   "start": 71.75,
+   "end": 74.094
+  },
+  {
+   "sec": "t5",
+   "text": "But strapped down, unable to move...",
+   "start": 74.282,
+   "end": 76.595
+  },
+  {
+   "sec": "t5",
+   "text": "the volunteer quickly began to panic.",
+   "start": 76.745,
+   "end": 79.375
+  },
+  {
+   "sec": "t5",
+   "text": "Water breaks the mind.",
+   "start": 79.75,
+   "end": 81.256
+  },
+  {
+   "sec": "wh",
+   "text": "Number two.",
+   "start": 83.331,
+   "end": 84.347
+  },
+  {
+   "sec": "wh",
+   "text": "The wooden horse.",
+   "start": 84.534,
+   "end": 85.717
+  },
+  {
+   "sec": "wh",
+   "text": "It was nothing more than a sharp wooden beam, raised on four legs.",
+   "start": 86.055,
+   "end": 90.228
+  },
+  {
+   "sec": "wh",
+   "text": "The prisoner was forced to sit on top of it, on the sharp edge.",
+   "start": 90.416,
+   "end": 94.186
+  },
+  {
+   "sec": "wh",
+   "text": "His hands were tied behind his back.",
+   "start": 94.336,
+   "end": 96.808
+  },
+  {
+   "sec": "wh",
+   "text": "Then, weights were hung from his feet.",
+   "start": 97.033,
+   "end": 99.106
+  },
+  {
+   "sec": "wh",
+   "text": "Every minute, the edge cut a little deeper.",
+   "start": 99.406,
+   "end": 101.975
+  },
+  {
+   "sec": "wh",
+   "text": "Armies across Europe used it for centuries, to punish their own soldiers.",
+   "start": 102.313,
+   "end": 107.049
+  },
+  {
+   "sec": "wh",
+   "text": "And it didn't stay in the Middle Ages.",
+   "start": 107.274,
+   "end": 109.751
+  },
+  {
+   "sec": "wh",
+   "text": "During the American Civil War, soldiers who broke the rules were still made to ride the wooden horse.",
+   "start": 109.976,
+   "end": 116.091
+  },
+  {
+   "sec": "wh",
+   "text": "Sometimes for hours, in front of the whole camp.",
+   "start": 116.279,
+   "end": 119.164
+  },
+  {
+   "sec": "wh",
+   "text": "Most survived it.",
+   "start": 119.464,
+   "end": 120.75
+  },
+  {
+   "sec": "wh",
+   "text": "But many could never walk the same way again.",
+   "start": 120.9,
+   "end": 123.621
+  },
+  {
+   "sec": "t6",
+   "text": "Number three.",
+   "start": 125.696,
+   "end": 126.737
+  },
+  {
+   "sec": "t6",
+   "text": "The rat.",
+   "start": 126.925,
+   "end": 127.702
+  },
+  {
+   "sec": "t6",
+   "text": "All you needed was a pot, a hungry rat, and fire.",
+   "start": 128.077,
+   "end": 131.445
+  },
+  {
+   "sec": "t6",
+   "text": "The rat was trapped under a metal pot, on the prisoner's stomach.",
+   "start": 131.745,
+   "end": 135.54
+  },
+  {
+   "sec": "t6",
+   "text": "Then, they heated the pot with burning coals.",
+   "start": 135.69,
+   "end": 138.661
+  },
+  {
+   "sec": "t6",
+   "text": "The rat panicked.",
+   "start": 138.961,
+   "end": 140.113
+  },
+  {
+   "sec": "t6",
+   "text": "And there was only one way out.",
+   "start": 140.338,
+   "end": 142.341
+  },
+  {
+   "sec": "t6",
+   "text": "The prisoner could feel every movement through the metal.",
+   "start": 142.791,
+   "end": 145.981
+  },
+  {
+   "sec": "t6",
+   "text": "It was recorded during the Dutch revolt, in the fifteen hundreds.",
+   "start": 146.281,
+   "end": 150.233
+  },
+  {
+   "sec": "t6",
+   "text": "And the idea was so terrifying, that George Orwell used it in his novel, 1984,",
+   "start": 150.383,
+   "end": 157.212
+  },
+  {
+   "sec": "t6",
+   "text": "as the worst fear a human could face.",
+   "start": 157.286,
+   "end": 159.832
+  },
+  {
+   "sec": "t6",
+   "text": "It needed no dungeon, and no machine.",
+   "start": 160.132,
+   "end": 162.669
+  },
+  {
+   "sec": "t6",
+   "text": "Just a kitchen pot.",
+   "start": 162.781,
+   "end": 164.144
+  },
+  {
+   "sec": "t6",
+   "text": "That is what made it so frightening.",
+   "start": 164.369,
+   "end": 166.568
+  },
+  {
+   "sec": "t6",
+   "text": "Many prisoners confessed... before the coals were even lit.",
+   "start": 166.868,
+   "end": 170.567
+  },
+  {
+   "sec": "t7",
+   "text": "Number four.",
+   "start": 172.642,
+   "end": 173.655
+  },
+  {
+   "sec": "t7",
+   "text": "The strappado.",
+   "start": 173.842,
+   "end": 175.006
+  },
+  {
+   "sec": "t7",
+   "text": "It looked simple.",
+   "start": 175.381,
+   "end": 176.45
+  },
+  {
+   "sec": "t7",
+   "text": "A rope, a pulley, and a beam in the ceiling.",
+   "start": 176.562,
+   "end": 179.378
+  },
+  {
+   "sec": "t7",
+   "text": "The prisoner's hands were tied behind his back...",
+   "start": 179.678,
+   "end": 182.754
+  },
+  {
+   "sec": "t7",
+   "text": "and then he was lifted off the ground, by his wrists.",
+   "start": 182.942,
+   "end": 185.944
+  },
+  {
+   "sec": "t7",
+   "text": "His own weight did the rest.",
+   "start": 186.169,
+   "end": 188.108
+  },
+  {
+   "sec": "t7",
+   "text": "The arms were pulled backwards, until the shoulders came out of their sockets.",
+   "start": 188.483,
+   "end": 192.785
+  },
+  {
+   "sec": "t7",
+   "text": "If he still refused to talk, they tied weights to his feet,",
+   "start": 193.085,
+   "end": 196.751
+  },
+  {
+   "sec": "t7",
+   "text": "or let him fall, and stopped the rope just before the floor.",
+   "start": 196.864,
+   "end": 200.202
+  },
+  {
+   "sec": "t7",
+   "text": "The Inquisition loved it, because it left almost no marks.",
+   "start": 200.54,
+   "end": 204.232
+  },
+  {
+   "sec": "t7",
+   "text": "So... would you have confessed?",
+   "start": 204.532,
+   "end": 206.183
+  },
+  {
+   "sec": "t7",
+   "text": "Most people did.",
+   "start": 207.783,
+   "end": 209.004
+  },
+  {
+   "sec": "t7",
+   "text": "But in fifteen thirteen, one famous man went through it six times...",
+   "start": 209.229,
+   "end": 213.527
+  },
+  {
+   "sec": "t7",
+   "text": "and confessed nothing.",
+   "start": 213.677,
+   "end": 215.264
+  },
+  {
+   "sec": "t7",
+   "text": "His name was Niccol\u00f2 Machiavelli.",
+   "start": 215.489,
+   "end": 218.127
+  },
+  {
+   "sec": "t7",
+   "text": "Weeks later he was released...",
+   "start": 218.427,
+   "end": 220.41
+  },
+  {
+   "sec": "t7",
+   "text": "and that same year, he wrote The Prince.",
+   "start": 220.522,
+   "end": 222.827
+  },
+  {
+   "sec": "kh",
+   "text": "Number five.",
+   "start": 224.902,
+   "end": 225.996
+  },
+  {
+   "sec": "kh",
+   "text": "Keelhauling.",
+   "start": 226.183,
+   "end": 227.073
+  },
+  {
+   "sec": "kh",
+   "text": "At sea, punishment had to be quick, and the whole crew had to see it.",
+   "start": 227.41,
+   "end": 231.475
+  },
+  {
+   "sec": "kh",
+   "text": "A rope was passed under the ship, from one side to the other.",
+   "start": 231.7,
+   "end": 235.335
+  },
+  {
+   "sec": "kh",
+   "text": "The sailor was tied to it...",
+   "start": 235.522,
+   "end": 237.428
+  },
+  {
+   "sec": "kh",
+   "text": "and thrown into the sea.",
+   "start": 237.541,
+   "end": 239.347
+  },
+  {
+   "sec": "kh",
+   "text": "Then the crew pulled him under the hull.",
+   "start": 239.647,
+   "end": 242.088
+  },
+  {
+   "sec": "kh",
+   "text": "The bottom of the ship was covered in barnacles, as sharp as knives.",
+   "start": 242.313,
+   "end": 246.642
+  },
+  {
+   "sec": "kh",
+   "text": "If they pulled too fast, the barnacles tore his skin.",
+   "start": 246.942,
+   "end": 250.307
+  },
+  {
+   "sec": "kh",
+   "text": "Too slow...",
+   "start": 250.532,
+   "end": 251.469
+  },
+  {
+   "sec": "kh",
+   "text": "and he drowned.",
+   "start": 251.656,
+   "end": 252.69
+  },
+  {
+   "sec": "kh",
+   "text": "It was recorded in the Dutch navy as early as the fifteen hundreds.",
+   "start": 253.065,
+   "end": 257.575
+  },
+  {
+   "sec": "kh",
+   "text": "And some captains ordered it more than once.",
+   "start": 257.8,
+   "end": 260.572
+  },
+  {
+   "sec": "kh",
+   "text": "Few survived the second time.",
+   "start": 260.797,
+   "end": 263.0
+  },
+  {
+   "sec": "kh",
+   "text": "The Dutch navy only abolished it in eighteen fifty three.",
+   "start": 263.3,
+   "end": 266.915
+  },
+  {
+   "sec": "t4",
+   "text": "Number six.",
+   "start": 268.99,
+   "end": 269.967
+  },
+  {
+   "sec": "t4",
+   "text": "The rack.",
+   "start": 270.155,
+   "end": 270.925
+  },
+  {
+   "sec": "t4",
+   "text": "A wooden frame, with a roller at each end.",
+   "start": 271.3,
+   "end": 274.032
+  },
+  {
+   "sec": "t4",
+   "text": "Ankles tied to one side, wrists to the other.",
+   "start": 274.182,
+   "end": 277.105
+  },
+  {
+   "sec": "t4",
+   "text": "Every turn of the handle stretched the body a little more.",
+   "start": 277.33,
+   "end": 280.573
+  },
+  {
+   "sec": "t4",
+   "text": "Until the joints gave way.",
+   "start": 280.798,
+   "end": 282.653
+  },
+  {
+   "sec": "t4",
+   "text": "The Tower of London kept one.",
+   "start": 283.028,
+   "end": 285.196
+  },
+  {
+   "sec": "t4",
+   "text": "The guards nicknamed it, the Duke of Exeter's Daughter.",
+   "start": 285.308,
+   "end": 288.631
+  },
+  {
+   "sec": "t4",
+   "text": "In sixteen oh five, Guy Fawkes, the man who tried to blow up Parliament, was taken there.",
+   "start": 288.969,
+   "end": 294.813
+  },
+  {
+   "sec": "t4",
+   "text": "King James wrote that the gentler tortures should be used first...",
+   "start": 295.0,
+   "end": 299.148
+  },
+  {
+   "sec": "t4",
+   "text": "and then, step by step, the worst.",
+   "start": 299.26,
+   "end": 301.547
+  },
+  {
+   "sec": "t4",
+   "text": "Before, Guy Fawkes signed his name like this.",
+   "start": 301.884,
+   "end": 304.67
+  },
+  {
+   "sec": "t4",
+   "text": "After the Tower... like this.",
+   "start": 304.97,
+   "end": 306.878
+  },
+  {
+   "sec": "t4",
+   "text": "When he was executed months later, he was so weak he could barely climb the ladder.",
+   "start": 307.328,
+   "end": 312.435
+  },
+  {
+   "sec": "t4",
+   "text": "And sometimes, they didn't even need to use it.",
+   "start": 312.81,
+   "end": 315.709
+  },
+  {
+   "sec": "t4",
+   "text": "Prisoners were simply shown the rack...",
+   "start": 315.859,
+   "end": 318.181
+  },
+  {
+   "sec": "t4",
+   "text": "and that was enough.",
+   "start": 318.331,
+   "end": 319.735
+  },
+  {
+   "sec": "t4",
+   "text": "Guy Fawkes survived the rack...",
+   "start": 320.035,
+   "end": 322.052
+  },
+  {
+   "sec": "t4",
+   "text": "only to die on the gallows.",
+   "start": 322.202,
+   "end": 324.302
+  },
+  {
+   "sec": "t3",
+   "text": "Number seven.",
+   "start": 326.377,
+   "end": 327.465
+  },
+  {
+   "sec": "t3",
+   "text": "The breaking wheel.",
+   "start": 327.653,
+   "end": 328.877
+  },
+  {
+   "sec": "t3",
+   "text": "This one wasn't hidden in a dungeon.",
+   "start": 329.252,
+   "end": 331.632
+  },
+  {
+   "sec": "t3",
+   "text": "It happened in the town square, in front of everyone.",
+   "start": 331.744,
+   "end": 334.87
+  },
+  {
+   "sec": "t3",
+   "text": "Crowds came from miles away.",
+   "start": 335.095,
+   "end": 337.018
+  },
+  {
+   "sec": "t3",
+   "text": "Some brought food.",
+   "start": 337.13,
+   "end": 338.418
+  },
+  {
+   "sec": "t3",
+   "text": "Children watched from their parents' shoulders.",
+   "start": 338.531,
+   "end": 340.933
+  },
+  {
+   "sec": "t3",
+   "text": "The condemned was tied to a large wooden wheel,",
+   "start": 341.27,
+   "end": 344.561
+  },
+  {
+   "sec": "t3",
+   "text": "and the executioner struck his limbs, one by one, with a heavy iron bar.",
+   "start": 344.673,
+   "end": 349.454
+  },
+  {
+   "sec": "t3",
+   "text": "Then the wheel was raised on a pole...",
+   "start": 349.754,
+   "end": 352.097
+  },
+  {
+   "sec": "t3",
+   "text": "and left there, for the crows.",
+   "start": 352.247,
+   "end": 354.15
+  },
+  {
+   "sec": "t3",
+   "text": "Sometimes, the victim was still alive when the wheel went up.",
+   "start": 354.525,
+   "end": 358.389
+  },
+  {
+   "sec": "t3",
+   "text": "Sometimes, a merciful judge ordered one final blow first.",
+   "start": 358.726,
+   "end": 363.061
+  },
+  {
+   "sec": "t3",
+   "text": "It was called the coup de gr\u00e2ce.",
+   "start": 363.211,
+   "end": 365.093
+  },
+  {
+   "sec": "t3",
+   "text": "The blow of mercy.",
+   "start": 365.281,
+   "end": 366.902
+  },
+  {
+   "sec": "t3",
+   "text": "Incredibly, the wheel was still used in Prussia in eighteen forty one.",
+   "start": 367.239,
+   "end": 371.802
+  },
+  {
+   "sec": "t2",
+   "text": "Number eight.",
+   "start": 373.877,
+   "end": 374.826
+  },
+  {
+   "sec": "t2",
+   "text": "The brazen bull.",
+   "start": 375.014,
+   "end": 376.271
+  },
+  {
+   "sec": "t2",
+   "text": "Two and a half thousand years ago, in Sicily,",
+   "start": 376.646,
+   "end": 379.71
+  },
+  {
+   "sec": "t2",
+   "text": "the tyrant Phalaris wanted a new way to execute his enemies.",
+   "start": 379.823,
+   "end": 383.803
+  },
+  {
+   "sec": "t2",
+   "text": "Phalaris was real.",
+   "start": 384.028,
+   "end": 385.566
+  },
+  {
+   "sec": "t2",
+   "text": "He ruled the Greek city of Akragas, today called Agrigento.",
+   "start": 385.716,
+   "end": 389.827
+  },
+  {
+   "sec": "t2",
+   "text": "A sculptor named Perillos built him a hollow bull, made of bronze.",
+   "start": 390.165,
+   "end": 394.461
+  },
+  {
+   "sec": "t2",
+   "text": "A door on the side.",
+   "start": 394.686,
+   "end": 396.182
+  },
+  {
+   "sec": "t2",
+   "text": "A fire underneath.",
+   "start": 396.332,
+   "end": 397.923
+  },
+  {
+   "sec": "t2",
+   "text": "And inside the head, a system of tubes...",
+   "start": 398.148,
+   "end": 400.865
+  },
+  {
+   "sec": "t2",
+   "text": "so the screams would come out as the sound of a bellowing bull.",
+   "start": 401.015,
+   "end": 405.024
+  },
+  {
+   "sec": "t2",
+   "text": "According to legend, Phalaris was disgusted by the inventor,",
+   "start": 405.474,
+   "end": 409.592
+  },
+  {
+   "sec": "t2",
+   "text": "and ordered him to test it himself.",
+   "start": 409.705,
+   "end": 411.985
+  },
+  {
+   "sec": "t2",
+   "text": "Perillos became its first victim.",
+   "start": 412.21,
+   "end": 414.445
+  },
+  {
+   "sec": "t2",
+   "text": "It was said the bones of the victims were polished... and made into bracelets.",
+   "start": 414.782,
+   "end": 419.241
+  },
+  {
+   "sec": "t2",
+   "text": "And the tyrant?",
+   "start": 419.579,
+   "end": 420.637
+  },
+  {
+   "sec": "t2",
+   "text": "Years later, his own people rose up against him...",
+   "start": 420.862,
+   "end": 423.976
+  },
+  {
+   "sec": "t2",
+   "text": "and it is said he died inside his own bull.",
+   "start": 424.126,
+   "end": 427.287
+  },
+  {
+   "sec": "t1",
+   "text": "Number nine.",
+   "start": 429.362,
+   "end": 430.332
+  },
+  {
+   "sec": "t1",
+   "text": "The worst of them all.",
+   "start": 430.52,
+   "end": 432.097
+  },
+  {
+   "sec": "t1",
+   "text": "Scaphism.",
+   "start": 432.397,
+   "end": 433.323
+  },
+  {
+   "sec": "t1",
+   "text": "It comes from ancient Persia, and it was described by the Greek writer, Plutarch.",
+   "start": 433.773,
+   "end": 438.79
+  },
+  {
+   "sec": "t1",
+   "text": "The victim was placed between two boats, one on top of the other.",
+   "start": 439.09,
+   "end": 443.257
+  },
+  {
+   "sec": "t1",
+   "text": "Only his head, hands and feet were left outside.",
+   "start": 443.407,
+   "end": 446.622
+  },
+  {
+   "sec": "t1",
+   "text": "Then he was force fed milk and honey.",
+   "start": 446.922,
+   "end": 449.4
+  },
+  {
+   "sec": "t1",
+   "text": "And more honey was poured over his face.",
+   "start": 449.55,
+   "end": 452.122
+  },
+  {
+   "sec": "t1",
+   "text": "Then, he was left floating in a stagnant pond, under the burning sun.",
+   "start": 452.347,
+   "end": 456.473
+  },
+  {
+   "sec": "t1",
+   "text": "And the insects came.",
+   "start": 456.773,
+   "end": 458.253
+  },
+  {
+   "sec": "t1",
+   "text": "Every day, they fed him again.",
+   "start": 458.703,
+   "end": 460.804
+  },
+  {
+   "sec": "t1",
+   "text": "Not out of mercy...",
+   "start": 460.916,
+   "end": 462.326
+  },
+  {
+   "sec": "t1",
+   "text": "but to keep him alive.",
+   "start": 462.476,
+   "end": 463.836
+  },
+  {
+   "sec": "t1",
+   "text": "According to Plutarch, a soldier named Mithridates survived like this...",
+   "start": 464.211,
+   "end": 468.647
+  },
+  {
+   "sec": "t1",
+   "text": "for seventeen days.",
+   "start": 468.872,
+   "end": 470.247
+  },
+  {
+   "sec": "t1",
+   "text": "And when the top boat was finally lifted...",
+   "start": 470.772,
+   "end": 473.375
+  },
+  {
+   "sec": "t1",
+   "text": "there was almost nothing left of him.",
+   "start": 473.6,
+   "end": 475.819
+  },
+  {
+   "sec": "end",
+   "text": "Which one would you never survive?",
+   "start": 476.269,
+   "end": 478.556
+  },
+  {
+   "sec": "end",
+   "text": "Tell me in the comments.",
+   "start": 478.668,
+   "end": 480.125
+  }
+ ],
+ "dur": 480.575
+}
