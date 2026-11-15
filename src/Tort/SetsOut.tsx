@@ -85,7 +85,17 @@ export const MuseumSet: React.FC<{ f: number; open: number; dim?: number; spot?:
     {/* plaque */}
     <group position={[1.2, 0.9, -0.4]} rotation={[-0.5, 0, 0]}><Box p={[0, 0, 0]} s={[0.5, 0.32, 0.03]} c="#c8a850" metal={0.8} rough={0.3} /></group>
     {/* other exhibits: suit of armour silhouette, display case */}
-    <group position={[-3.6, 0, -2.2]}><Box p={[0, 0.3, 0]} s={[0.8, 0.6, 0.8]} c="#1a1816" /><Bot pos={[0, 0.6, 0]} p={STAND} f={0} outfit="guard" hood={false} helmet eyes="closed" ground={false} /></group>
+    <group position={[-3.6, 0, -2.2]}><Box p={[0, 0.3, 0]} s={[0.8, 0.6, 0.8]} c="#1a1816" />
+      <group position={[0, 0.6, 0]}>{(() => { const mt = <meshStandardMaterial color="#8a8e96" metalness={0.9} roughness={0.28} />; return <>
+        <mesh position={[0, 0.7, 0]}><cylinderGeometry args={[0.03, 0.03, 1.4, 8]} /><meshStandardMaterial color="#2a2018" /></mesh>
+        <mesh position={[0, 1.15, 0]} scale={[1, 1.15, 0.75]}><sphereGeometry args={[0.22, 20, 14]} />{mt}</mesh>
+        <mesh position={[0, 0.85, 0]}><cylinderGeometry args={[0.2, 0.17, 0.3, 16]} />{mt}</mesh>
+        {[-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.25, 1.3, 0]} scale={[1, 0.7, 1]}><sphereGeometry args={[0.1, 14, 10]} />{mt}</mesh>)}
+        {[-1, 1].map((sd) => <mesh key={"a" + sd} position={[sd * 0.3, 1.05, 0]} rotation={[0, 0, sd * 0.1]}><cylinderGeometry args={[0.055, 0.05, 0.45, 10]} />{mt}</mesh>)}
+        <mesh position={[0, 1.6, 0]} scale={[1, 1.15, 1.05]}><sphereGeometry args={[0.15, 20, 14]} />{mt}</mesh>
+        <mesh position={[0, 1.6, 0.13]}><boxGeometry args={[0.18, 0.025, 0.05]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {[-1, 1].map((sd) => <mesh key={"l" + sd} position={[sd * 0.1, 0.35, 0]}><cylinderGeometry args={[0.06, 0.055, 0.7, 10]} />{mt}</mesh>)}
+      </>; })()}</group></group>
     <group position={[3.6, 0, -2.2]}><Box p={[0, 0.5, 0]} s={[1.2, 1.0, 0.7]} c="#1a1816" /><Box p={[0, 1.35, 0]} s={[1.2, 0.7, 0.7]} c="#8aa0b0" op={0.18} rough={0.05} metal={0.2} />
       {[-0.3, 0.05, 0.35].map((x, i) => <mesh key={i} position={[x, 1.1, 0]} rotation={[0, 0, 0.3 * i]}><torusGeometry args={[0.08, 0.015, 8, 16]} /><meshStandardMaterial map={ironTex()} metalness={0.7} /></mesh>)}</group>
     {/* spotlights */}
@@ -99,21 +109,23 @@ export const MuseumSet: React.FC<{ f: number; open: number; dim?: number; spot?:
 };
 
 /* ================= town square with the breaking wheel ================= */
-export const Wheel: React.FC<{ spin?: number; tied?: boolean; f: number; slump?: number }> = ({ spin = 0, tied = true, f, slump = 0 }) => {
+export const Wheel: React.FC<{ spin?: number; tied?: boolean; f: number; slump?: number; dead?: number }> = ({ spin = 0, tied = true, f, slump = 0, dead = 0 }) => {
   const wood = tx("wh", () => woodTex("wh", [96, 66, 40]), 1, 1);
   return <group rotation={[0, 0, spin]}>
     <mesh><torusGeometry args={[0.85, 0.06, 10, 40]} /><meshStandardMaterial map={wood} roughness={0.9} /></mesh>
     <mesh><torusGeometry args={[0.85, 0.065, 4, 40]} /><meshStandardMaterial color="#2a2624" metalness={0.6} roughness={0.5} wireframe={false} transparent opacity={0.0} /></mesh>
     {Array.from({ length: 10 }).map((_, i) => <group key={i} rotation={[0, 0, i * Math.PI / 5]}><Box p={[0, 0.42, 0]} s={[0.05, 0.8, 0.04]} map={wood} /></group>)}
     <mesh rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.13, 0.13, 0.2, 16]} /><meshStandardMaterial map={wood} /></mesh>
-    {tied && <Bot pos={[0, -0.7, 0.13]} p={{ ...STAND, lArmZ: -78, rArmZ: 78, lArmX: 0, rArmX: 0, lElbow: -4 - slump * 10, rElbow: -4 - slump * 10, lLegZ: -22, rLegZ: 22, lKnee: 4, rKnee: 4, headX: 10 + slump * 30, headY: Math.sin(f / 40) * 6 * (1 - slump), lean: 0 }} f={f} outfit="prisoner" hood={false} eyes={slump > 0.7 ? "closed" : "scared"} mouth={slump > 0.7 ? "slack" : "fear"} brows={1} ground={false} scale={0.82} />}
+    {tied && <Bot pos={[0, -0.7, 0.13]} p={{ ...STAND, lArmZ: -78, rArmZ: 78, lArmX: 0, rArmX: 0, lElbow: -4 - slump * 10, rElbow: -4 - slump * 10, lLegZ: -22, rLegZ: 22, lKnee: 4, rKnee: 4, headX: 10 + slump * 30, headY: Math.sin(f / 40) * 6 * (1 - slump), lean: 0 }} f={f} outfit="prisoner" hood={false} eyes={dead > 0 ? "dead" : slump > 0.7 ? "closed" : "scared"} xk={Math.min(1, dead * 1.4)} mouth={dead > 0 || slump > 0.7 ? "slack" : "fear"} brows={dead > 0 ? 0 : 1} ground={false} scale={0.82} />}
   </group>;
 };
-export const SquareSet: React.FC<{ f: number; stage: "tie" | "strike" | "raised" | "judge"; hit?: number; crowd?: number; sky?: "dusk" | "storm" | "sunset" }> = ({ f, stage, hit = 0, crowd = 1, sky = "dusk" }) => {
+export const SquareSet: React.FC<{ f: number; stage: "tie" | "strike" | "raised" | "judge" | "final"; hit?: number; crowd?: number; sky?: "dusk" | "storm" | "sunset"; dead?: number; blowAt?: number }> = ({ f, stage, hit = 0, crowd = 1, sky = "dusk", dead = 0, blowAt = 20 }) => {
   const env = useEnv(); const cob = tx("cob", cobbleTex, 14, 14), wood = tx("sc", () => woodTex("sc", [80, 56, 34]), 3, 1), stone = masonry("ch", [150, 136, 116], 2, 6, 8);
   const houses: [V3, number, number, number, number][] = [[[-7, 0, -9], 0, 3.2, 3, 5], [[-3.4, 0, -9.4], 0, 3.4, 3, 4.6], [[0.4, 0, -9.6], 0, 3.6, 3, 5.4], [[4.2, 0, -9.2], 0, 3.2, 3, 4.4], [[7.6, 0, -8.6], -0.2, 3.4, 3, 5], [[-10.5, 0, -5], 1.2, 3.4, 3, 5], [[10.8, 0, -4.4], -1.25, 3.4, 3, 4.8], [[-11, 0, 0.5], 1.5, 3.2, 3, 4.4], [[11.2, 0, 1], -1.5, 3.4, 3, 5]];
   const blow = stage === "strike" ? Math.max(0, Math.sin(Math.min(1, ((f % 54) / 18)) * Math.PI)) : 0;
-  const barA = stage === "strike" ? (f % 54 < 18 ? -150 + (f % 54) / 18 * 0 : f % 54 < 26 ? -150 + ((f % 54 - 18) / 8) * 150 : 0 - Math.min(1, (f % 54 - 26) / 28) * 150) : -10;
+  const fc = f - blowAt + 18;
+  const barF = fc < 18 ? -150 : fc < 26 ? -150 + ((fc - 18) / 8) * 150 : -Math.min(30, (fc - 26) * 1.5);
+  const barA = stage === "final" ? barF : stage === "strike" ? (f % 54 < 18 ? -150 + (f % 54) / 18 * 0 : f % 54 < 26 ? -150 + ((f % 54 - 18) / 8) * 150 : 0 - Math.min(1, (f % 54 - 26) / 28) * 150) : -10;
   return <group>
     <Sky kind={sky} f={f} sun={sky === "storm" ? undefined : [-20, 6, -80]} sunCol="#ff9a50" clouds={10} cloudCol={sky === "storm" ? "#3a3e48" : "#8a5a6a"} />
     <ambientLight intensity={0.25} color="#8a7a9a" />
@@ -130,20 +142,20 @@ export const SquareSet: React.FC<{ f: number; stage: "tie" | "strike" | "raised"
       <Box p={[0, 0.9, 0]} s={[4.2, 0.14, 3.2]} map={wood} />
       {[[-2, -1.5], [2, -1.5], [-2, 1.5], [2, 1.5], [0, -1.5], [0, 1.5]].map(([x, z], i) => <Box key={i} p={[x, 0.42, z]} s={[0.16, 0.84, 0.16]} map={wood} />)}
       {[0, 1, 2, 3].map((i) => <Box key={"st" + i} p={[2.35 + i * 0.28, 0.75 - i * 0.22, 0.6]} s={[0.28, 0.08, 1.0]} map={wood} />)}
-      {stage !== "raised" && <group position={[0, 1.07, 0]} rotation={[-Math.PI / 2, 0, 0]}><Wheel f={f} slump={stage === "strike" ? 0.2 : 0} /></group>}
-      {stage === "strike" && <Bot pos={[0.7, 0.97, 0.95]} ry={-0.6} p={{ ...STAND, lean: 10 + blow * 25, lArmX: barA, rArmX: barA, lArmZ: -8, rArmZ: 8, lElbow: -10, rElbow: -10, lLegX: -14, rLegX: 16, rKnee: 18 }} f={f} outfit="exec" hood={false} eyes="angry" scale={1.1}
+      {stage !== "raised" && <group position={[0, 1.07, 0]} rotation={[-Math.PI / 2, 0, 0]}><Wheel f={f} slump={stage === "strike" ? 0.2 : stage === "final" ? dead : 0} dead={stage === "final" ? dead : 0} /></group>}
+      {(stage === "strike" || stage === "final") && <Bot pos={[0.7, 0.97, 0.95]} ry={-0.6} p={{ ...STAND, lean: stage === "final" ? (fc >= 18 && fc < 32 ? 32 : 10) : 10 + blow * 25, lArmX: barA, rArmX: barA, lArmZ: -8, rArmZ: 8, lElbow: -10, rElbow: -10, lLegX: -14, rLegX: 16, rKnee: 18 }} f={f} outfit="exec" hood={false} eyes="calm" brows={-1} scale={1.1}
         rHandItem={<group rotation={[Math.PI / 2, 0, 0]}><mesh position={[0, 0.45, 0]}><cylinderGeometry args={[0.035, 0.04, 1.1, 10]} /><meshStandardMaterial map={ironTex()} metalness={0.6} roughness={0.5} /></mesh></group>} />}
-      {stage === "tie" && <Bot pos={[0.9, 0.97, 0.5]} ry={-1.2} p={{ ...STAND, lean: 40, lArmX: -70, rArmX: -60, lElbow: -30, rElbow: -30, rKnee: 20, lKnee: 20, lLegX: -20, rLegX: -10 }} f={f} outfit="exec" hood={false} eyes="angry" scale={1.1} />}
-      {stage !== "raised" && <Bot pos={[-1.5, 0.97, -1.0]} ry={0.5} p={idleBP(f, { ...STAND, lArmX: -40, lElbow: -80, rArmX: -40, rElbow: -80 })} f={f} outfit="scholar" hood={false} eyes="angry" />}
+      {stage === "tie" && <Bot pos={[0.9, 0.97, 0.5]} ry={-1.2} p={{ ...STAND, lean: 40, lArmX: -70, rArmX: -60, lElbow: -30, rElbow: -30, rKnee: 20, lKnee: 20, lLegX: -20, rLegX: -10 }} f={f} outfit="exec" hood={false} eyes="calm" brows={-1} scale={1.1} />}
+      {stage !== "raised" && <Bot pos={[-1.5, 0.97, -1.0]} ry={0.5} p={idleBP(f, { ...STAND, lArmX: -40, lElbow: -80, rArmX: -40, rElbow: -80 })} f={f} outfit="scholar" hood={false} eyes="calm" brows={-1} />}
     </group>
-    {stage === "raised" && <group position={[0, 0, 0]}><Cyl p={[0, 2.5, 0]} r1={0.1} h={5} c="#3a2a1a" /><group position={[0, 5.05, 0]} rotation={[-Math.PI / 2 + 0.15, 0, 0]}><Wheel f={f} slump={1} /></group>
+    {stage === "raised" && <group position={[0, 0, 0]}><Cyl p={[0, 2.5, 0]} r1={0.1} h={5} c="#3a2a1a" /><group position={[0, 5.05, 0]} rotation={[-Math.PI / 2 + 0.15, 0, 0]}><Wheel f={f} slump={1} dead={1} /></group>
       <Crows c={[0, 6.5, 0]} f={f} n={7} r={2.4} s={1.4} />
       <Crow p={[0.6, 5.2, 0.4]} f={f} perch s={1.4} ry={2} /></group>}
     {/* crowd: close ring of stickmen + far rows */}
     {crowd > 0 && <>
       {Array.from({ length: 16 }).map((_, i) => { const a = Math.PI * 0.15 + (i / 15) * Math.PI * 0.7, r = 4.2 + random("cr" + i) * 1.6, x = Math.cos(a) * r * 1.3, z = Math.sin(a) * r; const kinds: Kind[] = ["peasant", "peasant2", "peasant3", "guard", "peasant2"]; const k = kinds[Math.floor(random("ck" + i) * kinds.length)];
         const cheer = stage === "strike" ? Math.max(0, Math.sin(f / 6 + i)) : 0;
-        return <Bot key={i} pos={[x, 0, z]} ry={Math.atan2(-x, -z)} p={idleBP(f + i * 17, { ...STAND, headX: -10, rArmX: cheer > 0.5 && i % 3 === 0 ? -160 : 4, rElbow: cheer > 0.5 && i % 3 === 0 ? -20 : -10 })} f={f + i * 17} outfit={k} hood={false} eyes={i % 4 === 0 ? "scared" : "angry"} helmet={k === "guard"} scale={0.92 + random("cs" + i) * 0.14} />; })}
+        return <Bot key={i} pos={[x, 0, z]} ry={Math.atan2(-x, -z)} p={idleBP(f + i * 17, { ...STAND, headX: -10, rArmX: cheer > 0.5 && i % 3 === 0 ? -160 : 4, rElbow: cheer > 0.5 && i % 3 === 0 ? -20 : -10 })} f={f + i * 17} outfit={k} hood={false} eyes="calm" helmet={k === "guard"} scale={0.92 + random("cs" + i) * 0.14} />; })}
       <FarCrowd f={f} n={70} area={[-9, 9, 6.5, 10]} face={[0, 1, 0]} cheer={stage === "strike" ? 1 : 0} />
       <FarCrowd f={f} n={40} area={[-9, -5.5, -6, 5]} face={[0, 1, 0]} seed="fl" />
       <FarCrowd f={f} n={40} area={[5.5, 9, -6, 5]} face={[0, 1, 0]} seed="fr" />
@@ -225,9 +237,9 @@ export const SicilySet: React.FC<{ f: number; heat: number; door: number; roar?:
     {/* the tyrant on a throne, guards with spears */}
     {tyrant && <group position={[4.2, 0, 1.2]} rotation={[0, -1.2, 0]}>
       <Box p={[0, 0.25, 0]} s={[1.4, 0.5, 1.2]} map={mar} /><Box p={[0, 1.0, -0.45]} s={[1.0, 1.4, 0.15]} map={mar} /><Box p={[0, 0.62, 0]} s={[1.0, 0.22, 0.8]} c="#5a1a5a" rough={0.8} />
-      {victim !== "tyrant" && <Bot pos={[0, 0.3, 0]} p={{ ...idleBP(f, { ...STAND, bob: -0.36, lean: -6, lLegX: -88, lKnee: 86, rLegX: -86, rKnee: 84, lArmX: -30, rArmX: -40, lElbow: -40, rElbow: -30 }), headX: 0 }} f={f} outfit="tyrant" hood={false} eyes="angry" ground={false} />}
+      {victim !== "tyrant" && <Bot pos={[0, 0.3, 0]} p={{ ...idleBP(f, { ...STAND, bob: -0.36, lean: -6, lLegX: -88, lKnee: 86, rLegX: -86, rKnee: 84, lArmX: -30, rArmX: -40, lElbow: -40, rElbow: -30 }), headX: 0 }} f={f} outfit="tyrant" hood={false} eyes="calm" brows={-1} ground={false} />}
     </group>}
-    {[[-2.8, 1.6], [2.8, -1.4]].map(([x, z], i) => <Bot key={i} pos={[x, 0, z]} ry={i ? -0.9 : 0.9} p={idleBP(f + i * 40, { ...STAND, rArmX: -20, rElbow: -70 })} f={f + i * 40} outfit="guard" hood={false} helmet eyes="angry"
+    {[[-2.8, 1.6], [2.8, -1.4]].map(([x, z], i) => <Bot key={i} pos={[x, 0, z]} ry={i ? -0.9 : 0.9} p={idleBP(f + i * 40, { ...STAND, rArmX: -20, rElbow: -70 })} f={f + i * 40} outfit="hoplite" hood={false} eyes="calm" brows={-1}
       rHandItem={<group rotation={[Math.PI / 2 - 0.2, 0, 0]}><mesh position={[0, 0.3, 0]}><cylinderGeometry args={[0.018, 0.018, 2.2, 8]} /><meshStandardMaterial color="#4a3020" /></mesh><mesh position={[0, 1.45, 0]}><coneGeometry args={[0.05, 0.22, 4]} /><meshStandardMaterial color="#b08a50" metalness={0.9} roughness={0.3} /></mesh></group>} />)}
     {sculptor && <Bot pos={[-1.6 + walk * 0.9, 0, 1.2 - walk * 0.4]} ry={1.6 - walk * 0.6} p={walk > 0 && walk < 1 ? { ...STAND, lLegX: Math.sin(f / 4) * 20, rLegX: -Math.sin(f / 4) * 20, lKnee: 10, rKnee: 10, lean: -6, lArmX: -60, rArmX: -60, lArmZ: -30, rArmZ: 30 } : idleBP(f, { ...STAND, lArmX: -40, lElbow: -60, rArmX: -30, rElbow: -40 })} f={f} outfit="scholar" hood={false} eyes={walk > 0 ? "scared" : "angry"} mouth={walk > 0 ? "fear" : "none"} brows={walk > 0 ? 1 : 0} />}
     {victim === "tyrant" && <Bot pos={[-1.6 + walk * 0.9, 0, 1.2 - walk * 0.4]} ry={1.6 - walk * 0.6} p={{ ...STAND, lLegX: Math.sin(f / 4) * 20, rLegX: -Math.sin(f / 4) * 20, lKnee: 10, rKnee: 10, lean: -6, lArmX: -60, rArmX: -60, lArmZ: -30, rArmZ: 30 }} f={f} outfit="tyrant" hood={false} eyes="scared" mouth="fear" brows={1} />}
@@ -246,7 +258,7 @@ export const Boats: React.FC<{ f: number; honey: number; flies: number; day: num
     <mesh position={[0, 0.08, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.25, 0.42, 1]}><torusGeometry args={[1, 0.02, 6, 40]} /><meshStandardMaterial color="#3a2414" roughness={0.9} /></mesh>
     {/* head sticking out, face up */}
     <group position={[0, 0.1, 0]} rotation={[0, Math.PI, 0]}>
-      <Bot pos={[0.15, 0, 0]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={{ ...STAND, headX: -4, headY: Math.sin(f / 30) * 10 * (1 - day), lArmZ: -18, rArmZ: 18 }} f={f} outfit="prisoner" hood={false} eyes={day > 0.85 ? "closed" : "scared"} mouth={day > 0.6 ? "slack" : "fear"} brows={1} tired={day} lid={day * 0.7} pupil={0.8} ground={false} />
+      <Bot pos={[0.15, 0, 0]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={{ ...STAND, headX: -4, headY: Math.sin(f / 30) * 10 * (1 - day), lArmZ: -18, rArmZ: 18 }} f={f} outfit="persianPrisoner" hood={false} eyes={day > 0.85 ? "closed" : "scared"} mouth={day > 0.6 ? "slack" : "fear"} brows={1} tired={day} lid={day * 0.7} pupil={0.8} ground={false} />
     </group>
     {honey > 0 && Array.from({ length: 14 }).map((_, i) => { const a = random("ha" + i) * Math.PI * 2, b = random("hb" + i) * 1.2; return <mesh key={"h" + i} position={[1.44 + Math.cos(a) * Math.sin(b) * 0.2, 0.12 + Math.cos(b) * 0.2, Math.sin(a) * Math.sin(b) * 0.2]} scale={[1, 1.6, 1]}><sphereGeometry args={[0.018 * honey, 10, 8]} /><meshPhysicalMaterial color="#e09a20" roughness={0.05} clearcoat={1} emissive="#5a3000" emissiveIntensity={0.3} /></mesh>; })}
     {/* hands and feet out of the sides */}
@@ -274,7 +286,7 @@ export const MarshSet: React.FC<{ f: number; honey: number; flies: number; day: 
     <group position={[0, 0, 0]} rotation={[0, 0.3, 0]}><Boats f={f} honey={honey} flies={flies} day={day} /></group>
     {/* ripples */}
     {[0, 1, 2].map((k) => { const s = ((f / 90 + k / 3) % 1); return <mesh key={k} position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.3, 0.55, 1]}><ringGeometry args={[1.4 + s * 1.5, 1.43 + s * 1.5, 48]} /><meshBasicMaterial color="#9aa880" transparent opacity={(1 - s) * 0.15} depthWrite={false} /></mesh>; })}
-    {guards && [[-3.2, 3], [3.4, 2.6]].map(([x, z], i) => <Bot key={i} pos={[x, 0, z]} ry={Math.atan2(-x, -z)} p={idleBP(f + i * 30, { ...STAND, rArmX: -20, rElbow: -70 })} f={f + i * 30} outfit="guard" hood={false} helmet eyes="angry"
+    {guards && [[-3.2, 3], [3.4, 2.6]].map(([x, z], i) => <Bot key={i} pos={[x, 0, z]} ry={Math.atan2(-x, -z)} p={idleBP(f + i * 30, { ...STAND, rArmX: -20, rElbow: -70 })} f={f + i * 30} outfit="persian" hood={false} eyes="calm" brows={-1}
       rHandItem={<group rotation={[Math.PI / 2 - 0.2, 0, 0]}><mesh position={[0, 0.3, 0]}><cylinderGeometry args={[0.018, 0.018, 2.2, 8]} /><meshStandardMaterial color="#4a3020" /></mesh><mesh position={[0, 1.45, 0]}><coneGeometry args={[0.05, 0.22, 4]} /><meshStandardMaterial color="#b08a50" metalness={0.9} roughness={0.3} /></mesh></group>} />)}
     {/* heat haze dust */}
     <Mist f={f} n={8} area={[-10, 10, -8, -2]} y={0.4} col={night ? "#5a6a8a" : "#e8e0b0"} o={0.04} s={4} />

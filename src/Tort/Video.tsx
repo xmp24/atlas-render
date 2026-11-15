@@ -7,7 +7,7 @@ import { TowerExt, MuseumSet, SquareSet, SicilySet, MarshSet } from "./SetsOut";
 import { Room, Prisoner, Drops, Pool, rockGeo, rockTex, caveWallGeo, randHits, flinchAt } from "../Gota/Video7";
 import { Drop, FOREHEAD } from "../Gota/Dungeon4";
 import { Subs, ChapterBar, TitleCard, RankBoard, Tag, Card, Stamp, Big, Counter, Split, Signatures, EndScreen, Grade } from "./UI";
-import TIM from "./timing.json";
+import TIM from "./timing_v2.json";
 
 const FPS = 30;
 const LS = (TIM as any).lines as { start: number; end: number }[];

@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { random } from "remotion";
 import { Box, Cyl } from "../Miya3/Kit3";
 import { masonry, Torch, Contact, useEnv, glowTex } from "../Gota/Dungeon4";
-import { Bot5 as Bot } from "./Bot5";
+import { Bot5 as Bot, Kind } from "./Bot5";
 import { STAND, BP, idleBP, mixBP } from "../Miya8/Bot3";
 import { V3, Fire, Mist, woodTex, ironTex, tx, flameTex } from "./Common";
 
@@ -53,7 +53,7 @@ export const Candle: React.FC<{ p: V3; f: number; h?: number; seed?: string; lig
 /* ================= 7. STRAPPADO — inquisition chamber ================= */
 /** lift 0..1 = hoisted height; the prisoner hangs from wrists tied behind his back */
 export const STRAP_PULLEY: V3 = [0, 3.55, 0];
-export const StrappadoSet: React.FC<{ f: number; lift: number; weight?: number; sway?: number; crank?: number; pain?: number }> = ({ f, lift, weight = 0, sway = 0, crank = 0, pain = 0 }) => {
+export const StrappadoSet: React.FC<{ f: number; lift: number; weight?: number; sway?: number; crank?: number; pain?: number; who?: Kind }> = ({ f, lift, weight = 0, sway = 0, crank = 0, pain = 0, who = "prisoner" }) => {
   const wood = tx("bw", () => woodTex("bw", [62, 42, 26]), 1, 3);
   // prisoner: wrists tied behind, hoisted; arms end up vertical above the shoulders, body pitched forward
   const k = lift, y = k * 0.62, sw = Math.sin(f / 22) * 0.04 * sway, m = Math.min(1, k * 1.6);
@@ -78,7 +78,7 @@ export const StrappadoSet: React.FC<{ f: number; lift: number; weight?: number; 
         <mesh rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.115, 0.115, 0.3, 16]} /><meshStandardMaterial color="#9a8458" roughness={1} /></mesh></group>
     </group>
     <group position={[sw * 0.6, y, bz]} rotation={[0, 0, sw]}>
-      <Bot pos={[0, 0, 0]} p={pose} f={f} outfit="prisoner" hood={false} eyes="scared" mouth={pain > 0.5 ? "scream" : "fear"} brows={1} pupil={0.8} ground={false} />
+      <Bot pos={[0, 0, 0]} p={pose} f={f} outfit={who} hood={false} eyes="scared" mouth={pain > 0.5 ? "scream" : "fear"} brows={1} pupil={0.8} ground={false} />
       {weight > 0 && <group position={[0, 0.05 - weight * 0.0, 0.05]}><Rope a={[-0.07, 0.1, 0.05]} b={[0, -0.18, 0.05]} r={0.008} /><Rope a={[0.07, 0.1, 0.05]} b={[0, -0.18, 0.05]} r={0.008} /><mesh position={[0, -0.32, 0.05]} castShadow><cylinderGeometry args={[0.16, 0.18, 0.26, 16]} /><meshStandardMaterial map={ironTex()} metalness={0.6} roughness={0.55} /></mesh></group>}
     </group>
     <mesh position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.35 - y * 0.12, 24]} /><meshBasicMaterial color="#000" transparent opacity={0.4 - y * 0.15} depthWrite={false} /></mesh>
@@ -88,13 +88,13 @@ export const StrappadoSet: React.FC<{ f: number; lift: number; weight?: number; 
       <Box p={[0, 0.82, 0]} s={[2.62, 0.02, 0.92]} c="#2a0a0e" rough={0.95} />
       <Candle p={[-0.9, 0.82, 0.1]} f={f} seed="c1" /><Candle p={[0.9, 0.82, 0.1]} f={f} seed="c2" h={0.16} /><Candle p={[-0.75, 0.82, 0.2]} f={f} seed="c3" h={0.12} light={0} />
       <Box p={[0.4, 0.84, 0.1]} s={[0.4, 0.015, 0.3]} c="#e8dcc0" r={[0, 0.2, 0]} />
-      <Bot pos={[-0.3, 0, -0.65]} p={{ ...idleBP(f, { ...STAND, bob: -0.36, lean: 4, lLegX: -88, lKnee: 86, rLegX: -86, rKnee: 84, lArmX: -40, rArmX: -46, lElbow: -50, rElbow: -46 }), headX: 8 }} f={f} outfit="monk" hood={false} eyes="angry" ground={false} />
-      <Bot pos={[0.75, 0, -0.6]} p={{ ...idleBP(f + 40, { ...STAND, bob: -0.36, lean: 16, lLegX: -88, lKnee: 86, rLegX: -86, rKnee: 84, rArmX: -52, rElbow: -60 + Math.sin(f / 4) * 6, lArmX: -40, lElbow: -50 }), headX: 24 }} f={f} outfit="monk" hood={false} eyes="angry" ground={false} scale={0.92} />
+      <Bot pos={[-0.3, 0, -0.65]} p={{ ...idleBP(f, { ...STAND, bob: -0.36, lean: 4, lLegX: -88, lKnee: 86, rLegX: -86, rKnee: 84, lArmX: -40, rArmX: -46, lElbow: -50, rElbow: -46 }), headX: 8 }} f={f} outfit="monk" hood={false} eyes="calm" brows={-1} ground={false} />
+      <Bot pos={[0.75, 0, -0.6]} p={{ ...idleBP(f + 40, { ...STAND, bob: -0.36, lean: 16, lLegX: -88, lKnee: 86, rLegX: -86, rKnee: 84, rArmX: -52, rElbow: -60 + Math.sin(f / 4) * 6, lArmX: -40, lElbow: -50 }), headX: 24 }} f={f} outfit="monk" hood={false} eyes="calm" brows={-1} ground={false} scale={0.92} />
       <group position={[0, 2.6, -0.95]}><Box p={[0, 0, 0]} s={[0.08, 1.0, 0.06]} map={wood} /><Box p={[0, 0.2, 0]} s={[0.55, 0.08, 0.06]} map={wood} /></group>
       {[-1.6, 1.6].map((x) => <group key={x} position={[x, 0, -0.9]}><Box p={[0, 2.2, 0]} s={[0.9, 2.4, 0.03]} c="#3a0a10" rough={1} /><Box p={[0, 3.42, 0]} s={[1.0, 0.06, 0.06]} c="#2a1a10" /></group>)}
     </group>
     {/* executioner at the windlass */}
-    <Bot pos={[2.15, 0, 0.15]} ry={Math.PI / 2 + 0.3} p={{ ...STAND, lean: 14, lArmX: -60 + Math.sin(crank) * 18, rArmX: -60 - Math.sin(crank) * 18, lElbow: -40, rElbow: -40, lLegX: -12, rLegX: 10, rKnee: 14 }} f={f} outfit="exec" hood={false} eyes="angry" scale={1.08} />
+    <Bot pos={[2.15, 0, 0.15]} ry={Math.PI / 2 + 0.3} p={{ ...STAND, lean: 14, lArmX: -60 + Math.sin(crank) * 18, rArmX: -60 - Math.sin(crank) * 18, lElbow: -40, rElbow: -40, lLegX: -12, rLegX: 10, rKnee: 14 }} f={f} outfit="exec" hood={false} eyes="calm" brows={-1} scale={1.08} />
     {/* brazier + tools on the side */}
     <group position={[-2.6, 0, 1.6]}><Cyl p={[0, 0.35, 0]} r1={0.05} h={0.7} c="#222" /><mesh position={[0, 0.75, 0]}><cylinderGeometry args={[0.32, 0.2, 0.18, 20, 1, true]} /><meshStandardMaterial map={ironTex()} metalness={0.6} side={THREE.DoubleSide} /></mesh><Fire p={[0, 0.78, 0]} f={f} s={0.6} light={2.2} seed="brz" smoke={0.6} /></group>
     {[[-3.4, 0.2], [-3.4, 0.6], [-3.4, 1.0]].map(([x, z], i) => <group key={i} position={[x, 0, z]}><mesh position={[0, 0.06, 0]}><cylinderGeometry args={[0.12, 0.14, 0.12, 12]} /><meshStandardMaterial map={ironTex()} metalness={0.6} /></mesh></group>)}
@@ -128,11 +128,11 @@ export const RatSet: React.FC<{ f: number; potOn: number; heat: number; ratIn: n
       {cut > 0 && ratIn > 0 && <group position={[Math.sin(f / 3) * 0.02 * panic, -0.06, 0]} rotation={[0, f / 6 * panic, 0]}><RatBody f={f} s={0.9} op={cut} /></group>}
     </group>}
     {/* rat in a small cage before */}
-    {ratIn <= 0 && <group position={[0.75, 0.87, 0.28]}>{[-0.1, -0.05, 0, 0.05, 0.1].map((x) => <Box key={x} p={[x, 0.09, 0]} s={[0.008, 0.18, 0.008]} c="#222" metal={0.7} />)}<Box p={[0, 0.18, 0]} s={[0.24, 0.015, 0.16]} map={wood} /><Box p={[0, 0, 0]} s={[0.24, 0.015, 0.16]} map={wood} /><group position={[0, 0.03, 0]} rotation={[0, Math.sin(f / 9) * 0.6, 0]}><RatBody f={f} s={0.8} /></group></group>}
+    {ratIn <= 0 && <group position={[1.45, 0.55, 0.85]}><Box p={[0, -0.28, 0]} s={[0.4, 0.55, 0.35]} map={wood} /><pointLight position={[0.4, 0.5, 0.5]} intensity={1.4} distance={2} color="#ffb070" />{[-0.1, -0.05, 0, 0.05, 0.1].map((x) => <Box key={x} p={[x, 0.09, 0]} s={[0.008, 0.18, 0.008]} c="#222" metal={0.7} />)}<Box p={[0, 0.18, 0]} s={[0.24, 0.015, 0.16]} map={wood} /><Box p={[0, 0, 0]} s={[0.24, 0.015, 0.16]} map={wood} /><group position={[0, 0.03, 0]} rotation={[0, Math.sin(f / 9) * 0.6, 0]}><RatBody f={f} s={0.8} /></group></group>}
     <Box p={[-0.8, 0.88, 0.25]} s={[0.25, 0.04, 0.2]} c="#2a2624" metal={0.6} />
     {/* coal bucket and tongs */}
     <group position={[1.4, 0, 0.6]}><mesh position={[0, 0.22, 0]}><cylinderGeometry args={[0.2, 0.17, 0.44, 20, 1, true]} /><meshStandardMaterial map={ironTex()} metalness={0.6} side={THREE.DoubleSide} /></mesh>{lit > 0 && <Fire p={[0, 0.36, 0]} f={f} s={0.35} light={1.4} seed="cb" smoke={0.4} />}</group>
-    <Bot pos={[0.25, 0, -0.85]} ry={0} p={{ ...idleBP(f, STAND), lean: 22, headX: 30, rArmX: -70, rElbow: -30, lArmX: -30, lElbow: -40 }} f={f} outfit="exec" hood={false} eyes="angry" scale={1.05} />
+    <Bot pos={[0.25, 0, -0.85]} ry={0} p={{ ...idleBP(f, STAND), lean: 22, headX: 30, rArmX: -70, rElbow: -30, lArmX: -30, lElbow: -40 }} f={f} outfit="exec" hood={false} eyes="calm" brows={-1} scale={1.05} />
   </group>;
 };
 export const RatBody: React.FC<{ f: number; s?: number; op?: number }> = ({ f, s = 1, op = 1 }) => {
@@ -147,7 +147,7 @@ export const RatBody: React.FC<{ f: number; s?: number; op?: number }> = ({ f, s
 };
 
 /* ================= 4. THE RACK — Tower of London chamber ================= */
-export const RackSet: React.FC<{ f: number; turn: number; strain: number; shown?: number; noPrisoner?: boolean }> = ({ f, turn, strain, noPrisoner }) => {
+export const RackSet: React.FC<{ f: number; turn: number; strain: number; shown?: number; noPrisoner?: boolean; who?: Kind }> = ({ f, turn, strain, noPrisoner, who = "prisoner" }) => {
   const wood = tx("rk", () => woodTex("rk", [86, 60, 36]), 3, 1);
   const L = 2.6, s = strain; // stretch 0..1
   return <group>
@@ -166,15 +166,15 @@ export const RackSet: React.FC<{ f: number; turn: number; strain: number; shown?
       </group>)}
       {!noPrisoner && <>
         {/* prisoner lying on his back, arms over his head toward -x */}
-        <Bot pos={[0.9 + s * 0.04, 0.9, 0]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={{ ...STAND, lArmX: 180, rArmX: 180, lArmZ: -10, rArmZ: 10, lElbow: 0, rElbow: 0, lLegZ: -4, rLegZ: 4, lKnee: 0, rKnee: 0, headX: -8 + Math.sin(f / 11) * 4 * s, headY: Math.sin(f / 17) * 12 * s, bob: 0 }} f={f} outfit="prisoner" hood={false} eyes="scared" mouth={s > 0.55 ? "scream" : s > 0.2 ? "grit" : "fear"} brows={1} pupil={0.8} ground={false} scale={1 + s * 0.06} />
+        <Bot pos={[0.9 + s * 0.04, 0.9, 0]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={{ ...STAND, lArmX: 180, rArmX: 180, lArmZ: -10, rArmZ: 10, lElbow: 0, rElbow: 0, lLegZ: -4, rLegZ: 4, lKnee: 0, rKnee: 0, headX: -8 + Math.sin(f / 11) * 4 * s, headY: Math.sin(f / 17) * 12 * s, bob: 0 }} f={f} outfit={who} hood={false} eyes="scared" mouth={s > 0.55 ? "scream" : s > 0.2 ? "grit" : "fear"} brows={1} pupil={0.8} ground={false} scale={1 + s * 0.06} />
         {/* ropes: wrists -> left roller, ankles -> right roller */}
         <Rope a={[-1.2, 0.86, 0.05]} b={[-0.98 - s * 0.05, 0.9, 0.06]} r={0.012} /><Rope a={[-1.2, 0.86, -0.05]} b={[-0.98 - s * 0.05, 0.9, -0.06]} r={0.012} />
         <Rope a={[1.2, 0.86, 0.07]} b={[0.95 + s * 0.08, 0.9, 0.07]} r={0.012} /><Rope a={[1.2, 0.86, -0.07]} b={[0.95 + s * 0.08, 0.9, -0.07]} r={0.012} />
       </>}
     </group>
     {/* turner */}
-    <Bot pos={[1.65, 0, 0.95]} ry={-Math.PI / 2 - 0.4} p={{ ...STAND, lean: 18 + Math.sin(turn * 4) * 6, lArmX: -70 + Math.sin(turn * 4) * 20, rArmX: -80 + Math.sin(turn * 4) * 20, lElbow: -30, rElbow: -30, lLegX: -20, rLegX: 14, rKnee: 20 }} f={f} outfit="guard" hood={false} eyes="angry" helmet />
-    <Bot pos={[-1.3, 0, -1.25]} ry={0.5} p={idleBP(f, { ...STAND, lArmX: -30, lElbow: -70, rArmX: -20, rElbow: -60 })} f={f} outfit="scholar" hood={false} eyes="angry" />
+    <Bot pos={[1.65, 0, 0.95]} ry={-Math.PI / 2 - 0.4} p={{ ...STAND, lean: 18 + Math.sin(turn * 4) * 6, lArmX: -70 + Math.sin(turn * 4) * 20, rArmX: -80 + Math.sin(turn * 4) * 20, lElbow: -30, rElbow: -30, lLegX: -20, rLegX: 14, rKnee: 20 }} f={f} outfit="guard" hood={false} eyes="calm" brows={-1} helmet />
+    <Bot pos={[-1.3, 0, -1.25]} ry={0.5} p={idleBP(f, { ...STAND, lArmX: -30, lElbow: -70, rArmX: -20, rElbow: -60 })} f={f} outfit="scholar" hood={false} eyes="calm" brows={-1} />
     <group position={[-1.95, 0, -1.6]}><Box p={[0, 0.5, 0]} s={[0.6, 1.0, 0.5]} map={wood} /><Candle p={[0.1, 1.0, 0]} f={f} seed="rk1" /><Box p={[-0.1, 1.01, 0.05]} s={[0.25, 0.01, 0.32]} c="#e8dcc0" /></group>
     <pointLight position={[0.3, 2.6, 1.4]} intensity={4} distance={6} color="#ffc896" castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
     <pointLight position={[-1.5, 2.0, 2.0]} intensity={1.6} distance={5} color="#8aa0e0" />

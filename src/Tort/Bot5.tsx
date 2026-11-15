@@ -39,7 +39,7 @@ export const walkBP = (ph: number, amp = 1): BP => {
   return { ...STAND, bob: -0.025 * Math.abs(Math.cos(ph)) * amp, lean: 5, lLegX: A.x, lKnee: A.k, rLegX: B.x, rKnee: B.k, lArmX: 18 * Math.sin(ph) * amp, rArmX: -18 * Math.sin(ph) * amp, lElbow: -14, rElbow: -14, headY: 0, twist: 4 * Math.sin(ph) * amp };
 };
 
-export type Kind = "prisoner" | "guard" | "scholar" | "exec" | "monk" | "tyrant" | "peasant" | "peasant2" | "peasant3";
+export type Kind = "prisoner" | "guard" | "scholar" | "exec" | "monk" | "tyrant" | "peasant" | "peasant2" | "peasant3" | "hoplite" | "persian" | "machiavelli" | "fawkes" | "jailer" | "persianPrisoner";
 export type Mouth = "none" | "fear" | "scream" | "grit" | "flat" | "slack";
 // ---------- clothing textures ----------
 const gskinTex = () => cv("gskin", 128, 128, (c) => { c.fillStyle = "#b98e68"; c.fillRect(0, 0, 128, 128); stains(c, 128, 128, "gs", 14, "rgba(90,50,30,0.15)"); });
@@ -55,8 +55,33 @@ const Hair: React.FC<{ kind: Kind; f: number }> = ({ kind }) => {
   if (kind === "exec") return <group>
     <mesh scale={[1.06, 1.22, 1.08]} position={[0, 0.04, -0.01]}><sphereGeometry args={[0.205, 36, 24]} /><meshStandardMaterial color="#141214" roughness={0.85} /></mesh>
     {[-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.072, 0.02, 0.212]} rotation={[0, sd * 0.33, 0]} scale={[1.4, 0.8, 0.25]}><sphereGeometry args={[0.04, 14, 10]} /><meshBasicMaterial color="#050505" /></mesh>)}
-    {[-1, 1].map((sd) => <mesh key={"g" + sd} position={[sd * 0.072, 0.02, 0.222]} scale={[0.026, 0.012, 0.01]}><sphereGeometry args={[1, 10, 8]} /><meshStandardMaterial color="#fff" emissive="#ffffff" emissiveIntensity={1.5} /></mesh>)}
+    {[-1, 1].map((sd) => <mesh key={"g" + sd} position={[sd * 0.072, 0.02, 0.222]} scale={[0.026, 0.012, 0.01]}><sphereGeometry args={[1, 10, 8]} /><meshStandardMaterial color="#cfc6b8" roughness={0.6} /></mesh>)}
     <mesh position={[0, -0.22, -0.02]} scale={[1.45, 0.5, 1.3]}><sphereGeometry args={[0.16, 20, 12]} /><meshStandardMaterial color="#141214" roughness={0.85} /></mesh>
+  </group>;
+  if (kind === "hoplite") return <group>
+    <mesh scale={[1.07, 1.1, 1.08]} position={[0, 0.03, -0.01]}><sphereGeometry args={[0.205, 32, 20, 0, Math.PI * 2, 0, 1.9]} /><meshStandardMaterial color="#a8782e" metalness={0.85} roughness={0.32} side={THREE.DoubleSide} /></mesh>
+    {[-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.13, -0.08, 0.13]} rotation={[0, sd * 0.5, 0]} scale={[0.5, 1.4, 0.3]}><sphereGeometry args={[0.07, 12, 10]} /><meshStandardMaterial color="#a8782e" metalness={0.85} roughness={0.32} /></mesh>)}
+    <mesh position={[0, 0.27, -0.02]} scale={[0.25, 1, 1.6]}><sphereGeometry args={[0.12, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2]} /><meshStandardMaterial color="#9a1a1a" roughness={0.9} /></mesh>
+  </group>;
+  if (kind === "persian" || kind === "persianPrisoner") return <group>
+    <mesh position={[0, 0.1, -0.01]} scale={[1.12, 0.7, 1.12]}><sphereGeometry args={[0.205, 28, 16]} /><meshStandardMaterial color={kind === "persian" ? "#e8dcc0" : "#8a7a60"} roughness={0.95} /></mesh>
+    {[0.05, 0.12].map((y, i) => <mesh key={i} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0.2 * (i ? 1 : -1)]}><torusGeometry args={[0.21, 0.025, 8, 28]} /><meshStandardMaterial color={kind === "persian" ? "#d8c8a8" : "#7a6a50"} roughness={0.95} /></mesh>)}
+    <mesh position={[0, -0.14, 0.1]} rotation={[0.5, 0, 0]} scale={[1.2, 1.1, 0.8]}><sphereGeometry args={[0.1, 16, 12]} /><meshStandardMaterial color="#1a120c" roughness={1} /></mesh>
+  </group>;
+  if (kind === "machiavelli") return <group>
+    <mesh position={[0, 0.06, 0]} scale={[1.05, 0.6, 1.05]}><sphereGeometry args={[0.215, 28, 14, 0, Math.PI * 2, 0, Math.PI / 2]} /><meshStandardMaterial color="#8a1414" roughness={0.85} /></mesh>
+    <mesh position={[0, 0.0, -0.05]} scale={[1.02, 1, 1]}><sphereGeometry args={[0.206, 28, 16, 0, Math.PI * 2, Math.PI / 2, 1.1]} /><meshStandardMaterial color="#2a1a10" roughness={1} side={THREE.DoubleSide} /></mesh>
+  </group>;
+  if (kind === "fawkes") return <group>
+    <mesh position={[0, 0.12, 0]}><cylinderGeometry args={[0.36, 0.36, 0.02, 32]} /><meshStandardMaterial color="#1a1612" roughness={0.9} /></mesh>
+    <mesh position={[0, 0.25, 0]}><cylinderGeometry args={[0.15, 0.19, 0.26, 24]} /><meshStandardMaterial color="#1a1612" roughness={0.9} /></mesh>
+    <mesh position={[0, 0.15, 0]}><cylinderGeometry args={[0.193, 0.193, 0.04, 24]} /><meshStandardMaterial color="#6a5a3a" roughness={0.8} /></mesh>
+    <mesh position={[0, -0.13, 0.13]} rotation={[0.6, 0, 0]} scale={[0.9, 1.3, 0.6]}><coneGeometry args={[0.07, 0.16, 12]} /><meshStandardMaterial color="#6a3a1a" roughness={1} /></mesh>
+    <mesh position={[0, -0.05, 0.19]} scale={[1.6, 0.35, 0.5]}><sphereGeometry args={[0.05, 12, 8]} /><meshStandardMaterial color="#6a3a1a" roughness={1} /></mesh>
+  </group>;
+  if (kind === "jailer") return <group>
+    <mesh position={[0, 0.03, -0.02]} scale={1.03}><sphereGeometry args={[0.205, 32, 16, 0, Math.PI * 2, 0, 1.0]} /><meshStandardMaterial color="#4a4a48" roughness={0.95} /></mesh>
+    <mesh position={[0, -0.12, 0.11]} rotation={[0.55, 0, 0]} scale={[1.2, 1.25, 0.8]}><sphereGeometry args={[0.1, 18, 12]} /><meshStandardMaterial color="#5a5a56" roughness={1} /></mesh>
   </group>;
   if (kind === "monk") return <group>
     <mesh scale={[1.12, 1.12, 1.12]} position={[0, 0.02, -0.02]}><sphereGeometry args={[0.205, 36, 24, 0, Math.PI * 2, 0, 2.2]} /><meshStandardMaterial color="#1c1612" roughness={0.95} side={THREE.DoubleSide} /></mesh>
@@ -103,7 +128,29 @@ const cloth = (map: THREE.Texture, rep: [number, number], rough = 0.95, extra: a
 const robeTex = () => cv("robe", 256, 256, (c) => { weave(c, 256, 256, "#3a1418", 0.12); stains(c, 256, 256, "rb", 10, "rgba(0,0,0,0.3)"); for (let y = 0; y < 256; y += 18) { c.fillStyle = "rgba(255,220,180,0.05)"; c.fillRect(0, y, 256, 2); } });
 const tunicTex = (key: string, base: string) => cv("tun" + key, 256, 256, (c) => { weave(c, 256, 256, base, 0.15); stains(c, 256, 256, "tu" + key, 14, "rgba(30,20,10,0.3)"); });
 const togaTex = () => cv("toga", 256, 256, (c) => { weave(c, 256, 256, "#e8e0cc", 0.08); for (let x = 0; x < 256; x += 22) { const g = c.createLinearGradient(x, 0, x + 22, 0); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(0.5, "rgba(80,60,40,0.18)"); g.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = g; c.fillRect(x, 0, 22, 256); } c.fillStyle = "#5a1a5a"; c.fillRect(0, 236, 256, 20); });
-const OUTFITS = (k: Kind) => (OUT[k] ??= k === "exec" ? (() => {
+const OUTFITS = (k: Kind) => (OUT[k] ??= k === "hoplite" ? (() => {
+  const skin = new THREE.MeshPhysicalMaterial({ map: gskinTex(), roughness: 0.5 });
+  const bronze = new THREE.MeshPhysicalMaterial({ color: "#a8782e", metalness: 0.85, roughness: 0.32 });
+  const red = cloth(tunicTex("hr", "#8a1a1a"), [1, 1]);
+  return { head: skin, neck: skin, torso: bronze, upper: red, fore: skin, hand: skin, thigh: red, shin: bronze, foot: cloth(leatherTex("hs", "#5a3a1c"), [1, 1], 0.6) };
+})() : k === "persian" || k === "persianPrisoner" ? (() => {
+  const skin = new THREE.MeshPhysicalMaterial({ map: gskinTex(), roughness: 0.55 });
+  const top = cloth(tunicTex(k, k === "persian" ? "#2a3a6a" : "#6a5a44"), [1, 1]);
+  const bot = cloth(tunicTex(k + "b", k === "persian" ? "#6a4a1a" : "#5a4a38"), [1, 1]);
+  return { head: skin, neck: skin, torso: top, upper: top, fore: k === "persian" ? top : skin, hand: skin, thigh: bot, shin: bot, foot: cloth(leatherTex("pp", "#3a2414"), [1, 1], 0.7) };
+})() : k === "machiavelli" ? (() => {
+  const skin = new THREE.MeshPhysicalMaterial({ map: skinTex(), roughness: 0.6 });
+  const robe = cloth(tunicTex("mach", "#7a1212"), [1, 1], 0.85);
+  return { head: skin, neck: robe, torso: robe, upper: robe, fore: robe, hand: skin, thigh: robe, shin: cloth(trouserTex(), [1, 1]), foot: cloth(leatherTex("mf", "#1a120c"), [1, 1], 0.6) };
+})() : k === "fawkes" ? (() => {
+  const skin = new THREE.MeshPhysicalMaterial({ map: skinTex(), roughness: 0.6 });
+  const coat = cloth(tunicTex("fwk", "#2a2622"), [1, 1], 0.9);
+  return { head: skin, neck: cloth(tunicTex("fwc", "#d8d0c0"), [1, 1]), torso: coat, upper: coat, fore: coat, hand: skin, thigh: cloth(tunicTex("fwt", "#3a3028"), [1, 1]), shin: cloth(leatherTex("fwb", "#2a1a10"), [1, 1], 0.6), foot: cloth(leatherTex("fwb", "#2a1a10"), [1, 1], 0.6) };
+})() : k === "jailer" ? (() => {
+  const skin = new THREE.MeshPhysicalMaterial({ map: gskinTex(), roughness: 0.55 });
+  const lea = cloth(leatherTex("jl", "#4a3020"), [1, 1], 0.65);
+  return { head: skin, neck: skin, torso: lea, upper: cloth(tunicTex("jls", "#3a3a34"), [1, 1]), fore: skin, hand: skin, thigh: cloth(trouserTex(), [1, 1]), shin: cloth(leatherTex("jlb", "#2a1a10"), [1, 1], 0.6), foot: cloth(leatherTex("jlb", "#2a1a10"), [1, 1], 0.6) };
+})() : k === "exec" ? (() => {
   const skin = new THREE.MeshPhysicalMaterial({ map: gskinTex(), roughness: 0.5, clearcoat: 0.2 });
   const blk = new THREE.MeshStandardMaterial({ color: "#121113", roughness: 0.8 });
   const apron = cloth(leatherTex("ap", "#3a2414"), [1, 1], 0.6);
@@ -136,6 +183,26 @@ const OUTFITS = (k: Kind) => (OUT[k] ??= k === "exec" ? (() => {
 })());
 /** clothing pieces that are not body parts: rope belt / torn hem (prisoner); tabard, belt, buckle, keys (guard) */
 const Outfit: React.FC<{ kind: Kind; f: number }> = ({ kind, f }) => {
+  if (kind === "machiavelli") return <group>
+    <mesh position={[0, -0.25, 0]}><cylinderGeometry args={[0.13, 0.26, 0.6, 24, 1, true]} /><meshStandardMaterial map={tunicTex("mach", "#7a1212")} roughness={0.85} side={THREE.DoubleSide} /></mesh>
+    <mesh position={[0, 0.06, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.3, 0.98, 1]}><torusGeometry args={[0.104, 0.02, 8, 28]} /><meshStandardMaterial color="#e8e0d0" roughness={0.9} /></mesh>
+  </group>;
+  if (kind === "fawkes") return <group>
+    <mesh position={[0, -0.12, -0.02]}><cylinderGeometry args={[0.15, 0.3, 0.75, 24, 1, true, Math.PI * 0.15, Math.PI * 1.7]} /><meshStandardMaterial color="#1e1a16" roughness={0.9} side={THREE.DoubleSide} /></mesh>
+    <mesh position={[0, 0.08, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.3, 0.98, 1]}><torusGeometry args={[0.11, 0.025, 8, 28]} /><meshStandardMaterial color="#e8e0d0" roughness={0.9} /></mesh>
+  </group>;
+  if (kind === "hoplite") return <group>
+    <mesh position={[0, 0.0, -0.11]} rotation={[0.12, 0, 0]}><planeGeometry args={[0.36, 0.9]} /><meshStandardMaterial color="#8a1a1a" roughness={0.9} side={THREE.DoubleSide} /></mesh>
+    <mesh position={[0, -0.18, 0]}><cylinderGeometry args={[0.12, 0.16, 0.18, 20, 1, true]} /><meshStandardMaterial color="#8a1a1a" roughness={0.9} side={THREE.DoubleSide} /></mesh>
+  </group>;
+  if (kind === "jailer") return <group>
+    <mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.28, 0.95, 1]}><torusGeometry args={[0.1, 0.014, 8, 28]} /><meshStandardMaterial color="#2a1a10" roughness={0.6} /></mesh>
+    <group position={[0.1, 0.02, 0.06]}>{[0, 1, 2].map((i) => <mesh key={i} position={[0, -0.04 - i * 0.012, 0]} rotation={[0, 0, 0.3 * i]}><torusGeometry args={[0.02, 0.004, 6, 12]} /><meshStandardMaterial color="#8a7a50" metalness={0.8} /></mesh>)}</group>
+  </group>;
+  if (kind === "persian") return <group>
+    <mesh position={[0, -0.22, 0]}><cylinderGeometry args={[0.12, 0.2, 0.42, 24, 1, true]} /><meshStandardMaterial map={tunicTex("persian", "#2a3a6a")} roughness={0.9} side={THREE.DoubleSide} /></mesh>
+    <mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.28, 0.95, 1]}><torusGeometry args={[0.1, 0.016, 8, 28]} /><meshStandardMaterial color="#c8a040" metalness={0.7} roughness={0.4} /></mesh>
+  </group>;
   if (kind === "monk") return <group>
     <mesh position={[0, -0.25, 0]}><cylinderGeometry args={[0.13, 0.24, 0.6, 24, 1, true]} /><meshStandardMaterial map={tunicTex("mk", "#2a2018")} roughness={0.95} side={THREE.DoubleSide} /></mesh>
     <mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1.28, 0.95, 1]}><torusGeometry args={[0.1, 0.012, 8, 28]} /><meshStandardMaterial color="#c8b890" roughness={1} /></mesh>
@@ -208,7 +275,7 @@ const Part: React.FC<{ geo: THREE.BufferGeometry; p?: [number, number, number]; 
   );
 };
 
-export const Bot5: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number; tint?: string; eyes?: "angry" | "scared" | "dead" | "closed"; helmet?: boolean; hood?: boolean; ground?: boolean; rot?: [number, number, number]; tired?: number; pupil?: number; xk?: number; lid?: number; breath?: number; bamp?: number; outfit?: Kind; mouth?: Mouth; brows?: number; look?: [number, number] }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0, tint, eyes = "angry", helmet, hood = true, ground = true, rot, tired = 0, pupil = 1, xk = 1, lid = 0, breath = 1, bamp = 1, outfit, mouth = "none", brows = 0, look = [0, 0] }) => {
+export const Bot5: React.FC<{ pos: [number, number, number]; ry?: number; p: BP; f?: number; scale?: number; extra?: React.ReactNode; rHandItem?: React.ReactNode; lHandItem?: React.ReactNode; glow?: number; tint?: string; eyes?: "angry" | "scared" | "dead" | "closed" | "calm"; helmet?: boolean; hood?: boolean; ground?: boolean; rot?: [number, number, number]; tired?: number; pupil?: number; xk?: number; lid?: number; breath?: number; bamp?: number; outfit?: Kind; mouth?: Mouth; brows?: number; look?: [number, number] }> = ({ pos, ry = 0, p, f = 0, scale = 1, extra, rHandItem, lHandItem, glow = 0, tint, eyes = "angry", helmet, hood = true, ground = true, rot, tired = 0, pupil = 1, xk = 1, lid = 0, breath = 1, bamp = 1, outfit, mouth = "none", brows = 0, look = [0, 0] }) => {
   const G = useMemo(() => ({
     torso: new THREE.CapsuleGeometry(0.075, 0.36, 8, 16),
     upper: new THREE.CapsuleGeometry(0.036, 0.22, 6, 12),
@@ -275,6 +342,12 @@ export const Bot5: React.FC<{ pos: [number, number, number]; ry?: number; p: BP;
                 <group key={sd} position={[sd * 0.075, 0.02, 0.18]} rotation={[0, sd * 0.38, 0]}>
                   <mesh geometry={G.eye} material={m.eye} position={[0, -lid * 0.014, 0]} scale={[outfit === "guard" ? 0.04 : 0.045, 0.05 * blink * (1 - 0.62 * lid) * (outfit === "guard" ? 0.7 : 1), 0.02]} />
                   <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.008 + look[0] * 0.01 + Math.sin(f / 3) * 0.004, -0.004 - lid * 0.01 + look[1] * 0.01, 0.016]} scale={[0.014 * pupil, 0.016 * blink * pupil * (1 - 0.4 * lid), 0.01]} />
+                </group>
+              ))}
+              {eyes === "calm" && [-1, 1].map((sd) => (
+                <group key={"c" + sd} position={[sd * 0.074, 0.018, 0.18]} rotation={[0, sd * 0.38, 0]}>
+                  <mesh geometry={G.eye} material={m.eye} scale={[0.036, 0.03 * blink, 0.02]} />
+                  <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.004 + look[0] * 0.008, -0.004 + look[1] * 0.008, 0.016]} scale={[0.013, 0.014 * blink, 0.01]} />
                 </group>
               ))}
               {eyes === "closed" && [-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.075, 0.012, 0.192]} rotation={[0, sd * 0.38, Math.PI]}><torusGeometry args={[0.03, 0.0055, 6, 16, Math.PI]} /><meshBasicMaterial color="#111" /></mesh>)}
