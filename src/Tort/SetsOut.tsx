@@ -169,7 +169,7 @@ export const SquareSet: React.FC<{ f: number; stage: "tie" | "strike" | "raised"
 /* ================= Sicily: temple court with the brazen bull ================= */
 export const Bull: React.FC<{ f: number; heat: number; door: number; roar?: number }> = ({ f, heat, door, roar = 0 }) => {
   const env = useEnv();
-  const br = <meshPhysicalMaterial color="#5e3e1e" metalness={0.9} roughness={0.42} envMap={env} envMapIntensity={0.9} emissive="#ff3008" emissiveIntensity={heat * 0.035} clearcoat={0.3} />;
+  const br = <meshPhysicalMaterial color="#5e3e1e" metalness={0.9} roughness={0.42} envMap={env} envMapIntensity={0.9} emissive="#ff3008" emissiveIntensity={heat * 0.015} clearcoat={0.3} />;
   const horn = <meshPhysicalMaterial color="#c8b48a" metalness={0.6} roughness={0.35} envMap={env} />;
   return <group>
     {/* barrel body, deep chest and shoulder hump */}
@@ -260,7 +260,7 @@ export const Boats: React.FC<{ f: number; honey: number; flies: number; day: num
     <group position={[0, 0.1, 0]} rotation={[0, Math.PI, 0]}>
       <Bot pos={[0.15, 0, 0]} rot={[-Math.PI / 2, 0, Math.PI / 2]} p={{ ...STAND, headX: -4, headY: Math.sin(f / 30) * 10 * (1 - day), lArmZ: -18, rArmZ: 18 }} f={f} outfit="persianPrisoner" hood={false} eyes={day > 0.85 ? "closed" : "scared"} mouth={day > 0.6 ? "slack" : "fear"} brows={1} tired={day} lid={day * 0.7} pupil={0.8} ground={false} />
     </group>
-    {honey > 0 && Array.from({ length: 14 }).map((_, i) => { const a = random("ha" + i) * Math.PI * 2, b = random("hb" + i) * 1.2; return <mesh key={"h" + i} position={[1.44 + Math.cos(a) * Math.sin(b) * 0.2, 0.12 + Math.cos(b) * 0.2, Math.sin(a) * Math.sin(b) * 0.2]} scale={[1, 1.6, 1]}><sphereGeometry args={[0.018 * honey, 10, 8]} /><meshPhysicalMaterial color="#e09a20" roughness={0.05} clearcoat={1} emissive="#5a3000" emissiveIntensity={0.3} /></mesh>; })}
+    {honey > 0 && Array.from({ length: 14 }).map((_, i) => { const a = random("ha" + i) * Math.PI * 2, b = random("hb" + i) * 1.2; return <mesh key={"h" + i} position={[1.44 + Math.cos(a) * Math.sin(b) * 0.2, 0.12 + Math.cos(b) * 0.2, Math.sin(a) * Math.sin(b) * 0.2]} scale={[1, 1.6, 1]}><sphereGeometry args={[0.011 * honey, 10, 8]} /><meshPhysicalMaterial color="#e09a20" roughness={0.05} clearcoat={1} emissive="#5a3000" emissiveIntensity={0.3} /></mesh>; })}
     {/* hands and feet out of the sides */}
     {[[-1.0, 0.36], [-1.0, -0.36], [0.6, 0.36], [0.6, -0.36]].map(([x, z], i) => <mesh key={i} position={[x, 0.09, z * 1.12]}><sphereGeometry args={[0.045, 12, 10]} /><meshStandardMaterial color="#d9c3a6" roughness={0.6} /></mesh>)}
     {/* flies */}
@@ -277,7 +277,7 @@ export const MarshSet: React.FC<{ f: number; honey: number; flies: number; day: 
     <directionalLight position={[-14, 26, -20]} intensity={night ? 1.6 : 3.2 * sunK} color={night ? "#9aa8d8" : "#fff2c8"} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-left={-8} shadow-camera-right={8} shadow-camera-top={8} shadow-camera-bottom={-8} />
     {/* stagnant water + muddy banks */}
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow><planeGeometry args={[80, 80]} /><meshStandardMaterial color="#2a2e1a" roughness={0.98} /></mesh>
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0, 0]}><circleGeometry args={[9, 48]} /><meshPhysicalMaterial color="#2a3a22" roughness={0.12} metalness={0.3} envMap={env} envMapIntensity={0.5} transparent opacity={0.92} /></mesh>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0, 0]}><circleGeometry args={[9, 48]} /><meshPhysicalMaterial color="#2a3a22" roughness={0.45} metalness={0.15} envMap={env} envMapIntensity={0.25} transparent opacity={0.92} /></mesh>
     {Array.from({ length: 30 }).map((_, i) => { const a = random("la" + i) * Math.PI * 2, r = 2 + random("lr" + i) * 6; return <mesh key={i} position={[Math.cos(a) * r, 0.005, Math.sin(a) * r]} rotation={[-Math.PI / 2, 0, random("lt" + i) * 6]}><circleGeometry args={[0.15 + random("ls" + i) * 0.4, 12]} /><meshStandardMaterial color="#4a5a2a" roughness={0.8} transparent opacity={0.7} /></mesh>; })}
     {/* reeds around the edge */}
     {Array.from({ length: 160 }).map((_, i) => { const a = random("ra" + i) * Math.PI * 2, r = 8.2 + random("rr" + i) * 3, h = 0.8 + random("rh" + i) * 1.4; return <mesh key={i} position={[Math.cos(a) * r, h / 2, Math.sin(a) * r]} rotation={[Math.sin(f / 40 + i) * 0.06, 0, Math.cos(f / 47 + i) * 0.06]}><coneGeometry args={[0.025, h, 4]} /><meshStandardMaterial color={random("rc" + i) > 0.5 ? "#6a6a3a" : "#4a5428"} roughness={0.9} /></mesh>; })}
