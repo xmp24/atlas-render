@@ -18,6 +18,10 @@ import BRATL from './bra-tl.json';
 import {ThumbInid} from './ThumbsInid';
 import {ThumbDbr4} from './ThumbsDbr4';
 import {ThumbD9, ThumbD9A, D9_IDS} from './ThumbsDay7';
+import {ThumbMarco, MARCO_THUMBS} from './ThumbsMarco';
+import {ThumbMil, MIL_THUMBS} from './ThumbsMil';
+import {ThumbRich, RICH_THUMBS} from './ThumbsRich';
+import {ThumbRich2, RICH2} from './ThumbsRich2';
 import {WarCont as WarAsia1} from './War12';
 import {ThumbAsia1} from './ThumbsAsia1';
 import A1TL from './asia1-tl.json';
@@ -96,6 +100,10 @@ export const RootHW: React.FC = () => (
     <Composition id="S-dfin" component={Indo2} durationInFrames={778} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'dbras2', W: 1080, H: 1920, zf: 0.95, segs: [[1166.84, 2.6], [1175.24, 2.2], [1179.81, 2.5], [1182.94, 2.1], [1187.51, 2.5], [1190.64, 2.1], [1195.21, 2.5], [1198.34, 2.1], [1202.91, 2.5], [1206.04, 2.1], [1209.51, 2.75]], hook: ["THE FINAL", "CHINA VS INDIA"], cta: ["WHO WON? \ud83d\ude31", "FULL VIDEO ON THE CHANNEL"]}} />
     <Composition id="S-tlua" component={Indo2} durationInFrames={1195} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'tlua', W: 1080, H: 1920, zf: 1.0, sdur: 39.84, hook: ["RUSSIA vs UKRAINE", "EVERY MONTH IN 40s"], cta: ["WHAT HAPPENS NEXT?", "COMMENT \ud83d\udc47"]}} />
     <Composition id="S-tlde" component={Indo2} durationInFrames={1309} fps={30} width={1080} height={1920} defaultProps={{audio: false, v: 'tlde', W: 1080, H: 1920, zf: 1.0, sdur: 43.64, hook: ["GERMANY'S EMPIRE", "RISE AND FALL"], cta: ["WHICH MONTH SHOCKED YOU?", "COMMENT \ud83d\udc47"]}} />
+    {MARCO_THUMBS.map((id) => <Composition key={'tm' + id} id={`TM-${id}`} component={ThumbMarco} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {MIL_THUMBS.map((id) => <Composition key={'tx' + id} id={`TX-${id}`} component={ThumbMil} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {RICH_THUMBS.map((id) => <Composition key={'tr' + id} id={`TR-${id}`} component={ThumbRich} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {RICH2.map((id) => <Composition key={'ts' + id} id={`TS-${id}`} component={ThumbRich2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {D9_IDS.map((id) => <Composition key={id} id={`T9-${id}`} component={ThumbD9} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     <Composition id="T9A-am" component={ThumbD9A} durationInFrames={indoFrames('dbram')} fps={30} width={1920} height={1080} defaultProps={{id: 'am'}} />
     <Composition id="T9A-in" component={ThumbD9A} durationInFrames={indoFrames('dbrin')} fps={30} width={1920} height={1080} defaultProps={{id: 'in'}} />
@@ -105,6 +113,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-dbrin" component={Indo2} durationInFrames={indoFrames('dbrin')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbrin'}} />
     <Composition id="V-dbram" component={Indo2} durationInFrames={indoFrames('dbram')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbram'}} />
     <Composition id="V-mc" component={Indo2} durationInFrames={indoFrames('mc')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'mc'}} />
+    <Composition id="V-mc60" component={Indo2} durationInFrames={indoFrames('mc') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'mc'}} />
     <Composition id="V-da" component={Indo2} durationInFrames={indoFrames('da')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'da'}} />
     <Composition id="V-cw" component={Indo2} durationInFrames={indoFrames('cw')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'cw'}} />
     <Composition id="V-dbreu" component={Indo2} durationInFrames={indoFrames('dbreu')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbreu'}} />

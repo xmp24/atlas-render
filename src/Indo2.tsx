@@ -1,6 +1,6 @@
 // Can Indonesia Conquer the World? v2 — invasiones con pelotones por tierra (1920x1080). Versiones 'a' y 'b'.
 import React from 'react';
-import {AbsoluteFill, Audio, Easing, Img, staticFile, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Audio, Easing, Img, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {FlagCanvas, makeCam, CamKey, Cam, COUNTRIES, MAINCOL, NK, FLAG_OVR, FICK, FICHIDE, ficShow, ficHide} from './HexWorld';
 import {Globe} from './Globe';
 import {PolyCanvas, PolyMini, polyState, ownerStats, CEv, CAREA, MAINPIECE, PIECES_C} from './PolyWorld';
@@ -2973,7 +2973,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   X = getCtx(v); VW = W; VH = H; SHORT = H > W;
   if (X.D.flagOvr) for (const kk in X.D.flagOvr) FLAG_OVR[+kk] = X.D.flagOvr[kk];
   const D = X.D; const V2 = D.ver !== 'a';
-  const f = useCurrentFrame(); const lt = f / 30; const sg = segTime(lt, segs); const tR = segs ? sg.t : off + lt; const t = warpT(D, tR);
+  const f = useCurrentFrame(); const {fps: FPS} = useVideoConfig(); const lt = f / FPS; const sg = segTime(lt, segs); const tR = segs ? sg.t : off + lt; const t = warpT(D, tR);
   const zc = (c: Cam): Cam => (zf === 1 ? c : {...c, s: c.s * zf});
   const cam = zc(X.camF(t)); const cp = zc(X.camF(Math.max(0, t - 1 / 30)));
   const speed = Math.hypot((cam.cx - cp.cx) * cam.s, (cam.cy - cp.cy) * cam.s) + Math.abs(Math.log(cam.s / cp.s)) * 900;
