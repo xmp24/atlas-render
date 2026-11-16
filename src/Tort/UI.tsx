@@ -220,7 +220,7 @@ export const Grade: React.FC<{ tint?: string }> = ({ tint }) => {
   const f = useCurrentFrame();
   return <AbsoluteFill style={{ pointerEvents: "none" }}>
     {tint && <AbsoluteFill style={{ background: tint, mixBlendMode: "soft-light" }} />}
-    <svg width={W} height={H} style={{ position: "absolute", opacity: 0.06, mixBlendMode: "overlay" }}><filter id="gnT"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed={f % 13} /></filter><rect width={W} height={H} filter="url(#gnT)" /></svg>
-    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,0.5) 100%)" }} />
+    <svg width={W} height={H} style={{ position: "absolute", opacity: 0.045, mixBlendMode: "overlay" }}><filter id="gnT"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed={f % 13} /></filter><rect width={W} height={H} filter="url(#gnT)" /></svg>
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 45%, transparent 62%, rgba(0,0,0,0.38) 100%)" }} />
   </AbsoluteFill>;
 };

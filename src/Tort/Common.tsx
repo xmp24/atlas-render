@@ -19,10 +19,24 @@ export type Cam = { pos: V3; look: V3; fov: number };
 /** [startFrame, from, to] — the camera glides from->to until the next shot starts */
 export type Shot = [number, Cam, Cam];
 
+/** one-time quality pass: bump from albedo on textured surfaces, 4K shadow maps, cleaner shadow bias */
+export const upgradeScene = (scene: THREE.Scene) => {
+  scene.traverse((o: any) => {
+    if (o.isMesh && o.material && !Array.isArray(o.material)) {
+      const m = o.material;
+      if ((m.isMeshStandardMaterial || m.isMeshPhysicalMaterial) && m.map && !m.bumpMap && !m.userData.up) { m.bumpMap = m.map; m.bumpScale = 0.02; m.userData.up = 1; m.needsUpdate = true; }
+    }
+    if (o.isLight && o.castShadow && o.shadow && !o.userData.up) {
+      o.userData.up = 1; const big = o.isDirectionalLight || o.isSpotLight;
+      o.shadow.mapSize.set(big ? 4096 : 1024, big ? 4096 : 1024); o.shadow.bias = -0.0003; o.shadow.normalBias = 0.015;
+      if (o.shadow.map) { o.shadow.map.dispose(); o.shadow.map = null; }
+    }
+  });
+};
 const Rig: React.FC<{ pos: V3; look: V3; fov: number; exp: number }> = ({ pos, look, fov, exp }) => {
-  const { camera, gl } = useThree();
+  const { camera, gl, scene } = useThree();
   useLayoutEffect(() => {
-    gl.toneMapping = THREE.ACESFilmicToneMapping; gl.toneMappingExposure = exp * 1.15;
+    gl.toneMapping = THREE.ACESFilmicToneMapping; gl.toneMappingExposure = exp * 1.15; upgradeScene(scene);
     const c = camera as THREE.PerspectiveCamera;
     c.position.set(...pos); c.lookAt(...look); c.fov = fov; c.updateProjectionMatrix();
   });
@@ -37,7 +51,7 @@ export const Stage: React.FC<{ f: number; len: number; shots: Shot[]; fog?: [str
   return (
     <ThreeCanvas width={W} height={H} shadows="soft" style={{ position: "absolute", background: bg }} camera={{ fov: a.fov, position: a.pos, near: 0.03, far: 120 }} gl={{ antialias: true, preserveDrawingBuffer: true }}>
       <Rig pos={pos} look={L3(a.look, b.look, k)} fov={a.fov + (b.fov - a.fov) * k} exp={exp} />
-      <fog attach="fog" args={[fog[0], fog[1], fog[2]]} />
+      <fog attach="fog" args={[fog[0], fog[1] * 1.4, fog[2] * 1.7]} />
       {children}
     </ThreeCanvas>
   );
@@ -45,10 +59,15 @@ export const Stage: React.FC<{ f: number; len: number; shots: Shot[]; fog?: [str
 export const cam = (pos: V3, look: V3, fov = 40): Cam => ({ pos, look, fov });
 
 /* ---------------- textures ---------------- */
-const rep = (t: THREE.Texture, x: number, y: number) => { const c = t.clone(); c.wrapS = c.wrapT = THREE.RepeatWrapping; c.repeat.set(x, y); c.anisotropy = 8; c.needsUpdate = true; return c; };
+/** same drawing at 2x resolution + fine grain on top, so surfaces stay crisp at 4K */
+const hiTex = (key: string, w: number, h: number, draw: (c: CanvasRenderingContext2D) => void) => textTex(key + "_hi2", w * 2, h * 2, (c) => {
+  c.save(); c.scale(2, 2); draw(c); c.restore();
+  for (let i = 0; i < w * h * 0.02; i++) { c.fillStyle = `rgba(${random(key + "gn" + i) > 0.5 ? "255,250,240" : "0,0,0"},${0.03 + random(key + "ga" + i) * 0.05})`; c.fillRect(random(key + "gx" + i) * w * 2, random(key + "gy" + i) * h * 2, 1 + random(key + "gs" + i) * 2, 1 + random(key + "gt" + i) * 2); }
+});
+const rep = (t: THREE.Texture, x: number, y: number) => { const c = t.clone(); c.wrapS = c.wrapT = THREE.RepeatWrapping; c.repeat.set(x, y); c.anisotropy = 16; c.needsUpdate = true; return c; };
 const RC: Record<string, THREE.Texture> = {};
 export const tx = (key: string, base: () => THREE.Texture, x: number, y: number) => (RC[key + x + "_" + y] ??= rep(base(), x, y));
-export const cobbleTex = () => textTex("cobble", 1024, 1024, (c) => {
+export const cobbleTex = () => hiTex("cobble", 1024, 1024, (c) => {
   c.fillStyle = "#2a2622"; c.fillRect(0, 0, 1024, 1024);
   for (let r = 0; r < 16; r++) for (let q = 0; q < 16; q++) {
     const x = q * 64 + (r % 2) * 32 + (random(`cx${r}${q}`) - 0.5) * 10, y = r * 64 + (random(`cy${r}${q}`) - 0.5) * 10, k = 0.6 + random(`ck${r}${q}`) * 0.5;
@@ -57,23 +76,23 @@ export const cobbleTex = () => textTex("cobble", 1024, 1024, (c) => {
   }
   for (let i = 0; i < 40; i++) { c.fillStyle = `rgba(20,16,12,${0.1 + random("cd" + i) * 0.2})`; c.beginPath(); c.arc(random("cdx" + i) * 1024, random("cdy" + i) * 1024, 20 + random("cdr" + i) * 80, 0, 7); c.fill(); }
 });
-export const plasterTex = (key: string, base: string) => textTex("pl" + key, 512, 512, (c) => {
+export const plasterTex = (key: string, base: string) => hiTex("pl" + key, 512, 512, (c) => {
   c.fillStyle = base; c.fillRect(0, 0, 512, 512);
   for (let i = 0; i < 900; i++) { c.fillStyle = `rgba(${random(key + "p" + i) > 0.5 ? "255,250,240" : "40,30,20"},${random(key + "o" + i) * 0.06})`; c.fillRect(random(key + "x" + i) * 512, random(key + "y" + i) * 512, 3 + random(key + "s" + i) * 10, 2 + random(key + "t" + i) * 8); }
   for (let i = 0; i < 10; i++) { const x = random(key + "dx" + i) * 512, w = 10 + random(key + "dw" + i) * 40; const g = c.createLinearGradient(0, 0, 0, 512); g.addColorStop(0, "rgba(60,50,40,0)"); g.addColorStop(1, "rgba(60,50,40,0.25)"); c.fillStyle = g; c.fillRect(x, 200, w, 312); }
 });
-export const marbleTex = (key: string, base: string) => textTex("mb" + key, 512, 512, (c) => {
+export const marbleTex = (key: string, base: string) => hiTex("mb" + key, 512, 512, (c) => {
   c.fillStyle = base; c.fillRect(0, 0, 512, 512);
   for (let i = 0; i < 26; i++) { c.strokeStyle = `rgba(120,100,80,${0.05 + random(key + "v" + i) * 0.1})`; c.lineWidth = 1 + random(key + "l" + i) * 3; c.beginPath(); let x = random(key + "a" + i) * 512, y = 0; c.moveTo(x, y); while (y < 512) { y += 30; x += (random(key + "b" + i + y) - 0.5) * 60; c.lineTo(x, y); } c.stroke(); }
   for (let x = 0; x < 512; x += 32) { const g = c.createLinearGradient(x, 0, x + 32, 0); g.addColorStop(0, "rgba(0,0,0,0.12)"); g.addColorStop(0.5, "rgba(255,255,255,0.05)"); g.addColorStop(1, "rgba(0,0,0,0.12)"); c.fillStyle = g; c.fillRect(x, 0, 32, 512); }
 });
-export const woodTex = (key: string, base: [number, number, number]) => textTex("wd" + key, 512, 512, (c) => {
+export const woodTex = (key: string, base: [number, number, number]) => hiTex("wd" + key, 512, 512, (c) => {
   c.fillStyle = `rgb(${base.join(",")})`; c.fillRect(0, 0, 512, 512);
   for (let k = 0; k < 90; k++) { const y = random(key + "g" + k) * 512; c.strokeStyle = `rgba(30,18,8,${0.08 + random(key + "a" + k) * 0.15})`; c.lineWidth = 1 + random(key + "w" + k) * 2.5; c.beginPath(); c.moveTo(0, y); c.bezierCurveTo(170, y + (random(key + "b" + k) - 0.5) * 20, 340, y + (random(key + "c" + k) - 0.5) * 20, 512, y + (random(key + "d" + k) - 0.5) * 10); c.stroke(); }
   for (let i = 0; i < 6; i++) { const x = random(key + "kx" + i) * 512, y = random(key + "ky" + i) * 512; c.fillStyle = "rgba(30,16,8,0.5)"; c.beginPath(); c.ellipse(x, y, 10, 5, 0, 0, 7); c.fill(); }
-  for (let i = 0; i < 12; i++) { c.fillStyle = `rgba(0,0,0,${random(key + "st" + i) * 0.2})`; c.beginPath(); c.arc(random(key + "sx" + i) * 512, random(key + "sy" + i) * 512, 20 + random(key + "sr" + i) * 60, 0, 7); c.fill(); }
+  for (let i = 0; i < 12; i++) { c.fillStyle = `rgba(0,0,0,${random(key + "st" + i) * 0.06})`; c.beginPath(); c.arc(random(key + "sx" + i) * 512, random(key + "sy" + i) * 512, 20 + random(key + "sr" + i) * 60, 0, 7); c.fill(); }
 });
-export const ironTex = () => textTex("iron", 256, 256, (c) => {
+export const ironTex = () => hiTex("iron", 256, 256, (c) => {
   c.fillStyle = "#3a3634"; c.fillRect(0, 0, 256, 256);
   for (let i = 0; i < 40; i++) { const g = c.createRadialGradient(random("ix" + i) * 256, random("iy" + i) * 256, 0, random("ix" + i) * 256, random("iy" + i) * 256, 10 + random("ir" + i) * 40); g.addColorStop(0, `rgba(${110 + random("ic" + i) * 40},50,20,${0.25 + random("io" + i) * 0.3})`); g.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = g; c.fillRect(0, 0, 256, 256); }
   for (let i = 0; i < 900; i++) { c.fillStyle = `rgba(${random("in" + i) > 0.5 ? "200,190,180" : "0,0,0"},${random("ia" + i) * 0.1})`; c.fillRect(random("iq" + i) * 256, random("iw" + i) * 256, 2, 2); }
@@ -123,12 +142,12 @@ export const Logs: React.FC<{ p: V3; s?: number }> = ({ p, s = 1 }) => <group po
   <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.38, 20]} /><meshStandardMaterial color="#1a0a04" emissive="#ff5010" emissiveIntensity={0.6} roughness={1} /></mesh>
 </group>;
 export const Mist: React.FC<{ f: number; n?: number; area: [number, number, number, number]; y?: number; col?: string; o?: number; s?: number }> = ({ f, n = 14, area, y = 0.2, col = "#8a9ab8", o = 0.08, s = 2 }) => <group>
-  {Array.from({ length: n }).map((_, i) => { const w = area[1] - area[0]; const x = area[0] + ((random("mx" + i) * w + f * 0.004 * (0.5 + random("mv" + i))) % w); return <sprite key={i} position={[x, y + random("my" + i) * 0.4, area[2] + random("mz" + i) * (area[3] - area[2])]} scale={[s * 2, s * 0.6, 1]}><spriteMaterial map={smokeTex()} color={col} transparent opacity={o} depthWrite={false} /></sprite>; })}
+  {Array.from({ length: n }).map((_, i) => { const w = area[1] - area[0]; const x = area[0] + ((random("mx" + i) * w + f * 0.004 * (0.5 + random("mv" + i))) % w); return <sprite key={i} position={[x, y + random("my" + i) * 0.4, area[2] + random("mz" + i) * (area[3] - area[2])]} scale={[s * 2, s * 0.6, 1]}><spriteMaterial map={smokeTex()} color={col} transparent opacity={(o) * 0.55} depthWrite={false} /></sprite>; })}
 </group>;
 /** a crow: body + flapping wings */
-export const Crow: React.FC<{ p: V3; f: number; ry?: number; s?: number; perch?: boolean; seed?: number }> = ({ p, f, ry = 0, s = 1, perch, seed = 0 }) => {
+export const Crow: React.FC<{ p: V3; f: number; ry?: number; s?: number; perch?: boolean; seed?: number; col?: string }> = ({ p, f, ry = 0, s = 1, perch, seed = 0, col = "#0c0c10" }) => {
   const fl = perch ? 0.15 + Math.sin(f / 30 + seed) * 0.05 : Math.sin(f / 2.2 + seed) * 0.8;
-  const m = <meshStandardMaterial color="#0c0c10" roughness={0.5} />;
+  const m = <meshStandardMaterial color={col} roughness={0.5} />;
   return <group position={p} rotation={[0, ry, 0]} scale={s}>
     <mesh scale={[0.06, 0.06, 0.16]}><sphereGeometry args={[1, 12, 8]} />{m}</mesh>
     <mesh position={[0, 0.04, 0.13]}><sphereGeometry args={[0.045, 10, 8]} />{m}</mesh>

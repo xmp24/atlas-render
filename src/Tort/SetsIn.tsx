@@ -1,3 +1,4 @@
+import { textTex } from "../Miya3/Sets3";
 import React from "react";
 import * as THREE from "three";
 import { random } from "remotion";
@@ -33,6 +34,30 @@ export const Chamber: React.FC<{ f: number; w?: number; d?: number; h?: number; 
     </group>}
     <Mist f={f} area={[-w / 2, w / 2, -d / 2, d / 2]} o={0.06} />
     <Contact p={[0, 0, 0]} s={[w, d]} o={0.2} />
+    <Dressing f={f} w={w} d={d} h={h} seed={seed} />
+  </group>;
+};
+const webTex = () => textTex("cobweb2", 512, 512, (c) => {
+  c.strokeStyle = "rgba(230,230,235,0.55)"; c.lineWidth = 1.4;
+  for (let k = 0; k < 9; k++) { const a = (k / 8) * Math.PI / 2; c.beginPath(); c.moveTo(0, 0); c.lineTo(Math.cos(a) * 512, Math.sin(a) * 512); c.stroke(); }
+  for (let r = 40; r < 512; r += 38 + r * 0.08) { c.beginPath(); for (let k = 0; k <= 8; k++) { const a = (k / 8) * Math.PI / 2, rr = r * (0.92 + random("wb" + r + k) * 0.12); const x = Math.cos(a) * rr, y = Math.sin(a) * rr; if (k === 0) c.moveTo(x, y); else c.quadraticCurveTo(Math.cos(a - 0.1) * rr * 0.9, Math.sin(a - 0.1) * rr * 0.9, x, y); } c.stroke(); }
+});
+const chainM = new THREE.MeshStandardMaterial({ color: "#3a3532", metalness: 0.85, roughness: 0.38 });
+const Chain: React.FC<{ p: V3; n?: number; f: number; seed: number }> = ({ p, n = 9, f, seed }) => <group position={p} rotation={[0, 0, Math.sin(f / 70 + seed) * 0.03]}>
+  {Array.from({ length: n }).map((_, i) => <mesh key={i} position={[0, -i * 0.075, 0]} rotation={[0, i % 2 ? Math.PI / 2 : 0, 0]} material={chainM} castShadow><torusGeometry args={[0.032, 0.009, 6, 14]} /></mesh>)}
+  <mesh position={[0, -n * 0.075 - 0.03, 0]} material={chainM} castShadow><torusGeometry args={[0.07, 0.016, 8, 20]} /></mesh>
+</group>;
+/** extra dungeon detail: wall chains, corner cobwebs, straw + bones on the floor, dust motes */
+const Dressing: React.FC<{ f: number; w: number; d: number; h: number; seed: string }> = ({ f, w, d, h, seed }) => {
+  const web = webTex();
+  return <group>
+    {[-0.32, 0.18].map((x, i) => <Chain key={i} p={[x * w, Math.min(h - 0.4, 2.3), -d / 2 + 0.05]} n={8 + i * 3} f={f} seed={i} />)}
+    <mesh position={[-0.3 * w, Math.min(h - 0.4, 2.3) + 0.03, -d / 2 + 0.04]} material={chainM}><boxGeometry args={[0.08, 0.08, 0.06]} /></mesh>
+    <mesh position={[0.18 * w, Math.min(h - 0.4, 2.3) + 0.03, -d / 2 + 0.04]} material={chainM}><boxGeometry args={[0.08, 0.08, 0.06]} /></mesh>
+    {[[-1, -1], [1, -1]].map(([sx, sz], i) => <mesh key={"w" + i} position={[sx * (w / 2 - 0.45), h - 0.45, sz * (d / 2 - 0.02)]} rotation={[0, 0, sx > 0 ? Math.PI / 2 : Math.PI]} scale={[0.9, 0.9, 1]}>
+      <planeGeometry args={[0.9, 0.9]} /><meshBasicMaterial map={web} transparent opacity={0.6} depthWrite={false} side={THREE.DoubleSide} /></mesh>)}
+    {Array.from({ length: 70 }).map((_, i) => { const x = (random(seed + "st" + i) - 0.5) * w * 0.9, z = -d / 2 + 0.2 + random(seed + "sz" + i) * d * 0.25; return <mesh key={"s" + i} position={[x, 0.006, z]} rotation={[Math.PI / 2, 0, random(seed + "sr" + i) * 6]}><cylinderGeometry args={[0.004, 0.004, 0.18 + random(seed + "sl" + i) * 0.14, 4]} /><meshStandardMaterial color={random(seed + "sc" + i) > 0.5 ? "#b89a52" : "#8a7038"} roughness={1} /></mesh>; })}
+    {Array.from({ length: 45 }).map((_, i) => { const t = (f / (300 + random(seed + "dt" + i) * 300) + random(seed + "d0" + i)) % 1; return <mesh key={"d" + i} position={[(random(seed + "dx" + i) - 0.5) * w * 0.8 + Math.sin(f / 90 + i) * 0.15, 0.4 + t * (h - 0.6), (random(seed + "dz" + i) - 0.5) * d * 0.8]}><sphereGeometry args={[0.006, 5, 4]} /><meshBasicMaterial color="#ffe8c0" transparent opacity={0.5 * Math.sin(t * Math.PI)} /></mesh>; })}
   </group>;
 };
 const ropeM = new THREE.MeshStandardMaterial({ color: "#a08a5a", roughness: 1 });

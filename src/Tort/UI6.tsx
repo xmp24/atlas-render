@@ -17,7 +17,10 @@ export const TortTitle: React.FC<{ f: number; n: number; sub: string; len?: numb
   return <AbsoluteFill style={{ opacity: o }}>
     <AbsoluteFill style={{ background: `linear-gradient(90deg, rgba(0,0,0,${0.75 * a}) 0%, rgba(0,0,0,${0.35 * a}) 48%, rgba(0,0,0,0) 72%)` }} />
     <div style={{ position: "absolute", left: 110, top: 290, display: "flex", alignItems: "center" }}>
-      <div style={{ ...OS(320, 700), color: RED, transform: `translateX(${(1 - a) * -80}px) scale(${0.9 + a * 0.1})`, opacity: a, textShadow: "0 12px 40px rgba(0,0,0,0.7), 0 0 60px rgba(255,40,60,0.35)", WebkitTextStroke: "3px #4a0008" }}>#{n}</div>
+      <div style={{ position: "relative", transform: `translateX(${(1 - a) * -80}px) scale(${0.9 + a * 0.1})`, opacity: a }}>
+        <div style={{ ...OS(320, 700), color: "transparent", position: "absolute", left: 0, top: 0, textShadow: "0 14px 40px rgba(0,0,0,0.75), 0 0 70px rgba(255,40,60,0.45)" }}>#{n}</div>
+        <div style={{ ...OS(320, 700), position: "relative", background: `linear-gradient(175deg, #ffd0c8 0%, #ff4a4a 28%, #b8000e 55%, #ff6a5a ${66 + Math.sin(f / 9) * 6}%, #6a0008 100%)`, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent", WebkitTextStroke: "3px #3a0006" }}>#{n}</div>
+      </div>
       <div style={{ marginLeft: 40, borderLeft: `6px solid ${RED}`, paddingLeft: 34, transform: `translateX(${(1 - b) * 60}px)`, opacity: b }}>
         <div style={{ ...OS(34, 500), color: "#d8c8b0", letterSpacing: 6 }}>{sub}</div>
         <div style={{ ...OS(124, 700), color: "#fff", marginTop: 6, textShadow: "0 8px 30px rgba(0,0,0,0.8)" }}>{NAMES[n - 1]}</div>

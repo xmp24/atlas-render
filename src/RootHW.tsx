@@ -1,5 +1,6 @@
 import {Miya8, V8_FRAMES} from './Miya8/Video8';
 import {Tort3, TORT3_FRAMES} from './Tort/Video3';
+import {Tort7, TORT7_FRAMES} from './Tort/Video7';
 import {Tort6, TORT6_FRAMES} from './Tort/Video6';
 import {Tort5, TORT5_FRAMES} from './Tort/Video5';
 import {Tort4, TORT4_FRAMES} from './Tort/Video4';
@@ -79,6 +80,7 @@ export const RootHW: React.FC = () => (
     <Composition id="Tort4N" component={Tort4} durationInFrames={TORT4_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false, clean: false}} />
     <Composition id="Tort5N" component={Tort5} durationInFrames={TORT5_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false, clean: false}} />
     <Composition id="Tort6N" component={Tort6} durationInFrames={TORT6_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false, clean: false}} />
+    <Composition id="Tort7N" component={Tort7} durationInFrames={TORT7_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false, clean: false}} />
     <Composition id="Miya13N" component={Miya13} durationInFrames={V13_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />
     <Composition id="Miya13NS" component={Miya13} durationInFrames={V13_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: false}} />
     <Composition id="Miya12N" component={Miya12} durationInFrames={V12_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false, subs: true}} />

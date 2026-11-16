@@ -19,6 +19,12 @@ on:
       gl:
         description: Backend WebGL (p. ej. swangle para 3D)
         default: ''
+      scale:
+        description: Escala de render (2 = supersampling 4K)
+        default: '1'
+      outh:
+        description: Altura final de salida (vacío = sin reescalar, p. ej. 1440)
+        default: ''
 
 permissions:
   contents: write
@@ -48,7 +54,7 @@ jobs:
   render:
     needs: bundle
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 180
     strategy:
       fail-fast: false
       max-parallel: 20
@@ -69,6 +75,8 @@ jobs:
           TOTAL: ${{ inputs.frames }}
           COMP: ${{ inputs.comp }}
           GL: ${{ inputs.gl }}
+          SCALE: ${{ inputs.scale }}
+          OUTH: ${{ inputs.outh }}
         run: |
           set -e
           PER=$(( (TOTAL + N - 1) / N ))
@@ -81,7 +89,12 @@ jobs:
             f=parts/p$(printf %06d $p).mp4
             ok=0
             for try in 1 2 3; do
-              if npx remotion render build $COMP $f --frames=$p-$q --muted --concurrency=4 --crf=18 --x264-preset=veryfast --jpeg-quality=92 --log=error ${GL:+--gl=$GL --timeout=300000}; then
+              if [ -n "$OUTH" ]; then
+                rr=0; npx remotion render build $COMP raw.mp4 --frames=$p-$q --muted --concurrency=4 --scale=$SCALE --crf=10 --x264-preset=veryfast --jpeg-quality=95 --log=error ${GL:+--gl=$GL --timeout=300000} && npx remotion ffmpeg -v error -y -i raw.mp4 -vf "scale=-2:$OUTH:flags=lanczos" -c:v libx264 -crf 17 -preset medium -pix_fmt yuv420p $f && rr=1; rm -f raw.mp4
+              else
+                rr=0; npx remotion render build $COMP $f --frames=$p-$q --muted --concurrency=4 --scale=${SCALE:-1} --crf=18 --x264-preset=veryfast --jpeg-quality=92 --log=error ${GL:+--gl=$GL --timeout=300000} && rr=1
+              fi
+              if [ $rr = 1 ]; then
                 n=$(npx remotion ffprobe -v error -count_packets -select_streams v -show_entries stream=nb_read_packets -of csv=p=0 $f | tr -d '\r')
                 if [ "$n" = "$(( q - p + 1 ))" ]; then ok=1; break; fi
                 echo "::warning::$f tiene $n fotogramas, se repite"

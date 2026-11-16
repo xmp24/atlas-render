@@ -31,13 +31,13 @@ export type Fire = [number, number, number];
  */
 export const PhotoShot: React.FC<{ f: number; len: number; img: string; cam: PCam; z?: [number, number]; c0?: [number, number]; c1?: [number, number]; fire?: Fire[]; exp?: number; tint?: string; mist?: number; dust?: number; floorY?: number; blur?: [number, number]; children?: React.ReactNode; over?: React.ReactNode }> = ({ f, len, img, cam, z = [1.05, 1.12], c0 = [0.5, 0.55], c1, fire = [], exp = 1.05, tint, mist = 1, dust = 1, floorY = 0.7, blur, children, over }) => {
   const W0 = W * 1.0, H0 = Math.round(W0 * cam.size[1] / cam.size[0]), sc = W0 / cam.size[0];
-  const k = ez(interpolate(f, [0, Math.max(1, len)], [0, 1], clamp)), zz = z[0] + (z[1] - z[0]) * k;
+  const k = ez(interpolate(f, [0, Math.max(1, len)], [0, 1], clamp)), zz = Math.min(1.25, z[0] + (z[1] - z[0]) * k);
   const cc = c1 ? [c0[0] + (c1[0] - c0[0]) * k, c0[1] + (c1[1] - c0[1]) * k] : c0;
   let left = W / 2 - cc[0] * W0 * zz, top = H / 2 - cc[1] * H0 * zz;
   left = Math.min(0, Math.max(W - W0 * zz, left)); top = Math.min(0, Math.max(H - H0 * zz, top));
   return <AbsoluteFill style={{ background: "#000", overflow: "hidden" }}>
     <div style={{ position: "absolute", left, top, width: W0, height: H0, transform: `scale(${zz})`, transformOrigin: "0 0" }}>
-      <Img src={staticFile(img)} style={{ position: "absolute", width: W0, height: H0, filter: blur ? `blur(${blur[0] + (blur[1] - blur[0]) * k}px)` : undefined }} />
+      <Img src={staticFile(img)} style={{ position: "absolute", width: W0, height: H0, filter: undefined }} />
       {/* light breathing from the photo's own fires */}
       {fire.map(([x, y, s], i) => { const fl = flick(f, i), X = x * sc, Y = y * sc, S = s * sc; return <React.Fragment key={i}>
         <div style={{ position: "absolute", left: X - S * 8, top: Y - S * 8, width: S * 16, height: S * 16, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,170,80,0.28), rgba(255,120,40,0.07) 45%, transparent 70%)", mixBlendMode: "screen", opacity: 0.6 + (fl - 1) * 3 }} />
@@ -48,7 +48,7 @@ export const PhotoShot: React.FC<{ f: number; len: number; img: string; cam: PCa
         {children}
       </ThreeCanvas>
       {/* mist along the floor + dust motes in the light */}
-      {mist > 0 && Array.from({ length: 6 }).map((_, i) => { const x = ((random("mg" + i) * 1.6 - 0.3 + f * 0.0008 * (0.6 + random("mv" + i))) % 1.6) - 0.3; return <div key={"m" + i} style={{ position: "absolute", left: x * W0, top: (floorY + random("my" + i) * 0.2) * H0, width: W0 * 0.5, height: H0 * 0.14, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(180,170,160,0.12), transparent 70%)", filter: "blur(12px)", opacity: mist }} />; })}
+      {mist > 0 && Array.from({ length: 6 }).map((_, i) => { const x = ((random("mg" + i) * 1.6 - 0.3 + f * 0.0008 * (0.6 + random("mv" + i))) % 1.6) - 0.3; return <div key={"m" + i} style={{ position: "absolute", left: x * W0, top: (floorY + random("my" + i) * 0.2) * H0, width: W0 * 0.5, height: H0 * 0.14, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(180,170,160,0.12), transparent 70%)", filter: "blur(12px)", opacity: mist * 0.5 }} />; })}
       {dust > 0 && Array.from({ length: 26 }).map((_, i) => { const q = (f * 0.0015 * (0.5 + random("dv" + i)) + random("dq" + i)) % 1; return <div key={"d" + i} style={{ position: "absolute", left: (random("dx" + i) * W0 + Math.sin(f / 50 + i) * 20), top: (random("dy" + i) * 0.8 + 0.1 - q * 0.1) * H0, width: 3, height: 3, borderRadius: 2, background: "rgba(255,230,190,0.55)", opacity: Math.sin(q * Math.PI) * dust * 0.8 }} />; })}
       {tint && <AbsoluteFill style={{ background: tint, mixBlendMode: "multiply" }} />}
       {over}
@@ -62,7 +62,7 @@ export const Occluder: React.FC<{ p: [number, number, number]; s: [number, numbe
 const DirLight: React.FC<{ p: [number, number, number]; t: [number, number, number]; i: number; col: string }> = ({ p, t, i, col }) => {
   const ref = React.useRef<THREE.DirectionalLight>(null);
   useLayoutEffect(() => { const l = ref.current; if (!l) return; l.target.position.set(t[0], t[1], t[2]); l.target.updateMatrixWorld(); l.shadow.camera.updateProjectionMatrix(); });
-  return <directionalLight ref={ref} position={p} intensity={i} color={col} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-left={-6} shadow-camera-right={6} shadow-camera-top={6} shadow-camera-bottom={-6} shadow-camera-far={60} shadow-bias={-0.0004} />;
+  return <directionalLight ref={ref} position={p} intensity={i} color={col} castShadow shadow-mapSize-width={4096} shadow-mapSize-height={4096} shadow-camera-left={-6} shadow-camera-right={6} shadow-camera-top={6} shadow-camera-bottom={-6} shadow-camera-far={60} shadow-bias={-0.0004} />;
 };
 /** key light matched to the photo + fill */
 export const PhotoLights: React.FC<{ key1: [number, number, number]; tgt: [number, number, number]; col?: string; i?: number; amb?: number; ambCol?: string }> = ({ key1, tgt, col = "#ffb070", i = 1.6, amb = 0.35, ambCol = "#8a7a90" }) => <>

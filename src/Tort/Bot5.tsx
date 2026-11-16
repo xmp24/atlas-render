@@ -342,6 +342,7 @@ export const Bot5: React.FC<{ pos: [number, number, number]; ry?: number; p: BP;
                 <group key={sd} position={[sd * 0.075, 0.02, 0.18]} rotation={[0, sd * 0.38, 0]}>
                   <mesh geometry={G.eye} material={m.eye} position={[0, -lid * 0.014, 0]} scale={[outfit === "guard" ? 0.04 : 0.045, 0.05 * blink * (1 - 0.62 * lid) * (outfit === "guard" ? 0.7 : 1), 0.02]} />
                   <mesh geometry={G.eye} material={PUPIL} position={[sd * -0.008 + look[0] * 0.01 + Math.sin(f / 3) * 0.004, -0.004 - lid * 0.01 + look[1] * 0.01, 0.016]} scale={[0.014 * pupil, 0.016 * blink * pupil * (1 - 0.4 * lid), 0.01]} />
+                  <mesh geometry={G.eye} material={m.eye} position={[sd * -0.008 + look[0] * 0.01 + 0.006, 0.004 - lid * 0.01 + look[1] * 0.01, 0.024]} scale={[0.0042, 0.0042 * blink, 0.004]} />
                 </group>
               ))}
               {eyes === "calm" && [-1, 1].map((sd) => (

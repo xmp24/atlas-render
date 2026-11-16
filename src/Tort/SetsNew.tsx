@@ -5,7 +5,14 @@ import { Box, Cyl } from "../Miya3/Kit3";
 import { useEnv } from "../Gota/Dungeon4";
 import { Bot5 as Bot, Kind } from "./Bot5";
 import { STAND, idleBP } from "../Miya8/Bot3";
-import { V3, Fire, Logs, Mist, Sky, woodTex, tx } from "./Common";
+import { V3, Fire, Logs, Mist, Sky, Crow, woodTex, tx } from "./Common";
+import { textTex } from "../Miya3/Sets3";
+const waveBase = () => textTex("waves3", 1024, 1024, (c) => {
+  c.fillStyle = "#808080"; c.fillRect(0, 0, 1024, 1024);
+  for (let i = 0; i < 260; i++) { const x = random("wx" + i) * 1024, y = random("wy" + i) * 1024, w = 60 + random("ww" + i) * 160; const g = c.createLinearGradient(x, y - 10, x, y + 10); g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(0.5, `rgba(255,255,255,${0.25 + random("wa" + i) * 0.35})`); g.addColorStop(1, "rgba(0,0,0,0.2)"); c.fillStyle = g; c.beginPath(); c.ellipse(x, y, w, 7 + random("wh" + i) * 6, (random("wr" + i) - 0.5) * 0.3, 0, 7); c.fill(); }
+});
+const WAVES: Record<number, THREE.Texture> = {};
+const waveTex = (f: number) => { const k = Math.floor(f) % 600; const t = (WAVES[k] ??= (() => { const c = waveBase().clone(); c.wrapS = c.wrapT = THREE.RepeatWrapping; c.repeat.set(40, 40); c.offset.set(k / 600 * 0.6, k / 600 * 0.25); c.anisotropy = 16; c.needsUpdate = true; return c; })()); return t; };
 import { Rope } from "./SetsIn";
 
 /* ================= army camp with the wooden horse ================= */
@@ -124,7 +131,8 @@ export const KeelSet: React.FC<{ f: number; mode: "deck" | "side" | "under"; pul
     <directionalLight position={[-14, 10, -16]} intensity={2.8} color="#ffc080" castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-left={-10} shadow-camera-right={10} shadow-camera-top={10} shadow-camera-bottom={-10} />
     <directionalLight position={[10, 5, 12]} intensity={0.8} color="#9ab8e8" />
     {/* sea */}
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.6, 0]} receiveShadow><planeGeometry args={[300, 300]} /><meshPhysicalMaterial color="#1e4a5e" roughness={0.25} metalness={0.2} envMap={env} envMapIntensity={0.6} /></mesh>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.6, 0]} receiveShadow><planeGeometry args={[300, 300]} /><meshPhysicalMaterial color="#123a4c" roughness={0.38} metalness={0.1} envMap={env} envMapIntensity={0.28} bumpMap={waveTex(f)} bumpScale={0.6} clearcoat={0.4} clearcoatRoughness={0.3} /></mesh>
+    {Array.from({ length: 5 }).map((_, i) => <Crow key={"g" + i} p={[-8 + i * 4 + Math.sin(f / 90 + i) * 2, 5 + random("gy" + i) * 2, -6 - random("gz" + i) * 6]} f={f + i * 9} ry={0.6} s={0.9} col="#f2f2f0" seed={i} />)}
     {Array.from({ length: 80 }).map((_, i) => { const x = (random("sx" + i) - 0.5) * 50, z = (random("sz" + i) - 0.5) * 50, s = ((f / 70 + random("so" + i)) % 1); return <mesh key={i} position={[x, -0.58, z]} rotation={[-Math.PI / 2, 0, random("sr" + i) * 3]}><planeGeometry args={[0.8 + s, 0.05]} /><meshBasicMaterial color="#d8f0f0" transparent opacity={0.35 * Math.sin(s * Math.PI)} /></mesh>; })}
     <group position={[0, bob, 0]} rotation={[roll, 0, 0]}>
       <Ship f={f} />
