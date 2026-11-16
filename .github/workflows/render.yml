@@ -25,6 +25,9 @@ on:
       outh:
         description: Altura final de salida (vacío = sin reescalar, p. ej. 1440)
         default: ''
+      start:
+        description: Primer fotograma (para renderizar solo un tramo)
+        default: '0'
 
 permissions:
   contents: write
@@ -77,10 +80,11 @@ jobs:
           GL: ${{ inputs.gl }}
           SCALE: ${{ inputs.scale }}
           OUTH: ${{ inputs.outh }}
+          START: ${{ inputs.start }}
         run: |
           set -e
           PER=$(( (TOTAL + N - 1) / N ))
-          S=$(( I * PER )); E=$(( S + PER - 1 )); [ $E -ge $TOTAL ] && E=$(( TOTAL - 1 ))
+          S=$(( ${START:-0} + I * PER )); E=$(( S + PER - 1 )); [ $E -ge $(( ${START:-0} + TOTAL )) ] && E=$(( ${START:-0} + TOTAL - 1 ))
           echo "tramo $S-$E"
           mkdir -p parts
           # trozos de 150 fotogramas: si uno falla se reintenta solo ese

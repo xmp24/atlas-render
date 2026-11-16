@@ -94,7 +94,7 @@ export const Ship: React.FC<{ f: number; barn?: boolean }> = ({ f, barn = false 
       <Cyl p={[0, h * 0.78, 0]} r1={0.04} h={3.6} rot={[Math.PI / 2, 0, 0]} c="#4a3220" />
       <mesh position={[0.06, h * 0.6, 0]} rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[3.4, h * 0.36, 8, 4]} /><meshStandardMaterial color="#e8dcc0" roughness={0.95} side={THREE.DoubleSide} /></mesh>
     </group>)}
-    {barn && barns.map(([x, y, z, s], i) => <mesh key={i} position={[x * 0.995, y * 0.995, z * 0.995]} scale={[1, 0.55, 1]}><sphereGeometry args={[s * 0.8, 8, 6]} /><meshStandardMaterial color={i % 3 ? "#b8b4a4" : "#7a7a68"} roughness={0.7} /></mesh>)}
+    {barn && barns.map(([x, y, z, s], i) => <mesh key={i} position={[x * 0.995, y * 0.995, z * 0.995]} scale={[1, 0.55, 1]}><sphereGeometry args={[s * 0.8, 14, 10]} /><meshStandardMaterial color={i % 3 ? "#b8b4a4" : "#7a7a68"} roughness={0.7} /></mesh>)}
     {barn && Array.from({ length: 40 }).map((_, i) => { const u = random("wu" + i) * Math.PI * 2; return <mesh key={"w" + i} position={[Math.cos(u) * 5.2 * random("wr" + i), -1.6 - random("wy" + i) * 0.2, Math.sin(u) * 1.2]} rotation={[0, 0, Math.sin(f / 20 + i) * 0.2]}><planeGeometry args={[0.025, 0.22]} /><meshStandardMaterial color="#1e3a1a" side={THREE.DoubleSide} /></mesh>; })}
   </group>;
 };
@@ -106,9 +106,12 @@ export const KeelSet: React.FC<{ f: number; mode: "deck" | "side" | "under"; pul
     return <group>
       <color attach="background" args={["#0d3a4a"]} />
       <fog attach="fog" args={["#0f4050", 2, 16]} />
+      <mesh><sphereGeometry args={[40, 32, 16]} /><meshBasicMaterial color="#0e3c4c" side={THREE.BackSide} fog={false} /></mesh>
       <ambientLight intensity={1.1} color="#6ac0c8" />
-      <hemisphereLight args={["#9ae8e8", "#062028", 1.0]} />
+      <hemisphereLight args={["#9ae8e8", "#1a5a68", 1.2]} />
       <directionalLight position={[2, 12, 3]} intensity={2.4} color="#c8f8f0" />
+      <directionalLight position={[1, -8, 2]} intensity={1.6} color="#7ad8e0" />
+      <pointLight position={[0, -3.2, 1.5]} intensity={6} distance={8} decay={1.4} color="#9af0f0" />
       <group position={[0, -0.2, 0]} rotation={[0, Math.PI / 2, 0]}><Ship f={f} barn /></group>
       {/* surface from below */}
       <mesh position={[0, 0.1, 0]} rotation={[Math.PI / 2, 0, 0]}><planeGeometry args={[80, 80]} /><meshBasicMaterial color="#5ac8d0" transparent opacity={0.55} side={THREE.DoubleSide} /></mesh>

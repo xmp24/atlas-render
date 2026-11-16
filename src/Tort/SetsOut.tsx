@@ -213,8 +213,10 @@ export const SicilySet: React.FC<{ f: number; heat: number; door: number; roar?:
   const env = useEnv(); const mar = tx("mar", () => marbleTex("tp", "#d8c8a8"), 1, 1), flag = tx("flg", () => marbleTex("fl", "#c8b48c"), 8, 8), col = tx("col", () => marbleTex("tc", "#dccca8"), 1, 1);
   return <group>
     <Sky kind="sunset" f={f} sun={[10, 4, -80]} sunCol="#ffcc70" clouds={8} cloudCol="#c87a6a" />
-    <ambientLight intensity={0.3} color="#a08aa0" />
-    <hemisphereLight args={["#ffb88a", "#3a2a1a", 0.5]} />
+    <ambientLight intensity={0.55} color="#b8a0a0" />
+    <hemisphereLight args={["#ffc89a", "#4a3a2a", 0.8]} />
+    <directionalLight position={[2, 4, 9]} intensity={1.6} color="#ffd8b0" />
+    <pointLight position={[0.8, 1.6, 2.6]} intensity={4} distance={7} decay={1.5} color="#ffb070" />
     <directionalLight position={[8, 8, -18]} intensity={2.6} color="#ffb070" castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
     <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[40, 40]} /><meshStandardMaterial map={flag} roughness={0.6} /></mesh>
     {/* sea in the distance */}
