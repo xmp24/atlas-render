@@ -252,7 +252,9 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       const ts = sz * 0.8;
       for (let i = q.n - 1; i >= 0; i--) {
         const row = Math.floor(i / 2), col = q.n === 1 ? 0 : (i % 2) - 0.5;
-        const px = hx - dx * row * ts * 1.75 + vx * col * ts * 1.5, py = hy - dy * row * ts * 1.75 + vy * col * ts * 1.5;
+        // cada fila sigue el trazado real de la ruta (así no se sale al mar en las curvas de la costa)
+        const [rx, ry, rdx, rdy] = at(q, Math.max(0, d - row * ts * 1.75));
+        const px = rx + -rdy * col * ts * 1.1, py = ry + rdx * col * ts * 1.1;
         // polvo detrás
         if (moving) { ctx.fillStyle = `rgba(190,170,130,${0.35})`; ctx.beginPath(); ctx.arc(px - dx * ts * 1.2, py - dy * ts * 1.2 + ts * 0.3, ts * (0.5 + 0.2 * Math.sin(t * 9 + i)), 0, Math.PI * 2); ctx.fill(); }
         drawTank(ctx, px, py, ts, (q as any).col || MAINCOL[q.a], face, fight && Math.floor(t * 4 + i * 2) % 3 === 0);
@@ -263,8 +265,9 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
     }
     for (let i = q.n - 1; i >= 0; i--) {
       const row = Math.floor(i / 3), col = (i % 3) - 1;
-      const jx = (hsh(qi * 31 + i) - 0.5) * sz * 0.35, jy = (hsh(qi * 17 + i) - 0.5) * sz * 0.3;
-      const px = hx - dx * row * sz * 0.85 + vx * col * sz * 0.7 + jx, py = hy - dy * row * sz * 0.85 + vy * col * sz * 0.7 + jy;
+      const jx = (hsh(qi * 31 + i) - 0.5) * sz * 0.2, jy = (hsh(qi * 17 + i) - 0.5) * sz * 0.2;
+      const [rx, ry, rdx, rdy] = at(q, Math.max(0, d - row * sz * 0.85));
+      const px = rx + -rdy * col * sz * 0.45 + jx, py = ry + rdx * col * sz * 0.45 + jy;
       soldier(ctx, px, py - sz * 0.3, sz, (q as any).col || MAINCOL[q.a], DARKCOL[q.a] || '#333', t * 13 + i * 1.9, face, moving && !fight ? 0 : 1);
       if (fight && Math.floor(t * 14 + i * 5) % 4 === 0) {
         ctx.fillStyle = '#ffe36b'; ctx.beginPath(); ctx.arc(px + face * sz * 0.62, py - sz * 0.32, sz * 0.15, 0, Math.PI * 2); ctx.fill();

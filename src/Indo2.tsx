@@ -2595,7 +2595,7 @@ const daE = (x: number) => { x = Math.max(0, Math.min(1, x)); return x < 0.5 ? 4
 const daB = (x: number) => { x = Math.max(0, Math.min(1, x)); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
 const daKv = (K: number[][] | undefined, t: number, def = 0) => { if (!K || !K.length) return def; let v = def; for (const [t0, v1, d = 0] of K) { if (t < t0) break; const k = d <= 0 ? 1 : daE((t - t0) / d); v = v + (v1 - v) * k; } return v; };
 const daStep = (K: any[] | undefined, t: number, def: any) => { let v = def; for (const [t0, v1] of K ?? []) { if (t < t0) break; v = v1; } return v; };
-const daMoney = (v: number) => '$' + Math.round(v).toLocaleString('en-US');
+const daMoney = (v: number) => v >= 1e9 ? `$${+(v / 1e9).toFixed(v >= 1e11 ? 0 : 1)}B` : v >= 1e6 ? `$${+(v / 1e6).toFixed(v >= 1e7 ? 0 : 1)}M` : '$' + Math.round(v).toLocaleString('en-US');
 const daLastMoney = (K: number[][] | undefined, t: number) => { let l = -9; for (const k of K ?? []) { if (k[0] <= t && k[1] > 0) l = k[0] + (k[2] ?? 0); } return l; };
 const DaIco: React.FC<{n: string; x: number; y: number; s: number; op?: number}> = ({n, x, y, s, op = 1}) => <image href={staticFile(`hw/icons/${n}.svg`)} x={x - s / 2} y={y - s / 2} width={s} height={s} opacity={op} />;
 const DAICON: Record<string, string> = {shack: 'house', camp: 'house', barracks: 'military-fort', tanks: 'battle-tank', arty: 'cannon', air: 'jet-fighter', port: 'anchor', missiles: 'missile-pod', radar: 'radar-dish', heli: 'helicopter', hq: 'crown', bunker: 'bunker', fort: 'military-fort', guns: 'cannon', navy: 'battleship', drones: 'radar-sweep'};
@@ -2702,7 +2702,8 @@ const DaCard: React.FC<{c: any; t: number}> = ({c, t}) => {
       <div style={{display: 'flex', gap: 18, justifyContent: 'center', marginTop: 14}}>{c.stats.map(([v, lab]: string[], i: number) => <div key={i} style={{background: '#ffffff10', border: '2px solid #ffffff22', borderRadius: 12, padding: '8px 18px', minWidth: 190, opacity: Math.min(1, Math.max(0, (lt - 0.3 - i * 0.2) / 0.2))}}>
         <div style={{...font, fontSize: 44, color: '#fff', lineHeight: 1}}>{v}</div><div style={{...font2, fontSize: 18, color: '#9aa'}}>{lab}</div></div>)}</div></DaPanel></AbsoluteFill>;
   if (c.type === 'cb') return <CbScene c={c} t={t} o={o} />;
-  if (c.type === 'title') return <AbsoluteFill style={{alignItems: 'center', justifyContent: c.pos === 'top' ? 'flex-start' : 'center', paddingTop: c.pos === 'top' ? 150 : 0, zIndex: 38}}>
+  if (c.type === 'sub') return <SubCard c={c} t={t} />;
+  if (c.type === 'title') return <AbsoluteFill style={{alignItems: 'center', justifyContent: c.pos === 'top' ? 'flex-start' : 'center', paddingTop: c.pos === 'top' ? 150 : 0, zIndex: 38, background: c.dim ? `rgba(6,8,14,${0.92 * Math.min(1, (t - c.t) / 0.25)})` : undefined}}>
     <div style={{textAlign: 'center', opacity: o, transform: `scale(${0.75 + 0.25 * k})`}}>
       {c.pre && <div style={{...font2, fontSize: 36, color: '#ffd23f', letterSpacing: 6, marginBottom: 6}}>{c.pre}</div>}
       <div style={{...font, fontSize: c.fs ?? 104, color: c.col ?? '#fff', lineHeight: 1.0, WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill'}}>{c.text}</div>
@@ -2748,10 +2749,8 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
     sv.push(<g key="f">{Array.from({length: 9}, (_, i) => <rect key={i} x={1250 + i * 70} y={560} width={18} height={150} fill="#8a5a2b" stroke={INK} strokeWidth={4} />)}<rect x={1240} y={590} width={600} height={18} fill="#8a5a2b" stroke={INK} strokeWidth={4} /><rect x={1240} y={650} width={600} height={18} fill="#8a5a2b" stroke={INK} strokeWidth={4} />
       <rect x={1430} y={420} width={260} height={110} rx={10} fill="#1e4fb5" stroke={INK} strokeWidth={6} /><text x={1560} y={492} textAnchor="middle" fontSize={56} style={{fontFamily: 'Lilita'}} fill="#fff">FRANCE →</text><rect x={1552} y={530} width={16} height={40} fill="#8a5a2b" /></g>);
     const bx = 640, by = 620 - bounce;
-    sv.push(<g key="br" transform={`rotate(${-25 + 10 * Math.sin(lt * 7)} ${bx + 170} ${by + 60})`}><rect x={bx + 160} y={by - 200} width={16} height={300} rx={6} fill="#a0662c" stroke={INK} strokeWidth={4} /><path d={`M ${bx + 130} ${by + 100} L ${bx + 206} ${by + 100} L ${bx + 230} ${by + 190} L ${bx + 106} ${by + 190} Z`} fill="#e8c35a" stroke={INK} strokeWidth={5} /></g>);
-    html.push(<div key="b" style={{position: 'absolute', left: bx - 150, top: by - 150}}><Ball k={km} size={300} mood="angry" t={t} look={[0.6, 0]} /></div>);
-    sv.push(<g key="pot"><path d={`M ${bx - 125} ${by - 95} A 128 110 0 0 1 ${bx + 125} ${by - 95} Z`} fill="#9aa3ad" stroke={INK} strokeWidth={7} /><rect x={bx - 150} y={by - 105} width={300} height={22} rx={8} fill="#7d8790" stroke={INK} strokeWidth={6} /><rect x={bx + 140} y={by - 112} width={70} height={16} rx={6} fill="#5a636b" stroke={INK} strokeWidth={5} /></g>);
-    html.push(<CbBubble key="s" x={bx + 120} y={by - 190} text="FOR MONACO!" k={(lt - 0.5) / 0.3} />);
+    html.push(<div key="b" style={{position: 'absolute', left: bx - 150, top: by - 150}}><MarcoBall size={300} mood="angry" t={t} look={[0.6, 0]} broom /></div>);
+    html.push(<CbBubble key="s" x={bx + 120} y={by - 190} text={c.say ?? "FOR MONACO!"} k={(lt - 0.5) / 0.3} fs={46} />);
     const ck = Math.min(1, Math.max(0, (lt - 2.4) / 0.8)); if (lt > 2.4) sv.push(<Coin key="c" x={1150 - 300 * ck} y={-80 + 560 * cbE(ck) - (ck >= 1 ? Math.abs(Math.sin((lt - 3.2) * 8)) * 30 * Math.max(0, 1 - (lt - 3.2)) : 0)} r={70} spin={lt * 9} label="$1" />);
     html.push(<BigMoney key="m" text="BUDGET: $1" k={(lt - 3.3) / 0.35} />);
   } else if (v === 'tip') {
@@ -2759,7 +2758,9 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
     sv.push(<g key="lights">{Array.from({length: 14}, (_, i) => <circle key={i} cx={80 + i * 135} cy={60} r={18} fill={Math.floor(lt * 6 + i) % 2 ? '#ffd23f' : '#fff3b0'} stroke={INK} strokeWidth={4} />)}<text x={960} y={190} textAnchor="middle" fontSize={90} style={{fontFamily: 'Lilita'}} fill="#ffd23f" stroke={INK} strokeWidth={10} paintOrder="stroke">CASINO DE MONTE-CARLO</text>
       <rect x={0} y={760} width={1920} height={320} fill="#7a3b16" stroke={INK} strokeWidth={8} /></g>);
     html.push(<div key="t" style={{position: 'absolute', left: 1180, top: 420 - bounce * 0.5}}><svg width={300} height={300} style={{overflow: 'visible'}}><circle cx={150} cy={150} r={146} fill="#f3c86b" stroke={INK} strokeWidth={9} /><Face x={150} y={146} r={86} mood="smug" t={t} seed={7} look={[-0.6, 0]} /><TopHat x={150} y={30} w={210} /><circle cx={190} cy={128} r={34} fill="none" stroke="#c8a000" strokeWidth={7} /></svg></div>);
-    html.push(<div key="b" style={{position: 'absolute', left: 430, top: 440 - bounce}}><Ball k={km} size={300} mood="shocked" t={t} look={[0.6, 0]} /></div>);
+    html.push(<div key="b" style={{position: 'absolute', left: 430, top: 440 - bounce}}><MarcoBall size={300} mood={lt > 3 ? 'happy' : 'shocked'} t={t} look={[0.6, 0]} /></div>);
+    for (let i = 0; i < 5; i++) { const kk = (lt - 4.0 - i * 0.15) / 0.3; if (kk > 0) html.push(<div key={'h' + i} style={{position: 'absolute', left: 120 + i * 130, top: 720, transform: `scale(${cbB(kk)})`}}><Ball k={km} size={110} mood="angry" t={t} look={[0.5, 0]} /></div>); }
+    if (lt > 4.0) html.push(<CbBubble key="hire" x={560} y={420} text="I'M HIRING!" k={(lt - 4.0) / 0.3} fs={44} />);
     html.push(<CbBubble key="s" x={1330} y={380} text="KEEP THE CHANGE!" k={(lt - 0.4) / 0.3} side={1} />);
     for (let i = 0; i < 9; i++) { const k = (lt - 1.6 - i * 0.12) / 0.9; if (k > 0) sv.push(<Bill key={'b' + i} x={1220 - 640 * Math.min(1, k) + i * 8} y={560 - 260 * Math.sin(Math.min(1, k) * Math.PI) + i * 6} w={120} rot={k * 400 + i * 40} />); }
     html.push(<BigMoney key="m" text="+ $1,000 TIP" k={(lt - 3.0) / 0.35} y={830} fs={130} />);
@@ -2770,7 +2771,7 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
       {Array.from({length: 18}, (_, i) => { const a0 = (i / 18) * Math.PI * 2, a1 = ((i + 1) / 18) * Math.PI * 2; return <path key={i} d={`M ${cx} ${cy} L ${cx + R0 * Math.cos(a0)} ${cy + R0 * Math.sin(a0)} A ${R0} ${R0} 0 0 1 ${cx + R0 * Math.cos(a1)} ${cy + R0 * Math.sin(a1)} Z`} fill={i === 0 ? '#1f9a3b' : i % 2 ? '#d32020' : '#151515'} stroke="#e8c35a" strokeWidth={3} />; })}
       <circle cx={cx} cy={cy} r={110} fill="#c8962a" stroke={INK} strokeWidth={8} /><circle cx={cx} cy={cy} r={40} fill="#e8c35a" stroke={INK} strokeWidth={6} /></g>);
     sv.push(<g key="ptr"><path d={`M ${cx - 26} ${cy - R0 - 70} L ${cx + 26} ${cy - R0 - 70} L ${cx} ${cy - R0 + 10} Z`} fill="#fff" stroke={INK} strokeWidth={6} /></g>);
-    html.push(<div key="b" style={{position: 'absolute', left: 200, top: 470 - (lt > 3.3 ? bounce * 2 : 0)}}><Ball k={km} size={320} mood={lt > 3.3 ? 'happy' : 'scared'} t={t} look={[0.7, -0.2]} /></div>);
+    html.push(<div key="b" style={{position: 'absolute', left: 200, top: 470 - (lt > 3.3 ? bounce * 2 : 0)}}><MarcoBall size={320} mood={lt > 3.3 ? 'happy' : 'scared'} t={t} look={[0.7, -0.2]} /></div>);
     html.push(<CbBubble key="s" x={420} y={430} text="ALL IN ON RED!" k={(lt - 0.3) / 0.3} />);
     if (lt > 3.3) { html.push(<BigMoney key="r" text="RED WINS!" k={(lt - 3.3) / 0.3} y={40} col="#ff4a3a" fs={120} />); for (let i = 0; i < 22; i++) { const yy = ((lt - 3.3) * 520 + i * 137) % 1300 - 150; sv.push(<Bill key={'r' + i} x={(i * 211) % 1920} y={yy} w={110} rot={lt * 200 + i * 33} />); } }
     html.push(<BigMoney key="m" text="$100,000" k={(lt - 4.2) / 0.35} y={830} fs={130} />);
@@ -2791,6 +2792,46 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
     html.push(<div key="b" style={{position: 'absolute', left: bx - 170, top: by - 170 + Math.sin(lt * 9) * 4}}><Ball k={km} size={340} mood="sad" t={t} look={[0.5, 0.4]} /></div>);
     for (let i = 0; i < 10; i++) { const k = ((lt * 1.6 + i * 0.27) % 1); const side = i % 2 ? 1 : -1; sv.push(<path key={'tr' + i} d={`M 0 -14 C 9 0 9 10 0 12 C -9 10 -9 0 0 -14 Z`} transform={`translate(${bx + side * 62 + side * k * 20},${by - 10 + k * 260})`} fill="#7cc8ff" stroke={INK} strokeWidth={3} opacity={1 - k} />); }
     html.push(<BigMoney key="m" text="$0 LEFT" k={(lt - 0.6) / 0.35} y={60} col="#ff5a4a" fs={140} />);
+  } else if (v === 'friend') {
+    bg = 'linear-gradient(180deg,#ffb36b,#ffd9a0 58%,#8a6a4a 58%,#6b4f35)';
+    sv.push(<g key="sign"><rect x={760} y={160} width={400} height={130} rx={14} fill="#fff" stroke={INK} strokeWidth={7} /><text x={960} y={215} textAnchor="middle" fontSize={44} style={{fontFamily: 'Lilita'}} fill="#c62828">ARMY RECRUITING</text><text x={960} y={268} textAnchor="middle" fontSize={34} style={{fontFamily: 'Lilita'}} fill={INK}>NO EXPERIENCE NEEDED</text></g>);
+    const hi = lt > 2.6 && lt < 3.2;
+    html.push(<div key="m" style={{position: 'absolute', left: 420 + (hi ? 40 : 0), top: 470 - bounce * 0.6}}><MarcoBall size={300} mood={lt > 3 ? 'happy' : 'angry'} t={t} look={[0.7, 0]} /></div>);
+    html.push(<div key="f" style={{position: 'absolute', left: 1180 - (hi ? 40 : 0), top: 490}}><Ball k={km} size={270} mood={lt > 2.6 ? 'happy' : 'calm'} t={t} look={[-0.7, 0]} /></div>);
+    html.push(<CbBubble key="s1" x={600} y={430} text="JOIN MY ARMY!" k={(lt - 0.3) / 0.3} fs={46} />);
+    if (lt > 1.6) html.push(<CbBubble key="s2" x={1300} y={450} text="…FINE." k={(lt - 1.6) / 0.3} fs={46} side={1} />);
+    if (hi) sv.push(<g key="hf"><circle cx={960} cy={560} r={60} fill="#fff7a8" opacity={0.8} /><text x={960} y={580} textAnchor="middle" fontSize={60} style={{fontFamily: 'Lilita'}} fill={INK}>👏</text></g>);
+    html.push(<BigMoney key="m2" text="SAVINGS: $100" k={(lt - 3.4) / 0.35} y={830} fs={120} />);
+  } else if (v === 'owner') {
+    bg = 'radial-gradient(circle at 50% 40%,#5a1e1e,#1c0808 75%)';
+    sv.push(<g key="lights">{Array.from({length: 14}, (_, i) => <circle key={i} cx={80 + i * 135} cy={60} r={16} fill={Math.floor(lt * 6 + i) % 2 ? '#ffd23f' : '#fff3b0'} stroke={INK} strokeWidth={4} />)}<text x={960} y={180} textAnchor="middle" fontSize={70} style={{fontFamily: 'Lilita'}} fill="#ffd23f" stroke={INK} strokeWidth={9} paintOrder="stroke">THE CASINO OWNER</text></g>);
+    html.push(<div key="o" style={{position: 'absolute', left: 1150, top: 400 - bounce * 0.3}}><svg width={320} height={320} style={{overflow: 'visible'}}><circle cx={160} cy={160} r={156} fill="#e8c35a" stroke={INK} strokeWidth={9} /><Face x={160} y={156} r={92} mood="smug" t={t} seed={9} look={[-0.6, 0]} /><TopHat x={160} y={30} w={220} /><rect x={30} y={190} width={70} height={14} rx={6} fill="#6b3a14" stroke={INK} strokeWidth={4} /><circle cx={28} cy={197} r={7} fill="#ff6a00" /></svg></div>);
+    html.push(<div key="m" style={{position: 'absolute', left: 380, top: 440 - (lt > 3 ? bounce : 0)}}><MarcoBall size={300} mood={lt > 3 ? 'happy' : 'calm'} t={t} look={[0.7, 0]} /></div>);
+    html.push(<CbBubble key="s1" x={1300} y={390} text="I SAW WHAT YOU DID IN NICE…" k={(lt - 0.3) / 0.3} fs={40} side={1} />);
+    if (lt > 2.2) html.push(<CbBubble key="s2" x={1300} y={390} text="I'LL INVEST $1 MILLION." k={(lt - 2.2) / 0.3} fs={44} side={1} />);
+    const bk = Math.min(1, Math.max(0, (lt - 3.0) / 0.8)); if (lt > 3.0) sv.push(<g key="bc" transform={`translate(${1150 - 520 * cbE(bk)},${620 - 120 * Math.sin(bk * Math.PI)})`}><rect x={-90} y={-60} width={180} height={120} rx={14} fill="#3a2a1a" stroke={INK} strokeWidth={7} /><rect x={-30} y={-80} width={60} height={26} rx={8} fill="none" stroke={INK} strokeWidth={8} /><text y={20} textAnchor="middle" fontSize={50} style={{fontFamily: 'Lilita'}} fill="#5dff8a">$</text></g>);
+    html.push(<BigMoney key="m2" text="+ $1,000,000" k={(lt - 4.0) / 0.35} y={830} fs={130} />);
+  } else if (v === 'pitch') {
+    bg = 'radial-gradient(circle at 50% 35%,#3a2a6b,#120c2a 75%)';
+    const ph = lt < 2.6 ? 0 : lt < 5.0 ? 1 : lt < 8.4 ? 2 : lt < 10.4 ? 3 : 4;
+    sv.push(<g key="tb"><rect x={820} y={640} width={1040} height={60} rx={14} fill="#5a3a1a" stroke={INK} strokeWidth={8} /><rect x={860} y={700} width={30} height={180} fill="#3a2410" /><rect x={1790} y={700} width={30} height={180} fill="#3a2410" /></g>);
+    for (let i = 0; i < 4; i++) { const x = 960 + i * 230, y = 520 + (ph === 1 ? Math.abs(Math.sin(lt * 12 + i)) * -18 : 0);
+      const md = ph === 1 ? 'happy' : ph >= 3 ? 'shocked' : 'smug';
+      html.push(<div key={'r' + i} style={{position: 'absolute', left: x - 100, top: y - 100}}><div style={{position: 'relative'}}><Ball k={km} size={200} mood={md as any} t={t} look={[-0.6, 0.2]} />
+        <svg width={200} height={200} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}><TopHat x={100} y={20} w={150} /><circle cx={70} cy={88} r={24} fill="none" stroke="#e0b000" strokeWidth={6} /></svg></div></div>);
+      if (ph === 1 && i % 2 === 0) html.push(<CbBubble key={'ha' + i} x={x} y={y - 120} text="HAHAHA" k={(lt - 2.6 - i * 0.15) / 0.25} fs={36} side={1} />); }
+    html.push(<div key="m" style={{position: 'absolute', left: 140, top: 430 - (ph === 4 ? bounce : 0)}}><MarcoBall size={320} mood={ph === 1 ? 'sad' : ph === 4 ? 'happy' : 'angry'} t={t} look={[0.7, 0]} /></div>);
+    if (ph === 0) html.push(<CbBubble key="p0" x={360} y={410} text="GIVE ME $500 BILLION." k={(lt - 0.3) / 0.3} fs={46} />);
+    if (ph === 2) { html.push(<CbBubble key="p2" x={360} y={410} text="LOOK WHAT I DID WITH $1 MILLION!" k={(lt - 5.0) / 0.3} fs={38} />);
+      const bk = cbB((lt - 5.2) / 0.4); sv.push(<g key="board" transform={`translate(560,140) scale(${bk})`}><rect width={560} height={360} rx={16} fill="#f5f0e0" stroke={INK} strokeWidth={8} /><text x={280} y={56} textAnchor="middle" fontSize={40} style={{fontFamily: 'Lilita'}} fill={INK}>MARCO'S RECORD</text>
+        <polyline points="60,310 160,290 260,250 360,180 480,90" fill="none" stroke="#2fa84f" strokeWidth={12} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={600} strokeDashoffset={600 * (1 - Math.min(1, (lt - 5.4) / 1.6))} />
+        {['$1', '$100', '$1K', '$100K', '$1M'].map((l, i) => <text key={l} x={60 + i * 105} y={345} textAnchor="middle" fontSize={24} style={{fontFamily: 'Lilita'}} fill={INK}>{l}</text>)}<text x={480} y={80} textAnchor="end" fontSize={30} style={{fontFamily: 'Lilita'}} fill="#c62828">45 KM!</text></g>); }
+    if (ph === 3) { html.push(<CbBubble key="p3" x={1190} y={380} text="…HE'S ACTUALLY GOOD." k={(lt - 8.4) / 0.3} fs={40} side={1} />); html.push(<CbBubble key="p3b" x={1650} y={380} text="WE'RE IN." k={(lt - 9.2) / 0.3} fs={44} side={1} />); }
+    if (ph === 4) { const chx = 620, chy = 820;
+      sv.push(<g key="ch"><rect x={chx - 200} y={chy - 60} width={400} height={180} rx={18} fill="#8a4b1a" stroke={INK} strokeWidth={10} /><ellipse cx={chx} cy={chy - 62} rx={190} ry={32} fill="#ffcf2e" stroke="#9a6a00" strokeWidth={6} /></g>);
+      for (let i = 0; i < 12; i++) { const k = ((lt - 10.4 - i * 0.12) % 1.2) / 1.0; if (lt > 10.4 + i * 0.12 && k > 0 && k < 1) { const sx = 960 + (i % 4) * 230; sv.push(<Coin key={'c' + i} x={sx + (chx - sx) * cbE(k)} y={600 + (chy - 660) * k} r={28} spin={lt * 8 + i} />); } }
+      const cnt = Math.min(1, Math.max(0, (lt - 10.4) / 2.4)); const val = Math.round(Math.pow(cnt, 3) * 500e9);
+      html.push(<div key="cn" style={{position: 'absolute', left: 0, right: 0, top: 40, textAlign: 'center'}}><span style={{...font, fontSize: 110, color: cnt >= 1 ? '#ffd23f' : '#5dff8a', WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill'}}>${val.toLocaleString('en-US')}</span></div>); }
   } else if (v === 'rich') {
     bg = 'radial-gradient(circle at 50% 35%,#3a2a6b,#120c2a 75%)';
     const chx = 960, chy = 700;
@@ -2809,6 +2850,63 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
   </AbsoluteFill>;
 };
 
+// ---------- Marco: protagonista (bola de Mónaco con cacerola) ----------
+const MarcoBall: React.FC<{size: number; mood: any; t: number; look?: [number, number]; broom?: boolean; tears?: boolean}> = ({size, mood, t, look = [0, 0], broom, tears}) => {
+  const s = size; const km = COUNTRIES.findIndex((c) => c.c === 'MC');
+  return <div style={{position: 'relative', width: s, height: s}}>
+    {broom && <svg width={s} height={s} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}><g transform={`rotate(${-22 + 8 * Math.sin(t * 6)} ${s * 1.05} ${s * 0.7})`}><rect x={s * 1.0} y={s * 0.02} width={s * 0.055} height={s * 1.0} rx={s * 0.02} fill="#a0662c" stroke={INK} strokeWidth={s * 0.014} /><path d={`M ${s * 0.92} ${s * 0.98} L ${s * 1.14} ${s * 0.98} L ${s * 1.2} ${s * 1.28} L ${s * 0.86} ${s * 1.28} Z`} fill="#e8c35a" stroke={INK} strokeWidth={s * 0.016} /></g></svg>}
+    <Ball k={km} size={s} mood={mood} t={t} look={look} />
+    <svg width={s} height={s} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+      <path d={`M ${s * 0.08} ${s * 0.2} A ${s * 0.43} ${s * 0.37} 0 0 1 ${s * 0.92} ${s * 0.2} Z`} fill="#9aa3ad" stroke={INK} strokeWidth={s * 0.024} />
+      <rect x={s * 0.0} y={s * 0.17} width={s * 1.0} height={s * 0.075} rx={s * 0.03} fill="#7d8790" stroke={INK} strokeWidth={s * 0.02} />
+      <rect x={s * 0.95} y={s * 0.15} width={s * 0.24} height={s * 0.055} rx={s * 0.02} fill="#5a636b" stroke={INK} strokeWidth={s * 0.016} />
+      {tears && [0, 1].map((i) => { const k = ((t * 1.7 + i * 0.5) % 1); return <path key={i} d="M 0 -9 C 6 0 6 7 0 8 C -6 7 -6 0 0 -9 Z" transform={`translate(${s * (i ? 0.66 : 0.34)},${s * 0.55 + k * s * 0.4}) scale(${s / 120})`} fill="#7cc8ff" stroke={INK} strokeWidth={2} opacity={1 - k} />; })}
+    </svg></div>;
+};
+const fmtInv = (v: number) => v >= 1e6 ? `${+(v / 1e6).toFixed(v >= 1e7 ? 0 : 1)}M` : v >= 1e3 ? `${+(v / 1e3).toFixed(v >= 1e4 ? 0 : 1)}K` : `${Math.round(v)}`;
+const SubCard: React.FC<{c: any; t: number}> = ({c, t}) => {
+  const lt = t - c.t; const k = daB(lt / 0.35); const o = Math.min(1, (c.t + c.d - t) / 0.3); const click = lt > 1.0 && lt < 1.25; const subbed = lt > 1.15;
+  const goal = c.goal ?? 1000;
+  return <div style={{position: 'absolute', left: '50%', bottom: 60, transform: `translateX(-50%) translateY(${(1 - k) * 220}px)`, opacity: o, zIndex: 44, display: 'flex', alignItems: 'center', gap: 22, background: 'rgba(10,12,20,0.94)', border: '6px solid #fff', borderRadius: 30, padding: '16px 30px', boxShadow: '0 14px 0 rgba(0,0,0,0.4)'}}>
+    <MarcoBall size={120} mood={subbed ? 'happy' : 'calm'} t={t} look={[0.6, 0.2]} />
+    <div>
+      <div style={{...font, fontSize: 44, color: '#fff', whiteSpace: 'nowrap'}}>HELP MARCO REACH <span style={{color: '#ffd23f'}}>{goal.toLocaleString('en-US')} SUBS!</span></div>
+      <div style={{...font2, fontSize: 26, color: '#5dff8a', letterSpacing: 2}}>EVERY SUB = $1 FOR HIS ARMY</div>
+    </div>
+    <div style={{position: 'relative', ...font, fontSize: 42, color: '#fff', background: subbed ? '#555' : '#e62117', borderRadius: 14, padding: '10px 26px 4px', transform: `scale(${click ? 0.9 : 1 + 0.04 * Math.sin(lt * 8)})`}}>{subbed ? 'SUBSCRIBED ✓' : 'SUBSCRIBE'}
+      <svg width={60} height={60} style={{position: 'absolute', right: -30 + (lt < 1 ? (1 - lt) * 80 : 0), bottom: -40 + (lt < 1 ? (1 - lt) * 60 : 0), overflow: 'visible'}}><path d="M 0 0 L 0 40 L 11 30 L 20 50 L 28 46 L 19 27 L 34 27 Z" fill="#fff" stroke={INK} strokeWidth={4} /></svg></div>
+  </div>;
+};
+const MarcoHud: React.FC<{t: number; A: any; CF: any}> = ({t, A, CF}) => {
+  const money = daKv(A.money, t, 0); const lvl = daStep(A.level, t, 0); const mood = daStep(A.mood, t, 'angry'); const army = daStep(A.army, t, '1 MAN');
+  const inv = daStep(A.inv, t, [1, 0, 0, 0]) as number[]; const rec = daStep(A.rec, t, ''); const dist = daKv(A.dist, t, 0); const LV: string[] = CF.lv || DA_LV;
+  const lm = daLastMoney(A.money, t); const bump = 1 + 0.16 * Math.max(0, 1 - Math.abs(t - lm) / 0.5) * (t >= lm ? 1 : 0);
+  const icons: [string, string][] = [['person', 'SOLDIERS'], ['tanks', 'VEHICLES'], ['air', 'AIRCRAFT'], ['navy', 'SHIPS']];
+  return <>
+    <DaPanel col={DA_C0} style={{left: 22, top: 20, padding: '8px 18px 10px 10px', display: 'flex', alignItems: 'center', gap: 12}}>
+      <MarcoBall size={92} mood={mood} t={t} look={[0.4, 0]} tears={mood === 'sad'} />
+      <div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 8}}><Img src={staticFile('wflags/mc.svg')} style={{width: 30, height: 20, borderRadius: 3}} /><div style={{...font2, fontSize: 22, color: '#ffd23f', letterSpacing: 2}}>MARCO · MONACO</div></div>
+        <div style={{...font, fontSize: 54, color: '#5dff8a', lineHeight: 1.0, transform: `scale(${bump})`, transformOrigin: 'left center'}}>{daMoney(money)}</div>
+        <div style={{...font2, fontSize: 22, color: '#fff', letterSpacing: 1}}>ARMY: <span style={{color: '#ffd23f'}}>{army}</span></div>
+      </div>
+    </DaPanel>
+    <DaPanel col="#ffd23f" style={{right: 22, top: 20, padding: '8px 16px 10px', minWidth: 300}}>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12}}>
+        <div style={{...font2, fontSize: 20, color: '#ffd23f', letterSpacing: 2}}>ATTEMPT {Math.min(lvl + 1, LV.length)}/{LV.length}</div>
+        <div style={{...font, fontSize: 30, color: INK, background: '#ffd23f', borderRadius: 10, padding: '0 12px'}}>{LV[Math.min(lvl, LV.length - 1)]}</div></div>
+      <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginTop: 8}}>
+        {icons.map(([ic, lab], i) => <div key={ic} style={{textAlign: 'center', opacity: inv[i] > 0 ? 1 : 0.35}}>
+          <div style={{width: 40, height: 40, margin: '0 auto', background: '#fff', WebkitMaskImage: `url(${staticFile(`hw/icons/${DAICON[ic] ?? ic}.svg`)})`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center'}} />
+          <div style={{...font, fontSize: 28, color: '#fff', lineHeight: 1.05}}>{fmtInv(inv[i])}</div><div style={{...font2, fontSize: 12, color: '#aab', letterSpacing: 1}}>{lab}</div></div>)}
+      </div>
+      <div style={{marginTop: 8}}><div style={{display: 'flex', justifyContent: 'space-between', ...font2, fontSize: 14, color: '#fff', letterSpacing: 1}}><span>MONACO</span><span>{Math.round(dist * 100)}% TO PARIS</span><span>PARIS</span></div>
+        <div style={{position: 'relative', height: 12, background: '#ffffff22', borderRadius: 6, marginTop: 3}}><div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(2, dist * 100)}%`, background: 'linear-gradient(90deg,#d9a521,#ffd23f)', borderRadius: 6}} /></div></div>
+    </DaPanel>
+    {rec ? <div style={{position: 'absolute', left: '50%', bottom: 18, transform: 'translateX(-50%)', ...font2, fontSize: 24, color: '#fff', letterSpacing: 3, background: 'rgba(8,12,20,0.78)', borderRadius: 12, padding: '4px 18px', border: '2px solid #ffffff40'}}>🏆 RECORD: <span style={{color: '#ffd23f'}}>{rec}</span></div> : null}
+  </>;
+};
+
 const DaHud: React.FC<{t: number}> = ({t}) => {
   const A = X.D.da; if (!A) return null; const out: React.ReactNode[] = []; const CF = A.cfg || {};
   const LV: string[] = CF.lv || DA_LV; const TH: string[] = CF.th || DA_TH;
@@ -2823,7 +2921,8 @@ const DaHud: React.FC<{t: number}> = ({t}) => {
     const ho = Math.min(1, (t - hv[0]) / 0.4, (hv[1] - t) / 0.4);
     const money = daKv(A.money, t, 0); const lvl = daStep(A.level, t, 0); const thr = daKv(A.threat, t, 0); const ti = Math.max(0, Math.min((A.cfg?.th || DA_TH).length - 1, Math.round(thr)));
     const dist = daKv(A.dist, t, 0); const dmg = daKv(A.dmg, t, 0); const recs = ((A.flags ?? []) as any[]).filter((f) => t >= f[0]);
-    out.push(<AbsoluteFill key="hud" style={{opacity: ho, zIndex: 30}}>
+    if (CF.marco) out.push(<AbsoluteFill key="hudm" style={{opacity: ho, zIndex: 30}}><MarcoHud t={t} A={A} CF={CF} /></AbsoluteFill>);
+    else out.push(<AbsoluteFill key="hud" style={{opacity: ho, zIndex: 30}}>
       <DaPanel col={DA_C0} style={{left: 24, top: 22, padding: '8px 20px 10px', minWidth: 330}}>
         <div style={{display: 'flex', alignItems: 'center', gap: 10}}><Img src={staticFile(CF.f0 || 'wflags/xc.svg')} style={{width: 36, height: 24, borderRadius: 4}} /><div style={{...font2, fontSize: 22, color: '#ffb27a', letterSpacing: 1}}>{CF.n0 || 'THE CHALLENGER'}</div></div>
         <div style={{...font, fontSize: 56, color: '#5dff8a', lineHeight: 1.05, transform: `scale(${1 + 0.18 * Math.max(0, 1 - Math.abs(t - daLastMoney(A.money, t)) / 0.5) * (t >= daLastMoney(A.money, t) ? 1 : 0)})`, transformOrigin: 'left center'}}>{daMoney(money)}</div>
