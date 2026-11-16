@@ -2685,7 +2685,7 @@ const DaCard: React.FC<{c: any; t: number}> = ({c, t}) => {
         <div style={{width: 40, height: 40, borderRadius: 10, background: DA_C0, border: `2px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Img src={staticFile(`hw/icons/${DAICON[it.i] ?? it.i}.svg`)} style={{width: 28, height: 28}} /></div>
         <div style={{...font2, fontSize: 25, color: '#eee', flex: 1}}>{it.name}</div><div style={{...font, fontSize: 28, color: '#ff8a80'}}>{it.price}</div></div>; })}
       <div style={{height: 3, background: '#ffffff22', margin: '8px 0'}} />
-      <div style={{display: 'flex', justifyContent: 'space-between', opacity: Math.min(1, Math.max(0, (lt - 0.4 - n * gap) / 0.2))}}><div style={{...font, fontSize: 30, color: '#fff'}}>REMAINING</div><div style={{...font, fontSize: 30, color: '#5dff8a'}}>$0</div></div>
+      <div style={{display: 'flex', justifyContent: 'space-between', opacity: Math.min(1, Math.max(0, (lt - 0.4 - n * gap) / 0.2))}}><div style={{...font, fontSize: 30, color: '#fff'}}>{c.remLabel ?? 'REMAINING'}</div><div style={{...font, fontSize: 30, color: '#5dff8a'}}>{c.rem ?? '$0'}</div></div>
     </DaPanel>; }
   if (c.type === 'ready') return <DaPanel col={DA_C0} style={{left: '50%', top: 170, transform: `translateX(-50%) scale(${0.8 + 0.2 * k})`, padding: '12px 30px', opacity: o, textAlign: 'center', zIndex: 35}}>
     <div style={{...font, fontSize: 40, color: DA_C0, letterSpacing: 2}}>ARMY READY</div>
@@ -2883,11 +2883,12 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   const HERO = !!D.hero;
   const g0 = D.globe; const gx = HERO ? ((D.globes || []) as any[]).find((x) => t >= x.t0 && t < x.t1) : null;
   const g = gx || g0; const inGlobe = t >= g.t0 && t < g.t1;
-  const gz = inGlobe && !HERO ? lerp(t, g.t1 - 1.6, g.t1, 1, 1.8, Easing.in(Easing.quad)) : 1;
+  const GP = !HERO && (g as any).pro;
+  const gz = inGlobe && !HERO ? (GP ? lerp(t, g.t1 - 1.5, g.t1, 1, 3.4, Easing.in(Easing.cubic)) : lerp(t, g.t1 - 1.6, g.t1, 1, 1.8, Easing.in(Easing.quad))) : 1;
   const lon = lerp(t, g.t0, g.t1 - (HERO ? 0.7 : 1.6), g.lon0, g.lon1, Easing.inOut(Easing.cubic)), lat = lerp(t, g.t0, g.t1 - (HERO ? 0.7 : 1.6), g.lat0, g.lat1, Easing.inOut(Easing.cubic));
-  const gfade = HERO ? lerp(t, g.t1 - 0.7, g.t1, 1, 0) : lerp(t, g.t1 - 0.4, g.t1, 1, 0);
-  const grad = HERO ? lerp(t, g.t0, g.t1, gx ? 380 : 420, gx ? 640 : 700, Easing.inOut(Easing.cubic)) : 420;
-  const showMap = !inGlobe || t > g.t1 - (HERO ? 0.75 : 0.45);
+  const gfade = HERO ? lerp(t, g.t1 - 0.7, g.t1, 1, 0) : GP ? lerp(t, g.t1 - 0.9, g.t1, 1, 0, Easing.inOut(Easing.quad)) : lerp(t, g.t1 - 0.4, g.t1, 1, 0);
+  const grad = HERO ? lerp(t, g.t0, g.t1, gx ? 380 : 420, gx ? 640 : 700, Easing.inOut(Easing.cubic)) : GP ? lerp(t, g.t0, g.t1 - 1.4, 250, 560, Easing.inOut(Easing.cubic)) : 420;
+  const showMap = !inGlobe || t > g.t1 - (HERO ? 0.75 : GP ? 0.95 : 0.45);
   const ownSet = HERO && inGlobe ? ownedAt(t) : null; const hlSet = new Set<string>(gx ? gx.hl : []);
   const split = HERO ? ((D.split || []) as any[]).find((x) => t >= x.t0 && t < x.t1) : null;
   const camL = split ? {...cam, cx: cam.cx + VW / 4 / cam.s} : cam;
@@ -2931,7 +2932,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       </AbsoluteFill>; })()}
       {inGlobe && (
         <AbsoluteFill style={{transform: `scale(${gz})`, transformOrigin: '50% 50%', opacity: gfade, background: gfade < 1 ? 'transparent' : undefined}}>
-          <Globe W={1920} H={1080} lon={lon} lat={lat} radius={grad} cy={540} overlay={HERO ? 0.22 : lerp(t, g.t0, g.t0 + 2.5, 0, 0.5)} highlight={HERO ? (c) => (ownSet && ownSet.has(CODEK[c]) ? '#2f5fe0' : hlSet.has(c) ? '#ff3b30' : null) : (c) => (c === 'ID' ? (pulse > 0.5 ? '#ff3b30' : '#ffd23f') : null)} stars={HERO ? 1 : lerp(t, g.t1 - 1.6, g.t1, 1, 0)} />
+          <Globe W={1920} H={1080} lon={lon} lat={lat} radius={grad} cy={540} overlay={HERO ? 0.22 : lerp(t, g.t0, g.t0 + 2.5, 0, 0.5)} highlight={HERO ? (c) => (ownSet && ownSet.has(CODEK[c]) ? '#2f5fe0' : hlSet.has(c) ? '#ff3b30' : null) : (c) => (c === ((g as any).hl1 ?? 'ID') ? (pulse > 0.5 ? '#ff3b30' : '#ffd23f') : null)} stars={HERO ? 1 : GP ? lerp(t, g.t1 - 1.2, g.t1, 1, 0.3) : lerp(t, g.t1 - 1.6, g.t1, 1, 0)} />
         </AbsoluteFill>
       )}
       <Grade t={t} />
