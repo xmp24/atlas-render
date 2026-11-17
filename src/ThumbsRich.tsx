@@ -14,7 +14,7 @@ const LEFT = `polygon(0px 0px, ${BOLT.map((p) => `${p[0]}px ${p[1]}px`).join(', 
 const RIGHT = `polygon(${BOLT.map((p) => `${p[0]}px ${p[1]}px`).join(', ')}, ${W}px ${H}px, ${W}px 0px)`;
 const GREENG = 'linear-gradient(180deg, #f2ffe0 0%, #9dff6a 38%, #33d14a 70%, #128a2a 100%)';
 
-const Bg: React.FC = () => (<>
+export const Bg: React.FC = () => (<>
   {/* izquierda: azul tormenta (pobre) */}
   <AbsoluteFill style={{clipPath: LEFT, background: 'radial-gradient(ellipse at 30% 35%, #74b9ff 0%, #2f6fd6 40%, #12307a 75%, #07153d 100%)'}}>
     {Array.from({length: 30}, (_, i) => <div key={i} style={{position: 'absolute', left: rnd(i) * 680 - 20, top: rnd(i + 50) * 720, width: 3, height: 26 + rnd(i + 9) * 18, background: 'rgba(210,235,255,0.5)', transform: 'rotate(16deg)', borderRadius: 3}} />)}
@@ -27,7 +27,7 @@ const Bg: React.FC = () => (<>
     </svg>
   </AbsoluteFill>
 </>);
-const Bolt: React.FC<{seed?: number}> = ({seed = 3}) => {
+export const Bolt: React.FC<{seed?: number}> = ({seed = 3}) => {
   const branch = (i: number) => { const t = 0.12 + rnd(seed * 10 + i) * 0.8; const seg = t < 0.43 ? 0 : t < 0.45 ? 1 : 2; const a = BOLT[seg], b = BOLT[seg + 1]; const u = seg === 1 ? 0.5 : seg === 0 ? t / 0.43 : (t - 0.45) / 0.55;
     const x = a[0] + (b[0] - a[0]) * u, y = a[1] + (b[1] - a[1]) * u; const d = i % 2 ? 1 : -1; const L = 40 + rnd(i + 30) * 50;
     return `M${x},${y} l${d * L * 0.5},${-L * 0.25} l${d * L * 0.15},${L * 0.3} l${d * L * 0.45},${-L * 0.2}`; };

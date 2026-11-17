@@ -22,6 +22,7 @@ import {ThumbMarco, MARCO_THUMBS} from './ThumbsMarco';
 import {ThumbMil, MIL_THUMBS} from './ThumbsMil';
 import {ThumbRich, RICH_THUMBS} from './ThumbsRich';
 import {ThumbRich2, RICH2} from './ThumbsRich2';
+import {ThumbAmAs, AMAS_IDS} from './ThumbsAmAs';
 import {WarCont as WarAsia1} from './War12';
 import {ThumbAsia1} from './ThumbsAsia1';
 import A1TL from './asia1-tl.json';
@@ -103,6 +104,7 @@ export const RootHW: React.FC = () => (
     {MARCO_THUMBS.map((id) => <Composition key={'tm' + id} id={`TM-${id}`} component={ThumbMarco} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {MIL_THUMBS.map((id) => <Composition key={'tx' + id} id={`TX-${id}`} component={ThumbMil} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {RICH_THUMBS.map((id) => <Composition key={'tr' + id} id={`TR-${id}`} component={ThumbRich} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {AMAS_IDS.map((id) => <Composition key={'aa' + id} id={`TA-${id}`} component={ThumbAmAs} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {RICH2.map((id) => <Composition key={'ts' + id} id={`TS-${id}`} component={ThumbRich2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {D9_IDS.map((id) => <Composition key={id} id={`T9-${id}`} component={ThumbD9} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     <Composition id="T9A-am" component={ThumbD9A} durationInFrames={indoFrames('dbram')} fps={30} width={1920} height={1080} defaultProps={{id: 'am'}} />
@@ -113,6 +115,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-dbrin" component={Indo2} durationInFrames={indoFrames('dbrin')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbrin'}} />
     <Composition id="V-dbram" component={Indo2} durationInFrames={indoFrames('dbram')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbram'}} />
     <Composition id="V-mc" component={Indo2} durationInFrames={indoFrames('mc')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'mc'}} />
+    <Composition id="V-zomb" component={Indo2} durationInFrames={indoFrames('zomb')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'zomb'}} />
     <Composition id="V-rbr" component={Indo2} durationInFrames={indoFrames('rbr')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'rbr'}} />
     <Composition id="V-mc60" component={Indo2} durationInFrames={indoFrames('mc') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'mc'}} />
     <Composition id="V-da" component={Indo2} durationInFrames={indoFrames('da')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'da'}} />

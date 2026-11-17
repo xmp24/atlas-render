@@ -29,6 +29,15 @@ const hatch = new Map<string, CanvasPattern>();
 const hatchOf = (ctx: CanvasRenderingContext2D, a: number, col?: string) => {
   const key = col || MAINCOL[a];
   let pt = hatch.get(key);
+  if (!pt && (key === 'ZOMBIE' || key === 'MUTANT')) {
+    const c = document.createElement('canvas'); c.width = 64; c.height = 64; const g = c.getContext('2d')!;
+    const mut = key === 'MUTANT';
+    g.fillStyle = mut ? '#3d7a1c' : '#6cc63a'; g.fillRect(0, 0, 64, 64);
+    let sd = mut ? 7 : 3; const rr = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
+    for (let i = 0; i < 26; i++) { g.fillStyle = mut ? `rgba(20,40,8,${0.25 + rr() * 0.35})` : `rgba(40,90,20,${0.2 + rr() * 0.3})`; g.beginPath(); g.arc(rr() * 64, rr() * 64, 2 + rr() * 7, 0, Math.PI * 2); g.fill(); }
+    for (let i = 0; i < 10; i++) { g.fillStyle = mut ? `rgba(200,30,30,${0.35 + rr() * 0.3})` : `rgba(200,255,120,${0.35 + rr() * 0.3})`; g.beginPath(); g.arc(rr() * 64, rr() * 64, 1 + rr() * 2.2, 0, Math.PI * 2); g.fill(); }
+    pt = ctx.createPattern(c, 'repeat')!; hatch.set(key, pt);
+  }
   if (!pt) {
     const c = document.createElement('canvas'); c.width = 28; c.height = 28; const g = c.getContext('2d')!;
     g.fillStyle = key; g.globalAlpha = 0.72; g.fillRect(0, 0, 28, 28); g.globalAlpha = 0.72; g.strokeStyle = '#ffffff'; g.lineWidth = 7;
@@ -79,9 +88,10 @@ export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, 
           ge.moveTo(x + rr * g + 3.2 / s, y); ge.arc(x, y, rr * g + 3.2 / s, 0, Math.PI * 2);
           gf.moveTo(x + rr * g, y); gf.arc(x, y, rr * g, 0, Math.PI * 2);
         }
+        const ZZ = col === 'ZOMBIE' || col === 'MUTANT';
         ctx.fillStyle = EC; ctx.fill(ge);
-        ctx.fillStyle = col || MAINCOL[a]; ctx.globalAlpha = ga * 0.35; ctx.fill(gf); ctx.globalAlpha = ga;
-        ctx.fillStyle = pt; ctx.fill(gf);
+        ctx.fillStyle = ZZ ? (col === 'MUTANT' ? '#2f6a14' : '#5fb832') : (col || MAINCOL[a]); ctx.globalAlpha = ga * (ZZ ? 0.55 : 0.35); ctx.fill(gf); ctx.globalAlpha = ga * (ZZ ? 0.92 : 1);
+        ctx.fillStyle = pt; ctx.fill(gf); ctx.globalAlpha = ga;
       }
     } else if (gr && t > gr.t0) {
       const u0 = Math.min(1, (t - gr.t0) / (gr.t1 - gr.t0)); const u = u0 < 0.5 ? 2 * u0 * u0 : 1 - Math.pow(-2 * u0 + 2, 2) / 2;
@@ -107,6 +117,25 @@ export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, 
     ctx.fillStyle = pt; ctx.fill(fill);
     ctx.restore();
   }
+};
+// zombi: cuerpo verde, brazos al frente, andar torpe
+export const zombieFig = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number, mut: boolean, phase: number, dir: number) => {
+  ctx.save(); ctx.translate(x, y + Math.abs(Math.sin(phase)) * sz * 0.06); ctx.scale(dir, 1); ctx.rotate(Math.sin(phase * 0.5) * 0.12 + 0.08);
+  ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.ellipse(0, sz * 0.62, sz * 0.3, sz * 0.09, 0, 0, Math.PI * 2); ctx.fill();
+  const skin = mut ? '#4f8f2a' : '#8fd34f', cloth = mut ? '#3a2a2a' : '#5b4a7a';
+  ctx.lineCap = 'round'; ctx.strokeStyle = '#141414'; ctx.lineWidth = sz * 0.2; const leg = Math.sin(phase) * sz * 0.14;
+  ctx.beginPath(); ctx.moveTo(-sz * 0.05, sz * 0.22); ctx.lineTo(-sz * 0.07 - leg, sz * 0.6); ctx.moveTo(sz * 0.05, sz * 0.22); ctx.lineTo(sz * 0.07 + leg, sz * 0.6); ctx.stroke();
+  ctx.strokeStyle = cloth; ctx.lineWidth = sz * 0.12; ctx.stroke();
+  ctx.fillStyle = cloth; ctx.strokeStyle = '#141414'; ctx.lineWidth = sz * 0.07;
+  ctx.beginPath(); ctx.roundRect(-sz * 0.19, -sz * 0.14, sz * 0.38, sz * 0.44, sz * 0.1); ctx.fill(); ctx.stroke();
+  // brazos estirados
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = sz * 0.16;
+  ctx.beginPath(); ctx.moveTo(0, -sz * 0.04); ctx.lineTo(sz * 0.6, -sz * 0.1 + Math.sin(phase * 1.3) * sz * 0.05); ctx.moveTo(0, sz * 0.06); ctx.lineTo(sz * 0.58, sz * 0.02 + Math.sin(phase * 1.3 + 1) * sz * 0.05); ctx.stroke();
+  ctx.strokeStyle = skin; ctx.lineWidth = sz * 0.09; ctx.stroke();
+  ctx.fillStyle = skin; ctx.strokeStyle = '#141414'; ctx.lineWidth = sz * 0.07;
+  ctx.beginPath(); ctx.arc(sz * 0.03, -sz * 0.31, sz * 0.21, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = mut ? '#ff2a1a' : '#ffe14a'; ctx.beginPath(); ctx.arc(sz * 0.12, -sz * 0.34, sz * 0.055, 0, Math.PI * 2); ctx.arc(sz * -0.02, -sz * 0.34, sz * 0.045, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
 };
 // soldadito de cuerpo entero del color del país
 export const soldier = (ctx: CanvasRenderingContext2D, x: number, y: number, sz: number, col: string, dark: string, phase: number, dir: number, pose: number, fall = 0) => {
@@ -261,6 +290,18 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
         drawTank(ctx, px, py, ts, (q as any).col || MAINCOL[q.a], face, fight && Math.floor(t * 4 + i * 2) % 3 === 0);
       }
       banner(ctx, hx + sz * 0.3, hy - sz * 1.2, sz, q.a, t + qi, (q as any).bn);
+      ctx.globalAlpha = 1;
+      return;
+    }
+    if ((q as any).z) {
+      const mut = (q as any).z === 2;
+      for (let i = q.n - 1; i >= 0; i--) {
+        const row = Math.floor(i / 3), col = (i % 3) - 1;
+        const jx = (hsh(qi * 31 + i) - 0.5) * sz * 0.5, jy = (hsh(qi * 17 + i) - 0.5) * sz * 0.5;
+        const [rx, ry, rdx, rdy] = at(q, Math.max(0, d - row * sz * 0.7));
+        const px = rx + -rdy * col * sz * 0.5 + jx, py = ry + rdx * col * sz * 0.5 + jy;
+        zombieFig(ctx, px, py - sz * 0.3, sz * (mut ? 1.12 : 1), mut, t * (mut ? 9 : 6) + i * 1.7, face);
+      }
       ctx.globalAlpha = 1;
       return;
     }
