@@ -15,7 +15,7 @@ export const Sky: React.FC<{dawn: number}> = ({dawn}) => {
     side: THREE.BackSide, depthWrite: false,
     uniforms: {top: {value: new THREE.Color('#5ab8ff')}, mid: {value: new THREE.Color('#a9dcff')}, hor: {value: new THREE.Color('#e8f7ff')}},
     vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-    fragmentShader: 'uniform vec3 top; uniform vec3 mid; uniform vec3 hor; varying vec3 vP; void main(){ float h = clamp(vP.y,0.0,1.0); vec3 c = mix(hor, mid, smoothstep(0.0,0.18,h)); c = mix(c, top, smoothstep(0.18,0.75,h)); gl_FragColor = vec4(c,1.0); #include <colorspace_fragment> }',
+    fragmentShader: 'uniform vec3 top; uniform vec3 mid; uniform vec3 hor; varying vec3 vP; void main(){ float h = clamp(vP.y,0.0,1.0); vec3 c = mix(hor, mid, smoothstep(0.0,0.18,h)); c = mix(c, top, smoothstep(0.18,0.75,h)); gl_FragColor = vec4(c,1.0);\n#include <colorspace_fragment>\n}',
   }), []);
   // amanecer: horizonte melocotón que pasa a día
   const d = dawn;
