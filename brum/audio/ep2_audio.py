@@ -3,7 +3,7 @@ Uso: python3 ep2_audio.py  (lee src/vo.json y audio/vo_sel.json)"""
 import numpy as np, soundfile as sf, json, subprocess, os
 from scipy.signal import butter, sosfilt, oaconvolve, resample_poly
 
-SR = 48000; DUR = 60.0; N = int(SR * DUR)
+SR = 48000; DUR = 63.5; N = int(SR * DUR)
 MUS = '/home/claude/music'
 rng = np.random.default_rng(3)
 mus = np.zeros((2, N)); sfx = np.zeros((2, N)); vo = np.zeros((2, N))
@@ -48,8 +48,8 @@ def section(name, t0, t1, off=None, g=1.0, fin=0.06, fout=0.18):
 VOT = json.load(open('src/vo.json'))
 S = lambda k: VOT[k]['t']
 E = lambda k: VOT[k]['t'] + VOT[k]['d']
-K = dict(land=4.0, pums=[11.8, 12.5, 13.2], lid=14.0, open=14.3, wake=25.6, hero=30.2, naranja=36.8, bonk=39.8,
-         rev=43.2, go=43.8, m2=45.3, m3=46.8, m4=48.3, m5=49.6, stop=51.0, door=53.5, help=S('x1'))
+K = dict(land=4.0, pums=[11.8, 12.5, 13.2], lid=14.0, open=14.3, wake=25.6, hero=30.2, naranja=37.0, bonk=40.5,
+         rev=44.3, go=45.0, m2=46.3, m3=47.6, m4=48.9, m5=50.1, stop=51.4, door=55.1, help=S('x1'))
 
 # ---------------- MÚSICA (cambia en cada beat de la historia) ----------------
 section('Hyperfun', 0.0, 11.2, g=1.0)

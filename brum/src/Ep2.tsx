@@ -10,7 +10,7 @@ import {GiftBox, BoxPose} from './GiftBox';
 import {Town, Sky} from './Town';
 import {prog, lerp, clamp, easeInOut, easeOut, easeIn, easeOutBack, damped, hash, catmull, V3} from './anim';
 import {Puffs, Sparkles, Confetti, Ring, Dizzy, Zzz, Car, Birds, Rising, Bunting, Butterflies} from './fx';
-import {zTex} from './tex';
+import {zTex, stripeTex, garageTex} from './tex';
 import VO from './vo.json';
 
 const vo = VO as Record<string, {t: number; d: number}>;
@@ -19,8 +19,8 @@ const E = (k: string) => vo[k].t + vo[k].d;
 const BTALK: [number, number][] = Object.keys(vo).filter((k) => k[0] === 'b').map((k) => [S(k), E(k)]);
 
 // eventos clave (s)
-const K = {land: 4.0, pums: [11.8, 12.5, 13.2], lid: 14.0, open: 14.3, wake: 25.6, hero: 30.2, naranja: 36.8, bonk: 39.8,
-  rev: 43.2, go: 43.8, m2: 45.3, m3: 46.8, m4: 48.3, m5: 49.6, stop: 51.0, door: 53.5, help: S('x1'), turn: S('x1') + 0.25};
+const K = {land: 4.0, pums: [11.8, 12.5, 13.2], lid: 14.0, open: 14.3, wake: 25.6, hero: 30.2, naranja: 37.0, bonk: 40.5,
+  rev: 44.3, go: 45.0, m2: 46.3, m3: 47.6, m4: 48.9, m5: 50.1, stop: 51.4, door: 55.1, help: S('x1'), turn: S('x1') + 0.25};
 
 // ---------------- utilidades de plano ----------------
 type Cam = {pos: V3; at: V3; fov: number};
@@ -39,7 +39,7 @@ const bounceOut = (x: number) => {
   if (x < 2.5 / d) return n * (x -= 2.25 / d) * x + 0.9375;
   return n * (x -= 2.625 / d) * x + 0.984375;
 };
-const boxY = (t: number) => (t >= K.land ? 0 : 46 * Math.pow(1 - clamp(t / K.land), 1.25));
+const boxY = (t: number) => (t >= K.land ? 0 : 26 * Math.pow(1 - clamp(t / K.land), 1.25));
 function boxPose(t: number): BoxPose {
   let y = boxY(t);
   let sy = 1 - 0.22 * damped(t - K.land, 2.6, 5);
@@ -58,7 +58,7 @@ function boxPose(t: number): BoxPose {
 }
 
 // ---------------- Bruno ----------------
-const RED_CAR = (t: number) => ({x: lerp(30, 8, prog(t, K.m4, K.m4 + 1.4)), z: -1.25});
+const RED_CAR = (t: number) => ({x: lerp(30, 8, prog(t, K.m4, K.m4 + 1.4)), z: -1.5});
 
 function brunoAt(t: number): B2Pose {
   const p: B2Pose = {x: 0, y: 0.16, z: 0, yaw: 0, eyeOpen: 1, mouth: 'smile', brow: 0, browTilt: 0};
@@ -133,10 +133,10 @@ function brunoAt(t: number): B2Pose {
     if (t < K.m2) { const u = easeIn(prog(t, K.go, K.m2)) * 0.85 + prog(t, K.go, K.m2) * 0.15; a = mix3([0, 0, 0], [12, 0, 1.2], u); yaw = lerp(0, Math.PI / 2, easeOut(prog(t, K.go, K.go + 0.35))); p.pitch = 0.06 * damped(t - K.go, 1.5, 3); }
     else if (t < K.m3) { a = mix3([-32, 0, 1.2], [-12, 0, 1.2], prog(t, K.m2, K.m3)); }
     else if (t < K.m4) {
-      const u = prog(t, K.m3, K.m4); a = mix3([1.2, 0, -7], [1.2, 0, -28], u); yaw = Math.PI;
-      const z = a[2]; const j = clamp((-15.2 - z) / 5.8);
+      const u = prog(t, K.m3, K.m4); a = mix3([1.2, 0, -7], [1.2, 0, -24], u); yaw = Math.PI;
+      const z = a[2]; const j = clamp((-14.8 - z) / 5.6);
       if (j > 0 && j < 1) { a[1] = Math.sin(j * Math.PI) * 1.8; p.pitch = (0.5 - j) * 0.35; p.mouth = 'o'; p.eyeScale = 1.3; }
-      p.sy = 1 - 0.2 * damped((-(z + 21)) / 13.3, 3, 5);
+      p.sy = 1 - 0.2 * damped(t - (K.m3 + 1.02), 3, 5);
     }
     else if (t < K.m5) { a = mix3([4, 0, 1.2], [17, 0, 1.2], prog(t, K.m4, K.m5)); if (t > K.m4 + 0.6 && t < K.m4 + 1.0) p.lookX = -1; }
     else {
@@ -170,7 +170,7 @@ function brunoAt(t: number): B2Pose {
   }
   if (t > K.wake + 0.8) {
     // parpadeos
-    for (const b of [28.5, 32.6, 35.6, 38.9, 41.4, 45.9, 52.0, 55.6, 59.3]) { const d = t - b; if (d >= 0 && d < 0.14) p.eyeOpen = Math.min(p.eyeOpen, 1 - 0.94 * Math.sin((d / 0.14) * Math.PI)); }
+    for (const b of [28.8, 32.6, 34.9, 39.6, 42.3, 47.2, 52.6, 57.4, 62.0]) { const d = t - b; if (d >= 0 && d < 0.14) p.eyeOpen = Math.min(p.eyeOpen, 1 - 0.94 * Math.sin((d / 0.14) * Math.PI)); }
   }
   return p;
 }
@@ -178,49 +178,41 @@ function brunoAt(t: number): B2Pose {
 // ---------------- planos (cortes rápidos) ----------------
 const bx = (t: number) => brunoAt(t);
 const SHOTS: Shot[] = [
-  {t0: 0, t1: 2.2, f: (u, t) => ({pos: [-4, 1.2, 10], at: [0, Math.max(boxY(t) * 0.75, 4), 0], fov: 52})},
+  {t0: 0, t1: 2.2, f: (u, t) => ({pos: [-10 + u, 2.8, 15 - 1.2 * u], at: [0, Math.max(boxY(t) * 0.5, 3), 0], fov: 56})},
   {t0: 2.2, t1: 3.6, f: (u, t) => ({pos: [-8.5, boxY(t) + 1.2, 8], at: [0, boxY(t) + 1.6, 0], fov: 40})},
   {t0: 3.6, t1: 5.2, f: dolly([-10, 4.2, 13], [0, 1.8, 0], 40, [-8.6, 3.4, 11], [0, 1.8, 0], 38)},
   {t0: 5.2, t1: 6.6, f: dolly([-6, 7, 13], [0, 1.6, 0], 44, [-5, 16, 20], [1, 0, -4], 46)},
   {t0: 6.6, t1: 8.1, f: dolly([32, 9, 7], [20, 2.5, -12], 44, [13, 7, 3], [12, 0, -8], 46)},
   {t0: 8.1, t1: 9.6, f: dolly([-15, 8, -14], [0, 4, -32], 44, [11, 8.5, -17], [0, 4, -32], 46)},
-  {t0: 9.6, t1: 11.2, f: dolly([0.5, 26, 5], [0, 1, 0], 46, [0.5, 8.5, 7], [0, 1.5, 0], 42, easeOut)},
-  {t0: 11.2, t1: 11.8, f: dolly([4.5, 2.9, 9], [0, 1.6, 0], 40, [4.2, 2.8, 8.6], [0, 1.6, 0], 40)},
-  {t0: 11.8, t1: 12.5, f: dolly([3, 2.4, 6.9], [0, 1.6, 0], 40, [2.8, 2.4, 6.5], [0, 1.6, 0], 40)},
-  {t0: 12.5, t1: 13.2, f: dolly([-3.2, 2.2, 6.2], [0, 1.7, 0], 40, [-3, 2.1, 5.9], [0, 1.7, 0], 40)},
-  {t0: 13.2, t1: 14.0, f: dolly([1.4, 2.0, 5.4], [0, 1.9, 0], 38, [1.2, 2.0, 5.0], [0, 1.9, 0], 38)},
+  {t0: 9.6, t1: 11.2, f: dolly([0.5, 26, 5], [0, 1, 0], 46, [0.5, 9.5, 9], [0, 1.5, 0], 42, easeOut)},
+  {t0: 11.2, t1: 14.0, f: dolly([5.0, 3.1, 9.8], [0, 1.6, 0], 40, [3.6, 2.6, 7.8], [0, 1.7, 0], 40)},
   {t0: 14.0, t1: 15.2, f: dolly([5, 0.8, 9], [0, 3.8, 0], 48, [5.6, 1.6, 10.2], [0, 1.5, 0], 44, easeOut)},
-  {t0: 15.2, t1: 17.5, f: dolly([3.4, 2.6, 7.4], [0, 1.4, 0.5], 36, [2.6, 2.2, 6.2], [0, 1.4, 0.6], 36)},
-  {t0: 17.5, t1: 22.0, f: dolly([1.7, 2.0, 5.9], [0, 1.5, 0.9], 34, [0.9, 1.85, 5.0], [0, 1.5, 1.0], 34)},
-  {t0: 22.0, t1: 23.0, f: dolly([-1.5, 1.9, 5.0], [0, 1.6, 1], 34, [-1.4, 1.9, 4.8], [0, 1.6, 1], 34)},
-  {t0: 23.0, t1: 24.0, f: dolly([1.1, 1.8, 4.4], [0, 1.65, 1.1], 33, [1.0, 1.8, 4.2], [0, 1.65, 1.1], 33)},
-  {t0: 24.0, t1: 25.0, f: dolly([0, 1.75, 3.9], [0, 1.7, 1.2], 32, [0, 1.75, 3.7], [0, 1.7, 1.2], 32)},
-  {t0: 25.0, t1: 25.6, f: dolly([0, 1.75, 3.4], [0, 1.7, 1.4], 30, [0, 1.75, 3.2], [0, 1.7, 1.4], 29)},
-  {t0: 25.6, t1: 27.0, f: dolly([0, 1.75, 3.6], [0, 1.7, 1], 30, [2.9, 2.9, 7.8], [0, 1.9, 0.4], 42, easeOut)},
-  {t0: 27.0, t1: S('b2') - 0.1, f: dolly([2.3, 2.2, 6.4], [0, 1.65, 0.6], 36, [1.9, 2.1, 6.0], [0, 1.65, 0.6], 36)},
-  {t0: S('b2') - 0.1, t1: S('n8'), f: dolly([2.8, 0.7, 4.7], [0, 2.0, 0.3], 44, [3.4, 0.9, 5.5], [0, 1.9, 0.3], 44)},
-  {t0: S('n8'), t1: S('n9'), f: dolly([1.5, 2.0, 5.7], [0, 1.6, 0.9], 35, [1.1, 1.9, 5.2], [0, 1.6, 0.9], 35)},
-  {t0: S('n9'), t1: K.naranja, f: dolly([0, 1.9, 4.9], [0, 1.65, 1], 34, [0, 1.85, 4.3], [0, 1.65, 1], 33)},
-  {t0: K.naranja, t1: S('b4'), f: dolly([0, 2.2, 6.8], [0, 1.7, 0.6], 40, [0, 2.1, 6.1], [0, 1.7, 0.6], 37, easeOut)},
-  {t0: S('b4'), t1: S('b6') - 0.1, f: dolly([2.5, 2.8, 6.8], [0, 2.0, 0.5], 38, [2.1, 2.9, 6.3], [0, 2.0, 0.5], 38)},
-  {t0: S('b6') - 0.1, t1: K.go, f: dolly([-3.3, 1.0, 4.5], [0.4, 1.3, 0], 42, [-3.6, 1.1, 4.9], [0.4, 1.3, 0], 42)},
-  {t0: K.go, t1: K.m2, f: (u, t) => { const b = bx(t); return {pos: [b.x - 2.5, 1.3, b.z + 5.2], at: [b.x + 1.2, 1.1, b.z], fov: 42}; }},
-  {t0: K.m2, t1: K.m3, f: (u, t) => { const b = bx(t); return {pos: [-16, 1.0, 5.5], at: [b.x, 1.3, b.z], fov: 42}; }},
-  {t0: K.m3, t1: K.m4, f: (u, t) => { const b = bx(t); return {pos: [8.5, 2.2, b.z + 1.5], at: [b.x, 1.4 + (b.lift ?? 0) * 0.6, b.z - 0.5], fov: 42}; }},
-  {t0: K.m4, t1: K.m5, f: (u, t) => { const b = bx(t); return {pos: [b.x + 6.5, 0.9, 3.4], at: [b.x, 1.1, 0.2], fov: 42}; }},
-  {t0: K.m5, t1: K.stop, f: dolly([13, 2.6, 7.5], [17, 1.2, 0], 42, [14.5, 2.4, 5.5], [20, 1.4, -2.5], 42)},
-  {t0: K.stop, t1: S('n11'), f: dolly([15.8, 1.7, 1.0], [20, 2.5, -8], 42, [16.2, 1.8, 0.4], [20, 2.6, -8], 42)},
-  {t0: S('n11'), t1: S('b8') - 0.1, f: dolly([17.2, 2.6, 1.6], [20, 2.8, -8.5], 44, [17.6, 3.0, 0.4], [20, 2.8, -8.5], 44)},
-  {t0: S('b8') - 0.1, t1: K.help, f: dolly([20.6, 2.0, -8.1], [20, 1.6, -4.2], 40, [20.5, 2.0, -7.9], [20, 1.6, -4.2], 38)},
+  {t0: 15.2, t1: 17.5, f: dolly([3.4, 2.6, 7.6], [0, 1.4, 0.5], 36, [2.6, 2.3, 6.6], [0, 1.4, 0.6], 36)},
+  {t0: 17.5, t1: 25.25, f: dolly([2.0, 2.15, 6.4], [0, 1.5, 0.9], 36, [0.9, 1.95, 5.1], [0, 1.55, 1.0], 34)},
+  {t0: 25.25, t1: 27.0, f: dolly([0.9, 1.95, 5.1], [0, 1.6, 1.0], 34, [2.9, 2.9, 8.4], [0, 1.9, 0.4], 42, easeOut)},
+  {t0: 27.0, t1: S('b2') - 0.1, f: dolly([2.3, 2.2, 6.6], [0, 1.65, 0.6], 36, [1.9, 2.1, 6.2], [0, 1.65, 0.6], 36)},
+  {t0: S('b2') - 0.1, t1: S('n8'), f: dolly([2.8, 0.7, 4.9], [0, 2.0, 0.3], 44, [3.4, 0.9, 5.7], [0, 1.9, 0.3], 44)},
+  {t0: S('n8'), t1: K.naranja, f: dolly([1.7, 2.05, 6.1], [0, 1.6, 0.9], 36, [0.5, 1.95, 5.2], [0, 1.6, 0.9], 34)},
+  {t0: K.naranja, t1: S('b4'), f: dolly([0, 2.2, 7.0], [0, 1.7, 0.6], 40, [0, 2.1, 6.3], [0, 1.7, 0.6], 37, easeOut)},
+  {t0: S('b4'), t1: S('b6') - 0.1, f: dolly([2.5, 2.8, 6.9], [0, 2.0, 0.5], 38, [2.1, 2.9, 6.5], [0, 2.0, 0.5], 38)},
+  {t0: S('b6') - 0.1, t1: K.go, f: dolly([-3.3, 1.0, 4.6], [0.4, 1.3, 0], 42, [-3.6, 1.1, 5.0], [0.4, 1.3, 0], 42)},
+  {t0: K.go, t1: K.m2, f: (u, t) => { const b = bx(t); return {pos: [b.x - 2.8, 2.6, b.z + 6.0], at: [b.x + 1.2, 1.1, b.z], fov: 44}; }},
+  {t0: K.m2, t1: K.m3, f: (u, t) => { const b = bx(t); return {pos: [b.x + 5.5 - u * 1.5, 1.7, b.z + 5.2], at: [b.x, 1.2, b.z], fov: 42}; }},
+  {t0: K.m3, t1: K.m4, f: (u, t) => { const b = bx(t); return {pos: [7.5, 2.4, b.z + 2.5], at: [b.x, 1.4 + (b.lift ?? 0) * 0.6, b.z - 1], fov: 44}; }},
+  {t0: K.m4, t1: K.m5, f: (u, t) => { const b = bx(t); return {pos: [b.x + 7, 2.1, 5.4], at: [b.x, 1.1, 0.2], fov: 42}; }},
+  {t0: K.m5, t1: K.stop, f: dolly([13, 2.8, 8], [17, 1.2, 0], 42, [14.2, 2.8, 6.2], [20, 1.4, -2.5], 42)},
+  {t0: K.stop, t1: S('n11'), f: dolly([14.8, 2.6, 2.4], [19.6, 1.8, -5.5], 44, [15.1, 2.7, 1.9], [19.6, 1.9, -5.6], 44)},
+  {t0: S('n11'), t1: S('b8') - 0.1, f: dolly([16.6, 2.8, 2.6], [20, 2.4, -7.5], 46, [17.1, 3.0, 1.6], [20, 2.4, -7.5], 46)},
+  {t0: S('b8') - 0.1, t1: K.help, f: dolly([23.8, 2.2, -7.6], [20, 1.6, -4.6], 40, [23.5, 2.2, -7.3], [20, 1.6, -4.6], 39)},
   {t0: K.help, t1: S('b9') - 0.1, f: dolly([23, 2.3, 0.6], [20, 1.6, -4.2], 40, [23.2, 2.3, 0.8], [20, 1.6, -4.2], 40)},
-  {t0: S('b9') - 0.1, t1: 60.1, f: dolly([20.6, 2.0, 0.9], [20, 1.6, -3.5], 38, [20.4, 1.95, 0.3], [20, 1.65, -3.5], 34)},
+  {t0: S('b9') - 0.1, t1: 64.1, f: dolly([20.9, 2.1, 1.4], [20, 1.6, -3.6], 38, [20.6, 2.0, 0.7], [20, 1.62, -3.6], 35)},
 ];
 
 function camAtT(t: number): Cam {
   const s = SHOTS.find((x) => t >= x.t0 && t < x.t1) ?? SHOTS[SHOTS.length - 1];
   const c = s.f(clamp((t - s.t0) / (s.t1 - s.t0)), t);
   // golpes de zoom en momentos clave
-  const punches = [K.land, ...K.pums, K.lid, K.wake, K.naranja, K.bonk, K.go, K.door, K.help];
+  const punches = [K.land, ...K.pums, K.lid, K.naranja, K.bonk, K.go, K.door, K.help];
   let fov = c.fov;
   for (const pt of punches) { const d = t - pt; if (d > 0 && d < 0.4) fov *= 1 - 0.07 * Math.sin((d / 0.4) * Math.PI); }
   const sh = 0.09 * damped(t - K.land, 8, 7) + 0.05 * damped(t - (K.wake + 0.62), 8, 8) + 0.04 * damped(t - K.bonk, 8, 8) + 0.03 * damped(t - (K.stop - 0.6), 8, 6);
@@ -263,7 +255,7 @@ const Fruit: React.FC<{t: number}> = ({t}) => {
   if (t < t0 || t > K.go) return null;
   let pos: V3;
   if (t < K.bonk) pos = [0.05, lerp(11, 2.75, easeIn(prog(t, t0, K.bonk))), 0.75];
-  else { const d = t - K.bonk; const u = clamp(d / 0.9); pos = [0.05 + u * 2.2, Math.max(0.35, 2.75 + 3.2 * d - 9 * d * d), 0.75 + u * 1.6]; }
+  else { const d = t - K.bonk; const u = clamp(d / 0.9); pos = [0.05 + u * 2.55, Math.max(0.35, 2.75 + 3.2 * d - 9 * d * d), 0.75 + u * 1.85]; }
   return (
     <group position={pos} rotation={[t * 5, 0, t * 3]}>
       <mesh castShadow><sphereGeometry args={[0.35, 24, 18]} /><meshPhysicalMaterial color="#ff8c1a" roughness={0.55} clearcoat={0.3} /></mesh>
@@ -272,9 +264,9 @@ const Fruit: React.FC<{t: number}> = ({t}) => {
   );
 };
 const Bump: React.FC = () => (
-  <mesh position={[1.2, -0.25, -18]} rotation={[0, Math.PI / 2, 0]} scale={[3.2, 1, 1.4]} castShadow receiveShadow>
-    <cylinderGeometry args={[1, 1, 3.6, 32, 1, false, 0, Math.PI]} />
-    <meshStandardMaterial color="#ffd23f" roughness={0.6} />
+  <mesh position={[1.2, -0.62, -15.6]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+    <cylinderGeometry args={[1.05, 1.05, 4.0, 40]} />
+    <meshStandardMaterial map={stripeTex('bump', '#ffd23f', '#2b2b33', 10, true)} roughness={0.6} />
   </mesh>
 );
 
@@ -318,7 +310,7 @@ const Overlay: React.FC<{t: number; W: number}> = ({t, W}) => {
           })}
         </div>
       ) : null}
-      {[S('c1'), S('c2'), S('c3')].map((c, i) => burst(popk(t, c, c + 0.95), String(i + 1), ['#ff5f7e', '#3d8bff', '#39c47a'][i], 960, 190, 260 + i * 40, 0))}
+      {[S('c1'), S('c2'), S('c3')].map((c, i) => burst(popk(t, c, c + 0.95), String(i + 1), ['#ff5f7e', '#3d8bff', '#39c47a'][i], 250 + i * 210, 250, 230 + i * 30, 0))}
       {burst(popk(t, S('n7'), K.wake + 0.5), '¡DESPIERTA!', '#ffd23f', 960, 180, 170)}
       {burst(popk(t, K.naranja, S('b4') + 0.4), '¡NARANJA!', '#ff8a1f', 960, 900, 200)}
       {burst(popk(t, K.bonk, K.bonk + 0.9), '¡BONK!', '#ffd23f', 1250, 230, 170, 10)}
@@ -361,8 +353,8 @@ export const Ep2: React.FC = () => {
           <Birds t={t} />
           <Butterflies t={t} centers={[[-7, 0, 6], [8, 0, -6], [-8.5, 0, -5]]} />
           {/* tráfico */}
-          {(() => { const gx = 12 + ((t * 5) % 40); return t < K.stop - 1 || t > 58 ? <Car x={gx} z={-1.25} yaw={Math.PI / 2} color="#39c47a" wheel={t * 14} /> : null; })()}
-          {(() => { const x = t > K.m4 - 0.2 && t < K.m5 ? rc.x : -12 - ((t * 4.5) % 40); return <Car x={x} z={rc.z} yaw={-Math.PI / 2} color="#ff4b4b" wheel={-t * 14} />; })()}
+          {(() => { const gx = 12 + ((t * 5) % 40); return t < K.go ? <Car x={gx} z={-1.25} yaw={Math.PI / 2} color="#39c47a" wheel={t * 14} /> : null; })()}
+          {(() => { const x = t > K.m4 - 0.2 && t < K.m5 ? rc.x : -12 - ((t * 4.5) % 40); if (t > K.m2 - 0.1 && t < K.m3) return null; return <Car x={x} z={rc.z} yaw={-Math.PI / 2} color="#ff4b4b" wheel={-t * 14} />; })()}
           {(() => { const z = -50 + ((t * 4) % 38); return t < K.m3 - 0.3 || t > K.m4 ? <Car x={1.25} z={z} yaw={0} color="#c56bff" wheel={t * 12} /> : null; })()}
           {t > K.door ? <pointLight position={[20, 2.6, -7.6]} color="#ffc47a" intensity={22 * garage} distance={9} decay={2} /> : null}
           <GiftBox p={boxPose(t)} />
@@ -372,11 +364,11 @@ export const Ep2: React.FC = () => {
           <Puffs t={t} t0={K.wake + 0.62} c={[0, 0, 0.3]} r={1.4} n={10} />
           <Puffs t={t} t0={K.rev} c={[0, 0, -1.6]} r={0.8} n={8} dur={1.1} />
           <Puffs t={t} t0={K.go} c={[0, 0, -1]} r={1.0} n={10} />
-          <Puffs t={t} t0={K.m3 + 0.85} c={[1.2, 0, -21.2]} r={1.2} n={10} />
+          <Puffs t={t} t0={K.m3 + 1.02} c={[1.2, 0, -20.4]} r={1.2} n={10} />
           <Puffs t={t} t0={K.m5 + 0.6} c={[19.5, 0, -1.5]} r={1.2} n={12} big={1.1} />
           <Sparkles t={t} t0={K.lid} c={[0, 3.2, 0]} n={26} spread={3.8} />
           <Sparkles t={t} t0={K.naranja} c={[0, 1.6, 1.0]} n={24} tint="#ffb35c" spread={3} />
-          <Sparkles t={t} t0={K.m3 + 0.85} c={[1.2, 1.5, -21.2]} n={14} tint="#ffe14d" spread={2.2} />
+          <Sparkles t={t} t0={K.m3 + 1.02} c={[1.2, 1.5, -20.4]} n={14} tint="#ffe14d" spread={2.2} />
           <Sparkles t={t} t0={K.door + 0.2} c={[20, 2.4, -8.0]} n={20} tint="#ffe9a0" spread={3.4} />
           <Confetti t={t} t0={K.wake + 0.05} />
           <Zzz t={t} t0={15.3} t1={K.wake} c={[0.45, 2.35, 1.0]} tex={zt} />

@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import * as THREE from 'three';
 import {RoundedBoxGeometry} from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import {grassTex, plazaTex, roadTex, stripeTex, signTex, clockTex} from './tex';
+import {grassTex, plazaTex, roadTex, stripeTex, signTex, clockTex, garageTex} from './tex';
 import {hash} from './anim';
 
 const RB = (w: number, h: number, d: number, r = 0.25) => new RoundedBoxGeometry(w, h, d, 4, r);
@@ -73,7 +73,7 @@ const Building: React.FC<{x: number; z: number; ry: number; w: number; h: number
       <mesh geometry={g.trim} position={[0, h, 0]} castShadow><P c={trim} /></mesh>
       <mesh geometry={g.frame} position={[0, 2.0, d / 2]}><P c={trim} /></mesh>
       {/* interior oscuro cálido */}
-      <mesh position={[0, 1.75, d / 2 + 0.165]}><planeGeometry args={[4.2, 3.4]} /><meshStandardMaterial color="#231d33" emissive="#ffc27a" emissiveIntensity={0.12 * open} /></mesh>
+      <mesh position={[0, 1.75, d / 2 + 0.165]}><planeGeometry args={[4.2, 3.4]} /><meshStandardMaterial map={garageTex()} emissive="#ffffff" emissiveMap={garageTex()} emissiveIntensity={0.35 + 0.4 * open} /></mesh>
       <mesh position={[0, 0.05 + 3.4 - dh / 2, d / 2 + 0.18]}>
         <planeGeometry args={[4.2, dh]} />
         <meshStandardMaterial map={dt} roughness={0.5} />
@@ -102,6 +102,8 @@ export const Town: React.FC<{t: number; garageOpen: number}> = ({t, garageOpen})
       // fuera de edificios
       const blocks = [[20, -12, 7], [-20, -12, 7], [0, -32, 9], [22, 14, 7]];
       if (blocks.some(([bx, bz, br]) => Math.hypot(x - bx, z - bz) < br)) continue;
+      // pasillos de cámara libres de árboles
+      if ((x > 2.5 && x < 13 && z > -32 && z < -3) || (z > 1.5 && z < 9.5 && Math.abs(x) > 6 && Math.abs(x) < 36) || (x > -17 && x < -3 && z > 8 && z < 22)) continue;
       if (out.some((o) => Math.hypot(o.x - x, o.z - z) < 4)) continue;
       out.push({x, z, s: 0.8 + hash(i + 7) * 0.6, v: hash(i + 3)});
     }
@@ -142,7 +144,7 @@ export const Town: React.FC<{t: number; garageOpen: number}> = ({t, garageOpen})
         );
       })}
       {/* farolas */}
-      {[[4, 4.5], [-4, -4.5], [4, -4.5], [14, 3.6], [26, 3.6], [-14, -3.6], [-26, 3.6]].map(([x, z], i) => (
+      {[[-4, -4.5], [4, -4.5], [-14, -3.6], [26, -3.6]].map(([x, z], i) => (
         <group key={i} position={[x * (Math.abs(x) < 5 ? 2.15 : 1), 0, z * (Math.abs(x) < 5 ? 1.45 : 1)]}>
           <mesh position={[0, 1.6, 0]} castShadow><cylinderGeometry args={[0.08, 0.11, 3.2, 8]} /><P c="#3b4a6b" /></mesh>
           <mesh position={[0, 3.35, 0]}><sphereGeometry args={[0.3, 14, 10]} /><P c="#fff6c8" e="#ffe08a" ei={0.4} /></mesh>
