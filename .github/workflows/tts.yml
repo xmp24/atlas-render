@@ -1,0 +1,29 @@
+name: tts
+run-name: tts ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag: {required: true}
+permissions:
+  contents: write
+jobs:
+  tts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        v: [narrA, narrB, narrD, brunoA, brunoB]
+    defaults:
+      run: {working-directory: brum/tts}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q chatterbox-tts
+      - run: python gen.py ${{ matrix.v }}
+      - name: Push
+        working-directory: out
+        run: |
+          git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm "tts ${{ matrix.v }}"
+          for t in 1 2 3 4 5 6; do git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/tts-${{ inputs.tag }}-${{ matrix.v }} && exit 0; sleep $(( 5 + RANDOM % 10 )); done; exit 1
