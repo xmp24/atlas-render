@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          for b in $(git ls-remote --heads "https://github.com/${{ github.repository }}" "out-${{ inputs.tag }}*" | awk '{print $2}'); do
-            git push "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" --delete "$b" || true
-          done
+          git init -q work && cd work
+          git ls-remote --heads "https://github.com/${{ github.repository }}" "out-${{ inputs.tag }}*" | awk '{print $2}' > refs.txt
+          echo "ramas: $(wc -l < refs.txt)"
+          xargs -n 100 git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" --delete < refs.txt || true
+          echo "quedan: $(git ls-remote --heads "https://github.com/${{ github.repository }}" "out-${{ inputs.tag }}*" | wc -l)"
