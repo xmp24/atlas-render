@@ -1,0 +1,45 @@
+name: music
+run-name: music ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag: {required: true}
+permissions:
+  contents: write
+jobs:
+  dl:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          mkdir out && cd out
+          while IFS= read -r t; do
+            [ -z "$t" ] && continue
+            u="https://incompetech.com/music/royalty-free/mp3-royaltyfree/$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$t").mp3"
+            curl -sfL -A "Mozilla/5.0" -o "$t.mp3" "$u" && echo "OK $t" || echo "FALLO $t"
+          done <<'L'
+Monkeys Spinning Monkeys
+Fluffing a Duck
+Sneaky Snitch
+Pixel Peeker Polka - faster
+Life of Riley
+Carefree
+Hyperfun
+Wallpaper
+Merry Go
+Run Amok
+Investigations
+Scheming Weasel faster
+The Builder
+Happy Happy Game Show
+Quirky Dog
+Cut and Run
+Heroic Age
+Itty Bitty 8 Bit
+Funkorama
+Local Forecast - Elevator
+Amazing Plan
+Spazzmatica Polka
+L
+          ls -la
+          git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm music
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/music-${{ inputs.tag }}
