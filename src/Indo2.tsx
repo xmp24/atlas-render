@@ -29,6 +29,7 @@ import J_mc from './hw/mc.json';
 import J_rbr from './hw/rbr.json';
 import J_zomb from './hw/zomb.json';
 import J_zomb2 from './hw/zomb2.json';
+import J_imp from './hw/imp.json';
 import {ZombHud, ZFace, zfrac, ZombMapFX} from './ZombHud';
 import {ZombMap3D, tiltCss, tiltAt} from './ZombMap3D';
 import {RbrHud, rbrCool, Shades} from './RbrHud';
@@ -72,7 +73,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }

@@ -5,6 +5,7 @@ import {COUNTRIES, FlagCanvas} from './HexWorld';
 import {INK} from './lib3';
 import {WallScene, LabScene, BunkerScene} from './Zomb3D';
 import {Globe} from './Globe';
+import {ImpHud} from './ImpHud';
 
 type Cam = {cx: number; cy: number; s: number};
 const VW = 1920, VH = 1080;
@@ -332,7 +333,9 @@ export const ZombHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) =>
       <Grade Z={Z} t={t} />
       {mut && <AbsoluteFill style={{background: '#ff0000', opacity: 0.18 * (0.5 + 0.5 * Math.sin(t * 14)) * (1 - (t - mut[0]) / (mut[1] - mut[0])), mixBlendMode: 'multiply'}} />}
       <GlobeT D={D} t={t} />
-      {!intro && !full && !fin && <><Counters Z={Z} t={t} /><Day Z={Z} t={t} /><Stand Z={Z} t={t} /><Speed Z={Z} t={t} /><Cure Z={Z} t={t} />{!inGl && <><Rank D={D} t={t} /><News Z={Z} t={t} /><Stamps Z={Z} t={t} /></>}<Story Z={Z} t={t} end={D.dur} /></>}
+      {Z.imp && !intro && !fin && <ImpHud I={Z.imp} t={t} full={!!full || inGl} />}
+      {!Z.imp && !intro && !full && !fin && <><Counters Z={Z} t={t} /><Day Z={Z} t={t} /><Stand Z={Z} t={t} /><Speed Z={Z} t={t} /><Cure Z={Z} t={t} /></>}
+      {!intro && !full && !fin && <>{!inGl && <><Rank D={D} t={t} /><News Z={Z} t={t} /><Stamps Z={Z} t={t} /></>}<Story Z={Z} t={t} end={D.dur} /></>}
       {!fin && <PiP Z={Z} t={t} />}
       <Caps Z={Z} t={t} />
       <BigCount Z={Z} t={t} />
