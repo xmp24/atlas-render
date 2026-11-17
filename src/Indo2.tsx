@@ -26,6 +26,8 @@ import J_dbreu from './hw/dbreu.json';
 import J_cw from './hw/cw.json';
 import J_da from './hw/da.json';
 import J_mc from './hw/mc.json';
+import J_rbr from './hw/rbr.json';
+import {RbrHud, rbrCool, Shades} from './RbrHud';
 import J_dbram from './hw/dbram.json';
 import J_dbrin from './hw/dbrin.json';
 import J_idw from './hw/idw.json';
@@ -66,7 +68,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -128,9 +130,9 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   }
   const b = (X.D.battles as any[]).find((x) => t >= x.t0 && t < x.t1);
   cand.sort((x, y) => (b && x === b.b ? -1 : b && y === b.b ? 1 : x === X.ID ? -1 : y === X.ID ? 1 : os.a[y] - os.a[x]));
-  const out: React.ReactNode[] = []; const placed: [number, number, number][] = [];
+  const out: React.ReactNode[] = []; const placed: [number, number, number][] = []; const COOL = rbrCool(X.D, t);
   for (const k of cand) {
-    if (out.length >= 10) break;
+    if (out.length >= (X.D.rbr ? X.D.rbr.faces : 10)) break;
     const c = PIECES_C(best[k]); const [sx, sy] = toS(c[0], c[1], cam);
     const r = Math.max(14, Math.min(62, Math.sqrt(os.a[k] * s2) * 0.07));
     if (placed.some(([px, py, pr]) => Math.hypot(px - sx, py - sy) < (pr + r) * 1.6)) continue;
@@ -140,6 +142,11 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     if (b && k === b.b) mood = 'scared';
     if (dn < -os.a[k] * 0.02) mood = 'scared'; else if (dn > os.a[k] * 0.02) mood = 'angry';
     const fs = Math.max(15, Math.min(34, r * 0.6));
+    if (X.D.rbr) {
+      const cool = COOL.has(k);
+      out.push(<g key={k}><Face x={sx} y={sy - r * 0.2} r={r} mood={cool ? 'happy' : b && k === b.b ? 'scared' : mood === 'smug' ? 'calm' : mood} t={t} seed={k * 7 + 3} />{cool && <g transform={`translate(${sx},${sy - r * 0.2})`}><Shades r={r} /></g>}</g>);
+      continue;
+    }
     out.push(
       <g key={k}>
         <Face x={sx} y={sy - r * 0.2} r={r} mood={mood} t={t} seed={k * 7 + 3} />
@@ -257,7 +264,7 @@ const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const D = X.D;
   if (D.duel) return null;
   if (D.mode === 'tl') return <TlHud t={t} />;
-  if (D.mode === 'cw' || D.mode === 'da') return null;
+  if (D.mode === 'cw' || D.mode === 'da' || D.mode === 'rbr') return null;
   if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
   if (D.mode === 'camp') return <HudCamp t={t} cam={cam} />;
   const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
@@ -699,7 +706,7 @@ const Title: React.FC<{t: number}> = ({t}) => {
     <div style={{...font, fontSize: 132, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, lineHeight: 1.05}}>{X.D.title2 ? X.D.title2[1] : 'CONQUER THE WORLD?'}</div></div>;
 };
 const Ending: React.FC<{t: number}> = ({t}) => {
-  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'cw' || X.D.mode === 'da') return null;
+  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'rbr') return null;
   const a = popT(t, t0, 10);
   const V2 = X.D.ver !== 'a';
   const pk = X.D.indo as number[][]; const pmax = pk[pk.length - 1][1]; const tA = X.D.war_t, tB = X.D.winT;
@@ -3057,6 +3064,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <DaHud t={t} />
       <BuffHud t={t} />
       <DbrHud t={t} />
+      {D.rbr && <RbrHud D={D} t={t} cam={cam} />}
       <EvHud t={t} />
       <DuelHud t={t} />
       <PowerBanner t={t} />

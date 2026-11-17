@@ -182,7 +182,8 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
     // cráteres
     for (const [tc, x, y, big] of ex.crater) {
       if (t < tc || !inV(x, y, 80 / s)) continue;
-      const R = (big ? 44 : 32) / s * Math.min(1, (t - tc) / 0.3);
+      const life = ex.craterLife; if (life && t > tc + life) continue;
+      const R = (big ? 44 : 32) / s * Math.min(1, (t - tc) / 0.3) * (life ? Math.min(1, (tc + life - t) / 2) : 1);
       const g = ctx.createRadialGradient(x, y, 0, x, y, R); g.addColorStop(0, 'rgba(20,14,10,0.75)'); g.addColorStop(0.6, 'rgba(40,30,20,0.45)'); g.addColorStop(1, 'rgba(40,30,20,0)');
       ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(x, y + 4 / s, R * 1.3, R * 0.8, 0, 0, Math.PI * 2); ctx.fill();
     }
