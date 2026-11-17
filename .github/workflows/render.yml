@@ -19,6 +19,9 @@ on:
       scale:
         description: Escala de salida (1 = 1080p, 1.3333333 = 1440p)
         default: '1'
+      only:
+        description: Solo estos índices de tramo (p. ej. 3,4,5); vacío = todos
+        default: ''
 
 permissions:
   contents: write
@@ -43,7 +46,7 @@ jobs:
         with: {name: bundle, path: bundle.tar, retention-days: 1, compression-level: 0}
       - id: plan
         run: |
-          python3 -c "import json; print('matrix=' + json.dumps(list(range(int('${{ inputs.jobs }}')))))" >> "$GITHUB_OUTPUT"
+          python3 -c "import json; o='${{ inputs.only }}'.strip(); print('matrix=' + json.dumps([int(x) for x in o.split(',')] if o else list(range(int('${{ inputs.jobs }}')))))" >> "$GITHUB_OUTPUT"
 
   render:
     needs: bundle
