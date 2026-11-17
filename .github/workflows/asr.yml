@@ -1,0 +1,34 @@
+name: asr
+run-name: asr ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag: {required: true}
+permissions:
+  contents: write
+jobs:
+  asr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q faster-whisper
+      - run: |
+          mkdir w && cd w && git init -q
+          git fetch -q --depth 1 https://github.com/${{ github.repository }} "+refs/heads/tts-${{ inputs.tag }}-*:refs/remotes/o/*"
+          for b in $(git for-each-ref --format='%(refname:short)' refs/remotes/o/); do git archive $b | tar -x; done
+          ls | head
+          python - <<'P'
+          import glob, json
+          from faster_whisper import WhisperModel
+          m = WhisperModel('small', device='cpu', compute_type='int8')
+          out = {}
+          for f in sorted(glob.glob('*.wav')):
+              segs, info = m.transcribe(f, language='es', beam_size=5)
+              out[f] = ' '.join(s.text.strip() for s in segs)
+              print(f, out[f], flush=True)
+          json.dump(out, open('../asr.json', 'w'), ensure_ascii=False, indent=0)
+          P
+      - run: |
+          mkdir o && mv asr.json o/ && cd o && git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm asr
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/asr-${{ inputs.tag }}
