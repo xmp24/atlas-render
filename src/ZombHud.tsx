@@ -3,7 +3,7 @@ import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {COUNTRIES, FlagCanvas} from './HexWorld';
 import {INK} from './lib3';
-import {WallScene, LabScene} from './Zomb3D';
+import {WallScene, LabScene, BunkerScene} from './Zomb3D';
 import {Globe} from './Globe';
 
 type Cam = {cx: number; cy: number; s: number};
@@ -53,7 +53,7 @@ const Counters: React.FC<{Z: any; t: number}> = ({Z, t}) => {
   );
   return (
     <div style={{position: 'absolute', left: 0, right: 0, top: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10}}>
-      <div style={{display: 'flex', gap: 16}}>{box('🟢', 'HEALTHY', h, '#4fe07a', '#e8ffe9')}{box('🧟', 'ZOMBIES', z, TOX, TOX)}{box('💀', 'DEAD', d, '#b9b2c6', '#ffffff')}</div>
+      <div style={{display: 'flex', gap: 16}}>{box('🟢', Z.hLabel || 'HEALTHY', h, '#4fe07a', '#e8ffe9')}{box('🧟', 'ZOMBIES', z, TOX, TOX)}{box('💀', 'DEAD', d, '#b9b2c6', '#ffffff')}</div>
       <div style={{width: 820, height: 30, borderRadius: 15, background: '#2a2733', border: `4px solid ${INK}`, position: 'relative', overflow: 'hidden', boxShadow: `0 4px 0 ${INK}`, display: 'flex'}}>
         <div style={{width: `${h / W * 100}%`, background: 'linear-gradient(180deg,#6ff09a,#2fb85a)'}} />
         <div style={{width: `${z / W * 100}%`, background: 'linear-gradient(180deg,#a8f05a,#4f9a22)'}} />
@@ -116,6 +116,19 @@ const Cards: React.FC<{Z: any; t: number}> = ({Z, t}) => {
 export const ZombMapFX: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => {
   const Z = D.zomb; if (!Z) return null;
   const out: React.ReactNode[] = [];
+  // búnkeres: escudo verde mientras aguantan, rojo parpadeando al ser atacados, tachado al caer
+  for (const b of (Z.bunkers || []) as any[]) {
+    const [x, y, tf] = b; if (t < (Z.shelterT ?? 0) || t > tf + 2.5) continue; const [sx, sy] = toS(x, y, cam);
+    if (sx < -60 || sx > VW + 60 || sy < -60 || sy > VH + 60) continue;
+    const r = Math.max(13, Math.min(30, 9 * cam.s + 8)); const atk = t > tf - 3.4 && t < tf; const dead = t >= tf;
+    const pop = Math.min(1, (t - (Z.shelterT ?? 0)) / 0.4);
+    out.push(<g key={'bk' + x + '_' + y} transform={`translate(${sx},${sy}) scale(${pop})`} opacity={dead ? Math.max(0, 1 - (t - tf) / 2.5) : 1}>
+      {atk && <circle r={r * (1.5 + 0.3 * Math.sin(t * 12))} fill="none" stroke="#ff2a2a" strokeWidth={4} opacity={0.5 + 0.5 * Math.sin(t * 12)} />}
+      <path d={`M0,${-r} L${r * 0.85},${-r * 0.55} L${r * 0.75},${r * 0.35} Q0,${r * 1.15} ${-r * 0.75},${r * 0.35} L${-r * 0.85},${-r * 0.55} Z`} fill={dead ? '#5a5560' : atk ? '#c81e1e' : '#2f9e4a'} stroke={INK} strokeWidth={3} />
+      {!dead && <path d={`M${-r * 0.35},0 L${-r * 0.05},${r * 0.3} L${r * 0.4},${-r * 0.3}`} fill="none" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />}
+      {dead && <path d={`M${-r * 0.4},${-r * 0.4} L${r * 0.4},${r * 0.4} M${r * 0.4},${-r * 0.4} L${-r * 0.4},${r * 0.4}`} stroke="#fff" strokeWidth={4} strokeLinecap="round" />}
+    </g>);
+  }
   // mapa de calor (focos activos que laten) + refugiados huyendo
   if (Z.seeds && t < (Z.cureT1 ?? 1e9)) for (const ks in Z.seeds) {
     const k = +ks; const f = zfrac(D, k, t); if (f < 0.02 || f > 0.97) continue; const [x, y, R0] = Z.seeds[ks]; const [sx, sy] = toS(x, y, cam);
@@ -169,12 +182,12 @@ const PiP: React.FC<{Z: any; t: number}> = ({Z, t}) => {
   const open = popIn(t, t0), close = 1 - eo((t - (t1 - 0.35)) / 0.35); const k = Math.min(open, t > t1 - 0.35 ? close : 1);
   const p = p0 < 0 ? kfl(Z.cure, t) : p0 + (p1 - p0) * cl((u - 0.3) / Math.max(0.1, t1 - t0 - 0.9), 0, 1);
   const done = fl === 'done' || (p0 < 0 && p >= 100) ? cl((t - (Z.cureT1 ?? t0)) / 0.8, 0, 1) : 0;
-  const col = fl === 'fail' ? RED : kind === 'lab' ? BLUE : fl === 'breach' ? RED : '#ffd23f';
+  const col = fl === 'fail' || fl === 'fall' ? RED : kind === 'lab' ? BLUE : fl === 'breach' ? RED : kind === 'bunker' ? '#ffb020' : '#ffd23f';
   return (
     <div style={{position: 'absolute', left: 30, bottom: 74, width: PW, height: PH, transformOrigin: '0% 100%', transform: `scale(${k}) rotate(${(1 - k) * -6}deg)`, opacity: Math.min(1, k * 1.5), zIndex: 43}}>
       <div style={{position: 'absolute', inset: -8, borderRadius: 26, background: INK, boxShadow: `0 10px 0 ${INK}, 0 0 36px ${col}88`}} />
       <div style={{position: 'absolute', inset: 0, borderRadius: 18, overflow: 'hidden', border: `5px solid ${col}`}}>
-        {kind === 'lab' ? <LabScene u={u} p={p} fail={fl === 'fail' && u > 1.4} done={done} w={PW} h={PH} /> : <WallScene u={u} breach={fl === 'breach'} w={PW} h={PH} />}
+        {kind === 'lab' ? <LabScene u={u} p={p} fail={fl === 'fail' && u > 1.4} done={done} w={PW} h={PH} /> : kind === 'bunker' ? <BunkerScene u={u} fl={fl} w={PW} h={PH} n={fl === 'close' ? 10 : 14} /> : <WallScene u={u} breach={fl === 'breach'} w={PW} h={PH} />}
         <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%)'}} />
         <div style={{position: 'absolute', left: 14, top: 12, display: 'flex', gap: 8, alignItems: 'center'}}>
           <span style={{background: RED, color: '#fff', ...F, fontSize: 20, padding: '2px 10px 0', borderRadius: 8, border: `3px solid ${INK}`, opacity: 0.6 + 0.4 * Math.sin(t * 6)}}>● LIVE</span>
@@ -301,7 +314,7 @@ const Stand: React.FC<{Z: any; t: number}> = ({Z, t}) => {
   if (!Z.stand || t < Z.stand[0][0]) return null; const n = Math.round(kfl(Z.stand, t));
   return (
     <div style={{position: 'absolute', left: 24, top: 148, background: DARK, border: `5px solid #4fe07a`, borderRadius: 16, padding: '4px 16px 2px', boxShadow: `0 6px 0 ${INK}`, textAlign: 'center'}}>
-      <div style={{...F, fontSize: 17, letterSpacing: 1, color: '#4fe07a'}}>NATIONS LEFT</div>
+      <div style={{...F, fontSize: 17, letterSpacing: 1, color: '#4fe07a'}}>{Z.standLabel || 'NATIONS LEFT'}</div>
       <div style={{...F, fontSize: 46, lineHeight: 1, color: '#fff'}}>{n}</div>
     </div>
   );

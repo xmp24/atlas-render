@@ -174,3 +174,56 @@ export const LabScene: React.FC<{u: number; p: number; fail?: boolean; done?: nu
     </ThreeCanvas>
   );
 };
+
+// ---------------------------------------------------------------- BÚNKER (fl: '' aguanta · 'fall' cae · 'close' se cierra con los últimos)
+export const BunkerScene: React.FC<{u: number; fl: string; w: number; h: number; n?: number}> = ({u, fl, w, h, n = 14}) => {
+  const conc = useMemo(() => new THREE.MeshStandardMaterial({color: '#6a6e74', roughness: 0.95}), []);
+  const steel = useMemo(() => new THREE.MeshStandardMaterial({color: '#8a9098', roughness: 0.35, metalness: 0.85}), []);
+  const hSkin = useMemo(() => new THREE.MeshStandardMaterial({color: '#e0b090'}), []);
+  const hCloth = useMemo(() => new THREE.MeshStandardMaterial({color: '#4a5a6e', roughness: 0.8}), []);
+  const hPants = useMemo(() => new THREE.MeshStandardMaterial({color: '#2a2a30'}), []);
+  const zSkin = useMemo(() => new THREE.MeshStandardMaterial({color: '#8fc45a', emissive: '#0c2004'}), []);
+  const zCloth = useMemo(() => new THREE.MeshStandardMaterial({color: '#4a5a38'}), []);
+  const bang = fl === 'close' ? 0 : Math.max(0, Math.sin(u * 5.5)) ** 8;
+  const open = fl === 'fall' ? ss(2.4, 3.2, u) : 0;            // la compuerta revienta
+  const shut = fl === 'close' ? ss(0.6, 3.4, u) : 1;            // la compuerta se cierra
+  const doorRot = fl === 'close' ? (1 - shut) * 1.6 : -open * 1.9;
+  const alarm = Math.sin(u * 7) > 0;
+  const hf: Fig[] = Array.from({length: n}, (_, i) => { const x = -3.2 + (i % 7) * 1.05 + (rnd(i) - 0.5) * 0.3, z = 0.6 + Math.floor(i / 7) * 1.1 + rnd(i + 2) * 0.3; const flee = open > 0.3 ? Math.min(1, (u - 2.8) * 0.8) : 0; return {x: x + flee * (rnd(i + 5) - 0.5) * 2, z: z + flee * 1.5, ry: Math.PI + (rnd(i + 3) - 0.5) * 0.8 + flee * Math.PI, ph: rnd(i) * 6, sp: flee > 0 ? 1.2 : 0, on: !(fl === 'fall' && u > 4.2 && i % 2 === 0), arms: rnd(i + 1) > 0.8 ? 0.5 : 0}; });
+  const zf: Fig[] = Array.from({length: 18}, (_, i) => { const t0 = 3.0 + i * 0.12; const k = Math.max(0, u - t0); return {x: (rnd(i) - 0.5) * 1.6 + (k > 0 ? (rnd(i + 4) - 0.5) * k * 1.4 : 0), z: -3.6 + Math.min(4.5, k * 2.2), ry: (rnd(i + 2) - 0.5) * 0.6, ph: rnd(i) * 6, sp: 1, on: fl === 'fall' && k > 0, arms: 1}; });
+  return (
+    <ThreeCanvas width={w} height={h} style={{position: 'absolute', inset: 0}} gl={{antialias: true}} shadows>
+      <color attach="background" args={['#120c0c']} />
+      <fog attach="fog" args={['#120c0c', 8, 20]} />
+      <Cam p={[Math.sin(u * 0.3) * 0.6 + bang * 0.05, 2.6 + bang * 0.04, 6.4]} look={[0, 1.3, -2]} fov={50} />
+      <ambientLight intensity={0.18} />
+      <pointLight position={[0, 3.4, 1]} intensity={fl === 'close' ? 18 : 10} distance={12} color="#ffe2b0" castShadow />
+      <pointLight position={[2.6, 3.2, -2.4]} intensity={alarm ? 40 : 6} distance={10} color="#ff2a1a" />
+      {/* sala */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow material={conc}><planeGeometry args={[14, 14]} /></mesh>
+      <mesh position={[0, 2, -3.6]} receiveShadow material={conc}><boxGeometry args={[10, 4.4, 0.4]} /></mesh>
+      <mesh position={[-4.6, 2, 0]} receiveShadow material={conc}><boxGeometry args={[0.4, 4.4, 9]} /></mesh>
+      <mesh position={[4.6, 2, 0]} receiveShadow material={conc}><boxGeometry args={[0.4, 4.4, 9]} /></mesh>
+      <mesh position={[0, 4.2, 0]} material={conc}><boxGeometry args={[10, 0.3, 9]} /></mesh>
+      {/* literas y cajas */}
+      {[-3.6, 3.6].map((x, i) => <group key={i} position={[x, 0, 0.8]}><mesh position={[0, 0.5, 0]} castShadow material={steel}><boxGeometry args={[0.9, 0.08, 2.2]} /></mesh><mesh position={[0, 1.5, 0]} castShadow material={steel}><boxGeometry args={[0.9, 0.08, 2.2]} /></mesh></group>)}
+      {Array.from({length: 6}, (_, i) => <mesh key={'c' + i} position={[-2.4 + (i % 3) * 0.7, 0.3 + Math.floor(i / 3) * 0.6, -3.0]} castShadow><boxGeometry args={[0.6, 0.55, 0.6]} /><meshStandardMaterial color={i % 2 ? '#5a6a3a' : '#7a6a4a'} /></mesh>)}
+      {/* compuerta blindada circular */}
+      <group position={[1.6, 1.7, -3.35]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]} material={steel}><torusGeometry args={[1.25, 0.16, 12, 40]} /></mesh>
+        <group position={[-1.2, 0, 0]} rotation={[0, doorRot, 0]}>
+          <group position={[1.2, 0, 0.12 + bang * 0.08]}>
+            <mesh rotation={[Math.PI / 2, 0, 0]} material={steel} castShadow><cylinderGeometry args={[1.12, 1.12, 0.26, 40]} /></mesh>
+            {Array.from({length: 8}, (_, i) => { const a = (i / 8) * Math.PI * 2; return <mesh key={i} position={[Math.cos(a) * 0.85, Math.sin(a) * 0.85, 0.15]} material={steel}><sphereGeometry args={[0.07, 10, 8]} /></mesh>; })}
+            <mesh position={[0, 0, 0.2]} rotation={[0, 0, u * (fl === 'close' ? 2 : 0)]} material={steel}><torusGeometry args={[0.36, 0.05, 8, 24]} /></mesh>
+            {[0, 1, 2].map((i) => <mesh key={'s' + i} position={[0, 0, 0.2]} rotation={[0, 0, (i * Math.PI) / 3 + u * (fl === 'close' ? 2 : 0)]} material={steel}><boxGeometry args={[0.8, 0.06, 0.06]} /></mesh>)}
+          </group>
+        </group>
+        {bang > 0.3 && Array.from({length: 10}, (_, i) => <mesh key={'d' + i} position={[(rnd(i + Math.floor(u * 5.5)) - 0.5) * 2.4, (rnd(i + 3) - 0.5) * 2.4, 0.4 + rnd(i) * 0.6]}><sphereGeometry args={[0.04, 6, 4]} /><meshBasicMaterial color="#c8c0b0" transparent opacity={0.7} /></mesh>)}
+      </group>
+      <Figures figs={hf} skin={hSkin} cloth={hCloth} pants={hPants} t={u} />
+      <group position={[1.6, 0, -3.2]}><Figures figs={zf} skin={zSkin} cloth={zCloth} pants={hPants} t={u} /></group>
+      <Dust t={u} col="#d8c8b0" area={9} n={50} />
+    </ThreeCanvas>
+  );
+};
