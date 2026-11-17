@@ -3,6 +3,7 @@ import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {COUNTRIES, FlagCanvas} from './HexWorld';
 import {INK} from './lib3';
+import {VirusScene, CityScene, WallScene, LabScene} from './Zomb3D';
 
 type Cam = {cx: number; cy: number; s: number};
 const VW = 1920, VH = 1080;
@@ -66,7 +67,7 @@ const Day: React.FC<{Z: any; t: number}> = ({Z, t}) => (
   </div>
 );
 const Cure: React.FC<{Z: any; t: number}> = ({Z, t}) => {
-  const p = kfl(Z.cure, t); if (t < 116) return null; const a = cl((t - 116) / 0.6, 0, 1); const done = p >= 100;
+  const T0 = Z.cureT ?? 116; const p = kfl(Z.cure, t); if (t < T0) return null; const a = cl((t - T0) / 0.6, 0, 1); const done = p >= 100;
   const IN = COUNTRIES.findIndex((c) => c.c === 'IN'), ID = COUNTRIES.findIndex((c) => c.c === 'ID');
   return (
     <div style={{position: 'absolute', right: 24, top: 20, width: 270, opacity: a, background: DARK, border: `5px solid ${done ? '#fff' : BLUE}`, borderRadius: 16, padding: '8px 14px 12px', boxShadow: `0 6px 0 ${INK}, 0 0 ${done ? 40 : 18}px ${BLUE}88`}}>
@@ -120,21 +121,21 @@ const MapFX: React.FC<{Z: any; t: number; cam: Cam}> = ({Z, t, cam}) => {
     const u = eo((t - t0) / (t1 - t0)); const q = (p: number) => [(1 - p) ** 2 * ax + 2 * (1 - p) * p * mx + p * p * bx, (1 - p) ** 2 * ay + 2 * (1 - p) * p * my + p * p * by];
     const [px, py] = q(u); const [qx, qy] = q(Math.min(1, u + 0.02)); const ang = Math.atan2(qy - py, qx - px) * 180 / Math.PI;
     const col = cure ? BLUE : TOX; const a = t > t1 ? 1 - (t - t1) / 0.6 : 1;
-    out.push(<g key={'f' + i} opacity={a}><path d={`M${ax},${ay} Q${mx},${my} ${bx},${by}`} fill="none" stroke={col} strokeWidth={5} strokeDasharray="12 10" opacity={0.85} />
-      <g transform={`translate(${px},${py}) rotate(${ang})`}><path d="M-22,-4 L10,-4 L22,0 L10,4 L-22,4 Z M-4,-4 L-12,-20 L-6,-20 L6,-4 Z M-4,4 L-12,20 L-6,20 L6,4 Z M-20,-4 L-26,-12 L-22,-12 L-14,-4 Z M-20,4 L-26,12 L-22,12 L-14,4 Z" fill="#fff" stroke={INK} strokeWidth={3} /><circle cx={-30} cy={0} r={6} fill={col} opacity={0.8} /></g></g>);
+    out.push(<g key={'f' + i} opacity={a}><path d={`M${ax},${ay} Q${mx},${my} ${bx},${by}`} fill="none" stroke={col} strokeWidth={9} strokeDasharray="18 12" opacity={0.95} />
+      <g transform={`translate(${px},${py}) rotate(${ang}) scale(1.9)`}><path d="M-22,-4 L10,-4 L22,0 L10,4 L-22,4 Z M-4,-4 L-12,-20 L-6,-20 L6,-4 Z M-4,4 L-12,20 L-6,20 L6,4 Z M-20,-4 L-26,-12 L-22,-12 L-14,-4 Z M-20,4 L-26,12 L-22,12 L-14,4 Z" fill="#fff" stroke={INK} strokeWidth={3} /><circle cx={-30} cy={0} r={6} fill={col} opacity={0.8} /></g></g>);
   });
   (Z.mist as any[]).forEach((m, i) => {
     const [t0, t1, x, y, R0] = m; if (t < t0 || t > t1) return; const [sx, sy] = toS(x, y, cam); const u = (t - t0) / (t1 - t0);
-    out.push(<g key={'m' + i} opacity={1 - u}>{[0, 1, 2].map((j) => <circle key={j} cx={sx + Math.sin(j * 2.1) * 20} cy={sy + Math.cos(j * 2.1) * 14} r={R0 * cam.s * (0.4 + u * (0.9 + j * 0.2))} fill={BLUE} opacity={0.28} />)}<circle cx={sx} cy={sy} r={R0 * cam.s * (0.3 + u)} fill="none" stroke="#bfeaff" strokeWidth={6} /></g>);
+    out.push(<g key={'m' + i} opacity={(1 - u) * Math.min(1, u * 6)}>{[0, 1, 2, 3].map((j) => <circle key={j} cx={sx + Math.sin(j * 2.1 + u) * 26} cy={sy + Math.cos(j * 2.1 + u) * 18} r={R0 * cam.s * (0.35 + u * (0.7 + j * 0.15))} fill="url(#cureMist)" />)}</g>);
   });
   (Z.pops as any[]).forEach((p, i) => {
     const [t0, t1, x, y, txt, col, ring] = p; if (t < t0 || t > t1) return; const [sx, sy] = toS(x, y, cam); const a = fadeW(t, t0, t1, 0.3);
     out.push(<g key={'p' + i} opacity={a}>
-      {ring ? [0, 1, 2].map((j) => { const ph = ((t - t0) * 0.8 + j / 3) % 1; return <circle key={j} cx={sx} cy={sy} r={20 + ph * 110} fill="none" stroke={col} strokeWidth={7} opacity={1 - ph} />; }) : null}
+      {ring ? [0, 1].map((j) => { const ph = ((t - t0) * 0.8 + j / 2) % 1; return <circle key={j} cx={sx} cy={sy} r={14 + ph * 60} fill="none" stroke={col} strokeWidth={5} opacity={(1 - ph) * 0.8} />; }) : null}
       <g transform={`translate(${sx},${sy - 70}) scale(${popIn(t, t0)})`}><rect x={-txt.length * 13 - 22} y={-30} width={txt.length * 26 + 44} height={56} rx={28} fill={col} stroke={INK} strokeWidth={5} /><text y={12} textAnchor="middle" fontSize={36} fill="#fff" stroke={INK} strokeWidth={5} paintOrder="stroke" style={F}>{txt}</text></g>
     </g>);
   });
-  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>{out}</svg>;
+  return <svg width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}><defs><radialGradient id="cureMist"><stop offset="0%" stopColor="#9fe1ff" stopOpacity={0.55} /><stop offset="60%" stopColor="#2fa8ff" stopOpacity={0.25} /><stop offset="100%" stopColor="#2fa8ff" stopOpacity={0} /></radialGradient></defs>{out}</svg>;
 };
 const EndQ: React.FC<{Z: any; t: number}> = ({Z, t}) => {
   const q = Z.q; if (!q || t < q[0]) return null; const a = cl((t - q[0]) / 0.25, 0, 1);
@@ -146,15 +147,117 @@ const EndQ: React.FC<{Z: any; t: number}> = ({Z, t}) => {
     </AbsoluteFill>
   );
 };
+
+// ---------------------------------------------------------------- v2: 3D, beats, contador gigante, encuesta, sellos, naciones, grading
+const S3D: React.FC<{Z: any; t: number}> = ({Z, t}) => {
+  const s = ((Z.s3d || []) as any[]).find((x) => t >= x[0] && t < x[1]); if (!s) return null;
+  const [t0, t1, kind, p0, p1, fl] = s; const u = t - t0;
+  const fin = cl(1 - u / 0.18, 0, 1), fout = cl(1 - (t1 - t) / 0.18, 0, 1);
+  const sc = kind === 'lab' ? <LabScene u={u} p0={p0} p1={p1} fail={fl === 'fail'} done={fl === 'done'} dur={t1 - t0} /> : kind === 'city' ? <CityScene u={u} /> : kind === 'wall' ? <WallScene u={u} breach={fl === 'breach'} /> : <VirusScene u={u} mode={kind} />;
+  const p = kind === 'lab' ? p0 + (p1 - p0) * cl((u - 0.3) / Math.max(0.1, t1 - t0 - 0.9), 0, 1) : 0;
+  return (
+    <AbsoluteFill style={{zIndex: 30}}>
+      {sc}
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)'}} />
+      {kind === 'lab' && <div style={{position: 'absolute', right: 70, top: 300, background: 'rgba(6,16,28,0.85)', border: `6px solid ${fl === 'fail' ? RED : BLUE}`, borderRadius: 24, padding: '14px 34px 8px', boxShadow: `0 8px 0 ${INK}, 0 0 40px ${fl === 'fail' ? RED : BLUE}88`, textAlign: 'center'}}>
+        <div style={{...F, fontSize: 34, color: fl === 'fail' ? RED : BLUE, letterSpacing: 3}}>💉 CURE PROGRESS</div>
+        <div style={{...F, fontSize: 150, lineHeight: 1, color: '#fff', textShadow: `0 6px 0 ${INK}`, fontVariantNumeric: 'tabular-nums'}}>{Math.floor(p)}%</div>
+        {fl === 'fail' && u > 1.4 && <div style={{...F, fontSize: 54, color: '#fff', background: RED, border: `5px solid ${INK}`, borderRadius: 14, padding: '2px 18px 0', transform: `rotate(-6deg) scale(${popIn(t, t0 + 1.4)})`}}>TEST FAILED</div>}
+      </div>}
+      <AbsoluteFill style={{background: '#fff', opacity: Math.max(fin, fout) * 0.9}} />
+    </AbsoluteFill>
+  );
+};
+const Caps: React.FC<{Z: any; t: number}> = ({Z, t}) => {
+  const c = ((Z.cap || []) as any[]).find((x) => t >= x[0] && t < x[1]); if (!c) return null;
+  const [t0, t1, title, sub, col] = c; const a = fadeW(t, t0, t1, 0.25); const sx = (1 - eo((t - t0) / 0.45)) * -500;
+  return (
+    <div style={{position: 'absolute', left: 70 + sx, bottom: 90, opacity: a, zIndex: 41}}>
+      <div style={{...F, fontSize: 96, color: '#fff', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill', textShadow: `0 8px 0 ${INK}, 0 0 30px ${col}`, lineHeight: 1}}>{title}</div>
+      {sub && <div style={{display: 'inline-block', marginTop: 10, background: col, border: `5px solid ${INK}`, borderRadius: 12, padding: '4px 20px 0', ...F, fontSize: 40, color: '#fff', boxShadow: `0 5px 0 ${INK}`}}>{sub}</div>}
+    </div>
+  );
+};
+const Beats: React.FC<{Z: any; t: number}> = ({Z, t}) => {
+  const b = ((Z.beats || []) as any[]).find((x) => t >= x[0] && t < x[1]); if (!b) return null;
+  const [t0, t1, txt, col, size, bg] = b; const a = fadeW(t, t0, t1, 0.12); const k = popIn(t, t0) * (1 + (t - t0) * 0.04);
+  return (
+    <AbsoluteFill style={{zIndex: 45, background: bg ? '#000' : 'transparent', opacity: bg ? 1 : a}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: a}}>
+        <div style={{...F, fontSize: size, color: col, WebkitTextStroke: `${Math.round(size / 11)}px ${INK}`, paintOrder: 'stroke fill', textShadow: `0 ${Math.round(size / 12)}px 0 ${INK}, 0 0 50px ${col}aa`, transform: `scale(${k})`, textAlign: 'center', lineHeight: 1.05, whiteSpace: 'pre-line'}}>{txt}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+const BigCount: React.FC<{Z: any; t: number}> = ({Z, t}) => {
+  const b = ((Z.bigc || []) as any[]).find((x) => t >= x[0] && t < x[1]); if (!b) return null;
+  const [t0, t1, label, col, idx, pct] = b; const v = interpCnt(Z.cnt, t); const a = fadeW(t, t0, t1, 0.2);
+  const val = pct ? ((v[1] + v[2]) / Z.world * 100).toFixed(1) + '%' : Math.round(v[idx]).toLocaleString('en-US');
+  return (
+    <AbsoluteFill style={{zIndex: 44, opacity: a, background: 'rgba(0,0,0,0.55)'}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 330, textAlign: 'center', transform: `scale(${popIn(t, t0)})`}}>
+        <div style={{...F, fontSize: 220, color: col, WebkitTextStroke: `16px ${INK}`, paintOrder: 'stroke fill', textShadow: `0 14px 0 ${INK}, 0 0 60px ${col}`, lineHeight: 1, fontVariantNumeric: 'tabular-nums', transform: `translateX(${Math.sin(t * 50) * 3}px)`}}>{val}</div>
+        <div style={{...F, fontSize: 70, color: '#fff', WebkitTextStroke: `7px ${INK}`, paintOrder: 'stroke fill', marginTop: 10}}>{label}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+const Poll: React.FC<{Z: any; t: number}> = ({Z, t}) => {
+  const p = Z.poll; if (!p || t < p[0] || t >= p[1]) return null; const [t0, t1, title, cs] = p; const a = fadeW(t, t0, t1, 0.25);
+  return (
+    <AbsoluteFill style={{zIndex: 44, opacity: a, background: 'rgba(8,6,16,0.7)'}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 230, textAlign: 'center', ...F, fontSize: 110, color: '#ffd23f', WebkitTextStroke: `10px ${INK}`, paintOrder: 'stroke fill', textShadow: `0 9px 0 ${INK}`, transform: `scale(${popIn(t, t0)})`}}>{title}</div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 470, display: 'flex', justifyContent: 'center', gap: 60}}>
+        {(cs as string[]).map((c, i) => { const k = COUNTRIES.findIndex((x) => x.c === c); const s = popIn(t, t0 + 0.4 + i * 0.25);
+          return <div key={c} style={{transform: `scale(${s}) translateY(${Math.sin(t * 3 + i) * 6}px)`, textAlign: 'center'}}>
+            <div style={{width: 250, height: 166, borderRadius: 18, overflow: 'hidden', border: `7px solid ${INK}`, boxShadow: `0 8px 0 ${INK}`}}><FlagCanvas k={k} w={250} h={166} /></div>
+            <div style={{...F, fontSize: 46, color: '#fff', marginTop: 10, WebkitTextStroke: `5px ${INK}`, paintOrder: 'stroke fill'}}>{COUNTRIES[k].n.toUpperCase()}</div>
+          </div>; })}
+      </div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 790, textAlign: 'center', ...F, fontSize: 52, color: '#fff', opacity: cl((t - t0 - 1.4) / 0.4, 0, 1)}}>Comment your guess 👇</div>
+    </AbsoluteFill>
+  );
+};
+const Stamps: React.FC<{Z: any; t: number}> = ({Z, t}) => {
+  const s = ((Z.stamps || []) as any[]).filter((x) => t >= x[0] && t < x[0] + 1.9).slice(-1)[0]; if (!s) return null;
+  const [t0, k, txt, col] = s; const a = fadeW(t, t0, t0 + 1.9, 0.2); const sc = 1 + 0.8 * (1 - eo((t - t0) / 0.25));
+  return (
+    <div style={{position: 'absolute', left: 0, right: 0, top: 300, display: 'flex', justifyContent: 'center', opacity: a, zIndex: 42}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 18, background: col || RED, border: `6px solid ${INK}`, borderRadius: 18, padding: '8px 26px 4px 12px', boxShadow: `0 7px 0 ${INK}`, transform: `rotate(-3deg) scale(${sc})`}}>
+        <div style={{width: 96, height: 64, borderRadius: 8, overflow: 'hidden', border: `4px solid ${INK}`}}><FlagCanvas k={k} w={96} h={64} /></div>
+        <div style={{...F, fontSize: 62, color: '#fff', WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>{txt}</div>
+      </div>
+    </div>
+  );
+};
+const Stand: React.FC<{Z: any; t: number}> = ({Z, t}) => {
+  if (!Z.stand || t < Z.stand[0][0]) return null; const n = Math.round(kfl(Z.stand, t));
+  return (
+    <div style={{position: 'absolute', left: 24, top: 148, background: DARK, border: `5px solid #4fe07a`, borderRadius: 16, padding: '4px 16px 2px', boxShadow: `0 6px 0 ${INK}`, textAlign: 'center'}}>
+      <div style={{...F, fontSize: 17, letterSpacing: 1, color: '#4fe07a'}}>NATIONS LEFT</div>
+      <div style={{...F, fontSize: 46, lineHeight: 1, color: '#fff'}}>{n}</div>
+    </div>
+  );
+};
+const Grade: React.FC<{Z: any; t: number}> = ({Z, t}) => (<>{((Z.grade || []) as any[]).map((g, i) => { if (t < g[0] || t > g[1]) return null; return <AbsoluteFill key={i} style={{background: g[2], opacity: g[3] * fadeW(t, g[0], g[1], 1.2), mixBlendMode: g[4] || 'multiply'}} />; })}</>);
+
 export const ZombHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => {
-  const Z = D.zomb; if (!Z) return null; const intro = t < 6.6;
+  const Z = D.zomb; if (!Z) return null; const intro = t < (Z.hudT ?? 6.6);
+  const in3d = ((Z.s3d || []) as any[]).some((x) => t >= x[0] && t < x[1]);
+  const full = ((Z.bigc || []) as any[]).some((x) => t >= x[0] && t < x[1]) || (Z.poll && t >= Z.poll[0] && t < Z.poll[1]);
   const mut = (Z.hl as any[]).find((h) => t >= h[0] && t < h[1]);
   return (
     <AbsoluteFill style={{zIndex: 40, pointerEvents: 'none'}}>
+      <Grade Z={Z} t={t} />
       {mut && <AbsoluteFill style={{background: '#ff0000', opacity: 0.18 * (0.5 + 0.5 * Math.sin(t * 14)) * (1 - (t - mut[0]) / (mut[1] - mut[0])), mixBlendMode: 'multiply'}} />}
       <MapFX Z={Z} t={t} cam={cam} />
-      {!intro && !(Z.q && t >= Z.q[0]) && <><Counters Z={Z} t={t} /><Day Z={Z} t={t} /><Cure Z={Z} t={t} /><News Z={Z} t={t} /></>}
+      <S3D Z={Z} t={t} />
+      {!intro && !in3d && !full && !(Z.q && t >= Z.q[0]) && <><Counters Z={Z} t={t} /><Day Z={Z} t={t} /><Stand Z={Z} t={t} /><Cure Z={Z} t={t} /><News Z={Z} t={t} /><Stamps Z={Z} t={t} /></>}
+      <Caps Z={Z} t={t} />
+      <BigCount Z={Z} t={t} />
+      <Poll Z={Z} t={t} />
       <Cards Z={Z} t={t} />
+      <Beats Z={Z} t={t} />
       <EndQ Z={Z} t={t} />
     </AbsoluteFill>
   );

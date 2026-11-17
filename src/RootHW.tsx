@@ -62,6 +62,7 @@ import {Logo, LOGO_IDS} from './Logos';
 import {Banner, BANNER_IDS} from './Banners';
 import {ShortHW, SHW_IDS, shwFrames} from './ShortHW';
 import {ThumbHW} from './ThumbHW';
+import {Z3DTest} from './Z3DTest';
 export const RootHW: React.FC = () => (
   <>
     <Composition id="HWTest" component={HWTest} durationInFrames={1800} fps={30} width={1920} height={1080} />
@@ -116,6 +117,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-dbram" component={Indo2} durationInFrames={indoFrames('dbram')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'dbram'}} />
     <Composition id="V-mc" component={Indo2} durationInFrames={indoFrames('mc')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'mc'}} />
     <Composition id="V-zomb" component={Indo2} durationInFrames={indoFrames('zomb')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'zomb'}} />
+    <Composition id="Z3D-test" component={Z3DTest} durationInFrames={2400} fps={30} width={1920} height={1080} />
     <Composition id="V-rbr" component={Indo2} durationInFrames={indoFrames('rbr')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'rbr'}} />
     <Composition id="V-mc60" component={Indo2} durationInFrames={indoFrames('mc') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'mc'}} />
     <Composition id="V-da" component={Indo2} durationInFrames={indoFrames('da')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'da'}} />
