@@ -32,10 +32,10 @@ const hatchOf = (ctx: CanvasRenderingContext2D, a: number, col?: string) => {
   if (!pt && (key === 'ZOMBIE' || key === 'MUTANT')) {
     const c = document.createElement('canvas'); c.width = 64; c.height = 64; const g = c.getContext('2d')!;
     const mut = key === 'MUTANT';
-    g.fillStyle = mut ? '#3d7a1c' : '#6cc63a'; g.fillRect(0, 0, 64, 64);
+    g.fillStyle = mut ? '#6a1e14' : '#6cc63a'; g.fillRect(0, 0, 64, 64);
     let sd = mut ? 7 : 3; const rr = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
-    for (let i = 0; i < 26; i++) { g.fillStyle = mut ? `rgba(20,40,8,${0.25 + rr() * 0.35})` : `rgba(40,90,20,${0.2 + rr() * 0.3})`; g.beginPath(); g.arc(rr() * 64, rr() * 64, 2 + rr() * 7, 0, Math.PI * 2); g.fill(); }
-    for (let i = 0; i < 10; i++) { g.fillStyle = mut ? `rgba(200,30,30,${0.35 + rr() * 0.3})` : `rgba(200,255,120,${0.35 + rr() * 0.3})`; g.beginPath(); g.arc(rr() * 64, rr() * 64, 1 + rr() * 2.2, 0, Math.PI * 2); g.fill(); }
+    for (let i = 0; i < 26; i++) { g.fillStyle = mut ? `rgba(30,6,4,${0.25 + rr() * 0.35})` : `rgba(40,90,20,${0.2 + rr() * 0.3})`; g.beginPath(); g.arc(rr() * 64, rr() * 64, 2 + rr() * 7, 0, Math.PI * 2); g.fill(); }
+    for (let i = 0; i < 10; i++) { g.fillStyle = mut ? `rgba(255,70,40,${0.45 + rr() * 0.3})` : `rgba(200,255,120,${0.35 + rr() * 0.3})`; g.beginPath(); g.arc(rr() * 64, rr() * 64, 1 + rr() * 2.2, 0, Math.PI * 2); g.fill(); }
     pt = ctx.createPattern(c, 'repeat')!; hatch.set(key, pt);
   }
   if (!pt) {
@@ -90,7 +90,7 @@ export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, 
         }
         const ZZ = col === 'ZOMBIE' || col === 'MUTANT';
         ctx.fillStyle = EC; ctx.fill(ge);
-        ctx.fillStyle = ZZ ? (col === 'MUTANT' ? '#2f6a14' : '#5fb832') : (col || MAINCOL[a]); ctx.globalAlpha = ga * (ZZ ? 0.55 : 0.35); ctx.fill(gf); ctx.globalAlpha = ga * (ZZ ? 0.92 : 1);
+        ctx.fillStyle = ZZ ? (col === 'MUTANT' ? '#2a0806' : '#16300a') : (col || MAINCOL[a]); ctx.globalAlpha = ga * (ZZ ? 0.45 : 0.35); ctx.fill(gf); ctx.globalAlpha = ga * (ZZ ? 0.6 : 1);
         ctx.fillStyle = pt; ctx.fill(gf); ctx.globalAlpha = ga;
       }
     } else if (gr && t > gr.t0) {

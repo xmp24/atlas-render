@@ -28,7 +28,8 @@ import J_da from './hw/da.json';
 import J_mc from './hw/mc.json';
 import J_rbr from './hw/rbr.json';
 import J_zomb from './hw/zomb.json';
-import {ZombHud, ZFace, zfrac} from './ZombHud';
+import {ZombHud, ZFace, zfrac, ZombMapFX} from './ZombHud';
+import {ZombMap3D, tiltCss, tiltAt} from './ZombMap3D';
 import {RbrHud, rbrCool, Shades} from './RbrHud';
 import J_dbram from './hw/dbram.json';
 import J_dbrin from './hw/dbrin.json';
@@ -145,9 +146,9 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     if (dn < -os.a[k] * 0.02) mood = 'scared'; else if (dn > os.a[k] * 0.02) mood = 'angry';
     const fs = Math.max(15, Math.min(34, r * 0.6));
     if (X.D.zomb) {
-      const zf = zfrac(X.D, k, t); const mutT = 196; const rz = Math.min(92, Math.max(30, r * 1.7)); const LH = COUNTRIES[k].c === 'IN' || COUNTRIES[k].c === 'ID';
+      const zf = zfrac(X.D, k, t); const ZZ = X.D.zomb; const mutT = ZZ.mutT ?? 196; const cT = ZZ.cureT1 ?? 410; const rz = Math.min(92, Math.max(30, r * 1.7)); const LH = COUNTRIES[k].c === 'IN' || COUNTRIES[k].c === 'ID';
       if (zf > 0.5 && !LH) out.push(<g key={k}><ZFace x={sx} y={sy - rz * 0.2} r={rz} t={t} seed={k} mut={t >= mutT + 2} /></g>);
-      else out.push(<g key={k}><Face x={sx} y={sy - rz * 0.2} r={rz} mood={t > 410 && zf < 0.05 ? 'happy' : zf > 0.02 ? 'scared' : t > 200 && t < 400 ? 'scared' : 'calm'} t={t} seed={k * 7 + 3} /></g>);
+      else out.push(<g key={k}><Face x={sx} y={sy - rz * 0.2} r={rz} mood={t > cT && zf < 0.05 ? 'happy' : zf > 0.02 ? 'scared' : t > mutT && t < cT ? 'scared' : 'calm'} t={t} seed={k * 7 + 3} /></g>);
       continue;
     }
     if (X.D.rbr) {
@@ -3015,8 +3016,11 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   return (
     <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
       {showMap && (
-        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={inGlobe ? X.camF(g.t1 + 0.03) : camL} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t), fic: X.D.fic || false} as any} />
+        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `${D.zomb ? tiltCss(D.zomb, t) : ''}translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
+          {(() => { const TL = D.zomb ? tiltAt(D.zomb, t) : {ax: 0, az: 0}; const tilted = Math.abs(TL.ax) > 0.05 || Math.abs(TL.az) > 0.05; const ox = tilted ? Math.round(VW * (0.3 + Math.abs(TL.az) / 60)) : 0, ot = tilted ? Math.round(VH * (0.25 + TL.ax / 45)) : 0, ob = tilted ? Math.round(VH * 0.2) : 0; const cm = inGlobe ? X.camF(g.t1 + 0.03) : camL; const cm2 = tilted ? {...cm, cy: cm.cy - (ot - ob) / 2 / cm.s} : cm; return <div style={{position: 'absolute', left: -ox, top: -ot, width: VW + 2 * ox, height: VH + ot + ob}}>
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cm2} W={VW + 2 * ox} H={VH + ot + ob} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t), fic: X.D.fic || false} as any} />
+          </div>; })()}
+          {D.zomb && <ZombMapFX D={D} t={t} cam={camL} />}
           <Arrows t={t} cam={camL} />
           <CwFX t={t} cam={camL} />
           <DaFX t={t} cam={camL} />
@@ -3049,6 +3053,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
           <Globe W={1920} H={1080} lon={lon} lat={lat} radius={grad} cy={540} overlay={HERO ? 0.22 : lerp(t, g.t0, g.t0 + 2.5, 0, 0.5)} highlight={HERO ? (c) => (ownSet && ownSet.has(CODEK[c]) ? '#2f5fe0' : hlSet.has(c) ? '#ff3b30' : null) : (c) => (c === ((g as any).hl1 ?? 'ID') ? (pulse > 0.5 ? '#ff3b30' : '#ffd23f') : null)} stars={HERO ? 1 : GP ? lerp(t, g.t1 - 1.2, g.t1, 1, 0.3) : lerp(t, g.t1 - 1.6, g.t1, 1, 0)} />
         </AbsoluteFill>
       )}
+      {D.zomb && showMap && <ZombMap3D D={D} t={t} cam={camL} />}
       <Grade t={t} />
       {!CO && <>
       <Spot t={t} cam={camL} />
