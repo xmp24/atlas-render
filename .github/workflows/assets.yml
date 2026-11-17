@@ -1,0 +1,28 @@
+name: assets
+run-name: assets ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag: {required: true}
+permissions:
+  contents: write
+jobs:
+  dl:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          mkdir -p out/kits out/hdri
+          for k in car-kit city-kit-suburban city-kit-roads city-kit-commercial nature-kit toy-car-kit city-kit-industrial; do
+            u=$(curl -sL -A "Mozilla/5.0" https://kenney.nl/assets/$k | grep -o "https://kenney.nl/media/pages/assets/$k/[^\"']*\.zip" | head -1)
+            echo "$k -> $u"
+            [ -n "$u" ] && curl -sL -A "Mozilla/5.0" -o /tmp/$k.zip "$u" && mkdir -p /tmp/k/$k && unzip -q -o /tmp/$k.zip -d /tmp/k/$k || echo "FALLO $k"
+            # quedarse solo con GLB y texturas
+            if [ -d /tmp/k/$k ]; then mkdir -p out/kits/$k; find /tmp/k/$k -iname "*.glb" -exec cp {} out/kits/$k/ \; ; find /tmp/k/$k -ipath "*glb*" -iname "*.png" -exec cp {} out/kits/$k/ \; ; cp /tmp/k/$k/License.txt out/kits/$k/ 2>/dev/null || true; ls out/kits/$k | wc -l; fi
+          done
+          for h in kloofendal_48d_partly_cloudy_puresky qwantani_puresky; do
+            curl -sfL -o out/hdri/$h.hdr "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/${h}_1k.hdr" && echo "OK $h" || echo "FALLO $h"
+          done
+          du -sh out/*
+      - run: |
+          cd out && git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm assets
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/assets-${{ inputs.tag }}
