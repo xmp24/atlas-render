@@ -212,10 +212,11 @@ export const VsHud: React.FC<{D: any; t: number; cam: any; hide?: boolean}> = ({
             <Bar lab="MORALE" v={mor} c={mc} c2="#ffffff18" txt={mor > 0.75 ? 'HIGH' : mor > 0.5 ? 'STEADY' : mor > 0.25 ? 'SHAKEN' : 'BROKEN'} />
             <Bar lab="AIR CONTROL" v={air} c="#4aa3ff" c2="#c62828" txt={air > 0.6 ? 'OURS' : air > 0.4 ? 'CONTESTED' : 'ENEMY'} />
           </div>
+          {(() => { const eq = ((BT.eq || []) as any[]).find((e) => t >= e[0] && t < e[1]); if (!eq) return null; return <div style={{marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 5}}>{(eq[2] as string[]).map((g, j) => <span key={j} style={{...font2, fontSize: 14, color: '#fff', background: 'rgba(8,12,22,0.82)', border: '2px solid #5dff8a66', borderRadius: 7, padding: '0 7px'}}>{g}</span>)}</div>; })()}
           {ph && ph[1] && <div style={{marginTop: 8, display: 'flex'}}><div style={{...font, fontSize: 20, color: INK, background: '#ffd23f', border: `3px solid ${INK}`, borderRadius: 10, padding: '0 10px', transform: `scale(${t - ph[0] < 0.4 ? 1 + 0.2 * (1 - (t - ph[0]) / 0.4) : 1})`, transformOrigin: 'left center'}}>{ph[1]} · <span style={{...font2, fontSize: 18}}>{ph[2]}</span></div></div>}
           {fr && fr[1] && fr[1].length > 1 && <div style={{marginTop: 8, background: 'rgba(8,12,22,0.78)', border: '2px solid #ffffff33', borderRadius: 12, padding: '4px 12px 8px'}}>
             <div style={{...font2, fontSize: 15, color: '#cfd8e6', letterSpacing: 2}}>TROOPS PER FRONT</div>
-            {(fr[1] as any[]).map(([c, v]: [string, number], j: number) => <div key={j} style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 4}}>
+            {(fr[1] as any[]).slice(0, 3).map(([c, v]: [string, number], j: number) => <div key={j} style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 4}}>
               <Img src={flag(c)} style={{width: 27, height: 18, borderRadius: 3, border: `1.5px solid ${INK}`}} />
               <div style={{flex: 1, height: 10, background: '#ffffff14', borderRadius: 5, overflow: 'hidden'}}><div style={{width: `${v * 100}%`, height: '100%', background: '#5dff8a'}} /></div>
               <span style={{...font, fontSize: 16, color: '#fff', width: 44, textAlign: 'right'}}>{Math.round(v * 100)}%</span></div>)}

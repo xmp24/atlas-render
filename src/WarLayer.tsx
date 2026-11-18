@@ -122,8 +122,47 @@ const frontFX = (ctx: CanvasRenderingContext2D, P: number[], N: number, n: numbe
 };
 // se llama dentro del contexto escalado x4 (coordenadas 1920)
 const occAny = (occ: any[][], k: number, a: number, t0: number) => occ.find((o) => o[0] === k && o[1] === a && o[2] === t0);
+// modo "THE WORLD": todas las ocupaciones de un mismo país se pintan como UNA sola mancha de un único color (sin solapes ni manchas más oscuras)
+const drawWorldOcc = (ctx: CanvasRenderingContext2D, war: any, t: number, s: number, vis: (b: number[]) => boolean, PIECES: any[]) => {
+  const WC: string = war.wc, WE: string = war.wce || '#2a0b4a';
+  const byK = new Map<number, any[]>();
+  for (const oe of war.occ as any[]) { const gr = oe[6]; if (!gr || !gr.fl || t < oe[2] || t > oe[3]) continue; if (!byK.has(oe[0])) byK.set(oe[0], []); byK.get(oe[0])!.push(oe); }
+  for (const [k, L] of byK) {
+    const clip = new Path2D(); let any = false;
+    for (const p of PIECES) if (p.k === k && p.path && vis(p.bbox)) { clip.addPath(p.path); any = true; }
+    if (!any) continue;
+    const ge = new Path2D(), gf = new Path2D(), gb = new Path2D(); let ga = 1, nn = 0;
+    for (const oe of L) {
+      const gr = oe[6]; ga = Math.min(ga, Math.max(0, Math.min(1, (oe[3] - t) / 0.5)));
+      const P = gr.fl as number[]; const N = P.length / 2; const f = Math.max(0, Math.min(1, kf(gr.fk, t))); const n = Math.floor(f * N);
+      const rr = gr.r as number; const band = Math.max(8, Math.round(N * 0.02));
+      for (let i = 0; i < n; i++) {
+        const x = P[i * 2], y = P[i * 2 + 1];
+        const g = i > n - band ? 0.6 + 0.4 * ((n - i) / band) : 1; const R = rr * g;
+        ge.moveTo(x + R + 2.6 / s, y); ge.arc(x, y, R + 2.6 / s, 0, Math.PI * 2);
+        gf.moveTo(x + R, y); gf.arc(x, y, R, 0, Math.PI * 2);
+        if (f < 0.999 && i > n - band * 3) { gb.moveTo(x + R, y); gb.arc(x, y, R, 0, Math.PI * 2); }
+      }
+      nn += n;
+    }
+    if (!nn) continue;
+    const dn = ((war.done || []) as number[][]).find((d) => d[0] === k && t >= d[1]);
+    const solid = dn ? Math.min(1, (t - dn[1]) / 0.8) : 0;
+    ctx.save(); ctx.globalAlpha = ga; ctx.clip(clip); ctx.scale(1 / W4, 1 / W4);
+    ctx.fillStyle = WE; ctx.fill(ge);
+    ctx.fillStyle = WC; ctx.globalAlpha = ga * (0.42 + 0.4 * solid); ctx.fill(gf);
+    const pt = hatchOf(ctx, -1, WC); pt.setTransform(new DOMMatrix().scale(1 / s, 1 / s));
+    ctx.globalAlpha = ga * (1 - 0.6 * solid); ctx.fillStyle = pt; ctx.fill(gf);
+    // banda del frente: un poco más clara y estable (sin parpadeos)
+    ctx.globalAlpha = ga * 0.22; ctx.fillStyle = '#ffffff'; ctx.fill(gb);
+    ctx.restore();
+  }
+};
 export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, s: number, vis: (b: number[]) => boolean, PIECES: any[]) => {
+  const WCM = !!(war as any).wc;
+  if (WCM) drawWorldOcc(ctx, war, t, s, vis, PIECES);
   for (const oe of war.occ) {
+    if (WCM && (oe as any)[6] && (oe as any)[6].fl) continue;
     const [k, a, t0, t1, ids, col] = oe as any; const EC = (oe as any)[7] || DARKCOL[a] || '#400';
     if (t < t0 || t > t1) continue;
     const clip = new Path2D(); let any = false;
@@ -154,7 +193,6 @@ export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, 
         ctx.fillStyle = EC; ctx.fill(ge);
         ctx.fillStyle = ZZ ? (col === 'MUTANT' ? '#2a0806' : '#16300a') : (col || MAINCOL[a]); ctx.globalAlpha = ga * (ZZ ? 0.45 : 0.35); ctx.fill(gf); ctx.globalAlpha = ga * (ZZ ? 0.6 : 1);
         ctx.fillStyle = pt; ctx.fill(gf); ctx.globalAlpha = ga;
-        if ((war as any).frontfx && f < 0.995 && n > 6) frontFX(ctx, P, N, n, rr, gr.fk, t, s, k, a, col || MAINCOL[a], ga);
       }
     } else if (gr && t > gr.t0) {
       const u0 = Math.min(1, (t - gr.t0) / (gr.t1 - gr.t0)); const u = u0 < 0.5 ? 2 * u0 * u0 : 1 - Math.pow(-2 * u0 + 2, 2) / 2;
@@ -267,7 +305,10 @@ export const boom = (ctx: CanvasRenderingContext2D, x: number, y: number, R: num
 export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number, s: number, x0: number, x1: number, y0: number, y1: number) => {
   if (s < 0.3) return;
   const za = Math.min(1, (s - 0.3) / 0.2);
-  const sz = (40 * Math.min(1.2, Math.max(0.7, Math.sqrt(s / 1.4)))) / s;
+  const VSU = !!(war as any).usz;
+  // modo vs: tamaño estable en pantalla (≈26 px) escalado por país; si no, el de siempre
+  const sz = VSU ? (24 * Math.min(1.12, Math.max(0.88, Math.sqrt(s / 2.5))) * kf((war as any).usz, t)) / s : (40 * Math.min(1.2, Math.max(0.7, Math.sqrt(s / 1.4)))) / s;
+  const pulse = (seed: number, per: number) => { const ph = ((t + hsh(seed) * per) % per) / per; return ph; };
   const inV = (x: number, y: number, m: number) => x > x0 - m && x < x1 + m && y > y0 - m && y < y1 + m;
   const ex = (war as any).ext;
   if (ex) {
@@ -315,31 +356,49 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       const order = sp ? Math.floor(hsh(di * 7 + i * 3) * 1000) % n : n - 1;
       const ti = sp ? tDie - sp + (sp * (order + 1)) / n : tDie;
       const dead = !surv && t > ti; const fall = dead ? Math.min(1, (t - ti) / 0.25) : 0;
-      const al = surv ? Math.max(0, Math.min(1, (tDie + 0.5 - t) / 0.5)) : dead ? Math.max(0, 1 - (t - ti - 0.35) / 0.5) : 1;
+      const al = surv ? Math.max(0, Math.min(1, (tDie + 0.5 - t) / 0.5)) : dead ? (VSU ? Math.max(0, 1 - (t - ti - 0.55) / 0.35) : Math.max(0, 1 - (t - ti - 0.35) / 0.5)) : 1;
       if (al <= 0) continue;
       ctx.globalAlpha = base * al;
       const shoot = !dead && (surv ? t > d0 + 0.6 && t < tDie : t > tDie - Math.max(1.6, sp));
-      const ox = ((i % 3) - 1) * sz * 0.8 + (hsh(di * 13 + i) - 0.5) * sz * 0.4, oy = Math.floor(i / 3) * sz * 0.7 - sz * 0.35;
+      const ox = VSU ? ((i % 3) - 1) * sz * 0.72 + (Math.floor(i / 3) % 2) * sz * 0.36 : ((i % 3) - 1) * sz * 0.8 + (hsh(di * 13 + i) - 0.5) * sz * 0.4, oy = VSU ? Math.floor(i / 3) * sz * 0.62 - sz * 0.3 : Math.floor(i / 3) * sz * 0.7 - sz * 0.35;
       const dir = hsh(di + i * 7) < 0.5 ? -1 : 1;
       soldier(ctx, x + ox, y + oy - sz * 0.9, sz, (dcol as any) || MAINCOL[k], DARKCOL[k] || '#333', 0, dir, shoot ? 1 : 2, fall);
-      if (dead && t - ti < 0.3) { ctx.fillStyle = `rgba(255,80,60,${0.8 * (1 - (t - ti) / 0.3)})`; ctx.beginPath(); ctx.arc(x + ox, y + oy - sz * 1.1, sz * 0.35, 0, Math.PI * 2); ctx.fill(); }
-      if (shoot && Math.floor(t * 12 + i * 3) % 5 === 0) { ctx.fillStyle = '#ffe36b'; ctx.beginPath(); ctx.arc(x + ox + sz * 0.6 * dir, y + oy - sz * 0.95, sz * 0.14, 0, Math.PI * 2); ctx.fill(); }
+      if (!VSU && dead && t - ti < 0.3) { ctx.fillStyle = `rgba(255,80,60,${0.8 * (1 - (t - ti) / 0.3)})`; ctx.beginPath(); ctx.arc(x + ox, y + oy - sz * 1.1, sz * 0.35, 0, Math.PI * 2); ctx.fill(); }
+      if (VSU && dead && t - ti < 0.45) { const u = (t - ti) / 0.45; ctx.fillStyle = `rgba(200,190,170,${0.5 * (1 - u)})`; ctx.beginPath(); ctx.ellipse(x + ox, y + oy - sz * 0.35, sz * (0.3 + 0.35 * u), sz * (0.14 + 0.12 * u), 0, 0, Math.PI * 2); ctx.fill(); }
+      if (VSU) { if (shoot) { const ph = pulse(di * 17 + i * 5, 0.85); if (ph < 0.09) { const mx = x + ox + sz * 0.6 * dir, my = y + oy - sz * 0.95; ctx.fillStyle = '#fff1a8'; ctx.beginPath(); ctx.arc(mx, my, sz * 0.1, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = 'rgba(255,230,140,0.9)'; ctx.lineWidth = sz * 0.06; ctx.beginPath(); ctx.moveTo(mx, my); ctx.lineTo(mx + dir * sz * (0.6 + ph * 9), my); ctx.stroke(); } } }
+      else if (shoot && Math.floor(t * 12 + i * 3) % 5 === 0) { ctx.fillStyle = '#ffe36b'; ctx.beginPath(); ctx.arc(x + ox + sz * 0.6 * dir, y + oy - sz * 0.95, sz * 0.14, 0, Math.PI * 2); ctx.fill(); }
     }
     ctx.globalAlpha = base;
     if (t < tDie - 0.1) banner(ctx, x + sz * 1.2, y - sz * 0.6, sz, k, t + di, (dfe as any)[9]);
     ctx.globalAlpha = 1;
   });
   // pelotones
-  war.sq.forEach((q, qi) => {
+  const OFF = new Map<number, number[]>(); const ORD: number[] = [];
+  {
+    const G: number[][] = [];
+    war.sq.forEach((q, qi) => { if (t < q.t0 || t > q.t1 + 0.5) return; const [hx, hy] = at(q, kf(q.pk, t)); G.push([qi, hx, hy]); });
+    if (VSU && G.length > 1) {
+      const ox = G.map(() => [0, 0]); const R0 = sz * 2.3; const CAP = sz * 1.4;
+      for (let it = 0; it < 3; it++) for (let a = 0; a < G.length; a++) for (let b = a + 1; b < G.length; b++) {
+        const dx = G[b][1] + ox[b][0] - G[a][1] - ox[a][0], dy = G[b][2] + ox[b][1] - G[a][2] - ox[a][1]; const dd = Math.hypot(dx, dy);
+        if (dd < R0) { const ux = dd > 1e-6 ? dx / dd : 1, uy = dd > 1e-6 ? dy / dd : 0; const p = ((R0 - dd) / 2) * 0.8; ox[a][0] -= ux * p; ox[a][1] -= uy * p; ox[b][0] += ux * p; ox[b][1] += uy * p; }
+      }
+      G.forEach((g, i) => { const l = Math.hypot(ox[i][0], ox[i][1]); const f = l > CAP ? CAP / l : 1; OFF.set(g[0], [ox[i][0] * f, ox[i][1] * f]); });
+    }
+    G.sort((a, b) => a[2] - b[2]).forEach((g) => ORD.push(g[0]));
+  }
+  ORD.forEach((qi) => { const q = war.sq[qi];
     if (t < q.t0 || t > q.t1 + 0.5) return;
     const d = kf(q.pk, t), d2 = kf(q.pk, t + 0.15);
-    const [hx, hy, dx, dy] = at(q, d);
+    const [hx0, hy0, dx, dy] = at(q, d); const OF = OFF.get(qi) || [0, 0]; const hx = hx0 + OF[0], hy = hy0 + OF[1];
     if (!inV(hx, hy, 120 / s)) return;
     const moving = Math.abs(d2 - d) > 0.05;
     const fight = !!q.fw && q.fw.some(([a, b]) => t >= a && t <= b);
     ctx.globalAlpha = za * Math.min(1, (t - q.t0) / 0.3) * Math.max(0, Math.min(1, (q.t1 + 0.5 - t) / 0.5));
     const back = d2 < d - 0.05; // retirada
-    const face = (back ? -dx : dx) >= 0 ? 1 : -1;
+    const faceRaw = (back ? -dx : dx) >= 0 ? 1 : -1;
+    // giro suave: la dirección es la media del movimiento en ±0.25 s (pasa por 0 al girar, sin volteo instantáneo)
+    const face = VSU ? (() => { const [ax] = at(q, kf(q.pk, t - 0.25)), [bx] = at(q, kf(q.pk, t + 0.25)); const v = (bx - ax) / Math.max(1e-6, sz * 0.4); return Math.abs(v) < 0.05 ? faceRaw : Math.max(-1, Math.min(1, v * 3)); })() : faceRaw;
     const vx = -dy, vy = dx;
     if ((q as any).kind === 'tank') {
       const ts = sz * 0.8;
@@ -347,10 +406,10 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
         const row = Math.floor(i / 2), col = q.n === 1 ? 0 : (i % 2) - 0.5;
         // cada fila sigue el trazado real de la ruta (así no se sale al mar en las curvas de la costa)
         const [rx, ry, rdx, rdy] = at(q, Math.max(0, d - row * ts * 1.75));
-        const px = rx + -rdy * col * ts * 1.1, py = ry + rdx * col * ts * 1.1;
+        const px = rx + -rdy * col * ts * 1.1 + OF[0], py = ry + rdx * col * ts * 1.1 + OF[1];
         // polvo detrás
         if (moving) { ctx.fillStyle = `rgba(190,170,130,${0.35})`; ctx.beginPath(); ctx.arc(px - dx * ts * 1.2, py - dy * ts * 1.2 + ts * 0.3, ts * (0.5 + 0.2 * Math.sin(t * 9 + i)), 0, Math.PI * 2); ctx.fill(); }
-        drawTank(ctx, px, py, ts, (q as any).col || MAINCOL[q.a], face, fight && Math.floor(t * 4 + i * 2) % 3 === 0);
+        { const fire = VSU ? fight && pulse(qi * 13 + i * 3, 1.3) < 0.08 : fight && Math.floor(t * 4 + i * 2) % 3 === 0; const rc = VSU && fire ? -Math.sign(face || 1) * ts * 0.12 : 0; drawTank(ctx, px + rc, py, ts, (q as any).col || MAINCOL[q.a], VSU ? Math.sign(face || 1) : face, fire); }
       }
       banner(ctx, hx + sz * 0.3, hy - sz * 1.2, sz, q.a, t + qi, (q as any).bn);
       ctx.globalAlpha = 1;
@@ -370,18 +429,23 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
     }
     for (let i = q.n - 1; i >= 0; i--) {
       const row = Math.floor(i / 3), col = (i % 3) - 1;
-      const jx = (hsh(qi * 31 + i) - 0.5) * sz * 0.2, jy = (hsh(qi * 17 + i) - 0.5) * sz * 0.2;
-      const [rx, ry, rdx, rdy] = at(q, Math.max(0, d - row * sz * 0.85));
-      const px = rx + -rdy * col * sz * 0.45 + jx, py = ry + rdx * col * sz * 0.45 + jy;
-      soldier(ctx, px, py - sz * 0.3, sz, (q as any).col || MAINCOL[q.a], DARKCOL[q.a] || '#333', t * 13 + i * 1.9, face, moving && !fight ? 0 : 1);
-      if (fight && Math.floor(t * 14 + i * 5) % 4 === 0) {
+      const jx = VSU ? 0 : (hsh(qi * 31 + i) - 0.5) * sz * 0.2, jy = VSU ? 0 : (hsh(qi * 17 + i) - 0.5) * sz * 0.2;
+      const sp = VSU ? (fight ? 0.62 : 0.5) : 0.45; // en combate se abren en línea; marchando, columna compacta
+      const dd = Math.max(0, d - row * sz * (VSU ? 0.95 : 0.85));
+      const [rx, ry, rdx, rdy] = at(q, dd);
+      const px = rx + -rdy * col * sz * sp + jx + OF[0], py = ry + rdx * col * sz * sp + jy + OF[1];
+      const phase = VSU ? dd / (sz * 0.32) + i * 1.9 : t * 13 + i * 1.9; // el paso depende de la distancia recorrida: no patinan
+      soldier(ctx, px, py - sz * 0.3, sz, (q as any).col || MAINCOL[q.a], DARKCOL[q.a] || '#333', phase, face, moving && !fight ? 0 : 1);
+      if (VSU) {
+        if (fight) { const ph = pulse(qi * 31 + i * 7, 0.7); if (ph < 0.09) { const mx = px + Math.sign(face || 1) * sz * 0.62, my = py - sz * 0.32; ctx.fillStyle = '#fff1a8'; ctx.beginPath(); ctx.arc(mx, my, sz * 0.1, 0, Math.PI * 2); ctx.fill(); if (q.tx !== undefined) { const u = ph / 0.09; ctx.strokeStyle = 'rgba(255,230,140,0.9)'; ctx.lineWidth = sz * 0.06; const ex2 = mx + (q.tx - mx) * Math.min(1, 0.25 + u * 0.6), ey2 = my + (q.ty! - my) * Math.min(1, 0.25 + u * 0.6); ctx.beginPath(); ctx.moveTo(mx + (ex2 - mx) * 0.6, my + (ey2 - my) * 0.6); ctx.lineTo(ex2, ey2); ctx.stroke(); } } }
+      } else if (fight && Math.floor(t * 14 + i * 5) % 4 === 0) {
         ctx.fillStyle = '#ffe36b'; ctx.beginPath(); ctx.arc(px + face * sz * 0.62, py - sz * 0.32, sz * 0.15, 0, Math.PI * 2); ctx.fill();
       }
     }
     if ((q as any).tank && (q as any).kind !== 'tank') drawTank(ctx, hx + dx * sz * 1.3, hy + dy * sz * 1.3 + sz * 0.15, sz, (q as any).col || MAINCOL[q.a], face, fight && Math.floor(t * 3 + qi) % 3 === 0);
     banner(ctx, hx - dx * sz * 0.3 + sz * 0.2, hy - sz * 0.75, sz, q.a, t + qi, (q as any).bn);
     // trazadoras hacia el objetivo
-    if (fight && q.tx !== undefined) {
+    if (!VSU && fight && q.tx !== undefined) {
       ctx.strokeStyle = 'rgba(255,230,120,0.85)'; ctx.lineWidth = 2.2 / s; ctx.lineCap = 'round';
       for (let j = 0; j < 3; j++) {
         const u = ((t * 2.6 + j * 0.37 + hsh(qi + j)) % 1);
@@ -423,7 +487,10 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       ctx.beginPath(); ctx.arc(x, y, (size * 4 * q) / s + 4 / s, 0, Math.PI * 2); ctx.stroke();
       continue;
     }
-    boom(ctx, x, y, (type === 1 ? size * 0.55 : size) / Math.max(0.6, s) , d, t0 * 7.13);
+    const fzE = VSU ? Math.min(1, Math.max(0.6, kf((war as any).usz, t) * 1.7)) : 1; const RR = ((type === 1 ? size * 0.55 : size) / Math.max(0.6, s)) * fzE;
+    if (VSU && d < 0.3) { const u = d / 0.3; ctx.strokeStyle = `rgba(255,245,220,${0.6 * (1 - u)})`; ctx.lineWidth = 2.2 / s; ctx.beginPath(); ctx.ellipse(x, y, RR * (0.6 + 1.6 * u), RR * (0.4 + 1.0 * u), 0, 0, Math.PI * 2); ctx.stroke(); }
+    if (VSU) { const u = Math.min(1, d / 1.2); ctx.fillStyle = `rgba(25,18,12,${0.35 * (1 - u)})`; ctx.beginPath(); ctx.ellipse(x, y + RR * 0.15, RR * 0.9, RR * 0.5, 0, 0, Math.PI * 2); ctx.fill(); }
+    boom(ctx, x, y, RR, d, t0 * 7.13);
   }
   if (ex && ex.bombs) {
     // bombas que caen desde los aviones
@@ -516,9 +583,11 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       const [a0, b0, xa, ya, xb, yb, k] = jt; const a = a0 + fm * 0.12, b = b0 + fm * 0.12;
       if (t < a || t > b) continue;
       const u = (t - a) / (b - a); const ang0 = Math.atan2(yb - ya, xb - xa); const off = fm === 0 ? 0 : (fm % 2 ? 1 : -1) * Math.ceil(fm / 2) * 38 / Math.max(0.5, s);
-      const x = xa + (xb - xa) * u + Math.cos(ang0 + Math.PI / 2) * off - Math.cos(ang0) * Math.abs(off) * 0.8, y = ya + (yb - ya) * u + Math.sin(ang0 + Math.PI / 2) * off - Math.sin(ang0) * Math.abs(off) * 0.8;
+      // modo vs: curva suave (arco lateral) en lugar de línea recta
+      const arcO = VSU ? Math.sin(u * Math.PI) * Math.hypot(xb - xa, yb - ya) * 0.12 * (hsh(a0 * 10) < 0.5 ? 1 : -1) : 0;
+      const x = xa + (xb - xa) * u + Math.cos(ang0 + Math.PI / 2) * (off + arcO) - Math.cos(ang0) * Math.abs(off) * 0.8, y = ya + (yb - ya) * u + Math.sin(ang0 + Math.PI / 2) * (off + arcO) - Math.sin(ang0) * Math.abs(off) * 0.8;
       if (!inV(x, y, 300 / s)) continue;
-      const ang = Math.atan2(yb - ya, xb - xa); const L = 26 / Math.max(0.5, s);
+      const ang = VSU ? ang0 + Math.atan(Math.cos(u * Math.PI) * Math.PI * 0.12 * (hsh(a0 * 10) < 0.5 ? 1 : -1)) : Math.atan2(yb - ya, xb - xa); const L = (VSU ? 26 * Math.min(1, Math.max(0.6, kf((war as any).usz, t) * 1.7)) : 26) / Math.max(0.5, s);
       ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 3 / Math.max(0.5, s);
       for (const off of [-0.35, 0.35]) { ctx.beginPath(); ctx.moveTo(x - Math.cos(ang) * L * 0.3 + Math.cos(ang + Math.PI / 2) * L * off, y - Math.sin(ang) * L * 0.3 + Math.sin(ang + Math.PI / 2) * L * off); ctx.lineTo(x - Math.cos(ang) * L * 6 + Math.cos(ang + Math.PI / 2) * L * off, y - Math.sin(ang) * L * 6 + Math.sin(ang + Math.PI / 2) * L * off); ctx.stroke(); }
       ctx.save(); ctx.translate(x, y); ctx.rotate(ang);

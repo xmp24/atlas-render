@@ -79,7 +79,7 @@ const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
   const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
-    CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
+    CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02, D.vs ? 0.035 : 0), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
   return CTXS[v];
 };
@@ -226,8 +226,10 @@ const Arrows: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     const mx = (ax + bx) / 2, my = (ay + by) / 2 - Math.hypot(bx - ax, by - ay) * 0.18;
     const q = (u: number): [number, number] => [(1 - u) * (1 - u) * ax + 2 * (1 - u) * u * mx + u * u * bx, (1 - u) * (1 - u) * ay + 2 * (1 - u) * u * my + u * u * by];
     const pts: string[] = []; for (let j = 0; j <= 30; j++) { const [x, y] = q((j / 30) * p); pts.push(`${x.toFixed(1)},${y.toFixed(1)}`); }
-    const col = MAINCOL[k];
+    const BTv = X.D.vs && X.D.vs.bt; const col = BTv && BTv.wc && !(BTv.defs || []).includes(k) ? BTv.wc : MAINCOL[k];
     const kind = (X.D.arrows as any[])[i][7];
+    const uz = X.D.war && X.D.war.usz ? (() => { const K2 = X.D.war.usz as number[][]; let v = K2[0][1]; for (let j = 0; j < K2.length; j++) { if (t >= K2[j][0]) v = K2[j][1]; else { const u = (t - K2[j - 1][0]) / (K2[j][0] - K2[j - 1][0]); v = K2[j - 1][1] + (K2[j][1] - K2[j - 1][1]) * u; break; } } return v; })() : 0.6;
+    const fz = BTv ? Math.min(1, Math.max(0.6, uz * 1.7)) : 1;
     if (kind === 'hero') {
       const ph = lerp(t, t0, t1, 0, 1, Easing.linear); const [sx, sy] = q(ph);
       const glow = 0.6 + 0.4 * Math.sin(t * 5);
@@ -246,9 +248,9 @@ const Arrows: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     out.push(
       <g key={i} opacity={a}>
         <polyline points={pts.join(' ')} fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth={5} strokeLinecap="round" strokeDasharray="4 12" />
-        {firing && [0, 0.07, 0.14].map((lag, si) => { const [sx, sy] = q(Math.max(0, p - lag)); const on = Math.floor(t * 9 + si * 2) % 3 === 0; return on ? <g key={'f' + si}><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={14} fill="#ffe36b" /><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={7} fill="#fff" /></g> : null; })}
+        {firing && [0, 0.07, 0.14].map((lag, si) => { const [sx, sy] = q(Math.max(0, p - lag)); const on = BTv ? ((t + si * 0.31) % 0.8) / 0.8 < 0.1 : Math.floor(t * 9 + si * 2) % 3 === 0; return on ? <g key={'f' + si}><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={14} fill="#ffe36b" /><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={7} fill="#fff" /></g> : null; })}
         {p < 1 && [0, 0.07, 0.14].map((lag, si) => { const [sx, sy] = q(Math.max(0, p - lag)); return (
-          <g key={si} transform={`translate(${sx},${sy})`}><ellipse rx={30} ry={9} cy={14} fill="rgba(255,255,255,0.35)" /><circle r={si ? 17 : 22} fill={col} stroke={INK} strokeWidth={4} /><image href={staticFile('hw/icons/battleship.svg')} x={si ? -12 : -15} y={si ? -12 : -15} width={si ? 24 : 30} height={si ? 24 : 30} /></g>); })}
+          <g key={si} transform={`translate(${sx},${sy}) scale(${fz})`}>{BTv && (() => { const [px, py] = q(Math.max(0, p - lag - 0.04)); const dx = sx - px, dy = sy - py; const l = Math.hypot(dx, dy) || 1; const ux = dx / l, uy = dy / l; const W2 = 44, Lw = 70; return <path d={`M0,8 L${(-ux * Lw - uy * W2 * 0.5).toFixed(1)},${(8 - uy * Lw + ux * W2 * 0.5).toFixed(1)} M0,8 L${(-ux * Lw + uy * W2 * 0.5).toFixed(1)},${(8 - uy * Lw - ux * W2 * 0.5).toFixed(1)}`} stroke="rgba(255,255,255,0.55)" strokeWidth={3} strokeLinecap="round" fill="none" />; })()}<ellipse rx={30} ry={9} cy={14} fill="rgba(255,255,255,0.35)" /><circle r={si ? 17 : 22} fill={col} stroke={INK} strokeWidth={4} /><image href={staticFile('hw/icons/battleship.svg')} x={si ? -12 : -15} y={si ? -12 : -15} width={si ? 24 : 30} height={si ? 24 : 30} /></g>); })}
       </g>,
     );
   });
@@ -2890,7 +2892,7 @@ const fmtInv = (v: number) => v >= 1e6 ? `${+(v / 1e6).toFixed(v >= 1e7 ? 0 : 1)
 const SubCard: React.FC<{c: any; t: number}> = ({c, t}) => {
   const lt = t - c.t; const k = daB(lt / 0.35); const o = Math.min(1, (c.t + c.d - t) / 0.3); const click = lt > 1.0 && lt < 1.25; const subbed = lt > 1.15;
   const goal = c.goal ?? 1000;
-  return <div style={{position: 'absolute', left: '50%', bottom: 60, transform: `translateX(-50%) translateY(${(1 - k) * 220}px)`, opacity: o, zIndex: 44, display: 'flex', alignItems: 'center', gap: 22, background: 'rgba(10,12,20,0.94)', border: '6px solid #fff', borderRadius: 30, padding: '16px 30px', boxShadow: '0 14px 0 rgba(0,0,0,0.4)'}}>
+  return <div style={{position: 'absolute', left: '50%', bottom: X.D.vs ? 170 : 60, transform: `translateX(-50%) translateY(${(1 - k) * 220}px)`, opacity: o, zIndex: 44, display: 'flex', alignItems: 'center', gap: 22, background: 'rgba(10,12,20,0.94)', border: '6px solid #fff', borderRadius: 30, padding: '16px 30px', boxShadow: '0 14px 0 rgba(0,0,0,0.4)'}}>
     {c.img ? <Img src={staticFile(c.img)} style={{width: 130, height: 130, objectFit: 'contain', transform: `rotate(${subbed ? Math.sin(lt * 12) * 6 : 0}deg)`}} /> : <MarcoBall size={120} mood={subbed ? 'happy' : 'calm'} t={t} look={[0.6, 0.2]} />}
     <div>
       <div style={{...font, fontSize: 44, color: '#fff', whiteSpace: 'nowrap'}}>{c.l1 ?? 'HELP MARCO REACH '}<span style={{color: '#ffd23f'}}>{c.l1 ? (c.l1b ?? '') : `${goal.toLocaleString('en-US')} SUBS!`}</span></div>

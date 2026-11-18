@@ -377,7 +377,7 @@ export const MiniMap: React.FC<{d: HWD; t: number; cam: Cam; w: number; h: numbe
 
 // ---------------- cámara ----------------
 export type CamKey = [number, number, number, number, number?]; // t, cx, cy, s, duración de la transición
-export const makeCam = (keys: CamKey[], drift = 0.018) => {
+export const makeCam = (keys: CamKey[], drift = 0.018, ov = 0) => {
   const ks = [...keys].sort((a, b) => a[0] - b[0]);
   const e = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
   const mix = (a: Cam, b: Cam, x: number): Cam => {
@@ -393,6 +393,8 @@ export const makeCam = (keys: CamKey[], drift = 0.018) => {
     }
     const c = mix(from, to, (t - t0) / d);
     const held = Math.max(0, t - t0 - d);
+    // inercia: al llegar, un pequeño balanceo amortiguado en la dirección del movimiento
+    if (ov > 0 && held > 0 && held < 1.2 && d > 0.35) { const w = ov * Math.sin(held * Math.PI * 1.6) * Math.exp(-held * 4.5); c.cx += (to.cx - from.cx) * w; c.cy += (to.cy - from.cy) * w; }
     return {...c, s: c.s * (1 + drift * Math.min(held, 12) / 10)};
   };
 };

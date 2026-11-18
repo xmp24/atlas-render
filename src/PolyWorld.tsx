@@ -226,7 +226,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   ctx.beginPath(); ctxPath(mesh(TOPO as any, (TOPO as any).objects.countries, (a: any, b: any) => a !== b && st.owner[a.__k] === st.owner[b.__k]) as any);
   ctx.strokeStyle = 'rgba(255,255,255,0.32)'; ctx.lineWidth = 1.1 / s; ctx.stroke();
   ctx.beginPath(); ctxPath(mesh(TOPO as any, (TOPO as any).objects.countries, (a: any, b: any) => a === b || st.owner[a.__k] !== st.owner[b.__k]) as any);
-  ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.max(2.2 / s, 4); ctx.stroke();
+  ctx.strokeStyle = '#151515'; ctx.lineWidth = Math.min(Math.max(2.2 / s, 4), 13 / s); ctx.stroke();
   if (FICO) {
     ctx.save(); ctx.scale(W4, W4);
     for (const p of PIECES) { if (p.k === undefined || !p.path || !ficShow(p.k, FICO) || !vis(p.bbox)) continue; ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = Math.max(5 / s, 9) / W4; ctx.stroke(p.path); }

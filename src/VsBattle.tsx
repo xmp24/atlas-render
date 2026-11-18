@@ -77,24 +77,31 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
   const B = D.vs && D.vs.bt; if (!B) return null;
   const MAP = part === 'map';
   const s = cam.s; const svg: React.ReactNode[] = []; const html: React.ReactNode[] = []; const top: React.ReactNode[] = [];
+  const WC: string | undefined = B.wc; const DEFS: number[] = B.defs || [];
+  const ac = (k: number) => (WC && !DEFS.includes(k) ? WC : col(k)); // atacantes: color único "THE WORLD"
+  const usz = D.war && D.war.usz ? kv(D.war.usz, t, 1) : 1; const fsc = cl(usz * 1.7, 0.62, 1); // escala de iconos/etiquetas por país
+  // registro de etiquetas: si una pisa a otra, baja; si no cabe, no se dibuja
+  const BOX: number[][] = [];
+  const place = (x: number, y: number, w: number, h: number) => { for (let k = 0; k < 4; k++) { const yy = y + k * (h + 6); if (!BOX.some((b) => x < b[0] + b[2] && x + w > b[0] && yy < b[1] + b[3] && yy + h > b[1])) { BOX.push([x, yy, w, h]); return yy; } } return null; };
   const mo = tilted ? 0 : 1;
-  const icoSz = cl(30 * Math.pow(s / 3, 0.25), 24, 38);
+  const icoSz = cl(30 * Math.pow(s / 3, 0.25), 24, 38) * fsc;
   const onScr = (x: number, y: number, m = 80) => x > -m && x < VW + m && y > -m && y < VH + m;
   if (MAP && mo > 0) {
     // ---- rutas de convoyes marítimos (suministro por mar / refuerzos)
     (B.sl || []).forEach((L: any[], i: number) => {
       const [t0, t1, flat, k, lab, icn] = L; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.5, 0.6);
-      const P = smooth('sl' + i, flat).map(([x, y]) => toS(x, y, cam)); const c = col(k);
+      const P = smooth('sl' + i, flat).map(([x, y]) => toS(x, y, cam)); const c = ac(k);
       const d = 'M' + P.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' L');
       svg.push(<path key={'sla' + i} d={d} fill="none" stroke="rgba(10,14,24,0.55)" strokeWidth={6} strokeLinecap="round" opacity={o} />);
+      if (icn === 'none') { const len = P.reduce((a, p, j) => a + (j ? Math.hypot(p[0] - P[j - 1][0], p[1] - P[j - 1][1]) : 0), 0); const u = ease((t - t0) / 0.7); svg.push(<path key={'slw' + i} d={d} fill="none" stroke={c} strokeWidth={4} strokeLinecap="round" strokeDasharray={`${len * u} ${len}`} opacity={o} />); const [ex, ey] = P[P.length - 1]; if (u > 0.95) svg.push(<circle key={'slx' + i} cx={ex} cy={ey} r={10} fill="none" stroke={c} strokeWidth={3} opacity={o * (1 - (t - t0 - 0.7) / 0.9)} />); return; }
       svg.push(<path key={'slb' + i} d={d} fill="none" stroke={c} strokeWidth={3} strokeDasharray="10 12" strokeDashoffset={-t * 60} strokeLinecap="round" opacity={o * 0.95} />);
       const Pw = smooth('sl' + i, flat);
-      for (let j = 0; j < 3; j++) { const f = ((t - t0) * 0.16 + j / 3) % 1; const [wx, wy] = ptAt(Pw, f); const [x, y] = toS(wx, wy, cam); if (onScr(x, y)) html.push(<Badge key={`slc${i}_${j}`} x={x} y={y} sz={icoSz * 0.8} bg={c} icon={icn || 'battleship'} o={o * cl(Math.min(f / 0.08, (1 - f) / 0.08), 0, 1)} />); }
+      if (icn !== 'none') for (let j = 0; j < 3; j++) { const f = ((t - t0) * 0.16 + j / 3) % 1; const [wx, wy] = ptAt(Pw, f); const [x, y] = toS(wx, wy, cam); if (onScr(x, y)) html.push(<Badge key={`slc${i}_${j}`} x={x} y={y} sz={icoSz * 0.8} bg={c} icon={icn || 'battleship'} o={o * cl(Math.min(f / 0.08, (1 - f) / 0.08), 0, 1)} />); }
       if (lab) { const [x, y] = P[Math.floor(P.length * 0.5)]; html.push(<div key={'sll' + i} style={{position: 'absolute', left: x - 200, top: y - 44, width: 400, textAlign: 'center', opacity: o * win(t, t0, t0 + 3.2, 0.4, 0.6)}}><span style={{...font2, fontSize: 19, color: '#fff', background: 'rgba(8,12,22,0.82)', border: `2px solid ${c}`, borderRadius: 9, padding: '1px 10px', whiteSpace: 'nowrap'}}>{lab}</span></div>); }
     });
     // ---- bloqueos navales: anillo de barcos patrullando
     (B.bl || []).forEach((L: any[], i: number) => {
-      const [t0, t1, flat, k, lab] = L; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.6, 0.6); const c = col(k);
+      const [t0, t1, flat, k, lab] = L; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.6, 0.6); const c = ac(k);
       const pts: number[][] = []; for (let j = 0; j < flat.length; j += 2) pts.push(toS(flat[j], flat[j + 1], cam));
       pts.forEach(([x, y], j) => { if (!onScr(x, y)) return; svg.push(<circle key={`bld${i}_${j}`} cx={x} cy={y} r={2.6} fill={c} stroke={INK} strokeWidth={1} opacity={o * 0.9} />); });
       for (let j = 0; j < pts.length; j += 4) { const [x, y] = pts[j]; if (!onScr(x, y)) continue; const bob = Math.sin(t * 2 + j) * 2; html.push(<Badge key={`bls${i}_${j}`} x={x} y={y + bob} sz={icoSz * 0.78} bg={c} icon="battleship" o={o * back((t - t0 - j * 0.02) / 0.4)} />); }
@@ -102,7 +109,7 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
     });
     // ---- líneas de suministro (camiones que fluyen; si se cortan, se vuelven rojas)
     (B.sup || []).forEach((L: any[], i: number) => {
-      const [t0, t1, flat, k, tc, lab] = L; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.4, 0.5); const c = col(k);
+      const [t0, t1, flat, k, tc, lab] = L; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.4, 0.5); const c = ac(k);
       const Pw = smooth('sp' + i, flat); const P = Pw.map(([x, y]) => toS(x, y, cam)); const isCut = tc > 0 && t >= tc;
       const d = 'M' + P.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' L');
       svg.push(<path key={'spa' + i} d={d} fill="none" stroke="rgba(10,14,24,0.6)" strokeWidth={7} strokeLinecap="round" opacity={o * (isCut ? 0.5 : 0.8)} />);
@@ -110,6 +117,40 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
       if (!isCut) for (let j = 0; j < 4; j++) { const f = ((t - t0) * 0.22 + j / 4) % 1; const [wx, wy] = ptAt(Pw, f); const [x, y] = toS(wx, wy, cam); svg.push(<rect key={`spt${i}_${j}`} x={x - 5} y={y - 3.5} width={10} height={7} rx={2} fill="#f4e3b0" stroke={INK} strokeWidth={1.6} opacity={o} />); }
       const [x0, y0] = P[0]; if (onScr(x0, y0)) html.push(<Badge key={'spd' + i} x={x0} y={y0} sz={icoSz * 0.85} bg={c} icon="artillery-shell" o={o} dead={isCut ? cl((t - tc) / 0.4, 0, 1) : 0} />);
       if (isCut) { const [mx, my] = P[Math.floor(P.length * 0.55)]; const u = t - tc; html.push(<div key={'spx' + i} style={{position: 'absolute', left: mx - 160, top: my - 36, width: 320, textAlign: 'center', opacity: o * cl(1 - (u - 2.4) / 0.5, 0, 1), transform: `scale(${back(u / 0.35)})`}}><span style={{...font, fontSize: 26, color: '#fff', background: '#c62828', border: `3px solid ${INK}`, borderRadius: 10, padding: '0 12px', whiteSpace: 'nowrap'}}>✂ {lab || 'SUPPLY LINE CUT'}</span></div>); }
+    });
+    // ---- relieve: montañas que frenan el avance
+    (B.rl || []).forEach((Rl: any[], i: number) => {
+      const [t0, t1, wx, wy, rx, ry] = Rl; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.6, 0.6) * 0.55;
+      const [cx, cy] = toS(wx, wy, cam); const Rx = rx * s, Ry = ry * s; const st = 46;
+      if (cx + Rx < -50 || cx - Rx > VW + 50 || cy + Ry < -50 || cy - Ry > VH + 50) return;
+      const x0 = Math.max(-20, cx - Rx), x1 = Math.min(VW + 20, cx + Rx), y0 = Math.max(-20, cy - Ry), y1 = Math.min(VH + 20, cy + Ry);
+      let pth = '', snow = '';
+      const gx0 = Math.floor((x0 - cx) / st), gy0 = Math.floor((y0 - cy) / st);
+      for (let gy = gy0; cy + gy * st < y1; gy++) for (let gx = gx0; cx + gx * st < x1; gx++) {
+        const jx = ((gx * 73 + gy * 37) % 17) - 8, jy = ((gx * 41 + gy * 29) % 13) - 6;
+        const px = cx + gx * st + (gy % 2 ? st / 2 : 0) + jx, py = cy + gy * st + jy;
+        if (((px - cx) / Rx) ** 2 + ((py - cy) / Ry) ** 2 > 1) continue;
+        const hh = 11 + ((gx * 7 + gy * 3) % 5) * 1.6;
+        pth += `M${(px - hh).toFixed(1)},${(py + hh * 0.45).toFixed(1)} L${px.toFixed(1)},${(py - hh * 0.75).toFixed(1)} L${(px + hh).toFixed(1)},${(py + hh * 0.45).toFixed(1)} `;
+        snow += `M${(px - hh * 0.33).toFixed(1)},${(py - hh * 0.32).toFixed(1)} L${px.toFixed(1)},${(py - hh * 0.75).toFixed(1)} L${(px + hh * 0.33).toFixed(1)},${(py - hh * 0.32).toFixed(1)} Z `;
+      }
+      svg.push(<path key={'rlm' + i} d={pth} fill="rgba(90,72,52,0.55)" stroke="rgba(30,22,14,0.7)" strokeWidth={1.4} strokeLinejoin="round" opacity={o} />);
+      svg.push(<path key={'rls' + i} d={snow} fill="rgba(255,255,255,0.85)" opacity={o} />);
+    });
+    // ---- ciudades clave: barra de vida que baja cuando llega el frente y bandera invasora al caer
+    (B.ct || []).forEach((Ct: any[], i: number) => {
+      const [t0, t1, wx, wy, name, k, thp, tf] = Ct; if (t < t0 || t > t1) return; const [x, y] = toS(wx, wy, cam); if (!onScr(x, y)) return;
+      const o = win(t, t0, t1, 0.4, 0.5); const hp = t < thp ? 1 : t > tf ? 0 : 1 - (t - thp) / Math.max(0.1, tf - thp);
+      const bw = 50 * fsc, bh = 7 * fsc; const by = y + 40 * fsc;
+      if (t < tf) {
+        const hc = hp > 0.6 ? '#3ddc84' : hp > 0.3 ? '#ffd23f' : '#ff3b30';
+        html.push(<div key={'ct' + i} style={{position: 'absolute', left: x - bw / 2, top: by, width: bw, height: bh, borderRadius: bh, border: `2px solid ${INK}`, background: 'rgba(0,0,0,0.55)', opacity: o, overflow: 'hidden'}}><div style={{width: `${hp * 100}%`, height: '100%', background: hc}} /></div>);
+      } else {
+        const u = t - tf; const fh = 26 * fsc;
+        html.push(<svg key={'ctf' + i} width={fh} height={fh} style={{position: 'absolute', left: x - fh * 0.1, top: y - fh - 4, opacity: o * cl(u / 0.3, 0, 1), overflow: 'visible', transform: `scale(${back(u / 0.35)})`, transformOrigin: '10% 100%'}}>
+          <line x1={fh * 0.1} y1={fh} x2={fh * 0.1} y2={0} stroke={INK} strokeWidth={fh * 0.09} strokeLinecap="round" />
+          <path d={`M${fh * 0.1},${fh * 0.04} L${fh * 0.7},${fh * 0.12 + Math.sin(t * 6 + i) * fh * 0.04} L${fh * 0.1},${fh * 0.42} Z`} fill={WC || '#c62828'} stroke={INK} strokeWidth={fh * 0.05} strokeLinejoin="round" /></svg>);
+      }
     });
     // ---- flechas de ofensiva (plan = discontinuas; ataque = macizas; contraataque = azul con borde blanco)
     (B.ar || []).forEach((A: any[], i: number) => {
@@ -121,9 +162,9 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
       const C = cut(Pw, f); const S = C.pts.map(([x, y]) => toS(x, y, cam));
       let len = 0; for (let j = 1; j < S.length; j++) len += Math.hypot(S[j][0] - S[j - 1][0], S[j][1] - S[j - 1][1]);
       if (len < 40) return;
-      const w = cl(wW * s, 12, 34) * (kind === 'plan' ? 0.85 : 1);
+      const w = cl(wW * s, 7, 30) * (kind === 'plan' ? 0.85 : 1);
       const big = len > VW * 1.5 ? 0.45 : 1; // flecha enorme en primer plano: más transparente para no tapar la batalla
-      const d = arrowPath(S, w); if (!d) return; const c = col(k);
+      const d = arrowPath(S, w); if (!d) return; const c = kind === 'counter' ? col(k) : ac(k);
       if (kind === 'plan') {
         svg.push(<path key={'arp' + i} d={d} fill="rgba(255,255,255,0.13)" stroke="#fff" strokeWidth={3} strokeDasharray="12 8" strokeLinejoin="round" opacity={o} />);
       } else {
@@ -135,7 +176,7 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
     // ---- cercos: el anillo se cierra y aparecen banderas blancas
     (B.pk || []).forEach((Pk: any[], i: number) => {
       const [t0, t1, wx, wy, wr, k, lab, sur, fls] = Pk; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.3, 0.5);
-      const [x, y] = toS(wx, wy, cam); const r = Math.max(wr * s, 75); const u = ease((t - t0) / 1.4); const c = col(k);
+      const [x, y] = toS(wx, wy, cam); const r = Math.max(wr * s, 75); const u = ease((t - t0) / 1.4); const c = ac(k);
       const a0 = -Math.PI / 2; const arc = (from: number, to: number) => { const p0 = [x + Math.cos(from) * r, y + Math.sin(from) * r], p1 = [x + Math.cos(to) * r, y + Math.sin(to) * r]; const lg = Math.abs(to - from) > Math.PI ? 1 : 0; const sw = to > from ? 1 : 0; return `M${p0[0].toFixed(1)},${p0[1].toFixed(1)} A${r},${r} 0 ${lg} ${sw} ${p1[0].toFixed(1)},${p1[1].toFixed(1)}`; };
       const sp = Math.PI * u * 0.999;
       for (const dd of [arc(a0, a0 + sp), arc(a0, a0 - sp)]) { svg.push(<path key={`pka${i}${dd.length}`} d={dd} fill="none" stroke="#10131a" strokeWidth={11} strokeLinecap="round" opacity={o} />); svg.push(<path key={`pkb${i}${dd.length}`} d={dd} fill="none" stroke={c} strokeWidth={6} strokeDasharray="16 7" strokeDashoffset={-t * 30} strokeLinecap="round" opacity={o} />); }
@@ -161,20 +202,20 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
         html.push(<div key={'ich' + i} style={{position: 'absolute', left: x - sz / 2, top: y - sz / 2, width: sz, height: sz, opacity: o * (1 - dead * 0.6)}}>
           <div style={{position: 'absolute', inset: -sz * 0.25, borderRadius: '50%', background: `radial-gradient(circle, rgba(255,215,60,${0.5 + 0.3 * Math.sin(t * 5)}) 0%, rgba(255,215,60,0) 70%)`}} />
           <div style={{position: 'absolute', inset: 0, ...font, fontSize: sz * 1.05, lineHeight: `${sz}px`, textAlign: 'center', color: '#ffd23f', ...stroke(5)}}>★</div></div>);
-      } else html.push(<Badge key={'icb' + i} x={x} y={y} sz={sz * (flipped && t - tf < 0.4 ? 1 + 0.3 * (1 - (t - tf) / 0.4) : 1)} bg={col(kk)} icon={ICON[ty] || 'military-fort'} o={o * (1 - dead * 0.45)} dead={dead} ring={ty === 'fort' || ty === 'hq' ? '#ffd23f' : undefined}>
+      } else html.push(<Badge key={'icb' + i} x={x} y={y} sz={sz * (flipped && t - tf < 0.4 ? 1 + 0.3 * (1 - (t - tf) / 0.4) : 1)} bg={ac(kk)} icon={ICON[ty] || 'military-fort'} o={o * (1 - dead * 0.45)} dead={dead} ring={ty === 'fort' || ty === 'hq' ? '#ffd23f' : undefined}>
         {fire > 0.05 && <div style={{position: 'absolute', left: sz * 0.72, top: -sz * 0.18, width: sz * 0.55, height: sz * 0.55, borderRadius: '50%', background: 'radial-gradient(circle,#fff6b0 0%,#ff9a2a 45%,rgba(255,80,20,0) 72%)', opacity: fire}} />}
       </Badge>);
-      const lt0 = tf > 0 ? tf : t0; if (lab && t >= lt0 && t - lt0 < (tf > 0 ? 2.8 : 4.2)) html.push(<div key={'icl' + i} style={{position: 'absolute', left: x - 170, top: y + sz * 0.62, width: 340, textAlign: 'center', whiteSpace: 'nowrap', opacity: o * cl(((tf > 0 ? 2.8 : 4.2) - (t - lt0)) / 0.5, 0, 1)}}><span style={{...font2, fontSize: 18, color: ty === 'hero' ? INK : '#fff', background: ty === 'hero' ? '#ffd23f' : 'rgba(8,12,22,0.85)', border: `2px solid ${INK}`, borderRadius: 8, padding: '0 8px'}}>{lab}</span></div>);
+      const lt0 = tf > 0 ? tf : t0; const lyy = lab && t >= lt0 && t - lt0 < (tf > 0 ? 2.8 : 4.2) ? place(x - 120, y + sz * 0.62, 240, 26) : null; if (lyy !== null) html.push(<div key={'icl' + i} style={{position: 'absolute', left: x - 170, top: y + sz * 0.62, width: 340, textAlign: 'center', whiteSpace: 'nowrap', opacity: o * cl(((tf > 0 ? 2.8 : 4.2) - (t - lt0)) / 0.5, 0, 1)}}><span style={{...font2, fontSize: 18, color: ty === 'hero' ? INK : '#fff', background: ty === 'hero' ? '#ffd23f' : 'rgba(8,12,22,0.85)', border: `2px solid ${INK}`, borderRadius: 8, padding: '0 8px'}}>{lab}</span></div>);
     });
     // ---- batallas con nombre: barra de fuerzas atacante/defensor y resultado
     (B.nb || []).forEach((N: any[], i: number) => {
       const [t0, t1, wx, wy, name, ak, dk, pk, res] = N; if (t < t0 || t > t1) return;
-      const [x0, y0] = toS(wx, wy, cam); const x = cl(x0, 420, VW - 420), y = cl(y0 - 96, 262, VH - 210);
+      const [x0, y0] = toS(wx, wy, cam); const x = cl(x0, 420, VW - 420); const y1p = place(x - 170, cl(y0 - 96, 262, VH - 210) - 30, 340, 64); if (y1p === null) return; const y = y1p + 30;
       const o = win(t, t0, t1, 0.3, 0.4); const sh = cl(kv(pk, t, 0.5), 0.04, 0.96); const done = res && t > t1 - 1.1;
       html.push(<div key={'nb' + i} style={{position: 'absolute', left: x - 170, top: y - 30, width: 340, opacity: o, transform: `scale(${back((t - t0) / 0.35)})`, transformOrigin: '50% 100%'}}>
         <div style={{textAlign: 'center'}}><span style={{...font, fontSize: 24, color: '#fff', background: 'rgba(8,12,22,0.9)', border: '2px solid #ffd23f', borderRadius: 10, padding: '0 12px', whiteSpace: 'nowrap'}}>⚔ {name}</span></div>
         <div style={{margin: '6px auto 0', width: 250, height: 18, borderRadius: 9, border: `3px solid ${INK}`, overflow: 'hidden', display: 'flex', boxShadow: '0 3px 8px rgba(0,0,0,0.5)'}}>
-          <div style={{width: `${sh * 100}%`, background: col(ak)}} /><div style={{flex: 1, background: col(dk)}} /></div>
+          <div style={{width: `${sh * 100}%`, background: ac(ak)}} /><div style={{flex: 1, background: col(dk)}} /></div>
         {done && <div style={{position: 'absolute', left: 0, right: 0, top: 56, textAlign: 'center', transform: `scale(${back((t - (t1 - 1.1)) / 0.3)}) rotate(-4deg)`}}><span style={{...font, fontSize: 26, color: '#fff', background: res === 'REPELLED' || res === 'HELD' || res === 'AMBUSH!' ? '#2e9e4f' : '#c62828', border: `3px solid ${INK}`, borderRadius: 9, padding: '0 12px'}}>{res}</span></div>}
       </div>);
     });
