@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag: {required: true}
+      list: {required: false, default: 'brum/music_list.txt'}
 permissions:
   contents: write
 jobs:
@@ -17,7 +18,7 @@ jobs:
             [ -z "$t" ] && continue
             q=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$t")
             curl -sfL -A "Mozilla/5.0" -o "out/$t.mp3" "https://incompetech.com/music/royalty-free/mp3-royaltyfree/$q.mp3" && echo "OK $t" || { echo "FALLO $t"; rm -f "out/$t.mp3"; }
-          done < brum/music_list.txt
+          done < "${{ inputs.list }}"
           ls -la out
           cd out && git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm music
           git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/music-${{ inputs.tag }}

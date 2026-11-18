@@ -1,0 +1,27 @@
+name: edgetts
+run-name: edgetts ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag: {required: true}
+      text: {required: true, description: 'path of text file in repo'}
+permissions:
+  contents: write
+jobs:
+  tts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q edge-tts
+      - run: |
+          mkdir out
+          for v in en-US-AndrewNeural en-US-ChristopherNeural en-US-GuyNeural en-US-BrianNeural en-US-EricNeural en-GB-RyanNeural; do
+            for r in "+0%" "+8%"; do
+              edge-tts --voice $v --rate="$r" --file "${{ inputs.text }}" --write-media "out/${v}_${r/+/p}.mp3" || echo "FALLO $v"
+            done
+          done
+          ls -la out
+          cd out && git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm tts
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/edgetts-${{ inputs.tag }}
