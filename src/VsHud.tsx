@@ -137,7 +137,8 @@ const Panel: React.FC<{style: React.CSSProperties; col?: string; children: React
   <div style={{position: 'absolute', background: 'rgba(8,12,22,0.88)', border: `3px solid ${col}`, borderRadius: 14, boxShadow: '0 6px 0 rgba(0,0,0,0.35)', ...style}}>{children}</div>
 );
 
-export const VsHud: React.FC<{D: any; t: number; cam: any}> = ({D, t, cam}) => {
+export const VsHud: React.FC<{D: any; t: number; cam: any; hide?: boolean}> = ({D, t, cam, hide = false}) => {
+  if (hide) return null;
   const V = D.vs; if (!V) return null; const out: React.ReactNode[] = [];
   // ---- título sobre el globo
   if (V.title && t >= V.title[0] && t < V.title[1]) {
@@ -199,6 +200,27 @@ export const VsHud: React.FC<{D: any; t: number; cam: any}> = ({D, t, cam}) => {
             <div style={{...font, fontSize: cur ? 30 : 21, color: cur ? INK : '#fff', background: cur ? '#ffd23f' : i < lvl ? 'rgba(60,60,70,0.88)' : 'rgba(8,12,22,0.88)', border: `3px solid ${cur ? '#fff' : '#ffffff40'}`, borderRadius: 10, padding: '0 12px', minWidth: 120, textAlign: 'center', boxShadow: cur ? '0 0 18px #ffd23f' : undefined}}>{l}</div></div>; })}
       </div>
       <div style={{position: 'absolute', left: 0, top: 0, right: 0, height: 8, display: 'flex', gap: 4, padding: '0 4px'}}>{Array.from({length: 7}, (_, i) => <div key={i} style={{flex: 1, height: 8, borderRadius: 4, background: i < lvl ? '#ffd23f' : i === lvl ? '#3ddc84' : '#ffffff30', boxShadow: i === lvl ? '0 0 10px #3ddc84' : undefined}} />)}</div>
+      {(() => { const BT = V.bt; if (!BT) return null; const mw = ((BT.mw || []) as number[][]).find(([a, b]) => t >= a && t < b); if (!mw) return null;
+        const o2 = Math.min(1, (t - mw[0]) / 0.4, (mw[1] - t) / 0.4); const mor = cl(kv(BT.mo, t, 0.8), 0, 1); const air = cl(kv(BT.air, t, 0.5), 0, 1);
+        const ph = step(BT.ph, t); const fr = step(BT.fr, t);
+        const mc = mor > 0.6 ? '#3ddc84' : mor > 0.3 ? '#ffd23f' : '#ff3b30';
+        const Bar = ({lab, v, c, c2, txt}: {lab: string; v: number; c: string; c2: string; txt: string}) => <div style={{marginTop: 6}}>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}><span style={{...font2, fontSize: 17, color: '#cfd8e6', letterSpacing: 1}}>{lab}</span><span style={{...font, fontSize: 17, color: c}}>{txt}</span></div>
+          <div style={{height: 11, background: c2, borderRadius: 6, overflow: 'hidden', border: '2px solid #ffffff33', marginTop: 2}}><div style={{width: `${v * 100}%`, height: '100%', background: c, borderRadius: 4}} /></div></div>;
+        return <div style={{position: 'absolute', left: 22, top: 192, width: 360, opacity: o2}}>
+          <div style={{background: 'rgba(8,12,22,0.82)', border: '3px solid #ffffff44', borderRadius: 14, padding: '4px 14px 10px'}}>
+            <Bar lab="MORALE" v={mor} c={mc} c2="#ffffff18" txt={mor > 0.75 ? 'HIGH' : mor > 0.5 ? 'STEADY' : mor > 0.25 ? 'SHAKEN' : 'BROKEN'} />
+            <Bar lab="AIR CONTROL" v={air} c="#4aa3ff" c2="#c62828" txt={air > 0.6 ? 'OURS' : air > 0.4 ? 'CONTESTED' : 'ENEMY'} />
+          </div>
+          {ph && ph[1] && <div style={{marginTop: 8, display: 'flex'}}><div style={{...font, fontSize: 20, color: INK, background: '#ffd23f', border: `3px solid ${INK}`, borderRadius: 10, padding: '0 10px', transform: `scale(${t - ph[0] < 0.4 ? 1 + 0.2 * (1 - (t - ph[0]) / 0.4) : 1})`, transformOrigin: 'left center'}}>{ph[1]} · <span style={{...font2, fontSize: 18}}>{ph[2]}</span></div></div>}
+          {fr && fr[1] && fr[1].length > 1 && <div style={{marginTop: 8, background: 'rgba(8,12,22,0.78)', border: '2px solid #ffffff33', borderRadius: 12, padding: '4px 12px 8px'}}>
+            <div style={{...font2, fontSize: 15, color: '#cfd8e6', letterSpacing: 2}}>TROOPS PER FRONT</div>
+            {(fr[1] as any[]).map(([c, v]: [string, number], j: number) => <div key={j} style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 4}}>
+              <Img src={flag(c)} style={{width: 27, height: 18, borderRadius: 3, border: `1.5px solid ${INK}`}} />
+              <div style={{flex: 1, height: 10, background: '#ffffff14', borderRadius: 5, overflow: 'hidden'}}><div style={{width: `${v * 100}%`, height: '100%', background: '#5dff8a'}} /></div>
+              <span style={{...font, fontSize: 16, color: '#fff', width: 44, textAlign: 'right'}}>{Math.round(v * 100)}%</span></div>)}
+          </div>}
+        </div>; })()}
       <MiniMap code={code} />
       {rec && rec[1] && <div style={{position: 'absolute', left: 22, bottom: 20, display: 'flex', justifyContent: 'flex-start'}}>
         <div style={{...font, fontSize: 26, color: '#fff', background: 'rgba(8,12,22,0.85)', border: '3px solid #ffd23f', borderRadius: 20, padding: '2px 20px', transform: `scale(${t - rec[0] < 0.5 ? 1 + 0.25 * (1 - (t - rec[0]) / 0.5) : 1})`}}>🏆 RECORD: {rec[1]}</div></div>}

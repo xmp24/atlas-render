@@ -58,6 +58,68 @@ const trail = (q: WarData['sq'][0], t: number, grow: number) => {
   const [hx, hy] = at(q, d); path.moveTo(hx + r * 0.5 + grow, hy); path.arc(hx, hy, r * 0.5 + grow, 0, Math.PI * 2);
   return path;
 };
+// ---- frente realista: humo detrás, fuego en la línea de contacto, posiciones defensivas delante, trincheras si se estanca
+const hshF = (i: number, j: number) => { const v = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return v - Math.floor(v); };
+const frontFX = (ctx: CanvasRenderingContext2D, P: number[], N: number, n: number, rr: number, fk: number[][], t: number, s: number, k: number, a: number, acol: string, ga: number) => {
+  const px = 1 / s; // 1 píxel de pantalla en estas unidades
+  const f0 = Math.max(0, Math.min(1, kf(fk, t - 1.4))); const fnow = n / N;
+  const stalled = Math.abs(fnow - f0) < 0.006;
+  const NF = Math.min(60, Math.max(14, Math.round(N * 0.035)));
+  const i0 = Math.max(0, n - NF);
+  // dirección de avance de cada celda del frente: desde la celda ya ocupada más cercana (más atrás en el orden)
+  const dirOf = (i: number): [number, number] => {
+    const x = P[i * 2], y = P[i * 2 + 1]; let bj = -1, bd = 1e18;
+    for (let j = Math.max(0, i - NF * 3); j < Math.max(0, i - NF); j += 2) { const d = (P[j * 2] - x) ** 2 + (P[j * 2 + 1] - y) ** 2; if (d < bd) { bd = d; bj = j; } }
+    if (bj < 0) return [1, 0]; let dx = x - P[bj * 2], dy = y - P[bj * 2 + 1]; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l; return [dx, dy];
+  };
+  ctx.save(); ctx.globalAlpha = ga;
+  // humo de batalla detrás del frente
+  for (let i = Math.max(0, n - NF * 3); i < i0; i += 5) {
+    const x = P[i * 2], y = P[i * 2 + 1]; const h = hshF(i, 3); const dr = (t * 3 + h * 40) % 40;
+    const R = Math.max(rr * 1.6, 9 * px) * (1 + dr / 60);
+    const g = ctx.createRadialGradient(x, y - dr * px, 0, x, y - dr * px, R); g.addColorStop(0, `rgba(70,70,74,${0.16 * (1 - dr / 40)})`); g.addColorStop(1, 'rgba(70,70,74,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y - dr * px, R, 0, Math.PI * 2); ctx.fill();
+  }
+  // brillo de combate en la línea de contacto
+  for (let i = i0; i < n; i += 2) {
+    const x = P[i * 2], y = P[i * 2 + 1]; const fl = 0.55 + 0.45 * Math.sin(t * (9 + hshF(i, 1) * 7) + i);
+    const R = Math.max(rr * 2.4, 17 * px);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, R); g.addColorStop(0, `rgba(255,140,40,${0.42 * fl})`); g.addColorStop(1, 'rgba(255,90,20,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+  }
+  // posiciones defensivas por delante del frente (color del defensor)
+  const dcol = MAINCOL[k] || '#ddd';
+  for (let i = n + 2; i < Math.min(N, n + NF); i += 4) {
+    const x = P[i * 2], y = P[i * 2 + 1]; const r0 = Math.max(rr * 0.42, 2.6 * px);
+    ctx.fillStyle = '#10131a'; ctx.beginPath(); ctx.arc(x, y, r0 + 1.3 * px, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = dcol; ctx.beginPath(); ctx.arc(x, y, r0, 0, Math.PI * 2); ctx.fill();
+  }
+  // trincheras en zigzag cuando el frente se para
+  if (stalled) {
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (let i = i0; i < n; i += 4) {
+      const [dx, dy] = dirOf(i); const ox = -dy, oy = dx; const L = Math.max(rr * 2.4, 16 * px);
+      const x = P[i * 2] + dx * rr * 0.9, y = P[i * 2 + 1] + dy * rr * 0.9;
+      const zz = new Path2D();
+      for (let q = 0; q <= 6; q++) { const u = q / 6 - 0.5; const zo = (q % 2 ? 1 : -1) * L * 0.09; const X = x + ox * u * L + dx * zo, Y = y + oy * u * L + dy * zo; if (q === 0) zz.moveTo(X, Y); else zz.lineTo(X, Y); }
+      ctx.strokeStyle = 'rgba(16,19,26,0.9)'; ctx.lineWidth = 4.2 * px; ctx.stroke(zz);
+      ctx.strokeStyle = '#8a6a3a'; ctx.lineWidth = 2.0 * px; ctx.stroke(zz);
+    }
+  }
+  // fogonazos: disparos cruzados en la línea de contacto
+  const ph = Math.floor(t * 10);
+  for (let i = i0; i < n; i += 3) {
+    if (hshF(i, ph) > 0.34) continue;
+    const [dx, dy] = dirOf(i); const x = P[i * 2], y = P[i * 2 + 1]; const L = Math.max(rr * 1.6, 9 * px);
+    const mine = hshF(i, ph + 7) > 0.5; const sx = mine ? x - dx * L * 0.3 : x + dx * L * 0.9, sy = mine ? y - dy * L * 0.3 : y + dy * L * 0.9;
+    const ex = mine ? x + dx * L : x - dx * L * 0.2, ey = mine ? y + dy * L : y - dy * L * 0.2;
+    ctx.strokeStyle = mine ? 'rgba(255,236,140,0.95)' : 'rgba(255,190,120,0.9)'; ctx.lineWidth = 1.6 * px;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + (ex - sx) * 0.55, sy + (ey - sy) * 0.55); ctx.stroke();
+    ctx.fillStyle = '#fff4b0'; ctx.beginPath(); ctx.arc(sx, sy, 2.2 * px, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+  void acol; void a;
+};
 // se llama dentro del contexto escalado x4 (coordenadas 1920)
 const occAny = (occ: any[][], k: number, a: number, t0: number) => occ.find((o) => o[0] === k && o[1] === a && o[2] === t0);
 export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, s: number, vis: (b: number[]) => boolean, PIECES: any[]) => {
@@ -92,6 +154,7 @@ export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, 
         ctx.fillStyle = EC; ctx.fill(ge);
         ctx.fillStyle = ZZ ? (col === 'MUTANT' ? '#2a0806' : '#16300a') : (col || MAINCOL[a]); ctx.globalAlpha = ga * (ZZ ? 0.45 : 0.35); ctx.fill(gf); ctx.globalAlpha = ga * (ZZ ? 0.6 : 1);
         ctx.fillStyle = pt; ctx.fill(gf); ctx.globalAlpha = ga;
+        if ((war as any).frontfx && f < 0.995 && n > 6) frontFX(ctx, P, N, n, rr, gr.fk, t, s, k, a, col || MAINCOL[a], ga);
       }
     } else if (gr && t > gr.t0) {
       const u0 = Math.min(1, (t - gr.t0) / (gr.t1 - gr.t0)); const u = u0 < 0.5 ? 2 * u0 * u0 : 1 - Math.pow(-2 * u0 + 2, 2) / 2;

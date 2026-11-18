@@ -32,6 +32,8 @@ import J_zomb2 from './hw/zomb2.json';
 import J_imp from './hw/imp.json';
 import J_vs from './hw/vs.json';
 import {VsHud} from './VsHud';
+import {VsBattle, inReplay} from './VsBattle';
+import {tiltAt as tiltAtV} from './ZombMap3D';
 import {ZombHud, ZFace, zfrac, ZombMapFX} from './ZombHud';
 import {ZombMap3D, tiltCss, tiltAt} from './ZombMap3D';
 import {RbrHud, rbrCool, Shades} from './RbrHud';
@@ -3010,7 +3012,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   const grad = HERO ? lerp(t, g.t0, g.t1, gx ? 380 : 420, gx ? 640 : 700, Easing.inOut(Easing.cubic)) : GP ? lerp(t, g.t0, g.t1 - 1.4, 250, 560, Easing.inOut(Easing.cubic)) : 420;
   const showMap = !inGlobe || t > g.t1 - (HERO ? 0.75 : GP ? 0.95 : 0.45);
   const ownSet = HERO && inGlobe ? ownedAt(t) : null; const hlSet = new Set<string>(gx ? gx.hl : []);
-  const split = HERO ? ((D.split || []) as any[]).find((x) => t >= x.t0 && t < x.t1) : null;
+  const split = (HERO || D.vs) ? ((D.split || []) as any[]).find((x) => t >= x.t0 && t < x.t1) : null;
   const camL = split ? {...cam, cx: cam.cx + VW / 4 / cam.s} : cam;
   const c2 = X.camF2(t); const camR = split ? {...c2, cx: c2.cx - VW / 4 / c2.s} : c2;
   const fl = flashAt(t);
@@ -3021,12 +3023,13 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   return (
     <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
       {showMap && (
-        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `${(D.zomb || D.z3) ? tiltCss(D.zomb || D.z3, t) : ''}translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
+        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `${(D.zomb || D.z3) ? tiltCss(D.zomb || D.z3, t) : ''}translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.vs && D.vs.bt ? (() => { const dm = ((D.vs.bt.dim || []) as number[][]).reduce((m, w) => Math.max(m, Math.min(1, (t - w[0]) / 0.8, (w[1] - t) / 0.8)), 0); return dm > 0 ? `saturate(${1 - 0.28 * dm}) brightness(${1 - 0.06 * dm})` : undefined; })() : D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
           {(() => { const TL = (D.zomb || D.z3) ? tiltAt(D.zomb || D.z3, t) : {ax: 0, az: 0}; const tilted = Math.abs(TL.ax) > 0.05 || Math.abs(TL.az) > 0.05; const ox = tilted ? Math.round(VW * (0.3 + Math.abs(TL.az) / 60)) : 0, ot = tilted ? Math.round(VH * (0.25 + TL.ax / 45)) : 0, ob = tilted ? Math.round(VH * 0.2) : 0; const cm = inGlobe ? X.camF(g.t1 + 0.03) : camL; const cm2 = tilted ? {...cm, cy: cm.cy - (ot - ob) / 2 / cm.s} : cm; return <div style={{position: 'absolute', left: -ox, top: -ot, width: VW + 2 * ox, height: VH + ot + ob}}>
           <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cm2} W={VW + 2 * ox} H={VH + ot + ob} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t), fic: X.D.fic || false} as any} />
           </div>; })()}
           {D.zomb && <ZombMapFX D={D} t={t} cam={camL} />}
           <Arrows t={t} cam={camL} />
+          {D.vs && <VsBattle D={D} t={t} tR={tR} cam={camL} part="map" tilted={(() => { const T2 = tiltAtV(D.z3, t); return Math.abs(T2.ax) > 32; })()} />}
           <CwFX t={t} cam={camL} />
           <DaFX t={t} cam={camL} />
           <Laser t={t} cam={camL} />
@@ -3050,8 +3053,8 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       )}
       {split && (() => { const a = Math.min(1, (t - split.t0) / 0.4, (split.t1 - t) / 0.4); return <AbsoluteFill style={{zIndex: 32, opacity: a, pointerEvents: 'none'}}>
         <div style={{position: 'absolute', left: VW / 2 - 6, top: 0, bottom: 0, width: 12, background: '#fff', boxShadow: '0 0 24px 6px rgba(255,255,255,0.6)', transform: `scaleY(${popT(t, split.t0, 10)})`}} />
-        <div style={{position: 'absolute', left: 0, width: VW / 2, top: 120, textAlign: 'center'}}><span style={{background: '#c81e1e', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.left}</span></div>
-        <div style={{position: 'absolute', left: VW / 2, width: VW / 2, top: 120, textAlign: 'center'}}><span style={{background: '#1f4fbf', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.right}</span></div>
+        <div style={{position: 'absolute', left: 0, width: VW / 2, top: D.vs ? 236 : 120, textAlign: 'center'}}><span style={{background: '#c81e1e', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.left}</span></div>
+        <div style={{position: 'absolute', left: VW / 2, width: VW / 2, top: D.vs ? 236 : 120, textAlign: 'center'}}><span style={{background: '#1f4fbf', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.right}</span></div>
       </AbsoluteFill>; })()}
       {inGlobe && (
         <AbsoluteFill style={{transform: `scale(${gz})`, transformOrigin: '50% 50%', opacity: gfade, background: gfade < 1 ? 'transparent' : undefined}}>
@@ -3059,7 +3062,8 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
         </AbsoluteFill>
       )}
       {(D.zomb || D.z3) && showMap && <ZombMap3D D={D} t={t} cam={camL} />}
-      {D.vs && <VsHud D={D} t={t} cam={camL} />}
+      {D.vs && <VsHud D={D} t={t} cam={camL} hide={inReplay(D, tR)} />}
+      {D.vs && <VsBattle D={D} t={t} tR={tR} cam={camL} part="top" tilted={false} />}
       <Grade t={t} />
       {!CO && <>
       <Spot t={t} cam={camL} />
