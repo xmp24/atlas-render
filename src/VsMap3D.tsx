@@ -45,7 +45,7 @@ const ballTex = (code: string) => canvasTex('ball' + code, 256, 256, (g) => {
   g.lineWidth = 9; g.beginPath(); g.moveTo(66, 84); g.lineTo(112, 98); g.moveTo(190, 84); g.lineTo(144, 98); g.stroke();
 });
 const textTex = (txt: string, col: string) => canvasTex('txt' + txt + col, 1024, 256, (g) => {
-  g.font = '200px Lilita'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
+  let fs = 200; g.font = `${fs}px Lilita`; const w = g.measureText(txt).width; if (w > 940) { fs = Math.floor(fs * 940 / w); g.font = `${fs}px Lilita`; } g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
   g.lineWidth = 26; g.strokeStyle = '#151515'; g.strokeText(txt, 512, 136); g.fillStyle = col; g.fillText(txt, 512, 136);
 });
 

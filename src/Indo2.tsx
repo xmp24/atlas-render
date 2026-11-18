@@ -2888,10 +2888,10 @@ const SubCard: React.FC<{c: any; t: number}> = ({c, t}) => {
   const lt = t - c.t; const k = daB(lt / 0.35); const o = Math.min(1, (c.t + c.d - t) / 0.3); const click = lt > 1.0 && lt < 1.25; const subbed = lt > 1.15;
   const goal = c.goal ?? 1000;
   return <div style={{position: 'absolute', left: '50%', bottom: 60, transform: `translateX(-50%) translateY(${(1 - k) * 220}px)`, opacity: o, zIndex: 44, display: 'flex', alignItems: 'center', gap: 22, background: 'rgba(10,12,20,0.94)', border: '6px solid #fff', borderRadius: 30, padding: '16px 30px', boxShadow: '0 14px 0 rgba(0,0,0,0.4)'}}>
-    <MarcoBall size={120} mood={subbed ? 'happy' : 'calm'} t={t} look={[0.6, 0.2]} />
+    {c.img ? <Img src={staticFile(c.img)} style={{width: 130, height: 130, objectFit: 'contain', transform: `rotate(${subbed ? Math.sin(lt * 12) * 6 : 0}deg)`}} /> : <MarcoBall size={120} mood={subbed ? 'happy' : 'calm'} t={t} look={[0.6, 0.2]} />}
     <div>
-      <div style={{...font, fontSize: 44, color: '#fff', whiteSpace: 'nowrap'}}>HELP MARCO REACH <span style={{color: '#ffd23f'}}>{goal.toLocaleString('en-US')} SUBS!</span></div>
-      <div style={{...font2, fontSize: 26, color: '#5dff8a', letterSpacing: 2}}>EVERY SUB = $1 FOR HIS ARMY</div>
+      <div style={{...font, fontSize: 44, color: '#fff', whiteSpace: 'nowrap'}}>{c.l1 ?? 'HELP MARCO REACH '}<span style={{color: '#ffd23f'}}>{c.l1 ? (c.l1b ?? '') : `${goal.toLocaleString('en-US')} SUBS!`}</span></div>
+      <div style={{...font2, fontSize: 26, color: '#5dff8a', letterSpacing: 2}}>{c.l2 ?? 'EVERY SUB = $1 FOR HIS ARMY'}</div>
     </div>
     <div style={{position: 'relative', ...font, fontSize: 42, color: '#fff', background: subbed ? '#555' : '#e62117', borderRadius: 14, padding: '10px 26px 4px', transform: `scale(${click ? 0.9 : 1 + 0.04 * Math.sin(lt * 8)})`}}>{subbed ? 'SUBSCRIBED ✓' : 'SUBSCRIBE'}
       <svg width={60} height={60} style={{position: 'absolute', right: -30 + (lt < 1 ? (1 - lt) * 80 : 0), bottom: -40 + (lt < 1 ? (1 - lt) * 60 : 0), overflow: 'visible'}}><path d="M 0 0 L 0 40 L 11 30 L 20 50 L 28 46 L 19 27 L 34 27 Z" fill="#fff" stroke={INK} strokeWidth={4} /></svg></div>
