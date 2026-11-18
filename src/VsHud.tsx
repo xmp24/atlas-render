@@ -20,6 +20,48 @@ const MapPaint: React.FC<{P: any[]; t: number; cam: any}> = ({P, t, cam}) => {
         return <path key={i} d={p.d} fill={flash ? '#e8eef8' : '#2c3342'} fillOpacity={o} stroke="#0d1119" strokeOpacity={o} strokeWidth={0.6 / s} />; })}
     </g></svg>;
 };
+
+
+// ---------------------------------------------------------------- extras v4
+const BallKO: React.FC<{code: string; size: number; t: number; t0: number}> = ({code, size, t, t0}) => {
+  const k = pop(t, t0, 0.3); const sh = Math.sin((t - t0) * 30) * Math.max(0, 1 - (t - t0) / 0.6) * 8;
+  return <div style={{position: 'relative', width: size, height: size, transform: `scale(${k}) rotate(${sh - 12}deg)`}}>
+    <div style={{position: 'absolute', inset: 0, borderRadius: '50%', overflow: 'hidden', border: `5px solid ${INK}`, boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}><Img src={flag(code)} style={{width: '160%', height: '100%', objectFit: 'cover', marginLeft: '-30%', filter: 'saturate(0.7) brightness(0.85)'}} /></div>
+    {[0.32, 0.62].map((x, i) => <div key={i} style={{position: 'absolute', left: size * x, top: size * 0.3, ...font, fontSize: size * 0.3, color: '#fff', ...stroke(6)}}>✖</div>)}
+  </div>;
+};
+const Confetti: React.FC<{t: number; t0: number}> = ({t, t0}) => {
+  const lt = t - t0; if (lt < 0 || lt > 1.6) return null;
+  return <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, zIndex: 46, pointerEvents: 'none'}}>
+    {Array.from({length: 70}, (_, i) => { const r1 = Math.abs(Math.sin(i * 12.9898 + t0) * 43758.5) % 1, r2 = Math.abs(Math.sin(i * 78.233 + t0) * 12345.6) % 1;
+      const x = 960 + (r1 - 0.5) * 1700 * Math.min(1, lt * 3), y = 140 - 200 * (1 - r2) + lt * lt * 520 + lt * 160; const c = ['#ffd23f', '#3ddc84', '#ff4d6d', '#3a86ff', '#fff'][i % 5];
+      return <rect key={i} x={x} y={y} width={14} height={8} fill={c} opacity={Math.max(0, 1 - lt / 1.6)} transform={`rotate(${lt * 600 * (r2 - 0.5)} ${x} ${y})`} />; })}
+  </svg>;
+};
+const MINI = ((WJ as any).pieces as any[]).filter((p) => p.d && p.area > 2).map((p) => ({d: p.d as string, code: p.code as string}));
+const MINIC: Record<string, number[]> = {}; for (const p of ((WJ as any).pieces as any[])) { if (!p.bbox) continue; const c = MINIC[p.code]; const ar = (p.bbox[2] - p.bbox[0]) * (p.bbox[3] - p.bbox[1]); if (!c || ar > c[2]) MINIC[p.code] = [(p.bbox[0] + p.bbox[2]) / 2, (p.bbox[1] + p.bbox[3]) / 2, ar]; }
+const MiniMap: React.FC<{code: string}> = ({code}) => (
+  <div style={{position: 'absolute', right: 22, bottom: 20, width: 300, height: 150, background: 'rgba(8,12,22,0.85)', border: '3px solid #ffffff55', borderRadius: 14, overflow: 'hidden'}}>
+    <svg width={300} height={150} viewBox="0 140 1920 960" preserveAspectRatio="xMidYMid slice">
+      {MINI.map((p, i) => <path key={i} d={p.d} fill={p.code === code ? '#ffd23f' : '#3b4558'} stroke={p.code === code ? '#fff' : 'none'} strokeWidth={p.code === code ? 6 : 0} />)}
+      {MINIC[code] && <circle cx={MINIC[code][0]} cy={MINIC[code][1]} r={70} fill="none" stroke="#ffd23f" strokeWidth={14} />}
+    </svg>
+  </div>
+);
+
+// explicación de 5 s tras el título: de qué va el vídeo
+const Explain: React.FC<{E: any[]; t: number}> = ({E, t}) => {
+  const [t0, t1, rows] = E; if (t < t0 || t >= t1) return null; const o = Math.min(1, (t - t0) / 0.25, (t1 - t) / 0.3);
+  return <AbsoluteFill style={{zIndex: 43, opacity: o, alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(90deg, rgba(3,6,14,0) 0%, rgba(3,6,14,0.72) 22%, rgba(3,6,14,0.72) 78%, rgba(3,6,14,0) 100%)'}}>
+    <div style={{display: 'flex', flexDirection: 'column', gap: 26}}>
+      {rows.map(([ic, a, b]: string[], i: number) => { const ti = t0 + 0.1 + i * 1.45; if (t < ti) return <div key={i} style={{height: 118}} />; const k = pop(t, ti, 0.32);
+        return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 28, height: 118, transform: `translateX(${(1 - Math.min(1, k)) * -120}px) scale(${0.85 + 0.15 * k})`, opacity: Math.min(1, (t - ti) / 0.15)}}>
+          <div style={{width: 112, height: 112, borderRadius: 30, background: ['#3ddc84', '#ffd23f', '#ff4d6d'][i], border: `6px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64, boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}>{ic}</div>
+          <div><div style={{...font, fontSize: 66, color: '#fff', lineHeight: 1, ...stroke(12)}}>{a}</div>
+            <div style={{...font2, fontSize: 34, color: ['#aef5c4', '#ffe9a6', '#ffb3ad'][i], letterSpacing: 2, marginTop: 4, ...stroke(7)}}>{b}</div></div>
+        </div>; })}
+    </div></AbsoluteFill>;
+};
 // gráfica de los 7 ejércitos
 const BARC = ['#3ddc84', '#18c3b5', '#3a86ff', '#8b5cf6', '#ff9f1c', '#ff4d6d', '#ffd23f'];
 const Chart: React.FC<{C: any[]; t: number}> = ({C, t}) => {
@@ -60,6 +102,7 @@ const Slot: React.FC<{S: any[]; t: number}> = ({S, t}) => {
     <div style={{width: 820, background: 'linear-gradient(180deg,#ffcf3a,#e08a00)', border: `7px solid ${INK}`, borderRadius: 36, padding: '18px 26px 26px', boxShadow: '0 16px 0 rgba(0,0,0,0.45), 0 0 50px rgba(255,190,40,0.45)', transform: `scale(${pop(t, t0, 0.3)})`}}>
       <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 8}}>{Array.from({length: 11}, (_, i) => <div key={i} style={{width: 18, height: 18, borderRadius: 9, background: (Math.floor(lt * 10) + i) % 2 ? '#fff6b0' : '#c62828', border: `3px solid ${INK}`}} />)}</div>
       <div style={{...font, fontSize: 44, color: '#fff', textAlign: 'center', ...stroke(9), marginBottom: 10}}>{head}</div>
+      {lt < 1.4 && <div style={{...font2, fontSize: 26, color: '#fff', textAlign: 'center', marginTop: -6, marginBottom: 8, opacity: Math.min(1, (1.4 - lt) / 0.3), ...stroke(6)}}>WHICH COUNTRY WOULD YOU PICK? 🤔</div>}
       <div style={{position: 'relative', height: IH * 3, overflow: 'hidden', background: '#fdf6e3', border: `6px solid ${INK}`, borderRadius: 20}}>
         {[-1, 0, 1, 2].map((r) => { const idx = Math.floor(pos) + r; if (idx < 0 || idx >= items.length) return null; const it = items[idx]; const y = IH + (idx - pos) * IH;
           const isW = landed && idx === F;
@@ -71,7 +114,7 @@ const Slot: React.FC<{S: any[]; t: number}> = ({S, t}) => {
         <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: IH, background: 'linear-gradient(0deg,rgba(0,0,0,0.45),rgba(0,0,0,0))'}} />
       </div>
     </div>
-    {landed && <div style={{position: 'absolute', top: 130, ...font, fontSize: 120, color: '#ffd23f', transform: `scale(${0.3 + 0.7 * k}) rotate(${(1 - k) * -8}deg)`, ...stroke(16)}}>{win[1]}!</div>}
+    {landed && <div style={{position: 'absolute', top: 24, ...font, fontSize: 110, color: '#ffd23f', transform: `scale(${0.3 + 0.7 * k}) rotate(${(1 - k) * -8}deg)`, ...stroke(16)}}>{win[1]}!</div>}
   </AbsoluteFill>;
 };
 
@@ -142,23 +185,44 @@ export const VsHud: React.FC<{D: any; t: number; cam: any}> = ({D, t, cam}) => {
           <div style={{...font, fontSize: 58, color: '#ffd23f', lineHeight: 1, ...stroke(10)}}>{unit === 'SEC' ? `${dy.toFixed(1)} SEC` : `${Math.floor(dy)} ${Math.floor(dy) === 1 ? unit.replace(/S$/, '') : unit}`}</div>
         </div>
       </div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 122, display: 'flex', justifyContent: 'center', gap: 10, pointerEvents: 'none'}}>
+        {V.kills && <div style={{...font, fontSize: 24, color: '#fff', background: 'rgba(120,10,10,0.85)', border: '2px solid #ff8a80', borderRadius: 12, padding: '1px 14px'}}>💀 ENEMIES DOWN: {big(kv(V.kills, t))}</div>}
+        {(() => { const pr = ((V.pred || []) as any[]).find((p) => t >= p[0] && t < p[1]); if (!pr) return null; const done = t >= pr[3]; const ok = pr[4];
+          return <div style={{...font, fontSize: 24, color: done ? (ok ? '#0b2b14' : '#fff') : '#fff', background: done ? (ok ? '#3ddc84' : '#c62828') : 'rgba(8,12,22,0.85)', border: '2px solid #ffffff66', borderRadius: 12, padding: '1px 14px', transform: done && t - pr[3] < 0.4 ? `scale(${1 + 0.3 * (1 - (t - pr[3]) / 0.4)})` : undefined}}>{done ? (ok ? '✔ PREDICTION BEATEN' : '✘ PREDICTION MISSED') : `🔮 PREDICTION: ${pr[2]}`}</div>; })()}
+        {(() => { const ex = ((V.states || []) as any[]).find((p) => t >= p[0] && t < p[1]); if (!ex) return null;
+          return <div style={{...font, fontSize: 24, color: '#fff', background: 'rgba(10,30,90,0.88)', border: '2px solid #8fb4ff', borderRadius: 12, padding: '1px 14px'}}>🇺🇸 STATES LEFT: {Math.round(kv(ex[2], t))}</div>; })()}
+      </div>
       <div style={{position: 'absolute', right: 22, top: 20, display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end'}}>
         {(V.lv as string[]).map((l, i) => { const cur = i === lvl; const r = step((V.lres || {})[i], t);
           return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 8}}>
             {r ? <div style={{...font, fontSize: 17, color: r[2] || '#ff8a80', ...stroke(5)}}>{r[1]}</div> : null}
             <div style={{...font, fontSize: cur ? 30 : 21, color: cur ? INK : '#fff', background: cur ? '#ffd23f' : i < lvl ? 'rgba(60,60,70,0.88)' : 'rgba(8,12,22,0.88)', border: `3px solid ${cur ? '#fff' : '#ffffff40'}`, borderRadius: 10, padding: '0 12px', minWidth: 120, textAlign: 'center', boxShadow: cur ? '0 0 18px #ffd23f' : undefined}}>{l}</div></div>; })}
       </div>
-      {rec && rec[1] && <div style={{position: 'absolute', left: 0, right: 0, bottom: 18, display: 'flex', justifyContent: 'center'}}>
+      <div style={{position: 'absolute', left: 0, top: 0, right: 0, height: 8, display: 'flex', gap: 4, padding: '0 4px'}}>{Array.from({length: 7}, (_, i) => <div key={i} style={{flex: 1, height: 8, borderRadius: 4, background: i < lvl ? '#ffd23f' : i === lvl ? '#3ddc84' : '#ffffff30', boxShadow: i === lvl ? '0 0 10px #3ddc84' : undefined}} />)}</div>
+      <MiniMap code={code} />
+      {rec && rec[1] && <div style={{position: 'absolute', left: 22, bottom: 20, display: 'flex', justifyContent: 'flex-start'}}>
         <div style={{...font, fontSize: 26, color: '#fff', background: 'rgba(8,12,22,0.85)', border: '3px solid #ffd23f', borderRadius: 20, padding: '2px 20px', transform: `scale(${t - rec[0] < 0.5 ? 1 + 0.25 * (1 - (t - rec[0]) / 0.5) : 1})`}}>🏆 RECORD: {rec[1]}</div></div>}
     </AbsoluteFill>);
   }
   if (V.paint) out.push(<MapPaint key="pt" P={V.paint} t={t} cam={cam} />);
+  if (V.explain) out.push(<Explain key="ex" E={V.explain} t={t} />);
   for (const [i, C] of ((V.charts || []) as any[]).entries()) out.push(<Chart key={'ch' + i} C={C} t={t} />);
   for (const [i, S] of ((V.slots || []) as any[]).entries()) out.push(<Slot key={'sl' + i} S={S} t={t} />);
+  // aviso rojo: la defensa está a punto de romperse
+  if (hv) { const hp2 = cl(kv(V.hp, t, 1), 0, 1); if (hp2 > 0.001 && hp2 < 0.25) { const pu = 0.5 + 0.5 * Math.sin(t * 7); out.push(<AbsoluteFill key="dg" style={{zIndex: 28, pointerEvents: 'none', boxShadow: `inset 0 0 ${160 + 60 * pu}px rgba(220,20,20,${0.35 + 0.25 * pu})`}} />); } }
+  // KO: la ball del país caído con ojos en X
+  for (const [i, ko] of ((V.kos || []) as any[]).entries()) { const [k0, code] = ko; if (t < k0 || t > k0 + 1.8) continue; const a = Math.min(1, (k0 + 1.8 - t) / 0.3);
+    out.push(<div key={'ko' + i} style={{position: 'absolute', left: 140, top: 330, zIndex: 44, opacity: a}}><BallKO code={code} size={170} t={t} t0={k0} /></div>); }
+  for (const [i, c0] of ((V.confetti || []) as number[]).entries()) out.push(<Confetti key={'cf' + i} t={t} t0={c0} />);
+  // resumen: banderas de los países que atacaron
+  for (const [i, at] of ((V.atk || []) as any[]).entries()) { const [a0, a1, cs] = at; if (t < a0 || t >= a1) continue; const o2 = Math.min(1, (t - a0) / 0.25, (a1 - t) / 0.25);
+    out.push(<div key={'at' + i} style={{position: 'absolute', left: 0, right: 0, top: 735, zIndex: 47, opacity: o2, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10}}>
+      <div style={{...font2, fontSize: 24, color: '#ffb3ad', letterSpacing: 2, ...stroke(6)}}>ATTACKED BY</div>
+      {(cs as string[]).map((c, j) => <Img key={j} src={flag(c)} style={{width: 66, height: 44, borderRadius: 6, border: `3px solid ${INK}`, transform: `scale(${pop(t, a0 + 0.08 * j, 0.25)})`}} />)}</div>); }
   // ---- ticker de países que se unen
   const feed = ((V.feed || []) as any[]).filter((f) => t >= f[0] && t < f[0] + 2.6).slice(-4);
   feed.forEach((f, j) => { const k = pop(t, f[0], 0.25); const a = Math.min(1, (f[0] + 2.6 - t) / 0.3);
-    out.push(<div key={'fd' + f[0] + j} style={{position: 'absolute', right: 22, top: 350 + j * 62, zIndex: 34, opacity: a, transform: `translateX(${(1 - k) * 300}px)`}}>
+    out.push(<div key={'fd' + f[0] + j} style={{position: 'absolute', right: 22, top: 430 + j * 62, zIndex: 34, opacity: a, transform: `translateX(${(1 - k) * 300}px)`}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(120,10,10,0.9)', border: '3px solid #ff8a80', borderRadius: 12, padding: '4px 14px'}}>
         <Img src={flag(f[1])} style={{width: 42, height: 28, borderRadius: 4}} /><div style={{...font, fontSize: 26, color: '#fff'}}>{f[2]}</div></div></div>); });
   return <>{out}</>;

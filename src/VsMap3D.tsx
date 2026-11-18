@@ -300,7 +300,12 @@ const Prop: React.FC<{t: number; p: any[]; i: number}> = ({t, p, i}) => {
   else if (kind === 'drones') body = <>{Array.from({length: o.n || 4}, (_, j) => <Drone key={j} t={t} i={j + i} />)}</>;
   else if (kind === 'bridge') body = <Bridge t={t} boom={o.boom || 0} len={o.len || 120} />;
   else if (kind === 'flag') body = <group><Cyl p={[0, 0, 15]} r0={0.6} r1={0.5} h={30} c="#ddd" seg={6} /><mesh position={[6, 0, 26]} rotation={[Math.PI / 2, 0, 0]} scale={[12, 8, 1]} material={useMemo(() => new THREE.MeshBasicMaterial({map: flagTexK(KOF[o.col || 'US'] ?? 0), side: THREE.DoubleSide}), [o.col])}><planeGeometry args={[1, 1, 8, 1]} /></mesh></group>;
-  return <group position={[px, py, 0]} rotation={[0, 0, r]} scale={[sc * a, sc * a, sc * a]}>{body}</group>;
+  const sk = o.sink ? Math.max(0, t - o.sink) : 0;
+  return <group position={[px, py, -sk * sk * 6 * sc]} rotation={[sk * 0.5, sk * 0.25, r]} scale={[sc * a, sc * a, sc * a]}>{body}
+    {o.sink && t > o.sink - 0.1 && t < o.sink + 3 && <>
+      <sprite position={[0, 0, 14 + sk * 10]} scale={[30 + sk * 30, 30 + sk * 30, 1]}><spriteMaterial map={puff()} color={sk < 0.4 ? '#ffb060' : '#555'} transparent opacity={Math.max(0, 0.95 - sk / 3)} depthWrite={false} /></sprite>
+      {sk < 0.5 && <pointLight position={[0, 0, 20]} intensity={8e4} distance={200} color="#ffb060" />}</>}
+  </group>;
 };
 
 // ---------------------------------------------------------------- capa

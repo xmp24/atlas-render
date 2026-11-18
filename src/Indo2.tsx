@@ -139,6 +139,7 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   cand.sort((x, y) => (b && x === b.b ? -1 : b && y === b.b ? 1 : x === X.ID ? -1 : y === X.ID ? 1 : os.a[y] - os.a[x]));
   const out: React.ReactNode[] = []; const placed: [number, number, number][] = []; const COOL = rbrCool(X.D, t);
   for (const k of cand) {
+    if (X.D.vs && ((X.D.vs.hideK || []) as number[][]).some(([a2, b2, kk]) => t >= a2 && t < b2 && kk === k)) continue;
     if (out.length >= (X.D.rbr ? X.D.rbr.faces : X.D.zomb ? X.D.zomb.faces : 10)) break;
     const c = PIECES_C(best[k]); const [sx, sy] = toS(c[0], c[1], cam);
     const r = Math.max(14, Math.min(62, Math.sqrt(os.a[k] * s2) * 0.07));
@@ -2723,7 +2724,7 @@ const DaCard: React.FC<{c: any; t: number}> = ({c, t}) => {
         <div style={{...font, fontSize: 44, color: '#fff', lineHeight: 1}}>{v}</div><div style={{...font2, fontSize: 18, color: '#9aa'}}>{lab}</div></div>)}</div></DaPanel></AbsoluteFill>;
   if (c.type === 'cb') return <CbScene c={c} t={t} o={o} />;
   if (c.type === 'sub') return <SubCard c={c} t={t} />;
-  if (c.type === 'title') return <AbsoluteFill style={{alignItems: 'center', justifyContent: c.pos === 'top' ? 'flex-start' : 'center', paddingTop: c.pos === 'top' ? 150 : 0, zIndex: 38, background: c.dim ? `rgba(6,8,14,${0.92 * Math.min(1, (t - c.t) / 0.25)})` : undefined}}>
+  if (c.type === 'title') return <AbsoluteFill style={{alignItems: 'center', justifyContent: c.pos === 'top' ? 'flex-start' : 'center', paddingTop: c.pos === 'top' ? (X.D.vs ? 205 : 150) : 0, zIndex: 38, background: c.dim ? `rgba(6,8,14,${0.92 * Math.min(1, (t - c.t) / 0.25)})` : undefined}}>
     <div style={{textAlign: 'center', opacity: o, transform: `scale(${0.75 + 0.25 * k})`}}>
       {c.pre && <div style={{...font2, fontSize: 36, color: '#ffd23f', letterSpacing: 6, marginBottom: 6}}>{c.pre}</div>}
       <div style={{...font, fontSize: c.fs ?? 104, color: c.col ?? '#fff', lineHeight: 1.0, WebkitTextStroke: `12px ${INK}`, paintOrder: 'stroke fill'}}>{c.text}</div>
