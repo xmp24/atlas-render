@@ -136,10 +136,10 @@ export const VsHud: React.FC<{D: any; t: number; cam: any}> = ({D, t, cam}) => {
         <div style={{display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 4}}><div style={{...font, fontSize: 50, color: '#5dff8a', lineHeight: 1, transform: `scale(${flash(V.sold)})`, transformOrigin: 'left center'}}>{big(sold)}</div><div style={{...font2, fontSize: 20, color: '#aef5c4'}}>{Math.round(sold) === 1 ? 'SOLDIER' : 'SOLDIERS'}</div></div>
         <div style={{height: 16, background: '#ffffff1c', borderRadius: 8, marginTop: 8, overflow: 'hidden', border: '2px solid #ffffff44'}}><div style={{width: `${hp * 100}%`, height: '100%', background: hpCol, borderRadius: 6, boxShadow: `0 0 12px ${hpCol}`}} /></div>
       </Panel>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 18, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
-        <div style={{textAlign: 'center'}}>
-          <div style={{...font2, fontSize: 22, color: '#ffb3ad', letterSpacing: 3, ...stroke(6)}}>🌍 WORLD ARMY</div>
-          <div style={{...font, fontSize: 64, color: '#ff4a3d', lineHeight: 1, transform: `scale(${flash(V.world)})`, ...stroke(12)}}>{big(world)}</div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 16, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
+        <div style={{textAlign: 'center', background: 'rgba(8,12,22,0.82)', border: '3px solid #ffd23f', borderRadius: 16, padding: '4px 26px 8px'}}>
+          <div style={{...font2, fontSize: 20, color: '#ffe9a6', letterSpacing: 3}}>⏱ HELD FOR</div>
+          <div style={{...font, fontSize: 58, color: '#ffd23f', lineHeight: 1, ...stroke(10)}}>{unit === 'SEC' ? `${dy.toFixed(1)} SEC` : `${Math.floor(dy)} ${Math.floor(dy) === 1 ? unit.replace(/S$/, '') : unit}`}</div>
         </div>
       </div>
       <div style={{position: 'absolute', right: 22, top: 20, display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end'}}>
@@ -148,10 +148,6 @@ export const VsHud: React.FC<{D: any; t: number; cam: any}> = ({D, t, cam}) => {
             {r ? <div style={{...font, fontSize: 17, color: r[2] || '#ff8a80', ...stroke(5)}}>{r[1]}</div> : null}
             <div style={{...font, fontSize: cur ? 30 : 21, color: cur ? INK : '#fff', background: cur ? '#ffd23f' : i < lvl ? 'rgba(60,60,70,0.88)' : 'rgba(8,12,22,0.88)', border: `3px solid ${cur ? '#fff' : '#ffffff40'}`, borderRadius: 10, padding: '0 12px', minWidth: 120, textAlign: 'center', boxShadow: cur ? '0 0 18px #ffd23f' : undefined}}>{l}</div></div>; })}
       </div>
-      <Panel col="#ffd23f" style={{left: 22, bottom: 20, padding: '6px 18px 8px'}}>
-        <div style={{...font2, fontSize: 18, color: '#ffe9a6', letterSpacing: 2}}>⏱ HELD FOR</div>
-        <div style={{...font, fontSize: 46, color: '#ffd23f', lineHeight: 1}}>{unit === 'SEC' ? `${dy.toFixed(1)} SEC` : `${Math.floor(dy)} ${Math.floor(dy) === 1 ? unit.replace(/S$/, '') : unit}`}</div>
-      </Panel>
       {rec && rec[1] && <div style={{position: 'absolute', left: 0, right: 0, bottom: 18, display: 'flex', justifyContent: 'center'}}>
         <div style={{...font, fontSize: 26, color: '#fff', background: 'rgba(8,12,22,0.85)', border: '3px solid #ffd23f', borderRadius: 20, padding: '2px 20px', transform: `scale(${t - rec[0] < 0.5 ? 1 + 0.25 * (1 - (t - rec[0]) / 0.5) : 1})`}}>🏆 RECORD: {rec[1]}</div></div>}
     </AbsoluteFill>);
