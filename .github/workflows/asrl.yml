@@ -1,0 +1,37 @@
+name: asrl
+run-name: asrl ${{ inputs.branch }}
+on:
+  workflow_dispatch:
+    inputs:
+      branch: {required: true}
+      files: {required: true, description: 'JSON list of audio files'}
+permissions:
+  contents: write
+jobs:
+  asr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        f: ${{ fromJSON(inputs.files) }}
+    steps:
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q faster-whisper
+      - run: |
+          mkdir w && cd w && git init -q && git fetch -q --depth 1 https://github.com/${{ github.repository }} "+refs/heads/${{ inputs.branch }}:refs/remotes/o/b" && git archive o/b ${{ matrix.f }} | tar -x
+          python - <<'P'
+          import json
+          from faster_whisper import WhisperModel
+          m = WhisperModel('small', device='cpu', compute_type='int8', cpu_threads=4)
+          segs, info = m.transcribe('${{ matrix.f }}', language='en', beam_size=1, vad_filter=True, condition_on_previous_text=False)
+          out = []
+          for s in segs:
+              out.append([round(s.start,2), round(s.end,2), s.text.strip()])
+              if len(out) % 50 == 0: print(s.start, s.text, flush=True)
+          json.dump(out, open('../tr.json', 'w'), ensure_ascii=False)
+          P
+      - run: |
+          mkdir o && mv tr.json "o/${{ matrix.f }}.json" && cd o && git init -q -b out && git add -A && git -c user.name=atlas -c user.email=atlas@users.noreply.github.com commit -qm tr
+          for t in 1 2 3 4 5; do git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/tr-${{ inputs.branch }}-${{ matrix.f }} && exit 0; sleep $((5 + RANDOM % 10)); done; exit 1
