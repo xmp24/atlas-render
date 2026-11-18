@@ -205,11 +205,13 @@ const Army: React.FC<{t: number; a: any[]}> = ({t, a}) => {
   const fadeIn = ss(t0 - 0.3, t0 + 0.2, t);
   useLayoutEffect(() => {
     const m = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(), p = new THREE.Vector3(); const e = new THREE.Euler();
+    const PT: number[][] | undefined = o.pts; const NN = PT ? PT.length : n;
     const cols = Math.max(1, Math.round(Math.sqrt(n * W / Math.max(1, H)))); const rows = Math.ceil(n / cols);
-    for (let i = 0; i < n; i++) {
-      const c = i % cols, r = Math.floor(i / cols);
+    for (let i = 0; i < NN; i++) {
+      const c = i % cols, r = PT ? Math.round((PT[i][2] ?? 0.5) * Math.max(1, rows - 1)) : Math.floor(i / cols);
       const lx = (r / Math.max(1, rows - 1) - 0.5) * H + (rnd(i) - 0.5) * 3, ly = (c / Math.max(1, cols - 1) - 0.5) * W + (rnd(i + 7) - 0.5) * 3;
-      const px = cx + lx * Math.cos(dir) - ly * Math.sin(dir), py = cy + lx * Math.sin(dir) + ly * Math.cos(dir);
+      // pts: desplazamientos ya filtrados en tierra (no se rotan)
+      const px = PT ? cx + PT[i][0] : cx + lx * Math.cos(dir) - ly * Math.sin(dir), py = PT ? cy + PT[i][1] : cy + lx * Math.sin(dir) + ly * Math.cos(dir);
       let dead = 0; if (o.die) { const front = 1 - r / Math.max(1, rows - 1); const td = o.die[0] + (1 - front) * (o.die[1] - o.die[0]) + rnd(i + 3) * 0.3; dead = ss(td, td + 0.25, t); }
       const step = Math.abs(Math.sin(t * 12 + i)) * (1 - dead) * (u < 1 ? 1 : 0.2);
       e.set(dead * 1.5, 0, dir); q.setFromEuler(e); const s = fadeIn * (1 - ss(t1 + (o.hold ?? 0) - 0.2, t1 + (o.hold ?? 0), t) * (o.vanish ? 1 : 0));
@@ -223,9 +225,9 @@ const Army: React.FC<{t: number; a: any[]}> = ({t, a}) => {
   if (t < t0 - 0.3 || (o.vanish && t > t1 + (o.hold ?? 0))) return null;
   return (
     <group>
-      <instancedMesh ref={body} args={[undefined, undefined, n]} frustumCulled={false}><boxGeometry args={[2.2, 2.4, 4.4]} /><meshStandardMaterial color={col} roughness={0.7} /></instancedMesh>
-      <instancedMesh ref={head} args={[undefined, undefined, n]} frustumCulled={false}><sphereGeometry args={[1.5, 8, 6]} /><meshStandardMaterial color={o.head || '#3d4a2c'} roughness={0.7} /></instancedMesh>
-      <instancedMesh ref={gun} args={[undefined, undefined, n]} frustumCulled={false}><boxGeometry args={[4.2, 0.5, 0.5]} /><meshStandardMaterial color="#1b1b1b" /></instancedMesh>
+      <instancedMesh ref={body} args={[undefined, undefined, (o.pts ? o.pts.length : n)]} frustumCulled={false}><boxGeometry args={[2.2, 2.4, 4.4]} /><meshStandardMaterial color={col} roughness={0.7} /></instancedMesh>
+      <instancedMesh ref={head} args={[undefined, undefined, (o.pts ? o.pts.length : n)]} frustumCulled={false}><sphereGeometry args={[1.5, 8, 6]} /><meshStandardMaterial color={o.head || '#3d4a2c'} roughness={0.7} /></instancedMesh>
+      <instancedMesh ref={gun} args={[undefined, undefined, (o.pts ? o.pts.length : n)]} frustumCulled={false}><boxGeometry args={[4.2, 0.5, 0.5]} /><meshStandardMaterial color="#1b1b1b" /></instancedMesh>
     </group>
   );
 };
