@@ -30,6 +30,8 @@ import J_rbr from './hw/rbr.json';
 import J_zomb from './hw/zomb.json';
 import J_zomb2 from './hw/zomb2.json';
 import J_imp from './hw/imp.json';
+import J_vs from './hw/vs.json';
+import {VsHud} from './VsHud';
 import {ZombHud, ZFace, zfrac, ZombMapFX} from './ZombHud';
 import {ZombMap3D, tiltCss, tiltAt} from './ZombMap3D';
 import {RbrHud, rbrCool, Shades} from './RbrHud';
@@ -73,7 +75,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -710,7 +712,7 @@ const ColdText: React.FC<{t: number}> = ({t}) => {
     <div style={{transform: `scale(${0.6 + 0.4 * a}) rotate(${(1 - a) * -4}deg)`, opacity: Math.min(1, a * 1.4), ...font, fontSize: 140, color: '#fff', textShadow: `8px 8px 0 ${INK}`, textAlign: 'center', lineHeight: 1}}>{c[2]}</div></div>;
 };
 const Title: React.FC<{t: number}> = ({t}) => {
-  const g = X.D.globe; if (t < g.t0 || t > g.t1) return null;
+  const g = X.D.globe; if (t < g.t0 || t > g.t1 || X.D.vs) return null;
   const a = popT(t, g.t0 + 0.6, 11) * lerp(t, g.t1 - 1.8, g.t1 - 1.2, 1, 0);
   return <div style={{position: 'absolute', top: 50, left: 0, right: 0, textAlign: 'center', zIndex: 30, transform: `scale(${0.7 + 0.3 * a})`, opacity: a}}>
     <div style={{...font, fontSize: 100, color: '#fff', textShadow: `6px 6px 0 ${INK}`, lineHeight: 1}}>{X.D.title2 ? X.D.title2[0] : 'CAN INDONESIA'}</div>
@@ -3018,8 +3020,8 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
   return (
     <AbsoluteFill style={{background: '#0b1626', overflow: 'hidden'}}>
       {showMap && (
-        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `${D.zomb ? tiltCss(D.zomb, t) : ''}translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
-          {(() => { const TL = D.zomb ? tiltAt(D.zomb, t) : {ax: 0, az: 0}; const tilted = Math.abs(TL.ax) > 0.05 || Math.abs(TL.az) > 0.05; const ox = tilted ? Math.round(VW * (0.3 + Math.abs(TL.az) / 60)) : 0, ot = tilted ? Math.round(VH * (0.25 + TL.ax / 45)) : 0, ob = tilted ? Math.round(VH * 0.2) : 0; const cm = inGlobe ? X.camF(g.t1 + 0.03) : camL; const cm2 = tilted ? {...cm, cy: cm.cy - (ot - ob) / 2 / cm.s} : cm; return <div style={{position: 'absolute', left: -ox, top: -ot, width: VW + 2 * ox, height: VH + ot + ob}}>
+        <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `${(D.zomb || D.z3) ? tiltCss(D.zomb || D.z3, t) : ''}translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
+          {(() => { const TL = (D.zomb || D.z3) ? tiltAt(D.zomb || D.z3, t) : {ax: 0, az: 0}; const tilted = Math.abs(TL.ax) > 0.05 || Math.abs(TL.az) > 0.05; const ox = tilted ? Math.round(VW * (0.3 + Math.abs(TL.az) / 60)) : 0, ot = tilted ? Math.round(VH * (0.25 + TL.ax / 45)) : 0, ob = tilted ? Math.round(VH * 0.2) : 0; const cm = inGlobe ? X.camF(g.t1 + 0.03) : camL; const cm2 = tilted ? {...cm, cy: cm.cy - (ot - ob) / 2 / cm.s} : cm; return <div style={{position: 'absolute', left: -ox, top: -ot, width: VW + 2 * ox, height: VH + ot + ob}}>
           <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cm2} W={VW + 2 * ox} H={VH + ot + ob} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t), fic: X.D.fic || false} as any} />
           </div>; })()}
           {D.zomb && <ZombMapFX D={D} t={t} cam={camL} />}
@@ -3052,10 +3054,11 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       </AbsoluteFill>; })()}
       {inGlobe && (
         <AbsoluteFill style={{transform: `scale(${gz})`, transformOrigin: '50% 50%', opacity: gfade, background: gfade < 1 ? 'transparent' : undefined}}>
-          <Globe W={1920} H={1080} lon={lon} lat={lat} radius={grad} cy={540} overlay={HERO ? 0.22 : lerp(t, g.t0, g.t0 + 2.5, 0, 0.5)} highlight={HERO ? (c) => (ownSet && ownSet.has(CODEK[c]) ? '#2f5fe0' : hlSet.has(c) ? '#ff3b30' : null) : (c) => (c === ((g as any).hl1 ?? 'ID') ? (pulse > 0.5 ? '#ff3b30' : '#ffd23f') : null)} stars={HERO ? 1 : GP ? lerp(t, g.t1 - 1.2, g.t1, 1, 0.3) : lerp(t, g.t1 - 1.6, g.t1, 1, 0)} />
+          <Globe W={1920} H={1080} lon={lon} lat={lat} radius={grad} cy={540} overlay={HERO ? 0.22 : lerp(t, g.t0, g.t0 + 2.5, 0, 0.5)} highlight={HERO ? (c) => (ownSet && ownSet.has(CODEK[c]) ? '#2f5fe0' : hlSet.has(c) ? '#ff3b30' : null) : (c) => (c === ((g as any).hl1 ?? 'ID') ? (pulse > 0.5 ? '#ff3b30' : '#ffd23f') : null)} stars={HERO ? 1 : GP ? lerp(t, g.t1 - 1.2, g.t1, 1, 0.3) : lerp(t, g.t1 - 1.6, g.t1, 1, 0)} paint={(g as any).paint ? lerp(t, g.t0 + 0.4, g.t1 - 0.5, 0, 1, Easing.inOut(Easing.quad)) : 0} plon={g.lon1} plat={g.lat1} />
         </AbsoluteFill>
       )}
-      {D.zomb && showMap && <ZombMap3D D={D} t={t} cam={camL} />}
+      {(D.zomb || D.z3) && showMap && <ZombMap3D D={D} t={t} cam={camL} />}
+      {D.vs && <VsHud D={D} t={t} cam={camL} />}
       <Grade t={t} />
       {!CO && <>
       <Spot t={t} cam={camL} />

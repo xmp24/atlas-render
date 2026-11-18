@@ -8,7 +8,7 @@ import {IMG, MAINCOL, MARBLE, KOF} from './HexWorld';
 const FC = feature(TOPO as any, (TOPO as any).objects.countries) as any;
 const GRAT = geoGraticule10();
 
-export const Globe: React.FC<{W: number; H: number; lon: number; lat: number; radius: number; cx?: number; cy?: number; overlay?: number; highlight?: (code: string) => string | null; stars?: number}> = ({W, H, lon, lat, radius, cx = W / 2, cy = H / 2, overlay = 0.45, highlight, stars = 1}) => {
+export const Globe: React.FC<{W: number; H: number; lon: number; lat: number; radius: number; cx?: number; cy?: number; overlay?: number; highlight?: (code: string) => string | null; stars?: number; paint?: number; plon?: number; plat?: number}> = ({W, H, lon, lat, radius, cx = W / 2, cy = H / 2, overlay = 0.45, highlight, stars = 1, paint = 0, plon = 0, plat = 0}) => {
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
     const c = ref.current; if (!c) return;
@@ -60,23 +60,28 @@ export const Globe: React.FC<{W: number; H: number; lon: number; lat: number; ra
     // países coloreados + rejilla
     const proj = geoOrthographic().rotate([-lon, -lat]).scale(radius).translate([cx, cy]).clipAngle(90);
     const path = geoPath(proj, ctx);
-    if (overlay > 0) {
+    if (paint > 0) { ctx.globalAlpha = Math.min(1, paint * 1.6); ctx.fillStyle = '#1a4f8f'; ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.fill(); }
+    if (overlay > 0 || paint > 0) {
+      const R2 = Math.PI / 180, cpl = Math.cos(plat * R2), spl = Math.sin(plat * R2);
       for (const f of FC.features) {
         const k = KOF[f.properties.code];
         const hl = highlight ? highlight(f.properties.code) : null;
-        ctx.globalAlpha = hl ? 0.85 : overlay;
+        let wa = 0;
+        if (paint > 0) { const cc = (f.properties as any)._c || ((f.properties as any)._c = geoPath().centroid(f)); const la = cc[1] * R2, dl = (cc[0] - plon) * R2;
+          const d = Math.acos(Math.max(-1, Math.min(1, spl * Math.sin(la) + cpl * Math.cos(la) * Math.cos(dl)))) / Math.PI; wa = Math.max(0, Math.min(1, (paint * 1.5 - d) / 0.18)); }
+        ctx.globalAlpha = hl ? 0.85 : Math.max(overlay, wa);
         ctx.fillStyle = hl || (k !== undefined ? MAINCOL[k] : '#999');
         ctx.beginPath(); path(f); ctx.fill();
       }
-      ctx.globalAlpha = 0.7; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = Math.max(0.6, radius / 700);
+      ctx.globalAlpha = 0.7; ctx.strokeStyle = paint > 0.3 ? '#151515' : '#ffffff'; ctx.lineWidth = Math.max(0.6, radius / 700) * (1 + 2 * paint);
       ctx.beginPath(); for (const f of FC.features) path(f); ctx.stroke();
     }
-    ctx.globalAlpha = 0.14; ctx.strokeStyle = '#cfe6ff'; ctx.lineWidth = 1;
+    ctx.globalAlpha = 0.14 * (1 - paint); ctx.strokeStyle = '#cfe6ff'; ctx.lineWidth = 1;
     ctx.beginPath(); path(GRAT as any); ctx.stroke();
     ctx.globalAlpha = 1;
     // sombra de terminador
     const sg = ctx.createRadialGradient(cx - radius * 0.35, cy - radius * 0.35, radius * 0.2, cx, cy, radius * 1.02);
-    sg.addColorStop(0, 'rgba(0,0,0,0)'); sg.addColorStop(0.75, 'rgba(0,0,10,0.12)'); sg.addColorStop(1, 'rgba(0,0,20,0.55)');
+    sg.addColorStop(0, 'rgba(0,0,0,0)'); sg.addColorStop(0.75, 'rgba(0,0,10,0.12)'); sg.addColorStop(1, `rgba(0,0,20,${0.55 * (1 - paint)})`);
     ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.fill();
   });
   return <canvas ref={ref} width={W} height={H} style={{position: 'absolute', left: 0, top: 0, width: W, height: H}} />;

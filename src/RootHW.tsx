@@ -124,6 +124,8 @@ export const RootHW: React.FC = () => (
     <Composition id="V-zomb2-60" component={Indo2} durationInFrames={indoFrames('zomb2') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'zomb2'}} />
     <Composition id="V-imp" component={Indo2} durationInFrames={indoFrames('imp')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
     <Composition id="V-imp60" component={Indo2} durationInFrames={indoFrames('imp') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
+    <Composition id="V-vs" component={Indo2} durationInFrames={indoFrames('vs')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'vs'}} />
+    <Composition id="V-vs60" component={Indo2} durationInFrames={indoFrames('vs') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'vs'}} />
     <Composition id="Z3D-test" component={Z3DTest} durationInFrames={2400} fps={30} width={1920} height={1080} />
     <Composition id="V-rbr" component={Indo2} durationInFrames={indoFrames('rbr')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'rbr'}} />
     <Composition id="V-mc60" component={Indo2} durationInFrames={indoFrames('mc') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'mc'}} />

@@ -1,6 +1,6 @@
 // Miniaturas "WHAT IF A ZOMBIE OUTBREAK HIT?" (1280x720)
 import React from 'react';
-import {AbsoluteFill} from 'remotion';
+import {AbsoluteFill, staticFile} from 'remotion';
 import {COUNTRIES, FlagCanvas} from './HexWorld';
 import {Embers, Glow} from './ThumbsPro';
 import {CBall} from './ThumbsCB';
@@ -80,6 +80,25 @@ const Pill: React.FC<{x: number; y: number; text: string; bg: string; size?: num
   <div style={{position: 'absolute', left: x, top: y, transform: `translate(-50%,0) rotate(${rot}deg)`, background: bg, border: `5px solid ${INK}`, borderRadius: 14, padding: `${size * 0.12}px ${size * 0.45}px ${size * 0.04}px`, boxShadow: `0 6px 0 ${INK}`, ...font, fontSize: size, color: '#fff', whiteSpace: 'nowrap', textShadow: `2px 3px 0 ${INK}`}}>{text}</div>
 );
 const greenFog = (a = 0.35) => <AbsoluteFill style={{background: `radial-gradient(ellipse at 50% 100%, rgba(120,255,60,${a}) 0%, rgba(0,0,0,0) 60%)`}} />;
+
+
+// compuerta blindada de búnker
+const Vault: React.FC<{x: number; y: number; s: number; open?: number; dent?: boolean}> = ({x, y, s, open = 0, dent}) => (
+  <svg width={s} height={s} viewBox="0 0 100 100" style={{position: 'absolute', left: x - s / 2, top: y - s / 2, overflow: 'visible'}}>
+    <defs><radialGradient id="vg" cx="38%" cy="32%"><stop offset="0%" stopColor="#e8eef4" /><stop offset="55%" stopColor="#8a96a4" /><stop offset="100%" stopColor="#3a424c" /></radialGradient></defs>
+    <circle cx={50} cy={50} r={50} fill="#1a1c20" stroke={INK} strokeWidth={3} />
+    <circle cx={50} cy={50} r={46} fill="#2a2e34" />
+    <g transform={`translate(${-open * 40},0) scale(${1 - open * 0.25},1)`} style={{transformOrigin: '10px 50px'}}>
+      <circle cx={50} cy={50} r={42} fill="url(#vg)" stroke={INK} strokeWidth={3} />
+      {Array.from({length: 12}, (_, i) => { const a = (i / 12) * Math.PI * 2; return <circle key={i} cx={50 + Math.cos(a) * 36} cy={50 + Math.sin(a) * 36} r={2.6} fill="#5a646e" stroke={INK} strokeWidth={1} />; })}
+      <circle cx={50} cy={50} r={14} fill="none" stroke={INK} strokeWidth={4} />
+      {[0, 60, 120].map((r) => <rect key={r} x={30} y={48} width={40} height={4} rx={2} fill="#4a525c" stroke={INK} strokeWidth={1.2} transform={`rotate(${r + 15} 50 50)`} />)}
+      {dent && <><path d="M22,30 L30,36 L24,42 M70,64 L78,70 L72,76 M62,20 L66,28" stroke={INK} strokeWidth={2.2} fill="none" /><circle cx={30} cy={66} r={6} fill="none" stroke={INK} strokeWidth={1.6} opacity={0.6} /></>}
+    </g>
+  </svg>
+);
+const Num: React.FC<{text: string; x: number; y: number; size: number; grad: string; glow: string; rot?: number}> = ({text, x, y, size, grad, glow, rot = 0}) => <Title3D text={text} x={x} y={y} size={size} grad={grad} glow={glow} rot={rot} />;
+const GOLDY = 'linear-gradient(180deg,#fffbe0 0%,#ffe27a 40%,#ffb020 75%,#c86a00 100%)';
 
 const T: Record<string, React.ReactNode> = {
   // 1 · LAS 2 ÚLTIMAS: India e Indonesia espalda con espalda, rodeadas de zombis
@@ -163,6 +182,75 @@ const T: Record<string, React.ReactNode> = {
     <WarHelmet x={1010} y={420 + 360 * 0.03} size={360 * 0.98} rot={6} />
     <Syringe x={1200} y={250} s={200} rot={-25} />
     <Title3D text="THE LAST HOPE" x={640} y={14} size={104} grad={CUREG} glow="rgba(120,210,255,0.85)" />
+    <Vign />
+  </>),
+
+  // 6 · ZOMBIE OUTBREAK 2 · "50 LEFT": compuerta del último búnker y el número enorme
+  f: (<>
+    <AbsoluteFill style={{background: '#050806'}} />
+    <WorldBg cam={{cx: 3840, cy: 2150, s: 0.2}} colOver={zombieWorld()} mood="scared" blur={2} />
+    <AbsoluteFill style={{background: 'rgba(6,14,6,0.55)'}} />
+    {greenFog(0.4)}
+    {([['US', 140, 610, 190, -8], ['RU', 1150, 600, 200, 8], ['CN', 120, 250, 150, -6], ['IN', 1160, 230, 150, 6]] as const).map(([c, x, y, s, r]) => <ZBall key={c} c={c} x={x} y={y} s={s} rot={r} flip={x > 640} />)}
+    <Hand x={330} y={430} s={100} rot={30} /><Hand x={950} y={430} s={100} rot={-30} />
+    <Glow x={640} y={420} r={300} c="rgba(255,190,60,0.45)" />
+    <Vault x={640} y={430} s={360} dent />
+    <Num text="50" x={640} y={300} size={220} grad={GOLDY} glow="rgba(255,190,60,0.9)" />
+    <Title3D text="HUMANS LEFT" y={18} size={104} grad={WHITE} glow="rgba(255,255,255,0.6)" />
+    <Vign />
+  </>),
+  // 7 · LA CURA FALLÓ: jeringuilla rota y zombi riéndose
+  g: (<>
+    <AbsoluteFill style={{background: '#08140a'}} />
+    <WorldBg cam={{cx: 4800, cy: 1500, s: 0.32}} colOver={zombieWorld()} mood="scared" blur={1.6} />
+    <AbsoluteFill style={{background: 'rgba(10,30,8,0.4)'}} />
+    {greenFog(0.45)}
+    <Glow x={420} y={420} r={360} c="rgba(140,255,80,0.5)" />
+    <ZBall c="RU" x={420} y={430} s={430} rot={-6} />
+    <Hand x={690} y={430} s={110} rot={30} />
+    <Syringe x={1000} y={360} s={330} rot={-20} />
+    <svg width={W} height={H} style={{position: 'absolute', inset: 0}}><path d="M860,210 L1150,520 M1150,210 L860,520" stroke={INK} strokeWidth={60} strokeLinecap="round" /><path d="M860,210 L1150,520 M1150,210 L860,520" stroke="#e8352b" strokeWidth={38} strokeLinecap="round" /></svg>
+    <Title3D text="THE CURE FAILED" x={640} y={590} size={108} grad={REDG} glow="rgba(255,60,30,0.85)" />
+    <Vign />
+  </>),
+  // 8 · 810 MILLONES → 50
+  h: (<>
+    <AbsoluteFill style={{background: '#06120a'}} />
+    <WorldBg cam={{cx: 3840, cy: 2150, s: 0.2}} colOver={zombieWorld()} mood="scared" blur={1.8} />
+    <AbsoluteFill style={{background: 'rgba(6,18,8,0.5)'}} />
+    {greenFog(0.35)}
+    <Num text="810,000,000" x={640} y={70} size={120} grad={WHITE} glow="rgba(255,255,255,0.5)" rot={-2} />
+    <svg width={W} height={H} style={{position: 'absolute', inset: 0}}><path d="M640,250 L640,400" stroke={INK} strokeWidth={46} strokeLinecap="round" /><path d="M640,250 L640,400" stroke="#e8352b" strokeWidth={26} strokeLinecap="round" /><path d="M590,370 L640,430 L690,370" stroke={INK} strokeWidth={46} fill="none" strokeLinecap="round" strokeLinejoin="round" /><path d="M590,370 L640,430 L690,370" stroke="#e8352b" strokeWidth={26} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    <Num text="50" x={640} y={420} size={250} grad={GOLDY} glow="rgba(255,190,60,0.9)" />
+    <ZBall c="CN" x={170} y={520} s={260} rot={-10} />
+    <ZBall c="US" x={1110} y={520} s={260} rot={10} flip />
+    <Vign />
+  </>),
+  // 9 · LOS ZOMBIS GANARON: bola zombi coronada sobre el mundo
+  i: (<>
+    <AbsoluteFill style={{background: '#050c06'}} />
+    <WorldBg cam={{cx: 3840, cy: 2150, s: 0.2}} colOver={zombieWorld()} mood="scared" blur={1.4} />
+    <AbsoluteFill style={{background: 'rgba(8,20,6,0.35)'}} />
+    <Embers n={40} seed={11} c="#b6ff5a" />
+    <Glow x={640} y={420} r={380} c="rgba(140,255,80,0.55)" />
+    <ZBall c="RU" x={640} y={440} s={440} />
+    <div style={{position: 'absolute', left: 640 - 110, top: 150, width: 220, height: 160, filter: `drop-shadow(0 0 4px ${INK}) drop-shadow(0 0 4px ${INK}) drop-shadow(0 0 24px #ffd86a)`, transform: 'rotate(-8deg)'}}><div style={{width: '100%', height: '100%', background: 'linear-gradient(180deg, #fff3a0, #ffc21a 60%, #d48a00)', WebkitMaskImage: `url(${staticFile('hw/icons/crown.svg')})`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center'}} /></div>
+    <Hand x={330} y={470} s={110} rot={25} /><Hand x={950} y={470} s={110} rot={-25} />
+    <Title3D text="THE ZOMBIES WON" x={640} y={590} size={108} grad={ZGREEN} glow="rgba(150,255,80,0.85)" />
+    <Vign />
+  </>),
+  // 10 · EL ÚLTIMO BÚNKER asediado, un humano asomando
+  j: (<>
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 55%, #1a2a14 0%, #050806 75%)'}} />
+    <WorldBg cam={{cx: 2200, cy: 3300, s: 0.34}} colOver={zombieWorld()} mood="scared" blur={2.2} />
+    <AbsoluteFill style={{background: 'rgba(5,10,4,0.55)'}} />
+    <Smoke list={[[200, 660, 160], [1080, 670, 160]]} />
+    {Array.from({length: 10}, (_, i) => { const cs = ['US', 'CN', 'RU', 'BR', 'IN', 'GB', 'FR', 'JP', 'MX', 'DE']; const a = (i / 10) * Math.PI * 2; return <ZBall key={i} c={cs[i]} x={640 + Math.cos(a) * 470} y={400 + Math.sin(a) * 250} s={150} rot={(rnd(i) - 0.5) * 20} flip={Math.cos(a) > 0} />; })}
+    <Hand x={400} y={330} s={95} rot={40} /><Hand x={880} y={330} s={95} rot={-40} />
+    <Glow x={640} y={400} r={280} c="rgba(255,190,60,0.5)" />
+    <Vault x={640} y={400} s={330} open={0.35} />
+    <CBall k={K('AR')} size={130} x={590} y={420} eyes="scared" look={0.6} sweat rim="rgba(255,210,120,0.8)" />
+    <Title3D text="THE LAST BUNKER" y={16} size={104} grad={GOLDY} glow="rgba(255,190,60,0.85)" />
     <Vign />
   </>),
 };

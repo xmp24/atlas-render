@@ -7,6 +7,7 @@ import {useThree} from '@react-three/fiber';
 import WJ from './world.json';
 import {KOF, MAINCOL, flagBmp} from './HexWorld';
 import {zfrac} from './ZombHud';
+import {VsLayer, vsActive} from './VsMap3D';
 
 const VW = 1920, VH = 1080;
 export const PERSP = 1600;
@@ -172,12 +173,13 @@ const Clouds: React.FC<{t: number; c: any[]; cam: Cam}> = ({t, c, cam}) => {
 
 // ---------------------------------------------------------------- capa
 export const ZombMap3D: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => {
-  const Z = D.zomb; if (!Z) return null;
+  const Z = D.zomb || D.z3; if (!Z) return null;
   const {ax, az} = tiltAt(Z, t);
   const win = (l: any[] | undefined, pad = 0) => (l || []).filter((x) => t >= x[0] - pad && t < x[1] + pad);
   const pillars = win(Z.pillars); const nukes = (Z.nukes || []).filter((n: any) => t >= n[0] && t < n[0] + 8);
   const walls = (Z.walls || []).filter((w: any) => t >= w[0] && t < w[2]); const domes = win(Z.domes); const beams = win(Z.beams); const clouds = win(Z.clouds); const blocks = win(Z.blocks);
-  if (!pillars.length && !nukes.length && !walls.length && !domes.length && !beams.length && !clouds.length && !blocks.length) return null;
+  const vsOn = vsActive(Z, t);
+  if (!vsOn && !pillars.length && !nukes.length && !walls.length && !domes.length && !beams.length && !clouds.length && !blocks.length) return null;
   const s = cam.s;
   return (
     <div style={{position: 'absolute', inset: 0, zIndex: 12, pointerEvents: 'none'}}>
@@ -196,6 +198,7 @@ export const ZombMap3D: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) 
               {domes.map((d: any, i: number) => <Dome key={i} t={t} d={d} />)}
               {beams.map((b: any, i: number) => <Beam key={i} t={t} b={b} i={i} />)}
               {clouds.map((c: any, i: number) => <Clouds key={i} t={t} c={c} cam={cam} />)}
+              {vsOn && <VsLayer Z={Z} t={t} />}
             </group>
           </group>
         </group>
