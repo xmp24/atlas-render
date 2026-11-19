@@ -126,7 +126,7 @@ const occAny = (occ: any[][], k: number, a: number, t0: number) => occ.find((o) 
 const drawWorldOcc = (ctx: CanvasRenderingContext2D, war: any, t: number, s: number, vis: (b: number[]) => boolean, PIECES: any[]) => {
   const WC: string = war.wc, WE: string = war.wce || '#2a0b4a';
   const byK = new Map<number, any[]>();
-  for (const oe of war.occ as any[]) { const gr = oe[6]; if (!gr || !gr.fl || t < oe[2] || t > oe[3]) continue; if (!byK.has(oe[0])) byK.set(oe[0], []); byK.get(oe[0])!.push(oe); }
+  const DF: number[] = war.defs || []; for (const oe of war.occ as any[]) { const gr = oe[6]; if (!gr || !gr.fl || t < oe[2] || t > oe[3] || DF.includes(oe[1])) continue; if (!byK.has(oe[0])) byK.set(oe[0], []); byK.get(oe[0])!.push(oe); }
   for (const [k, L] of byK) {
     const clip = new Path2D(); let any = false;
     for (const p of PIECES) if (p.k === k && p.path && vis(p.bbox)) { clip.addPath(p.path); any = true; }
@@ -162,7 +162,7 @@ export const drawOcc = (ctx: CanvasRenderingContext2D, war: WarData, t: number, 
   const WCM = !!(war as any).wc;
   if (WCM) drawWorldOcc(ctx, war, t, s, vis, PIECES);
   for (const oe of war.occ) {
-    if (WCM && (oe as any)[6] && (oe as any)[6].fl) continue;
+    if (WCM && (oe as any)[6] && (oe as any)[6].fl && !(((war as any).defs || []) as number[]).includes((oe as any)[1])) continue;
     const [k, a, t0, t1, ids, col] = oe as any; const EC = (oe as any)[7] || DARKCOL[a] || '#400';
     if (t < t0 || t > t1) continue;
     const clip = new Path2D(); let any = false;

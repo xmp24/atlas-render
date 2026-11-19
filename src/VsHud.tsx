@@ -205,17 +205,25 @@ export const VsHud: React.FC<{D: any; t: number; cam: any; hide?: boolean}> = ({
         const ph = step(BT.ph, t); const fr = step(BT.fr, t);
         const mc = mor > 0.6 ? '#3ddc84' : mor > 0.3 ? '#ffd23f' : '#ff3b30';
         const Bar = ({lab, v, c, c2, txt}: {lab: string; v: number; c: string; c2: string; txt: string}) => <div style={{marginTop: 6}}>
-          <div style={{display: 'flex', justifyContent: 'space-between'}}><span style={{...font2, fontSize: 17, color: '#cfd8e6', letterSpacing: 1}}>{lab}</span><span style={{...font, fontSize: 17, color: c}}>{txt}</span></div>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}><span style={{...font2, fontSize: 18, color: '#cfd8e6', letterSpacing: 1}}>{lab}</span><span style={{...font, fontSize: 18, color: c}}>{txt}</span></div>
           <div style={{height: 11, background: c2, borderRadius: 6, overflow: 'hidden', border: '2px solid #ffffff33', marginTop: 2}}><div style={{width: `${v * 100}%`, height: '100%', background: c, borderRadius: 4}} /></div></div>;
         return <div style={{position: 'absolute', left: 22, top: 192, width: 360, opacity: o2}}>
           <div style={{background: 'rgba(8,12,22,0.82)', border: '3px solid #ffffff44', borderRadius: 14, padding: '4px 14px 10px'}}>
-            <Bar lab="MORALE" v={mor} c={mc} c2="#ffffff18" txt={mor > 0.75 ? 'HIGH' : mor > 0.5 ? 'STEADY' : mor > 0.25 ? 'SHAKEN' : 'BROKEN'} />
+            <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+              <svg width={34} height={34} viewBox="-17 -17 34 34" style={{marginTop: 8, flexShrink: 0}}>
+                <circle r={15} fill={mc} stroke={INK} strokeWidth={2.5} />
+                <circle cx={-5} cy={-3} r={2.4} fill={INK} /><circle cx={5} cy={-3} r={2.4} fill={INK} />
+                <path d={`M-7,${7 - (mor - 0.5) * 2} Q0,${7 + (mor - 0.5) * 12} 7,${7 - (mor - 0.5) * 2}`} stroke={INK} strokeWidth={2.4} fill="none" strokeLinecap="round" />
+                {mor < 0.25 && <path d="M-6,0 q-1.5,4 0,6 q1.5,-2 0,-6" fill="#4aa3ff" />}
+              </svg>
+              <div style={{flex: 1}}><Bar lab="MORALE" v={mor} c={mc} c2="#ffffff18" txt={mor > 0.75 ? 'HIGH' : mor > 0.5 ? 'STEADY' : mor > 0.25 ? 'SHAKEN' : 'BROKEN'} /></div>
+            </div>
             <Bar lab="AIR CONTROL" v={air} c="#4aa3ff" c2="#c62828" txt={air > 0.6 ? 'OURS' : air > 0.4 ? 'CONTESTED' : 'ENEMY'} />
           </div>
-          {(() => { const eq = ((BT.eq || []) as any[]).find((e) => t >= e[0] && t < e[1]); if (!eq) return null; return <div style={{marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 5}}>{(eq[2] as string[]).map((g, j) => <span key={j} style={{...font2, fontSize: 14, color: '#fff', background: 'rgba(8,12,22,0.82)', border: '2px solid #5dff8a66', borderRadius: 7, padding: '0 7px'}}>{g}</span>)}</div>; })()}
+          {(() => { const eq = ((BT.eq || []) as any[]).find((e) => t >= e[0] && t < e[1]); if (!eq) return null; return <div style={{marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 5}}>{(eq[2] as string[]).map((g, j) => <span key={j} style={{...font2, fontSize: 16, color: '#fff', background: 'rgba(8,12,22,0.82)', border: '2px solid #5dff8a66', borderRadius: 7, padding: '0 7px'}}>{g}</span>)}</div>; })()}
           {ph && ph[1] && <div style={{marginTop: 8, display: 'flex'}}><div style={{...font, fontSize: 20, color: INK, background: '#ffd23f', border: `3px solid ${INK}`, borderRadius: 10, padding: '0 10px', transform: `scale(${t - ph[0] < 0.4 ? 1 + 0.2 * (1 - (t - ph[0]) / 0.4) : 1})`, transformOrigin: 'left center'}}>{ph[1]} · <span style={{...font2, fontSize: 18}}>{ph[2]}</span></div></div>}
           {fr && fr[1] && fr[1].length > 1 && <div style={{marginTop: 8, background: 'rgba(8,12,22,0.78)', border: '2px solid #ffffff33', borderRadius: 12, padding: '4px 12px 8px'}}>
-            <div style={{...font2, fontSize: 15, color: '#cfd8e6', letterSpacing: 2}}>TROOPS PER FRONT</div>
+            <div style={{...font2, fontSize: 16, color: '#cfd8e6', letterSpacing: 2}}>TROOPS PER FRONT</div>
             {(fr[1] as any[]).slice(0, 3).map(([c, v]: [string, number], j: number) => <div key={j} style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 4}}>
               <Img src={flag(c)} style={{width: 27, height: 18, borderRadius: 3, border: `1.5px solid ${INK}`}} />
               <div style={{flex: 1, height: 10, background: '#ffffff14', borderRadius: 5, overflow: 'hidden'}}><div style={{width: `${v * 100}%`, height: '100%', background: '#5dff8a'}} /></div>

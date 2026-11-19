@@ -105,7 +105,7 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
       const pts: number[][] = []; for (let j = 0; j < flat.length; j += 2) pts.push(toS(flat[j], flat[j + 1], cam));
       pts.forEach(([x, y], j) => { if (!onScr(x, y)) return; svg.push(<circle key={`bld${i}_${j}`} cx={x} cy={y} r={2.6} fill={c} stroke={INK} strokeWidth={1} opacity={o * 0.9} />); });
       for (let j = 0; j < pts.length; j += 4) { const [x, y] = pts[j]; if (!onScr(x, y)) continue; const bob = Math.sin(t * 2 + j) * 2; html.push(<Badge key={`bls${i}_${j}`} x={x} y={y + bob} sz={icoSz * 0.78} bg={c} icon="battleship" o={o * back((t - t0 - j * 0.02) / 0.4)} />); }
-      if (lab && pts.length) { const [x, y] = pts[0]; html.push(<div key={'bll' + i} style={{position: 'absolute', left: cl(x, 240, VW - 240) - 200, top: cl(y, 240, VH - 200) - 50, width: 400, textAlign: 'center', opacity: o * win(t, t0, t0 + 3.4, 0.4, 0.6)}}><span style={{...font, fontSize: 24, color: '#fff', background: '#123a7a', border: `3px solid ${INK}`, borderRadius: 10, padding: '1px 12px'}}>⚓ {lab}</span></div>); }
+      if (lab && pts.length) { const [x, y] = pts.reduce((a, b) => (b[1] < a[1] ? b : a), pts[0]); html.push(<div key={'bll' + i} style={{position: 'absolute', left: cl(x, 640, VW - 240) - 200, top: cl(y, 240, VH - 200) - 50, width: 400, textAlign: 'center', opacity: o * win(t, t0, t0 + 3.4, 0.4, 0.6)}}><span style={{...font, fontSize: 24, color: '#fff', background: '#123a7a', border: `3px solid ${INK}`, borderRadius: 10, padding: '1px 12px'}}>⚓ {lab}</span></div>); }
     });
     // ---- líneas de suministro (camiones que fluyen; si se cortan, se vuelven rojas)
     (B.sup || []).forEach((L: any[], i: number) => {
@@ -176,7 +176,7 @@ export const VsBattle: React.FC<{D: any; t: number; tR: number; cam: Cam; tilted
     // ---- cercos: el anillo se cierra y aparecen banderas blancas
     (B.pk || []).forEach((Pk: any[], i: number) => {
       const [t0, t1, wx, wy, wr, k, lab, sur, fls] = Pk; if (t < t0 || t > t1) return; const o = win(t, t0, t1, 0.3, 0.5);
-      const [x, y] = toS(wx, wy, cam); const r = Math.max(wr * s, 75); const u = ease((t - t0) / 1.4); const c = ac(k);
+      const [x, y] = toS(wx, wy, cam); const r = Math.max(wr * s, 75 * fsc); const u = ease((t - t0) / 1.4); const c = ac(k);
       const a0 = -Math.PI / 2; const arc = (from: number, to: number) => { const p0 = [x + Math.cos(from) * r, y + Math.sin(from) * r], p1 = [x + Math.cos(to) * r, y + Math.sin(to) * r]; const lg = Math.abs(to - from) > Math.PI ? 1 : 0; const sw = to > from ? 1 : 0; return `M${p0[0].toFixed(1)},${p0[1].toFixed(1)} A${r},${r} 0 ${lg} ${sw} ${p1[0].toFixed(1)},${p1[1].toFixed(1)}`; };
       const sp = Math.PI * u * 0.999;
       for (const dd of [arc(a0, a0 + sp), arc(a0, a0 - sp)]) { svg.push(<path key={`pka${i}${dd.length}`} d={dd} fill="none" stroke="#10131a" strokeWidth={11} strokeLinecap="round" opacity={o} />); svg.push(<path key={`pkb${i}${dd.length}`} d={dd} fill="none" stroke={c} strokeWidth={6} strokeDasharray="16 7" strokeDashoffset={-t * 30} strokeLinecap="round" opacity={o} />); }
