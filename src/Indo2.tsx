@@ -3054,7 +3054,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
         </AbsoluteFill>
       )}
       {split && (() => { const a = Math.min(1, (t - split.t0) / 0.4, (split.t1 - t) / 0.4); return <AbsoluteFill style={{zIndex: 32, opacity: a, pointerEvents: 'none'}}>
-        <div style={{position: 'absolute', left: VW / 2 - 6, top: 0, bottom: 0, width: 12, background: '#fff', boxShadow: '0 0 24px 6px rgba(255,255,255,0.6)', transform: `scaleY(${popT(t, split.t0, 10)})`}} />
+        <div style={{position: 'absolute', left: VW / 2 - 9, top: 0, bottom: 0, width: 18, background: '#fff', boxShadow: '0 0 24px 6px rgba(255,255,255,0.6)', transform: `scaleY(${popT(t, split.t0, 10)})`}} />
         <div style={{position: 'absolute', left: 0, width: VW / 2, top: D.vs ? 236 : 120, textAlign: 'center'}}><span style={{background: '#c81e1e', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.left}</span></div>
         <div style={{position: 'absolute', left: VW / 2, width: VW / 2, top: D.vs ? 236 : 120, textAlign: 'center'}}><span style={{background: '#1f4fbf', border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 22px 0', ...font, fontSize: 44, color: '#fff'}}>{split.right}</span></div>
       </AbsoluteFill>; })()}

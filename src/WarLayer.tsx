@@ -369,7 +369,7 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       else if (shoot && Math.floor(t * 12 + i * 3) % 5 === 0) { ctx.fillStyle = '#ffe36b'; ctx.beginPath(); ctx.arc(x + ox + sz * 0.6 * dir, y + oy - sz * 0.95, sz * 0.14, 0, Math.PI * 2); ctx.fill(); }
     }
     ctx.globalAlpha = base;
-    if (t < tDie - 0.1) banner(ctx, x + sz * 1.2, y - sz * 0.6, sz, k, t + di, (dfe as any)[9]);
+    if (t < tDie - 0.1) banner(ctx, x + sz * 1.2, y - sz * 0.6, VSU ? sz * 1.3 : sz, k, t + di, (dfe as any)[9]);
     ctx.globalAlpha = 1;
   });
   // pelotones
@@ -443,7 +443,7 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       }
     }
     if ((q as any).tank && (q as any).kind !== 'tank') drawTank(ctx, hx + dx * sz * 1.3, hy + dy * sz * 1.3 + sz * 0.15, sz, (q as any).col || MAINCOL[q.a], face, fight && Math.floor(t * 3 + qi) % 3 === 0);
-    banner(ctx, hx - dx * sz * 0.3 + sz * 0.2, hy - sz * 0.75, sz, q.a, t + qi, (q as any).bn);
+    banner(ctx, hx - dx * sz * 0.3 + sz * 0.2, hy - sz * 0.75, VSU ? sz * 1.3 : sz, q.a, t + qi, (q as any).bn);
     // trazadoras hacia el objetivo
     if (!VSU && fight && q.tx !== undefined) {
       ctx.strokeStyle = 'rgba(255,230,120,0.85)'; ctx.lineWidth = 2.2 / s; ctx.lineCap = 'round';
