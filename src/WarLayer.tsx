@@ -135,13 +135,11 @@ const drawWorldOcc = (ctx: CanvasRenderingContext2D, war: any, t: number, s: num
     for (const oe of L) {
       const gr = oe[6]; ga = Math.min(ga, Math.max(0, Math.min(1, (oe[3] - t) / 0.5)));
       const P = gr.fl as number[]; const N = P.length / 2; const f = Math.max(0, Math.min(1, kf(gr.fk, t))); const n = Math.floor(f * N);
-      const rr = gr.r as number; const band = Math.max(8, Math.round(N * 0.02));
+      const rr = gr.r as number; const hw = rr * 0.74; const eo = 2.2 / s; // celdas cuadradas contiguas: el borde sigue la forma irregular del avance, sin redondas
       for (let i = 0; i < n; i++) {
         const x = P[i * 2], y = P[i * 2 + 1];
-        const g = i > n - band ? 0.6 + 0.4 * ((n - i) / band) : 1; const R = rr * g;
-        ge.moveTo(x + R + 2.6 / s, y); ge.arc(x, y, R + 2.6 / s, 0, Math.PI * 2);
-        gf.moveTo(x + R, y); gf.arc(x, y, R, 0, Math.PI * 2);
-        if (f < 0.999 && i > n - band * 3) { gb.moveTo(x + R, y); gb.arc(x, y, R, 0, Math.PI * 2); }
+        ge.rect(x - hw - eo, y - hw - eo, (hw + eo) * 2, (hw + eo) * 2);
+        gf.rect(x - hw, y - hw, hw * 2, hw * 2);
       }
       nn += n;
     }
@@ -150,11 +148,7 @@ const drawWorldOcc = (ctx: CanvasRenderingContext2D, war: any, t: number, s: num
     const solid = dn ? Math.min(1, (t - dn[1]) / 0.8) : 0;
     ctx.save(); ctx.globalAlpha = ga; ctx.clip(clip); ctx.scale(1 / W4, 1 / W4);
     ctx.fillStyle = WE; ctx.fill(ge);
-    ctx.fillStyle = WC; ctx.globalAlpha = ga * (0.34 + 0.48 * solid); ctx.fill(gf);
-    const pt = hatchOf(ctx, -1, WC); pt.setTransform(new DOMMatrix().scale(1 / s, 1 / s));
-    ctx.globalAlpha = ga * (1 - 0.6 * solid); ctx.fillStyle = pt; ctx.fill(gf);
-    // banda del frente: un poco más clara y estable (sin parpadeos)
-    ctx.globalAlpha = ga * 0.22; ctx.fillStyle = '#ffffff'; ctx.fill(gb);
+    ctx.fillStyle = WC; ctx.globalAlpha = ga * (0.9 + 0.1 * solid); ctx.fill(gf);
     ctx.restore();
   }
 };

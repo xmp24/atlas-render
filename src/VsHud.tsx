@@ -175,7 +175,7 @@ export const VsHud: React.FC<{D: any; t: number; cam: any; hide?: boolean}> = ({
     const hpCol = hp > 0.5 ? '#5dff8a' : hp > 0.25 ? '#ffd23f' : '#ff3b30';
     const flash = (K: number[][] | undefined) => { const k = step(K, t); return k && t - k[0] < 0.5 ? 1 + 0.15 * (1 - (t - k[0]) / 0.5) : 1; };
     out.push(<AbsoluteFill key="hud" style={{opacity: oo, zIndex: 30}}>
-      <Panel col="#5dff8a" style={{left: 22, top: 20, padding: '8px 18px 12px', minWidth: 360}}>
+      <Panel col="#5dff8a" style={{left: 22, top: 20, padding: '8px 18px 12px', minWidth: 360, opacity: (() => { const w = ((V.hidep || []) as number[][]).find(([a, b]) => t >= a - 0.3 && t < b + 0.3); return w ? Math.max(0, Math.max((w[0] - t) / 0.3, (t - w[1]) / 0.3)) : 1; })()}}>
         <div style={{display: 'flex', alignItems: 'center', gap: 12}}><Img src={flag(code)} style={{width: 54, height: 36, borderRadius: 5, border: `2px solid ${INK}`}} /><div style={{...font, fontSize: 34, color: '#fff', lineHeight: 1}}>{name}</div></div>
         <div style={{display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 4}}><div style={{...font, fontSize: 50, color: '#5dff8a', lineHeight: 1, transform: `scale(${flash(V.sold)})`, transformOrigin: 'left center'}}>{big(sold)}</div><div style={{...font2, fontSize: 20, color: '#aef5c4'}}>{Math.round(sold) === 1 ? 'SOLDIER' : 'SOLDIERS'}</div></div>
         <div style={{height: 16, background: '#ffffff1c', borderRadius: 8, marginTop: 8, overflow: 'hidden', border: '2px solid #ffffff44'}}><div style={{width: `${hp * 100}%`, height: '100%', background: hpCol, borderRadius: 6, boxShadow: `0 0 12px ${hpCol}`}} /></div>
