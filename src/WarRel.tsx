@@ -448,7 +448,7 @@ const QCard: React.FC<{t: number}> = ({t}) => {
   const n = Math.floor(lerp(t, t0, t0 + 1.0, 0, text.length, Easing.linear));
   const k = popT(t, t0, 12) * lerp(t, t1 - 0.3, t1, 1, 0);
   return (
-    <div style={{position: 'absolute', top: 178, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 11}}>
+    <div style={{position: 'absolute', top: 318, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 11}}>
       <div style={{transform: `scale(${k})`, display: 'flex', alignItems: 'center', gap: 14, background: '#fff', border: `6px solid ${INK}`, borderRadius: 22, padding: '8px 26px 2px', ...font, fontSize: 48, color: INK, boxShadow: '0 8px 0 rgba(0,0,0,0.35)', whiteSpace: 'nowrap'}}>
         <div style={{width: 60, height: 60}}><Avatar size={60} code="tath" mood="smug" t={t} seed={7} id="qc-ath" /></div>{text.slice(0, n)}<span style={{opacity: n < text.length ? 1 : 0}}>|</span>
       </div>
