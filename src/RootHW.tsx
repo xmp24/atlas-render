@@ -67,6 +67,8 @@ import {Z3DTest} from './Z3DTest';
 import {WarRel} from './WarRel';
 import RELTL from './rel-tl.json';
 import {WarRel2} from './WarRel2';
+import {WarRel3} from './WarRel3';
+import REL3TL from './rel3-tl.json';
 import REL2TL from './rel2-tl.json';
 export const RootHW: React.FC = () => (
   <>
@@ -236,6 +238,7 @@ export const RootHW: React.FC = () => (
     <Composition id="IndoN" component={Indo} durationInFrames={INDO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     {SHW_IDS.map((id) => <Composition key={id} id={`SHW-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: true}} />)}
     {SHW_IDS.map((id) => <Composition key={id} id={`SHWN-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: false}} />)}
+    <Composition id="RelWar3" component={WarRel3} durationInFrames={Math.round((REL3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar2" component={WarRel2} durationInFrames={Math.round((REL2TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar" component={WarRel} durationInFrames={Math.round((RELTL as any).duration * 60)} fps={60} width={1920} height={1080} />
     {[1, 2, 3].map((v) => <Composition key={v} id={`THW-${v}`} component={ThumbHW} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{v}} />)}
