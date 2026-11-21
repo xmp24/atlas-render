@@ -6,12 +6,13 @@ import J_esp from './esp.json';
 import J_peak from './peak.json';
 import J_dbl from './dbl.json';
 import J_army from './army.json';
+import J_army2 from './army2.json';
 import J_hd from './hd.json';
 import J_d365 from './d365.json';
 import ICONS from './icons.json';
 const HDSET = new Set<string>(J_hd as string[]);
 
-const JM: Record<string, any> = {pop: J_pop, az: J_az, esp: J_esp, peak: J_peak, dbl: J_dbl, army: J_army, d365: J_d365};
+const JM: Record<string, any> = {pop: J_pop, az: J_az, esp: J_esp, peak: J_peak, dbl: J_dbl, army: J_army, army2: J_army2, d365: J_d365};
 export const satFrames = (v: string, fps: number) => Math.round((JM[v] as any).dur * fps);
 const WW = 16384, WH = 11123, TS = 1024, NX = 16, NY = 11;
 let VW = 1080, VH = 1920;

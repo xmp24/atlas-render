@@ -70,6 +70,8 @@ import {WarRel} from './WarRel';
 import RELTL from './rel-tl.json';
 import {WarRel2} from './WarRel2';
 import {WarRel3} from './WarRel3';
+import {WarGov} from './WarGov';
+import GOVTL from './gov-tl.json';
 import {GtaWar} from './gta/Gta';
 import GTATL from './gta/tl.json';
 import {ThumbRel} from './ThumbsRel';
@@ -143,6 +145,7 @@ export const RootHW: React.FC = () => (
     <Composition id="SatG-dbl" component={SatShort} durationInFrames={satFrames('dbl', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'dbl', audio: false}} />
     <Composition id="SatM-d365" component={SatShort} durationInFrames={satFrames('d365', 30)} fps={30} width={1280} height={720} defaultProps={{v: 'd365', audio: false}} />
     <Composition id="SatH-d365" component={SatShort} durationInFrames={satFrames('d365', 60)} fps={60} width={1920} height={1080} defaultProps={{v: 'd365'}} />
+    <Composition id="SatG-army2" component={SatShort} durationInFrames={satFrames('army2', 60)} fps={60} width={1920} height={1080} defaultProps={{v: 'army2', audio: false}} />
     <Composition id="SatM-army" component={SatShort} durationInFrames={satFrames('army', 30)} fps={30} width={1280} height={720} defaultProps={{v: 'army', audio: false}} />
     <Composition id="SatH-army" component={SatShort} durationInFrames={satFrames('army', 60)} fps={60} width={1920} height={1080} defaultProps={{v: 'army'}} />
     <Composition id="SatM-pop" component={SatShort} durationInFrames={satFrames('pop', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'pop'}} />
@@ -155,6 +158,7 @@ export const RootHW: React.FC = () => (
     <Composition id="SatH-peak" component={SatShort} durationInFrames={satFrames('peak', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'peak'}} />
     <Composition id="SatM-dbl" component={SatShort} durationInFrames={satFrames('dbl', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'dbl'}} />
     <Composition id="SatH-dbl" component={SatShort} durationInFrames={satFrames('dbl', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'dbl'}} />
+    <Composition id="V-mc260" component={Indo2} durationInFrames={indoFrames('mc2') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'mc2'}} />
     <Composition id="M720-mc2" component={Indo720} durationInFrames={indoFrames('mc2')} fps={30} width={1280} height={720} defaultProps={{audio: false, v: 'mc2'}} />
     <Composition id="M720-d365" component={Indo720} durationInFrames={indoFrames('d365')} fps={30} width={1280} height={720} defaultProps={{audio: false, v: 'd365'}} />
     <Composition id="V-usw60" component={Indo2} durationInFrames={indoFrames('usw') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'usw'}} />
@@ -267,6 +271,7 @@ export const RootHW: React.FC = () => (
     {SHW_IDS.map((id) => <Composition key={id} id={`SHWN-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: false}} />)}
     {[1, 2, 3, 4, 5, 6, 7, 8].map((v) => <Composition key={`tr${v}`} id={`ThumbRel-${v}`} component={ThumbRel} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v: String(v)}} />)}
     <Composition id="GtaWar" component={GtaWar} durationInFrames={Math.round((GTATL as any).dur * 60)} fps={60} width={1920} height={1080} />
+    <Composition id="GovWar" component={WarGov} durationInFrames={Math.round((GOVTL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar3" component={WarRel3} durationInFrames={Math.round((REL3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar2" component={WarRel2} durationInFrames={Math.round((REL2TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar" component={WarRel} durationInFrames={Math.round((RELTL as any).duration * 60)} fps={60} width={1920} height={1080} />
