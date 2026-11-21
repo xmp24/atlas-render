@@ -134,6 +134,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-imp" component={Indo2} durationInFrames={indoFrames('imp')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
     <Composition id="V-imp60" component={Indo2} durationInFrames={indoFrames('imp') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
     <Composition id="V-vs" component={Indo2} durationInFrames={indoFrames('vs')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'vs'}} />
+    <Composition id="V-usw60" component={Indo2} durationInFrames={indoFrames('usw') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'usw'}} />
     <Composition id="V-inw60" component={Indo2} durationInFrames={indoFrames('inw') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'inw'}} />
     <Composition id="V-vs60" component={Indo2} durationInFrames={indoFrames('vs') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'vs'}} />
     <Composition id="Z3D-test" component={Z3DTest} durationInFrames={2400} fps={30} width={1920} height={1080} />
