@@ -5,11 +5,12 @@ import J_az from './az.json';
 import J_esp from './esp.json';
 import J_peak from './peak.json';
 import J_dbl from './dbl.json';
+import J_army from './army.json';
 
-const JM: Record<string, any> = {pop: J_pop, az: J_az, esp: J_esp, peak: J_peak, dbl: J_dbl};
+const JM: Record<string, any> = {pop: J_pop, az: J_az, esp: J_esp, peak: J_peak, dbl: J_dbl, army: J_army};
 export const satFrames = (v: string, fps: number) => Math.round((JM[v] as any).dur * fps);
 const WW = 16384, WH = 11123, TS = 1024, NX = 16, NY = 11;
-const VW = 1080, VH = 1920;
+let VW = 1080, VH = 1920;
 
 let fontsOk = false;
 const useFonts = () => {
@@ -82,7 +83,7 @@ const Shapes: React.FC<{D: any; t: number; cx: number; cy: number; z: number}> =
           <rect width={16 / z} height={16 / z} fill="rgba(20,20,20,0.85)" /><rect width={7 / z} height={16 / z} fill="rgba(255,255,255,0.92)" />
         </pattern>
         <pattern id="paper" patternUnits="userSpaceOnUse" width={512 / z} height={512 / z}><image href={staticFile('sat/paper.png')} width={512 / z} height={512 / z} /></pattern>
-        {vis.filter((s: any) => s.fill && !s.fill.startsWith('#') && s.fill !== 'hatch').map((s: any) => {
+        {vis.filter((s: any) => s.fill && !s.fill.startsWith('#') && s.fill !== 'hatch' && s.fill !== 'none').map((s: any) => {
           const bb = s.fbb || s.bb; const w = bb[2] - bb[0], h = bb[3] - bb[1];
           const href = s.fill.startsWith('flag:') ? staticFile(`wflags/${s.fill.slice(5)}.svg`) : 'data:image/svg+xml;utf8,' + encodeURIComponent(hist[s.fill.slice(4)] || '');
           return <pattern key={'p' + s.id} id={'p' + s.id} patternUnits="userSpaceOnUse" x={bb[0]} y={bb[1]} width={w} height={h}><image href={href} width={w} height={h} preserveAspectRatio={s.fit || 'xMidYMid slice'} /></pattern>;
@@ -105,13 +106,14 @@ const Shapes: React.FC<{D: any; t: number; cx: number; cy: number; z: number}> =
           if (s.fo === 0 && t > s.t1) op = 0;
           if (s.op !== undefined) op *= s.op;
           const c = s.org || [(s.bb[0] + s.bb[2]) / 2, (s.bb[1] + s.bb[3]) / 2];
-          const fill = s.fill === 'hatch' ? 'url(#hatch)' : s.fill.startsWith('#') ? s.fill : `url(#p${s.id})`;
+          if (s.arrow) { const u2 = eout(cl((t - s.t0) / (s.fd || 0.8))); return <g key={s.id} opacity={op}><path d={s.d} fill="none" stroke={s.arrow} strokeWidth={9 / z} strokeLinecap="round" strokeDasharray={100000} strokeDashoffset={100000 - s.len * u2} style={{filter: `drop-shadow(0 ${3 / z}px ${4 / z}px rgba(0,0,0,0.7))`}} />{u2 > 0.98 ? <polygon points={`0,${-16 / z} ${30 / z},0 0,${16 / z}`} fill={s.arrow} transform={`translate(${s.end[0]},${s.end[1]}) rotate(${s.ang})`} /> : null}</g>; }
+          const fill = s.fill === 'none' ? 'none' : s.fill === 'hatch' ? 'url(#hatch)' : s.fill.startsWith('#') ? s.fill : `url(#p${s.id})`;
           const clip = fin === 'wipe' || fin === 'radial' ? `url(#c${s.id})` : undefined;
           return (
             <g key={s.id} opacity={op} transform={sc !== 1 ? `translate(${c[0]},${c[1]}) scale(${sc}) translate(${-c[0]},${-c[1]})` : undefined} clipPath={clip}>
               <path d={s.d} fill={fill} filter={s.noshadow ? undefined : 'url(#shd)'} fillRule="evenodd" />
-              {s.fill !== 'hatch' && !s.noTex ? <path d={s.d} fill="url(#paper)" fillRule="evenodd" style={{mixBlendMode: 'multiply'}} opacity={0.55} /> : null}
-              {s.stroke ? <path d={s.d} fill="none" stroke={s.stroke} strokeWidth={(s.sw || 2) / z} fillRule="evenodd" /> : null}
+              {s.fill !== 'hatch' && s.fill !== 'none' && !s.noTex ? <path d={s.d} fill="url(#paper)" fillRule="evenodd" style={{mixBlendMode: 'multiply'}} opacity={0.55} /> : null}
+              {s.stroke ? <path d={s.d} fill="none" stroke={s.stroke} strokeWidth={(s.sw || 2) / z} fillRule="evenodd" style={s.glow ? {filter: `drop-shadow(0 0 ${6 / z}px ${s.stroke}) drop-shadow(0 0 ${14 / z}px ${s.stroke})`} : undefined} strokeDasharray={s.draw ? 100000 : undefined} strokeDashoffset={s.draw ? 100000 * (1 - eout(cl((t - s.t0) / s.draw))) : undefined} /> : null}
             </g>
           );
         })}
@@ -171,6 +173,54 @@ const Texts: React.FC<{D: any; t: number}> = ({D, t}) => {
         <span style={{fontFamily: 'Mont', fontWeight: 800, fontSize: x.fs || 46, color: '#fff', background: x.bg || 'rgba(0,0,0,0.55)', padding: '12px 28px', borderRadius: 18, border: `3px solid ${x.col || '#ffd23f'}`, textShadow: '0 2px 6px #000'}}>{x.text}</span>
       </div>;
     }
+    if (x.kind === 'rank') {
+      const k = eout(u);
+      return <div key={i} style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `rgba(3,8,20,${0.55 * cl(u * 3) * out})`}}>
+        <div style={{textAlign: 'center', transform: `scale(${0.6 + 0.4 * k})`, opacity: cl(u * 3) * out}}>
+          <div style={{fontFamily: 'Mont', fontWeight: 900, fontSize: 64, color: x.col, letterSpacing: 6, textShadow: glow(x.col, 0.8)}}>{x.pre}</div>
+          <div style={{display: 'flex', alignItems: 'center', gap: 34, justifyContent: 'center', marginTop: 12}}>
+            <img src={staticFile(`wflags/${x.iso}.svg`)} style={{height: 120, borderRadius: 10, boxShadow: '0 8px 24px rgba(0,0,0,0.6)'}} />
+            <div style={{fontFamily: 'Mont', fontWeight: 900, fontSize: 132, color: '#fff', textShadow: glow('rgba(255,255,255,0.6)'), letterSpacing: -3}}>{x.name}</div>
+          </div>
+          <div style={{fontFamily: 'Mont', fontWeight: 800, fontSize: 40, color: '#cfd8e6', marginTop: 10, letterSpacing: 4}}>{x.sub}</div>
+        </div></div>;
+    }
+    if (x.kind === 'stats') {
+      return <div key={i} style={{position: 'absolute', left: x.right ? undefined : 70, right: x.right ? 70 : undefined, top: 230, width: 620, opacity: cl(u * 3) * out, transform: `translateX(${(1 - eout(u)) * (x.right ? 80 : -80)}px)`}}>
+        <div style={{background: 'rgba(6,12,26,0.82)', border: `3px solid ${x.col}`, borderRadius: 26, padding: '22px 30px 26px', boxShadow: `0 0 30px ${x.col}55`}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: 16}}><img src={staticFile(`wflags/${x.iso}.svg`)} style={{height: 44, borderRadius: 6}} /><div style={{fontFamily: 'Mont', fontWeight: 900, fontSize: 44, color: '#fff'}}>{x.name}</div><div style={{marginLeft: 'auto', fontFamily: 'Mont', fontWeight: 900, fontSize: 40, color: x.col}}>#{x.rank}</div></div>
+          {(x.rows as any[]).map((r: any, j: number) => { const uu = eout(cl((t - x.t0 - 0.4 - j * 0.35) / 0.9)); const v = r[2] * uu;
+            return <div key={j} style={{marginTop: 18, opacity: cl((t - x.t0 - 0.3 - j * 0.35) / 0.2)}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', fontFamily: 'Mont', fontWeight: 800, fontSize: 30, color: '#dfe6f2'}}><span>{r[0]}</span><span style={{color: '#fff'}}>{r[1].replace('{v}', fmtN(v))}</span></div>
+              <div style={{height: 16, background: 'rgba(255,255,255,0.12)', borderRadius: 8, marginTop: 6, overflow: 'hidden'}}><div style={{width: `${Math.max(1.5, r[4] * uu * 100)}%`, height: '100%', background: x.col, borderRadius: 8, boxShadow: `0 0 12px ${x.col}`}} /></div></div>; })}
+        </div></div>;
+    }
+    if (x.kind === 'counters') {
+      return <div key={i} style={{position: 'absolute', left: 0, right: 0, bottom: 90, display: 'flex', justifyContent: 'center', gap: 46, opacity: out}}>
+        {(x.items as any[]).map((it: any, j: number) => { const uu = cl((t - x.t0 - j * 0.45) / 0.25); const cc = eout(cl((t - x.t0 - j * 0.45) / 1.4)); const v = it[1] + (it[2] - it[1]) * cc;
+          return <div key={j} style={{width: 380, textAlign: 'center', background: 'rgba(6,12,26,0.85)', border: '3px solid rgba(255,255,255,0.35)', borderRadius: 24, padding: '14px 10px 18px', opacity: uu, transform: `scale(${0.7 + 0.3 * eout(uu)})`}}>
+            <div style={{fontFamily: 'Mont', fontWeight: 900, fontSize: 84, color: it[4] || '#ffd23f', lineHeight: 1, textShadow: glow(it[4] || '#ffd23f', 0.6)}}>{it[5] || ''}{it[6] ? Math.round(v) : fmtN(v)}{it[7] || ''}</div>
+            <div style={{fontFamily: 'Mont', fontWeight: 800, fontSize: 26, color: '#dfe6f2', marginTop: 8, letterSpacing: 2}}>{it[0]}</div></div>; })}
+      </div>;
+    }
+    if (x.kind === 'warcard') {
+      return <div key={i} style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `rgba(3,8,20,${0.6 * cl(u * 3) * out})`}}>
+        <div style={{textAlign: 'center', opacity: cl(u * 3) * out}}>
+          <div style={{fontFamily: 'Mont', fontWeight: 800, fontSize: 52, color: '#fff', letterSpacing: 2, textShadow: glow('rgba(255,255,255,0.5)', 0.6)}}>AND THIS WAS THEIR MOST IMPORTANT WAR…</div>
+          <div style={{fontFamily: 'Mont', fontWeight: 900, fontSize: 104, color: '#ffd23f', marginTop: 16, textShadow: glow('#ffd23f', 0.7), transform: `scale(${0.8 + 0.2 * eout(cl((t - x.t0 - 0.6) / 0.3))})`, opacity: cl((t - x.t0 - 0.6) / 0.2)}}>{x.war}</div>
+          <div style={{fontFamily: 'Mont', fontWeight: 800, fontSize: 48, color: '#cfd8e6', marginTop: 6, opacity: cl((t - x.t0 - 0.9) / 0.2)}}>{x.years}</div>
+        </div></div>;
+    }
+    if (x.kind === 'stamp') {
+      const k = eout(cl((t - x.t0) / 0.18));
+      return <div key={i} style={{position: 'absolute', left: 0, right: 0, top: x.y ?? 420, textAlign: 'center', opacity: out}}>
+        <span style={{display: 'inline-block', fontFamily: 'Mont', fontWeight: 900, fontSize: x.fs || 78, color: x.col || '#ff3b30', border: `8px solid ${x.col || '#ff3b30'}`, borderRadius: 18, padding: '6px 34px', transform: `rotate(-6deg) scale(${2.2 - 1.2 * k})`, background: 'rgba(0,0,0,0.45)', textShadow: '0 4px 10px #000'}}>{x.text}</span></div>;
+    }
+    if (x.kind === 'legend') {
+      return <div key={i} style={{position: 'absolute', right: 60, bottom: 70, background: 'rgba(6,12,26,0.82)', border: '2px solid rgba(255,255,255,0.3)', borderRadius: 18, padding: '12px 22px', opacity: cl(u * 3) * out}}>
+        {(x.items as any[]).map((it: any, j: number) => <div key={j} style={{display: 'flex', alignItems: 'center', gap: 14, marginTop: j ? 8 : 0}}><div style={{width: 34, height: 24, borderRadius: 5, background: it[1], border: '2px solid rgba(255,255,255,0.6)'}} /><span style={{fontFamily: 'Mont', fontWeight: 800, fontSize: 30, color: '#fff'}}>{it[0]}</span></div>)}
+      </div>;
+    }
     return null;
   })}</>;
 };
@@ -179,6 +229,7 @@ export const SatShort: React.FC<{v: string; audio?: boolean}> = ({v, audio = tru
   useFonts();
   const f = useCurrentFrame(); const {fps, width} = useVideoConfig();
   const D: any = JM[v];
+  VW = D.vw || 1080; VH = D.vh || 1920;
   const t = f / fps;
   const clampC = (q: any) => { const z = Math.max(q.z, VH / WH * 1.01); const hh = VH / 2 / z; return {x: q.x, y: Math.min(WH - hh, Math.max(hh, q.y)), z}; };
   const c = clampC(camAt(D.cam, t));

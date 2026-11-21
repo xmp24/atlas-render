@@ -136,6 +136,8 @@ export const RootHW: React.FC = () => (
     <Composition id="V-imp" component={Indo2} durationInFrames={indoFrames('imp')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
     <Composition id="V-imp60" component={Indo2} durationInFrames={indoFrames('imp') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
     <Composition id="V-vs" component={Indo2} durationInFrames={indoFrames('vs')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'vs'}} />
+    <Composition id="SatM-army" component={SatShort} durationInFrames={satFrames('army', 30)} fps={30} width={1280} height={720} defaultProps={{v: 'army', audio: false}} />
+    <Composition id="SatH-army" component={SatShort} durationInFrames={satFrames('army', 60)} fps={60} width={1920} height={1080} defaultProps={{v: 'army'}} />
     <Composition id="SatM-pop" component={SatShort} durationInFrames={satFrames('pop', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'pop'}} />
     <Composition id="SatH-pop" component={SatShort} durationInFrames={satFrames('pop', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'pop'}} />
     <Composition id="SatM-az" component={SatShort} durationInFrames={satFrames('az', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'az'}} />
