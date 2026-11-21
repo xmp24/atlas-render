@@ -43,6 +43,7 @@ import J_idw from './hw/idw.json';
 import J_inw from './hw/inw.json';
 import J_usw from './hw/usw.json';
 import J_d365 from './hw/d365.json';
+import J_mc2 from './hw/mc2.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -80,7 +81,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, inw: J_inw, usw: J_usw, d365: J_d365, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, inw: J_inw, usw: J_usw, d365: J_d365, mc2: J_mc2, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02, D.vs ? 0.035 : 0), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -2775,7 +2776,7 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
   if (v === 'broom') {
     // valla fronteriza y cartel
     sv.push(<g key="f">{Array.from({length: 9}, (_, i) => <rect key={i} x={1250 + i * 70} y={560} width={18} height={150} fill="#8a5a2b" stroke={INK} strokeWidth={4} />)}<rect x={1240} y={590} width={600} height={18} fill="#8a5a2b" stroke={INK} strokeWidth={4} /><rect x={1240} y={650} width={600} height={18} fill="#8a5a2b" stroke={INK} strokeWidth={4} />
-      <rect x={1430} y={420} width={260} height={110} rx={10} fill="#1e4fb5" stroke={INK} strokeWidth={6} /><text x={1560} y={492} textAnchor="middle" fontSize={56} style={{fontFamily: 'Lilita'}} fill="#fff">FRANCE →</text><rect x={1552} y={530} width={16} height={40} fill="#8a5a2b" /></g>);
+      <rect x={1430} y={420} width={260} height={110} rx={10} fill="#1e4fb5" stroke={INK} strokeWidth={6} /><text x={1560} y={492} textAnchor="middle" fontSize={56} style={{fontFamily: 'Lilita'}} fill="#fff">{c.dir ?? 'FRANCE →'}</text><rect x={1552} y={530} width={16} height={40} fill="#8a5a2b" /></g>);
     const bx = 640, by = 620 - bounce;
     html.push(<div key="b" style={{position: 'absolute', left: bx - 150, top: by - 150}}><MarcoBall size={300} mood="angry" t={t} look={[0.6, 0]} broom /></div>);
     html.push(<CbBubble key="s" x={bx + 120} y={by - 190} text={c.say ?? "FOR MONACO!"} k={(lt - 0.5) / 0.3} fs={46} />);
@@ -2783,7 +2784,7 @@ const CbScene: React.FC<{c: any; t: number; o: number}> = ({c, t, o}) => {
     html.push(<BigMoney key="m" text="BUDGET: $1" k={(lt - 3.3) / 0.35} />);
   } else if (v === 'tip') {
     bg = 'radial-gradient(circle at 50% 40%,#2f6b3a,#123a1c 70%)';
-    sv.push(<g key="lights">{Array.from({length: 14}, (_, i) => <circle key={i} cx={80 + i * 135} cy={60} r={18} fill={Math.floor(lt * 6 + i) % 2 ? '#ffd23f' : '#fff3b0'} stroke={INK} strokeWidth={4} />)}<text x={960} y={190} textAnchor="middle" fontSize={90} style={{fontFamily: 'Lilita'}} fill="#ffd23f" stroke={INK} strokeWidth={10} paintOrder="stroke">CASINO DE MONTE-CARLO</text>
+    sv.push(<g key="lights">{Array.from({length: 14}, (_, i) => <circle key={i} cx={80 + i * 135} cy={60} r={18} fill={Math.floor(lt * 6 + i) % 2 ? '#ffd23f' : '#fff3b0'} stroke={INK} strokeWidth={4} />)}<text x={960} y={190} textAnchor="middle" fontSize={90} style={{fontFamily: 'Lilita'}} fill="#ffd23f" stroke={INK} strokeWidth={10} paintOrder="stroke">{c.casino ?? 'CASINO DE MONTE-CARLO'}</text>
       <rect x={0} y={760} width={1920} height={320} fill="#7a3b16" stroke={INK} strokeWidth={8} /></g>);
     html.push(<div key="t" style={{position: 'absolute', left: 1180, top: 420 - bounce * 0.5}}><svg width={300} height={300} style={{overflow: 'visible'}}><circle cx={150} cy={150} r={146} fill="#f3c86b" stroke={INK} strokeWidth={9} /><Face x={150} y={146} r={86} mood="smug" t={t} seed={7} look={[-0.6, 0]} /><TopHat x={150} y={30} w={210} /><circle cx={190} cy={128} r={34} fill="none" stroke="#c8a000" strokeWidth={7} /></svg></div>);
     html.push(<div key="b" style={{position: 'absolute', left: 430, top: 440 - bounce}}><MarcoBall size={300} mood={lt > 3 ? 'happy' : 'shocked'} t={t} look={[0.6, 0]} /></div>);
@@ -2936,7 +2937,7 @@ const MarcoHud: React.FC<{t: number; A: any; CF: any}> = ({t, A, CF}) => {
 };
 
 const DaHud: React.FC<{t: number}> = ({t}) => {
-  const A = X.D.da; if (!A) return null; const out: React.ReactNode[] = []; const CF = A.cfg || {};
+  const A = X.D.da; if (!A) return null; const out: React.ReactNode[] = []; const CF = (A.cfg2 && t >= A.cfg2.t) ? {...(A.cfg || {}), ...A.cfg2} : (A.cfg || {});
   const LV: string[] = CF.lv || DA_LV; const TH: string[] = CF.th || DA_TH;
   // cinemática: dinero arriba a la izquierda
   const ci = ((A.cine ?? []) as any[]).find((c) => t >= c[0] && t < c[1]);
