@@ -182,7 +182,7 @@ export const VsHud: React.FC<{D: any; t: number; cam: any; hide?: boolean}> = ({
       </Panel>
       <div style={{position: 'absolute', left: 0, right: 0, top: 16, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
         <div style={{textAlign: 'center', background: 'rgba(8,12,22,0.82)', border: '3px solid #ffd23f', borderRadius: 16, padding: '4px 26px 8px'}}>
-          <div style={{...font2, fontSize: 20, color: '#ffe9a6', letterSpacing: 3}}>⏱ HELD FOR</div>
+          <div style={{...font2, fontSize: 20, color: '#ffe9a6', letterSpacing: 3}}>{V.heldLbl || '⏱ HELD FOR'}</div>
           <div style={{...font, fontSize: 58, color: '#ffd23f', lineHeight: 1, ...stroke(10)}}>{unit === 'SEC' ? `${dy.toFixed(1)} SEC` : `${Math.floor(dy)} ${Math.floor(dy) === 1 ? unit.replace(/S$/, '') : unit}`}</div>
         </div>
       </div>
@@ -199,7 +199,7 @@ export const VsHud: React.FC<{D: any; t: number; cam: any; hide?: boolean}> = ({
             {r ? <div style={{...font, fontSize: 17, color: r[2] || '#ff8a80', ...stroke(5)}}>{r[1]}</div> : null}
             <div style={{...font, fontSize: cur ? 30 : 21, color: cur ? INK : '#fff', background: cur ? '#ffd23f' : i < lvl ? 'rgba(60,60,70,0.88)' : 'rgba(8,12,22,0.88)', border: `3px solid ${cur ? '#fff' : '#ffffff40'}`, borderRadius: 10, padding: '0 12px', minWidth: 120, textAlign: 'center', boxShadow: cur ? '0 0 18px #ffd23f' : undefined}}>{l}</div></div>; })}
       </div>
-      <div style={{position: 'absolute', left: 0, top: 0, right: 0, height: 8, display: 'flex', gap: 4, padding: '0 4px'}}>{Array.from({length: 7}, (_, i) => <div key={i} style={{flex: 1, height: 8, borderRadius: 4, background: i < lvl ? '#ffd23f' : i === lvl ? '#3ddc84' : '#ffffff30', boxShadow: i === lvl ? '0 0 10px #3ddc84' : undefined}} />)}</div>
+      <div style={{position: 'absolute', left: 0, top: 0, right: 0, height: 8, display: 'flex', gap: 4, padding: '0 4px'}}>{Array.from({length: (V.lv as string[]).length}, (_, i) => <div key={i} style={{flex: 1, height: 8, borderRadius: 4, background: i < lvl ? '#ffd23f' : i === lvl ? '#3ddc84' : '#ffffff30', boxShadow: i === lvl ? '0 0 10px #3ddc84' : undefined}} />)}</div>
       {(() => { const BT = V.bt; if (!BT) return null; const mw = ((BT.mw || []) as number[][]).find(([a, b]) => t >= a && t < b); if (!mw) return null;
         const o2 = Math.min(1, (t - mw[0]) / 0.4, (mw[1] - t) / 0.4); const mor = cl(kv(BT.mo, t, 0.8), 0, 1); const air = cl(kv(BT.air, t, 0.5), 0, 1);
         const ph = step(BT.ph, t); const fr = step(BT.fr, t);

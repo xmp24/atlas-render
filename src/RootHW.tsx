@@ -1,4 +1,6 @@
 import React from 'react';
+import {SatShort, satFrames} from './sat/Sat';
+import {Indo720} from './Indo720';
 import {Composition} from 'remotion';
 import {HWTest} from './HWTest';
 import {SameArmy, SA_FRAMES} from './SameArmy';
@@ -134,6 +136,17 @@ export const RootHW: React.FC = () => (
     <Composition id="V-imp" component={Indo2} durationInFrames={indoFrames('imp')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
     <Composition id="V-imp60" component={Indo2} durationInFrames={indoFrames('imp') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'imp'}} />
     <Composition id="V-vs" component={Indo2} durationInFrames={indoFrames('vs')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'vs'}} />
+    <Composition id="SatM-pop" component={SatShort} durationInFrames={satFrames('pop', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'pop'}} />
+    <Composition id="SatH-pop" component={SatShort} durationInFrames={satFrames('pop', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'pop'}} />
+    <Composition id="SatM-az" component={SatShort} durationInFrames={satFrames('az', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'az'}} />
+    <Composition id="SatH-az" component={SatShort} durationInFrames={satFrames('az', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'az'}} />
+    <Composition id="SatM-esp" component={SatShort} durationInFrames={satFrames('esp', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'esp'}} />
+    <Composition id="SatH-esp" component={SatShort} durationInFrames={satFrames('esp', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'esp'}} />
+    <Composition id="SatM-peak" component={SatShort} durationInFrames={satFrames('peak', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'peak'}} />
+    <Composition id="SatH-peak" component={SatShort} durationInFrames={satFrames('peak', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'peak'}} />
+    <Composition id="SatM-dbl" component={SatShort} durationInFrames={satFrames('dbl', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'dbl'}} />
+    <Composition id="SatH-dbl" component={SatShort} durationInFrames={satFrames('dbl', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'dbl'}} />
+    <Composition id="M720-d365" component={Indo720} durationInFrames={indoFrames('d365')} fps={30} width={1280} height={720} defaultProps={{audio: false, v: 'd365'}} />
     <Composition id="V-usw60" component={Indo2} durationInFrames={indoFrames('usw') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'usw'}} />
     <Composition id="V-inw60" component={Indo2} durationInFrames={indoFrames('inw') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'inw'}} />
     <Composition id="V-vs60" component={Indo2} durationInFrames={indoFrames('vs') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'vs'}} />
