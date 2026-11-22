@@ -503,7 +503,7 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       const w = 120 / s, h = 16 / s, bx = x + 34 / s, by = y - 46 / s;
       ctx.globalAlpha = al;
       ctx.fillStyle = 'rgba(15,15,20,0.85)'; ctx.beginPath(); ctx.roundRect(bx - 3 / s, by - 24 / s, w + 6 / s, h + 28 / s, 6 / s); ctx.fill();
-      ctx.fillStyle = '#fff'; ctx.font = `700 ${(14 / s).toFixed(2)}px Fredoka`; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.fillText('⭐ CAPITAL', bx + 2 / s, by - 7 / s);
+      ctx.fillStyle = '#fff'; ctx.font = `700 ${(14 / s).toFixed(2)}px Fredoka`; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.fillText(ch[6] || '⭐ CAPITAL', bx + 2 / s, by - 7 / s);
       ctx.fillStyle = '#3a3a3a'; ctx.fillRect(bx, by, w, h);
       ctx.fillStyle = hp > 0.5 ? '#3bd16f' : hp > 0.25 ? '#ffc23a' : '#ff3b30'; ctx.fillRect(bx, by, w * hp, h);
       ctx.strokeStyle = '#fff'; ctx.lineWidth = 2 / s; ctx.strokeRect(bx, by, w, h);

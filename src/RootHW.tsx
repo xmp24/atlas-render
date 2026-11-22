@@ -71,6 +71,7 @@ import RELTL from './rel-tl.json';
 import {WarRel2} from './WarRel2';
 import {WarRel3} from './WarRel3';
 import {WarGov} from './WarGov';
+import {ThumbGov} from './ThumbGov';
 import GOVTL from './gov-tl.json';
 import {GtaWar} from './gta/Gta';
 import GTATL from './gta/tl.json';
@@ -271,6 +272,7 @@ export const RootHW: React.FC = () => (
     {SHW_IDS.map((id) => <Composition key={id} id={`SHWN-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: false}} />)}
     {[1, 2, 3, 4, 5, 6, 7, 8].map((v) => <Composition key={`tr${v}`} id={`ThumbRel-${v}`} component={ThumbRel} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v: String(v)}} />)}
     <Composition id="GtaWar" component={GtaWar} durationInFrames={Math.round((GTATL as any).dur * 60)} fps={60} width={1920} height={1080} />
+    <Composition id="ThumbGov" component={ThumbGov} durationInFrames={1} fps={30} width={1280} height={720} />
     <Composition id="GovWar" component={WarGov} durationInFrames={Math.round((GOVTL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar3" component={WarRel3} durationInFrames={Math.round((REL3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar2" component={WarRel2} durationInFrames={Math.round((REL2TL as any).duration * 60)} fps={60} width={1920} height={1080} />

@@ -206,7 +206,9 @@ const WarHud: React.FC<{D: any; t: number}> = ({D, t}) => {
 };
 
 // ---------- textos ----------
-const glow = (c: string, k = 1) => `0 0 ${10 * k}px ${c}, 0 0 ${22 * k}px ${c}, 0 3px 6px rgba(0,0,0,0.6)`;
+let NOGLOW = false;
+const OUTL = '-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000, 0 -3px 0 #000, 0 3px 0 #000, -3px 0 0 #000, 3px 0 0 #000, 0 7px 14px rgba(0,0,0,0.85)';
+const glow = (c: string, k = 1) => NOGLOW ? OUTL : `0 0 ${10 * k}px ${c}, 0 0 ${22 * k}px ${c}, 0 3px 6px rgba(0,0,0,0.6)`;
 const fmtN = (v: number, sep = ',') => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
 const Texts: React.FC<{D: any; t: number}> = ({D, t}) => {
   const items = (D.texts || []).filter((x: any) => t >= x.t0 && t < x.t1);
@@ -335,7 +337,7 @@ const Texts: React.FC<{D: any; t: number}> = ({D, t}) => {
 export const SatShort: React.FC<{v: string; audio?: boolean}> = ({v, audio = true}) => {
   useFonts();
   const f = useCurrentFrame(); const {fps, width} = useVideoConfig();
-  const D: any = JM[v];
+  const D: any = JM[v]; NOGLOW = !!D.noglow;
   VW = D.vw || 1080; VH = D.vh || 1920;
   const t = f / fps;
   const clampC = (q: any) => { const z = Math.max(q.z, VH / WH * 1.01); const hh = VH / 2 / z; return {x: q.x, y: Math.min(WH - hh, Math.max(hh, q.y)), z}; };

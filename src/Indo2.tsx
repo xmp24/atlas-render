@@ -2802,29 +2802,54 @@ const ImgScene: React.FC<{c: any; t: number; o: number; lt: number}> = ({c, t, o
   const kIn = daB(lt / 0.45);
   const ov: React.ReactNode[] = [];
   if (c.fx === 'roulette') {
-    const [cx, cy, rx, ry] = c.wheel as number[];
-    const ang = -(lt * 420 * Math.max(0.15, 1 - lt / c.d)) ;
-    const k = ry / rx;
-    const box = (r: number) => ({left: left + (cx - r) * cover, top: top + (cy - r * k) * cover, width: 2 * r * cover, height: 2 * r * k * cover});
-    const bb = box(rx);
-    ov.push(<div key="rot" style={{position: 'absolute', ...bb, overflow: 'visible', transform: `scaleY(${k}) rotate(${ang}deg) scaleY(${1 / k})`, transformOrigin: '50% 50%',
-      WebkitMaskImage: `radial-gradient(ellipse 50% 50% at 50% 50%, transparent ${c.inner * 100 - 1}%, #000 ${c.inner * 100 + 1}%, #000 98%, transparent 100%)`,
-      maskImage: `radial-gradient(ellipse 50% 50% at 50% 50%, transparent ${c.inner * 100 - 1}%, #000 ${c.inner * 100 + 1}%, #000 98%, transparent 100%)`}}>
-      <div style={{position: 'absolute', left: -(cx - rx) * cover, top: -(cy - rx * k) * cover, width: W_, height: H_, backgroundImage: `url(${staticFile(c.src)})`, backgroundSize: `${W_}px ${H_}px`}} />
-    </div>);
+    const [cx, cy, rx, ry] = c.wheel as number[]; const k = ry / rx;
+    const ORD = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+    const REDS = new Set([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]);
+    const N = 37, step = 360 / N; const sp0 = c.spin0 ?? 0.5, SPIN = c.spinT ?? 4.4; const win = c.win ?? 32;
+    const u = Math.max(0, Math.min(1, (lt - sp0) / SPIN)); const eo = 1 - Math.pow(1 - u, 3);
+    const wEnd = 760; const wAng = wEnd * eo;                         // la rueda gira y se frena
+    const iw = ORD.indexOf(win);
+    const bEnd = -(1080) + (wEnd + iw * step) ;                     // la bola acaba sobre el bolsillo ganador
+    const bAng = (lt < sp0 ? -90 : -90 + (bEnd + 90) * (1 - Math.pow(1 - u, 2.2)));
+    const drop = Math.max(0, Math.min(1, (u - 0.82) / 0.18));
+    const R = rx * cover; const Rin = R * c.inner;
+    const ringR = (R + Rin) / 2;
+    const [scx, scy] = P(cx, cy);
+    const pocket: React.ReactNode[] = [];
+    for (let i = 0; i < N; i++) {
+      const a0 = (i * step - step / 2) * Math.PI / 180, a1 = (i * step + step / 2) * Math.PI / 180;
+      const n = ORD[i]; const col = n === 0 ? '#0b8a3a' : REDS.has(n) ? '#c8102e' : '#141414';
+      const pth = `M${Math.cos(a0) * Rin},${Math.sin(a0) * Rin} L${Math.cos(a0) * R},${Math.sin(a0) * R} A${R},${R} 0 0 1 ${Math.cos(a1) * R},${Math.sin(a1) * R} L${Math.cos(a1) * Rin},${Math.sin(a1) * Rin} A${Rin},${Rin} 0 0 0 ${Math.cos(a0) * Rin},${Math.sin(a0) * Rin}Z`;
+      const am = i * step; const tx = Math.cos(am * Math.PI / 180) * (R * 0.9 + Rin * 0.1 + (R - Rin) * 0.28), ty = Math.sin(am * Math.PI / 180) * (R * 0.9 + Rin * 0.1 + (R - Rin) * 0.28);
+      const hi = u >= 1 && n === win;
+      pocket.push(<g key={i}><path d={pth} fill={hi ? (Math.floor(lt * 6) % 2 ? '#ffd23f' : col) : col} stroke="#d9b36a" strokeWidth={R * 0.006} />
+        <text x={tx} y={ty} fill="#fff" fontSize={(R - Rin) * 0.3} fontFamily="Arial Black, Arial, sans-serif" fontWeight={900} textAnchor="middle" dominantBaseline="central" transform={`rotate(${am + 90} ${tx} ${ty})`}>{n}</text></g>);
+    }
+    const ballR = R * (0.985 - 0.17 * drop) + (drop > 0 && drop < 1 ? Math.sin(drop * Math.PI * 3) * R * 0.02 : 0);
+    const bx = Math.cos(bAng * Math.PI / 180) * ballR, by = Math.sin(bAng * Math.PI / 180) * ballR;
+    ov.push(<svg key="wheel" style={{position: 'absolute', left: scx - R * 1.1, top: scy - R * 1.1 * k, width: R * 2.2, height: R * 2.2 * k, overflow: 'visible'}} viewBox={`${-R * 1.1} ${-R * 1.1} ${R * 2.2} ${R * 2.2}`} preserveAspectRatio="none">
+      <g>
+        <circle r={R * 1.04} fill="#6b3a17" stroke="#3a1c08" strokeWidth={R * 0.02} />
+        <circle r={R * 1.0} fill="#2a1408" />
+        <g transform={`rotate(${wAng})`}>{pocket}<circle r={Rin} fill="url(#cone)" stroke="#d9b36a" strokeWidth={R * 0.012} />
+          {[0, 90, 180, 270].map((q) => <line key={q} x1={0} y1={0} x2={Math.cos(q * Math.PI / 180) * Rin * 0.92} y2={Math.sin(q * Math.PI / 180) * Rin * 0.92} stroke="#e8c675" strokeWidth={R * 0.02} />)}</g>
+        <circle cx={bx} cy={by} r={R * 0.032} fill="url(#ball)" />
+        <defs><radialGradient id="cone" cx="45%" cy="40%" r="70%"><stop offset="0" stop-color="#b8743a" /><stop offset="1" stop-color="#5a2d0e" /></radialGradient>
+          <radialGradient id="ball" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#fff" /><stop offset="1" stop-color="#9a9a9a" /></radialGradient></defs>
+      </g></svg>);
     const [tx, ty, tw, th] = c.turret as number[];
     ov.push(<Img key="tur" src={staticFile(c.turretSrc)} style={{position: 'absolute', left: left + tx * cover, top: top + ty * cover, width: tw * cover, height: th * cover}} />);
-    // bola orbitando en sentido contrario
-    const ba = (lt * 610 * Math.max(0.1, 1 - lt / (c.d * 0.9))) * Math.PI / 180;
-    const br = rx * 0.83; const [bx, by] = P(cx + Math.cos(ba) * br, cy + Math.sin(ba) * br * k);
-    ov.push(<div key="ball" style={{position: 'absolute', left: bx - 9 * cover, top: by - 9 * cover, width: 18 * cover, height: 18 * cover, borderRadius: '50%', background: 'radial-gradient(circle at 35% 30%, #fff, #ddd 55%, #999)', boxShadow: '0 3px 4px rgba(0,0,0,0.5)'}} />);
+    if (u >= 1) { const n = win; ov.push(<div key="wn" style={{position: 'absolute', left: scx, top: scy - R * k * 1.25, transform: `translate(-50%,-100%) scale(${daB((lt - sp0 - SPIN) / 0.3)})`, ...font, fontSize: 64, color: '#fff', background: REDS.has(n) ? '#c8102e' : '#141414', border: `6px solid ${INK}`, borderRadius: 18, padding: '4px 26px 0'}}>{n} {REDS.has(n) ? 'RED' : 'BLACK'}</div>); }
   }
   if (c.fx === 'gun') {
     const [gx, gy] = c.muzzle as number[]; const [mx, my] = P(gx, gy);
     for (const s0 of shots) { const d = lt - s0; if (d >= 0 && d < 0.12) ov.push(<div key={`f${s0}`} style={{position: 'absolute', left: mx - 70, top: my - 50, width: 160, height: 100, background: 'radial-gradient(ellipse at 25% 50%, #fff 0%, #ffe28a 22%, #ff9a2a 45%, rgba(255,80,0,0) 70%)', transform: `scale(${1 + d * 4})`, mixBlendMode: 'screen'}} />); }
   }
   const glow = c.fx === 'roulette' ? 0.18 + 0.08 * Math.sin(t * 4) : 0.1;
-  return <AbsoluteFill style={{zIndex: 39, opacity: o, overflow: 'hidden', background: '#000'}}>
+  const PW = c.panel ? 1360 : 1920, PH = c.panel ? 765 : 1080;
+  return <AbsoluteFill style={{zIndex: 39, opacity: o, alignItems: 'center', justifyContent: 'center', background: c.panel ? `rgba(4,8,16,${0.35 * o})` : '#000'}}>
+   <div style={{position: 'relative', width: PW, height: PH, overflow: 'hidden', borderRadius: c.panel ? 26 : 0, border: c.panel ? `8px solid ${INK}` : undefined, boxShadow: c.panel ? '0 0 0 5px #ffd23f, 0 24px 60px rgba(0,0,0,0.7)' : undefined, transform: c.panel ? `scale(${0.6 + 0.4 * kIn}) rotate(${(1 - kIn) * -4}deg)` : undefined}}>
+   <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transform: c.panel ? `scale(${PW / 1920})` : undefined, transformOrigin: '0 0'}}>
     <div style={{position: 'absolute', inset: 0, transform: `translate(${sx}px,${sy}px) perspective(1600px) rotateY(${tilt}deg) scale(${1.02 + 0.03 * (1 - kIn)})`}}>
       <Img src={staticFile(c.src)} style={{position: 'absolute', left, top, width: W_, height: H_}} />
       {ov}
@@ -2835,6 +2860,7 @@ const ImgScene: React.FC<{c: any; t: number; o: number; lt: number}> = ({c, t, o
     {(c.say || []).map(([t0, t1, txt, x, y, side]: [number, number, string, number, number, number], i: number) => { const kk = lt < t0 ? 0 : lt > t1 ? Math.max(0, 1 - (lt - t1) / 0.2) : Math.min(1, (lt - t0) / 0.3); const [bx, by] = P(x, y); return <CbBubble key={i} x={bx} y={by} text={txt} k={kk} fs={52} side={side} />; })}
     {(c.shots || []).map((s0: number, i: number) => { const d = lt - s0; return d >= 0 && d < 0.7 ? <div key={`b${i}`} style={{position: 'absolute', left: P(c.muzzle[0], 0)[0] + 60, top: P(0, c.muzzle[1])[1] - 160, transform: `scale(${daB(d / 0.25)}) rotate(-8deg)`, ...font, fontSize: 90, color: '#ffd23f', WebkitTextStroke: `10px ${INK}`, paintOrder: 'stroke fill', opacity: Math.min(1, (0.7 - d) / 0.2)}}>BANG!</div> : null; })}
     {c.big && lt > c.big[0] && <BigMoney text={c.big[1]} k={Math.min(1, (lt - c.big[0]) / 0.4)} y={c.big[2] ?? 760} col={c.big[3] ?? '#5dff8a'} fs={130} />}
+   </div></div>
   </AbsoluteFill>;
 };
 // ---------- escenas countryball (dinero) ----------
