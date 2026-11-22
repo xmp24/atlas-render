@@ -1,4 +1,4 @@
-import {McMap, MC_FRAMES} from './mcd/McMap';
+import {McMap, MC_FRAMES, McThumb} from './mcd/McMap';
 import {Miya8, V8_FRAMES} from './Miya8/Video8';
 import {Tort3, TORT3_FRAMES} from './Tort/Video3';
 import {Tort7, TORT7_FRAMES} from './Tort/Video7';
@@ -64,6 +64,7 @@ import {ShortHW, SHW_IDS, shwFrames} from './ShortHW';
 import {ThumbHW} from './ThumbHW';
 export const RootHW: React.FC = () => (
   <>
+    {[0,1,2,3].map((v) => <Composition key={v} id={`McThumb${v}`} component={McThumb as any} durationInFrames={1} fps={30} width={2560} height={1440} defaultProps={{v}} />)}
     <Composition id="McMapN" component={McMap} durationInFrames={MC_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="MiyaPictoN" component={MiyaPicto} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="MiyaQuietN" component={MiyaQuiet} durationInFrames={Q_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />

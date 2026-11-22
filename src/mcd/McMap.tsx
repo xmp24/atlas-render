@@ -58,7 +58,7 @@ const ampOf = (tk: any, t: number) => { const i = Math.floor((t - tk.t0) * 30); 
 
 // ---------------- cara (canvas) ----------------
 type Mood = 'curious' | 'happy' | 'sad' | 'angry';
-function drawFace(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, mood: Mood, open: number, t: number, seed: number) {
+export function drawFace(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, mood: Mood, open: number, t: number, seed: number) {
   const blink = ((t + hash(seed) * 3) % 3.2) < 0.12;
   const ex = r * 0.42, ey = -r * 0.12, ew = r * 0.33, eh = r * 0.4;
   const look = Math.sin(t * 1.3 + seed) * 0.25;
@@ -399,6 +399,118 @@ export const McMap: React.FC = () => {
       <HUD t={t} />
       <Bubble t={t} />
       <Outro t={t} />
+    </AbsoluteFill>
+  );
+};
+
+// ================= MINIATURAS (2560x1440) =================
+const TW = 2560, TH = 1440;
+const STF: Record<string, string> = {};
+for (const c of C) STF[c.c] = c.st;
+function drawWorld(ctx: CanvasRenderingContext2D, cx: number, cy: number, s: number, blur: number, dim: number, only?: Set<string>) {
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  const g = ctx.createRadialGradient(TW / 2, TH * 0.45, 200, TW / 2, TH / 2, 1700);
+  g.addColorStop(0, '#2a8fd0'); g.addColorStop(1, '#0b3566');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, TW, TH);
+  if (blur) ctx.filter = `blur(${blur}px)`;
+  ctx.setTransform(s, 0, 0, s, TW / 2 - cx * s, TH / 2 - cy * s);
+  for (const k in PATHS) { const st = STF[k]; ctx.fillStyle = st && (!only || only.has(k)) ? COL[st] : k[0] === '_' ? '#b9c0ca' : '#dfe3e9'; ctx.fill(PATHS[k]); }
+  ctx.lineWidth = 1.4 / s; ctx.strokeStyle = 'rgba(30,45,70,0.6)'; for (const k in PATHS) ctx.stroke(PATHS[k]);
+  ctx.restore();
+  if (dim) { ctx.fillStyle = `rgba(6,18,45,${dim})`; ctx.fillRect(0, 0, TW, TH); }
+}
+// país con bandera + cara, encajado en una caja
+function drawCountry(ctx: CanvasRenderingContext2D, code: string, x: number, y: number, bw: number, bh: number, mood: Mood, ring: string) {
+  const g = G[code]; const p = PATHS[code]; if (!g || !p) return;
+  const [x0, y0, x1, y1] = g.bb; const s = Math.min(bw / (x1 - x0), bh / (y1 - y0));
+  ctx.save(); ctx.translate(x - (x0 + x1) / 2 * s, y - (y0 + y1) / 2 * s); ctx.scale(s, s);
+  ctx.save(); const mg = 60 / s; ctx.beginPath(); ctx.rect(x0 - mg, y0 - mg, x1 - x0 + 2 * mg, y1 - y0 + 2 * mg); ctx.clip();
+  ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 40; ctx.shadowOffsetY = 18;
+  ctx.lineJoin = 'round'; ctx.lineWidth = 34 / s; ctx.strokeStyle = INK; ctx.stroke(p);
+  ctx.shadowColor = 'transparent'; ctx.lineWidth = 20 / s; ctx.strokeStyle = ring; ctx.stroke(p);
+  ctx.lineWidth = 8 / s; ctx.strokeStyle = '#fff'; ctx.stroke(p);
+  ctx.fillStyle = '#fff'; ctx.fill(p);
+  ctx.save(); ctx.clip(p); const fl = FLAG[code]; if (fl) ctx.drawImage(fl, x0, y0, x1 - x0, y1 - y0); ctx.restore();
+  ctx.restore();
+  const fx = g.c[0], fy = g.c[1];
+  ctx.restore();
+  const sx = x - (x0 + x1) / 2 * s + fx * s, sy = y - (y0 + y1) / 2 * s + fy * s;
+  drawFace(ctx, sx, sy, Math.min(160, Math.max(105, g.r * s * 0.8)), mood, 0, 0.6, 3);
+}
+const TT: React.FC<{children: any; size: number; color?: string; stroke?: string; sh?: number; style?: React.CSSProperties}> = ({children, size, color = '#fff', stroke = INK, sh, style}) => (
+  <div style={{fontFamily: F1, fontSize: size, color, lineHeight: 1, WebkitTextStroke: `${size * 0.07}px ${stroke}`, paintOrder: 'stroke fill', textShadow: `0 ${sh ?? size * 0.08}px 0 ${stroke}`, whiteSpace: 'nowrap', ...style} as any}>{children}</div>
+);
+const Pill: React.FC<{k: string; text: string; size?: number}> = ({k, text, size = 54}) => (
+  <div style={{display: 'inline-flex', alignItems: 'center', gap: 14, fontFamily: F1, fontSize: size, color: '#fff', background: COL[k], border: `8px solid ${INK}`, borderRadius: 999, padding: '12px 34px', boxShadow: '0 12px 0 rgba(0,0,0,0.45)'}}><Ic k={k} s={size * 0.95} /> {text}</div>
+);
+const BigBurger: React.FC<{s: number; style?: React.CSSProperties}> = ({s, style}) => <div style={{width: s, height: s, ...style}}><Burger s={s} /></div>;
+
+export const McThumb: React.FC<{v: number}> = ({v}) => {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const [, force] = useState(0);
+  useLayoutEffect(() => { if (!READY) { const id = setInterval(() => { if (READY) { force((x) => x + 1); clearInterval(id); } }, 50); return () => clearInterval(id); } }, []);
+  useLayoutEffect(() => {
+    const cv = ref.current; if (!cv || !READY) return; const ctx = cv.getContext('2d')!;
+    if (v === 0) {
+      drawWorld(ctx, 2900, 1150, 0.62, 10, 0.35);
+      drawCountry(ctx, 'US', 520, 820, 760, 470, 'happy', COL.H);
+      drawCountry(ctx, 'RU', 1290, 770, 860, 600, 'sad', COL.F);
+      drawCountry(ctx, 'IR', 2060, 800, 640, 520, 'angry', COL.N);
+    } else if (v === 1) {
+      drawWorld(ctx, 2900, 1500, 0.95, 0, 0.0);
+      const gr = ctx.createLinearGradient(0, 0, 1500, 0); gr.addColorStop(0, 'rgba(6,18,45,0.6)'); gr.addColorStop(1, 'rgba(6,18,45,0)'); ctx.fillStyle = gr; ctx.fillRect(0, 0, TW, TH);
+      drawCountry(ctx, 'NG', 1900, 860, 620, 560, 'angry', COL.N);
+    } else if (v === 2) {
+      ctx.fillStyle = '#1f9d4f'; ctx.fillRect(0, 0, TW / 2, TH); ctx.fillStyle = '#c92a2a'; ctx.fillRect(TW / 2, 0, TW / 2, TH);
+      for (let i = 0; i < 26; i++) { ctx.fillStyle = `rgba(255,255,255,${i % 2 ? 0.05 : 0.0})`; ctx.beginPath(); const a = (i / 26) * Math.PI * 2; ctx.moveTo(TW / 2, TH / 2); ctx.arc(TW / 2, TH / 2, 2400, a, a + Math.PI / 26); ctx.fill(); }
+      drawCountry(ctx, 'US', 640, 820, 900, 560, 'happy', COL.H);
+      drawCountry(ctx, 'KP', 1930, 820, 480, 640, 'angry', COL.N);
+    } else {
+      drawWorld(ctx, 1460, 330, 2.2, 8, 0.5);
+      drawCountry(ctx, 'IS', 1720, 740, 1300, 820, 'sad', COL.F);
+    }
+  }, [v, READY]);
+  return (
+    <AbsoluteFill style={{background: '#0d3f73', overflow: 'hidden'}}>
+      <canvas ref={ref} width={TW} height={TH} style={{position: 'absolute', inset: 0}} />
+      {v === 0 && (<>
+        <div style={{position: 'absolute', top: 60, width: '100%', display: 'flex', justifyContent: 'center', gap: 40}}>
+          <TT size={210}>SIN</TT><TT size={210} color="#ffd23f" stroke="#7a0f1e">McDONALD'S</TT>
+        </div>
+        <div style={{position: 'absolute', top: 1060, width: '100%', display: 'flex', justifyContent: 'space-around', padding: '0 60px'}}>
+          <Pill k="H" text="TIENE" size={78} /><Pill k="F" text="SE FUE" size={78} /><Pill k="N" text="NUNCA LLEGÓ" size={78} />
+        </div>
+        <div style={{position: 'absolute', bottom: 40, width: '100%', textAlign: 'center'}}>
+          <span style={{display: 'inline-block', background: '#e03131', border: `10px solid #fff`, borderRadius: 999, padding: '10px 70px', boxShadow: '0 14px 0 rgba(0,0,0,0.45)'}}><TT size={120}>¿EN TU PAÍS?</TT></span>
+        </div>
+      </>)}
+      {v === 1 && (<>
+        <div style={{position: 'absolute', left: 90, top: 150}}>
+          <TT size={560} color="#ff4d4d" stroke="#fff" sh={0} style={{WebkitTextStroke: '30px #fff', textShadow: `0 30px 0 ${INK}`}}>105</TT>
+          <TT size={150} style={{marginTop: 30}}>PAÍSES</TT>
+          <TT size={150} color="#ffd23f" style={{marginTop: 20}}>SIN McDONALD'S</TT>
+        </div>
+        <div style={{position: 'absolute', right: 90, top: 70, transform: 'rotate(8deg)'}}><Pill k="N" text="¿EL TUYO?" size={90} /></div>
+      </>)}
+      {v === 2 && (<>
+        <div style={{position: 'absolute', top: 50, width: '100%', textAlign: 'center'}}><TT size={150}>¿DÓNDE NO HAY McDONALD'S?</TT></div>
+        <div style={{position: 'absolute', left: 0, width: TW / 2, bottom: 70, textAlign: 'center'}}><TT size={300} color="#fff">SÍ</TT></div>
+        <div style={{position: 'absolute', right: 0, width: TW / 2, bottom: 70, textAlign: 'center'}}><TT size={300} color="#fff">NO</TT></div>
+        <div style={{position: 'absolute', left: TW / 2 - 230, top: 560, width: 460, height: 460, borderRadius: '50%', background: '#fff', border: `16px solid ${INK}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 20px 0 rgba(0,0,0,0.4)'}}>
+          <BigBurger s={330} />
+        </div>
+        <div style={{position: 'absolute', left: TW / 2 - 110, top: 400}}><TT size={170} color="#ffd23f">VS</TT></div>
+      </>)}
+      {v === 3 && (<>
+        <div style={{position: 'absolute', left: 80, top: 330, width: 700, height: 700}}>
+          <div style={{position: 'absolute', left: 60, top: 40, width: 580, height: 600, borderRadius: '290px 290px 40px 40px', background: 'linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.3))', border: '12px solid rgba(255,255,255,0.9)', boxShadow: `0 0 0 10px ${INK}, 0 0 80px rgba(160,220,255,0.8)`}} />
+          <div style={{position: 'absolute', left: 145, top: 210}}><BigBurger s={410} /></div>
+          <div style={{position: 'absolute', left: 0, top: 620, width: 700, height: 90, background: '#5b3a1e', border: `10px solid ${INK}`, borderRadius: 20}} />
+        </div>
+        <div style={{position: 'absolute', top: 50, width: '100%', textAlign: 'center'}}><TT size={150}>SE FUE EN 2009...</TT></div>
+        <div style={{position: 'absolute', bottom: 60, width: '100%', textAlign: 'center'}}><TT size={140} color="#ffd23f">¡Y NO SE HA PODRIDO!</TT></div>
+      </>)}
     </AbsoluteFill>
   );
 };
