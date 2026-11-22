@@ -124,7 +124,7 @@ export const camera = (t: number): Cam => {
   const [, xa, ya, sa] = CAMK[Math.max(0, i - 1)];
   const k = i === 0 ? 1 : lerp(t, ta, ta + 1.1, 0, 1, Easing.inOut(Easing.cubic));
   let cx = xa + (xb - xa) * k, cy = ya + (yb - ya) * k;
-  const tn = i < CAMK.length - 1 ? CAMK[i + 1][0] : ta + 10;
+  const tn = Math.max(ta + 1.2, i < CAMK.length - 1 ? CAMK[i + 1][0] : ta + 10);
   const drift = 1 + 0.05 * lerp(t, ta + 1.1, tn, 0, 1, Easing.linear);
   let s = sa * Math.pow(sb / sa, k) * drift;
   for (const [h, amp] of SHAKE) { const d = t - h; if (d >= 0 && d < 0.3) { const a = ((1 - d / 0.3) * amp) / s; cx += Math.sin(d * 93) * a; cy += Math.cos(d * 69) * a; } }
