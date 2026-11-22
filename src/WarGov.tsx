@@ -163,7 +163,10 @@ const Trooper: React.FC<{team: string; walk: number; dir: number; shoot: boolean
   );
 };
 const FORM: P[] = [[0, 0], [-16, -9], [-16, 9], [-31, 0], [-31, -17], [-31, 17], [-46, -9], [-46, 9]];
-const Units: React.FC<{t: number; s: number; vis: (b: number[]) => boolean; ui: number}> = ({t, s, vis, ui}) => {
+const USC: number[][] = ((TL as any).usc || []) as number[][];
+const ufAt = (t: number) => { if (!USC.length || t <= USC[0][0]) return 1; for (let i = 1; i < USC.length; i++) if (t <= USC[i][0]) { const [a0, v0] = USC[i - 1], [a1, v1] = USC[i]; return v0 + (v1 - v0) * (t - a0) / Math.max(1e-6, a1 - a0); } return USC[USC.length - 1][1]; };
+const Units: React.FC<{t: number; s: number; vis: (b: number[]) => boolean; ui: number}> = ({t, s, vis, ui: ui0}) => {
+  const ui = ui0 * ufAt(t);
   const out: React.ReactNode[] = [];
   const frame = t * 30;
   const sc = (1.4 * ui) / s;

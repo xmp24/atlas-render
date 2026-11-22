@@ -2749,6 +2749,8 @@ const DaCard: React.FC<{c: any; t: number}> = ({c, t}) => {
   if (c.type === 'alert') return <div style={{position: 'absolute', left: 0, right: 0, top: 150, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: o, zIndex: 36}}>
     <div style={{...font, fontSize: 58, color: '#fff', background: c.col ?? '#c62828', border: `4px solid ${INK}`, borderRadius: 14, padding: '2px 34px', boxShadow: `0 0 ${30 + 20 * Math.sin(lt * 10)}px ${c.col ?? '#c62828'}`, transform: `scale(${0.8 + 0.2 * k})`}}>{c.text}</div>
     {c.sub && <div style={{...font2, fontSize: 30, color: '#fff', marginTop: 8, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>{c.sub}</div>}</div>;
+  if (c.type === 'ladder') return <LadderCard c={c} t={t} o={o} lt={lt} />;
+  if (c.type === 'img') return <ImgScene c={c} t={t} o={o} lt={lt} />;
   if (c.type === 'final') return <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', background: `rgba(4,8,16,${0.62 * o})`, zIndex: 40}}>
     <div style={{textAlign: 'center', opacity: o}}><div style={{...font, fontSize: 70, color: '#ffd23f', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill'}}>{c.title}</div>
       <div style={{display: 'flex', gap: 16, alignItems: 'flex-end', height: 480, marginTop: 20}}>{c.rows.map(([lab, pct, txt, win]: [string, number, string, number], i: number) => { const g = daE((lt - 0.4 - i * 0.3) / 0.6);
@@ -2757,6 +2759,83 @@ const DaCard: React.FC<{c: any; t: number}> = ({c, t}) => {
           <div style={{width: 130, height: Math.max(6, 380 * pct * g), background: win ? 'linear-gradient(#ffd23f,#e09000)' : `linear-gradient(${DA_C0},${DA_C0D})`, border: `3px solid ${INK}`, borderRadius: '12px 12px 0 0'}} />
           <div style={{...font, fontSize: 40, color: '#5dff8a', marginTop: 6}}>{lab}</div></div>; })}</div></div></AbsoluteFill>;
   return null;
+};
+
+// ---------- gráfico inicial (4 intentos) ----------
+const LadderCard: React.FC<{c: any; t: number; o: number; lt: number}> = ({c, t, o, lt}) => {
+  const rows: [string, string, string, number][] = c.rows;
+  const k = daB(lt / 0.4);
+  return <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', background: `radial-gradient(ellipse at 50% 55%, rgba(10,18,36,${0.82 * o}) 0%, rgba(3,6,12,${0.92 * o}) 75%)`, zIndex: 40}}>
+    <div style={{opacity: o, transform: `scale(${0.85 + 0.15 * k})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{...font, fontSize: 64, color: '#fff', WebkitTextStroke: `9px ${INK}`, paintOrder: 'stroke fill', letterSpacing: 2, textAlign: 'center'}}>{c.title}</div>
+      <div style={{...font, fontSize: 34, color: '#ffd23f', marginTop: 4, opacity: daE((lt - 0.3) / 0.4)}}>{c.sub}</div>
+      <div style={{position: 'relative', marginTop: 26, padding: '26px 46px 18px', background: 'linear-gradient(180deg, rgba(20,30,52,0.95), rgba(8,12,22,0.95))', border: '4px solid #ffffff22', borderRadius: 26, boxShadow: '0 18px 50px rgba(0,0,0,0.6), inset 0 1px 0 #ffffff22'}}>
+        {[0.25, 0.5, 0.75, 1].map((g, i) => <div key={i} style={{position: 'absolute', left: 40, right: 40, bottom: 92 + 380 * g, height: 2, background: '#ffffff12'}} />)}
+        <div style={{display: 'flex', gap: 38, alignItems: 'flex-end', height: 520}}>{rows.map(([lab, ic, txt, pct], i) => {
+          const g = daE((lt - 0.45 - i * 0.32) / 0.55); const win = i === rows.length - 1;
+          const h = Math.max(10, 380 * pct * g);
+          return <div key={i} style={{width: 210, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end'}}>
+            <div style={{transform: `scale(${daB((lt - 0.7 - i * 0.32) / 0.35)})`, ...font, fontSize: 30, color: win ? '#ffd23f' : '#fff', background: win ? '#3a2a00' : '#1b2438', border: `3px solid ${win ? '#ffd23f' : '#ffffff44'}`, borderRadius: 12, padding: '2px 14px 0', marginBottom: 10, whiteSpace: 'nowrap'}}>{txt}</div>
+            <div style={{position: 'relative', width: 150, height: h, borderRadius: '16px 16px 4px 4px', border: `4px solid ${INK}`, background: win ? 'linear-gradient(180deg,#fff2a8,#ffd23f 30%,#d99500)' : 'linear-gradient(180deg,#9fd0ff,#3b86ff 35%,#1d4fa8)', boxShadow: win ? `0 0 ${30 + 20 * Math.sin(t * 6)}px #ffd23f99` : '0 6px 0 rgba(0,0,0,0.4)', overflow: 'hidden'}}>
+              <div style={{position: 'absolute', left: 10, top: 0, bottom: 0, width: 22, background: 'rgba(255,255,255,0.28)', borderRadius: 10}} />
+              <Img src={staticFile(`hw/icons/${ic}.svg`)} style={{position: 'absolute', left: '50%', bottom: 12, width: 70, height: 70, transform: 'translateX(-50%)', filter: 'brightness(0) invert(1) drop-shadow(0 3px 0 rgba(0,0,0,0.5))', opacity: h > 90 ? 1 : 0}} />
+            </div>
+            <div style={{...font, fontSize: lab.length > 6 ? 34 : 46, color: win ? '#ffd23f' : '#5dff8a', marginTop: 10, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill', whiteSpace: 'nowrap'}}>{lab}</div>
+            <div style={{...font, fontSize: 22, color: '#ffffffaa'}}>ATTEMPT {i + 1}</div></div>; })}</div>
+      </div>
+    </div></AbsoluteFill>;
+};
+// ---------- escenas 3D (imágenes) animadas ----------
+const ImgScene: React.FC<{c: any; t: number; o: number; lt: number}> = ({c, t, o, lt}) => {
+  const u = Math.min(1, lt / c.d);
+  const z0 = c.z0 ?? 1.04, z1 = c.z1 ?? 1.16;
+  const zoom = z0 + (z1 - z0) * daE(u);
+  const [fx0, fy0] = c.f0 || [0.5, 0.5], [fx1, fy1] = c.f1 || [0.5, 0.5];
+  const fx = fx0 + (fx1 - fx0) * daE(u), fy = fy0 + (fy1 - fy0) * daE(u);
+  const IW = c.w, IH = c.h; const cover = Math.max(1920 / IW, 1080 / IH) * zoom; const W_ = IW * cover, H_ = IH * cover;
+  const left = Math.min(0, Math.max(1920 - W_, 960 - fx * W_)), top = Math.min(0, Math.max(1080 - H_, 540 - fy * H_));
+  let shake = 0; const shots: number[] = c.shots || [];
+  for (const s0 of shots) { const d = lt - s0; if (d >= 0 && d < 0.25) shake = (1 - d / 0.25) * 14; }
+  const sx = Math.sin(t * 91) * shake, sy = Math.cos(t * 77) * shake;
+  const tilt = Math.sin(lt * 0.9) * 1.6;
+  const P = (x: number, y: number) => [left + x * cover, top + y * cover];
+  const kIn = daB(lt / 0.45);
+  const ov: React.ReactNode[] = [];
+  if (c.fx === 'roulette') {
+    const [cx, cy, rx, ry] = c.wheel as number[];
+    const ang = -(lt * 420 * Math.max(0.15, 1 - lt / c.d)) ;
+    const k = ry / rx;
+    const box = (r: number) => ({left: left + (cx - r) * cover, top: top + (cy - r * k) * cover, width: 2 * r * cover, height: 2 * r * k * cover});
+    const bb = box(rx);
+    ov.push(<div key="rot" style={{position: 'absolute', ...bb, overflow: 'visible', transform: `scaleY(${k}) rotate(${ang}deg) scaleY(${1 / k})`, transformOrigin: '50% 50%',
+      WebkitMaskImage: `radial-gradient(ellipse 50% 50% at 50% 50%, transparent ${c.inner * 100 - 1}%, #000 ${c.inner * 100 + 1}%, #000 98%, transparent 100%)`,
+      maskImage: `radial-gradient(ellipse 50% 50% at 50% 50%, transparent ${c.inner * 100 - 1}%, #000 ${c.inner * 100 + 1}%, #000 98%, transparent 100%)`}}>
+      <div style={{position: 'absolute', left: -(cx - rx) * cover, top: -(cy - rx * k) * cover, width: W_, height: H_, backgroundImage: `url(${staticFile(c.src)})`, backgroundSize: `${W_}px ${H_}px`}} />
+    </div>);
+    const [tx, ty, tw, th] = c.turret as number[];
+    ov.push(<Img key="tur" src={staticFile(c.turretSrc)} style={{position: 'absolute', left: left + tx * cover, top: top + ty * cover, width: tw * cover, height: th * cover}} />);
+    // bola orbitando en sentido contrario
+    const ba = (lt * 610 * Math.max(0.1, 1 - lt / (c.d * 0.9))) * Math.PI / 180;
+    const br = rx * 0.83; const [bx, by] = P(cx + Math.cos(ba) * br, cy + Math.sin(ba) * br * k);
+    ov.push(<div key="ball" style={{position: 'absolute', left: bx - 9 * cover, top: by - 9 * cover, width: 18 * cover, height: 18 * cover, borderRadius: '50%', background: 'radial-gradient(circle at 35% 30%, #fff, #ddd 55%, #999)', boxShadow: '0 3px 4px rgba(0,0,0,0.5)'}} />);
+  }
+  if (c.fx === 'gun') {
+    const [gx, gy] = c.muzzle as number[]; const [mx, my] = P(gx, gy);
+    for (const s0 of shots) { const d = lt - s0; if (d >= 0 && d < 0.12) ov.push(<div key={`f${s0}`} style={{position: 'absolute', left: mx - 70, top: my - 50, width: 160, height: 100, background: 'radial-gradient(ellipse at 25% 50%, #fff 0%, #ffe28a 22%, #ff9a2a 45%, rgba(255,80,0,0) 70%)', transform: `scale(${1 + d * 4})`, mixBlendMode: 'screen'}} />); }
+  }
+  const glow = c.fx === 'roulette' ? 0.18 + 0.08 * Math.sin(t * 4) : 0.1;
+  return <AbsoluteFill style={{zIndex: 39, opacity: o, overflow: 'hidden', background: '#000'}}>
+    <div style={{position: 'absolute', inset: 0, transform: `translate(${sx}px,${sy}px) perspective(1600px) rotateY(${tilt}deg) scale(${1.02 + 0.03 * (1 - kIn)})`}}>
+      <Img src={staticFile(c.src)} style={{position: 'absolute', left, top, width: W_, height: H_}} />
+      {ov}
+    </div>
+    <AbsoluteFill style={{background: `radial-gradient(ellipse at 50% 45%, rgba(255,230,160,${glow}) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%)`, mixBlendMode: 'soft-light'}} />
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%)'}} />
+    {c.pre && <div style={{position: 'absolute', top: 44, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}><div style={{transform: `scale(${kIn})`, ...font, fontSize: 46, color: '#fff', background: 'rgba(8,12,20,0.85)', border: '4px solid #ffd23f', borderRadius: 16, padding: '6px 28px 0', boxShadow: '0 8px 0 rgba(0,0,0,0.4)'}}>{c.pre}</div></div>}
+    {(c.say || []).map(([t0, t1, txt, x, y, side]: [number, number, string, number, number, number], i: number) => { const kk = lt < t0 ? 0 : lt > t1 ? Math.max(0, 1 - (lt - t1) / 0.2) : Math.min(1, (lt - t0) / 0.3); const [bx, by] = P(x, y); return <CbBubble key={i} x={bx} y={by} text={txt} k={kk} fs={52} side={side} />; })}
+    {(c.shots || []).map((s0: number, i: number) => { const d = lt - s0; return d >= 0 && d < 0.7 ? <div key={`b${i}`} style={{position: 'absolute', left: P(c.muzzle[0], 0)[0] + 60, top: P(0, c.muzzle[1])[1] - 160, transform: `scale(${daB(d / 0.25)}) rotate(-8deg)`, ...font, fontSize: 90, color: '#ffd23f', WebkitTextStroke: `10px ${INK}`, paintOrder: 'stroke fill', opacity: Math.min(1, (0.7 - d) / 0.2)}}>BANG!</div> : null; })}
+    {c.big && lt > c.big[0] && <BigMoney text={c.big[1]} k={Math.min(1, (lt - c.big[0]) / 0.4)} y={c.big[2] ?? 760} col={c.big[3] ?? '#5dff8a'} fs={130} />}
+  </AbsoluteFill>;
 };
 // ---------- escenas countryball (dinero) ----------
 const KMC = () => COUNTRIES.findIndex((c) => c.c === 'MC');
