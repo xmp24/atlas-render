@@ -1,0 +1,1497 @@
+{
+ "segs": [
+  {
+   "id": "intro0",
+   "voice": "NARR",
+   "text": "¿Dónde NO puedes comerte un McDonald's? Revisamos los ciento noventa y siete países del mundo... ¡uno por uno!",
+   "cue": null,
+   "type": "intro"
+  },
+  {
+   "id": "intro1",
+   "voice": "NARR",
+   "text": "Verde: hay McDonald's. Amarillo: lo tuvieron, y se fue. Rojo: nunca llegó. Y al final... el resultado te va a sorprender.",
+   "cue": null,
+   "type": "intro"
+  },
+  {
+   "id": "L0",
+   "voice": "US",
+   "text": "¡Aquí empezó todo! El primer McDonald's abrió en California en 1940. ¡Somos la patria de la hamburguesa!",
+   "cue": "US",
+   "type": "say"
+  },
+  {
+   "id": "L1",
+   "voice": "CA",
+   "text": "Aquí hay desde 1967... ¡y hasta venden poutine!",
+   "cue": "CA",
+   "type": "say"
+  },
+  {
+   "id": "L2",
+   "voice": "MX",
+   "text": "Claro que hay, carnal, desde 1985. Pero a mí no me cambias unos tacos al pastor.",
+   "cue": "MX",
+   "type": "say"
+  },
+  {
+   "id": "L3",
+   "voice": "GB",
+   "text": "Por supuesto que hay, desde 1974. Aunque, honestamente... prefiero mi té de las cinco.",
+   "cue": "GB",
+   "type": "say"
+  },
+  {
+   "id": "L4_0",
+   "voice": "NARR",
+   "text": "Irlanda, verde.",
+   "cue": "IE",
+   "type": "over",
+   "name": "IE"
+  },
+  {
+   "id": "L5",
+   "voice": "FR",
+   "text": "Aquí no se dice McDonald's... ¡se dice McDo! Y lo tenemos desde 1972.",
+   "cue": "FR",
+   "type": "say"
+  },
+  {
+   "id": "L6",
+   "voice": "ES",
+   "text": "Pues claro que hay, tío, desde 1981. Eso sí, aquí se cena a las diez de la noche.",
+   "cue": "ES",
+   "type": "say"
+  },
+  {
+   "id": "L7_0",
+   "voice": "NARR",
+   "text": "Portugal,",
+   "cue": "PT",
+   "type": "over",
+   "name": "PT"
+  },
+  {
+   "id": "L7_1",
+   "voice": "NARR",
+   "text": "Andorra... verde, verde.",
+   "cue": "PT",
+   "type": "over",
+   "name": "AD"
+  },
+  {
+   "id": "L8",
+   "voice": "IT",
+   "text": "Sí, sí, desde 1985... ¡pero la pizza sigue siendo la reina!",
+   "cue": "IT",
+   "type": "say"
+  },
+  {
+   "id": "L9",
+   "voice": "IT",
+   "text": "Yo tuve uno durante veinte años. En 2019 cerró... no pudo con la comida italiana de al lado.",
+   "cue": "SM",
+   "type": "say"
+  },
+  {
+   "id": "L10_0",
+   "voice": "NARR",
+   "text": "Malta,",
+   "cue": "MT",
+   "type": "over",
+   "name": "MT"
+  },
+  {
+   "id": "L10_1",
+   "voice": "NARR",
+   "text": "Mónaco,",
+   "cue": "MT",
+   "type": "over",
+   "name": "MC"
+  },
+  {
+   "id": "L10_2",
+   "voice": "NARR",
+   "text": "Suiza,",
+   "cue": "MT",
+   "type": "over",
+   "name": "CH"
+  },
+  {
+   "id": "L10_3",
+   "voice": "NARR",
+   "text": "Austria,",
+   "cue": "MT",
+   "type": "over",
+   "name": "AT"
+  },
+  {
+   "id": "L10_4",
+   "voice": "NARR",
+   "text": "Alemania...",
+   "cue": "MT",
+   "type": "over",
+   "name": "DE"
+  },
+  {
+   "id": "L10_5",
+   "voice": "NARR",
+   "text": "el centro de Europa está lleno de McDonald's.",
+   "cue": "MT",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L11_0",
+   "voice": "NARR",
+   "text": "Países Bajos,",
+   "cue": "NL",
+   "type": "over",
+   "name": "NL"
+  },
+  {
+   "id": "L11_1",
+   "voice": "NARR",
+   "text": "Dinamarca,",
+   "cue": "NL",
+   "type": "over",
+   "name": "DK"
+  },
+  {
+   "id": "L11_2",
+   "voice": "NARR",
+   "text": "Noruega,",
+   "cue": "NL",
+   "type": "over",
+   "name": "NO"
+  },
+  {
+   "id": "L11_3",
+   "voice": "NARR",
+   "text": "Suecia,",
+   "cue": "NL",
+   "type": "over",
+   "name": "SE"
+  },
+  {
+   "id": "L11_4",
+   "voice": "NARR",
+   "text": "Finlandia... todo verde. Pero cuidado con el siguiente.",
+   "cue": "NL",
+   "type": "over",
+   "name": "FI"
+  },
+  {
+   "id": "L12",
+   "voice": "IS",
+   "text": "En 2009, con la crisis, McDonald's se fue de Islandia. Y la última hamburguesa que vendimos... sigue intacta, en exposición.",
+   "cue": "IS",
+   "type": "say"
+  },
+  {
+   "id": "L13_0",
+   "voice": "NARR",
+   "text": "¡Más de quince años y no se ha podrido!",
+   "cue": "IS",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L14_0",
+   "voice": "NARR",
+   "text": "Polonia,",
+   "cue": "PL",
+   "type": "over",
+   "name": "PL"
+  },
+  {
+   "id": "L14_1",
+   "voice": "NARR",
+   "text": "Chequia,",
+   "cue": "PL",
+   "type": "over",
+   "name": "CZ"
+  },
+  {
+   "id": "L14_2",
+   "voice": "NARR",
+   "text": "Eslovaquia,",
+   "cue": "PL",
+   "type": "over",
+   "name": "SK"
+  },
+  {
+   "id": "L14_3",
+   "voice": "NARR",
+   "text": "Hungría,",
+   "cue": "PL",
+   "type": "over",
+   "name": "HU"
+  },
+  {
+   "id": "L14_4",
+   "voice": "NARR",
+   "text": "Eslovenia,",
+   "cue": "PL",
+   "type": "over",
+   "name": "SI"
+  },
+  {
+   "id": "L14_5",
+   "voice": "NARR",
+   "text": "Croacia... todo verde.",
+   "cue": "PL",
+   "type": "over",
+   "name": "HR"
+  },
+  {
+   "id": "L15",
+   "voice": "BALK",
+   "text": "Nosotros lo tuvimos desde 2011. A finales de 2022 se acabó... y ahora esos locales se llaman Bash.",
+   "cue": "BA",
+   "type": "say"
+  },
+  {
+   "id": "L16_0",
+   "voice": "NARR",
+   "text": "Serbia, sí.",
+   "cue": "RS",
+   "type": "over",
+   "name": "RS"
+  },
+  {
+   "id": "L17",
+   "voice": "BALK",
+   "text": "Yo tuve uno... solo en verano, en la playa de Budva. En 2007, adiós.",
+   "cue": "ME",
+   "type": "say"
+  },
+  {
+   "id": "L18_0",
+   "voice": "NARR",
+   "text": "Kosovo... ¡el primer rojo! Nunca tuvo McDonald's.",
+   "cue": "XK",
+   "type": "over",
+   "name": "XK"
+  },
+  {
+   "id": "L18_1",
+   "voice": "NARR",
+   "text": "Albania, tampoco.",
+   "cue": "XK",
+   "type": "over",
+   "name": "AL"
+  },
+  {
+   "id": "L19",
+   "voice": "BALK",
+   "text": "Tuvimos siete restaurantes, hasta que en 2013 hubo una pelea con el dueño de la franquicia. Y cerraron todos.",
+   "cue": "MK",
+   "type": "say"
+  },
+  {
+   "id": "L20_0",
+   "voice": "NARR",
+   "text": "Grecia,",
+   "cue": "GR",
+   "type": "over",
+   "name": "GR"
+  },
+  {
+   "id": "L20_1",
+   "voice": "NARR",
+   "text": "Bulgaria,",
+   "cue": "GR",
+   "type": "over",
+   "name": "BG"
+  },
+  {
+   "id": "L20_2",
+   "voice": "NARR",
+   "text": "Rumanía,",
+   "cue": "GR",
+   "type": "over",
+   "name": "RO"
+  },
+  {
+   "id": "L20_3",
+   "voice": "NARR",
+   "text": "Moldavia,",
+   "cue": "GR",
+   "type": "over",
+   "name": "MD"
+  },
+  {
+   "id": "L20_4",
+   "voice": "NARR",
+   "text": "Ucrania... verde.",
+   "cue": "GR",
+   "type": "over",
+   "name": "UA"
+  },
+  {
+   "id": "L21_0",
+   "voice": "NARR",
+   "text": "Bielorrusia: se fue en 2022. Ahora se llama Mak punto bai.",
+   "cue": "BY",
+   "type": "over",
+   "name": "BY"
+  },
+  {
+   "id": "L22_0",
+   "voice": "NARR",
+   "text": "Lituania,",
+   "cue": "LT",
+   "type": "over",
+   "name": "LT"
+  },
+  {
+   "id": "L22_1",
+   "voice": "NARR",
+   "text": "Letonia,",
+   "cue": "LT",
+   "type": "over",
+   "name": "LV"
+  },
+  {
+   "id": "L22_2",
+   "voice": "NARR",
+   "text": "Estonia, sí. Y ahora... el gigante.",
+   "cue": "LT",
+   "type": "over",
+   "name": "EE"
+  },
+  {
+   "id": "L23",
+   "voice": "RU",
+   "text": "En 1990 abrimos el McDonald's de la plaza Pushkin, en Moscú, con colas enormes. En 2022 se fue... y ahora tenemos Vkusno i tochka: ¡sabroso y punto!",
+   "cue": "RU",
+   "type": "say"
+  },
+  {
+   "id": "L24_0",
+   "voice": "NARR",
+   "text": "Chipre y Turquía, verde. ¡Nos vamos a Sudamérica!",
+   "cue": "CY",
+   "type": "over",
+   "name": "CY"
+  },
+  {
+   "id": "L25_0",
+   "voice": "NARR",
+   "text": "Colombia,",
+   "cue": "CO",
+   "type": "over",
+   "name": "CO"
+  },
+  {
+   "id": "L25_1",
+   "voice": "NARR",
+   "text": "Venezuela,",
+   "cue": "CO",
+   "type": "over",
+   "name": "VE"
+  },
+  {
+   "id": "L25_2",
+   "voice": "NARR",
+   "text": "Ecuador,",
+   "cue": "CO",
+   "type": "over",
+   "name": "EC"
+  },
+  {
+   "id": "L25_3",
+   "voice": "NARR",
+   "text": "Perú... todo verde. Pero ojo con el siguiente.",
+   "cue": "CO",
+   "type": "over",
+   "name": "PE"
+  },
+  {
+   "id": "L26",
+   "voice": "BO",
+   "text": "Aquí abrió en 1997... y en 2002 cerró por falta de clientes. ¡Los bolivianos preferimos nuestras salteñas!",
+   "cue": "BO",
+   "type": "say"
+  },
+  {
+   "id": "L27_0",
+   "voice": "NARR",
+   "text": "Desde entonces, McDonald's ha intentado volver... sin éxito.",
+   "cue": "BO",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L28_0",
+   "voice": "NARR",
+   "text": "Chile, sí.",
+   "cue": "CL",
+   "type": "over",
+   "name": "CL"
+  },
+  {
+   "id": "L29",
+   "voice": "AR",
+   "text": "¡Che, obvio que hay! Desde 1986. Pero ni se te ocurra compararlo con un buen asado, ¿eh?",
+   "cue": "AR",
+   "type": "say"
+  },
+  {
+   "id": "L30_0",
+   "voice": "NARR",
+   "text": "Uruguay y Paraguay, sí.",
+   "cue": "UY",
+   "type": "over",
+   "name": "UY"
+  },
+  {
+   "id": "L31",
+   "voice": "BR",
+   "text": "Aquí en Brasil le decimos Méqui. ¡Y lo tenemos desde 1979!",
+   "cue": "BR",
+   "type": "say"
+  },
+  {
+   "id": "L32_0",
+   "voice": "NARR",
+   "text": "Guyana... rojo. Pero su vecino,",
+   "cue": "GY",
+   "type": "over",
+   "name": "GY"
+  },
+  {
+   "id": "L32_1",
+   "voice": "NARR",
+   "text": "Surinam, sí tiene.",
+   "cue": "GY",
+   "type": "over",
+   "name": "SR"
+  },
+  {
+   "id": "L33_0",
+   "voice": "NARR",
+   "text": "Panamá,",
+   "cue": "PA",
+   "type": "over",
+   "name": "PA"
+  },
+  {
+   "id": "L33_1",
+   "voice": "NARR",
+   "text": "Costa Rica,",
+   "cue": "PA",
+   "type": "over",
+   "name": "CR"
+  },
+  {
+   "id": "L33_2",
+   "voice": "NARR",
+   "text": "Nicaragua,",
+   "cue": "PA",
+   "type": "over",
+   "name": "NI"
+  },
+  {
+   "id": "L33_3",
+   "voice": "NARR",
+   "text": "Honduras,",
+   "cue": "PA",
+   "type": "over",
+   "name": "HN"
+  },
+  {
+   "id": "L33_4",
+   "voice": "NARR",
+   "text": "El Salvador,",
+   "cue": "PA",
+   "type": "over",
+   "name": "SV"
+  },
+  {
+   "id": "L33_5",
+   "voice": "NARR",
+   "text": "Guatemala... toda Centroamérica, verde.",
+   "cue": "PA",
+   "type": "over",
+   "name": "GT"
+  },
+  {
+   "id": "L34_0",
+   "voice": "NARR",
+   "text": "Menos Belice. Ahí, nada.",
+   "cue": "BZ",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L35",
+   "voice": "CU",
+   "text": "Oye, en Cuba hay un McDonald's... pero está dentro de la base estadounidense de Guantánamo. Y los cubanos no podemos entrar.",
+   "cue": "CU",
+   "type": "say"
+  },
+  {
+   "id": "L36",
+   "voice": "JM",
+   "text": "Tuvimos once restaurantes, hasta 2005. Problemas con el gobierno y pocas ventas. ¡Ahora manda el pollo jerk!",
+   "cue": "JM",
+   "type": "say"
+  },
+  {
+   "id": "L37_0",
+   "voice": "NARR",
+   "text": "Haití, no. República Dominicana y Bahamas, sí.",
+   "cue": "HT",
+   "type": "over",
+   "name": "HT"
+  },
+  {
+   "id": "L38",
+   "voice": "BB",
+   "text": "El nuestro abrió en 1989... ¡y cerró al año siguiente! Casi nadie iba.",
+   "cue": "BB",
+   "type": "say"
+  },
+  {
+   "id": "L39_0",
+   "voice": "NARR",
+   "text": "Trinidad y Tobago, sí. Y el resto de islas del Caribe... todas en rojo.",
+   "cue": "TT",
+   "type": "over",
+   "name": "TT"
+  },
+  {
+   "id": "L40_0",
+   "voice": "NARR",
+   "text": "Georgia, sí. Y aquí viene algo curioso.",
+   "cue": "GE",
+   "type": "over",
+   "name": "GE"
+  },
+  {
+   "id": "L41",
+   "voice": "AM",
+   "text": "En Armenia nunca ha habido McDonald's. Y hay gente que cruza a Georgia... ¡solo para comerse uno!",
+   "cue": "AM",
+   "type": "say"
+  },
+  {
+   "id": "L42_0",
+   "voice": "NARR",
+   "text": "Azerbaiyán, sí.",
+   "cue": "AZ",
+   "type": "over",
+   "name": "AZ"
+  },
+  {
+   "id": "L43_0",
+   "voice": "NARR",
+   "text": "Kazajistán lo tuvo, hasta 2023. Se quedó sin la carne que llegaba de Rusia... y tuvo que cerrar.",
+   "cue": "KZ",
+   "type": "over",
+   "name": "KZ"
+  },
+  {
+   "id": "L44_0",
+   "voice": "NARR",
+   "text": "Uzbekistán,",
+   "cue": "UZ",
+   "type": "over",
+   "name": "UZ"
+  },
+  {
+   "id": "L44_1",
+   "voice": "NARR",
+   "text": "Turkmenistán,",
+   "cue": "UZ",
+   "type": "over",
+   "name": "TM"
+  },
+  {
+   "id": "L44_2",
+   "voice": "NARR",
+   "text": "Kirguistán,",
+   "cue": "UZ",
+   "type": "over",
+   "name": "KG"
+  },
+  {
+   "id": "L44_3",
+   "voice": "NARR",
+   "text": "Tayikistán,",
+   "cue": "UZ",
+   "type": "over",
+   "name": "TJ"
+  },
+  {
+   "id": "L44_4",
+   "voice": "NARR",
+   "text": "Afganistán... ¡rojo, rojo, rojo!",
+   "cue": "UZ",
+   "type": "over",
+   "name": "AF"
+  },
+  {
+   "id": "L45",
+   "voice": "IR",
+   "text": "McDonald's de verdad aquí no hay... pero tenemos una copia: ¡Mash Donald's!",
+   "cue": "IR",
+   "type": "say"
+  },
+  {
+   "id": "L46_0",
+   "voice": "NARR",
+   "text": "Irak, sí.",
+   "cue": "IQ",
+   "type": "over",
+   "name": "IQ"
+  },
+  {
+   "id": "L46_1",
+   "voice": "NARR",
+   "text": "Siria, no.",
+   "cue": "IQ",
+   "type": "over",
+   "name": "SY"
+  },
+  {
+   "id": "L46_2",
+   "voice": "NARR",
+   "text": "Líbano, Israel y Jordania, sí.",
+   "cue": "IQ",
+   "type": "over",
+   "name": "LB"
+  },
+  {
+   "id": "L47_0",
+   "voice": "NARR",
+   "text": "Y en el Golfo, verde por todas partes... menos en Yemen.",
+   "cue": "SA",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L48",
+   "voice": "IN",
+   "text": "Aquí sí hay McDonald's, desde 1996... ¡pero sin carne de vaca! El más famoso es el McAloo Tikki, de papa.",
+   "cue": "IN",
+   "type": "say"
+  },
+  {
+   "id": "L49_0",
+   "voice": "NARR",
+   "text": "Pakistán, sí.",
+   "cue": "PK",
+   "type": "over",
+   "name": "PK"
+  },
+  {
+   "id": "L49_1",
+   "voice": "NARR",
+   "text": "Nepal, Bután y Bangladés... rojo.",
+   "cue": "PK",
+   "type": "over",
+   "name": "NP"
+  },
+  {
+   "id": "L50",
+   "voice": "LK",
+   "text": "Nosotros lo tuvimos desde 1998, hasta 2024. Un juicio en los tribunales... y se acabó.",
+   "cue": "LK",
+   "type": "say"
+  },
+  {
+   "id": "L51_0",
+   "voice": "NARR",
+   "text": "Maldivas,",
+   "cue": "MV",
+   "type": "over",
+   "name": "MV"
+  },
+  {
+   "id": "L51_1",
+   "voice": "NARR",
+   "text": "Myanmar,",
+   "cue": "MV",
+   "type": "over",
+   "name": "MM"
+  },
+  {
+   "id": "L51_2",
+   "voice": "NARR",
+   "text": "Laos,",
+   "cue": "MV",
+   "type": "over",
+   "name": "LA"
+  },
+  {
+   "id": "L51_3",
+   "voice": "NARR",
+   "text": "Camboya... nada.",
+   "cue": "MV",
+   "type": "over",
+   "name": "KH"
+  },
+  {
+   "id": "L51_4",
+   "voice": "NARR",
+   "text": "Vietnam, sí... aunque llegó tardísimo: en 2014.",
+   "cue": "MV",
+   "type": "over",
+   "name": "VN"
+  },
+  {
+   "id": "L52_0",
+   "voice": "NARR",
+   "text": "Malasia,",
+   "cue": "MY",
+   "type": "over",
+   "name": "MY"
+  },
+  {
+   "id": "L52_1",
+   "voice": "NARR",
+   "text": "Singapur,",
+   "cue": "MY",
+   "type": "over",
+   "name": "SG"
+  },
+  {
+   "id": "L52_2",
+   "voice": "NARR",
+   "text": "Indonesia,",
+   "cue": "MY",
+   "type": "over",
+   "name": "ID"
+  },
+  {
+   "id": "L52_3",
+   "voice": "NARR",
+   "text": "Brunéi,",
+   "cue": "MY",
+   "type": "over",
+   "name": "BN"
+  },
+  {
+   "id": "L52_4",
+   "voice": "NARR",
+   "text": "Filipinas... verde.",
+   "cue": "MY",
+   "type": "over",
+   "name": "PH"
+  },
+  {
+   "id": "L53",
+   "voice": "CN",
+   "text": "En China hay miles. ¡Y en 2017 la empresa de McDonald's en China pasó a llamarse Arcos Dorados!",
+   "cue": "CN",
+   "type": "say"
+  },
+  {
+   "id": "L54_0",
+   "voice": "NARR",
+   "text": "Mongolia, rojo.",
+   "cue": "MN",
+   "type": "over",
+   "name": "MN"
+  },
+  {
+   "id": "L55",
+   "voice": "KP",
+   "text": "¿McDonald's? En Corea del Norte... no. Siguiente pregunta.",
+   "cue": "KP",
+   "type": "say"
+  },
+  {
+   "id": "L56_0",
+   "voice": "NARR",
+   "text": "Corea del Sur, por supuesto que sí.",
+   "cue": "KR",
+   "type": "over",
+   "name": "KR"
+  },
+  {
+   "id": "L57",
+   "voice": "JP",
+   "text": "En Japón lo tenemos desde 1971. En Tokio le decimos Makku... y en Osaka, Makudo.",
+   "cue": "JP",
+   "type": "say"
+  },
+  {
+   "id": "L58_0",
+   "voice": "NARR",
+   "text": "Taiwán, sí. ¡Rumbo a Oceanía!",
+   "cue": "TW",
+   "type": "over",
+   "name": "TW"
+  },
+  {
+   "id": "L59",
+   "voice": "AU",
+   "text": "¡G'day! Aquí no le decimos McDonald's... ¡le decimos Macca's!",
+   "cue": "AU",
+   "type": "say"
+  },
+  {
+   "id": "L60_0",
+   "voice": "NARR",
+   "text": "Nueva Zelanda, sí.",
+   "cue": "NZ",
+   "type": "over",
+   "name": "NZ"
+  },
+  {
+   "id": "L60_1",
+   "voice": "NARR",
+   "text": "Papúa,",
+   "cue": "NZ",
+   "type": "over",
+   "name": "PG"
+  },
+  {
+   "id": "L60_2",
+   "voice": "NARR",
+   "text": "Salomón,",
+   "cue": "NZ",
+   "type": "over",
+   "name": "SB"
+  },
+  {
+   "id": "L60_3",
+   "voice": "NARR",
+   "text": "Vanuatu... rojo. Fiyi y Samoa, sí.",
+   "cue": "NZ",
+   "type": "over",
+   "name": "VU"
+  },
+  {
+   "id": "L60_4",
+   "voice": "NARR",
+   "text": "Tonga,",
+   "cue": "NZ",
+   "type": "over",
+   "name": "TO"
+  },
+  {
+   "id": "L60_5",
+   "voice": "NARR",
+   "text": "Kiribati,",
+   "cue": "NZ",
+   "type": "over",
+   "name": "KI"
+  },
+  {
+   "id": "L60_6",
+   "voice": "NARR",
+   "text": "Tuvalu... y el resto del Pacífico, rojo.",
+   "cue": "NZ",
+   "type": "over",
+   "name": "TV"
+  },
+  {
+   "id": "L61_0",
+   "voice": "NARR",
+   "text": "Y ahora... África. Prepárense para mucho rojo.",
+   "cue": "MA",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L61_1",
+   "voice": "NARR",
+   "text": "Marruecos, sí.",
+   "cue": "MA",
+   "type": "over",
+   "name": "MA"
+  },
+  {
+   "id": "L62_0",
+   "voice": "NARR",
+   "text": "Argelia,",
+   "cue": "DZ",
+   "type": "over",
+   "name": "DZ"
+  },
+  {
+   "id": "L62_1",
+   "voice": "NARR",
+   "text": "Túnez,",
+   "cue": "DZ",
+   "type": "over",
+   "name": "TN"
+  },
+  {
+   "id": "L62_2",
+   "voice": "NARR",
+   "text": "Libia... no.",
+   "cue": "DZ",
+   "type": "over",
+   "name": "LY"
+  },
+  {
+   "id": "L62_3",
+   "voice": "NARR",
+   "text": "Egipto, sí.",
+   "cue": "DZ",
+   "type": "over",
+   "name": "EG"
+  },
+  {
+   "id": "L63_0",
+   "voice": "NARR",
+   "text": "Y de aquí para abajo... nada.",
+   "cue": "SD",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L63_1",
+   "voice": "NARR",
+   "text": "Sudán,",
+   "cue": "SD",
+   "type": "over",
+   "name": "SD"
+  },
+  {
+   "id": "L63_2",
+   "voice": "NARR",
+   "text": "Etiopía,",
+   "cue": "SD",
+   "type": "over",
+   "name": "ET"
+  },
+  {
+   "id": "L63_3",
+   "voice": "NARR",
+   "text": "Somalia,",
+   "cue": "SD",
+   "type": "over",
+   "name": "SO"
+  },
+  {
+   "id": "L63_4",
+   "voice": "NARR",
+   "text": "Kenia,",
+   "cue": "SD",
+   "type": "over",
+   "name": "KE"
+  },
+  {
+   "id": "L63_5",
+   "voice": "NARR",
+   "text": "Uganda,",
+   "cue": "SD",
+   "type": "over",
+   "name": "UG"
+  },
+  {
+   "id": "L63_6",
+   "voice": "NARR",
+   "text": "Tanzania...",
+   "cue": "SD",
+   "type": "over",
+   "name": "TZ"
+  },
+  {
+   "id": "L64_0",
+   "voice": "NARR",
+   "text": "Mozambique,",
+   "cue": "MZ",
+   "type": "over",
+   "name": "MZ"
+  },
+  {
+   "id": "L64_1",
+   "voice": "NARR",
+   "text": "Malaui,",
+   "cue": "MZ",
+   "type": "over",
+   "name": "MW"
+  },
+  {
+   "id": "L64_2",
+   "voice": "NARR",
+   "text": "Zambia,",
+   "cue": "MZ",
+   "type": "over",
+   "name": "ZM"
+  },
+  {
+   "id": "L64_3",
+   "voice": "NARR",
+   "text": "Zimbabue... ni uno.",
+   "cue": "MZ",
+   "type": "over",
+   "name": "ZW"
+  },
+  {
+   "id": "L65_0",
+   "voice": "NARR",
+   "text": "¡Hasta llegar a Sudáfrica, que sí tiene!",
+   "cue": "ZA",
+   "type": "over",
+   "name": null
+  },
+  {
+   "id": "L66_0",
+   "voice": "NARR",
+   "text": "Mauricio, también. El resto... rojo.",
+   "cue": "LS",
+   "type": "over",
+   "name": "MU"
+  },
+  {
+   "id": "L67_0",
+   "voice": "NARR",
+   "text": "Angola,",
+   "cue": "AO",
+   "type": "over",
+   "name": "AO"
+  },
+  {
+   "id": "L67_1",
+   "voice": "NARR",
+   "text": "los dos Congos,",
+   "cue": "AO",
+   "type": "over",
+   "name": "CD"
+  },
+  {
+   "id": "L67_2",
+   "voice": "NARR",
+   "text": "Camerún,",
+   "cue": "AO",
+   "type": "over",
+   "name": "CM"
+  },
+  {
+   "id": "L67_3",
+   "voice": "NARR",
+   "text": "Chad,",
+   "cue": "AO",
+   "type": "over",
+   "name": "TD"
+  },
+  {
+   "id": "L67_4",
+   "voice": "NARR",
+   "text": "Níger...",
+   "cue": "AO",
+   "type": "over",
+   "name": "NE"
+  },
+  {
+   "id": "L68",
+   "voice": "NG",
+   "text": "¡Somos más de doscientos millones de personas... y no tenemos ni un solo McDonald's!",
+   "cue": "NG",
+   "type": "say"
+  },
+  {
+   "id": "L69_0",
+   "voice": "NARR",
+   "text": "Ghana,",
+   "cue": "BJ",
+   "type": "over",
+   "name": "GH"
+  },
+  {
+   "id": "L69_1",
+   "voice": "NARR",
+   "text": "Costa de Marfil,",
+   "cue": "BJ",
+   "type": "over",
+   "name": "CI"
+  },
+  {
+   "id": "L69_2",
+   "voice": "NARR",
+   "text": "Senegal... toda África occidental, en rojo.",
+   "cue": "BJ",
+   "type": "over",
+   "name": "SN"
+  },
+  {
+   "id": "L70",
+   "voice": "NARR",
+   "text": "Y el último... el país más pequeño del mundo.",
+   "cue": "VA",
+   "type": "pre"
+  },
+  {
+   "id": "L71",
+   "voice": "VA",
+   "text": "En el Vaticano no hay McDonald's. Pero en 2017 abrieron uno justo al lado... a pocos pasos de la plaza de San Pedro.",
+   "cue": "VA",
+   "type": "say"
+  },
+  {
+   "id": "outro0",
+   "voice": "NARR",
+   "text": "Resultado: noventa y dos países tienen McDonald's... y ciento cinco, no. ¡Hay más países sin McDonald's que con él!",
+   "cue": null,
+   "type": "outro"
+  },
+  {
+   "id": "outro1",
+   "voice": "NARR",
+   "text": "¿Hay McDonald's en tu ciudad? ¡Comenta!",
+   "cue": null,
+   "type": "outro"
+  }
+ ],
+ "batches": [
+  {
+   "key": "NARR0",
+   "voice": "w495jEjc73YEWOkc3VLu",
+   "ids": [
+    "intro1",
+    "L4_0",
+    "L7_0",
+    "L7_1",
+    "L10_0",
+    "L10_1",
+    "L10_2",
+    "L10_3",
+    "L10_4",
+    "L10_5",
+    "L11_0",
+    "L11_1",
+    "L11_2",
+    "L11_3",
+    "L11_4",
+    "L13_0",
+    "L14_0",
+    "L14_1",
+    "L14_2",
+    "L14_3",
+    "L14_4",
+    "L14_5",
+    "L16_0",
+    "L18_0",
+    "L18_1",
+    "L20_0",
+    "L20_1",
+    "L20_2",
+    "L20_3",
+    "L20_4",
+    "L21_0",
+    "L22_0",
+    "L22_1",
+    "L22_2",
+    "L24_0",
+    "L25_0",
+    "L25_1",
+    "L25_2",
+    "L25_3"
+   ],
+   "text": "[excited] Verde: hay McDonald's. Amarillo: lo tuvieron, y se fue. Rojo: nunca llegó. Y al final... el resultado te va a sorprender.\n\nIrlanda, verde.\n\nPortugal,\n\nAndorra... verde, verde.\n\nMalta,\n\nMónaco,\n\nSuiza,\n\nAustria,\n\nAlemania...\n\nel centro de Europa está lleno de McDonald's.\n\nPaíses Bajos,\n\nDinamarca,\n\nNoruega,\n\nSuecia,\n\nFinlandia... todo verde. Pero cuidado con el siguiente.\n\n¡Más de quince años y no se ha podrido!\n\nPolonia,\n\nChequia,\n\nEslovaquia,\n\nHungría,\n\nEslovenia,\n\nCroacia... todo verde.\n\nSerbia, sí.\n\nKosovo... ¡el primer rojo! Nunca tuvo McDonald's.\n\nAlbania, tampoco.\n\nGrecia,\n\nBulgaria,\n\nRumanía,\n\nMoldavia,\n\nUcrania... verde.\n\nBielorrusia: se fue en 2022. Ahora se llama Mak punto bai.\n\nLituania,\n\nLetonia,\n\nEstonia, sí. Y ahora... el gigante.\n\nChipre y Turquía, verde. ¡Nos vamos a Sudamérica!\n\nColombia,\n\nVenezuela,\n\nEcuador,\n\nPerú... todo verde. Pero ojo con el siguiente."
+  },
+  {
+   "key": "NARR1",
+   "voice": "w495jEjc73YEWOkc3VLu",
+   "ids": [
+    "L27_0",
+    "L28_0",
+    "L30_0",
+    "L32_0",
+    "L32_1",
+    "L33_0",
+    "L33_1",
+    "L33_2",
+    "L33_3",
+    "L33_4",
+    "L33_5",
+    "L34_0",
+    "L37_0",
+    "L39_0",
+    "L40_0",
+    "L42_0",
+    "L43_0",
+    "L44_0",
+    "L44_1",
+    "L44_2",
+    "L44_3",
+    "L44_4",
+    "L46_0",
+    "L46_1",
+    "L46_2",
+    "L47_0",
+    "L49_0",
+    "L49_1",
+    "L51_0",
+    "L51_1",
+    "L51_2",
+    "L51_3",
+    "L51_4",
+    "L52_0",
+    "L52_1",
+    "L52_2",
+    "L52_3",
+    "L52_4",
+    "L54_0"
+   ],
+   "text": "[excited] Desde entonces, McDonald's ha intentado volver... sin éxito.\n\nChile, sí.\n\nUruguay y Paraguay, sí.\n\nGuyana... rojo. Pero su vecino,\n\nSurinam, sí tiene.\n\nPanamá,\n\nCosta Rica,\n\nNicaragua,\n\nHonduras,\n\nEl Salvador,\n\nGuatemala... toda Centroamérica, verde.\n\nMenos Belice. Ahí, nada.\n\nHaití, no. República Dominicana y Bahamas, sí.\n\nTrinidad y Tobago, sí. Y el resto de islas del Caribe... todas en rojo.\n\nGeorgia, sí. Y aquí viene algo curioso.\n\nAzerbaiyán, sí.\n\nKazajistán lo tuvo, hasta 2023. Se quedó sin la carne que llegaba de Rusia... y tuvo que cerrar.\n\nUzbekistán,\n\nTurkmenistán,\n\nKirguistán,\n\nTayikistán,\n\nAfganistán... ¡rojo, rojo, rojo!\n\nIrak, sí.\n\nSiria, no.\n\nLíbano, Israel y Jordania, sí.\n\nY en el Golfo, verde por todas partes... menos en Yemen.\n\nPakistán, sí.\n\nNepal, Bután y Bangladés... rojo.\n\nMaldivas,\n\nMyanmar,\n\nLaos,\n\nCamboya... nada.\n\nVietnam, sí... aunque llegó tardísimo: en 2014.\n\nMalasia,\n\nSingapur,\n\nIndonesia,\n\nBrunéi,\n\nFilipinas... verde.\n\nMongolia, rojo."
+  },
+  {
+   "key": "NARR2",
+   "voice": "w495jEjc73YEWOkc3VLu",
+   "ids": [
+    "L56_0",
+    "L58_0",
+    "L60_0",
+    "L60_1",
+    "L60_2",
+    "L60_3",
+    "L60_4",
+    "L60_5",
+    "L60_6",
+    "L61_0",
+    "L61_1",
+    "L62_0",
+    "L62_1",
+    "L62_2",
+    "L62_3",
+    "L63_0",
+    "L63_1",
+    "L63_2",
+    "L63_3",
+    "L63_4",
+    "L63_5",
+    "L63_6",
+    "L64_0",
+    "L64_1",
+    "L64_2",
+    "L64_3",
+    "L65_0",
+    "L66_0",
+    "L67_0",
+    "L67_1",
+    "L67_2",
+    "L67_3",
+    "L67_4",
+    "L69_0",
+    "L69_1",
+    "L69_2",
+    "L70",
+    "outro0",
+    "outro1"
+   ],
+   "text": "[excited] Corea del Sur, por supuesto que sí.\n\nTaiwán, sí. ¡Rumbo a Oceanía!\n\nNueva Zelanda, sí.\n\nPapúa,\n\nSalomón,\n\nVanuatu... rojo. Fiyi y Samoa, sí.\n\nTonga,\n\nKiribati,\n\nTuvalu... y el resto del Pacífico, rojo.\n\nY ahora... África. Prepárense para mucho rojo.\n\nMarruecos, sí.\n\nArgelia,\n\nTúnez,\n\nLibia... no.\n\nEgipto, sí.\n\nY de aquí para abajo... nada.\n\nSudán,\n\nEtiopía,\n\nSomalia,\n\nKenia,\n\nUganda,\n\nTanzania...\n\nMozambique,\n\nMalaui,\n\nZambia,\n\nZimbabue... ni uno.\n\n¡Hasta llegar a Sudáfrica, que sí tiene!\n\nMauricio, también. El resto... rojo.\n\nAngola,\n\nlos dos Congos,\n\nCamerún,\n\nChad,\n\nNíger...\n\nGhana,\n\nCosta de Marfil,\n\nSenegal... toda África occidental, en rojo.\n\nY el último... el país más pequeño del mundo.\n\nResultado: noventa y dos países tienen McDonald's... y ciento cinco, no. ¡Hay más países sin McDonald's que con él!\n\n¿Hay McDonald's en tu ciudad? ¡Comenta!"
+  },
+  {
+   "key": "US",
+   "voice": "NPVegEkwslClHaSZqnyS",
+   "ids": [
+    "L0"
+   ],
+   "text": "¡Aquí empezó todo! El primer McDonald's abrió en California en 1940. ¡Somos la patria de la hamburguesa!"
+  },
+  {
+   "key": "CA",
+   "voice": "N2lVS1w4EtoT3dr4eOWO",
+   "ids": [
+    "L1"
+   ],
+   "text": "Aquí hay desde 1967... ¡y hasta venden poutine!"
+  },
+  {
+   "key": "MX",
+   "voice": "PXKsW7gipTrp5MYwyJVZ",
+   "ids": [
+    "L2"
+   ],
+   "text": "Claro que hay, carnal, desde 1985. Pero a mí no me cambias unos tacos al pastor."
+  },
+  {
+   "key": "GB",
+   "voice": "erjfZbWOeOlXoejyglLN",
+   "ids": [
+    "L3"
+   ],
+   "text": "Por supuesto que hay, desde 1974. Aunque, honestamente... prefiero mi té de las cinco."
+  },
+  {
+   "key": "FR",
+   "voice": "Pu9MMuPx0BqjFaVxHf8W",
+   "ids": [
+    "L5"
+   ],
+   "text": "Aquí no se dice McDonald's... ¡se dice McDo! Y lo tenemos desde 1972."
+  },
+  {
+   "key": "ES",
+   "voice": "HMCmDsbKeaSZp5LMOYKR",
+   "ids": [
+    "L6"
+   ],
+   "text": "Pues claro que hay, tío, desde 1981. Eso sí, aquí se cena a las diez de la noche."
+  },
+  {
+   "key": "IT",
+   "voice": "EUB39iBkSWvtMTIGWmNE",
+   "ids": [
+    "L8",
+    "L9"
+   ],
+   "text": "Sí, sí, desde 1985... ¡pero la pizza sigue siendo la reina!\n\nYo tuve uno durante veinte años. En 2019 cerró... no pudo con la comida italiana de al lado."
+  },
+  {
+   "key": "IS",
+   "voice": "jTAlT4VvvXlYNDrxqpNQ",
+   "ids": [
+    "L12"
+   ],
+   "text": "En 2009, con la crisis, McDonald's se fue de Islandia. Y la última hamburguesa que vendimos... sigue intacta, en exposición."
+  },
+  {
+   "key": "BALK",
+   "voice": "pbmtwylSjrg30q2xSLkh",
+   "ids": [
+    "L15",
+    "L17",
+    "L19"
+   ],
+   "text": "Nosotros lo tuvimos desde 2011. A finales de 2022 se acabó... y ahora esos locales se llaman Bash.\n\nYo tuve uno... solo en verano, en la playa de Budva. En 2007, adiós.\n\nTuvimos siete restaurantes, hasta que en 2013 hubo una pelea con el dueño de la franquicia. Y cerraron todos."
+  },
+  {
+   "key": "RU",
+   "voice": "XCV7OOxwKwPMAdSwpD4R",
+   "ids": [
+    "L23"
+   ],
+   "text": "En 1990 abrimos el McDonald's de la plaza Pushkin, en Moscú, con colas enormes. En 2022 se fue... y ahora tenemos Vkusno i tochka: ¡sabroso y punto!"
+  },
+  {
+   "key": "BO",
+   "voice": "JIfdwGbJNfJKbPNRYqP2",
+   "ids": [
+    "L26"
+   ],
+   "text": "Aquí abrió en 1997... y en 2002 cerró por falta de clientes. ¡Los bolivianos preferimos nuestras salteñas!"
+  },
+  {
+   "key": "AR",
+   "voice": "gpNJzVUAYfxYn4LZQs0k",
+   "ids": [
+    "L29"
+   ],
+   "text": "¡Che, obvio que hay! Desde 1986. Pero ni se te ocurra compararlo con un buen asado, ¿eh?"
+  },
+  {
+   "key": "BR",
+   "voice": "BECjFqjKpX1jVslC0trK",
+   "ids": [
+    "L31"
+   ],
+   "text": "Aquí en Brasil le decimos Méqui. ¡Y lo tenemos desde 1979!"
+  },
+  {
+   "key": "CU",
+   "voice": "P5oKQC0uccAVbhCpX8GX",
+   "ids": [
+    "L35"
+   ],
+   "text": "Oye, en Cuba hay un McDonald's... pero está dentro de la base estadounidense de Guantánamo. Y los cubanos no podemos entrar."
+  },
+  {
+   "key": "JM",
+   "voice": "TT7tPlYlWLvcEiOfrtEK",
+   "ids": [
+    "L36"
+   ],
+   "text": "Tuvimos once restaurantes, hasta 2005. Problemas con el gobierno y pocas ventas. ¡Ahora manda el pollo jerk!"
+  },
+  {
+   "key": "BB",
+   "voice": "dbMRkYguN03D7S4YMnqO",
+   "ids": [
+    "L38"
+   ],
+   "text": "El nuestro abrió en 1989... ¡y cerró al año siguiente! Casi nadie iba."
+  },
+  {
+   "key": "AM",
+   "voice": "y0RLnxlYEbYtNjhcMVmG",
+   "ids": [
+    "L41"
+   ],
+   "text": "En Armenia nunca ha habido McDonald's. Y hay gente que cruza a Georgia... ¡solo para comerse uno!"
+  },
+  {
+   "key": "IR",
+   "voice": "TXoBVQ9S1J8PyUCOfL3s",
+   "ids": [
+    "L45"
+   ],
+   "text": "McDonald's de verdad aquí no hay... pero tenemos una copia: ¡Mash Donald's!"
+  },
+  {
+   "key": "IN",
+   "voice": "pe9sWdzrBDt7ta7LatPr",
+   "ids": [
+    "L48"
+   ],
+   "text": "Aquí sí hay McDonald's, desde 1996... ¡pero sin carne de vaca! El más famoso es el McAloo Tikki, de papa."
+  },
+  {
+   "key": "LK",
+   "voice": "PYRaAAjVbDEj4aaaEcjn",
+   "ids": [
+    "L50"
+   ],
+   "text": "Nosotros lo tuvimos desde 1998, hasta 2024. Un juicio en los tribunales... y se acabó."
+  },
+  {
+   "key": "CN",
+   "voice": "XAV9ErNepIMDFPmlJ3pQ",
+   "ids": [
+    "L53"
+   ],
+   "text": "En China hay miles. ¡Y en 2017 la empresa de McDonald's en China pasó a llamarse Arcos Dorados!"
+  },
+  {
+   "key": "KP",
+   "voice": "DXmaqevHBKl3Emj5cBp1",
+   "ids": [
+    "L55"
+   ],
+   "text": "¿McDonald's? En Corea del Norte... no. Siguiente pregunta."
+  },
+  {
+   "key": "JP",
+   "voice": "1naQcvaoaQTXNd36WqlD",
+   "ids": [
+    "L57"
+   ],
+   "text": "En Japón lo tenemos desde 1971. En Tokio le decimos Makku... y en Osaka, Makudo."
+  },
+  {
+   "key": "AU",
+   "voice": "IKne3meq5aSn9XLyUdCD",
+   "ids": [
+    "L59"
+   ],
+   "text": "¡G'day! Aquí no le decimos McDonald's... ¡le decimos Macca's!"
+  },
+  {
+   "key": "NG",
+   "voice": "3W7TIElBzp1JQ8BxQuXK",
+   "ids": [
+    "L68"
+   ],
+   "text": "¡Somos más de doscientos millones de personas... y no tenemos ni un solo McDonald's!"
+  },
+  {
+   "key": "VA",
+   "voice": "G0q9AYE8QsarSbMtaIEu",
+   "ids": [
+    "L71"
+   ],
+   "text": "En el Vaticano no hay McDonald's. Pero en 2017 abrieron uno justo al lado... a pocos pasos de la plaza de San Pedro."
+  }
+ ]
+}
