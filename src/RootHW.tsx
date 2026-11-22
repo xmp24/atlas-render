@@ -1,4 +1,6 @@
+import {BrandLogo, BrandBanner} from './mcd/Brand';
 import {McMap, MC_FRAMES, McThumb} from './mcd/McMap';
+import {NumMap, NumThumb, numFrames} from './num/NumMap';
 import {Miya8, V8_FRAMES} from './Miya8/Video8';
 import {Tort3, TORT3_FRAMES} from './Tort/Video3';
 import {Tort7, TORT7_FRAMES} from './Tort/Video7';
@@ -65,6 +67,10 @@ import {ThumbHW} from './ThumbHW';
 export const RootHW: React.FC = () => (
   <>
     {[0,1,2,3].map((v) => <Composition key={v} id={`McThumb${v}`} component={McThumb as any} durationInFrames={1} fps={30} width={2560} height={1440} defaultProps={{v}} />)}
+    <Composition id="BrandLogo" component={BrandLogo} durationInFrames={1} fps={30} width={800} height={800} />
+    <Composition id="BrandBanner" component={BrandBanner} durationInFrames={1} fps={30} width={2560} height={1440} />
+    {['alt', 'sue'].map((v) => <Composition key={v} id={`Num-${v}`} component={NumMap as any} durationInFrames={numFrames(v)} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
+    {['alt', 'sue'].flatMap((v) => [0, 1, 2].map((n) => <Composition key={v + n} id={`NumThumb-${v}${n}`} component={NumThumb as any} durationInFrames={1} fps={30} width={2560} height={1440} defaultProps={{v, n}} />))}
     <Composition id="McMapN" component={McMap} durationInFrames={MC_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="MiyaPictoN" component={MiyaPicto} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="MiyaQuietN" component={MiyaQuiet} durationInFrames={Q_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />

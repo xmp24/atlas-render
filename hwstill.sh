@@ -2,7 +2,7 @@
 # uso: ./hwstill.sh BUILD COMP outprefix scale t1 t2 ...
 cd /home/claude/atlas-render
 export NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt NODE_NO_WARNINGS=1
-B=/home/claude/mil-anos/node_modules/.remotion/chrome-headless-shell/linux64/chrome-headless-shell-linux64/chrome-headless-shell
+B=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
 BUILD=$1; COMP=$2; OUT=$3; SC=$4; shift 4
 mkdir -p out/hwtest
 for t in "$@"; do
