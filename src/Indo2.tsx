@@ -203,9 +203,9 @@ const Stamps: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
 };
 const Bubbles: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const out: React.ReactNode[] = [];
-  for (const [t0, k, text, dd] of X.D.bubbles as [number, number, string, number][]) {
+  for (const [t0, k, text, dd, bx, by] of X.D.bubbles as [number, number, string, number, number?, number?][]) {
     const d = t - t0; if (d < 0 || d > dd) continue;
-    const c = PIECES_C(k); const [sx0, sy0] = toS(c[0], c[1], cam);
+    const c = bx != null ? [bx, by as number] : PIECES_C(k); const [sx0, sy0] = toS(c[0], c[1], cam);
     const sx = Math.max(260, Math.min(VW - 260, sx0)), sy = Math.max(200, Math.min(VH - 180, sy0 - 90));
     const a = popT(t, t0, 12) * lerp(d, dd - 0.25, dd, 1, 0);
     out.push(
@@ -2823,7 +2823,7 @@ const ImgScene: React.FC<{c: any; t: number; o: number; lt: number}> = ({c, t, o
       const am = i * step; const tx = Math.cos(am * Math.PI / 180) * (R * 0.9 + Rin * 0.1 + (R - Rin) * 0.28), ty = Math.sin(am * Math.PI / 180) * (R * 0.9 + Rin * 0.1 + (R - Rin) * 0.28);
       const hi = u >= 1 && n === win;
       pocket.push(<g key={i}><path d={pth} fill={hi ? (Math.floor(lt * 6) % 2 ? '#ffd23f' : col) : col} stroke="#d9b36a" strokeWidth={R * 0.006} />
-        <text x={tx} y={ty} fill="#fff" fontSize={(R - Rin) * 0.3} fontFamily="Arial Black, Arial, sans-serif" fontWeight={900} textAnchor="middle" dominantBaseline="central" transform={`rotate(${am + 90} ${tx} ${ty})`}>{n}</text></g>);
+        {!c.nonum && <text x={tx} y={ty} fill="#fff" fontSize={(R - Rin) * 0.3} fontFamily="Arial Black, Arial, sans-serif" fontWeight={900} textAnchor="middle" dominantBaseline="central" transform={`rotate(${am + 90} ${tx} ${ty})`}>{n}</text>}</g>);
     }
     const ballR = R * (0.985 - 0.17 * drop) + (drop > 0 && drop < 1 ? Math.sin(drop * Math.PI * 3) * R * 0.02 : 0);
     const bx = Math.cos(bAng * Math.PI / 180) * ballR, by = Math.sin(bAng * Math.PI / 180) * ballR;
@@ -2839,7 +2839,7 @@ const ImgScene: React.FC<{c: any; t: number; o: number; lt: number}> = ({c, t, o
       </g></svg>);
     const [tx, ty, tw, th] = c.turret as number[];
     ov.push(<Img key="tur" src={staticFile(c.turretSrc)} style={{position: 'absolute', left: left + tx * cover, top: top + ty * cover, width: tw * cover, height: th * cover}} />);
-    if (u >= 1) { const n = win; ov.push(<div key="wn" style={{position: 'absolute', left: scx, top: scy - R * k * 1.25, transform: `translate(-50%,-100%) scale(${daB((lt - sp0 - SPIN) / 0.3)})`, ...font, fontSize: 64, color: '#fff', background: REDS.has(n) ? '#c8102e' : '#141414', border: `6px solid ${INK}`, borderRadius: 18, padding: '4px 26px 0'}}>{n} {REDS.has(n) ? 'RED' : 'BLACK'}</div>); }
+    if (u >= 1) { const n = win; ov.push(<div key="wn" style={{position: 'absolute', left: scx, top: scy - R * k * 1.25, transform: `translate(-50%,-100%) scale(${daB((lt - sp0 - SPIN) / 0.3)})`, ...font, fontSize: 64, color: '#fff', background: REDS.has(n) ? '#c8102e' : '#141414', border: `6px solid ${INK}`, borderRadius: 18, padding: '4px 26px 0'}}>{c.nonum ? '' : `${n} `}{REDS.has(n) ? 'RED!' : 'BLACK!'}</div>); }
   }
   if (c.fx === 'gun') {
     const [gx, gy] = c.muzzle as number[]; const [mx, my] = P(gx, gy);

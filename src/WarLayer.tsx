@@ -372,8 +372,8 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
     const G: number[][] = [];
     war.sq.forEach((q, qi) => { if (t < q.t0 || t > q.t1 + 0.5) return; const [hx, hy] = at(q, kf(q.pk, t)); G.push([qi, hx, hy]); });
     if (VSU && G.length > 1) {
-      const ox = G.map(() => [0, 0]); const R0 = sz * 2.3; const CAP = sz * 1.4;
-      for (let it = 0; it < 3; it++) for (let a = 0; a < G.length; a++) for (let b = a + 1; b < G.length; b++) {
+      const ox = G.map(() => [0, 0]); const R0 = sz * 3.2; const CAP = sz * 2.6;
+      for (let it = 0; it < 6; it++) for (let a = 0; a < G.length; a++) for (let b = a + 1; b < G.length; b++) {
         const dx = G[b][1] + ox[b][0] - G[a][1] - ox[a][0], dy = G[b][2] + ox[b][1] - G[a][2] - ox[a][1]; const dd = Math.hypot(dx, dy);
         if (dd < R0) { const ux = dd > 1e-6 ? dx / dd : 1, uy = dd > 1e-6 ? dy / dd : 0; const p = ((R0 - dd) / 2) * 0.8; ox[a][0] -= ux * p; ox[a][1] -= uy * p; ox[b][0] += ux * p; ox[b][1] += uy * p; }
       }
@@ -403,7 +403,7 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
         const px = rx + -rdy * col * ts * 1.1 + OF[0], py = ry + rdx * col * ts * 1.1 + OF[1];
         // polvo detrás
         if (moving) { ctx.fillStyle = `rgba(190,170,130,${0.35})`; ctx.beginPath(); ctx.arc(px - dx * ts * 1.2, py - dy * ts * 1.2 + ts * 0.3, ts * (0.5 + 0.2 * Math.sin(t * 9 + i)), 0, Math.PI * 2); ctx.fill(); }
-        { const fire = VSU ? fight && pulse(qi * 13 + i * 3, 1.3) < 0.08 : fight && Math.floor(t * 4 + i * 2) % 3 === 0; const rc = VSU && fire ? -Math.sign(face || 1) * ts * 0.12 : 0; drawTank(ctx, px + rc, py, ts, (q as any).col || MAINCOL[q.a], VSU ? Math.sign(face || 1) : face, fire); }
+        { const fire = VSU ? fight && pulse(qi * 13 + i * 3, 1.3) < 0.08 : fight && Math.floor(t * 4 + i * 2) % 3 === 0; const rc = VSU && fire ? -Math.sign(face || 1) * ts * 0.12 : 0; (q as any).die != null && t > (q as any).die ? (() => { const u = Math.min(1, (t - (q as any).die) / 0.9); const gA = ctx.globalAlpha; ctx.globalAlpha = gA * (1 - u); drawTank(ctx, px, py, ts, '#2a2a2a', face >= 0 ? 1 : -1, false); ctx.globalAlpha = gA; ctx.fillStyle = `rgba(60,60,60,${0.5 * (1 - u)})`; ctx.beginPath(); ctx.arc(px, py - ts * (0.6 + u), ts * (0.4 + u * 0.6), 0, Math.PI * 2); ctx.fill(); })() : drawTank(ctx, px + rc, py, ts, (q as any).col || MAINCOL[q.a], VSU ? Math.sign(face || 1) : face, fire); }
       }
       banner(ctx, hx + sz * 0.3, hy - sz * 1.2, sz, q.a, t + qi, (q as any).bn);
       ctx.globalAlpha = 1;
@@ -429,7 +429,13 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       const [rx, ry, rdx, rdy] = at(q, dd);
       const px = rx + -rdy * col * sz * sp + jx + OF[0], py = ry + rdx * col * sz * sp + jy + OF[1];
       const phase = VSU ? dd / (sz * 0.32) + i * 1.9 : t * 13 + i * 1.9; // el paso depende de la distancia recorrida: no patinan
-      soldier(ctx, px, py - sz * 0.3, sz, (q as any).col || MAINCOL[q.a], DARKCOL[q.a] || '#333', phase, face, moving && !fight ? 0 : 1);
+      const qd = (q as any).die; let fl = 0, al0 = 1;
+      if (qd != null) { const ti = qd - 0.45 + (0.45 * (i + 1)) / q.n; if (t > ti) { fl = Math.min(1, (t - ti) / 0.25); al0 = Math.max(0, 1 - (t - ti - 0.6) / 0.4); } }
+      const gA = ctx.globalAlpha; ctx.globalAlpha = gA * al0;
+      soldier(ctx, px, py - sz * 0.3, sz, (q as any).col || MAINCOL[q.a], DARKCOL[q.a] || '#333', phase, face, moving && !fight ? 0 : 1, fl);
+      if (fl > 0 && fl < 1) { ctx.fillStyle = `rgba(255,70,50,${0.7 * (1 - fl)})`; ctx.beginPath(); ctx.arc(px, py - sz * 0.9, sz * 0.3, 0, Math.PI * 2); ctx.fill(); }
+      ctx.globalAlpha = gA;
+      if (fl > 0) continue;
       if (VSU) {
         if (fight) { const ph = pulse(qi * 31 + i * 7, 0.7); if (ph < 0.09) { const mx = px + Math.sign(face || 1) * sz * 0.62, my = py - sz * 0.32; ctx.fillStyle = '#fff1a8'; ctx.beginPath(); ctx.arc(mx, my, sz * 0.1, 0, Math.PI * 2); ctx.fill(); if (q.tx !== undefined) { const u = ph / 0.09; ctx.strokeStyle = 'rgba(255,230,140,0.9)'; ctx.lineWidth = sz * 0.06; const ex2 = mx + (q.tx - mx) * Math.min(1, 0.25 + u * 0.6), ey2 = my + (q.ty! - my) * Math.min(1, 0.25 + u * 0.6); ctx.beginPath(); ctx.moveTo(mx + (ex2 - mx) * 0.6, my + (ey2 - my) * 0.6); ctx.lineTo(ex2, ey2); ctx.stroke(); } } }
       } else if (fight && Math.floor(t * 14 + i * 5) % 4 === 0) {
@@ -578,10 +584,11 @@ export const drawUnits = (ctx: CanvasRenderingContext2D, war: WarData, t: number
       if (t < a || t > b) continue;
       const u = (t - a) / (b - a); const ang0 = Math.atan2(yb - ya, xb - xa); const off = fm === 0 ? 0 : (fm % 2 ? 1 : -1) * Math.ceil(fm / 2) * 38 / Math.max(0.5, s);
       // modo vs: curva suave (arco lateral) en lugar de línea recta
-      const arcO = VSU ? Math.sin(u * Math.PI) * Math.hypot(xb - xa, yb - ya) * 0.12 * (hsh(a0 * 10) < 0.5 ? 1 : -1) : 0;
+      const ARC = VSU && !(jt as any)[8];
+      const arcO = ARC ? Math.sin(u * Math.PI) * Math.hypot(xb - xa, yb - ya) * 0.12 * (hsh(a0 * 10) < 0.5 ? 1 : -1) : 0;
       const x = xa + (xb - xa) * u + Math.cos(ang0 + Math.PI / 2) * (off + arcO) - Math.cos(ang0) * Math.abs(off) * 0.8, y = ya + (yb - ya) * u + Math.sin(ang0 + Math.PI / 2) * (off + arcO) - Math.sin(ang0) * Math.abs(off) * 0.8;
       if (!inV(x, y, 300 / s)) continue;
-      const ang = VSU ? ang0 + Math.atan(Math.cos(u * Math.PI) * Math.PI * 0.12 * (hsh(a0 * 10) < 0.5 ? 1 : -1)) : Math.atan2(yb - ya, xb - xa); const L = (VSU ? 26 * Math.min(1, Math.max(0.6, kf((war as any).usz, t) * 1.7)) : 26) / Math.max(0.5, s);
+      const ang = ARC ? ang0 + Math.atan(Math.cos(u * Math.PI) * Math.PI * 0.12 * (hsh(a0 * 10) < 0.5 ? 1 : -1)) : Math.atan2(yb - ya, xb - xa); const L = (VSU ? 26 * Math.min(1, Math.max(0.6, kf((war as any).usz, t) * 1.7)) : 26) * ((jt as any)[8] || 1) / Math.max(0.5, s);
       ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 3 / Math.max(0.5, s);
       for (const off of [-0.35, 0.35]) { ctx.beginPath(); ctx.moveTo(x - Math.cos(ang) * L * 0.3 + Math.cos(ang + Math.PI / 2) * L * off, y - Math.sin(ang) * L * 0.3 + Math.sin(ang + Math.PI / 2) * L * off); ctx.lineTo(x - Math.cos(ang) * L * 6 + Math.cos(ang + Math.PI / 2) * L * off, y - Math.sin(ang) * L * 6 + Math.sin(ang + Math.PI / 2) * L * off); ctx.stroke(); }
       ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
