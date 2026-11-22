@@ -65,15 +65,20 @@ def build():
         if n in GREY: feats['_' + n] = g2(g)
         if n in MERGE: feats.setdefault(MERGE[n], []).extend(g2(g))
         # territorios no soberanos (tierra gris): Groenlandia, Sáhara, Guayana Fr., Puerto Rico, Antártida...
+    # Dinamarca sin Groenlandia ni Feroe (Groenlandia ya va aparte, en gris)
+    feats['DK'] = [pl for pl in feats['DK'] if sum(p[0] for p in pl[0]) / len(pl[0]) > -5]
     out = {}
     for code, polys in feats.items():
-        d = []; best = None
+        d = []; best = None; rings = []
         bb = [1e9, 1e9, -1e9, -1e9]
         for poly in polys:
             for ri, r in enumerate(poly):
                 if len(r) < 3: continue
                 pts = [ne1(*p) for p in unwrap(r)]
-                d.append('M' + 'L'.join(f'{x:.2f},{y:.2f}' for x, y in pts) + 'Z')
+                seg = 'M' + 'L'.join(f'{x:.2f},{y:.2f}' for x, y in pts) + 'Z'
+                d.append(seg)
+                xs_ = [q[0] for q in pts]; ys_ = [q[1] for q in pts]
+                rings.append((seg, ri == 0, min(xs_), min(ys_), max(xs_), max(ys_)))
                 if ri == 0:
                     a = abs(area(pts))
                     xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
@@ -84,7 +89,14 @@ def build():
         a, pb, pts = best
         # bbox de encuadre: pieza principal + piezas cercanas grandes
         r, cx, cy = polylabel(pts)
-        out[code] = {'d': ''.join(d), 'bb': [round(v, 1) for v in pb], 'a': round(a, 2), 'c': [round(cx, 1), round(cy, 1)], 'r': round(float(r), 2)}
+        # región principal: anillos cerca del anillo mayor (sin territorios de ultramar)
+        bw_, bh_ = pb[2] - pb[0], pb[3] - pb[1]; m = max(bw_, bh_) * 0.12 + 5
+        main = [sg for sg, outer, a0, b0, a1, b1 in rings if a1 >= pb[0] - m and a0 <= pb[2] + m and b1 >= pb[1] - m and b0 <= pb[3] + m and not (code == 'US' and a0 < 980)]
+        xs2 = []; ys2 = []
+        for sg, outer, a0, b0, a1, b1 in rings:
+            if sg in main and outer: xs2 += [a0, a1]; ys2 += [b0, b1]
+        pb2 = [min(xs2), min(ys2), max(xs2), max(ys2)]
+        out[code] = {'d': ''.join(d), 'dm': ''.join(main), 'bb': [round(v, 1) for v in pb], 'bm': [round(v, 1) for v in pb2], 'a': round(a, 2), 'c': [round(cx, 1), round(cy, 1)], 'r': round(float(r), 2)}
     return out
 
 import numpy as np

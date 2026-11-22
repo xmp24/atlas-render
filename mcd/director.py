@@ -23,13 +23,14 @@ def ne1(lon, lat):
 
 def vdur(seg):
     v = VOICE.get(seg['id'])
+    if v and v.get('merged'): return 0.0
     if v: return v['dur']
     return len(seg['text']) / 14.5 + 0.25
 
 # ---------------- geometría por país ----------------
 def geom(c):
     if c in GEO:
-        g = GEO[c]; bb = g['bb']; cx, cy = g['c']; r = g['r']
+        g = GEO[c]; bb = g['bm']; cx, cy = g['c']; r = g['r']
     else:
         cx, cy = ne1(*PINS_XY[c]); bb = [cx - 1, cy - 1, cx + 1, cy + 1]; r = 0
     pin = r < 2.2
@@ -69,6 +70,15 @@ def build():
     prev_end = intro_end
     queue = [x for x in segs if x['type'] not in ('intro', 'outro')]
     qi = 0
+    byid = {x['id']: x for x in segs}
+    forced = {}  # país -> instante en que el narrador lo nombra dentro de un clip agrupado
+    def merged(sx): return bool(VOICE.get(sx['id'], {}).get('merged'))
+    def addtalk(sx, who, st):
+        d = vdur(sx); talks.append(dict(id=sx['id'], who=who, t0=st, t1=st + d, text=sx['text']))
+        for sid, off in VOICE.get(sx['id'], {}).get('subs', [])[1:]:
+            nm = byid[sid].get('name')
+            if nm and nm not in forced: forced[nm] = st + off
+        return d
     for i, c in enumerate(ORDER):
         g = geom(c)
         mine = []
@@ -81,12 +91,15 @@ def build():
         while k < len(mine) and mine[k]['type'] in ('over', 'pre') and not mine[k].get('name') and any(m['type'] == 'say' or m.get('name') for m in mine[k + 1:]):
             pre.append(mine[k]); k += 1
         for s in pre:
-            st = max(nc, prev_end); d = vdur(s)
-            talks.append(dict(id=s['id'], who='NARR', t0=st, t1=st + d, text=s['text'])); nc = st + d + 0.1
+            if merged(s): continue
+            st = max(nc, prev_end); d = addtalk(s, 'NARR', st); nc = st + d + 0.1
         rest = mine[k:]
         story = any(m['type'] == 'say' for m in rest)
-        anchored = [m for m in rest if m.get('name') == c]
-        if anchored or pre: start = max(start, nc - 0.05)
+        anchored = [m for m in rest if m.get('name') == c and not merged(m)]
+        if c in forced:
+            start = max(C[-1]['t0'] + 0.6 if C else start, forced[c] - 0.08)
+            if C: C[-1]['t1'] = round(start, 3)
+        elif anchored or [p_ for p_ in pre if not merged(p_)]: start = max(start, nc - 0.05)
         # vuelo de cámara
         fly = 0.42
         if C:
@@ -99,14 +112,15 @@ def build():
         first_say = True
         for s in rest:
             d = vdur(s)
+            if merged(s): continue
             if s['type'] == 'say':
                 st = max(nc, pop + 0.35)
-                talks.append(dict(id=s['id'], who=c, t0=st, t1=st + d, text=s['text']))
+                addtalk(s, c, st)
                 if first_say: td = st + min(1.6, 0.4 * d); first_say = False
                 nc = st + d + 0.15; cur = nc
             else:
-                st = max(nc, start + 0.05) if s.get('name') == c else max(nc, start + 0.05)
-                talks.append(dict(id=s['id'], who='NARR', t0=st, t1=st + d, text=s['text']))
+                st = max(nc, start + 0.05)
+                addtalk(s, 'NARR', st)
                 nc = st + d + 0.08
                 if story: cur = nc
         st_c = 'N' if c == 'CU' else status(c)

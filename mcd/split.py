@@ -20,26 +20,45 @@ def rms(x):
 
 def trim(x, db=-40):
     e = rms(x); thr = e.max() * 10 ** (db / 20)
-    on = np.where(e > thr)[0]
-    if not len(on): return x
-    a = max(0, on[0] * HOP - 480); b = min(len(x), (on[-1] + 1) * HOP + 2400)
+    on = e > thr
+    # regiones con voz
+    regs = []; i = 0
+    while i < len(on):
+        if on[i]:
+            j = i
+            while j < len(on) and on[j]: j += 1
+            regs.append([i, j]); i = j
+        else: i += 1
+    if not regs: return x
+    # quita pegotes cortos (<150 ms) en los bordes separados por un hueco >= 60 ms
+    while len(regs) > 1 and regs[0][1] - regs[0][0] < 15 and regs[1][0] - regs[0][1] >= 6: regs.pop(0)
+    while len(regs) > 1 and regs[-1][1] - regs[-1][0] < 15 and regs[-1][0] - regs[-2][1] >= 6: regs.pop()
+    a = max(0, regs[0][0] * HOP - 480); b = min(len(x), regs[-1][1] * HOP + 2400)
     y = x[a:b].copy()
-    fi = int(0.008 * SR); fo = int(0.024 * SR)
+    fi = int(0.008 * SR); fo = int(0.03 * SR)
     y[:fi] *= np.linspace(0, 1, fi); y[-fo:] *= np.linspace(1, 0, fo)
     return y
 
-def tighten(x, maxgap=0.28, db=-36):
+def tighten(x, maxgap=0.32, db=-42):
+    # acorta pausas largas con fundidos cruzados (sin cortes secos que suenen a 'trabado')
     e = rms(x); thr = e.max() * 10 ** (db / 20); sil = e < thr
-    keep = np.ones(len(x), bool); i = 0; lim = int(maxgap * 100)
+    cuts = []; i = 0; lim = int(maxgap * 100)
     while i < len(sil):
         if sil[i]:
             j = i
             while j < len(sil) and sil[j]: j += 1
-            if j - i > lim and i > 0 and j < len(sil):
-                a = (i + lim // 2) * HOP; b = (j - lim // 2) * HOP; keep[a:b] = False
+            if j - i > lim and i > 0 and j < len(sil): cuts.append(((i + lim // 2) * HOP, (j - lim // 2) * HOP))
             i = j
         else: i += 1
-    return x[keep]
+    if not cuts: return x
+    xf = int(0.02 * SR); out = x[:cuts[0][0]].copy(); prev = cuts[0][1]
+    def join(a, b):
+        if len(a) < xf or len(b) < xf: return np.concatenate([a, b])
+        r = np.linspace(0, 1, xf); mid = a[-xf:] * (1 - r) + b[:xf] * r
+        return np.concatenate([a[:-xf], mid, b[xf:]])
+    for k in range(1, len(cuts)):
+        out = join(out, x[prev:cuts[k][0]]); prev = cuts[k][1]
+    return join(out, x[prev:])
 
 def env30(x):
     # amplitud por fotograma (30 fps) en dígitos 0-9 para la boca
@@ -68,6 +87,7 @@ def split(x, n):
 
 import difflib, unicodedata, re
 WORDS = json.load(open(EL + 'words.json'))
+if os.path.exists(EL + 'words_f.json'): WORDS.update(json.load(open(EL + 'words_f.json')))
 def norm(w):
     w = unicodedata.normalize('NFD', w.lower()); w = ''.join(ch for ch in w if unicodedata.category(ch) != 'Mn')
     w = re.sub(r'[^a-z0-9]', '', w)
@@ -104,31 +124,73 @@ def align(key, ids, x):
             a = max([j for j in range(k) if cut[j] is not None], default=None); b = min([j for j in range(k + 1, len(cut)) if cut[j] is not None], default=None)
             print('   SIN ALINEAR', ids[k], byid[ids[k]]['text'][:40])
             cut[k] = (cut[a] + cut[b]) / 2 if a is not None and b is not None else (cut[a] + 1 if a is not None else 0)
-    pts = [0]
+    # corta solo donde hay un silencio real (>= 0.12 s) entre la última palabra de una frase y la primera de la siguiente;
+    # si no lo hay, las frases van juntas en un mismo clip y se guarda el desfase de cada una (para sincronizar el país)
+    thr = e.max() * 10 ** (-34 / 20)
+    groups = [[0]]; cutpts = [0]
     for k in range(1, len(ids)):
-        # mínimo de energía en los 0,6 s antes del inicio de la frase k (pero después del final de la palabra anterior)
-        t1 = cut[k]; prev_end = max([w[1] for w in wl if w[1] <= t1 + 0.02], default=t1 - 0.3)
-        a = int(max(prev_end, t1 - 0.6) * 100); b = max(a + 1, int(t1 * 100))
-        seg = e[a:b]
-        pts.append((a + int(np.argmin(seg))) * HOP if len(seg) else int(t1 * SR))
-    pts.append(len(x))
-    return [x[pts[k]:pts[k + 1]] for k in range(len(ids))]
+        t1 = cut[k]
+        prev_end = max([w[1] for w in wl if w[1] <= t1 + 0.02], default=t1 - 0.3)
+        a = int(max(0, min(prev_end, t1) - 0.1) * 100); b = int((t1 + 0.12) * 100)
+        sil = e[a:b] < thr; best = (0, 0); i = 0
+        while i < len(sil):
+            if sil[i]:
+                j = i
+                while j < len(sil) and sil[j]: j += 1
+                if j - i > best[1] - best[0]: best = (i, j)
+                i = j
+            else: i += 1
+        if best[1] - best[0] >= 12:
+            cutpts.append((a + (best[0] + best[1]) // 2) * HOP); groups.append([k]); continue
+        # sin silencio claro: busca una caída real de energía entre las dos palabras
+        a2 = int((t1 - 0.28) * 100); b2 = int((t1 + 0.08) * 100); w2 = e[a2:b2]
+        voiced = e[e > thr]; med = np.median(voiced) if len(voiced) else 1
+        if len(w2) and w2.min() < 0.12 * med:
+            i0 = int(np.argmin(w2)); cutpts.append((a2 + i0) * HOP); groups.append([k])
+        else:
+            groups[-1].append(k)
+    cutpts.append(len(x))
+    res = []
+    for gi, g in enumerate(groups):
+        a, b = cutpts[gi], cutpts[gi + 1]
+        subs = [(ids[k], max(0.0, cut[k] - a / SR)) for k in g]
+        res.append((x[a:b], subs))
+    return res
 
 out = {}
 jobs = [dict(key='INTRO0', file='intro0.mp3', ids=['intro0'])] + [dict(key=b['key'], file=b['key'] + '.mp3', ids=b['ids']) for b in P['batches']]
+FX = R + 'mcd/fixbatch.json'
+if os.path.exists(EL + 'NARRF.mp3') and os.path.exists(EL + 'words_f.json'):
+    jobs.append(dict(key='NARRF', file='NARRF.mp3', ids=json.load(open(FX))['ids']))  # sustituye a las enumeraciones antiguas
 for jb in jobs:
     x = load(EL + jb['file']); n = len(jb['ids'])
-    if n == 1: parts = [x]; info = ''
+    if n == 1: parts = [(x, [(jb['ids'][0], 0.0)])]; info = ''
     else:
-        parts = align(jb['key'], jb['ids'], x); info = 'alineado con Whisper'
+        parts = align(jb['key'], jb['ids'], x); info = f'alineado con Whisper: {n} frases -> {len(parts)} clips'
     print(jb['key'], n, info)
-    for sid, p in zip(jb['ids'], parts):
-        y = tighten(trim(p)); d = len(y) / SR
+    for p, subs in parts:
+        sid = subs[0][0]
+        # recorte suave: solo al principio y al final (dentro de los clips agrupados no se toca nada)
+        e0 = rms(p); thr0 = e0.max() * 10 ** (-40 / 20); on = np.where(e0 > thr0)[0]
+        lead = max(0, on[0] * HOP - 480) if len(on) else 0
+        y = trim(p) if len(subs) > 1 else tighten(trim(p)); d = len(y) / SR
+        sub_off = [[s_, round(max(0.0, o - lead / SR), 3)] for s_, o in subs]
+        for s_, o in subs[1:]: out[s_] = dict(merged=sid)
         save(R + f'mcd/voice/{sid}.wav', y)
         txt = byid[sid]['text']; cps = len(txt) / d
         flag = '  <-- REVISAR' if cps < 7 or cps > 24 else ''
         if flag or n > 1 and jb['key'].startswith('NARR') and False: pass
         if flag: print(f'   {sid} {d:.2f}s {cps:.1f} c/s {txt[:50]}{flag}')
-        out[sid] = dict(dur=round(d, 3), env=env30(y))
+        out[sid] = dict(dur=round(d, 3), env=env30(y), subs=sub_off)
 json.dump(out, open(R + 'mcd/voice.json', 'w'))
 print('frases', len(out))
+
+# toma corregida de L22/L33 (cortes fijos en sus pausas)
+if os.path.exists(EL + 'NARRF2.mp3'):
+    x = load(EL + 'NARRF2.mp3'); V2 = json.load(open(R + 'mcd/voice.json'))
+    gaps = [(0.93, 0.31), (2.04, 0.31), (5.94, 0.65), (7.37, 0.44), (8.78, 0.33), (9.99, 0.41), (11.22, 0.32), (12.52, 0.28)]
+    pts = [0] + [int((a + d / 2) * SR) for a, d in gaps] + [len(x)]
+    for k, sid in enumerate(['L22_0', 'L22_1', 'L22_2', 'L33_0', 'L33_1', 'L33_2', 'L33_3', 'L33_4', 'L33_5']):
+        y = tighten(trim(x[pts[k]:pts[k + 1]])); save(R + f'mcd/voice/{sid}.wav', y)
+        V2[sid] = dict(dur=round(len(y) / SR, 3), env=env30(y), subs=[[sid, 0.0]])
+    json.dump(V2, open(R + 'mcd/voice.json', 'w'))

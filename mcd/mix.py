@@ -39,12 +39,25 @@ for kk in SFX: SFX[kk] = SFX[kk] / max(1e-9, np.abs(SFX[kk]).max()) * {'pop': 0.
 mus = np.zeros(N, np.float32); sfx = np.zeros(N, np.float32); vo = np.zeros(N, np.float32)
 TR = R + 'toolkit/audio/tracks/'
 cache = {}
-for t0, t1, name in A['music']:
-    if name not in cache: cache[name] = load(TR + name + '.wav')
-    tr = cache[name]; a = int(t0 * SR); b = min(N, int(t1 * SR)); L = b - a
-    seg = np.resize(tr, L).astype(np.float32)
-    fi = int(0.25 * SR); seg[:fi] *= np.linspace(0, 1, fi); seg[-fi:] *= np.linspace(1, 0, fi)
+XF = 1.2  # fundido cruzado entre pistas (s): nunca hay silencio de música
+for k, (t0, t1, name) in enumerate(A['music']):
+    if name not in cache:
+        tr = load(TR + name + '.wav'); tr = tr / (np.sqrt((tr ** 2).mean()) + 1e-9) * 0.2  # mismo volumen para todas
+        cache[name] = tr
+    tr = cache[name]
+    a = max(0, int((t0 - (XF if k else 0)) * SR)); b = min(N, int((t1 + XF) * SR)); L = b - a
+    off = int(((k * 37.0) % 60) * SR)
+    seg = np.resize(np.roll(tr, -off), L).astype(np.float32)
+    fi = int(XF * SR)
+    if k: seg[:fi] *= np.sin(np.linspace(0, np.pi / 2, fi)) ** 2
+    if b < N: seg[-fi:] *= np.cos(np.linspace(0, np.pi / 2, fi)) ** 2
     mus[a:b] += seg
+# nivelador: la música suena pareja todo el rato (sin pasajes flojos)
+from scipy.ndimage import uniform_filter1d
+envm = np.sqrt(uniform_filter1d(mus.astype(np.float64) ** 2, int(0.6 * SR)) + 1e-8)
+gain = np.clip(0.2 / envm, 0.6, 3.0)
+gain = uniform_filter1d(gain, int(0.4 * SR))
+mus = (mus * gain).astype(np.float32)
 for t0, name, g in A['sfx']:
     x = SFX[name] * g; a = int(t0 * SR); b = min(N, a + len(x)); sfx[a:b] += x[:b - a]
 hp = butter(2, 3500, 'highpass', fs=SR, output='sos')
@@ -57,9 +70,10 @@ for t0, sid in A['voices']:
 e = np.abs(vo); win = int(0.1 * SR)
 duck = np.convolve((e > 0.02).astype(np.float32), np.ones(win) / win, 'same')
 duck = np.clip(duck * 3, 0, 1)
-out = mus * 0.32 * (1 - 0.5 * duck) + sfx * 0.8 + vo * 1.1
+out = mus * 0.9 * (1 - 0.38 * duck) + sfx * 0.7 + vo * 1.1
 out = out[:int(A['dur'] * SR)]
 pk = np.abs(out).max(); out = out / max(pk, 1e-9) * 0.95 if pk > 0.95 else out
 os.makedirs(R + 'out/mc', exist_ok=True)
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-ac', '2', R + 'out/mc/mc_raw.wav'], input=out.astype(np.float32).tobytes())
+np.save(R + 'out/mc/mus_only.npy', (mus * 0.9 * (1 - 0.38 * duck))[:int(A['dur'] * SR):480].astype(np.float32))
 print('mezcla ok', round(len(out) / SR, 2), 's')
