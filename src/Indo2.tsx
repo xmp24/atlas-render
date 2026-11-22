@@ -4,6 +4,7 @@ import {AbsoluteFill, Audio, Easing, Img, staticFile, useCurrentFrame, useVideoC
 import {FlagCanvas, makeCam, CamKey, Cam, COUNTRIES, MAINCOL, NK, FLAG_OVR, FICK, FICHIDE, ficShow, ficHide} from './HexWorld';
 import {Globe} from './Globe';
 import {PolyCanvas, PolyMini, polyState, ownerStats, CEv, CAREA, MAINPIECE, PIECES_C} from './PolyWorld';
+import {LiveHud} from './LiveHud';
 import {Face, Mood, INK, YELLOW, RED, CREAM, font, font2, lerp, popT, fmt} from './lib3';
 import {ShortCup, segTime} from './ShortFX';
 import JA from './hw/indo2a.json';
@@ -44,6 +45,7 @@ import J_inw from './hw/inw.json';
 import J_usw from './hw/usw.json';
 import J_d365 from './hw/d365.json';
 import J_mc2 from './hw/mc2.json';
+import J_live from './hw/live.json';
 import J_braf from './hw/braf.json';
 import J_bras from './hw/bras.json';
 import J_cqru from './hw/cqru.json';
@@ -81,7 +83,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, inw: J_inw, usw: J_usw, d365: J_d365, mc2: J_mc2, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, inw: J_inw, usw: J_usw, d365: J_d365, mc2: J_mc2, live: J_live, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02, D.vs ? 0.035 : 0), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -287,6 +289,7 @@ const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   if (D.duel) return null;
   if (D.mode === 'tl') return <TlHud t={t} />;
   if (D.mode === 'cw' || D.mode === 'da' || D.mode === 'rbr' || D.mode === 'zomb') return null;
+  if (D.mode === 'live') return <LiveHud t={t} cam={cam} L={D.live} />;
   if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
   if (D.mode === 'camp') return <HudCamp t={t} cam={cam} />;
   const show = lerp(t, D.war_t - 0.5, D.war_t + 0.3, 0, 1) * lerp(t, D.winT - 0.3, D.winT + 0.3, 1, 0);
@@ -442,7 +445,7 @@ const Ranking: React.FC<{t: number}> = ({t}) => {
   );
 };
 const Chapter: React.FC<{t: number}> = ({t}) => {
-  if (X.D.splash || X.D.mode === 'cw' || X.D.mode === 'da') return null;
+  if (X.D.splash || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'live') return null;
   const c = (X.D.chapters as any[]).filter(([t0]) => t >= t0 - 0.1 && t < t0 + 1.7).slice(-1)[0];
   if (!c) return null;
   const [t0, title] = c; const n = (X.D.chapters as any[]).indexOf(c) + 1;
@@ -728,7 +731,7 @@ const Title: React.FC<{t: number}> = ({t}) => {
     <div style={{...font, fontSize: 132, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, lineHeight: 1.05}}>{X.D.title2 ? X.D.title2[1] : 'CONQUER THE WORLD?'}</div></div>;
 };
 const Ending: React.FC<{t: number}> = ({t}) => {
-  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'rbr' || X.D.mode === 'zomb') return null;
+  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'live' || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'rbr' || X.D.mode === 'zomb') return null;
   const a = popT(t, t0, 10);
   const V2 = X.D.ver !== 'a';
   const pk = X.D.indo as number[][]; const pmax = pk[pk.length - 1][1]; const tA = X.D.war_t, tB = X.D.winT;
