@@ -44,8 +44,17 @@ def geom(c):
     return dict(bb=bb, ax=cx, ay=cy, r=r, pin=pin, cam=[tx + 60 / s, ty + 85 / s, s])
 
 # ---------------- línea de tiempo ----------------
+NB = json.load(open(R + 'mcd/namebatch.json')) if os.path.exists(R + 'mcd/namebatch.json') else None
 def build():
-    segs = PLAN['segs']
+    segs = [dict(x) for x in PLAN['segs']]
+    if NB:
+        for x in segs:
+            if x['id'] in NB['repl']: x['text'] = NB['repl'][x['id']]; x['id'] = 'R_' + x['id']
+            if x['id'] in NB['anchor']: x['name'] = NB['anchor'][x['id']]
+        for i in NB['ids']:
+            if i.startswith('N_'): segs.append(dict(id=i, voice='NARR', text=NB['texts'][i], cue=i[2:], name=i[2:], type='over'))
+        for i, tx in NB.get('talk_intro', {}).items():
+            if i[2:] in TALKERS: segs.append(dict(id=i, voice='NARR', text=tx, cue=i[2:], name=i[2:], type='over'))
     byc = {}
     pos = {c: i for i, c in enumerate(ORDER)}
     lastT = None
@@ -57,6 +66,14 @@ def build():
         T = s.get('name') or s['cue']
         if not s.get('name') and lastT and pos[lastT] > pos[T]: T = lastT
         s['T'] = T; lastT = T
+    # orden final: por país (estable); las frases con el nombre van después de las previas de ese país
+    io = {id(x): k for k, x in enumerate(keep)}
+    def rank(x):
+        if x['id'].startswith('T_'): return 1
+        if x['id'].startswith('N_'): return 3
+        if x['type'] in ('over', 'pre') and not x.get('name'): return 0
+        return 2
+    keep.sort(key=lambda x: (0, io[id(x)]) if x['type'] in ('intro',) else (2, io[id(x)]) if x['type'] == 'outro' else (1, pos[x['T']], rank(x), io[id(x)]))
     segs = keep
     talks = []; sfx = []
     t = 0.35
@@ -124,7 +141,10 @@ def build():
                 nc = st + d + 0.08
                 if story: cur = nc
         st_c = 'N' if c == 'CU' else status(c)
-        end = start + (QF if st_c == 'F' else QD) if not story else max(start + 2.4, cur + 0.35)
+        if story: end = max(start + 2.4, cur + 0.35)
+        elif st_c == 'F': end = start + QF
+        elif anchored or c in forced: end = max(start + 1.2, nc - 0.08 + 0.3)  # dura lo que su frase (sin huecos)
+        else: end = start + QD
         if c == 'VA': end = max(end, nc + 0.3)
         C.append(dict(c=c, n=NAMES[c], st=('N' if c == 'CU' else status(c)), t0=round(start, 3), fly=fly, pop=round(pop, 3), td=round(td, 3), t1=round(end, 3),
                       kind='s' if story else 'q', note=NOTES.get(c, ''), cam=g['cam'], pin=g['pin'], ax=g['ax'], ay=g['ay'], r=g['r'], bb=g['bb']))
@@ -135,6 +155,7 @@ def build():
     for s in [x for x in segs if x['type'] == 'outro']:
         d = vdur(s); talks.append(dict(id=s['id'], who='NARR', t0=t, t1=t + d, text=s['text'])); t += d + 0.25
     dur = t + 0.6
+    intro_end = max(intro_end, C[0]['t0'] - 0.35)
     talks.sort(key=lambda x: x['t0'])
     return dict(dur=round(dur, 3), intro_end=round(intro_end, 3), legend_t=legend_t, out0=round(out0, 3), C=C, talks=talks)
 
@@ -169,6 +190,7 @@ def camera(T):
         else:
             j = max(i for i, k in enumerate(keys) if k[0] <= t)
             t0, cb, fly = keys[j]
+            if j == 0: cams.append([WORLD[0], WORLD[1], round(WORLD[2] * 1.04, 4)]); continue
             ca = keys[j - 1][1] if j > 0 else WORLD
             if j == 1: ca = [WORLD[0], WORLD[1], WORLD[2] * 1.04]
             u = (t - t0) / fly

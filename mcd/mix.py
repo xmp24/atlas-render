@@ -70,10 +70,10 @@ for t0, sid in A['voices']:
 e = np.abs(vo); win = int(0.1 * SR)
 duck = np.convolve((e > 0.02).astype(np.float32), np.ones(win) / win, 'same')
 duck = np.clip(duck * 3, 0, 1)
-out = mus * 0.9 * (1 - 0.38 * duck) + sfx * 0.7 + vo * 1.1
+out = mus * 0.79 * (1 - 0.38 * duck) + sfx * 0.7 + vo * 1.1
 out = out[:int(A['dur'] * SR)]
 pk = np.abs(out).max(); out = out / max(pk, 1e-9) * 0.95 if pk > 0.95 else out
 os.makedirs(R + 'out/mc', exist_ok=True)
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-ac', '2', R + 'out/mc/mc_raw.wav'], input=out.astype(np.float32).tobytes())
-np.save(R + 'out/mc/mus_only.npy', (mus * 0.9 * (1 - 0.38 * duck))[:int(A['dur'] * SR):480].astype(np.float32))
+np.save(R + 'out/mc/mus_only.npy', (mus * 0.79 * (1 - 0.38 * duck))[:int(A['dur'] * SR):480].astype(np.float32))
 print('mezcla ok', round(len(out) / SR, 2), 's')

@@ -88,10 +88,13 @@ def split(x, n):
 import difflib, unicodedata, re
 WORDS = json.load(open(EL + 'words.json'))
 if os.path.exists(EL + 'words_f.json'): WORDS.update(json.load(open(EL + 'words_f.json')))
+if os.path.exists(EL + 'words_n.json'): WORDS.update(json.load(open(EL + 'words_n.json')))
+NBT = json.load(open(R + 'mcd/namebatch.json'))['texts'] if os.path.exists(R + 'mcd/namebatch.json') else {}
+for _k, _v in NBT.items(): byid[_k] = {'id': _k, 'text': _v}
 def norm(w):
     w = unicodedata.normalize('NFD', w.lower()); w = ''.join(ch for ch in w if unicodedata.category(ch) != 'Mn')
     w = re.sub(r'[^a-z0-9]', '', w)
-    return {'malaui': 'malawi', 'zimbabue': 'zimbabwe', 'tayikistan': 'tajikistan', 'fiyi': 'fiji'}.get(w, w)
+    return {'malaui': 'malawi', 'zimbabue': 'zimbabwe', 'tayikistan': 'tajikistan', 'fiyi': 'fiji', 'catar': 'qatar', 'barein': 'bahrein', 'banglades': 'bangladesh', 'yibuti': 'djibouti', 'guineabisau': 'guinea', 'namibia': 'namidia', 'liechtenstein': 'lichtenstein'}.get(w, w)
 NUM = {'1940': 'mil novecientos cuarenta'}
 def toks(text):
     text = re.sub(r'\[[a-z ]+\]', '', text)
@@ -162,6 +165,8 @@ jobs = [dict(key='INTRO0', file='intro0.mp3', ids=['intro0'])] + [dict(key=b['ke
 FX = R + 'mcd/fixbatch.json'
 if os.path.exists(EL + 'NARRF.mp3') and os.path.exists(EL + 'words_f.json'):
     jobs.append(dict(key='NARRF', file='NARRF.mp3', ids=json.load(open(FX))['ids']))  # sustituye a las enumeraciones antiguas
+if os.path.exists(EL + 'NARRN.mp3') and os.path.exists(EL + 'words_n.json'):
+    jobs.append(dict(key='NARRN', file='NARRN.mp3', ids=json.load(open(R + 'mcd/namebatch.json'))['ids']))  # un nombre por país
 for jb in jobs:
     x = load(EL + jb['file']); n = len(jb['ids'])
     if n == 1: parts = [(x, [(jb['ids'][0], 0.0)])]; info = ''
@@ -194,3 +199,18 @@ if os.path.exists(EL + 'NARRF2.mp3'):
         y = tighten(trim(x[pts[k]:pts[k + 1]])); save(R + f'mcd/voice/{sid}.wav', y)
         V2[sid] = dict(dur=round(len(y) / SR, 3), env=env30(y), subs=[[sid, 0.0]])
     json.dump(V2, open(R + 'mcd/voice.json', 'w'))
+
+# presentaciones del narrador para los países que hablan (cortes fijos en sus pausas)
+TI = ['US', 'CA', 'SM', 'IS', 'RU', 'BO', 'CU', 'BB', 'AM', 'IR', 'IN', 'LK', 'KP', 'NG', 'VA']
+TIT = ['Empezamos: ¡Estados Unidos!', 'Canadá...', 'San Marino...', 'Islandia...', 'Rusia...', 'Bolivia...', 'Cuba...', 'Barbados...', 'Armenia...', 'Irán...', 'India...', 'Sri Lanka...', 'Corea del Norte...', 'Nigeria...', '¡El Vaticano!']
+if os.path.exists(EL + 'NARRT.mp3'):
+    x = load(EL + 'NARRT.mp3'); V3 = json.load(open(R + 'mcd/voice.json'))
+    gaps = [(2.47, 0.41), (3.45, 0.48), (4.8, 0.5), (6.11, 0.53), (7.32, 0.57), (8.59, 0.53), (9.56, 0.46), (10.89, 0.42), (12.03, 0.55), (13.16, 0.52), (14.24, 0.47), (15.48, 0.48), (17.0, 0.47), (18.16, 0.43)]
+    pts = [0] + [int((a + d / 2) * SR) for a, d in gaps] + [len(x)]
+    for k, c in enumerate(TI):
+        y = trim(x[pts[k]:pts[k + 1]]); save(R + f'mcd/voice/T_{c}.wav', y)
+        V3['T_' + c] = dict(dur=round(len(y) / SR, 3), env=env30(y), subs=[['T_' + c, 0.0]])
+        print('T_' + c, round(len(y) / SR, 2))
+    json.dump(V3, open(R + 'mcd/voice.json', 'w'))
+    nb = json.load(open(R + 'mcd/namebatch.json')); nb['talk_intro'] = {'T_' + c: t for c, t in zip(TI, TIT)}
+    json.dump(nb, open(R + 'mcd/namebatch.json', 'w'), ensure_ascii=False, indent=0)
