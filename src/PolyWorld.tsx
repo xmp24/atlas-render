@@ -26,7 +26,7 @@ GEOMS.forEach((g, i) => { g.__k = GEOK[i]; });
 
 // ---------------- estado por país ----------------
 export type CEv = [number, number, number, number, number, number, number, number, any?]; // tv, tm, país, nuevo, viejo, ox, oy, dur, extras{or:[[x,y,[[t,p]..]]], sq}
-export type Wipe = {i: number; p: number; from: number; to: number; circles: [number, number, number][]; sq: boolean};
+export type Wipe = {i: number; p: number; from: number; to: number; circles: [number, number, number][]; sq: boolean; vel?: number; el?: number};
 export type PolyState = {owner: Int16Array; wipe: Wipe[]};
 const kf = (pk: number[][], t: number) => {
   if (t <= pk[0][0]) return pk[0][1];
@@ -59,7 +59,7 @@ export const polyState = (cev: CEv[], t: number, tm: number, byTm: boolean): Pol
     }
     if (last && t < last[0] + last[7] && !(last[8] && last[8].or)) {
       const p = (t - last[0]) / last[7];
-      wipe.push({i: k, p, from: last[4], to: last[3], circles: [[last[5], last[6], p]], sq: !(last[8] && last[8].sq === 0)}); evc[k] = last;
+      wipe.push({i: k, p, from: last[4], to: last[3], circles: [[last[5], last[6], p]], sq: !(last[8] && last[8].sq === 0), vel: last[8] && last[8].v, el: t - last[0]}); evc[k] = last;
     }
   }
   return {owner, wipe, ev: evc};
@@ -175,7 +175,8 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
         const ox = cx0 / W4, oy = cy0 / W4;
         const rmax = Math.hypot(Math.max(Math.abs(p.bbox[0] / W4 - ox), Math.abs(p.bbox[2] / W4 - ox)), Math.max(Math.abs(p.bbox[1] / W4 - oy), Math.abs(p.bbox[3] / W4 - oy))) * 1.05;
         const e = pp < 0.5 ? 2 * pp * pp : 1 - Math.pow(-2 * pp + 2, 2) / 2;
-        ctx.moveTo(ox + Math.max(0.5, rmax * e), oy); ctx.arc(ox, oy, Math.max(0.5, rmax * e), 0, Math.PI * 2); any = true;
+        const rr = w.vel ? Math.min(rmax, (w.vel * (w.el || 0)) / W4) : rmax * e;
+        ctx.moveTo(ox + Math.max(0.5, rr), oy); ctx.arc(ox, oy, Math.max(0.5, rr), 0, Math.PI * 2); any = true;
       }
       if (any) {
         ctx.fillStyle = CO && CO[o2] ? CO[o2] : o2 === o.empire && o.empireCol ? o.empireCol : MAINCOL[o2]; ctx.fill();

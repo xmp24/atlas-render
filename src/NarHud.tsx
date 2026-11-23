@@ -77,6 +77,20 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
           <span style={{...F, fontSize: 25, color: i === 0 ? GOLD : '#fff'}}>{p.toFixed(0)}%</span>
         </div>))}
     </div>);
+  // marcador de países pequeños que caen (para que se vean)
+  for (const [tf, k, A] of (N.spots || []) as [number, number, number][]) {
+    if (t < tf - 0.35 || t > tf + 1.9) continue;
+    const c = PIECES_C(k); const [sx, sy] = toS(c[0], c[1], cam); if (sx < -50 || sx > VW + 50 || sy < -50 || sy > VH + 50) continue;
+    const u = t - tf; const a = fadeW(t, tf - 0.35, tf + 1.9, 0.25); const r = 34 + 10 * Math.sin(t * 9) + (u < 0 ? 0 : 0);
+    const won = u > 0.15;
+    out.push(
+      <div key={'sp' + tf + k} style={{position: 'absolute', left: sx, top: sy, zIndex: 31, opacity: a, pointerEvents: 'none'}}>
+        <div style={{position: 'absolute', left: -r, top: -r, width: r * 2, height: r * 2, borderRadius: '50%', border: `5px solid ${won ? RED : GOLD}`, boxShadow: `0 0 0 3px ${INK}, 0 0 22px ${won ? RED : GOLD}`}} />
+        <div style={{position: 'absolute', left: 0, top: r + 10, transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 8, background: INK, borderRadius: 10, padding: '4px 10px 0', whiteSpace: 'nowrap'}}>
+          <RectFlag k={won ? A : k} w={34} /><span style={{...F, fontSize: 24, color: '#fff'}}>{NM(k)}{won ? ' ✖' : ''}</span>
+        </div>
+      </div>);
+  }
   // bocadillo del país
   if (talk && t < winT - 0.2) {
     const k = CODE[talk[2]] ?? -1;
