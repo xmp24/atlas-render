@@ -51,7 +51,7 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
   const hh = Math.floor(mins / 60), mm = Math.floor(mins % 60);
   const sun = cl((mins - 380) / 60, 0, 1);
   // rótulo de capítulo
-  const ttl = (N.titles as [number, string][]).filter(([t0]) => t >= t0 - 0.05 && t < t0 + (t0 < 15 ? 3.4 : 1.9)).slice(-1)[0];
+  const ttl = (N.titles as [number, string][]).filter(([t0]) => t >= t0 - 0.05 && t < t0 + (t0 < 3 ? 3.4 : 1.9)).slice(-1)[0];
   const out: React.ReactNode[] = [];
   // amanecer al final
   if (sun > 0) out.push(<AbsoluteFill key="sun" style={{background: 'radial-gradient(ellipse at 50% 120%, rgba(255,170,80,0.55), rgba(255,120,60,0.15) 50%, rgba(0,0,0,0) 75%)', opacity: sun * 0.8, zIndex: 15, pointerEvents: 'none'}} />);
@@ -124,7 +124,7 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
   }
   // rótulos
   if (ttl) {
-    const big = ttl[0] < 15; const d = big ? 3.4 : 1.9; const a = fadeW(t, ttl[0], ttl[0] + d, 0.18); const s = 0.6 + 0.4 * pop(t, ttl[0], 12);
+    const big = ttl[0] < 3; const d = big ? 3.4 : 1.9; const a = fadeW(t, ttl[0], ttl[0] + d, 0.18); const s = 0.6 + 0.4 * pop(t, ttl[0], 12);
     out.push(
       <div key={'t' + ttl[0]} style={{position: 'absolute', left: VW / 2, top: big ? 380 : 400, transform: `translate(-50%,-50%) scale(${s}) rotate(-2deg)`, opacity: a, zIndex: 34, textAlign: 'center'}}>
         <div style={{background: big ? RED : GOLD, border: `6px solid ${INK}`, borderRadius: 20, padding: big ? '14px 40px 6px' : '10px 44px 2px', ...F, fontSize: big ? 84 : 92, color: big ? '#fff' : INK, whiteSpace: 'nowrap', boxShadow: `0 10px 0 ${INK}`, lineHeight: 1.05}}>
