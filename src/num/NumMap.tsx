@@ -418,7 +418,7 @@ export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
         drawBall(ctx, 'NL', 640, 560, 300, 'happy', '#fff'); drawBall(ctx, 'TL', 1920, 860, 200, 'angry', '#fff'); }
     } else {
       if (n === 0) { drawWorld(ctx, 2950, 1300, 0.6, 10, 0.4); drawBall(ctx, 'LU', 640, 700, 320, 'happy', COL.E); drawBall(ctx, 'VE', 1920, 760, 280, 'sad', COL.A); }
-      else if (n === 1) { drawWorld(ctx, 1500, 1500, 1.0, 0, 0.15); const gr = ctx.createLinearGradient(0, 0, 1500, 0); gr.addColorStop(0, 'rgba(6,18,45,0.7)'); gr.addColorStop(1, 'rgba(6,18,45,0)'); ctx.fillStyle = gr; ctx.fillRect(0, 0, TW, TH); drawCountry(ctx, 'VE', 1880, 820, 780, 640, 'sad', COL.A); }
+      else if (n === 1) { drawWorld(ctx, 1500, 1500, 1.0, 0, 0.15); const gr = ctx.createLinearGradient(0, 0, 1500, 0); gr.addColorStop(0, 'rgba(6,18,45,0.7)'); gr.addColorStop(1, 'rgba(6,18,45,0)'); ctx.fillStyle = gr; ctx.fillRect(0, 0, TW, TH); drawCountry(ctx, 'VE', 1820, 800, 1150, 980, 'sad', COL.A); }
       else { ctx.fillStyle = '#2fbf63'; ctx.fillRect(0, 0, TW / 2, TH); ctx.fillStyle = '#ee4646'; ctx.fillRect(TW / 2, 0, TW / 2, TH);
         for (let i = 0; i < 26; i++) { ctx.fillStyle = `rgba(255,255,255,${i % 2 ? 0.06 : 0})`; ctx.beginPath(); const a = (i / 26) * Math.PI * 2; ctx.moveTo(TW / 2, TH / 2); ctx.arc(TW / 2, TH / 2, 2400, a, a + Math.PI / 26); ctx.fill(); }
         drawBall(ctx, 'LU', 660, 720, 300, 'happy', '#fff'); drawBall(ctx, 'VE', 1900, 720, 300, 'sad', '#fff'); }
@@ -429,8 +429,8 @@ export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
       <canvas ref={ref} width={TW} height={TH} style={{position: 'absolute', inset: 0}} />
       {v === 'alt' && n === 0 && (<>
         <div style={{position: 'absolute', top: 50, width: '100%', textAlign: 'center'}}><TT size={190}>¿QUIÉN ES MÁS ALTO?</TT></div>
-        <div style={{position: 'absolute', left: 300, top: 1040}}><Tag bg={COL.E} size={110}>1,82 m</Tag></div>
-        <div style={{position: 'absolute', left: 1700, top: 1210}}><Tag bg={COL.A} size={90}>1,60 m</Tag></div>
+        <div style={{position: 'absolute', left: 260, top: 1010}}><Tag bg={COL.E} size={160}>1,82 m</Tag></div>
+        <div style={{position: 'absolute', left: 1600, top: 1190}}><Tag bg={COL.A} size={130}>1,60 m</Tag></div>
         <div style={{position: 'absolute', right: 90, top: 330, transform: 'rotate(7deg)'}}><Tag bg="#ffd23f" color={INK} size={100}>¿Y TÚ?</Tag></div>
       </>)}
       {v === 'alt' && n === 1 && (<>
@@ -448,8 +448,8 @@ export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
       </>)}
       {v === 'sue' && n === 0 && (<>
         <div style={{position: 'absolute', top: 50, width: '100%', textAlign: 'center'}}><TT size={180}>SUELDO MÍNIMO</TT></div>
-        <div style={{position: 'absolute', left: 300, top: 1080}}><Tag bg={COL.E} size={120}>3.150 $</Tag></div>
-        <div style={{position: 'absolute', left: 1640, top: 1080}}><Tag bg={COL.A} size={120}>&lt; 1 $</Tag></div>
+        <div style={{position: 'absolute', left: 230, top: 1060}}><Tag bg={COL.E} size={160}>3.150 $</Tag></div>
+        <div style={{position: 'absolute', left: 1650, top: 1060}}><Tag bg={COL.A} size={160}>&lt; 1 $</Tag></div>
         <div style={{position: 'absolute', left: TW / 2 - 120, top: 560}}><TT size={190} color="#ffd23f">VS</TT></div>
       </>)}
       {v === 'sue' && n === 1 && (<>
