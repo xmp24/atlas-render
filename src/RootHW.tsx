@@ -160,6 +160,8 @@ export const RootHW: React.FC = () => (
     <Composition id="SatM-dbl" component={SatShort} durationInFrames={satFrames('dbl', 30)} fps={30} width={720} height={1280} defaultProps={{v: 'dbl'}} />
     <Composition id="SatH-dbl" component={SatShort} durationInFrames={satFrames('dbl', 60)} fps={60} width={1080} height={1920} defaultProps={{v: 'dbl'}} />
     <Composition id="V-live60" component={Indo2} durationInFrames={indoFrames('live') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'live'}} />
+    <Composition id="V-nar60" component={Indo2} durationInFrames={indoFrames('nar') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'nar'}} />
+    <Composition id="V-nar" component={Indo2} durationInFrames={indoFrames('nar')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'nar'}} />
     <Composition id="V-mc260" component={Indo2} durationInFrames={indoFrames('mc2') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'mc2'}} />
     <Composition id="M720-mc2" component={Indo720} durationInFrames={indoFrames('mc2')} fps={30} width={1280} height={720} defaultProps={{audio: false, v: 'mc2'}} />
     <Composition id="M720-d365" component={Indo720} durationInFrames={indoFrames('d365')} fps={30} width={1280} height={720} defaultProps={{audio: false, v: 'd365'}} />

@@ -60,6 +60,8 @@ import J_ww3 from './hw/ww3.json';
 import J_survive from './hw/survive.json';
 import J_ww2 from './hw/ww2.json';
 import J_swap from './hw/swap.json';
+import J_nar from './hw/nar.json';
+import {NarHud} from './NarHud';
 import J_euus from './hw/euus.json';
 import J_brme from './hw/brme.json';
 import J_cnin from './hw/cnin.json';
@@ -83,7 +85,7 @@ type Ctx = {D: any; camF: (t: number) => Cam; camF2: (t: number) => Cam; CEV: CE
 const CTXS: Record<string, Ctx> = {};
 const getCtx = (v: string): Ctx => {
   if (!CTXS[v]) {
-  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, inw: J_inw, usw: J_usw, d365: J_d365, mc2: J_mc2, live: J_live, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap};
+  const JMAP: Record<string, any> = {inid: J_inid, wbram: J_wbram, wbsa: J_wbsa, dbras: J_dbras, dbras2: J_dbras2, dbras3: J_dbras3, tlua: J_tlua, tlde: J_tlde, dbras4: J_dbras4, dbreu: J_dbreu, cw: J_cw, da: J_da, mc: J_mc, rbr: J_rbr, zomb: J_zomb, zomb2: J_zomb2, imp: J_imp, vs: J_vs, dbram: J_dbram, dbrin: J_dbrin, idw: J_idw, inw: J_inw, usw: J_usw, d365: J_d365, mc2: J_mc2, live: J_live, breu: J_breu, braf: J_braf, bras: J_bras, cqru: J_cqru, cqcn: J_cqcn, cqbr: J_cqbr, cqes: J_cqes, taiwan: J_taiwan, rceu: J_rceu, ukr: J_ukr, usla: J_usla, ww3: J_ww3, survive: J_survive, ww2: J_ww2, grl: J_grl, tw27: J_tw27, nato: J_nato, ilir: J_ilir, cart: J_cart, kor: J_kor, inpk: J_inpk, rare: J_rare, euarmy: J_euarmy, tri: J_tri, ww1: J_ww1, ussr: J_ussr, napo: J_napo, brit: J_brit, cnin: J_cnin, brme: J_brme, euus: J_euus, swap: J_swap, nar: J_nar};
   const D = (JMAP[v] ? JMAP[v] : v === 'l' ? JL : v === 'h' ? JH : v === 'u' ? JU : v === 'd' ? JD : v === 'c' ? JC : v === 'b' ? JB : JA) as any;
     CTXS[v] = {D, camF: makeCam(D.cam as CamKey[], 0.02, D.vs ? 0.035 : 0), camF2: makeCam(((D.cam2 && D.cam2.length) ? D.cam2 : D.cam) as CamKey[], 0.02), CEV: D.cev as CEv[], ID: D.id, MKB: new Map(), ALLY: ((D.cards as any[]).find((c) => c.kind === 'alliance') || {ks: []}).ks};
   }
@@ -288,7 +290,7 @@ const Hud: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const D = X.D;
   if (D.duel) return null;
   if (D.mode === 'tl') return <TlHud t={t} />;
-  if (D.mode === 'cw' || D.mode === 'da' || D.mode === 'rbr' || D.mode === 'zomb') return null;
+  if (D.mode === 'cw' || D.mode === 'da' || D.mode === 'rbr' || D.mode === 'zomb' || D.mode === 'nar') return null;
   if (D.mode === 'live') return <LiveHud t={t} cam={cam} L={D.live} />;
   if (D.mode === 'br') return <HudBR t={t} cam={cam} />;
   if (D.mode === 'camp') return <HudCamp t={t} cam={cam} />;
@@ -445,7 +447,7 @@ const Ranking: React.FC<{t: number}> = ({t}) => {
   );
 };
 const Chapter: React.FC<{t: number}> = ({t}) => {
-  if (X.D.splash || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'live') return null;
+  if (X.D.splash || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'live' || X.D.mode === 'nar') return null;
   const c = (X.D.chapters as any[]).filter(([t0]) => t >= t0 - 0.1 && t < t0 + 1.7).slice(-1)[0];
   if (!c) return null;
   const [t0, title] = c; const n = (X.D.chapters as any[]).indexOf(c) + 1;
@@ -731,7 +733,7 @@ const Title: React.FC<{t: number}> = ({t}) => {
     <div style={{...font, fontSize: 132, color: YELLOW, textShadow: `7px 7px 0 ${INK}`, lineHeight: 1.05}}>{X.D.title2 ? X.D.title2[1] : 'CONQUER THE WORLD?'}</div></div>;
 };
 const Ending: React.FC<{t: number}> = ({t}) => {
-  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'live' || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'rbr' || X.D.mode === 'zomb') return null;
+  const t0 = X.D.winT; if (t < t0 || X.D.duel || X.D.mode === 'nar' || X.D.mode === 'live' || X.D.mode === 'cw' || X.D.mode === 'da' || X.D.mode === 'rbr' || X.D.mode === 'zomb') return null;
   const a = popT(t, t0, 10);
   const V2 = X.D.ver !== 'a';
   const pk = X.D.indo as number[][]; const pmax = pk[pk.length - 1][1]; const tA = X.D.war_t, tB = X.D.winT;
@@ -3139,7 +3141,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       {showMap && (
         <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `${(D.zomb || D.z3) ? tiltCss(D.zomb || D.z3, t) : ''}translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.vs && D.vs.bt ? (() => { const dm = ((D.vs.bt.dim || []) as number[][]).reduce((m, w) => Math.max(m, Math.min(1, (t - w[0]) / 0.8, (w[1] - t) / 0.8)), 0); return dm > 0 ? `saturate(${1 - 0.28 * dm}) brightness(${1 - 0.06 * dm})` : undefined; })() : D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
           {(() => { const TL = (D.zomb || D.z3) ? tiltAt(D.zomb || D.z3, t) : {ax: 0, az: 0}; const tilted = Math.abs(TL.ax) > 0.05 || Math.abs(TL.az) > 0.05; const ox = tilted ? Math.round(VW * (0.3 + Math.abs(TL.az) / 60)) : 0, ot = tilted ? Math.round(VH * (0.25 + TL.ax / 45)) : 0, ob = tilted ? Math.round(VH * 0.2) : 0; const cm = inGlobe ? X.camF(g.t1 + 0.03) : camL; const cm2 = tilted ? {...cm, cy: cm.cy - (ot - ob) / 2 / cm.s} : cm; return <div style={{position: 'absolute', left: -ox, top: -ot, width: VW + 2 * ox, height: VH + ot + ob}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cm2} W={VW + 2 * ox} H={VH + ot + ob} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t), fic: X.D.fic || false} as any} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cm2} W={VW + 2 * ox} H={VH + ot + ob} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw' || D.mode === 'nar') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, cw: cwState(t), fic: X.D.fic || false} as any} />
           </div>; })()}
           {D.zomb && <ZombMapFX D={D} t={t} cam={camL} />}
           <Arrows t={t} cam={camL} />
@@ -3161,7 +3163,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       )}
       {split && (
         <AbsoluteFill style={{clipPath: 'inset(0 0 0 50%)', transform: `translate(${shx}px,${shy}px)`}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, fic: X.D.fic || false} as any} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw' || D.mode === 'nar') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.colOver, fic: X.D.fic || false} as any} />
           <Arrows t={t} cam={camR} />
         </AbsoluteFill>
       )}
@@ -3203,6 +3205,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       <DbrHud t={t} />
       {D.rbr && <RbrHud D={D} t={t} cam={cam} />}
       {D.zomb && <ZombHud D={D} t={t} cam={cam} />}
+      {D.mode === 'nar' && <NarHud D={D} t={t} cam={cam} />}
       <EvHud t={t} />
       <DuelHud t={t} />
       <PowerBanner t={t} />
