@@ -3,10 +3,16 @@ import React, {useLayoutEffect, useRef, useState} from 'react';
 import {AbsoluteFill, continueRender, delayRender, staticFile, useCurrentFrame} from 'remotion';
 import A0 from './alt.json';
 import S0 from './sue.json';
+import W1 from './sol.json';
+import W2 from './los.json';
+import W3 from './mil.json';
+import W4 from './last.json';
+import W5 from './riv.json';
+import W6 from './ally.json';
 import G0 from '../mcd/geo.json';
 import {drawFace} from '../mcd/McMap';
 
-const REG: Record<string, any> = {alt: A0, sue: S0};
+const REG: Record<string, any> = {alt: A0, sue: S0, sol: W1, los: W2, mil: W3, last: W4, riv: W5, ally: W6};
 export const numFrames = (v: string) => Math.max(30, Math.round(REG[v].dur * 30));
 const G = G0 as Record<string, {d: string; dm: string; bb: number[]; bm: number[]; c: number[]; r: number}>;
 const W = 1920, H = 1080;
@@ -36,7 +42,7 @@ if (typeof window !== 'undefined') {
     new FontFace('Fredoka', `url(${staticFile('fredoka600.woff2')})`, {weight: '600'}).load(),
     new FontFace('Fredoka', `url(${staticFile('fredoka700.woff2')})`, {weight: '700'}).load(),
   ].map((p) => p.then((f) => { (document as any).fonts.add(f); }).catch(() => null));
-  const codes = new Set<string>(); for (const v of Object.values(REG)) for (const c of v.C) codes.add(c.c);
+  const codes = new Set<string>(); for (const v of Object.values(REG)) for (const c of v.C) { codes.add(c.c); if (c.rv) codes.add(c.rv); }
   const imgs = [...codes].map((c) => new Promise<void>((res) => {
     const im = new Image();
     im.onload = () => { const cv = document.createElement('canvas'); cv.width = 480; cv.height = 360; cv.getContext('2d')!.drawImage(im, 0, 0, 480, 360); FLAG[c] = cv; res(); };
@@ -57,6 +63,8 @@ const talkAt = (t: number) => (D.talks as any[]).filter((x) => t >= x.t0 && t < 
 const ampOf = (tk: any, t: number) => { const i = Math.floor((t - tk.t0) * 30); const ch = tk.e[i]; return ch ? +ch / 9 : 0; };
 const isThin = (c: any, s: number) => !c.pin && c.r * s * 0.7 < 44;
 const moodOf = (c: any, t: number): Mood => (t < c.td ? 'curious' : (CAT[c.st]?.mood || 'happy'));
+const lum = (h: string) => { const n = parseInt(h.slice(1), 16); return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255; };
+const txtOn = (k: string) => (lum(COL[k] || '#000') > 0.62 ? INK : '#fff');
 const ord = () => D.cfg.cats.map((k: any) => k.k) as string[];
 
 function drawFlagCover(ctx: CanvasRenderingContext2D, fl: HTMLCanvasElement, x0: number, y0: number, x1: number, y1: number) {
@@ -172,7 +180,14 @@ const MapCanvas: React.FC<{t: number; f: number}> = ({t, f}) => {
 const Flag: React.FC<{c: string; w: number; round?: boolean; style?: React.CSSProperties}> = ({c, w, round, style}) => (
   <img src={staticFile(`wflags/${c.toLowerCase()}.svg`)} style={{width: w, height: round ? w : w * 0.75, objectFit: 'cover', borderRadius: round ? '50%' : 6, border: `3px solid ${INK}`, flexShrink: 0, ...style}} />
 );
-export const Icon: React.FC<{k: string; s: number}> = ({k, s}) => k === 'ruler' ? (
+const ICONS: Record<string, React.ReactNode> = {
+  soldier: <g><path d="M22 52 Q22 18 50 16 Q78 18 78 52 Z" fill="#5f7a3a" stroke={INK} strokeWidth="6" /><rect x="14" y="48" width="72" height="12" rx="6" fill="#4a6230" stroke={INK} strokeWidth="6" /><circle cx="50" cy="74" r="16" fill="#f2c79a" stroke={INK} strokeWidth="6" /></g>,
+  flag: <g><line x1="24" y1="10" x2="24" y2="94" stroke={INK} strokeWidth="8" strokeLinecap="round" /><path d="M28 14 L84 14 L72 34 L84 54 L28 54 Z" fill="#fff" stroke={INK} strokeWidth="6" strokeLinejoin="round" /></g>,
+  clock: <g><circle cx="50" cy="54" r="38" fill="#ff8c2e" stroke={INK} strokeWidth="6" /><circle cx="50" cy="54" r="27" fill="#fff" stroke={INK} strokeWidth="4" /><line x1="50" y1="54" x2="50" y2="36" stroke={INK} strokeWidth="6" strokeLinecap="round" /><line x1="50" y1="54" x2="64" y2="62" stroke={INK} strokeWidth="6" strokeLinecap="round" /><rect x="40" y="6" width="20" height="10" rx="4" fill={INK} /></g>,
+  swords: <g><line x1="18" y1="18" x2="78" y2="78" stroke="#dfe6f0" strokeWidth="11" strokeLinecap="round" /><line x1="18" y1="18" x2="78" y2="78" stroke={INK} strokeWidth="3" /><line x1="82" y1="18" x2="22" y2="78" stroke="#dfe6f0" strokeWidth="11" strokeLinecap="round" /><line x1="82" y1="18" x2="22" y2="78" stroke={INK} strokeWidth="3" /><line x1="58" y1="74" x2="74" y2="58" stroke="#ee4646" strokeWidth="9" strokeLinecap="round" /><line x1="42" y1="74" x2="26" y2="58" stroke="#ee4646" strokeWidth="9" strokeLinecap="round" /></g>,
+  shield: <g><path d="M50 8 L86 20 Q86 66 50 92 Q14 66 14 20 Z" fill="#5b5bf0" stroke={INK} strokeWidth="6" strokeLinejoin="round" /><path d="M50 24 L56 42 L74 42 L60 54 L65 72 L50 61 L35 72 L40 54 L26 42 L44 42 Z" fill="#ffd23f" stroke={INK} strokeWidth="3" strokeLinejoin="round" /></g>,
+};
+export const Icon: React.FC<{k: string; s: number}> = ({k, s}) => ICONS[k] ? <svg width={s} height={s} viewBox="0 0 100 100">{ICONS[k]}</svg> : k === 'ruler' ? (
   <svg width={s} height={s} viewBox="0 0 100 100">
     <rect x="30" y="4" width="40" height="92" rx="8" fill="#ffd23f" stroke={INK} strokeWidth="6" />
     {[16, 28, 40, 52, 64, 76, 88].map((y, i) => <line key={y} x1="30" y1={y} x2={i % 2 ? 50 : 58} y2={y} stroke={INK} strokeWidth="5" strokeLinecap="round" />)}
@@ -225,14 +240,14 @@ const HUD: React.FC<{t: number}> = ({t}) => {
             <div key={c.c} style={{height: 58, marginBottom: 8, transform: `translateY(${slide}px)`, opacity: 1 - j * 0.13, display: 'flex', alignItems: 'center', gap: 12, padding: '0 12px', background: isCur ? '#fff' : 'rgba(20,33,61,0.88)', borderRadius: 16, border: `3px solid ${isCur ? (dec ? COL[c.st] : '#ffd23f') : 'rgba(255,255,255,0.25)'}`}}>
               <Flag c={c.c} w={52} />
               <div style={{flex: 1, fontFamily: F1, fontSize: 24, color: isCur ? INK : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{c.n.toUpperCase()}</div>
-              {dec ? <div style={{fontFamily: F1, fontSize: 21, color: c.st === 'C' ? INK : '#fff', background: COL[c.st], borderRadius: 10, padding: '2px 10px', whiteSpace: 'nowrap'}}>{c.vs}</div> : <div style={{fontFamily: F1, fontSize: 22, color: isCur ? '#999' : '#8a95b0'}}>···</div>}
+              {dec ? <div style={{fontFamily: F1, fontSize: 21, color: txtOn(c.st), background: COL[c.st], borderRadius: 10, padding: '2px 10px', whiteSpace: 'nowrap'}}>{c.vs}</div> : <div style={{fontFamily: F1, fontSize: 22, color: isCur ? '#999' : '#8a95b0'}}>···</div>}
             </div>
           );
         })}
       </div>
       {cur && t >= cur.td - 0.05 && (() => {
         const u = easeOut((t - cur.td) / 0.25) * (1 - lerp(t, cur.t1 - 0.05, cur.t1 + 0.15));
-        const dark = cur.st === 'C';
+        const dark = txtOn(cur.st) === INK;
         return (
           <div style={{position: 'absolute', left, bottom: 30 - (1 - u) * 60, opacity: u, width: 1470 - left, background: INK, border: `5px solid ${COL[cur.st]}`, borderRadius: 24, padding: '12px 18px', display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 10px 0 rgba(0,0,0,0.3)'}}>
             <Flag c={cur.c} w={88} />
@@ -240,6 +255,7 @@ const HUD: React.FC<{t: number}> = ({t}) => {
               <div style={{fontFamily: F1, fontSize: 36, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{cur.n.toUpperCase()}</div>
               <div style={{fontFamily: F2, fontWeight: 600, fontSize: 23, color: '#c7d2ea', marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{cur.sub}</div>
             </div>
+            {cur.rv && <div style={{display: 'flex', alignItems: 'center', gap: 10, transform: `scale(${popT(t, cur.td, 0.3)})`}}><div style={{fontFamily: F1, fontSize: 40, color: '#ff5a5a'}}>VS</div><Flag c={cur.rv} w={84} style={{border: `4px solid ${COL[cur.st]}`}} /></div>}
             <div style={{fontFamily: F1, fontSize: 44, color: dark ? INK : '#fff', background: COL[cur.st], borderRadius: 16, padding: '4px 18px', transform: `scale(${popT(t, cur.td, 0.3)})`, whiteSpace: 'nowrap', border: `3px solid ${COLD[cur.st]}`}}>{cur.v}</div>
           </div>
         );
@@ -305,7 +321,7 @@ const Intro: React.FC<{t: number}> = ({t}) => {
       </div>
       <div style={{position: 'absolute', top: 790, width: '100%', display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap', padding: '0 60px'}}>
         {K.map((k, j) => (
-          <div key={k} style={{transform: `scale(${popT(t, D.leg[j] ?? 99, 0.35)})`, fontFamily: F1, fontSize: K.length > 5 ? 34 : 38, color: k === 'C' ? INK : '#fff', background: COL[k], border: `5px solid ${INK}`, borderRadius: 20, padding: '8px 22px', boxShadow: '0 8px 0 rgba(0,0,0,0.35)', whiteSpace: 'nowrap'}}>{CAT[k].label}</div>
+          <div key={k} style={{transform: `scale(${popT(t, D.leg[j] ?? 99, 0.35)})`, fontFamily: F1, fontSize: K.length > 5 ? 34 : 38, color: txtOn(k), background: COL[k], border: `5px solid ${INK}`, borderRadius: 20, padding: '8px 22px', boxShadow: '0 8px 0 rgba(0,0,0,0.35)', whiteSpace: 'nowrap'}}>{CAT[k].label}</div>
         ))}
       </div>
     </AbsoluteFill>
@@ -323,7 +339,7 @@ const Outro: React.FC<{t: number}> = ({t}) => {
         <div style={{fontFamily: F1, fontSize: 40, color: '#ffd23f'}}>{x[1]}</div>
         <Flag c={c.c} w={190} style={{margin: '10px auto', display: 'block', border: `6px solid ${COL[c.st]}`}} />
         <div style={{fontFamily: F1, fontSize: 46, color: '#fff'}}>{c.n.toUpperCase()}</div>
-        <div style={{display: 'inline-block', marginTop: 8, fontFamily: F1, fontSize: 56, color: c.st === 'C' ? INK : '#fff', background: COL[c.st], borderRadius: 18, padding: '4px 26px'}}>{x[2]}</div>
+        <div style={{display: 'inline-block', marginTop: 8, fontFamily: F1, fontSize: 56, color: txtOn(c.st), background: COL[c.st], borderRadius: 18, padding: '4px 26px'}}>{x[2]}</div>
       </div>
     );
   };
@@ -402,6 +418,15 @@ const Tag: React.FC<{bg: string; children: any; size?: number; color?: string; s
   <div style={{display: 'inline-block', fontFamily: F1, fontSize: size, color, background: bg, border: `10px solid ${INK}`, borderRadius: 999, padding: '10px 50px', boxShadow: '0 14px 0 rgba(0,0,0,0.45)', whiteSpace: 'nowrap', ...style}}>{children}</div>
 );
 
+// miniaturas de los vídeos de guerra (inglés): 0 = duelo A vs B · 1 = país protagonista + número gigante
+const WT: Record<string, any> = {
+  sol: {t0: 'BIGGEST ARMY ON EARTH', a: ['CN', 'angry', 'E', '2,035,000'], b: ['CR', 'happy', 'X', 'ZERO'], c: ['KP', 'angry', 'E'], big: '1 IN 20', l1: 'IS A SOLDIER', l2: 'NORTH KOREA', ask: 'AND YOURS?'},
+  los: {t0: 'WHO LOST THE MOST WARS?', a: ['GB', 'happy', 'A', '0 LOST'], b: ['CN', 'sad', 'E', '7 LOST'], c: ['MX', 'sad', 'B'], big: 'HALF', l1: 'ITS LAND LOST', l2: 'IN ONE WAR', ask: 'AND YOURS?'},
+  mil: {t0: 'WHO SPENDS MOST ON WAR?', a: ['US', 'angry', 'E', '$954B'], b: ['CR', 'happy', 'X', '$0'], c: ['UA', 'sad', 'E'], big: '40%', l1: 'OF ITS ECONOMY', l2: 'GOES TO WAR', ask: 'AND YOURS?'},
+  last: {t0: 'IF THEY INVADED YOU...', a: ['VA', 'sad', 'A', '1 HOUR'], b: ['US', 'angry', 'E', 'NEVER'], c: ['LU', 'sad', 'A'], big: '1 DAY', l1: 'BEFORE IT', l2: 'FALLS', ask: 'HOW LONG WOULD YOU LAST?'},
+  riv: {t0: 'BIGGEST RIVALS', a: ['US', 'angry', 'E', '60 CLASHES'], b: ['RU', 'angry', 'E', ''], c: ['IN', 'angry', 'E'], rv: 'PK', big: '40', l1: 'CLASHES WITH', l2: 'PAKISTAN', ask: "WHO'S YOUR ENEMY?"},
+  ally: {t0: 'WHO WOULD DEFEND YOU?', a: ['PL', 'happy', 'N', '31 ALLIES'], b: ['UA', 'sad', 'A', 'ALONE'], c: ['TW', 'sad', 'A'], big: '?', l1: 'WHO DEFENDS', l2: 'TAIWAN?', ask: 'AND YOU?'},
+};
 export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
   use(v);
   const ref = useRef<HTMLCanvasElement>(null);
@@ -410,7 +435,17 @@ export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
   useLayoutEffect(() => {
     const cv = ref.current; if (!cv || !READY) return; const ctx = cv.getContext('2d')!;
     ctx.clearRect(0, 0, TW, TH);
-    if (v === 'alt') {
+    const w = WT[v];
+    if (w && n === 0) {
+      const g = G[w.a[0]] || G['US']; drawWorld(ctx, g.c[0], g.c[1], 0.7, 12, 0.45);
+      ctx.fillStyle = 'rgba(200,20,40,0.22)'; ctx.fillRect(TW / 2, 0, TW / 2, TH);
+      drawBall(ctx, w.a[0], 660, 760, 360, w.a[1], COL[w.a[2]]); drawBall(ctx, w.b[0], 1900, 760, 360, w.b[1], COL[w.b[2]]);
+    } else if (w) {
+      const g = G[w.c[0]]; drawWorld(ctx, g.c[0], g.c[1], 2.2, 6, 0.35);
+      const gr = ctx.createLinearGradient(1000, 0, 2560, 0); gr.addColorStop(0, 'rgba(6,18,45,0)'); gr.addColorStop(1, 'rgba(6,18,45,0.75)'); ctx.fillStyle = gr; ctx.fillRect(0, 0, TW, TH);
+      drawCountry(ctx, w.c[0], 760, 780, 1150, 1050, w.c[1], COL[w.c[2]]);
+      if (w.rv) drawBall(ctx, w.rv, 1350, 1150, 170, 'angry', '#ee4646');
+    } else if (v === 'alt') {
       if (n === 0) { drawWorld(ctx, 2900, 1150, 0.62, 10, 0.4); drawBall(ctx, 'NL', 640, 640, 330, 'happy', COL.E); drawBall(ctx, 'TL', 1900, 1000, 170, 'sad', COL.A); }
       else if (n === 1) { drawWorld(ctx, 2950, 1000, 1.1, 0, 0.2); drawCountry(ctx, 'NL', 900, 760, 900, 900, 'happy', COL.E); }
       else { ctx.fillStyle = '#9b5de5'; ctx.fillRect(0, 0, TW / 2, TH); ctx.fillStyle = '#ee4646'; ctx.fillRect(TW / 2, 0, TW / 2, TH);
@@ -427,6 +462,20 @@ export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
   return (
     <AbsoluteFill style={{background: '#0d3f73', overflow: 'hidden'}}>
       <canvas ref={ref} width={TW} height={TH} style={{position: 'absolute', inset: 0}} />
+      {WT[v] && n === 0 && (() => { const w = WT[v]; return (<>
+        <div style={{position: 'absolute', top: 40, width: '100%', textAlign: 'center'}}><TT size={w.t0.length > 18 ? 170 : 200}>{w.t0}</TT></div>
+        <div style={{position: 'absolute', left: TW / 2 - 130, top: 600}}><TT size={230} color="#ffd23f" stroke="#c8102e">VS</TT></div>
+        {w.a[3] && <div style={{position: 'absolute', left: 0, width: 1320, top: 1170, textAlign: 'center'}}><Tag bg={COL[w.a[2]]} color={txtOn(w.a[2])} size={150}>{w.a[3]}</Tag></div>}
+        {w.b[3] && <div style={{position: 'absolute', left: 1240, width: 1320, top: 1170, textAlign: 'center'}}><Tag bg={COL[w.b[2]]} color={txtOn(w.b[2])} size={150}>{w.b[3]}</Tag></div>}
+      </>); })()}
+      {WT[v] && n === 1 && (() => { const w = WT[v]; return (<>
+        <div style={{position: 'absolute', right: 90, top: 150, textAlign: 'right'}}>
+          <TT size={w.big.length > 4 ? 380 : 470} color="#ffd23f" stroke={INK} sh={30} style={{WebkitTextStroke: `26px ${INK}`}}>{w.big}</TT>
+          <TT size={150} style={{marginTop: 50}}>{w.l1}</TT>
+          <TT size={170} color="#ff5a5a" style={{marginTop: 24}}>{w.l2}</TT>
+        </div>
+        <div style={{position: 'absolute', left: 70, top: 60, transform: 'rotate(-6deg)'}}><Tag bg="#ffd23f" color={INK} size={w.ask.length > 12 ? 80 : 100}>{w.ask}</Tag></div>
+      </>); })()}
       {v === 'alt' && n === 0 && (<>
         <div style={{position: 'absolute', top: 50, width: '100%', textAlign: 'center'}}><TT size={190}>¿QUIÉN ES MÁS ALTO?</TT></div>
         <div style={{position: 'absolute', left: 260, top: 1010}}><Tag bg={COL.E} size={160}>1,82 m</Tag></div>
