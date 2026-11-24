@@ -1,0 +1,68 @@
+name: fetchwar
+on:
+  workflow_dispatch:
+    inputs:
+      q: {required: true}
+permissions:
+  contents: write
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q "rembg[cpu]" pillow onnxruntime
+      - run: |
+          mkdir o && cd o
+          cat > q.json <<'J'
+          ${{ inputs.q }}
+          J
+          python - <<'PY'
+          import json, urllib.request, urllib.parse, re, time, io
+          from PIL import Image
+          from rembg import remove, new_session
+          sess = new_session('isnet-general-use')
+          qs = json.load(open('q.json'))
+          H = {'User-Agent': 'AtlasWarBot/1.0 (https://github.com/xmp24/atlas-render; educational video)'}
+          def get(u, tries=5):
+              for k in range(tries):
+                  try: return urllib.request.urlopen(urllib.request.Request(u, headers=H), timeout=60).read()
+                  except Exception as e:
+                      print('retry', k, e); time.sleep(4 * (k + 1))
+              return None
+          log = {}
+          for key, terms in qs.items():
+              got = []
+              for term in terms:
+                  u = 'https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode({'action': 'query', 'generator': 'search', 'gsrnamespace': 6, 'gsrsearch': term + ' filetype:bitmap',
+                      'gsrlimit': 6, 'prop': 'imageinfo', 'iiprop': 'url|extmetadata|size', 'iiurlwidth': 1400, 'format': 'json'})
+                  r = get(u); time.sleep(1.5)
+                  if not r: continue
+                  pages = sorted(json.loads(r).get('query', {}).get('pages', {}).values(), key=lambda p: p.get('index', 99))
+                  for pg in pages:
+                      ii = pg['imageinfo'][0]
+                      if not re.search(r'\.(jpe?g|png)$', pg['title'], re.I): continue
+                      if ii.get('width', 0) < 800: continue
+                      md = ii.get('extmetadata', {})
+                      got.append(dict(title=pg['title'], thumb=ii.get('thumburl'), page=ii.get('descriptionurl'),
+                                      artist=re.sub('<[^>]+>', '', md.get('Artist', {}).get('value', '')).strip(), lic=md.get('LicenseShortName', {}).get('value', '')))
+                  if len(got) >= 3: break
+              log[key] = []
+              for i, g in enumerate(got[:3]):
+                  d = get(g['thumb']); time.sleep(1.2)
+                  if not d: continue
+                  open(f'{key}_{i}.jpg', 'wb').write(d)
+                  try:
+                      im = Image.open(io.BytesIO(d)).convert('RGB')
+                      cut = remove(im, session=sess)
+                      bb = cut.getchannel('A').point(lambda v: 255 if v > 30 else 0).getbbox()
+                      if bb: cut = cut.crop(bb)
+                      cut.save(f'{key}_{i}_cut.png')
+                  except Exception as e: print('rembg', e)
+                  log[key].append(g)
+              print(key, len(log[key]))
+          json.dump(log, open('log.json', 'w'), indent=1, ensure_ascii=False)
+          PY
+          rm q.json
+          git init -q -b f && git add -A && git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm f
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" f:refs/heads/war-imgs
