@@ -12,31 +12,37 @@ jobs:
       - run: |
           mkdir o && cd o
           python3 - <<'P'
-          import json, urllib.request, urllib.parse, os, re
+          import json, urllib.request, urllib.parse, re, time
           qs = json.loads('''${{ inputs.q }}''')
-          H = {'User-Agent': 'atlas-flags/1.0 (educational)'}
+          H = {'User-Agent': 'AtlasFlagsBot/1.0 (https://github.com/xmp24/atlas-render; educational video maps)'}
+          def get(u, tries=5):
+              for k in range(tries):
+                  try: return urllib.request.urlopen(urllib.request.Request(u, headers=H), timeout=60).read()
+                  except Exception as e:
+                      print('retry', k, e); time.sleep(4 * (k + 1))
+              return None
           log = {}
           for key, terms in qs.items():
               got = []
               for term in terms:
-                  u = 'https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode({'action':'query','list':'search','srnamespace':6,'srsearch':term,'srlimit':4,'format':'json'})
-                  try:
-                      r = json.load(urllib.request.urlopen(urllib.request.Request(u, headers=H), timeout=30))
-                      for hit in r['query']['search']:
-                          t = hit['title']
-                          if not re.search(r'\.(svg|png)$', t, re.I): continue
-                          got.append(t)
-                  except Exception as e: print('ERR', key, e)
+                  u = 'https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode({'action':'query','generator':'search','gsrnamespace':6,'gsrsearch':term,'gsrlimit':5,'prop':'imageinfo','iiprop':'url','iiurlwidth':1600,'format':'json'})
+                  r = get(u); time.sleep(1.5)
+                  if not r: continue
+                  pages = sorted(json.loads(r).get('query', {}).get('pages', {}).values(), key=lambda p: p.get('index', 99))
+                  for pg in pages:
+                      t = pg['title']
+                      if not re.search(r'\.(svg|png)$', t, re.I): continue
+                      ii = pg['imageinfo'][0]
+                      got.append((t, ii.get('url'), ii.get('thumburl')))
                   if got: break
-              log[key] = got[:3]
-              for i, t in enumerate(got[:3]):
-                  fn = t[5:]
-                  url = 'https://commons.wikimedia.org/wiki/Special:FilePath/' + urllib.parse.quote(fn)
-                  ext = fn.rsplit('.', 1)[1].lower()
-                  try:
-                      d = urllib.request.urlopen(urllib.request.Request(url, headers=H), timeout=60).read()
-                      open(f'{key}_{i}.{ext}', 'wb').write(d)
-                  except Exception as e: print('DL ERR', key, fn, e)
+              log[key] = [g[0] for g in got[:3]]
+              for i, (t, url, th) in enumerate(got[:3]):
+                  ext = t.rsplit('.', 1)[1].lower()
+                  d = get(url); time.sleep(1.5)
+                  if d: open(f'{key}_{i}.{ext}', 'wb').write(d)
+                  if th:
+                      d2 = get(th); time.sleep(1.0)
+                      if d2: open(f'{key}_{i}_1600.png', 'wb').write(d2)
           json.dump(log, open('log.json', 'w'), indent=1, ensure_ascii=False)
           P
           git init -q -b f && git add -A && git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm f
