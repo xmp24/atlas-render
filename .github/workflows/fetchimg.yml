@@ -1,0 +1,20 @@
+name: fetchimg
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          mkdir o && cd o
+          B=https://eoimages.gsfc.nasa.gov/images/imagerecords
+          for u in "$B/73000/73776/world.topo.bathy.200408.3x21600x10800.jpg" "$B/74000/74092/world.200408.3x21600x10800.jpg" "$B/73000/73909/world.topo.bathy.200412.3x21600x10800.jpg"; do
+            n=$(basename $u); curl -sSL --retry 3 -o $n "$u" && file $n | grep -q JPEG && echo "OK $n $(stat -c %s $n)" >> ../log.txt || { echo "FAIL $u" >> ../log.txt; rm -f $n; }
+          done
+          for t in A1 A2 B1 B2 C1 C2 D1 D2; do u="$B/73000/73776/world.topo.bathy.200408.3x21600x21600.$t.jpg"; n=$(basename $u); curl -sSL --retry 3 -o $n "$u" && file $n | grep -q JPEG && echo "OK $n $(stat -c %s $n)" >> ../log.txt || { echo "FAIL $u" >> ../log.txt; rm -f $n; }; done
+          for f in *.jpg; do s=$(stat -c %s $f); if [ $s -gt 90000000 ]; then split -b 90000000 -d -a 1 $f $f.part; rm $f; fi; done
+          mv ../log.txt . ; ls -la
+          git init -q -b img && git add -A && git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm img
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" img:refs/heads/nasa-img
