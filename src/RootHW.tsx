@@ -24,6 +24,7 @@ import {ThumbMarco, MARCO_THUMBS} from './ThumbsMarco';
 import {ThumbMil, MIL_THUMBS} from './ThumbsMil';
 import {ThumbRich, RICH_THUMBS} from './ThumbsRich';
 import {ThumbRich2, RICH2} from './ThumbsRich2';
+import {ThumbNarEC, NAREC_IDS} from './ThumbsNarEC';
 import {ThumbAmAs, AMAS_IDS} from './ThumbsAmAs';
 import {ThumbZomb, ZOMB_THUMBS} from './ThumbsZomb';
 import {WarCont as WarAsia1} from './War12';
@@ -70,6 +71,8 @@ import {WarRel} from './WarRel';
 import RELTL from './rel-tl.json';
 import {WarRel2} from './WarRel2';
 import {WarRel3} from './WarRel3';
+import {WarWW3} from './WarWW3';
+import WW3TL from './ww3-tl.json';
 import {WarGov} from './WarGov';
 import {ThumbGov} from './ThumbGov';
 import GOVTL from './gov-tl.json';
@@ -122,6 +125,7 @@ export const RootHW: React.FC = () => (
     {RICH_THUMBS.map((id) => <Composition key={'tr' + id} id={`TR-${id}`} component={ThumbRich} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {AMAS_IDS.map((id) => <Composition key={'aa' + id} id={`TA-${id}`} component={ThumbAmAs} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {ZOMB_THUMBS.map((id) => <Composition key={'tz' + id} id={`TZ-${id}`} component={ThumbZomb} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
+    {NAREC_IDS.map((id) => <Composition key={'tne' + id} id={`TNE-${id}`} component={ThumbNarEC} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {RICH2.map((id) => <Composition key={'ts' + id} id={`TS-${id}`} component={ThumbRich2} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     {D9_IDS.map((id) => <Composition key={id} id={`T9-${id}`} component={ThumbD9} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{id}} />)}
     <Composition id="T9A-am" component={ThumbD9A} durationInFrames={indoFrames('dbram')} fps={30} width={1920} height={1080} defaultProps={{id: 'am'}} />
@@ -283,6 +287,7 @@ export const RootHW: React.FC = () => (
     <Composition id="GtaWar" component={GtaWar} durationInFrames={Math.round((GTATL as any).dur * 60)} fps={60} width={1920} height={1080} />
     <Composition id="ThumbGov" component={ThumbGov} durationInFrames={1} fps={30} width={1280} height={720} />
     <Composition id="GovWar" component={WarGov} durationInFrames={Math.round((GOVTL as any).duration * 60)} fps={60} width={1920} height={1080} />
+    <Composition id="WW3" component={WarWW3} durationInFrames={Math.round((WW3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar3" component={WarRel3} durationInFrames={Math.round((REL3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar2" component={WarRel2} durationInFrames={Math.round((REL2TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar" component={WarRel} durationInFrames={Math.round((RELTL as any).duration * 60)} fps={60} width={1920} height={1080} />

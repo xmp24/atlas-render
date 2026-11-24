@@ -1,4 +1,6 @@
 import React from 'react';
+import WFLAGS_ from './wflags.json';
+const WF_ = WFLAGS_ as unknown as Record<string, {vb: number[]; body: string}>;
 
 // Banderas simplificadas dibujadas en una caja w x h (coordenadas locales)
 type F = {w: number; h: number};
@@ -230,6 +232,10 @@ export const Flag: React.FC<F & {code: string}> = ({code, w, h}) => {
         </>
       );
     }
-    default: return <rect width={w} height={h} fill="#efe3c8" />;
+    default: {
+      const f = WF_[code.toUpperCase()];
+      if (f && code.length === 2) { const [vx, vy, vw, vh] = f.vb; return <g transform={`scale(${w / vw},${h / vh}) translate(${-vx},${-vy})`} dangerouslySetInnerHTML={{__html: f.body}} />; }
+      return <rect width={w} height={h} fill="#efe3c8" />;
+    }
   }
 };
