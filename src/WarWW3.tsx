@@ -534,7 +534,7 @@ const Victory: React.FC<{t: number}> = ({t}) => {
   const k = popT(t, v, 10) * lerp(t, q - 0.4, q, 1, 0);
   const shift = lerp(t, st, st + 0.8, 0, 1, Easing.inOut(Easing.cubic));
   const mvp = (TL.mvp as [string, number][])[0];
-  const rows: [React.ReactNode, string, string][] = (M.victory.rows as [string, string, string][]).map(([ic, l, v]) => [ic.length === 2 && ic.toUpperCase() === ic ? <WFlag code={ic} w={54} h={36} /> : <div style={{fontSize: 40}}>{ic}</div>, l, v.replace('{MVP}', `${nameOf(mvp[0])} · ${mvp[1]} captures`).replace('{BATTLES}', `${FRONTS.length} battles · ${CAPS.filter((c) => c.lead).length} captures`)]);
+  const rows: [React.ReactNode, string, string][] = (M.victory.rows as [string, string, string][]).map(([ic, l, v]) => [/^[A-Z]{2}$/.test(ic) ? <WFlag code={ic} w={54} h={36} /> : <div style={{fontSize: 40}}>{ic}</div>, l, v.replace('{MVP}', `${nameOf(mvp[0])} · ${mvp[1]} captures`).replace('{BATTLES}', `${FRONTS.length} battles · ${CAPS.filter((c) => c.lead).length} captures`)]);
   return (
     <AbsoluteFill style={{zIndex: 14, background: `rgba(8,15,30,${0.5 * k})`, opacity: k}}>
       <div style={{position: 'absolute', left: interpolate(shift, [0, 1], [960, 470]), top: 540, transform: `translate(-50%,-50%) scale(${popT(t, v, 10)})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -578,7 +578,7 @@ const Legend: React.FC<{t: number}> = ({t}) => {
   const k = popT(t, 4.6, 12);
   const cc = ctrlAt(t);
   if (M.legendMode === 'count') {
-    const alive = LEG.filter((tm) => Object.values(cc).includes(tm)).length;
+    const alive = M.countMode === 'notOwnedBy' ? LEG.filter((c) => cc[c] !== M.duel[0]).length : LEG.filter((tm) => Object.values(cc).includes(tm)).length;
     return (
       <div style={{position: 'absolute', left: 16, top: 128, zIndex: 9, transform: `translateX(${(1 - k) * -300}px)`, background: 'rgba(16,22,34,0.82)', border: '4px solid #fff', borderRadius: 18, padding: '10px 16px 6px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <span style={{...font, fontSize: 22, color: YELLOW}}>{M.countLabel}</span>
