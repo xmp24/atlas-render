@@ -1,0 +1,21 @@
+name: sep
+run-name: sep ${{ inputs.branch }}
+on:
+  workflow_dispatch:
+    inputs:
+      branch: {required: true}
+permissions:
+  contents: write
+jobs:
+  sep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: sudo apt-get -qq install -y ffmpeg >/dev/null; pip install -q demucs soundfile torch==2.4.1 torchaudio==2.4.1
+      - run: |
+          mkdir w && cd w && git init -q && git fetch -q --depth 1 https://github.com/${{ github.repository }} "+refs/heads/${{ inputs.branch }}:refs/remotes/o/b" && git archive o/b | tar -x
+          for f in *.wav; do python -m demucs -n htdemucs --out ../sep "$f"; done
+      - run: |
+          mkdir o && cp -r sep/htdemucs/* o/ && cd o && for f in */*.wav; do ffmpeg -v error -y -i "$f" -c:a flac "${f%.wav}.flac" && rm "$f"; done; git init -q -b out && git add -A && git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm s
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/sep-${{ inputs.branch }}
