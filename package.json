@@ -24,6 +24,7 @@
     "@types/three": "^0.171.0",
     "d3-geo": "^3.1.1",
     "flag-icons": "^7.6.0",
+    "flubber": "^0.4.2",
     "i18n-iso-countries": "^7.14.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

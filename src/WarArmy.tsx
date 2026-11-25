@@ -3,6 +3,8 @@ import {AbsoluteFill, Easing, useCurrentFrame} from 'remotion';
 import TLJ from './army-tl.json';
 import {P, Cam, INK, RED, BLUE, GREEN, YELLOW, clamp, lerp, font, font2, popT, arcPath, PathArrow, Boom} from './lib3';
 import GEOJ from './army-geo.json';
+// @ts-ignore
+import {interpolate, toCircle} from 'flubber';
 import {PIECES, PL, FlagSvg, fitFlagBox, WFlag, usePreload} from './War6';
 
 const TL = TLJ as any;
@@ -28,15 +30,14 @@ const WIN_T = TL.winT as number;
 const WINNER = TL.winner as string;
 export const armyFrames = () => Math.round(DUR * FPS);
 const GEO = GEOJ as any;
-const V0 = Float32Array.from(GEO.V0 as number[]), V1 = Float32Array.from(GEO.V1 as number[]);
-type Piece = {i: number; code: string; cont: string; r: number[][]; bbox: number[]; b0: number[]; c: P; area: number; a0: number; d: string; d0: string};
-const A0: Record<string, number> = {};
-PIECES.forEach((p) => { if (PL[p.code]) A0[p.code] = (A0[p.code] || 0) + p.area; });
-const ring2d = (V: Float32Array, rs: number[][]) => rs.map((r) => 'M' + r.map((v) => `${V[v * 2].toFixed(1)},${V[v * 2 + 1].toFixed(1)}`).join('L') + 'Z').join('');
-const MP: Piece[] = (GEO.pieces as any[]).filter((p) => PL[p.code]).map((p, i) => ({i, code: p.code, cont: p.cont, r: p.r, bbox: p.b1, b0: p.b0, c: p.c1, area: p.a1, a0: 0, d: p.d1, d0: ring2d(V0, p.r)}));
-const H1 = GEO.home1 as Record<string, P>;
+type Piece = {i: number; code: string; cont: string; bbox: number[]; b0: number[]; c: P; area: number; a0: number; d: string; d0: string; main0: string; main1: string; rest0: string; rest1: string};
+const GC = GEO.countries as Record<string, any>;
+const MP: Piece[] = Object.keys(GC).filter((c) => PL[c]).map((c, i) => ({i, code: c, cont: (PL[c] as any).cont, bbox: GC[c].b1, b0: GC[c].b0, c: GC[c].c1, area: GC[c].a1, a0: GC[c].a0, d: GC[c].d1, d0: GC[c].d0, main0: GC[c].main0, main1: GC[c].main1, rest0: GC[c].rest0, rest1: GC[c].rest1}));
+const H1: Record<string, P> = Object.fromEntries(MP.map((p) => [p.code, GC[p.code].home1 as P]));
 const HOME = (c: string): P => H1[c] || PL[c].home;
 const HOME0 = (c: string): P => PL[c].home;
+// tierra fija (la silueta del mundo no cambia): el mapa real en gris debajo
+const LAND0 = MP.map((p) => p.d0).join('');
 const D = 1.15; // duración de la conquista
 const ui = (x: number) => x;
 const SEA0 = '#2f7fc4';
@@ -45,32 +46,34 @@ const LAND_G = '#d6dbe1';
 // ================= ola de transformación (por vértice) =================
 const introOf: Record<string, (typeof INTRO)[number]> = {};
 INTRO.forEach((it) => it.codes.forEach((c) => (introOf[c] = it)));
-const DV = 1.1, SPD = 42;
+const DV = 1.3, SPD = 42;
 const TEND = M0;
-const NV = V0.length / 2;
-const TV = new Float32Array(NV);
-for (let v = 0; v < NV; v++) {
-  const x = V0[v * 2], y = V0[v * 2 + 1];
+const CT: Record<string, number> = {};
+MP.forEach((p) => {
+  const h = HOME0(p.code);
   let best = TEND - DV;
-  for (const it of INTRO) { const h = HOME0(it.code); const tt = it.t + 0.45 + Math.hypot(x - h[0], y - h[1]) / SPD; if (tt < best) best = tt; }
-  TV[v] = best;
-}
-const PMIN: number[] = [], PMAX: number[] = [];
-MP.forEach((p) => { let a = 1e9, b = -1e9; p.r.forEach((r) => r.forEach((v) => { a = Math.min(a, TV[v]); b = Math.max(b, TV[v]); })); PMIN[p.i] = a; PMAX[p.i] = b; });
-const CMIN: Record<string, number> = {}, CMAX: Record<string, number> = {};
-MP.forEach((p) => { CMIN[p.code] = Math.min(CMIN[p.code] ?? 1e9, PMIN[p.i]); CMAX[p.code] = Math.max(CMAX[p.code] ?? -1e9, PMAX[p.i] + DV); });
+  for (const it of INTRO) { const hh = HOME0(it.code); const tt = it.codes.includes(p.code) ? it.t + 0.45 : it.t + 0.45 + Math.hypot(h[0] - hh[0], h[1] - hh[1]) / SPD; if (tt < best) best = tt; }
+  CT[p.code] = best;
+});
 const easeQ = Easing.inOut(Easing.cubic);
-const qV = (v: number, t: number) => easeQ(Math.max(0, Math.min(1, (t - TV[v]) / DV)));
+const qC = (c: string, t: number) => (CT[c] === undefined ? 1 : easeQ(Math.max(0, Math.min(1, (t - CT[c]) / DV))));
+const MORPH: Record<string, (q: number) => string> = {};
+MP.forEach((p) => {
+  try {
+    if (p.main1) MORPH[p.code] = interpolate(p.main0, p.main1, {maxSegmentLength: 5});
+    else { const h = HOME0(p.code); MORPH[p.code] = toCircle(p.main0, h[0], h[1], 0.3, {maxSegmentLength: 5}); }
+  } catch (e) { MORPH[p.code] = (q: number) => (q < 0.5 ? p.main0 : p.main1); }
+});
 const dAt = (p: Piece, t: number) => {
-  if (t <= PMIN[p.i]) return p.d0;
-  if (t >= PMAX[p.i] + DV) return p.d;
-  return p.r.map((r) => 'M' + r.map((v) => { const q = qV(v, t); return `${(V0[v * 2] + (V1[v * 2] - V0[v * 2]) * q).toFixed(1)},${(V0[v * 2 + 1] + (V1[v * 2 + 1] - V0[v * 2 + 1]) * q).toFixed(1)}`; }).join('L') + 'Z').join('');
+  const q = qC(p.code, t);
+  if (q <= 0) return p.d0;
+  if (q >= 1) return p.d;
+  return MORPH[p.code](q) + (q < 0.5 ? p.rest0 : p.rest1);
 };
-const qC = (c: string, t: number) => (CMIN[c] === undefined ? 1 : easeQ(Math.max(0, Math.min(1, (t - CMIN[c]) / Math.max(0.3, CMAX[c] - CMIN[c])))));
 const homeAt = (c: string, t: number): P => { const q = qC(c, t), a = HOME0(c), b = HOME(c); return [a[0] + (b[0] - a[0]) * q, a[1] + (b[1] - a[1]) * q]; };
 const target = (c: string) => ((TROOPS[c] || 0) > 0 ? 1 : 0);
 export const sAt = (c: string, t: number) => 1;
-const revealT = (c: string) => (CMIN[c] ?? 0) - 0.05;
+const revealT = (c: string) => (CT[c] ?? 0) - 0.05;
 const sbox = (b: number[], h: P, s: number) => [h[0] + (b[0] - h[0]) * s, h[1] + (b[1] - h[1]) * s, h[0] + (b[2] - h[0]) * s, h[1] + (b[3] - h[1]) * s];
 const union = (a: number[], b: number[]) => [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
 
@@ -175,6 +178,7 @@ CHAP.forEach(([t, title]) => {
   else KEYS.push([t, ...(cont ? boxCam(CONTBOX[cont], 1.15, 3.2) : WORLD)]);
 });
 TURNS.forEach((tr) => {
+  if (tr.kind === 'purge') { KEYS.push([tr.t0, ...WORLD]); return; }
   if (tr.kind === 'ev3') {
     KEYS.push([tr.t0, ...WORLD]);
     const all = [...tr.A, ...tr.D];
@@ -300,7 +304,8 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     const sb = qq >= 1 ? p.bbox : union(p.b0, p.bbox);
     if (!vis(sb)) continue;
     const d = intro ? dAt(p, t) : p.d;
-    if (t < revealT(c) || (target(c) === 0 && qq >= 1)) { grey.push({d}); continue; }
+    if (t < revealT(c)) { grey.push({d}); continue; }
+    if (target(c) === 0 && qq >= 1) continue;
     pv.push({p, sc: 1, sb, d});
   }
   // conquistas en curso: las piezas de los perdedores se rellenan con la bandera del ganador
@@ -341,7 +346,7 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   return (
     <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
       <defs>
-        {order.map(([L, m]) => [...m.entries()].map(([o, list]) => byCont(list).map(([cn, l2]) => <clipPath key={`${L}-${o}-${cn}`} id={`ac-${o}-${cn}`}>{l2.map((x, i) => <path key={i} d={x.d} />)}</clipPath>)))}
+        {order.map(([L, m]) => [...m.entries()].map(([o, list]) => byCont(list).map(([cn, l2]) => <clipPath key={`${L}-${o}-${cn}`} id={`ac-${o}-${cn}`}>{l2.map((x, i) => <path key={i} d={x.d} clipRule="evenodd" />)}</clipPath>)))}
         {overlays.map((ov, i) => (
           <React.Fragment key={i}>
             {byCont(pv.filter((x) => ov.ls.includes(own[x.p.code]))).map(([cn, l2]) => <clipPath key={cn} id={`ao-${i}-${cn}`}>{l2.map((x, j) => <path key={j} d={x.d} />)}</clipPath>)}
@@ -350,11 +355,12 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
         ))}
       </defs>
       <g transform={`translate(960,540) scale(${s}) translate(${-cx},${-cy})`}>
+        <path d={LAND0} fill={intro ? LAND_G : '#c9ced6'} stroke="#8d97a5" strokeWidth={0.9 * inv} strokeLinejoin="round" />
         {grey.length > 0 && <g>{grey.map((g, i) => <path key={i} d={g.d} fill={LAND_G} stroke="#aab3bf" strokeWidth={0.9 * inv} strokeLinejoin="round" />)}</g>}
         {order.map(([L, m]) => (
           <g key={L}>
             <g transform={`translate(${1.6 * inv},${2.4 * inv})`} opacity={0.35}>{[...m.values()].flat().map((x, i) => <path key={i} d={x.d} fill="#06213f" />)}</g>
-            {[...m.values()].flat().map((x, i) => <path key={`s${i}`} d={x.d} fill="#fff" stroke={INK} strokeWidth={sw * 2.2} strokeLinejoin="round" />)}
+            {[...m.values()].flat().map((x, i) => <path key={`s${i}`} d={x.d} fillRule="evenodd" fill="#fff" stroke={INK} strokeWidth={sw * 2.2} strokeLinejoin="round" />)}
             {[...m.entries()].map(([o, list]) => byCont(list).map(([cn, l2]) => <g key={`${o}-${cn}`} clipPath={`url(#ac-${o}-${cn})`}><FlagSvg code={o} b={flagBox(o, cn, l2)} /></g>))}
           </g>
         ))}
@@ -374,6 +380,9 @@ const MapFX: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Rec
   const inv = 1 / cam.s;
   const out: React.ReactNode[] = [];
   const outline = (owners: string[], color: string, key: string, dash?: boolean, w = 4) => {
+    // imperios grandes: solo el contorno de su país de origen (si no, salen todas las fronteras interiores)
+    const sel = pv.filter((x) => owners.includes(own[x.p.code]));
+    if (sel.length > 4) { const core = sel.filter((x) => owners.includes(x.p.code)); out.push(<g key={key}>{core.map((x, i) => <path key={i} d={x.d} fill="none" stroke={color} strokeWidth={w * inv} strokeDasharray={dash ? `${10 * inv} ${7 * inv}` : undefined} strokeDashoffset={dash ? -t * 40 * inv : 0} strokeLinejoin="round" />)}</g>); return; }
     out.push(
       <g key={key}>
         {pv.filter((x) => owners.includes(own[x.p.code])).map((x, i) => <path key={i} d={x.d} fill="none" stroke={color} strokeWidth={(w * inv) / x.sc} strokeDasharray={dash ? `${(10 * inv) / x.sc} ${(7 * inv) / x.sc}` : undefined} strokeDashoffset={dash ? (-t * 40 * inv) / x.sc : 0} strokeLinejoin="round" />)}
@@ -421,6 +430,12 @@ const MapFX: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Rec
       if (t < tr.tAlly + 3) out.push(<line key="al" x1={a[0]} y1={a[1]} x2={a[0] + (b[0] - a[0]) * lerp(t, tr.tPick + 1.8, tr.tAlly, 0, 1)} y2={a[1] + (b[1] - a[1]) * lerp(t, tr.tPick + 1.8, tr.tAlly, 0, 1)} stroke="#4fc3ff" strokeWidth={5 * inv} strokeDasharray={`${12 * inv} ${9 * inv}`} opacity={lerp(t, tr.tAlly + 2.2, tr.tAlly + 3, 1, 0)} />);
     }
   }
+  if (tr && tr.kind === 'purge') {
+    for (const [te, , ls] of EVT) {
+      if (te < tr.t0 || te > tr.t1 || t < te - 0.05 || t > te + 1.1) continue;
+      ls.forEach((l) => out.push(<Boom key={`pb${l}`} p={HOME(l)} t={t} at={te + 0.05} r={Math.max(5, 16 * inv)} />));
+    }
+  }
   if (tr && tr.kind === 'ev3') {
     // líneas entre los 3 aliados
     if (t >= tr.tAllies && t < tr.tRes + 1.2) {
@@ -444,7 +459,7 @@ const MapFX: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Rec
 // ojos + poder de cada país vivo
 const AllEyes: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Record<string, string>; pv: {p: Piece; sc: number; sb: number[]}[]}> = ({t, cam, own, tm, pv}) => {
   const area: Record<string, number> = {};
-  for (const x of pv) { const o = own[x.p.code]; const q = qC(x.p.code, t); const a0 = (x.p.b0[2] - x.p.b0[0]) * (x.p.b0[3] - x.p.b0[1]) * 0.55; area[o] = (area[o] || 0) + x.p.area * q + a0 * (1 - q); }
+  for (const x of pv) { const o = own[x.p.code]; const q = qC(x.p.code, t); area[o] = (area[o] || 0) + x.p.area * q + x.p.a0 * (1 - q); }
   // área de los que acaban de conquistar crece suave
   const tr = turnAt(t);
   const f = fightAt(tr, t);
@@ -526,7 +541,9 @@ const StatusBar: React.FC<{t: number}> = ({t}) => {
   const tr = turnAt(t);
   if (!tr || t < WAR0) return null;
   let a = '', b = '';
-  if (tr.kind === 'ev3') {
+  if (tr.kind === 'purge') {
+    a = 'THE WEAKEST ARMIES FALL'; b = 'COUNTRIES WITH TINY ARMIES ARE ABSORBED BY THEIR NEIGHBORS';
+  } else if (tr.kind === 'ev3') {
     if (t < tr.tSel) { a = 'SPECIAL EVENT!'; b = '3 COUNTRIES FROM ANYWHERE WILL UNITE'; }
     else if (t < tr.tAllies) { a = 'SELECTING 3 COUNTRIES...'; b = 'TRIPLE SELECTOR IS SPINNING'; }
     else if (t < tr.tArrows[0]) { a = `${nm(tr.A[0])} + ${nm(tr.A[1])} + ${nm(tr.A[2])}`; b = 'FORMING A SPECIAL ALLIANCE'; }
@@ -709,7 +726,9 @@ const VSBar: React.FC<{t: number; f: any; tr: any}> = ({t, f, tr}) => {
   );
 };
 // +N POWER flotante
+const PURGE = TURNS.find((x) => x.kind === 'purge');
 const GainPop: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  if (PURGE && t >= PURGE.t0 && t < PURGE.t1 + 1) return null;
   const g = PW.filter(([tp]) => t >= tp && t < tp + 2.2);
   return (
     <>
@@ -751,6 +770,30 @@ const Ev3HUD: React.FC<{t: number}> = ({t}) => {
     out.push(<Wheel key="vw" t={t} t0={tr.tVs} t1={tr.tRes - 0.15} slices={[{label: `${(pa * 100).toFixed(1)}%`, frac: pa, color: '#e23c3c', sub: 'TEAM A'}, {label: `${((1 - pa) * 100).toFixed(1)}%`, frac: 1 - pa, color: '#1f6fe0', sub: 'TEAM B'}]} pick={tr.win === 'A' ? 0 : 1} x={WX} y={WY} r={200} seed={5} />);
   }
   return <>{out}</>;
+};
+
+// purga: lista de los últimos caídos
+const PurgeFeed: React.FC<{t: number}> = ({t}) => {
+  const tr = turnAt(t);
+  if (!tr || tr.kind !== 'purge' || t < tr.t0 + 2.4) return null;
+  const list = EVT.filter(([te]) => te >= tr.t0 && te <= t && te > t - 2.2).slice(-7);
+  const fallen = EVT.filter(([te]) => te >= tr.t0 && te <= t).length;
+  return (
+    <div style={{position: 'absolute', left: 30, top: 150, display: 'flex', flexDirection: 'column', gap: 8}}>
+      <Panel border={RED} style={{padding: '10px 20px 6px', display: 'flex', alignItems: 'center', gap: 14}}>
+        <span style={{fontSize: 40}}>💀</span><span style={{...font, fontSize: 46, color: '#ff6b63'}}>{fallen}</span><span style={{...font2, fontSize: 20, color: '#fff'}}>ARMIES FALLEN</span>
+      </Panel>
+      {list.map(([te, w, ls]) => {
+        const k = lerp(t, te, te + 0.2, 0, 1, Easing.out(Easing.cubic));
+        return (
+          <div key={`${te}`} style={{transform: `translateX(${(k - 1) * 300}px)`, opacity: k, display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(16,24,38,0.88)', borderRadius: 10, padding: '4px 12px 2px 6px', width: 'fit-content'}}>
+            <WFlag code={ls[0]} w={36} h={24} /><span style={{...font, fontSize: 22, color: '#ff8b84', textDecoration: 'line-through'}}>{nm(ls[0])}</span>
+            <span style={{...font2, fontSize: 16, color: '#cdd6e2'}}>→</span><WFlag code={w} w={30} h={20} />
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 // capítulos y banners
@@ -882,6 +925,7 @@ export const WarArmy: React.FC = () => {
       <StatusBar t={t} />
       <TurnHUD t={t} />
       <Ev3HUD t={t} />
+      <PurgeFeed t={t} />
       <BigCard t={t} />
       <Victory t={t} />
       <Credit />
