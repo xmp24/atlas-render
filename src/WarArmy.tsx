@@ -4,7 +4,6 @@ import TLJ from './army-tl.json';
 import {P, Cam, INK, RED, BLUE, GREEN, YELLOW, clamp, lerp, font, font2, popT, arcPath, PathArrow, Boom} from './lib3';
 import GEOJ from './army-geo.json';
 // @ts-ignore
-import {interpolate, toCircle} from 'flubber';
 import {PIECES, PL, FlagSvg, fitFlagBox, WFlag, usePreload} from './War6';
 
 const TL = TLJ as any;
@@ -30,9 +29,9 @@ const WIN_T = TL.winT as number;
 const WINNER = TL.winner as string;
 export const armyFrames = () => Math.round(DUR * FPS);
 const GEO = GEOJ as any;
-type Piece = {i: number; code: string; cont: string; bbox: number[]; b0: number[]; c: P; area: number; a0: number; d: string; d0: string; main0: string; main1: string; rest0: string; rest1: string};
+type Piece = {i: number; code: string; cont: string; bbox: number[]; b0: number[]; c: P; area: number; a0: number; d: string; d0: string; main0: string; main1: string; rest0: string; rest1: string; mb: number[]};
 const GC = GEO.countries as Record<string, any>;
-const MP: Piece[] = Object.keys(GC).filter((c) => PL[c]).map((c, i) => ({i, code: c, cont: (PL[c] as any).cont, bbox: GC[c].b1, b0: GC[c].b0, c: GC[c].c1, area: GC[c].a1, a0: GC[c].a0, d: GC[c].d1, d0: GC[c].d0, main0: GC[c].main0, main1: GC[c].main1, rest0: GC[c].rest0, rest1: GC[c].rest1}));
+const MP: Piece[] = Object.keys(GC).filter((c) => PL[c]).map((c, i) => ({i, code: c, cont: (PL[c] as any).cont, bbox: GC[c].b1, b0: GC[c].b0, c: GC[c].c1, area: GC[c].a1, a0: GC[c].a0, d: GC[c].d1, d0: GC[c].d0, main0: GC[c].main0, main1: GC[c].main1, rest0: GC[c].rest0, rest1: GC[c].rest1, mb: GC[c].mb1 || GC[c].b1}));
 const H1: Record<string, P> = Object.fromEntries(MP.map((p) => [p.code, GC[p.code].home1 as P]));
 const HOME = (c: string): P => H1[c] || PL[c].home;
 const HOME0 = (c: string): P => PL[c].home;
@@ -57,20 +56,7 @@ MP.forEach((p) => {
 });
 const easeQ = Easing.inOut(Easing.cubic);
 const qC = (c: string, t: number) => (CT[c] === undefined ? 1 : easeQ(Math.max(0, Math.min(1, (t - CT[c]) / DV))));
-const MORPH: Record<string, (q: number) => string> = {};
-MP.forEach((p) => {
-  try {
-    if (p.main1) MORPH[p.code] = interpolate(p.main0, p.main1, {maxSegmentLength: 5});
-    else { const h = HOME0(p.code); MORPH[p.code] = toCircle(p.main0, h[0], h[1], 0.3, {maxSegmentLength: 5}); }
-  } catch (e) { MORPH[p.code] = (q: number) => (q < 0.5 ? p.main0 : p.main1); }
-});
-const dAt = (p: Piece, t: number) => {
-  const q = qC(p.code, t);
-  if (q <= 0) return p.d0;
-  if (q >= 1) return p.d;
-  return MORPH[p.code](q) + (q < 0.5 ? p.rest0 : p.rest1);
-};
-const homeAt = (c: string, t: number): P => { const q = qC(c, t), a = HOME0(c), b = HOME(c); return [a[0] + (b[0] - a[0]) * q, a[1] + (b[1] - a[1]) * q]; };
+const homeAt = (c: string, t: number): P => (introOf[c]?.kind === 'gone' ? HOME0(c) : HOME(c));
 const target = (c: string) => ((TROOPS[c] || 0) > 0 ? 1 : 0);
 export const sAt = (c: string, t: number) => 1;
 const revealT = (c: string) => (CT[c] ?? 0) - 0.05;
@@ -295,35 +281,104 @@ const coverBox = (b: number[]) => {
   if (w / h > r) H2 = w / r; else W2 = h * r;
   return [cx - W2 / 2, cy - H2 / 2, cx + W2 / 2, cy + H2 / 2];
 };
+// ================= bloques de tierra contigua por dueño (cada bloque lleva su propia bandera) =================
+const ADJ: Record<string, Set<string>> = {};
+for (const bp of BPAIRS) { (ADJ[bp.a] ||= new Set()).add(bp.b); (ADJ[bp.b] ||= new Set()).add(bp.a); }
+{
+  const L = MP.filter((p) => p.d);
+  const gap = (a: number[], b: number[]) => Math.max(0, a[0] - b[2], b[0] - a[2], a[1] - b[3], b[1] - a[3]);
+  for (let i = 0; i < L.length; i++) for (let j = i + 1; j < L.length; j++) if (gap(L[i].bbox, L[j].bbox) < 5) { const a = L[i].code, b = L[j].code; if (!ADJ[a]?.has(b)) { /* islas cercanas: solo si están muy cerca */ if (gap(L[i].bbox, L[j].bbox) < 2.5) { (ADJ[a] ||= new Set()).add(b); (ADJ[b] ||= new Set()).add(a); } } }
+}
+const PBY: Record<string, Piece> = Object.fromEntries(MP.map((p) => [p.code, p]));
+const cluCache = new Map<string, {codes: string[]; box: number[]}[]>();
+const clustersOf = (o: string, k: number) => {
+  const key = o + '|' + k;
+  if (cluCache.has(key)) return cluCache.get(key)!;
+  const own = OWN[k];
+  const mine = MP.filter((p) => p.d && own[p.code] === o).map((p) => p.code);
+  const seen = new Set<string>(); const out: {codes: string[]; box: number[]}[] = [];
+  for (const c0 of mine) {
+    if (seen.has(c0)) continue;
+    const q = [c0]; seen.add(c0); const codes: string[] = [];
+    while (q.length) { const c = q.pop()!; codes.push(c); for (const n of ADJ[c] || []) if (!seen.has(n) && own[n] === o && PBY[n]?.d) { seen.add(n); q.push(n); } }
+    const box = codes.reduce((b, c) => union(b, PBY[c].mb), [...PBY[codes[0]].mb]);
+    out.push({codes, box});
+  }
+  cluCache.set(key, out);
+  return out;
+};
+const cluOf = (o: string, k: number, c: string) => clustersOf(o, k).findIndex((x) => x.codes.includes(c));
 const PURGE_T = (TL.turns as any[]).find((x) => x.kind === 'purge');
 const isPurgeEvt = (te: number) => !!PURGE_T && te >= PURGE_T.t0 && te <= PURGE_T.t1;
 // ================= mapa =================
 const tf = (c: string, s: number) => { const h = HOME(c); return `translate(${h[0]},${h[1]}) scale(${s}) translate(${-h[0]},${-h[1]})`; };
 const pieceArea = (p: Piece) => p.area;
+const radOf = (p: Piece) => { const h = HOME(p.code); const b = p.bbox; return Math.max(...[[b[0], b[1]], [b[2], b[1]], [b[0], b[3]], [b[2], b[3]]].map(([x, y]) => Math.hypot(x - h[0], y - h[1]))) * 1.03; };
+const RAD: Record<string, number> = Object.fromEntries(MP.map((p) => [p.code, radOf(p)]));
+const easeGrow = Easing.out(Easing.cubic);
+const growQ = (c: string, t: number) => (CT[c] === undefined ? 1 : easeGrow(Math.max(0, Math.min(1, (t - CT[c]) / (introOf[c] ? 1.9 : DV)))));
 const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const {cx, cy, s} = cam;
   const inv = 1 / s;
   const vx0 = cx - 960 / s - 40, vx1 = cx + 960 / s + 40, vy0 = cy - 540 / s - 40, vy1 = cy + 540 / s + 40;
   const vis = (b: number[]) => b[2] > vx0 && b[0] < vx1 && b[3] > vy0 && b[1] < vy1;
   const k = doneK(t);
+  const fk = firedK(t);
   const own = OWN[k];
   const tm = teamAt(t);
   const intro = t < M1 + 0.05;
   type PV = {p: Piece; sc: number; sb: number[]; d: string};
   const pv: PV[] = [];
-  const grey: {d: string}[] = [];
+  const sw = 2.2 * inv;
+  const grow = 2.6 * inv;
+  // ---------- INTRO: cada país nace como un punto en su sitio nuevo y se expande (como una invasión) ----------
+  if (intro) {
+    const grey = MP.filter((p) => vis(p.b0));
+    const born = MP.filter((p) => p.d && target(p.code) > 0 && t >= CT[p.code] && vis(p.bbox));
+    for (const p of born) pv.push({p, sc: 1, sb: p.bbox, d: p.d});
+    return (
+      <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
+        <defs>
+          {born.map((p) => {
+            const q = growQ(p.code, t), h = HOME(p.code);
+            return (
+              <React.Fragment key={p.code}>
+                <mask id={`im-${p.code}`} maskUnits="userSpaceOnUse" x={-200} y={-200} width={2400} height={1600}>
+                  <path d={p.d} fillRule="evenodd" fill="#fff" stroke="#fff" strokeWidth={grow} strokeLinejoin="round" />
+                </mask>
+                {q < 1 && <clipPath id={`ic-${p.code}`}><circle cx={h[0]} cy={h[1]} r={Math.max(0.01, RAD[p.code] * q)} /></clipPath>}
+              </React.Fragment>
+            );
+          })}
+        </defs>
+        <g transform={`translate(960,540) scale(${s}) translate(${-cx},${-cy})`}>
+          <path d={LAND0} fill={LAND_G} />
+          <g>{grey.map((p, i) => <path key={i} d={p.d0} fill="none" stroke="#aab3bf" strokeWidth={0.9 * inv} strokeLinejoin="round" />)}</g>
+          {born.map((p) => {
+            const q = growQ(p.code, t), h = HOME(p.code);
+            return (
+              <g key={p.code} clipPath={q < 1 ? `url(#ic-${p.code})` : undefined}>
+                <g mask={`url(#im-${p.code})`}>
+                  <FlagSvg code={p.code} b={coverBox(p.mb)} />
+                  {q < 1 && <circle cx={h[0]} cy={h[1]} r={RAD[p.code] * q} fill="none" stroke="#fff" strokeWidth={4 * inv} opacity={0.75 * (1 - q)} />}
+                </g>
+                <path d={p.d} fillRule="evenodd" fill="none" stroke={INK} strokeWidth={sw * 1.1} strokeLinejoin="round" />
+              </g>
+            );
+          })}
+          <MapFX t={t} cam={cam} own={own} tm={tm} pv={pv} />
+          <AllEyes t={t} cam={cam} own={own} tm={tm} pv={pv} />
+        </g>
+      </svg>
+    );
+  }
   for (const p of MP) {
-    const c = p.code;
-    const qq = qC(c, t);
-    const sb = qq >= 1 ? p.bbox : union(p.b0, p.bbox);
-    if (!vis(sb)) continue;
-    const d = intro ? dAt(p, t) : p.d;
-    if (t < revealT(c)) { grey.push({d}); continue; }
-    if (target(c) === 0 && qq >= 1) continue;
-    pv.push({p, sc: 1, sb, d});
+    if (!p.d || target(p.code) === 0) continue;
+    if (!vis(p.bbox)) continue;
+    pv.push({p, sc: 1, sb: p.bbox, d: p.d});
   }
   // conquistas en curso: las piezas de los perdedores se rellenan con la bandera del ganador
-  const overlays: {w: string; ls: string[]; q: number; A: P; R: number; fade: boolean}[] = [];
+  const overlays: {w: string; ls: string[]; q: number; A: P; R: number; fade: boolean; ei: number}[] = [];
   for (let i = k; i < EVT.length && EVT[i][0] <= t; i++) {
     const [te, w, ls] = EVT[i];
     const q = Easing.inOut(Easing.cubic)(Math.min(1, (t - te) / D));
@@ -336,9 +391,11 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     const half = Math.hypot(lb[2] - lb[0], lb[3] - lb[1]) / 2;
     const A: P = [lc[0] + (dx / dl) * Math.min(dl, half * 0.9), lc[1] + (dy / dl) * Math.min(dl, half * 0.9)];
     const R = Math.max(...[[lb[0], lb[1]], [lb[2], lb[1]], [lb[0], lb[3]], [lb[2], lb[3]]].map(([x, y]) => Math.hypot(x - A[0], y - A[1]))) * 1.05;
-    overlays.push({w, ls, q, A, R, fade: isPurgeEvt(te)});
+    overlays.push({w, ls, q, A, R, fade: isPurgeEvt(te), ei: i});
   }
-  // grupos por equipo (para que la frontera entre aliados desaparezca) y por dueño (bandera)
+  const ovQ: Record<string, number> = {};
+  for (const ov of overlays) ovQ[ov.w] = Math.max(ovQ[ov.w] || 0, ov.q);
+  // grupos por equipo (sombra) y por dueño + bloque contiguo (bandera)
   const teams = new Map<string, Map<string, PV[]>>();
   for (const x of pv) {
     const o = own[x.p.code];
@@ -349,65 +406,70 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     m.get(o)!.push(x);
   }
   const order = [...teams.entries()].sort((a, b) => Math.max(...[...a[1].keys()].map((o) => target(o))) - Math.max(...[...b[1].keys()].map((o) => target(o))));
-  const byCont = (list: PV[]) => { const g = new Map<string, PV[]>(); for (const x of list) { const c = contP(x.p); if (!g.has(c)) g.set(c, []); g.get(c)!.push(x); } return [...g.entries()]; };
-  const flagBox = (o: string, cn: string, list: PV[]) => {
-    if (intro) return coverBox(list.reduce((b, x) => union(b, x.sb), [...list[0].sb]));
-    let b = ownBoxC([o], k, cn) || list.reduce((bb, x) => union(bb, x.sb), [...list[0].sb]);
-    for (const ov of overlays) if (ov.w === o) { const lb = ownBoxC(ov.ls, k, cn); if (lb) { const u = union(b, lb); b = b.map((v, j) => v + (u[j] - v) * ov.q); } }
-    return coverBox(b);
+  const byClu = (o: string, list: PV[]) => {
+    const g = new Map<number, PV[]>();
+    for (const x of list) { const ci = cluOf(o, k, x.p.code); if (!g.has(ci)) g.set(ci, []); g.get(ci)!.push(x); }
+    return [...g.entries()].map(([ci, l2]) => {
+      const C = clustersOf(o, k)[ci];
+      let b = C ? C.box : l2.reduce((bb, x) => union(bb, x.sb), [...l2[0].sb]);
+      const q = ovQ[o] || 0;
+      if (C && q > 0 && fk > k) { const j = cluOf(o, fk, C.codes[0]); const B = j >= 0 ? clustersOf(o, fk)[j].box : b; b = b.map((v, n) => v + (B[n] - v) * q); }
+      return {ci, l2, box: coverBox(b)};
+    });
   };
-  const sw = 2.2 * inv;
-  const grow = 2.6 * inv;   // las máscaras de bandera se expanden un poco: sin costuras entre piezas
   const sameSide = (x: string, y: string) => x === y || (tm[x] !== undefined && tm[x] === tm[y]);
+  // capas de conquista: una por bloque final del ganador
+  const ovl = overlays.map((ov) => {
+    const lp = pv.filter((x) => ov.ls.includes(own[x.p.code]));
+    const g = new Map<number, PV[]>();
+    for (const x of lp) { const j = cluOf(ov.w, fk, x.p.code); if (!g.has(j)) g.set(j, []); g.get(j)!.push(x); }
+    return {ov, parts: [...g.entries()].map(([j, l2]) => ({j, l2, box: coverBox(j >= 0 ? clustersOf(ov.w, fk)[j].box : l2.reduce((bb, x) => union(bb, x.sb), [...l2[0].sb]))}))};
+  });
+  const groups = order.map(([L, m]) => ({L, m, own: [...m.entries()].map(([o, list]) => ({o, cl: byClu(o, list)}))}));
   return (
     <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
       <defs>
-        {order.map(([L, m]) => [...m.entries()].map(([o, list]) => byCont(list).map(([cn, l2]) => (
-          <mask key={`${L}-${o}-${cn}`} id={`ac-${o}-${cn}`} maskUnits="userSpaceOnUse" x={-200} y={-200} width={2400} height={1600}>
+        {groups.map((G) => G.own.map(({o, cl}) => cl.map(({ci, l2}) => (
+          <mask key={`${o}-${ci}`} id={`ac-${o}-${ci}`} maskUnits="userSpaceOnUse" x={-200} y={-200} width={2400} height={1600}>
             {l2.map((x, i) => <path key={i} d={x.d} fillRule="evenodd" fill="#fff" stroke="#fff" strokeWidth={grow} strokeLinejoin="round" />)}
           </mask>
         ))))}
-        {overlays.map((ov, i) => (
+        {ovl.map(({ov, parts}, i) => (
           <React.Fragment key={i}>
-            {byCont(pv.filter((x) => ov.ls.includes(own[x.p.code]))).map(([cn, l2]) => (
-              <mask key={cn} id={`ao-${i}-${cn}`} maskUnits="userSpaceOnUse" x={-200} y={-200} width={2400} height={1600}>
-                {ov.fade ? null : <circle cx={ov.A[0]} cy={ov.A[1]} r={ov.R * ov.q} fill="#fff" />}
-                {ov.fade ? l2.map((x, j) => <path key={j} d={x.d} fillRule="evenodd" fill="#fff" stroke="#fff" strokeWidth={grow} />) : null}
+            {parts.map(({j, l2}) => (
+              <mask key={j} id={`ao-${i}-${j}`} maskUnits="userSpaceOnUse" x={-200} y={-200} width={2400} height={1600}>
+                {l2.map((x, n) => <path key={n} d={x.d} fillRule="evenodd" fill="#fff" stroke="#fff" strokeWidth={grow} strokeLinejoin="round" />)}
               </mask>
             ))}
-            {!ov.fade && <clipPath id={`aoc-${i}`}>{pv.filter((x) => ov.ls.includes(own[x.p.code])).map((x, j) => <path key={j} d={x.d} />)}</clipPath>}
+            {!ov.fade && <clipPath id={`aoc-${i}`}><circle cx={ov.A[0]} cy={ov.A[1]} r={Math.max(0.01, ov.R * ov.q)} /></clipPath>}
           </React.Fragment>
         ))}
       </defs>
       <g transform={`translate(960,540) scale(${s}) translate(${-cx},${-cy})`}>
-        <path d={LAND0} fill={intro ? LAND_G : '#c9ced6'} />
-        {grey.length > 0 && <g>{grey.map((g, i) => <path key={i} d={g.d} fill={LAND_G} stroke="#aab3bf" strokeWidth={0.9 * inv} strokeLinejoin="round" />)}</g>}
-        {order.map(([L, m]) => (
-          <g key={L}>
-            <g transform={`translate(${1.6 * inv},${2.4 * inv})`} opacity={0.3}>{[...m.values()].flat().map((x, i) => <path key={i} d={x.d} fillRule="evenodd" fill="#06213f" />)}</g>
-            {[...m.entries()].map(([o, list]) => byCont(list).map(([cn, l2]) => <g key={`${o}-${cn}`} mask={`url(#ac-${o}-${cn})`}><FlagSvg code={o} b={flagBox(o, cn, l2)} /></g>))}
+        <path d={LAND0} fill="#c9ced6" />
+        {groups.map((G) => (
+          <g key={G.L}>
+            <g transform={`translate(${1.6 * inv},${2.4 * inv})`} opacity={0.3}>{[...G.m.values()].flat().map((x, i) => <path key={i} d={x.d} fillRule="evenodd" fill="#06213f" />)}</g>
+            {G.own.map(({o, cl}) => cl.map(({ci, box}) => <g key={`${o}-${ci}`} mask={`url(#ac-${o}-${ci})`}><FlagSvg code={o} b={box} /></g>))}
           </g>
         ))}
-        {overlays.map((ov, i) => (
-          <g key={`ov${i}`} opacity={ov.fade ? ov.q : 1}>{byCont(pv.filter((x) => ov.ls.includes(own[x.p.code]))).map(([cn]) => { const lb = ownBoxC(ov.ls, k, cn) || [0, 0, 1, 1]; const wb = ownBoxC([ov.w], k, cn); return <g key={cn} mask={`url(#ao-${i}-${cn})`}><g clipPath={ov.fade ? undefined : `url(#aoc-${i})`}><FlagSvg code={ov.w} b={coverBox(wb ? union(wb, lb) : lb)} /></g></g>; })}</g>
+        {ovl.map(({ov, parts}, i) => (
+          <g key={`ov${i}`} opacity={ov.fade ? ov.q : 1} clipPath={ov.fade ? undefined : `url(#aoc-${i})`}>
+            {parts.map(({j, box}) => <g key={j} mask={`url(#ao-${i}-${j})`}><FlagSvg code={ov.w} b={box} /></g>)}
+          </g>
         ))}
         {overlays.filter((ov) => !ov.fade).map((ov, i) => <circle key={`r${i}`} cx={ov.A[0]} cy={ov.A[1]} r={ov.R * ov.q} fill="none" stroke="#fff" strokeWidth={3 * inv} opacity={0.85 * (1 - ov.q) * Math.min(1, ov.q * 8)} />)}
-        {intro ? (
-          <g>{pv.map((x, i) => <path key={i} d={x.d} fillRule="evenodd" fill="none" stroke={INK} strokeWidth={sw * 1.1} strokeLinejoin="round" />)}</g>
-        ) : (
-          <g>
-            {BPAIRS.filter((bp) => vis(bp.bb)).map((bp, i) => {
-              const oa = own[bp.a], ob = own[bp.b];
-              if (oa === undefined || ob === undefined) return null;
-              let op = sameSide(oa, ob) ? 0 : 1;
-              // la frontera se borra mientras el ganador ocupa el territorio
-              for (const ov of overlays) { if ((ov.ls.includes(oa) && ob === ov.w) || (ov.ls.includes(ob) && oa === ov.w)) op = Math.min(op, 1 - ov.q); }
-              if (op <= 0.01) return null;
-              return <path key={i} d={bp.d} fill="none" stroke={INK} strokeWidth={sw * 1.05} strokeLinecap="round" strokeLinejoin="round" opacity={op} />;
-            })}
-            <path d={COAST} fill="none" stroke={INK} strokeWidth={sw * 1.25} strokeLinejoin="round" />
-          </g>
-        )}
+        <g>
+          {BPAIRS.filter((bp) => vis(bp.bb)).map((bp, i) => {
+            const oa = own[bp.a], ob = own[bp.b];
+            if (oa === undefined || ob === undefined) return null;
+            let op = sameSide(oa, ob) ? 0 : 1;
+            for (const ov of overlays) { if ((ov.ls.includes(oa) && ob === ov.w) || (ov.ls.includes(ob) && oa === ov.w) || (ov.ls.includes(oa) && ov.ls.includes(ob))) op = Math.min(op, 1 - ov.q); }
+            if (op <= 0.01) return null;
+            return <path key={i} d={bp.d} fill="none" stroke={INK} strokeWidth={sw * 1.05} strokeLinecap="round" strokeLinejoin="round" opacity={op} />;
+          })}
+          <path d={COAST} fill="none" stroke={INK} strokeWidth={sw * 1.25} strokeLinejoin="round" />
+        </g>
         <MapFX t={t} cam={cam} own={own} tm={tm} pv={pv} />
         <AllEyes t={t} cam={cam} own={own} tm={tm} pv={pv} />
       </g>
@@ -416,16 +478,25 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
 };
 
 // contornos de selección, siluetas de alianza, flechas de ataque
+// punto del territorio de unos dueños más cercano a un objetivo (para flechas)
+const nearPt = (own: Record<string, string>, owners: string[], to: P): P => { let best: P | null = null, bd = Infinity; const mine = MP.filter((p) => p.d && owners.includes(own[p.code])); const amax = Math.max(1, ...mine.map((p) => p.area)); for (const p of mine) { if (p.area < amax * 0.04) continue; const h = HOME(p.code); const d = Math.hypot(h[0] - to[0], h[1] - to[1]); if (d < bd) { bd = d; best = h; } } return best || to; };
 const MapFX: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Record<string, string>; pv: {p: Piece; sc: number; sb: number[]}[]}> = ({t, cam, own, tm, pv}) => {
   const inv = 1 / cam.s;
   const out: React.ReactNode[] = [];
   const outline = (owners: string[], color: string, key: string, dash?: boolean, w = 4) => {
-    // imperios grandes: solo el contorno de su país de origen (si no, salen todas las fronteras interiores)
+    // solo el contorno exterior del territorio (sin las fronteras interiores de lo ya conquistado)
     const sel = pv.filter((x) => owners.includes(own[x.p.code]));
-    if (sel.length > 4) { const core = sel.filter((x) => owners.includes(x.p.code)); out.push(<g key={key}>{core.map((x, i) => <path key={i} d={x.d} fill="none" stroke={color} strokeWidth={w * inv} strokeDasharray={dash ? `${10 * inv} ${7 * inv}` : undefined} strokeDashoffset={dash ? -t * 40 * inv : 0} strokeLinejoin="round" />)}</g>); return; }
+    if (!sel.length) return;
+    const id = `ol-${key}`;
     out.push(
       <g key={key}>
-        {pv.filter((x) => owners.includes(own[x.p.code])).map((x, i) => <path key={i} d={x.d} fill="none" stroke={color} strokeWidth={(w * inv) / x.sc} strokeDasharray={dash ? `${(10 * inv) / x.sc} ${(7 * inv) / x.sc}` : undefined} strokeDashoffset={dash ? (-t * 40 * inv) / x.sc : 0} strokeLinejoin="round" />)}
+        <mask id={id} maskUnits="userSpaceOnUse" x={-3000} y={-3000} width={8000} height={7000}>
+          <rect x={-3000} y={-3000} width={8000} height={7000} fill="#fff" />
+          {sel.map((x, i) => <path key={i} d={x.d} fillRule="evenodd" fill="#000" stroke="#000" strokeWidth={1.2 * inv} strokeLinejoin="round" />)}
+        </mask>
+        <g mask={`url(#${id})`}>
+          {sel.map((x, i) => <path key={i} d={x.d} fill="none" stroke={color} strokeWidth={2 * w * inv} strokeDasharray={dash ? `${10 * inv} ${7 * inv}` : undefined} strokeDashoffset={dash ? -t * 40 * inv : 0} strokeLinejoin="round" />)}
+        </g>
       </g>,
     );
   };
@@ -438,12 +509,13 @@ const MapFX: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Rec
       const pulse = 0.6 + 0.4 * Math.sin(t * 12);
       if (t >= f.tDir + (tr.mode === 'quick' ? 0.8 : 1.4)) outline(f.defM, `rgba(255,80,70,${pulse})`, 'def', true, 5);
       // flecha de dirección que gira
-      const a = HOME(tr.att), b = HOME(f.def_);
+      const b0 = HOME(f.def_);
+      const a = nearPt(own, mem(tr.att), b0), b = nearPt(own, f.defM, a);
       const dur = (f.tVs - f.tDir) * 0.75;
       const ang1 = Math.atan2(b[1] - a[1], b[0] - a[0]);
       const u = Math.min(1, (t - f.tDir) / dur);
       const ang = ang1 - (1 - Easing.out(Easing.cubic)(u)) * Math.PI * 6;
-      const L = 34 * inv;
+      const L = 44 * inv;
       if (t < f.tVs + 0.6) {
         out.push(
           <g key="dir" transform={`translate(${a[0]},${a[1]}) rotate(${(ang * 180) / Math.PI})`} opacity={lerp(t, f.tVs, f.tVs + 0.6, 1, 0)}>
@@ -460,7 +532,7 @@ const MapFX: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Rec
       if (t >= f.tRes && t < f.tRes + 1.6) {
         const win = f.win;
         const los = f.defM.includes(win) || tm[win] === tm[f.def_] ? tr.att : f.def_;
-        out.push(<Boom key="bm" p={HOME(los)} t={t} at={f.tRes + 0.2} r={Math.max(8, 30 * inv)} />);
+        out.push(<Boom key="bm" p={los === tr.att ? a : b} t={t} at={f.tRes + 0.2} r={Math.max(8, 30 * inv)} />);
       }
     }
     if (tr.action === 'ALLIANCE' && t >= tr.tPick) {
@@ -499,7 +571,8 @@ const MapFX: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Rec
 // ojos + poder de cada país vivo
 const AllEyes: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: Record<string, string>; pv: {p: Piece; sc: number; sb: number[]}[]}> = ({t, cam, own, tm, pv}) => {
   const area: Record<string, number> = {};
-  for (const x of pv) { const o = own[x.p.code]; const q = qC(x.p.code, t); area[o] = (area[o] || 0) + x.p.area * q + x.p.a0 * (1 - q); }
+  for (const x of pv) { const o = own[x.p.code]; area[o] = (area[o] || 0) + x.p.area; }
+  const ALV = new Set(ALIVE0);
   // área de los que acaban de conquistar crece suave
   const tr = turnAt(t);
   const f = fightAt(tr, t);
@@ -512,6 +585,7 @@ const AllEyes: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: R
     const gone = introOf[c]?.kind === 'gone';
     if (sc <= 0.02 && !gone) continue;
     if (target(c) === 0 && !gone) continue;
+    if (!gone && !ALV.has(c)) continue;
     if (et !== undefined && t > et + D) continue;
     if (gone && t > introOf[c].t + introOf[c].dur) continue;
     const h = homeAt(c, t);
@@ -545,7 +619,7 @@ const AllEyes: React.FC<{t: number; cam: Cam; own: Record<string, string>; tm: R
     if (t > WIN_T && c === WINNER) mood = 'cool';
     const alpha = et !== undefined ? lerp(t, et + 0.3, et + D, 1, 0) : 1;
     const inv = 1 / cam.s;
-    const rr = Math.min(r, 92 * inv);
+    const rr = Math.min(r, 92 * inv) * (gone ? 1 : Math.min(1, 0.15 + growQ(c, t) * 1.4));
     const tmL = tm[c];
     const showP = war && t > WAR0 - 1;
     const pw = showP ? (tmL && ALIVE0.filter((x) => tm[x] === tmL && isAlive(x, t)).length > 1 ? ALIVE0.filter((x) => tm[x] === tmL && isAlive(x, t)).reduce((s, x) => s + powerAt(x, t), 0) : powerAt(c, t)) : 0;
@@ -650,17 +724,20 @@ const Slot: React.FC<{t: number; t0: number; t1: number; pick: string; x: number
 };
 
 // ruleta circular: compacta y limpia
-const Wheel: React.FC<{t: number; t0: number; t1: number; slices: {label: string; frac: number; color: string; sub?: string}[]; pick: number; x: number; y: number; r?: number; seed?: number}> = ({t, t0, t1, slices, pick, x, y, r = 165, seed = 0}) => {
+const Wheel: React.FC<{t: number; t0: number; t1: number; slices: {label: string; frac: number; color: string; sub?: string}[]; pick: number; x: number; y: number; r?: number; seed?: number; edge?: boolean}> = ({t, t0, t1, slices, pick, x, y, r = 165, seed = 0, edge = false}) => {
   const appear = lerp(t, t0 - 0.25, t0 + 0.12, 0, 1, Easing.out(Easing.back(1.4))) * lerp(t, t1 + 0.7, t1 + 1.0, 1, 0);
   if (appear <= 0) return null;
   let acc = 0;
   const arcs = slices.map((sl) => { const a0 = acc; acc += sl.frac; return {...sl, a0, a1: acc}; });
   const tgt = arcs[pick];
   const within = 0.3 + ((seed * 0.37) % 0.4);
-  const tc = tgt.a0 + (tgt.a1 - tgt.a0) * within;
+  // al borde: la flecha se queda a pocos grados del otro color (máxima tensión), por el lado al que llega girando
+  const span = tgt.a1 - tgt.a0;
+  const eps = Math.min(span * 0.25, 0.011 + ((seed * 0.13) % 0.012));
+  const tc = edge ? tgt.a0 + eps : tgt.a0 + span * within;
   const final = -tc * 360;
   const u = Math.min(1, Math.max(0, (t - t0) / Math.max(0.3, t1 - t0)));
-  const rot = final - (1 - Easing.out(Easing.cubic)(u)) * 360 * 4;
+  const rot = final - (1 - (edge ? Easing.out(Easing.poly(4)) : Easing.out(Easing.cubic))(u)) * 360 * (edge ? 5 : 4);
   const done = u >= 1;
   const pt = (a: number, rr: number): P => [Math.sin(a * Math.PI * 2) * rr, -Math.cos(a * Math.PI * 2) * rr];
   const R = r, ring = 12;
@@ -706,6 +783,9 @@ const ACTIONS = [{label: 'WAR', frac: 0.6, color: '#e5484d'}, {label: 'ALLIANCE'
 const actionIdx = (a: string) => (a === 'WAR' ? 0 : a === 'ALLIANCE' ? 1 : 2);
 
 const WX = 1590, WY = 620;
+// 20% de los duelos (y todos los de la ronda final) se deciden por muy poco
+const FINAL_T = (CHAP.find((c) => c[1].includes('FINAL')) || [1e9])[0] as number;
+const edgeFight = (tRes: number) => tRes >= FINAL_T || Math.floor(Math.abs(Math.sin(tRes * 12.9898) * 43758.5453) * 10) % 5 === 0;
 const TurnHUD: React.FC<{t: number}> = ({t}) => {
   const tr = turnAt(t);
   if (!tr || tr.kind !== 'turn') return null;
@@ -734,7 +814,7 @@ const TurnHUD: React.FC<{t: number}> = ({t}) => {
   if (f && t >= f.tVs - 0.3) {
     const pa = f.pa / (f.pa + f.pb);
     const attWins = f.win === tr.att || f.attM.includes(f.win);
-    out.push(<Wheel key="vw" t={t} t0={f.tVs} t1={f.tRes - 0.15} slices={[{label: `${(pa * 100).toFixed(1)}%`, frac: pa, color: '#e5484d', sub: nm(tr.att)}, {label: `${((1 - pa) * 100).toFixed(1)}%`, frac: 1 - pa, color: '#2f6fe4', sub: nm(f.def_)}]} pick={attWins ? 0 : 1} x={WX} y={WY} r={165} seed={f.def_.charCodeAt(0)} />);
+    out.push(<Wheel key="vw" t={t} t0={f.tVs} t1={f.tRes - 0.15} slices={[{label: `${(pa * 100).toFixed(1)}%`, frac: pa, color: '#e5484d', sub: nm(tr.att)}, {label: `${((1 - pa) * 100).toFixed(1)}%`, frac: 1 - pa, color: '#2f6fe4', sub: nm(f.def_)}]} pick={attWins ? 0 : 1} x={WX} y={WY} r={165} seed={f.def_.charCodeAt(0)} edge={edgeFight(f.tRes)} />);
   }
   return <>{out}</>;
 };
@@ -819,7 +899,7 @@ const Ev3HUD: React.FC<{t: number}> = ({t}) => {
     const f = {tVs: tr.tVs, tRes: tr.tRes, pa: tr.pa, pb: tr.pb, win: tr.win === 'A' ? tr.A[0] : tr.D[0], attM: tr.A, defM: tr.D, def_: tr.D[0], gain: tr.gains.reduce((s: number, x: number) => s + x, 0)};
     out.push(<VSBar key="vs" t={t} f={f} tr={{att: tr.A[0]}} />);
     const pa = tr.pa / (tr.pa + tr.pb);
-    out.push(<Wheel key="vw" t={t} t0={tr.tVs} t1={tr.tRes - 0.15} slices={[{label: `${(pa * 100).toFixed(1)}%`, frac: pa, color: '#e23c3c', sub: 'TEAM A'}, {label: `${((1 - pa) * 100).toFixed(1)}%`, frac: 1 - pa, color: '#1f6fe0', sub: 'TEAM B'}]} pick={tr.win === 'A' ? 0 : 1} x={WX} y={WY} r={165} seed={5} />);
+    out.push(<Wheel key="vw" t={t} t0={tr.tVs} t1={tr.tRes - 0.15} slices={[{label: `${(pa * 100).toFixed(1)}%`, frac: pa, color: '#e23c3c', sub: 'TEAM A'}, {label: `${((1 - pa) * 100).toFixed(1)}%`, frac: 1 - pa, color: '#1f6fe0', sub: 'TEAM B'}]} pick={tr.win === 'A' ? 0 : 1} x={WX} y={WY} r={165} seed={5} edge={edgeFight(tr.tRes)} />);
   }
   return <>{out}</>;
 };
@@ -891,7 +971,7 @@ const IntroHUD: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     );
     // etiqueta, número y sello junto al país
     const c = it.code;
-    const b = (() => { let bb: number[] | null = null; for (const p of MP) if (it.codes.includes(p.code)) { const q = qC(p.code, t); const sb = p.b0.map((v, j) => v + (p.bbox[j] - v) * q); bb = bb ? union(bb, sb) : sb; } return bb || tiny(HOME0(it.code)); })();
+    const b = (() => { let bb: number[] | null = null; for (const p of MP) if (it.codes.includes(p.code)) { const sb = it.kind === 'gone' || !p.d ? p.b0 : p.mb; bb = bb ? union(bb, sb) : sb; } return bb || tiny(HOME0(it.code)); })();
     const top = toS([(b[0] + b[2]) / 2, b[1]], cam), bot = toS([(b[0] + b[2]) / 2, b[3]], cam);
     const u = lerp(t, it.t + 0.55, it.t + 1.75, 0, 1, Easing.out(Easing.cubic));
     const f = it.factor;
