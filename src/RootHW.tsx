@@ -73,6 +73,7 @@ import {WarRel2} from './WarRel2';
 import {WarRel3} from './WarRel3';
 import {WarWW3} from './WarWW3';
 import {WarID50} from './WarID50';
+import {WarArmy, armyFrames} from './WarArmy';
 import ID50TL from './id50-tl.json';
 import WW3TL from './ww3-tl.json';
 import {WarGov} from './WarGov';
@@ -81,6 +82,7 @@ import GOVTL from './gov-tl.json';
 import {GtaWar} from './gta/Gta';
 import GTATL from './gta/tl.json';
 import {ThumbRel} from './ThumbsRel';
+import {ThumbTeams} from './ThumbsTeams';
 import REL3TL from './rel3-tl.json';
 import REL2TL from './rel2-tl.json';
 export const RootHW: React.FC = () => (
@@ -285,10 +287,12 @@ export const RootHW: React.FC = () => (
     <Composition id="IndoN" component={Indo} durationInFrames={INDO_FRAMES} fps={30} width={1920} height={1080} defaultProps={{audio: false}} />
     {SHW_IDS.map((id) => <Composition key={id} id={`SHW-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: true}} />)}
     {SHW_IDS.map((id) => <Composition key={id} id={`SHWN-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: false}} />)}
+    {['w1', 'w2', 'w3', 'i1', 'i2', 'i3'].map((v) => <Composition key={`tt${v}`} id={`ThumbT-${v}`} component={ThumbTeams} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
     {[1, 2, 3, 4, 5, 6, 7, 8].map((v) => <Composition key={`tr${v}`} id={`ThumbRel-${v}`} component={ThumbRel} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v: String(v)}} />)}
     <Composition id="GtaWar" component={GtaWar} durationInFrames={Math.round((GTATL as any).dur * 60)} fps={60} width={1920} height={1080} />
     <Composition id="ThumbGov" component={ThumbGov} durationInFrames={1} fps={30} width={1280} height={720} />
     <Composition id="GovWar" component={WarGov} durationInFrames={Math.round((GOVTL as any).duration * 60)} fps={60} width={1920} height={1080} />
+    <Composition id="ARMY" component={WarArmy} durationInFrames={armyFrames()} fps={30} width={1920} height={1080} />
     <Composition id="ID50" component={WarID50} durationInFrames={Math.round((ID50TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="WW3" component={WarWW3} durationInFrames={Math.round((WW3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar3" component={WarRel3} durationInFrames={Math.round((REL3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
