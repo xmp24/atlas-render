@@ -22,6 +22,9 @@ on:
       only:
         description: Solo estos índices de tramo (p. ej. 3,4,5); vacío = todos
         default: ''
+      vb:
+        description: Bitrate de vídeo final en kbps (vacío = sin recomprimir)
+        default: ''
 
 permissions:
   contents: write
@@ -72,6 +75,7 @@ jobs:
           TOTAL: ${{ inputs.frames }}
           COMP: ${{ inputs.comp }}
           SCALE: ${{ inputs.scale }}
+          VB: ${{ inputs.vb }}
         run: |
           set -e
           PER=$(( (TOTAL + N - 1) / N ))
@@ -98,6 +102,14 @@ jobs:
           npx remotion ffmpeg -v error -f concat -safe 0 -i parts/list.txt -c copy seg.mp4
           n=$(npx remotion ffprobe -v error -count_packets -select_streams v -show_entries stream=nb_read_packets -of csv=p=0 seg.mp4 | tr -d '\r')
           [ "$n" = "$(( E - S + 1 ))" ] || { echo "::error::el tramo tiene $n fotogramas"; exit 1; }
+          # compresión final aquí mismo (2 pasadas) para que el vídeo llegue listo
+          if [ -n "$VB" ]; then
+            npx remotion ffmpeg -v error -y -i seg.mp4 -c:v libx264 -preset medium -b:v ${VB}k -pass 1 -passlogfile p2 -an -f mp4 /dev/null
+            npx remotion ffmpeg -v error -y -i seg.mp4 -c:v libx264 -preset medium -b:v ${VB}k -maxrate $((VB*2))k -bufsize $((VB*4))k -pass 2 -passlogfile p2 -an seg2.mp4
+            n2=$(npx remotion ffprobe -v error -count_packets -select_streams v -show_entries stream=nb_read_packets -of csv=p=0 seg2.mp4 | tr -d '\r')
+            [ "$n2" = "$n" ] || { echo "::error::recompresión con $n2 fotogramas"; exit 1; }
+            mv seg2.mp4 seg.mp4
+          fi
           # cifrado: solo quien tiene la clave privada puede abrir el vídeo
           openssl rand -hex 32 > k.txt
           openssl pkeyutl -encrypt -pubin -inkey render_pub.pem -in k.txt -out k.enc
