@@ -73,7 +73,7 @@ import {WarRel2} from './WarRel2';
 import {WarRel3} from './WarRel3';
 import {WarWW3} from './WarWW3';
 import {WarID50} from './WarID50';
-import {WarArmy, armyFrames} from './WarArmy';
+import {WarArmy, armyFrames, ThumbArmy} from './WarArmy';
 import ID50TL from './id50-tl.json';
 import WW3TL from './ww3-tl.json';
 import {WarGov} from './WarGov';
@@ -292,6 +292,7 @@ export const RootHW: React.FC = () => (
     <Composition id="GtaWar" component={GtaWar} durationInFrames={Math.round((GTATL as any).dur * 60)} fps={60} width={1920} height={1080} />
     <Composition id="ThumbGov" component={ThumbGov} durationInFrames={1} fps={30} width={1280} height={720} />
     <Composition id="GovWar" component={WarGov} durationInFrames={Math.round((GOVTL as any).duration * 60)} fps={60} width={1920} height={1080} />
+    {['a', 'b'].map((v) => <Composition key={`ta${v}`} id={`ThumbArmy-${v}`} component={ThumbArmy} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
     <Composition id="ARMY" component={WarArmy} durationInFrames={armyFrames()} fps={30} width={1920} height={1080} />
     <Composition id="ID50" component={WarID50} durationInFrames={Math.round((ID50TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="WW3" component={WarWW3} durationInFrames={Math.round((WW3TL as any).duration * 60)} fps={60} width={1920} height={1080} />

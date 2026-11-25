@@ -91,6 +91,31 @@ const ownBox = (owners: string[], k: number) => {
   return b;
 };
 
+const contP = (p: Piece) => (p.cont === 'XX' ? 'XX' : ((PL[p.code] as any)?.cont as string) || p.cont);
+const bbC = new Map<string, number[] | null>();
+const ownBoxC = (owners: string[], k: number, cont: string) => {
+  const key = owners.join(',') + '|' + k + '|' + cont;
+  if (bbC.has(key)) return bbC.get(key)!;
+  let b: number[] | null = null;
+  const own = OWN[k];
+  for (const p of MP) if (contP(p) === cont && owners.includes(own[p.code]) && target(p.code) > 0) { const sb = sbox(p.bbox, HOME(p.code), target(p.code)); b = b ? union(b, sb) : sb; }
+  bbC.set(key, b);
+  return b;
+};
+// caja solo con las piezas cercanas a un punto (para que islas lejanas no abran el plano)
+const ownBoxNear = (owners: string[], k: number, c: P, R: number) => {
+  let b: number[] | null = null;
+  const own = OWN[k];
+  for (const p of MP) {
+    if (!owners.includes(own[p.code]) || target(p.code) <= 0) continue;
+    const h = HOME(p.code), sc = target(p.code);
+    const pc: P = [h[0] + (p.c[0] - h[0]) * sc, h[1] + (p.c[1] - h[1]) * sc];
+    if (Math.hypot(pc[0] - c[0], pc[1] - c[1]) > R) continue;
+    const sb = sbox(p.bbox, h, sc); b = b ? union(b, sb) : sb;
+  }
+  return b;
+};
+const tiny = (c: P): number[] => [c[0] - 12, c[1] - 8, c[0] + 12, c[1] + 8];
 // ================= cámara =================
 type K = [number, number, number, number]; // t, cx, cy, s
 const KEYS: K[] = [];
@@ -131,25 +156,28 @@ TURNS.forEach((tr) => {
   if (tr.kind === 'ev3') {
     KEYS.push([tr.t0, ...WORLD]);
     const all = [...tr.A, ...tr.D];
-    const b = ownBox(all, doneK(tr.t0));
+    const kk = doneK(tr.t0);
+    let b: number[] | null = null;
+    all.forEach((c: string) => { const x = ownBoxNear([c], kk, HOME(c), 200) || tiny(HOME(c)); b = b ? union(b, x) : x; });
     if (b) KEYS.push([tr.tArrows[0], ...boxCam(b, 1.25, 3)]);
     KEYS.push([tr.t1 - 0.3, ...WORLD]);
     return;
   }
   const {k, mem} = viewOfTurn(tr);
-  const ab = ownBox(mem(tr.att), k);
+  const ab = ownBoxNear(mem(tr.att), k, HOME(tr.att), 230) || ownBox(mem(tr.att), k);
   if (!ab) return;
   const cb = CONTBOX[contOf(tr.att)] || ab;
   KEYS.push([tr.tSel, ...(tr.mode === 'quick' ? boxCam(union(ab, ab), 4.5, 3.4) : boxCam(union(cb, ab), 1.1, 2.6))]);
   KEYS.push([tr.tZoom, ...leftOf(boxCam(ab, 1.45, 6.5, 1.7))]);
   if (tr.action === 'ALLIANCE') {
-    const pb = ownBox(mem(tr.partner), k);
+    const pb = ownBoxNear(mem(tr.partner), k, HOME(tr.partner), 230);
     if (pb) KEYS.push([tr.tPick + 1.6, ...boxCam(union(ab, pb), 1.35, 5.5, 1.3)]);
     return;
   }
   (tr.fights as any[]).forEach((f: any) => {
-    const db = ownBox(f.defM, doneK(f.tDir));
-    const ab2 = ownBox(f.attM, doneK(f.tDir));
+    const kk = doneK(f.tDir);
+    const db = ownBoxNear(f.defM, kk, HOME(f.def_), 230) || tiny(HOME(f.def_));
+    const ab2 = ownBoxNear(f.attM, kk, HOME(f.def_), 320) || tiny(HOME(tr.att));
     if (db && ab2) KEYS.push([f.tDir, ...leftOf(boxCam(union(ab2, db), 1.3, 6, 1.4), 200)]);
   });
 });
@@ -282,21 +310,21 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
     m.get(o)!.push(x);
   }
   const order = [...teams.entries()].sort((a, b) => Math.max(...[...a[1].keys()].map((o) => target(o))) - Math.max(...[...b[1].keys()].map((o) => target(o))));
-  const ownerBox = (o: string) => { const b = ownBox([o], k); return b; };
-  const flagBox = (o: string, list: PV[]) => {
+  const byCont = (list: PV[]) => { const g = new Map<string, PV[]>(); for (const x of list) { const c = contP(x.p); if (!g.has(c)) g.set(c, []); g.get(c)!.push(x); } return [...g.entries()]; };
+  const flagBox = (o: string, cn: string, list: PV[]) => {
     if (intro) return fitFlagBox(list.reduce((b, x) => union(b, x.sb), [...list[0].sb]));
-    let b = ownerBox(o) || list.reduce((bb, x) => union(bb, x.sb), [...list[0].sb]);
-    for (const ov of overlays) if (ov.w === o) { const lb = ownBox(ov.ls, k); if (lb) { const u = union(b, lb); b = b.map((v, j) => v + (u[j] - v) * ov.q); } }
+    let b = ownBoxC([o], k, cn) || list.reduce((bb, x) => union(bb, x.sb), [...list[0].sb]);
+    for (const ov of overlays) if (ov.w === o) { const lb = ownBoxC(ov.ls, k, cn); if (lb) { const u = union(b, lb); b = b.map((v, j) => v + (u[j] - v) * ov.q); } }
     return fitFlagBox(b);
   };
   const sw = 2.2 * inv;
   return (
     <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
       <defs>
-        {order.map(([L, m]) => [...m.entries()].map(([o, list]) => <clipPath key={`${L}-${o}`} id={`ac-${o}`}>{list.map((x, i) => <path key={i} d={x.p.d} transform={tf(x.p.code, x.sc)} />)}</clipPath>))}
+        {order.map(([L, m]) => [...m.entries()].map(([o, list]) => byCont(list).map(([cn, l2]) => <clipPath key={`${L}-${o}-${cn}`} id={`ac-${o}-${cn}`}>{l2.map((x, i) => <path key={i} d={x.p.d} transform={tf(x.p.code, x.sc)} />)}</clipPath>)))}
         {overlays.map((ov, i) => (
           <React.Fragment key={i}>
-            <clipPath id={`ao-${i}`}>{pv.filter((x) => ov.ls.includes(own[x.p.code])).map((x, j) => <path key={j} d={x.p.d} transform={tf(x.p.code, x.sc)} />)}</clipPath>
+            {byCont(pv.filter((x) => ov.ls.includes(own[x.p.code]))).map(([cn, l2]) => <clipPath key={cn} id={`ao-${i}-${cn}`}>{l2.map((x, j) => <path key={j} d={x.p.d} transform={tf(x.p.code, x.sc)} />)}</clipPath>)}
             <mask id={`am-${i}`} maskUnits="userSpaceOnUse" x={-200} y={-200} width={2400} height={1600}><circle cx={ov.A[0]} cy={ov.A[1]} r={ov.R * ov.q} fill="white" /></mask>
           </React.Fragment>
         ))}
@@ -311,11 +339,11 @@ const WorldMap: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
           <g key={L}>
             <g transform={`translate(${1.6 * inv},${2.4 * inv})`} opacity={0.35}>{[...m.values()].flat().map((x, i) => <path key={i} d={x.p.d} transform={tf(x.p.code, x.sc)} fill="#06213f" />)}</g>
             {[...m.values()].flat().map((x, i) => <path key={`s${i}`} d={x.p.d} transform={tf(x.p.code, x.sc)} fill="#fff" stroke={INK} strokeWidth={(sw * 2.2) / x.sc} strokeLinejoin="round" />)}
-            {[...m.entries()].map(([o, list]) => <g key={o} clipPath={`url(#ac-${o})`}><FlagSvg code={o} b={flagBox(o, list)} /></g>)}
+            {[...m.entries()].map(([o, list]) => byCont(list).map(([cn, l2]) => <g key={`${o}-${cn}`} clipPath={`url(#ac-${o}-${cn})`}><FlagSvg code={o} b={flagBox(o, cn, l2)} /></g>))}
           </g>
         ))}
         {overlays.map((ov, i) => (
-          <g key={`ov${i}`} mask={`url(#am-${i})`}><g clipPath={`url(#ao-${i})`}><FlagSvg code={ov.w} b={fitFlagBox(union(ownBox([ov.w], k) || [0, 0, 1, 1], ownBox(ov.ls, k) || [0, 0, 1, 1]))} /></g></g>
+          <g key={`ov${i}`} mask={`url(#am-${i})`}>{byCont(pv.filter((x) => ov.ls.includes(own[x.p.code]))).map(([cn]) => { const lb = ownBoxC(ov.ls, k, cn) || [0, 0, 1, 1]; const wb = ownBoxC([ov.w], k, cn); return <g key={cn} clipPath={`url(#ao-${i}-${cn})`}><FlagSvg code={ov.w} b={fitFlagBox(wb ? union(wb, lb) : lb)} /></g>; })}</g>
         ))}
         {overlays.map((ov, i) => <circle key={`r${i}`} cx={ov.A[0]} cy={ov.A[1]} r={ov.R * ov.q} fill="none" stroke="#fff" strokeWidth={3 * inv} opacity={0.85 * (1 - ov.q)} />)}
         <MapFX t={t} cam={cam} own={own} tm={tm} pv={pv} />
@@ -841,6 +869,40 @@ export const WarArmy: React.FC = () => {
       <BigCard t={t} />
       <Victory t={t} />
       <Credit />
+    </AbsoluteFill>
+  );
+};
+
+// ================= miniaturas =================
+const TX = (size: number, color: string): React.CSSProperties => ({...font, fontSize: size, color, WebkitTextStroke: `${size * 0.12}px ${INK}`, paintOrder: 'stroke fill', lineHeight: 0.95, textShadow: `0 ${size * 0.07}px 0 rgba(0,0,0,0.55)`, whiteSpace: 'nowrap'});
+export const ThumbArmy: React.FC<{v: string}> = ({v}) => {
+  usePreload();
+  const t = M1 + 2.5;
+  if (v === 'a') {
+    const cam = {cx: 1520, cy: 420, s: 3.4};
+    return (
+      <AbsoluteFill style={{background: SEA0, overflow: 'hidden'}}>
+        <Sea t={0} /><WorldMap t={t} cam={cam} />
+        <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 55%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 100%)'}} />
+        {(() => { const [x, y] = toS(HOME('KP'), cam); return <svg width={1920} height={1080} style={{position: 'absolute'}}><path d={`M${x + 330},${y + 190} Q${x + 200},${y + 170} ${x + 70},${y + 40}`} fill="none" stroke={INK} strokeWidth={26} strokeLinecap="round" /><path d={`M${x + 330},${y + 190} Q${x + 200},${y + 170} ${x + 70},${y + 40}`} fill="none" stroke={YELLOW} strokeWidth={14} strokeLinecap="round" /><circle cx={x + 62} cy={y + 32} r={22} fill={YELLOW} stroke={INK} strokeWidth={7} /></svg>; })()}
+        {(() => { const [x, y] = toS(HOME('KP'), cam); return <div style={{position: 'absolute', left: x + 470, top: y + 230, transform: 'translate(-50%,-50%) rotate(-6deg)', ...TX(190, YELLOW)}}>×67</div>; })()}
+        {(() => { const [x, y] = toS(HOME('CN'), cam); return <div style={{position: 'absolute', left: x - 260, top: y + 60, transform: 'translate(-50%,-50%) rotate(4deg)', ...TX(130, '#8fd3ff')}}>×1.4</div>; })()}
+        <div style={{position: 'absolute', left: 0, right: 0, top: 30, textAlign: 'center', ...TX(150, '#fff')}}>SIZED BY <span style={{color: RED}}>ARMY</span></div>
+        <div style={{position: 'absolute', left: 0, right: 0, bottom: 40, display: 'flex', justifyContent: 'center'}}><div style={{background: YELLOW, border: `10px solid ${INK}`, borderRadius: 26, padding: '6px 40px 0', transform: 'rotate(-2deg)', ...font, fontSize: 96, color: INK}}>THEN WAR ⚔️</div></div>
+      </AbsoluteFill>
+    );
+  }
+  const cam = {cx: 960, cy: 520, s: 1.0};
+  return (
+    <AbsoluteFill style={{background: SEA0, overflow: 'hidden'}}>
+      <Sea t={0} /><WorldMap t={t} cam={cam} />
+      <AbsoluteFill style={{background: 'rgba(10,20,40,0.25)'}} />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 26, textAlign: 'center'}}>
+        <div style={TX(118, '#fff')}>THE WORLD IF COUNTRIES</div>
+        <div style={TX(132, YELLOW)}>WERE SIZED BY ARMY</div>
+      </div>
+      {(() => { const [x, y] = toS(HOME('KP'), cam); return <div style={{position: 'absolute', left: x + 170, top: y + 120, transform: 'translate(-50%,-50%) rotate(-6deg)', ...TX(120, YELLOW)}}>×67</div>; })()}
+      {(() => { const [x, y] = toS(HOME('CA'), cam); return <div style={{position: 'absolute', left: x, top: y + 30, transform: 'translate(-50%,-50%) rotate(5deg)', ...TX(110, '#8fd3ff')}}>÷24</div>; })()}
     </AbsoluteFill>
   );
 };
