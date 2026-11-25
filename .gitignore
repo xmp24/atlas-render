@@ -14,3 +14,10 @@ out/
 /dir_hormuz.py
 /dir_latam.py
 /dir_usa3.py
+build-*/
+mcd2/voice/
+mcd2/__pycache__/
+war/__pycache__/
+shorts/__pycache__/
+public/sh/music/
+public/sh/*/bg_*.jpg

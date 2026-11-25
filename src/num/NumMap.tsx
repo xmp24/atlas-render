@@ -427,6 +427,38 @@ const WT: Record<string, any> = {
   riv: {t0: 'BIGGEST RIVALS', a: ['US', 'angry', 'E', '60 CLASHES'], b: ['RU', 'angry', 'E', ''], c: ['IN', 'angry', 'E'], rv: 'PK', big: '40', l1: 'CLASHES WITH', l2: 'PAKISTAN', ask: "WHO'S YOUR ENEMY?"},
   ally: {t0: 'WHO WOULD DEFEND YOU?', a: ['PL', 'happy', 'N', '31 ALLIES'], b: ['UA', 'sad', 'A', 'ALONE'], c: ['TW', 'sad', 'A'], big: '?', l1: 'WHO DEFENDS', l2: 'TAIWAN?', ask: 'AND YOU?'},
 };
+// 2 = estilo "IS ROBLOX BANNED?" (3 países con estado) · 3 = estilo México con el tema exacto del vídeo
+const OK = '#2fbf63', WARN = '#ffd23f', BAD = '#ee4646';
+const WT2: Record<string, any> = {
+  sol: {q: ['HOW MANY', 'SOLDIERS?'], bot: 'IN YOUR COUNTRY?', it: [['CN', 'angry', '2 MILLION', BAD, 'up'], ['BR', 'happy', '374,500', WARN, 'up'], ['CR', 'happy', 'NO ARMY', OK, 'ok']]},
+  los: {q: ['HOW MANY', 'WARS LOST?'], bot: 'BY YOUR COUNTRY?', it: [['GB', 'happy', 'NEVER LOST', OK, 'ok'], ['MX', 'sad', '1 LOST', WARN, 'warn'], ['CN', 'sad', '7 LOST', BAD, 'x']]},
+  mil: {q: ['ARMY', 'SPENDING?'], bot: 'OF YOUR COUNTRY?', it: [['US', 'angry', '$954B', BAD, 'up'], ['DE', 'happy', '$114B', WARN, 'up'], ['CR', 'happy', '$0', OK, 'ok']]},
+  last: {q: ['IF INVADED,', 'HOW LONG?'], bot: 'WOULD YOUR COUNTRY LAST?', it: [['US', 'angry', 'NEVER FALLS', OK, 'ok'], ['LU', 'sad', '1 DAY', WARN, 'warn'], ['VA', 'sad', 'UNDER 1 HOUR', BAD, 'lock']]},
+  riv: {q: ["WHO'S THE", 'ENEMY?'], bot: 'OF YOUR COUNTRY?', it: [['US', 'angry', 'RUSSIA', BAD, 'RU'], ['IN', 'angry', 'PAKISTAN', BAD, 'PK'], ['GR', 'angry', 'TURKEY', BAD, 'TR']]},
+  ally: {q: ['WHO WOULD', 'DEFEND'], bot: 'YOUR COUNTRY?', it: [['PL', 'happy', 'NATO', OK, 'ok'], ['JP', 'happy', 'USA', OK, 'ok'], ['UA', 'sad', 'ALONE', BAD, 'lock']]},
+};
+const WT3: Record<string, any> = {
+  sol: {c: ['CN', 'angry', 'E'], big: 'SOLDIERS', l1: 'IN EVERY', l2: 'COUNTRY', ask: 'AND YOURS?'},
+  los: {c: ['MX', 'sad', 'B'], big: 'WARS LOST', l1: 'BY EVERY', l2: 'COUNTRY', ask: 'AND YOURS?'},
+  mil: {c: ['US', 'angry', 'E'], big: 'MILITARY', l1: 'SPENDING OF', l2: 'EVERY COUNTRY', ask: 'AND YOURS?'},
+  last: {c: ['LU', 'sad', 'B'], hs: 0.72, big: 'INVADED', l1: 'HOW LONG WOULD', l2: 'EACH COUNTRY LAST?', ask: 'AND YOURS?'},
+  riv: {c: ['IN', 'angry', 'E'], rv: 'PK', big: 'RIVALS', l1: "EVERY COUNTRY'S", l2: 'BIGGEST ENEMY', ask: 'AND YOURS?'},
+  ally: {c: ['TW', 'sad', 'A'], big: 'ALLIES', l1: 'WHO WOULD DEFEND', l2: 'EVERY COUNTRY?', ask: 'AND YOURS?'},
+};
+const txtOn2 = (h: string) => (lum(h) > 0.62 ? INK : '#fff');
+const w0 = (v: string, n: number) => (n === 1 && !!WT[v]) || (n === 3 && !!WT3[v]);
+const fit = (t: string, max: number, wpx: number, k = 0.64) => Math.min(max, wpx / (t.length * k));
+const Ico: React.FC<{k: string; s: number}> = ({k, s}) => {
+  if (k.length === 2 && k === k.toUpperCase()) return <Flag c={k} w={s * 1.4} style={{border: `5px solid ${INK}`, borderRadius: 8}} />;
+  const P: Record<string, React.ReactNode> = {
+    ok: <><circle cx="50" cy="50" r="44" fill="#fff" /><path d="M28 52 L44 68 L74 34" fill="none" stroke={OK} strokeWidth="13" strokeLinecap="round" strokeLinejoin="round" /></>,
+    warn: <><path d="M50 8 L94 88 L6 88 Z" fill={INK} strokeLinejoin="round" /><rect x="44" y="34" width="12" height="30" rx="5" fill={WARN} /><circle cx="50" cy="75" r="7" fill={WARN} /></>,
+    x: <><circle cx="50" cy="50" r="44" fill="#fff" /><path d="M32 32 L68 68 M68 32 L32 68" stroke={BAD} strokeWidth="13" strokeLinecap="round" /></>,
+    lock: <><path d="M30 46 V34 a20 20 0 0 1 40 0 V46" fill="none" stroke="#fff" strokeWidth="11" /><rect x="18" y="44" width="64" height="48" rx="10" fill="#fff" /><circle cx="50" cy="66" r="7" fill={BAD} /></>,
+    up: <><circle cx="50" cy="50" r="44" fill="#fff" /><path d="M50 74 V28 M30 46 L50 26 L70 46" fill="none" stroke={INK} strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" /></>,
+  };
+  return <svg width={s} height={s} viewBox="0 0 100 100">{P[k]}</svg>;
+};
 export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
   use(v);
   const ref = useRef<HTMLCanvasElement>(null);
@@ -435,16 +467,20 @@ export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
   useLayoutEffect(() => {
     const cv = ref.current; if (!cv || !READY) return; const ctx = cv.getContext('2d')!;
     ctx.clearRect(0, 0, TW, TH);
-    const w = WT[v];
-    if (w && n === 0) {
+    const w = n === 3 ? WT3[v] : WT[v];
+    if (WT2[v] && n === 2) {
+      drawWorld(ctx, 3000, 1500, 0.45, 10, 0.4);
+      const X = [470, 1280, 2090];
+      WT2[v].it.forEach((it: any, i: number) => drawCountry(ctx, it[0], X[i], 700, 740, 600, it[1], it[3]));
+    } else if (w && n === 0) {
       const g = G[w.a[0]] || G['US']; drawWorld(ctx, g.c[0], g.c[1], 0.7, 12, 0.45);
       ctx.fillStyle = 'rgba(200,20,40,0.22)'; ctx.fillRect(TW / 2, 0, TW / 2, TH);
       drawBall(ctx, w.a[0], 660, 760, 360, w.a[1], COL[w.a[2]]); drawBall(ctx, w.b[0], 1900, 760, 360, w.b[1], COL[w.b[2]]);
     } else if (w) {
       const g = G[w.c[0]]; drawWorld(ctx, g.c[0], g.c[1], 2.2, 6, 0.35);
       const gr = ctx.createLinearGradient(1000, 0, 2560, 0); gr.addColorStop(0, 'rgba(6,18,45,0)'); gr.addColorStop(1, 'rgba(6,18,45,0.75)'); ctx.fillStyle = gr; ctx.fillRect(0, 0, TW, TH);
-      drawCountry(ctx, w.c[0], 760, 780, 1150, 1050, w.c[1], COL[w.c[2]]);
-      if (w.rv) drawBall(ctx, w.rv, 1350, 1150, 170, 'angry', '#ee4646');
+      n === 3 ? drawCountry(ctx, w.c[0], 560 - (1 - (w.hs || 1)) * 200, 860, 880 * (w.hs || 1), 880 * (w.hs || 1), w.c[1], COL[w.c[2]]) : drawCountry(ctx, w.c[0], 760, 780, 1150, 1050, w.c[1], COL[w.c[2]]);
+      if (w.rv) n === 3 ? drawBall(ctx, w.rv, 960, 1200, 140, 'angry', '#ee4646') : drawBall(ctx, w.rv, 1350, 1150, 170, 'angry', '#ee4646');
     } else if (v === 'alt') {
       if (n === 0) { drawWorld(ctx, 2900, 1150, 0.62, 10, 0.4); drawBall(ctx, 'NL', 640, 640, 330, 'happy', COL.E); drawBall(ctx, 'TL', 1900, 1000, 170, 'sad', COL.A); }
       else if (n === 1) { drawWorld(ctx, 2950, 1000, 1.1, 0, 0.2); drawCountry(ctx, 'NL', 900, 760, 900, 900, 'happy', COL.E); }
@@ -468,11 +504,24 @@ export const NumThumb: React.FC<{v: string; n: number}> = ({v, n}) => {
         {w.a[3] && <div style={{position: 'absolute', left: 0, width: 1320, top: 1170, textAlign: 'center'}}><Tag bg={COL[w.a[2]]} color={txtOn(w.a[2])} size={150}>{w.a[3]}</Tag></div>}
         {w.b[3] && <div style={{position: 'absolute', left: 1240, width: 1320, top: 1170, textAlign: 'center'}}><Tag bg={COL[w.b[2]]} color={txtOn(w.b[2])} size={150}>{w.b[3]}</Tag></div>}
       </>); })()}
-      {WT[v] && n === 1 && (() => { const w = WT[v]; return (<>
-        <div style={{position: 'absolute', right: 90, top: 150, textAlign: 'right'}}>
-          <TT size={w.big.length > 4 ? 380 : 470} color="#ffd23f" stroke={INK} sh={30} style={{WebkitTextStroke: `26px ${INK}`}}>{w.big}</TT>
-          <TT size={150} style={{marginTop: 50}}>{w.l1}</TT>
-          <TT size={170} color="#ff5a5a" style={{marginTop: 24}}>{w.l2}</TT>
+      {WT2[v] && n === 2 && (() => { const w = WT2[v]; const X = [470, 1280, 2090]; return (<>
+        <div style={{position: 'absolute', top: 50, width: '100%', display: 'flex', justifyContent: 'center', gap: 50}}>
+          <TT size={fit(w.q.join(' '), 210, 2300, 0.6)}>{w.q[0]}</TT><TT size={fit(w.q.join(' '), 210, 2300, 0.6)} color="#ff4b4b">{w.q[1]}</TT>
+        </div>
+        {w.it.map((it: any, i: number) => (
+          <div key={i} style={{position: 'absolute', left: X[i] - 400, width: 800, top: 1035, display: 'flex', justifyContent: 'center'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: 22, fontFamily: F1, fontSize: fit(it[2], 104, 600, 0.42), color: txtOn2(it[3]), background: it[3], border: `9px solid ${INK}`, borderRadius: 999, padding: '12px 40px 12px 26px', boxShadow: '0 12px 0 rgba(0,0,0,0.45)', whiteSpace: 'nowrap'}}>
+              <Ico k={it[4]} s={100} />{it[2]}
+            </div>
+          </div>
+        ))}
+        <div style={{position: 'absolute', top: 1230, width: '100%', textAlign: 'center'}}><Tag bg="#e8322f" size={fit(w.bot, 130, 1900, 0.6)} style={{padding: '14px 80px'}}>{w.bot}</Tag></div>
+      </>); })()}
+      {w0(v, n) && (() => { const w = n === 3 ? WT3[v] : WT[v]; return (<>
+        <div style={{position: 'absolute', right: 90, top: n === 3 ? 270 : 150, textAlign: 'right'}}>
+          <TT size={n === 3 ? fit(w.big, 470, 1480, 0.42) : w.big.length > 4 ? 380 : 470} color="#ffd23f" stroke={INK} sh={30} style={{WebkitTextStroke: `26px ${INK}`}}>{w.big}</TT>
+          <TT size={n === 3 ? fit(w.l1, 165, 1380, 0.4) : 150} style={{marginTop: 50}}>{w.l1}</TT>
+          <TT size={n === 3 ? fit(w.l2, 185, 1380, 0.4) : 170} color="#ff5a5a" style={{marginTop: 24}}>{w.l2}</TT>
         </div>
         <div style={{position: 'absolute', left: 70, top: 60, transform: 'rotate(-6deg)'}}><Tag bg="#ffd23f" color={INK} size={w.ask.length > 12 ? 80 : 100}>{w.ask}</Tag></div>
       </>); })()}

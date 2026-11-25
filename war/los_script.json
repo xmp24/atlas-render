@@ -1,0 +1,1889 @@
+{
+"key": "los",
+"C": [
+{
+"c": "US",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 7 · Lost 2",
+"say": "United States: two wars lost, including the Vietnam War."
+},
+{
+"c": "CA",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 2 · Lost 0 · 4 fought",
+"say": "Canada: zero wars lost! Two won."
+},
+{
+"c": "MX",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Mexico: one war lost: the Mexican-American War."
+},
+{
+"c": "GB",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 10 · Lost 0 · 13 fought",
+"say": "United Kingdom: zero wars lost! Ten won."
+},
+{
+"c": "IE",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Ireland: never fought a single war!"
+},
+{
+"c": "FR",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 12 · Lost 2",
+"say": "France: two wars lost, including the Franco-Prussian War."
+},
+{
+"c": "ES",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 3 · Lost 3",
+"say": "Spain: three wars lost, including the Spanish-American War."
+},
+{
+"c": "PT",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Portugal: zero wars lost! One won."
+},
+{
+"c": "AD",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Andorra: no wars at all!"
+},
+{
+"c": "IT",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 12 · Lost 1",
+"say": "Italy: one war lost: the Austro-Sardinian War."
+},
+{
+"c": "SM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "San Marino: never been to war!"
+},
+{
+"c": "MT",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Malta: never fought a single war!"
+},
+{
+"c": "MC",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Monaco: no wars at all!"
+},
+{
+"c": "CH",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Switzerland: never been to war!"
+},
+{
+"c": "LI",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Liechtenstein: never fought a single war!"
+},
+{
+"c": "AT",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 3 · Lost 3",
+"say": "Austria: three wars lost, including the First World War."
+},
+{
+"c": "DE",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 5 · Lost 3",
+"say": "Germany: three wars lost, including the Second World War."
+},
+{
+"c": "LU",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Luxembourg: no wars at all!"
+},
+{
+"c": "BE",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 2 · Lost 0 · 3 fought",
+"say": "Belgium: zero wars lost! Two won."
+},
+{
+"c": "NL",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 2 · Lost 0 · 3 fought",
+"say": "Netherlands: zero wars lost! Two won."
+},
+{
+"c": "DK",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 0 · Lost 2",
+"say": "Denmark: two wars lost, including the First Schleswig-Holstein War."
+},
+{
+"c": "NO",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Norway: zero wars lost! One won."
+},
+{
+"c": "SE",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Sweden: never been to war!"
+},
+{
+"c": "FI",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 1 · Lost 2",
+"say": "Finland: two wars lost, including the Second World War."
+},
+{
+"c": "IS",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Iceland: never fought a single war!"
+},
+{
+"c": "PL",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 3 · Lost 0",
+"say": "Poland: zero wars lost! Three won."
+},
+{
+"c": "CZ",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Czech Republic: zero wars lost! One won."
+},
+{
+"c": "SK",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Slovakia: no wars at all!"
+},
+{
+"c": "HU",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 0 · Lost 3",
+"say": "Hungary: three wars lost, including the Second World War."
+},
+{
+"c": "SI",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Slovenia: never been to war!"
+},
+{
+"c": "HR",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "Croatia: zero wars lost!"
+},
+{
+"c": "BA",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "Bosnia: zero wars lost!"
+},
+{
+"c": "RS",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 4 · Lost 1",
+"say": "Serbia: one war lost: the Kosovo War."
+},
+{
+"c": "ME",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Montenegro: never fought a single war!"
+},
+{
+"c": "XK",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Kosovo: no wars at all!"
+},
+{
+"c": "AL",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Albania: never been to war!"
+},
+{
+"c": "MK",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "North Macedonia: never fought a single war!"
+},
+{
+"c": "GR",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 4 · Lost 2",
+"say": "Greece: two wars lost, including the Second Greco-Turkish War."
+},
+{
+"c": "BG",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 2 · Lost 2",
+"say": "Bulgaria: two wars lost, including the First World War."
+},
+{
+"c": "RO",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 4 · Lost 0",
+"say": "Romania: zero wars lost! Four won."
+},
+{
+"c": "MD",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Moldova: no wars at all!"
+},
+{
+"c": "UA",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "At war with Russia since 2022",
+"say": "Ukraine: zero wars lost! And fighting Russia right now."
+},
+{
+"c": "BY",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Belarus: never been to war!"
+},
+{
+"c": "LT",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Lithuania: one war lost: the Lithuanian-Polish War."
+},
+{
+"c": "LV",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Latvia: zero wars lost! One won."
+},
+{
+"c": "EE",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 2 · Lost 0",
+"say": "Estonia: zero wars lost! Two won."
+},
+{
+"c": "RU",
+"st": "E",
+"v": "5 LOST",
+"vs": "5",
+"sub": "Won 12 · Lost 5",
+"say": "Russia: five wars lost, including the Crimean War. But twelve won!"
+},
+{
+"c": "CY",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Cyprus: one war lost: the Turkish invasion of 1974."
+},
+{
+"c": "TR",
+"st": "E",
+"v": "5 LOST",
+"vs": "5",
+"sub": "Won 6 · Lost 5",
+"say": "Turkey: five wars lost, including the First World War. Mostly as the Ottoman Empire."
+},
+{
+"c": "CO",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0 · 2 fought",
+"say": "Colombia: zero wars lost! One won."
+},
+{
+"c": "VE",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Venezuela: never fought a single war!"
+},
+{
+"c": "EC",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Ecuador: one war lost: the Ecuadorian-Colombian War."
+},
+{
+"c": "PE",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 1 · Lost 1",
+"say": "Peru: one war lost: the War of the Pacific."
+},
+{
+"c": "BO",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 0 · Lost 2",
+"say": "Bolivia: two wars lost, including the Chaco War."
+},
+{
+"c": "CL",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 2 · Lost 0",
+"say": "Chile: zero wars lost! Two won."
+},
+{
+"c": "AR",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 1 · Lost 2",
+"say": "Argentina: two wars lost, including the Falklands War."
+},
+{
+"c": "UY",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Uruguay: no wars at all!"
+},
+{
+"c": "PY",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 1 · Lost 1",
+"say": "Paraguay: one war lost: the Paraguayan War."
+},
+{
+"c": "BR",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 3 · Lost 0",
+"say": "Brazil: zero wars lost! Three won."
+},
+{
+"c": "GY",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Guyana: never been to war!"
+},
+{
+"c": "SR",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Suriname: never fought a single war!"
+},
+{
+"c": "PA",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Panama: no wars at all!"
+},
+{
+"c": "CR",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Costa Rica: never been to war!"
+},
+{
+"c": "NI",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Nicaragua: zero wars lost! One won."
+},
+{
+"c": "HN",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 0 · Lost 3",
+"say": "Honduras: three wars lost, including the Football War."
+},
+{
+"c": "SV",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 2 · Lost 3",
+"say": "El Salvador: three wars lost, including the First Central American War."
+},
+{
+"c": "GT",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 2 · Lost 1",
+"say": "Guatemala: one war lost: the Second Central American War."
+},
+{
+"c": "BZ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Belize: never fought a single war!"
+},
+{
+"c": "CU",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 2 fought",
+"say": "Cuba: zero wars lost!"
+},
+{
+"c": "JM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Jamaica: no wars at all!"
+},
+{
+"c": "HT",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Haiti: never been to war!"
+},
+{
+"c": "DO",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Dominican Republic: never fought a single war!"
+},
+{
+"c": "BS",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Bahamas: no wars at all!"
+},
+{
+"c": "BB",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Barbados: never been to war!"
+},
+{
+"c": "TT",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Trinidad and Tobago: never fought a single war!"
+},
+{
+"c": "GD",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Grenada: no wars at all!"
+},
+{
+"c": "VC",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Saint Vincent: never been to war!"
+},
+{
+"c": "LC",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Saint Lucia: never fought a single war!"
+},
+{
+"c": "DM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Dominica: no wars at all!"
+},
+{
+"c": "AG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Antigua and Barbuda: never been to war!"
+},
+{
+"c": "KN",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Saint Kitts and Nevis: never fought a single war!"
+},
+{
+"c": "GE",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Georgia: one war lost: the Russo-Georgian War."
+},
+{
+"c": "AM",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 1 · Lost 1",
+"say": "Armenia: one war lost: the Second Nagorno-Karabakh War."
+},
+{
+"c": "AZ",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 1 · Lost 1",
+"say": "Azerbaijan: one war lost: the Nagorno-Karabakh War."
+},
+{
+"c": "KZ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Kazakhstan: no wars at all!"
+},
+{
+"c": "UZ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Uzbekistan: never been to war!"
+},
+{
+"c": "TM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Turkmenistan: never fought a single war!"
+},
+{
+"c": "KG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Kyrgyzstan: no wars at all!"
+},
+{
+"c": "TJ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Tajikistan: never been to war!"
+},
+{
+"c": "AF",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "Afghanistan: zero wars lost!"
+},
+{
+"c": "IR",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Iran: one war lost: the Anglo-Persian War."
+},
+{
+"c": "IQ",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 0 · Lost 3",
+"say": "Iraq: three wars lost, including the Gulf War."
+},
+{
+"c": "SY",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 1 · Lost 3",
+"say": "Syria: three wars lost, including the Six-Day War."
+},
+{
+"c": "LB",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Lebanon: one war lost: the Arab-Israeli War."
+},
+{
+"c": "IL",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 4 · Lost 0 · 6 fought",
+"say": "Israel: zero wars lost! Four won. Four wars, four wins."
+},
+{
+"c": "PS",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Palestine: never fought a single war!"
+},
+{
+"c": "JO",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 0 · Lost 3",
+"say": "Jordan: three wars lost, including the Six-Day War."
+},
+{
+"c": "SA",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 2 · Lost 1",
+"say": "Saudi Arabia: one war lost: the Yom Kippur War."
+},
+{
+"c": "YE",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Yemen: one war lost: the Saudi-Yemeni War."
+},
+{
+"c": "OM",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Oman: zero wars lost! One won."
+},
+{
+"c": "AE",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "United Arab Emirates: zero wars lost! One won."
+},
+{
+"c": "QA",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Qatar: zero wars lost! One won."
+},
+{
+"c": "BH",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Bahrain: no wars at all!"
+},
+{
+"c": "KW",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Kuwait: zero wars lost! One won."
+},
+{
+"c": "IN",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 2 · Lost 2",
+"say": "India: two wars lost, including the Second Kashmir War."
+},
+{
+"c": "PK",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 1 · Lost 2",
+"say": "Pakistan: two wars lost, including the Bangladesh Liberation War."
+},
+{
+"c": "NP",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Nepal: never been to war!"
+},
+{
+"c": "BT",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Bhutan: never fought a single war!"
+},
+{
+"c": "BD",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Bangladesh: no wars at all!"
+},
+{
+"c": "LK",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Sri Lanka: never been to war!"
+},
+{
+"c": "MV",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Maldives: never fought a single war!"
+},
+{
+"c": "MM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Myanmar: no wars at all!"
+},
+{
+"c": "TH",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 1 · Lost 2",
+"say": "Thailand: two wars lost, including the Vietnam War."
+},
+{
+"c": "LA",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Laos: one war lost: the Second Laotian War."
+},
+{
+"c": "KH",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Cambodia: one war lost: the Vietnam War."
+},
+{
+"c": "VN",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 2 · Lost 1",
+"say": "Vietnam: one war lost: the Sino-Vietnamese War."
+},
+{
+"c": "MY",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Malaysia: never been to war!"
+},
+{
+"c": "SG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Singapore: never fought a single war!"
+},
+{
+"c": "ID",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Indonesia: no wars at all!"
+},
+{
+"c": "BN",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Brunei: never been to war!"
+},
+{
+"c": "PH",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Philippines: one war lost: the Vietnam War."
+},
+{
+"c": "TL",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "East Timor: never fought a single war!"
+},
+{
+"c": "CN",
+"st": "E",
+"v": "7 LOST",
+"vs": "7",
+"sub": "Won 4 · Lost 7",
+"say": "China: seven wars lost, including the Second Sino-Japanese War. The most wars lost of any country on Earth!"
+},
+{
+"c": "MN",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 2 · Lost 0",
+"say": "Mongolia: zero wars lost! Two won."
+},
+{
+"c": "KP",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "North Korea: zero wars lost! The Korean War? Officially... a draw."
+},
+{
+"c": "KR",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "South Korea: one war lost: the Vietnam War."
+},
+{
+"c": "JP",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 6 · Lost 3",
+"say": "Japan: three wars lost, including the Second World War."
+},
+{
+"c": "TW",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Taiwan: one war lost: the First Taiwan Strait Crisis."
+},
+{
+"c": "AU",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 1 · Lost 1",
+"say": "Australia: one war lost: the Vietnam War."
+},
+{
+"c": "NZ",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "New Zealand: zero wars lost! One won."
+},
+{
+"c": "PG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Papua New Guinea: no wars at all!"
+},
+{
+"c": "SB",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Solomon Islands: never been to war!"
+},
+{
+"c": "VU",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Vanuatu: never fought a single war!"
+},
+{
+"c": "FJ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Fiji: no wars at all!"
+},
+{
+"c": "WS",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Samoa: never been to war!"
+},
+{
+"c": "TO",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Tonga: never fought a single war!"
+},
+{
+"c": "KI",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Kiribati: no wars at all!"
+},
+{
+"c": "TV",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Tuvalu: never been to war!"
+},
+{
+"c": "NR",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Nauru: never fought a single war!"
+},
+{
+"c": "MH",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Marshall Islands: no wars at all!"
+},
+{
+"c": "FM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Micronesia: never been to war!"
+},
+{
+"c": "PW",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Palau: never fought a single war!"
+},
+{
+"c": "MA",
+"st": "D",
+"v": "3 LOST",
+"vs": "3",
+"sub": "Won 1 · Lost 3",
+"say": "Morocco: three wars lost, including the Second Spanish-Moroccan War."
+},
+{
+"c": "DZ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Algeria: no wars at all!"
+},
+{
+"c": "TN",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Tunisia: never been to war!"
+},
+{
+"c": "LY",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 0 · Lost 2",
+"say": "Libya: two wars lost, including the Aouzou Strip War."
+},
+{
+"c": "EG",
+"st": "E",
+"v": "5 LOST",
+"vs": "5",
+"sub": "Won 1 · Lost 5",
+"say": "Egypt: five wars lost, including the Six-Day War."
+},
+{
+"c": "SD",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Sudan: never fought a single war!"
+},
+{
+"c": "SS",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "South Sudan: no wars at all!"
+},
+{
+"c": "ET",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 1 · Lost 1",
+"say": "Ethiopia: one war lost: the Italian invasion of 1935."
+},
+{
+"c": "ER",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "Eritrea: zero wars lost!"
+},
+{
+"c": "DJ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Djibouti: never been to war!"
+},
+{
+"c": "SO",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "Somalia: zero wars lost!"
+},
+{
+"c": "KE",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Kenya: never fought a single war!"
+},
+{
+"c": "UG",
+"st": "B",
+"v": "1 LOST",
+"vs": "1",
+"sub": "Won 0 · Lost 1",
+"say": "Uganda: one war lost: the Uganda-Tanzania War."
+},
+{
+"c": "RW",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Rwanda: no wars at all!"
+},
+{
+"c": "BI",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Burundi: never been to war!"
+},
+{
+"c": "TZ",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Tanzania: zero wars lost! One won."
+},
+{
+"c": "MZ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Mozambique: never fought a single war!"
+},
+{
+"c": "MW",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Malawi: no wars at all!"
+},
+{
+"c": "ZM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Zambia: never been to war!"
+},
+{
+"c": "ZW",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Zimbabwe: never fought a single war!"
+},
+{
+"c": "BW",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Botswana: no wars at all!"
+},
+{
+"c": "NA",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Namibia: never been to war!"
+},
+{
+"c": "ZA",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0 · 2 fought",
+"say": "South Africa: zero wars lost! One won."
+},
+{
+"c": "LS",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Lesotho: never fought a single war!"
+},
+{
+"c": "SZ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Eswatini: no wars at all!"
+},
+{
+"c": "MG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Madagascar: never been to war!"
+},
+{
+"c": "MU",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Mauritius: never fought a single war!"
+},
+{
+"c": "KM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Comoros: no wars at all!"
+},
+{
+"c": "SC",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Seychelles: never been to war!"
+},
+{
+"c": "AO",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "Angola: zero wars lost!"
+},
+{
+"c": "CD",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 0 · Lost 0 · 1 fought",
+"say": "DR Congo: zero wars lost!"
+},
+{
+"c": "CG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Republic of the Congo: never fought a single war!"
+},
+{
+"c": "GA",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Gabon: no wars at all!"
+},
+{
+"c": "GQ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Equatorial Guinea: never been to war!"
+},
+{
+"c": "CM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Cameroon: never fought a single war!"
+},
+{
+"c": "CF",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Central African Republic: no wars at all!"
+},
+{
+"c": "TD",
+"st": "A",
+"v": "0 LOST",
+"vs": "0",
+"sub": "Won 1 · Lost 0",
+"say": "Chad: zero wars lost! One won."
+},
+{
+"c": "NE",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Niger: never been to war!"
+},
+{
+"c": "NG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Nigeria: never fought a single war!"
+},
+{
+"c": "BJ",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Benin: no wars at all!"
+},
+{
+"c": "TG",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Togo: never been to war!"
+},
+{
+"c": "GH",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Ghana: never fought a single war!"
+},
+{
+"c": "CI",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Ivory Coast: no wars at all!"
+},
+{
+"c": "BF",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Burkina Faso: never been to war!"
+},
+{
+"c": "ML",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Mali: never fought a single war!"
+},
+{
+"c": "MR",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Mauritania: no wars at all!"
+},
+{
+"c": "SN",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Senegal: never been to war!"
+},
+{
+"c": "GM",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Gambia: never fought a single war!"
+},
+{
+"c": "GW",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Guinea-Bissau: no wars at all!"
+},
+{
+"c": "GN",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Guinea: never been to war!"
+},
+{
+"c": "SL",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Sierra Leone: never fought a single war!"
+},
+{
+"c": "LR",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Liberia: no wars at all!"
+},
+{
+"c": "CV",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "Cape Verde: never been to war!"
+},
+{
+"c": "ST",
+"st": "X",
+"v": "NEVER AT WAR",
+"vs": "—",
+"sub": "No wars between countries since 1816",
+"say": "São Tomé: never fought a single war!"
+},
+{
+"c": "VA",
+"st": "C",
+"v": "2 LOST",
+"vs": "2",
+"sub": "Won 0 · Lost 2",
+"say": "Vatican City: two wars lost... as the Papal States, back in the 1800s!"
+}
+],
+"T": {
+"US": "Two losses... and we don't talk about Vietnam.",
+"GB": "Ten wars won, zero lost. Rule, Britannia!",
+"FR": "Twelve wars won! So stop with the surrender jokes!",
+"DE": "Three losses... and two of them were rather big ones.",
+"RU": "Twelve wins. The losses? Classified.",
+"CN": "Seven losses... but we're still here, five thousand years later.",
+"MX": "Just one war... and we lost half our territory.",
+"AR": "Two losses. Please... don't mention the Falklands.",
+"EG": "Five losses... but have you seen our pyramids?",
+"VA": "Yes. The Pope lost two wars.",
+"JP": "Six wins, three losses... then we chose peace."
+},
+"cfg": {
+"title": "WARS LOST BY EVERY COUNTRY",
+"icon": "flag",
+"t1": "HOW MANY WARS",
+"t2": "HAS EVERY COUNTRY LOST?",
+"badge": "EVERY WAR SINCE 1816",
+"cats": [
+{
+"k": "X",
+"label": "NEVER AT WAR",
+"short": "NEVER",
+"col": "#8f86a8",
+"cold": "#5c5475",
+"mood": "happy"
+},
+{
+"k": "A",
+"label": "NEVER LOST",
+"short": "0",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "B",
+"label": "1 WAR LOST",
+"short": "1",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "sad"
+},
+{
+"k": "C",
+"label": "2 LOST",
+"short": "2",
+"col": "#ff8c2e",
+"cold": "#b35a0c",
+"mood": "sad"
+},
+{
+"k": "D",
+"label": "3 – 4 LOST",
+"short": "3-4",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "angry"
+},
+{
+"k": "E",
+"label": "5 OR MORE",
+"short": "5+",
+"col": "#9b5de5",
+"cold": "#5e2ca5",
+"mood": "sad"
+}
+],
+"balls": [
+"CN",
+"RU",
+"US",
+"GB",
+"FR",
+"MX"
+],
+"ballMoods": [
+"sad",
+"angry",
+"angry",
+"happy",
+"angry",
+"sad"
+],
+"best": [
+"GB",
+"NEVER LOST",
+"10 WON · 0 LOST"
+],
+"worst": [
+"CN",
+"MOST LOSSES",
+"7 LOST"
+],
+"ask": "DID YOUR COUNTRY WIN? COMMENT!"
+},
+"intro": [
+"Which country has lost the most wars in history? And which ones have never lost a single one? Every war between countries since 1816. 197 countries, one by one.",
+"Grey: never fought a war.",
+"Green: fought, but never lost.",
+"Yellow: one war lost.",
+"Orange: two.",
+"Red: three or four.",
+"And purple... five or more! Let's go!"
+],
+"outro": [
+"Did your country win, or lose? Tell me in the comments!"
+],
+"names": {
+"US": "United States",
+"CA": "Canada",
+"MX": "Mexico",
+"GB": "United Kingdom",
+"IE": "Ireland",
+"FR": "France",
+"ES": "Spain",
+"PT": "Portugal",
+"AD": "Andorra",
+"IT": "Italy",
+"SM": "San Marino",
+"MT": "Malta",
+"MC": "Monaco",
+"CH": "Switzerland",
+"LI": "Liechtenstein",
+"AT": "Austria",
+"DE": "Germany",
+"LU": "Luxembourg",
+"BE": "Belgium",
+"NL": "Netherlands",
+"DK": "Denmark",
+"NO": "Norway",
+"SE": "Sweden",
+"FI": "Finland",
+"IS": "Iceland",
+"PL": "Poland",
+"CZ": "Czech Republic",
+"SK": "Slovakia",
+"HU": "Hungary",
+"SI": "Slovenia",
+"HR": "Croatia",
+"BA": "Bosnia",
+"RS": "Serbia",
+"ME": "Montenegro",
+"XK": "Kosovo",
+"AL": "Albania",
+"MK": "North Macedonia",
+"GR": "Greece",
+"BG": "Bulgaria",
+"RO": "Romania",
+"MD": "Moldova",
+"UA": "Ukraine",
+"BY": "Belarus",
+"LT": "Lithuania",
+"LV": "Latvia",
+"EE": "Estonia",
+"RU": "Russia",
+"CY": "Cyprus",
+"TR": "Turkey",
+"CO": "Colombia",
+"VE": "Venezuela",
+"EC": "Ecuador",
+"PE": "Peru",
+"BO": "Bolivia",
+"CL": "Chile",
+"AR": "Argentina",
+"UY": "Uruguay",
+"PY": "Paraguay",
+"BR": "Brazil",
+"GY": "Guyana",
+"SR": "Suriname",
+"PA": "Panama",
+"CR": "Costa Rica",
+"NI": "Nicaragua",
+"HN": "Honduras",
+"SV": "El Salvador",
+"GT": "Guatemala",
+"BZ": "Belize",
+"CU": "Cuba",
+"JM": "Jamaica",
+"HT": "Haiti",
+"DO": "Dominican Republic",
+"BS": "Bahamas",
+"BB": "Barbados",
+"TT": "Trinidad and Tobago",
+"GD": "Grenada",
+"VC": "Saint Vincent",
+"LC": "Saint Lucia",
+"DM": "Dominica",
+"AG": "Antigua and Barbuda",
+"KN": "Saint Kitts and Nevis",
+"GE": "Georgia",
+"AM": "Armenia",
+"AZ": "Azerbaijan",
+"KZ": "Kazakhstan",
+"UZ": "Uzbekistan",
+"TM": "Turkmenistan",
+"KG": "Kyrgyzstan",
+"TJ": "Tajikistan",
+"AF": "Afghanistan",
+"IR": "Iran",
+"IQ": "Iraq",
+"SY": "Syria",
+"LB": "Lebanon",
+"IL": "Israel",
+"PS": "Palestine",
+"JO": "Jordan",
+"SA": "Saudi Arabia",
+"YE": "Yemen",
+"OM": "Oman",
+"AE": "United Arab Emirates",
+"QA": "Qatar",
+"BH": "Bahrain",
+"KW": "Kuwait",
+"IN": "India",
+"PK": "Pakistan",
+"NP": "Nepal",
+"BT": "Bhutan",
+"BD": "Bangladesh",
+"LK": "Sri Lanka",
+"MV": "Maldives",
+"MM": "Myanmar",
+"TH": "Thailand",
+"LA": "Laos",
+"KH": "Cambodia",
+"VN": "Vietnam",
+"MY": "Malaysia",
+"SG": "Singapore",
+"ID": "Indonesia",
+"BN": "Brunei",
+"PH": "Philippines",
+"TL": "East Timor",
+"CN": "China",
+"MN": "Mongolia",
+"KP": "North Korea",
+"KR": "South Korea",
+"JP": "Japan",
+"TW": "Taiwan",
+"AU": "Australia",
+"NZ": "New Zealand",
+"PG": "Papua New Guinea",
+"SB": "Solomon Islands",
+"VU": "Vanuatu",
+"FJ": "Fiji",
+"WS": "Samoa",
+"TO": "Tonga",
+"KI": "Kiribati",
+"TV": "Tuvalu",
+"NR": "Nauru",
+"MH": "Marshall Islands",
+"FM": "Micronesia",
+"PW": "Palau",
+"MA": "Morocco",
+"DZ": "Algeria",
+"TN": "Tunisia",
+"LY": "Libya",
+"EG": "Egypt",
+"SD": "Sudan",
+"SS": "South Sudan",
+"ET": "Ethiopia",
+"ER": "Eritrea",
+"DJ": "Djibouti",
+"SO": "Somalia",
+"KE": "Kenya",
+"UG": "Uganda",
+"RW": "Rwanda",
+"BI": "Burundi",
+"TZ": "Tanzania",
+"MZ": "Mozambique",
+"MW": "Malawi",
+"ZM": "Zambia",
+"ZW": "Zimbabwe",
+"BW": "Botswana",
+"NA": "Namibia",
+"ZA": "South Africa",
+"LS": "Lesotho",
+"SZ": "Eswatini",
+"MG": "Madagascar",
+"MU": "Mauritius",
+"KM": "Comoros",
+"SC": "Seychelles",
+"AO": "Angola",
+"CD": "DR Congo",
+"CG": "Republic of the Congo",
+"GA": "Gabon",
+"GQ": "Equatorial Guinea",
+"CM": "Cameroon",
+"CF": "Central African Republic",
+"TD": "Chad",
+"NE": "Niger",
+"NG": "Nigeria",
+"BJ": "Benin",
+"TG": "Togo",
+"GH": "Ghana",
+"CI": "Ivory Coast",
+"BF": "Burkina Faso",
+"ML": "Mali",
+"MR": "Mauritania",
+"SN": "Senegal",
+"GM": "Gambia",
+"GW": "Guinea-Bissau",
+"GN": "Guinea",
+"SL": "Sierra Leone",
+"LR": "Liberia",
+"CV": "Cape Verde",
+"ST": "São Tomé",
+"VA": "Vatican City"
+}
+}

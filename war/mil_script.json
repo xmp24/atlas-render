@@ -1,0 +1,1889 @@
+{
+"key": "mil",
+"C": [
+{
+"c": "US",
+"st": "E",
+"v": "$954B",
+"vs": "$954B",
+"sub": "3.1% of GDP",
+"say": "United States: $954 billion. 3.1% of GDP. Number one, by far!"
+},
+{
+"c": "CA",
+"st": "D",
+"v": "$37B",
+"vs": "$37B",
+"sub": "1.6% of GDP",
+"say": "Canada: $37 billion. 1.6% of GDP."
+},
+{
+"c": "MX",
+"st": "D",
+"v": "$14B",
+"vs": "$14B",
+"sub": "0.7% of GDP",
+"say": "Mexico: $14 billion. 0.7% of GDP."
+},
+{
+"c": "GB",
+"st": "D",
+"v": "$89B",
+"vs": "$89B",
+"sub": "2.4% of GDP",
+"say": "United Kingdom: $89 billion. 2.4% of GDP."
+},
+{
+"c": "IE",
+"st": "C",
+"v": "$1.6B",
+"vs": "$1.6B",
+"sub": "0.2% of GDP",
+"say": "Ireland: $1.6 billion. 0.2% of GDP. One of the lowest shares in Europe."
+},
+{
+"c": "FR",
+"st": "D",
+"v": "$68B",
+"vs": "$68B",
+"sub": "2.0% of GDP",
+"say": "France: $68 billion. 2% of GDP."
+},
+{
+"c": "ES",
+"st": "D",
+"v": "$40B",
+"vs": "$40B",
+"sub": "2.1% of GDP",
+"say": "Spain: $40 billion. 2.1% of GDP."
+},
+{
+"c": "PT",
+"st": "C",
+"v": "$5.9B",
+"vs": "$5.9B",
+"sub": "1.7% of GDP",
+"say": "Portugal: $5.9 billion. 1.7% of GDP."
+},
+{
+"c": "AD",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Andorra: zero. No army!"
+},
+{
+"c": "IT",
+"st": "D",
+"v": "$48B",
+"vs": "$48B",
+"sub": "1.9% of GDP",
+"say": "Italy: $48 billion. 1.9% of GDP."
+},
+{
+"c": "SM",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "San Marino: no data!"
+},
+{
+"c": "MT",
+"st": "B",
+"v": "$125M",
+"vs": "$125M",
+"sub": "0.5% of GDP",
+"say": "Malta: $120 million. 0.5% of GDP."
+},
+{
+"c": "MC",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Monaco: no data!"
+},
+{
+"c": "CH",
+"st": "C",
+"v": "$7.6B",
+"vs": "$7.6B",
+"sub": "0.8% of GDP",
+"say": "Switzerland: $7.6 billion. 0.8% of GDP."
+},
+{
+"c": "LI",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Liechtenstein: zero. No army!"
+},
+{
+"c": "AT",
+"st": "C",
+"v": "$6.4B",
+"vs": "$6.4B",
+"sub": "1.1% of GDP",
+"say": "Austria: $6.4 billion. 1.1% of GDP."
+},
+{
+"c": "DE",
+"st": "E",
+"v": "$114B",
+"vs": "$114B",
+"sub": "2.3% of GDP",
+"say": "Germany: $114 billion. 2.3% of GDP. Number four!"
+},
+{
+"c": "LU",
+"st": "B",
+"v": "$855M",
+"vs": "$855M",
+"sub": "0.8% of GDP",
+"say": "Luxembourg: $860 million. 0.8% of GDP."
+},
+{
+"c": "BE",
+"st": "D",
+"v": "$15B",
+"vs": "$15B",
+"sub": "2.0% of GDP",
+"say": "Belgium: $15 billion. 2% of GDP."
+},
+{
+"c": "NL",
+"st": "D",
+"v": "$29B",
+"vs": "$29B",
+"sub": "2.2% of GDP",
+"say": "Netherlands: $29 billion. 2.2% of GDP."
+},
+{
+"c": "DK",
+"st": "D",
+"v": "$15B",
+"vs": "$15B",
+"sub": "3.2% of GDP",
+"say": "Denmark: $15 billion. 3.2% of GDP."
+},
+{
+"c": "NO",
+"st": "D",
+"v": "$17B",
+"vs": "$17B",
+"sub": "3.3% of GDP",
+"say": "Norway: $17 billion. 3.3% of GDP."
+},
+{
+"c": "SE",
+"st": "D",
+"v": "$16B",
+"vs": "$16B",
+"sub": "2.5% of GDP",
+"say": "Sweden: $16 billion. 2.5% of GDP."
+},
+{
+"c": "FI",
+"st": "C",
+"v": "$8.1B",
+"vs": "$8.1B",
+"sub": "2.6% of GDP",
+"say": "Finland: $8.1 billion. 2.6% of GDP."
+},
+{
+"c": "IS",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Iceland: zero. No army!"
+},
+{
+"c": "PL",
+"st": "D",
+"v": "$47B",
+"vs": "$47B",
+"sub": "4.5% of GDP",
+"say": "Poland: $47 billion. 4.5% of GDP."
+},
+{
+"c": "CZ",
+"st": "C",
+"v": "$7.1B",
+"vs": "$7.1B",
+"sub": "1.8% of GDP",
+"say": "Czech Republic: $7.1 billion. 1.8% of GDP."
+},
+{
+"c": "SK",
+"st": "C",
+"v": "$3.1B",
+"vs": "$3.1B",
+"sub": "2.0% of GDP",
+"say": "Slovakia: $3.1 billion. 2% of GDP."
+},
+{
+"c": "HU",
+"st": "C",
+"v": "$5.0B",
+"vs": "$5.0B",
+"sub": "2.0% of GDP",
+"say": "Hungary: $5 billion. 2% of GDP."
+},
+{
+"c": "SI",
+"st": "C",
+"v": "$1.2B",
+"vs": "$1.2B",
+"sub": "1.5% of GDP",
+"say": "Slovenia: $1.2 billion. 1.5% of GDP."
+},
+{
+"c": "HR",
+"st": "C",
+"v": "$2.1B",
+"vs": "$2.1B",
+"sub": "2.0% of GDP",
+"say": "Croatia: $2.1 billion. 2% of GDP."
+},
+{
+"c": "BA",
+"st": "B",
+"v": "$231M",
+"vs": "$231M",
+"sub": "0.7% of GDP",
+"say": "Bosnia: $230 million. 0.7% of GDP."
+},
+{
+"c": "RS",
+"st": "C",
+"v": "$2.8B",
+"vs": "$2.8B",
+"sub": "2.8% of GDP",
+"say": "Serbia: $2.8 billion. 2.8% of GDP."
+},
+{
+"c": "ME",
+"st": "B",
+"v": "$177M",
+"vs": "$177M",
+"sub": "1.9% of GDP",
+"say": "Montenegro: $180 million. 1.9% of GDP."
+},
+{
+"c": "XK",
+"st": "B",
+"v": "$235M",
+"vs": "$235M",
+"sub": "1.9% of GDP",
+"say": "Kosovo: $240 million. 1.9% of GDP."
+},
+{
+"c": "AL",
+"st": "B",
+"v": "$624M",
+"vs": "$624M",
+"sub": "2.0% of GDP",
+"say": "Albania: $620 million. 2% of GDP."
+},
+{
+"c": "MK",
+"st": "B",
+"v": "$375M",
+"vs": "$375M",
+"sub": "2.0% of GDP",
+"say": "North Macedonia: $380 million. 2% of GDP."
+},
+{
+"c": "GR",
+"st": "C",
+"v": "$8.4B",
+"vs": "$8.4B",
+"sub": "3.0% of GDP",
+"say": "Greece: $8.4 billion. 3% of GDP. Almost three percent!"
+},
+{
+"c": "BG",
+"st": "C",
+"v": "$2.6B",
+"vs": "$2.6B",
+"sub": "2.0% of GDP",
+"say": "Bulgaria: $2.6 billion. 2% of GDP."
+},
+{
+"c": "RO",
+"st": "C",
+"v": "$9.7B",
+"vs": "$9.7B",
+"sub": "2.3% of GDP",
+"say": "Romania: $9.7 billion. 2.3% of GDP."
+},
+{
+"c": "MD",
+"st": "B",
+"v": "$113M",
+"vs": "$113M",
+"sub": "0.6% of GDP",
+"say": "Moldova: $110 million. 0.6% of GDP."
+},
+{
+"c": "UA",
+"st": "D",
+"v": "$84B",
+"vs": "$84B",
+"sub": "39.6% of GDP",
+"say": "Ukraine: $84 billion. 39.6% of GDP."
+},
+{
+"c": "BY",
+"st": "C",
+"v": "$1.9B",
+"vs": "$1.9B",
+"sub": "2.4% of GDP",
+"say": "Belarus: $1.9 billion. 2.4% of GDP."
+},
+{
+"c": "LT",
+"st": "C",
+"v": "$3.0B",
+"vs": "$3.0B",
+"sub": "3.1% of GDP",
+"say": "Lithuania: $3 billion. 3.1% of GDP."
+},
+{
+"c": "LV",
+"st": "C",
+"v": "$1.7B",
+"vs": "$1.7B",
+"sub": "3.6% of GDP",
+"say": "Latvia: $1.7 billion. 3.6% of GDP."
+},
+{
+"c": "EE",
+"st": "C",
+"v": "$1.6B",
+"vs": "$1.6B",
+"sub": "3.4% of GDP",
+"say": "Estonia: $1.6 billion. 3.4% of GDP."
+},
+{
+"c": "RU",
+"st": "E",
+"v": "$190B",
+"vs": "$190B",
+"sub": "7.5% of GDP",
+"say": "Russia: $190 billion. 7.5% of GDP. Number three."
+},
+{
+"c": "CY",
+"st": "B",
+"v": "$663M",
+"vs": "$663M",
+"sub": "1.6% of GDP",
+"say": "Cyprus: $660 million. 1.6% of GDP."
+},
+{
+"c": "TR",
+"st": "D",
+"v": "$30B",
+"vs": "$30B",
+"sub": "1.9% of GDP",
+"say": "Turkey: $30 billion. 1.9% of GDP."
+},
+{
+"c": "CO",
+"st": "D",
+"v": "$15B",
+"vs": "$15B",
+"sub": "3.2% of GDP",
+"say": "Colombia: $15 billion. 3.2% of GDP."
+},
+{
+"c": "VE",
+"st": "C",
+"v": "$2.1B",
+"vs": "$2.1B",
+"sub": "2.2% of GDP · data 2017",
+"say": "Venezuela: $2.1 billion. 2.2% of GDP. Last official figure: 2017."
+},
+{
+"c": "EC",
+"st": "C",
+"v": "$2.7B",
+"vs": "$2.7B",
+"sub": "2.1% of GDP",
+"say": "Ecuador: $2.7 billion. 2.1% of GDP."
+},
+{
+"c": "PE",
+"st": "C",
+"v": "$2.6B",
+"vs": "$2.6B",
+"sub": "0.8% of GDP",
+"say": "Peru: $2.6 billion. 0.8% of GDP."
+},
+{
+"c": "BO",
+"st": "B",
+"v": "$688M",
+"vs": "$688M",
+"sub": "1.2% of GDP",
+"say": "Bolivia: $690 million. 1.2% of GDP."
+},
+{
+"c": "CL",
+"st": "C",
+"v": "$5.3B",
+"vs": "$5.3B",
+"sub": "1.5% of GDP",
+"say": "Chile: $5.3 billion. 1.5% of GDP."
+},
+{
+"c": "AR",
+"st": "C",
+"v": "$3.9B",
+"vs": "$3.9B",
+"sub": "0.6% of GDP",
+"say": "Argentina: $3.9 billion. 0.6% of GDP."
+},
+{
+"c": "UY",
+"st": "C",
+"v": "$2.0B",
+"vs": "$2.0B",
+"sub": "2.3% of GDP",
+"say": "Uruguay: $2 billion. 2.3% of GDP."
+},
+{
+"c": "PY",
+"st": "B",
+"v": "$421M",
+"vs": "$421M",
+"sub": "0.9% of GDP",
+"say": "Paraguay: $420 million. 0.9% of GDP."
+},
+{
+"c": "BR",
+"st": "D",
+"v": "$24B",
+"vs": "$24B",
+"sub": "1.1% of GDP",
+"say": "Brazil: $24 billion. 1.1% of GDP."
+},
+{
+"c": "GY",
+"st": "B",
+"v": "$248M",
+"vs": "$248M",
+"sub": "1.0% of GDP",
+"say": "Guyana: $250 million. 1% of GDP."
+},
+{
+"c": "SR",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Suriname: no data!"
+},
+{
+"c": "PA",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Panama: zero. No army!"
+},
+{
+"c": "CR",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Costa Rica: zero. No army!"
+},
+{
+"c": "NI",
+"st": "B",
+"v": "$116M",
+"vs": "$116M",
+"sub": "0.6% of GDP",
+"say": "Nicaragua: $120 million. 0.6% of GDP."
+},
+{
+"c": "HN",
+"st": "B",
+"v": "$580M",
+"vs": "$580M",
+"sub": "1.5% of GDP",
+"say": "Honduras: $580 million. 1.5% of GDP."
+},
+{
+"c": "SV",
+"st": "B",
+"v": "$490M",
+"vs": "$490M",
+"sub": "1.3% of GDP",
+"say": "El Salvador: $490 million. 1.3% of GDP."
+},
+{
+"c": "GT",
+"st": "B",
+"v": "$633M",
+"vs": "$633M",
+"sub": "0.5% of GDP",
+"say": "Guatemala: $630 million. 0.5% of GDP."
+},
+{
+"c": "BZ",
+"st": "A",
+"v": "$33M",
+"vs": "$33M",
+"sub": "1.0% of GDP",
+"say": "Belize: $33 million. 1% of GDP."
+},
+{
+"c": "CU",
+"st": "B",
+"v": "$129M",
+"vs": "$129M",
+"sub": "2.9% of GDP · data 2018",
+"say": "Cuba: $130 million. 2.9% of GDP. Last official figure: 2018."
+},
+{
+"c": "JM",
+"st": "B",
+"v": "$287M",
+"vs": "$287M",
+"sub": "1.4% of GDP",
+"say": "Jamaica: $290 million. 1.4% of GDP."
+},
+{
+"c": "HT",
+"st": "A",
+"v": "$39M",
+"vs": "$39M",
+"sub": "0.1% of GDP",
+"say": "Haiti: $39 million. 0.1% of GDP. Almost nothing."
+},
+{
+"c": "DO",
+"st": "C",
+"v": "$1.0B",
+"vs": "$1.0B",
+"sub": "0.8% of GDP",
+"say": "Dominican Republic: $1 billion. 0.8% of GDP."
+},
+{
+"c": "BS",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Bahamas: no data!"
+},
+{
+"c": "BB",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Barbados: no data!"
+},
+{
+"c": "TT",
+"st": "B",
+"v": "$230M",
+"vs": "$230M",
+"sub": "0.9% of GDP",
+"say": "Trinidad and Tobago: $230 million. 0.9% of GDP."
+},
+{
+"c": "GD",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Grenada: zero. No army!"
+},
+{
+"c": "VC",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Saint Vincent: zero. No army!"
+},
+{
+"c": "LC",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Saint Lucia: zero. No army!"
+},
+{
+"c": "DM",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Dominica: zero. No army!"
+},
+{
+"c": "AG",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Antigua and Barbuda: no data!"
+},
+{
+"c": "KN",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Saint Kitts and Nevis: no data!"
+},
+{
+"c": "GE",
+"st": "B",
+"v": "$658M",
+"vs": "$658M",
+"sub": "1.8% of GDP",
+"say": "Georgia: $660 million. 1.8% of GDP."
+},
+{
+"c": "AM",
+"st": "C",
+"v": "$1.7B",
+"vs": "$1.7B",
+"sub": "6.1% of GDP",
+"say": "Armenia: $1.7 billion. 6.1% of GDP."
+},
+{
+"c": "AZ",
+"st": "C",
+"v": "$4.9B",
+"vs": "$4.9B",
+"sub": "6.5% of GDP",
+"say": "Azerbaijan: $4.9 billion. 6.5% of GDP."
+},
+{
+"c": "KZ",
+"st": "C",
+"v": "$1.3B",
+"vs": "$1.3B",
+"sub": "0.4% of GDP",
+"say": "Kazakhstan: $1.3 billion. 0.4% of GDP."
+},
+{
+"c": "UZ",
+"st": "C",
+"v": "$1.4B",
+"vs": "$1.4B",
+"sub": "2.5% of GDP · data 2018",
+"say": "Uzbekistan: $1.4 billion. 2.5% of GDP."
+},
+{
+"c": "TM",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Turkmenistan: no data!"
+},
+{
+"c": "KG",
+"st": "B",
+"v": "$601M",
+"vs": "$601M",
+"sub": "2.9% of GDP",
+"say": "Kyrgyzstan: $600 million. 2.9% of GDP."
+},
+{
+"c": "TJ",
+"st": "B",
+"v": "$247M",
+"vs": "$247M",
+"sub": "1.5% of GDP",
+"say": "Tajikistan: $250 million. 1.5% of GDP."
+},
+{
+"c": "AF",
+"st": "B",
+"v": "$278M",
+"vs": "$278M",
+"sub": "1.8% of GDP · data 2021",
+"say": "Afghanistan: $280 million. 1.8% of GDP."
+},
+{
+"c": "IR",
+"st": "C",
+"v": "$7.4B",
+"vs": "$7.4B",
+"sub": "2.1% of GDP",
+"say": "Iran: $7.4 billion. 2.1% of GDP."
+},
+{
+"c": "IQ",
+"st": "C",
+"v": "$6.4B",
+"vs": "$6.4B",
+"sub": "2.5% of GDP",
+"say": "Iraq: $6.4 billion. 2.5% of GDP."
+},
+{
+"c": "SY",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Syria: no data!"
+},
+{
+"c": "LB",
+"st": "B",
+"v": "$828M",
+"vs": "$828M",
+"sub": "2.5% of GDP",
+"say": "Lebanon: $830 million. 2.5% of GDP."
+},
+{
+"c": "IL",
+"st": "D",
+"v": "$48B",
+"vs": "$48B",
+"sub": "7.8% of GDP",
+"say": "Israel: $48 billion. 7.8% of GDP."
+},
+{
+"c": "PS",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Palestine: zero. No army!"
+},
+{
+"c": "JO",
+"st": "C",
+"v": "$2.6B",
+"vs": "$2.6B",
+"sub": "4.6% of GDP",
+"say": "Jordan: $2.6 billion. 4.6% of GDP."
+},
+{
+"c": "SA",
+"st": "D",
+"v": "$83B",
+"vs": "$83B",
+"sub": "6.5% of GDP",
+"say": "Saudi Arabia: $83 billion. 6.5% of GDP."
+},
+{
+"c": "YE",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Yemen: no data!"
+},
+{
+"c": "OM",
+"st": "C",
+"v": "$6.0B",
+"vs": "$6.0B",
+"sub": "5.7% of GDP",
+"say": "Oman: $6 billion. 5.7% of GDP. One of the highest shares on Earth."
+},
+{
+"c": "AE",
+"st": "D",
+"v": "$23B",
+"vs": "$23B",
+"sub": "5.6% of GDP · data 2014",
+"say": "United Arab Emirates: $23 billion. 5.6% of GDP. Last official figure: 2014."
+},
+{
+"c": "QA",
+"st": "D",
+"v": "$15B",
+"vs": "$15B",
+"sub": "6.5% of GDP · data 2022",
+"say": "Qatar: $15 billion. 6.5% of GDP."
+},
+{
+"c": "BH",
+"st": "C",
+"v": "$1.5B",
+"vs": "$1.5B",
+"sub": "3.1% of GDP",
+"say": "Bahrain: $1.5 billion. 3.1% of GDP."
+},
+{
+"c": "KW",
+"st": "C",
+"v": "$8.1B",
+"vs": "$8.1B",
+"sub": "4.7% of GDP",
+"say": "Kuwait: $8.1 billion. 4.7% of GDP."
+},
+{
+"c": "IN",
+"st": "D",
+"v": "$92B",
+"vs": "$92B",
+"sub": "2.3% of GDP",
+"say": "India: $92 billion. 2.3% of GDP."
+},
+{
+"c": "PK",
+"st": "D",
+"v": "$12B",
+"vs": "$12B",
+"sub": "2.9% of GDP",
+"say": "Pakistan: $12 billion. 2.9% of GDP."
+},
+{
+"c": "NP",
+"st": "B",
+"v": "$428M",
+"vs": "$428M",
+"sub": "1.0% of GDP",
+"say": "Nepal: $430 million. 1% of GDP."
+},
+{
+"c": "BT",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Bhutan: no data!"
+},
+{
+"c": "BD",
+"st": "C",
+"v": "$3.8B",
+"vs": "$3.8B",
+"sub": "0.8% of GDP",
+"say": "Bangladesh: $3.8 billion. 0.8% of GDP."
+},
+{
+"c": "LK",
+"st": "C",
+"v": "$1.4B",
+"vs": "$1.4B",
+"sub": "1.3% of GDP",
+"say": "Sri Lanka: $1.4 billion. 1.3% of GDP."
+},
+{
+"c": "MV",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Maldives: no data!"
+},
+{
+"c": "MM",
+"st": "C",
+"v": "$5.0B",
+"vs": "$5.0B",
+"sub": "6.6% of GDP",
+"say": "Myanmar: $5 billion. 6.6% of GDP. Nearly seven percent!"
+},
+{
+"c": "TH",
+"st": "C",
+"v": "$6.0B",
+"vs": "$6.0B",
+"sub": "1.0% of GDP",
+"say": "Thailand: $6 billion. 1% of GDP."
+},
+{
+"c": "LA",
+"st": "A",
+"v": "$23M",
+"vs": "$23M",
+"sub": "0.2% of GDP · data 2013",
+"say": "Laos: $23 million. 0.2% of GDP."
+},
+{
+"c": "KH",
+"st": "B",
+"v": "$739M",
+"vs": "$739M",
+"sub": "1.4% of GDP",
+"say": "Cambodia: $740 million. 1.4% of GDP."
+},
+{
+"c": "VN",
+"st": "D",
+"v": "$10B",
+"vs": "$10B",
+"sub": "2.1% of GDP",
+"say": "Vietnam: $10 billion. 2.1% of GDP."
+},
+{
+"c": "MY",
+"st": "C",
+"v": "$4.9B",
+"vs": "$4.9B",
+"sub": "1.0% of GDP",
+"say": "Malaysia: $4.9 billion. 1% of GDP."
+},
+{
+"c": "SG",
+"st": "D",
+"v": "$17B",
+"vs": "$17B",
+"sub": "3.0% of GDP",
+"say": "Singapore: $17 billion. 3% of GDP."
+},
+{
+"c": "ID",
+"st": "D",
+"v": "$15B",
+"vs": "$15B",
+"sub": "1.0% of GDP",
+"say": "Indonesia: $15 billion. 1% of GDP."
+},
+{
+"c": "BN",
+"st": "B",
+"v": "$560M",
+"vs": "$560M",
+"sub": "3.6% of GDP",
+"say": "Brunei: $560 million. 3.6% of GDP."
+},
+{
+"c": "PH",
+"st": "C",
+"v": "$6.4B",
+"vs": "$6.4B",
+"sub": "1.3% of GDP",
+"say": "Philippines: $6.4 billion. 1.3% of GDP."
+},
+{
+"c": "TL",
+"st": "A",
+"v": "$48M",
+"vs": "$48M",
+"sub": "2.2% of GDP",
+"say": "East Timor: $48 million. 2.2% of GDP."
+},
+{
+"c": "CN",
+"st": "E",
+"v": "$336B",
+"vs": "$336B",
+"sub": "1.7% of GDP",
+"say": "China: $336 billion. 1.7% of GDP. Number two."
+},
+{
+"c": "MN",
+"st": "B",
+"v": "$221M",
+"vs": "$221M",
+"sub": "0.9% of GDP",
+"say": "Mongolia: $220 million. 0.9% of GDP."
+},
+{
+"c": "KP",
+"st": "C",
+"v": "$1.6B",
+"vs": "$1.6B",
+"sub": "Share of GDP unknown · data 2018",
+"say": "North Korea: $1.6 billion. Nobody knows!"
+},
+{
+"c": "KR",
+"st": "D",
+"v": "$48B",
+"vs": "$48B",
+"sub": "2.6% of GDP",
+"say": "South Korea: $48 billion. 2.6% of GDP."
+},
+{
+"c": "JP",
+"st": "D",
+"v": "$62B",
+"vs": "$62B",
+"sub": "1.4% of GDP",
+"say": "Japan: $62 billion. 1.4% of GDP."
+},
+{
+"c": "TW",
+"st": "D",
+"v": "$20B",
+"vs": "$20B",
+"sub": "2.5% of GDP",
+"say": "Taiwan: $20 billion. 2.5% of GDP."
+},
+{
+"c": "AU",
+"st": "D",
+"v": "$35B",
+"vs": "$35B",
+"sub": "1.9% of GDP",
+"say": "Australia: $35 billion. 1.9% of GDP."
+},
+{
+"c": "NZ",
+"st": "C",
+"v": "$2.9B",
+"vs": "$2.9B",
+"sub": "1.1% of GDP",
+"say": "New Zealand: $2.9 billion. 1.1% of GDP."
+},
+{
+"c": "PG",
+"st": "B",
+"v": "$106M",
+"vs": "$106M",
+"sub": "0.3% of GDP",
+"say": "Papua New Guinea: $110 million. 0.3% of GDP."
+},
+{
+"c": "SB",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Solomon Islands: zero. No army!"
+},
+{
+"c": "VU",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Vanuatu: zero. No army!"
+},
+{
+"c": "FJ",
+"st": "A",
+"v": "$81M",
+"vs": "$81M",
+"sub": "1.3% of GDP",
+"say": "Fiji: $81 million. 1.3% of GDP."
+},
+{
+"c": "WS",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Samoa: zero. No army!"
+},
+{
+"c": "TO",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Tonga: no data!"
+},
+{
+"c": "KI",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Kiribati: zero. No army!"
+},
+{
+"c": "TV",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Tuvalu: zero. No army!"
+},
+{
+"c": "NR",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Nauru: zero. No army!"
+},
+{
+"c": "MH",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Marshall Islands: zero. No army!"
+},
+{
+"c": "FM",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Micronesia: zero. No army!"
+},
+{
+"c": "PW",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Palau: zero. No army!"
+},
+{
+"c": "MA",
+"st": "C",
+"v": "$6.3B",
+"vs": "$6.3B",
+"sub": "3.5% of GDP",
+"say": "Morocco: $6.3 billion. 3.5% of GDP."
+},
+{
+"c": "DZ",
+"st": "D",
+"v": "$25B",
+"vs": "$25B",
+"sub": "8.8% of GDP",
+"say": "Algeria: $25 billion. 8.8% of GDP. The highest share in Africa!"
+},
+{
+"c": "TN",
+"st": "C",
+"v": "$1.5B",
+"vs": "$1.5B",
+"sub": "2.5% of GDP",
+"say": "Tunisia: $1.5 billion. 2.5% of GDP."
+},
+{
+"c": "LY",
+"st": "C",
+"v": "$1.6B",
+"vs": "$1.6B",
+"sub": "3.6% of GDP · data 2023",
+"say": "Libya: $1.6 billion. 3.6% of GDP."
+},
+{
+"c": "EG",
+"st": "C",
+"v": "$2.5B",
+"vs": "$2.5B",
+"sub": "0.6% of GDP",
+"say": "Egypt: $2.5 billion. 0.6% of GDP."
+},
+{
+"c": "SD",
+"st": "B",
+"v": "$369M",
+"vs": "$369M",
+"sub": "0.9% of GDP · data 2021",
+"say": "Sudan: $370 million. 0.9% of GDP."
+},
+{
+"c": "SS",
+"st": "B",
+"v": "$178M",
+"vs": "$178M",
+"sub": "3.4% of GDP",
+"say": "South Sudan: $180 million. 3.4% of GDP."
+},
+{
+"c": "ET",
+"st": "B",
+"v": "$528M",
+"vs": "$528M",
+"sub": "0.5% of GDP",
+"say": "Ethiopia: $530 million. 0.5% of GDP."
+},
+{
+"c": "ER",
+"st": "B",
+"v": "$182M",
+"vs": "$182M",
+"sub": "20.9% of GDP · data 2003",
+"say": "Eritrea: $180 million. 20.9% of GDP. Last official number: 2003!"
+},
+{
+"c": "DJ",
+"st": "A",
+"v": "$36M",
+"vs": "$36M",
+"sub": "2.6% of GDP · data 2008",
+"say": "Djibouti: $36 million. 2.6% of GDP."
+},
+{
+"c": "SO",
+"st": "B",
+"v": "$199M",
+"vs": "$199M",
+"sub": "1.5% of GDP",
+"say": "Somalia: $200 million. 1.5% of GDP."
+},
+{
+"c": "KE",
+"st": "C",
+"v": "$1.5B",
+"vs": "$1.5B",
+"sub": "1.1% of GDP",
+"say": "Kenya: $1.5 billion. 1.1% of GDP."
+},
+{
+"c": "UG",
+"st": "C",
+"v": "$1.3B",
+"vs": "$1.3B",
+"sub": "2.0% of GDP",
+"say": "Uganda: $1.3 billion. 2% of GDP."
+},
+{
+"c": "RW",
+"st": "B",
+"v": "$191M",
+"vs": "$191M",
+"sub": "1.3% of GDP",
+"say": "Rwanda: $190 million. 1.3% of GDP."
+},
+{
+"c": "BI",
+"st": "B",
+"v": "$227M",
+"vs": "$227M",
+"sub": "3.2% of GDP",
+"say": "Burundi: $230 million. 3.2% of GDP."
+},
+{
+"c": "TZ",
+"st": "C",
+"v": "$1.0B",
+"vs": "$1.0B",
+"sub": "1.2% of GDP",
+"say": "Tanzania: $1 billion. 1.2% of GDP."
+},
+{
+"c": "MZ",
+"st": "B",
+"v": "$468M",
+"vs": "$468M",
+"sub": "1.9% of GDP",
+"say": "Mozambique: $470 million. 1.9% of GDP."
+},
+{
+"c": "MW",
+"st": "B",
+"v": "$163M",
+"vs": "$163M",
+"sub": "1.1% of GDP",
+"say": "Malawi: $160 million. 1.1% of GDP."
+},
+{
+"c": "ZM",
+"st": "B",
+"v": "$406M",
+"vs": "$406M",
+"sub": "1.3% of GDP",
+"say": "Zambia: $410 million. 1.3% of GDP."
+},
+{
+"c": "ZW",
+"st": "B",
+"v": "$160M",
+"vs": "$160M",
+"sub": "0.6% of GDP",
+"say": "Zimbabwe: $160 million. 0.6% of GDP."
+},
+{
+"c": "BW",
+"st": "B",
+"v": "$614M",
+"vs": "$614M",
+"sub": "3.1% of GDP",
+"say": "Botswana: $610 million. 3.1% of GDP."
+},
+{
+"c": "NA",
+"st": "B",
+"v": "$411M",
+"vs": "$411M",
+"sub": "2.8% of GDP",
+"say": "Namibia: $410 million. 2.8% of GDP."
+},
+{
+"c": "ZA",
+"st": "C",
+"v": "$3.2B",
+"vs": "$3.2B",
+"sub": "0.7% of GDP",
+"say": "South Africa: $3.2 billion. 0.7% of GDP."
+},
+{
+"c": "LS",
+"st": "A",
+"v": "$40M",
+"vs": "$40M",
+"sub": "1.6% of GDP",
+"say": "Lesotho: $40 million. 1.6% of GDP."
+},
+{
+"c": "SZ",
+"st": "A",
+"v": "$93M",
+"vs": "$93M",
+"sub": "1.6% of GDP",
+"say": "Eswatini: $93 million. 1.6% of GDP."
+},
+{
+"c": "MG",
+"st": "B",
+"v": "$120M",
+"vs": "$120M",
+"sub": "0.6% of GDP",
+"say": "Madagascar: $120 million. 0.6% of GDP."
+},
+{
+"c": "MU",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Mauritius: zero. No army!"
+},
+{
+"c": "KM",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "Comoros: no data!"
+},
+{
+"c": "SC",
+"st": "A",
+"v": "$28M",
+"vs": "$28M",
+"sub": "1.2% of GDP",
+"say": "Seychelles: $28 million. 1.2% of GDP."
+},
+{
+"c": "AO",
+"st": "C",
+"v": "$1.5B",
+"vs": "$1.5B",
+"sub": "1.4% of GDP",
+"say": "Angola: $1.5 billion. 1.4% of GDP."
+},
+{
+"c": "CD",
+"st": "C",
+"v": "$1.2B",
+"vs": "$1.2B",
+"sub": "1.4% of GDP",
+"say": "DR Congo: $1.2 billion. 1.4% of GDP."
+},
+{
+"c": "CG",
+"st": "B",
+"v": "$205M",
+"vs": "$205M",
+"sub": "1.3% of GDP",
+"say": "Republic of the Congo: $200 million. 1.3% of GDP."
+},
+{
+"c": "GA",
+"st": "B",
+"v": "$356M",
+"vs": "$356M",
+"sub": "1.7% of GDP",
+"say": "Gabon: $360 million. 1.7% of GDP."
+},
+{
+"c": "GQ",
+"st": "B",
+"v": "$121M",
+"vs": "$121M",
+"sub": "0.9% of GDP",
+"say": "Equatorial Guinea: $120 million. 0.9% of GDP."
+},
+{
+"c": "CM",
+"st": "B",
+"v": "$627M",
+"vs": "$627M",
+"sub": "1.1% of GDP",
+"say": "Cameroon: $630 million. 1.1% of GDP."
+},
+{
+"c": "CF",
+"st": "A",
+"v": "$74M",
+"vs": "$74M",
+"sub": "2.3% of GDP",
+"say": "Central African Republic: $74 million. 2.3% of GDP."
+},
+{
+"c": "TD",
+"st": "B",
+"v": "$649M",
+"vs": "$649M",
+"sub": "3.2% of GDP",
+"say": "Chad: $650 million. 3.2% of GDP."
+},
+{
+"c": "NE",
+"st": "B",
+"v": "$489M",
+"vs": "$489M",
+"sub": "2.1% of GDP",
+"say": "Niger: $490 million. 2.1% of GDP."
+},
+{
+"c": "NG",
+"st": "C",
+"v": "$2.1B",
+"vs": "$2.1B",
+"sub": "0.9% of GDP",
+"say": "Nigeria: $2.1 billion. 0.9% of GDP."
+},
+{
+"c": "BJ",
+"st": "B",
+"v": "$217M",
+"vs": "$217M",
+"sub": "0.9% of GDP",
+"say": "Benin: $220 million. 0.9% of GDP."
+},
+{
+"c": "TG",
+"st": "B",
+"v": "$205M",
+"vs": "$205M",
+"sub": "1.9% of GDP",
+"say": "Togo: $200 million. 1.9% of GDP."
+},
+{
+"c": "GH",
+"st": "B",
+"v": "$507M",
+"vs": "$507M",
+"sub": "0.5% of GDP",
+"say": "Ghana: $510 million. 0.5% of GDP."
+},
+{
+"c": "CI",
+"st": "B",
+"v": "$759M",
+"vs": "$759M",
+"sub": "0.8% of GDP",
+"say": "Ivory Coast: $760 million. 0.8% of GDP."
+},
+{
+"c": "BF",
+"st": "B",
+"v": "$892M",
+"vs": "$892M",
+"sub": "3.3% of GDP",
+"say": "Burkina Faso: $890 million. 3.3% of GDP."
+},
+{
+"c": "ML",
+"st": "B",
+"v": "$953M",
+"vs": "$953M",
+"sub": "3.9% of GDP",
+"say": "Mali: $950 million. 3.9% of GDP."
+},
+{
+"c": "MR",
+"st": "B",
+"v": "$322M",
+"vs": "$322M",
+"sub": "2.8% of GDP",
+"say": "Mauritania: $320 million. 2.8% of GDP."
+},
+{
+"c": "SN",
+"st": "B",
+"v": "$567M",
+"vs": "$567M",
+"sub": "1.6% of GDP",
+"say": "Senegal: $570 million. 1.6% of GDP."
+},
+{
+"c": "GM",
+"st": "A",
+"v": "$15M",
+"vs": "$15M",
+"sub": "0.6% of GDP",
+"say": "Gambia: $15 million. 0.6% of GDP."
+},
+{
+"c": "GW",
+"st": "A",
+"v": "$22M",
+"vs": "$22M",
+"sub": "0.9% of GDP",
+"say": "Guinea-Bissau: $22 million. 0.9% of GDP."
+},
+{
+"c": "GN",
+"st": "B",
+"v": "$601M",
+"vs": "$601M",
+"sub": "2.0% of GDP",
+"say": "Guinea: $600 million. 2% of GDP."
+},
+{
+"c": "SL",
+"st": "A",
+"v": "$32M",
+"vs": "$32M",
+"sub": "0.4% of GDP",
+"say": "Sierra Leone: $32 million. 0.4% of GDP."
+},
+{
+"c": "LR",
+"st": "A",
+"v": "$44M",
+"vs": "$44M",
+"sub": "0.8% of GDP",
+"say": "Liberia: $44 million. 0.8% of GDP."
+},
+{
+"c": "CV",
+"st": "A",
+"v": "$20M",
+"vs": "$20M",
+"sub": "0.7% of GDP",
+"say": "Cape Verde: $20 million. 0.7% of GDP."
+},
+{
+"c": "ST",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "No reliable data",
+"say": "São Tomé: no data!"
+},
+{
+"c": "VA",
+"st": "X",
+"v": "NO ARMY",
+"vs": "$0",
+"sub": "No armed forces",
+"say": "Vatican City: zero. No army!"
+}
+],
+"T": {
+"US": "954 billion dollars. More than the next six countries combined.",
+"CN": "336 billion... officially.",
+"RU": "190 billion. Seven and a half percent of everything we make.",
+"UA": "Almost forty percent of our whole economy. We have no choice.",
+"DE": "114 billion euros... sorry, dollars. Germany is back.",
+"IL": "Nearly eight percent of our economy.",
+"PL": "Four and a half percent. The most in NATO!",
+"IN": "92 billion. Fifth in the world.",
+"SA": "83 billion dollars. For a country of 37 million.",
+"CR": "Zero. We abolished our army in 1948.",
+"JP": "62 billion... and rising fast."
+},
+"cfg": {
+"title": "MILITARY SPENDING",
+"icon": "money",
+"t1": "WHO SPENDS THE MOST",
+"t2": "ON WAR?",
+"badge": "197 COUNTRIES · SIPRI 2025",
+"cats": [
+{
+"k": "X",
+"label": "NO ARMY / NO DATA",
+"short": "N/A",
+"col": "#8f86a8",
+"cold": "#5c5475",
+"mood": "happy"
+},
+{
+"k": "A",
+"label": "UNDER $100M",
+"short": "<100M",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "sad"
+},
+{
+"k": "B",
+"label": "$100M – $1B",
+"short": "100M+",
+"col": "#ff8c2e",
+"cold": "#b35a0c",
+"mood": "sad"
+},
+{
+"k": "C",
+"label": "$1B – $10B",
+"short": "1B+",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "happy"
+},
+{
+"k": "D",
+"label": "$10B – $100B",
+"short": "10B+",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "E",
+"label": "OVER $100 BILLION",
+"short": "100B+",
+"col": "#9b5de5",
+"cold": "#5e2ca5",
+"mood": "angry"
+}
+],
+"balls": [
+"US",
+"CN",
+"RU",
+"UA",
+"IL",
+"CR"
+],
+"ballMoods": [
+"angry",
+"angry",
+"angry",
+"sad",
+"angry",
+"happy"
+],
+"best": [
+"US",
+"SPENDS THE MOST",
+"$954 BILLION"
+],
+"worst": [
+"UA",
+"BIGGEST SHARE",
+"40% OF GDP"
+],
+"ask": "MORE OR LESS? COMMENT!"
+},
+"intro": [
+"Who spends the most money on war? From nearly one trillion dollars... to absolutely nothing. 197 countries, one by one: the military budget, and how much of the economy it eats.",
+"Grey: no army, or no data.",
+"Red: under 100 million dollars.",
+"Orange: up to one billion.",
+"Yellow: up to ten billion.",
+"Green: up to one hundred billion.",
+"And purple... over one hundred billion dollars! Let's go!"
+],
+"outro": [
+"Should your country spend more, or less? Comment below!"
+],
+"names": {
+"US": "United States",
+"CA": "Canada",
+"MX": "Mexico",
+"GB": "United Kingdom",
+"IE": "Ireland",
+"FR": "France",
+"ES": "Spain",
+"PT": "Portugal",
+"AD": "Andorra",
+"IT": "Italy",
+"SM": "San Marino",
+"MT": "Malta",
+"MC": "Monaco",
+"CH": "Switzerland",
+"LI": "Liechtenstein",
+"AT": "Austria",
+"DE": "Germany",
+"LU": "Luxembourg",
+"BE": "Belgium",
+"NL": "Netherlands",
+"DK": "Denmark",
+"NO": "Norway",
+"SE": "Sweden",
+"FI": "Finland",
+"IS": "Iceland",
+"PL": "Poland",
+"CZ": "Czech Republic",
+"SK": "Slovakia",
+"HU": "Hungary",
+"SI": "Slovenia",
+"HR": "Croatia",
+"BA": "Bosnia",
+"RS": "Serbia",
+"ME": "Montenegro",
+"XK": "Kosovo",
+"AL": "Albania",
+"MK": "North Macedonia",
+"GR": "Greece",
+"BG": "Bulgaria",
+"RO": "Romania",
+"MD": "Moldova",
+"UA": "Ukraine",
+"BY": "Belarus",
+"LT": "Lithuania",
+"LV": "Latvia",
+"EE": "Estonia",
+"RU": "Russia",
+"CY": "Cyprus",
+"TR": "Turkey",
+"CO": "Colombia",
+"VE": "Venezuela",
+"EC": "Ecuador",
+"PE": "Peru",
+"BO": "Bolivia",
+"CL": "Chile",
+"AR": "Argentina",
+"UY": "Uruguay",
+"PY": "Paraguay",
+"BR": "Brazil",
+"GY": "Guyana",
+"SR": "Suriname",
+"PA": "Panama",
+"CR": "Costa Rica",
+"NI": "Nicaragua",
+"HN": "Honduras",
+"SV": "El Salvador",
+"GT": "Guatemala",
+"BZ": "Belize",
+"CU": "Cuba",
+"JM": "Jamaica",
+"HT": "Haiti",
+"DO": "Dominican Republic",
+"BS": "Bahamas",
+"BB": "Barbados",
+"TT": "Trinidad and Tobago",
+"GD": "Grenada",
+"VC": "Saint Vincent",
+"LC": "Saint Lucia",
+"DM": "Dominica",
+"AG": "Antigua and Barbuda",
+"KN": "Saint Kitts and Nevis",
+"GE": "Georgia",
+"AM": "Armenia",
+"AZ": "Azerbaijan",
+"KZ": "Kazakhstan",
+"UZ": "Uzbekistan",
+"TM": "Turkmenistan",
+"KG": "Kyrgyzstan",
+"TJ": "Tajikistan",
+"AF": "Afghanistan",
+"IR": "Iran",
+"IQ": "Iraq",
+"SY": "Syria",
+"LB": "Lebanon",
+"IL": "Israel",
+"PS": "Palestine",
+"JO": "Jordan",
+"SA": "Saudi Arabia",
+"YE": "Yemen",
+"OM": "Oman",
+"AE": "United Arab Emirates",
+"QA": "Qatar",
+"BH": "Bahrain",
+"KW": "Kuwait",
+"IN": "India",
+"PK": "Pakistan",
+"NP": "Nepal",
+"BT": "Bhutan",
+"BD": "Bangladesh",
+"LK": "Sri Lanka",
+"MV": "Maldives",
+"MM": "Myanmar",
+"TH": "Thailand",
+"LA": "Laos",
+"KH": "Cambodia",
+"VN": "Vietnam",
+"MY": "Malaysia",
+"SG": "Singapore",
+"ID": "Indonesia",
+"BN": "Brunei",
+"PH": "Philippines",
+"TL": "East Timor",
+"CN": "China",
+"MN": "Mongolia",
+"KP": "North Korea",
+"KR": "South Korea",
+"JP": "Japan",
+"TW": "Taiwan",
+"AU": "Australia",
+"NZ": "New Zealand",
+"PG": "Papua New Guinea",
+"SB": "Solomon Islands",
+"VU": "Vanuatu",
+"FJ": "Fiji",
+"WS": "Samoa",
+"TO": "Tonga",
+"KI": "Kiribati",
+"TV": "Tuvalu",
+"NR": "Nauru",
+"MH": "Marshall Islands",
+"FM": "Micronesia",
+"PW": "Palau",
+"MA": "Morocco",
+"DZ": "Algeria",
+"TN": "Tunisia",
+"LY": "Libya",
+"EG": "Egypt",
+"SD": "Sudan",
+"SS": "South Sudan",
+"ET": "Ethiopia",
+"ER": "Eritrea",
+"DJ": "Djibouti",
+"SO": "Somalia",
+"KE": "Kenya",
+"UG": "Uganda",
+"RW": "Rwanda",
+"BI": "Burundi",
+"TZ": "Tanzania",
+"MZ": "Mozambique",
+"MW": "Malawi",
+"ZM": "Zambia",
+"ZW": "Zimbabwe",
+"BW": "Botswana",
+"NA": "Namibia",
+"ZA": "South Africa",
+"LS": "Lesotho",
+"SZ": "Eswatini",
+"MG": "Madagascar",
+"MU": "Mauritius",
+"KM": "Comoros",
+"SC": "Seychelles",
+"AO": "Angola",
+"CD": "DR Congo",
+"CG": "Republic of the Congo",
+"GA": "Gabon",
+"GQ": "Equatorial Guinea",
+"CM": "Cameroon",
+"CF": "Central African Republic",
+"TD": "Chad",
+"NE": "Niger",
+"NG": "Nigeria",
+"BJ": "Benin",
+"TG": "Togo",
+"GH": "Ghana",
+"CI": "Ivory Coast",
+"BF": "Burkina Faso",
+"ML": "Mali",
+"MR": "Mauritania",
+"SN": "Senegal",
+"GM": "Gambia",
+"GW": "Guinea-Bissau",
+"GN": "Guinea",
+"SL": "Sierra Leone",
+"LR": "Liberia",
+"CV": "Cape Verde",
+"ST": "São Tomé",
+"VA": "Vatican City"
+}
+}

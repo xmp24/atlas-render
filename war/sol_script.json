@@ -1,0 +1,1889 @@
+{
+"key": "sol",
+"C": [
+{
+"c": "US",
+"st": "E",
+"v": "1,340,150",
+"vs": "1.3M",
+"sub": "Active soldiers · reserve 804,800",
+"say": "United States: 1.34 million. Number three."
+},
+{
+"c": "CA",
+"st": "C",
+"v": "62,300",
+"vs": "62K",
+"sub": "Active soldiers · reserve 29,100",
+"say": "Canada: 62,000."
+},
+{
+"c": "MX",
+"st": "D",
+"v": "301,000",
+"vs": "301K",
+"sub": "Active soldiers · reserve 81,500",
+"say": "Mexico: 301,000."
+},
+{
+"c": "GB",
+"st": "C",
+"v": "141,100",
+"vs": "141K",
+"sub": "Active soldiers · reserve 70,450",
+"say": "United Kingdom: 141,000."
+},
+{
+"c": "IE",
+"st": "A",
+"v": "9,500",
+"vs": "10K",
+"sub": "Active soldiers · reserve 4,050",
+"say": "Ireland: 9,500."
+},
+{
+"c": "FR",
+"st": "D",
+"v": "203,900",
+"vs": "204K",
+"sub": "Active soldiers · reserve 38,100",
+"say": "France: 204,000."
+},
+{
+"c": "ES",
+"st": "C",
+"v": "122,200",
+"vs": "122K",
+"sub": "Active soldiers · reserve 13,800",
+"say": "Spain: 122,000."
+},
+{
+"c": "PT",
+"st": "B",
+"v": "26,050",
+"vs": "26K",
+"sub": "Active soldiers · reserve 23,500",
+"say": "Portugal: 26,000."
+},
+{
+"c": "AD",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Andorra: no army at all! Spain and France protect it."
+},
+{
+"c": "IT",
+"st": "C",
+"v": "160,400",
+"vs": "160K",
+"sub": "Active soldiers · reserve 14,500",
+"say": "Italy: 160,000."
+},
+{
+"c": "SM",
+"st": "A",
+"v": "445",
+"vs": "445",
+"sub": "Active soldiers",
+"say": "San Marino: 445. A ceremonial army."
+},
+{
+"c": "MT",
+"st": "A",
+"v": "1,700",
+"vs": "2K",
+"sub": "Active soldiers · reserve 260",
+"say": "Malta: 1,700."
+},
+{
+"c": "MC",
+"st": "A",
+"v": "250",
+"vs": "250",
+"sub": "Active soldiers",
+"say": "Monaco: 250. The Prince's own guard."
+},
+{
+"c": "CH",
+"st": "B",
+"v": "21,300",
+"vs": "21K",
+"sub": "Active soldiers · reserve 196,450",
+"say": "Switzerland: 21,000. But almost 200,000 reservists."
+},
+{
+"c": "LI",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Liechtenstein: zero soldiers!"
+},
+{
+"c": "AT",
+"st": "B",
+"v": "22,200",
+"vs": "22K",
+"sub": "Active soldiers · reserve 109,200",
+"say": "Austria: 22,000."
+},
+{
+"c": "DE",
+"st": "C",
+"v": "179,850",
+"vs": "180K",
+"sub": "Active soldiers · reserve 34,100",
+"say": "Germany: 180,000."
+},
+{
+"c": "LU",
+"st": "A",
+"v": "1,100",
+"vs": "1K",
+"sub": "Active soldiers",
+"say": "Luxembourg: 1,100. One of the smallest in Europe."
+},
+{
+"c": "BE",
+"st": "B",
+"v": "23,500",
+"vs": "24K",
+"sub": "Active soldiers · reserve 5,900",
+"say": "Belgium: 24,000."
+},
+{
+"c": "NL",
+"st": "B",
+"v": "33,650",
+"vs": "34K",
+"sub": "Active soldiers · reserve 6,350",
+"say": "Netherlands: 34,000."
+},
+{
+"c": "DK",
+"st": "B",
+"v": "13,100",
+"vs": "13K",
+"sub": "Active soldiers · reserve 44,200",
+"say": "Denmark: 13,000."
+},
+{
+"c": "NO",
+"st": "B",
+"v": "25,400",
+"vs": "25K",
+"sub": "Active soldiers · reserve 40,000",
+"say": "Norway: 25,000."
+},
+{
+"c": "SE",
+"st": "B",
+"v": "14,850",
+"vs": "15K",
+"sub": "Active soldiers · reserve 21,500",
+"say": "Sweden: 15,000."
+},
+{
+"c": "FI",
+"st": "B",
+"v": "23,850",
+"vs": "24K",
+"sub": "Active soldiers · reserve 233,000",
+"say": "Finland: 24,000. Plus 233,000 reservists."
+},
+{
+"c": "IS",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Iceland: no army at all!"
+},
+{
+"c": "PL",
+"st": "C",
+"v": "173,000",
+"vs": "173K",
+"sub": "Active soldiers · reserve 37,500",
+"say": "Poland: 173,000."
+},
+{
+"c": "CZ",
+"st": "B",
+"v": "26,600",
+"vs": "27K",
+"sub": "Active soldiers",
+"say": "Czech Republic: 27,000."
+},
+{
+"c": "SK",
+"st": "B",
+"v": "15,850",
+"vs": "16K",
+"sub": "Active soldiers",
+"say": "Slovakia: 16,000."
+},
+{
+"c": "HU",
+"st": "B",
+"v": "32,150",
+"vs": "32K",
+"sub": "Active soldiers · reserve 20,000",
+"say": "Hungary: 32,000."
+},
+{
+"c": "SI",
+"st": "A",
+"v": "6,200",
+"vs": "6K",
+"sub": "Active soldiers · reserve 950",
+"say": "Slovenia: 6,200."
+},
+{
+"c": "HR",
+"st": "B",
+"v": "16,800",
+"vs": "17K",
+"sub": "Active soldiers · reserve 2,100",
+"say": "Croatia: 17,000."
+},
+{
+"c": "BA",
+"st": "B",
+"v": "10,650",
+"vs": "11K",
+"sub": "Active soldiers · reserve 6,000",
+"say": "Bosnia: 11,000."
+},
+{
+"c": "RS",
+"st": "B",
+"v": "28,150",
+"vs": "28K",
+"sub": "Active soldiers · reserve 50,150",
+"say": "Serbia: 28,000."
+},
+{
+"c": "ME",
+"st": "A",
+"v": "2,885",
+"vs": "3K",
+"sub": "Active soldiers · reserve 2,800",
+"say": "Montenegro: 2,900."
+},
+{
+"c": "XK",
+"st": "A",
+"v": "3,000",
+"vs": "3K",
+"sub": "Active soldiers",
+"say": "Kosovo: 3,000."
+},
+{
+"c": "AL",
+"st": "A",
+"v": "7,500",
+"vs": "8K",
+"sub": "Active soldiers",
+"say": "Albania: 7,500."
+},
+{
+"c": "MK",
+"st": "A",
+"v": "8,000",
+"vs": "8K",
+"sub": "Active soldiers · reserve 4,850",
+"say": "North Macedonia: 8,000."
+},
+{
+"c": "GR",
+"st": "C",
+"v": "131,650",
+"vs": "132K",
+"sub": "Active soldiers · reserve 264,500",
+"say": "Greece: 132,000. Plus 264,000 reservists."
+},
+{
+"c": "BG",
+"st": "B",
+"v": "36,950",
+"vs": "37K",
+"sub": "Active soldiers · reserve 3,000",
+"say": "Bulgaria: 37,000."
+},
+{
+"c": "RO",
+"st": "C",
+"v": "69,900",
+"vs": "70K",
+"sub": "Active soldiers · reserve 55,000",
+"say": "Romania: 70,000."
+},
+{
+"c": "MD",
+"st": "A",
+"v": "5,150",
+"vs": "5K",
+"sub": "Active soldiers · reserve 58,000",
+"say": "Moldova: 5,200."
+},
+{
+"c": "UA",
+"st": "D",
+"v": "677,000",
+"vs": "677K",
+"sub": "Active soldiers",
+"say": "Ukraine: 677,000. Number six!"
+},
+{
+"c": "BY",
+"st": "B",
+"v": "48,600",
+"vs": "49K",
+"sub": "Active soldiers · reserve 289,500",
+"say": "Belarus: 49,000."
+},
+{
+"c": "LT",
+"st": "B",
+"v": "16,100",
+"vs": "16K",
+"sub": "Active soldiers · reserve 12,950",
+"say": "Lithuania: 16,000."
+},
+{
+"c": "LV",
+"st": "A",
+"v": "6,600",
+"vs": "7K",
+"sub": "Active soldiers · reserve 16,000",
+"say": "Latvia: 6,600."
+},
+{
+"c": "EE",
+"st": "A",
+"v": "7,100",
+"vs": "7K",
+"sub": "Active soldiers · reserve 41,200",
+"say": "Estonia: 7,100."
+},
+{
+"c": "RU",
+"st": "E",
+"v": "1,264,000",
+"vs": "1.3M",
+"sub": "Active soldiers · reserve 1,500,000",
+"say": "Russia: 1.26 million. Number five."
+},
+{
+"c": "CY",
+"st": "B",
+"v": "12,000",
+"vs": "12K",
+"sub": "Active soldiers · reserve 60,000",
+"say": "Cyprus: 12,000."
+},
+{
+"c": "TR",
+"st": "D",
+"v": "355,200",
+"vs": "355K",
+"sub": "Active soldiers · reserve 378,700",
+"say": "Turkey: 355,000."
+},
+{
+"c": "CO",
+"st": "D",
+"v": "285,000",
+"vs": "285K",
+"sub": "Active soldiers · reserve 34,950",
+"say": "Colombia: 285,000. Second in Latin America."
+},
+{
+"c": "VE",
+"st": "C",
+"v": "123,000",
+"vs": "123K",
+"sub": "Active soldiers · reserve 8,000",
+"say": "Venezuela: 123,000."
+},
+{
+"c": "EC",
+"st": "B",
+"v": "39,600",
+"vs": "40K",
+"sub": "Active soldiers · reserve 118,000",
+"say": "Ecuador: 40,000."
+},
+{
+"c": "PE",
+"st": "C",
+"v": "81,000",
+"vs": "81K",
+"sub": "Active soldiers · reserve 188,000",
+"say": "Peru: 81,000."
+},
+{
+"c": "BO",
+"st": "B",
+"v": "34,100",
+"vs": "34K",
+"sub": "Active soldiers",
+"say": "Bolivia: 34,000."
+},
+{
+"c": "CL",
+"st": "C",
+"v": "68,500",
+"vs": "68K",
+"sub": "Active soldiers · reserve 19,100",
+"say": "Chile: 68,000."
+},
+{
+"c": "AR",
+"st": "C",
+"v": "83,000",
+"vs": "83K",
+"sub": "Active soldiers",
+"say": "Argentina: 83,000."
+},
+{
+"c": "UY",
+"st": "B",
+"v": "21,100",
+"vs": "21K",
+"sub": "Active soldiers",
+"say": "Uruguay: 21,000."
+},
+{
+"c": "PY",
+"st": "B",
+"v": "13,950",
+"vs": "14K",
+"sub": "Active soldiers · reserve 164,500",
+"say": "Paraguay: 14,000."
+},
+{
+"c": "BR",
+"st": "D",
+"v": "374,500",
+"vs": "374K",
+"sub": "Active soldiers · reserve 124,600",
+"say": "Brazil: 374,000. The biggest in Latin America."
+},
+{
+"c": "GY",
+"st": "A",
+"v": "3,400",
+"vs": "3K",
+"sub": "Active soldiers · reserve 670",
+"say": "Guyana: 3,400."
+},
+{
+"c": "SR",
+"st": "A",
+"v": "1,840",
+"vs": "2K",
+"sub": "Active soldiers",
+"say": "Suriname: 1,800."
+},
+{
+"c": "PA",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Panama: zero soldiers! No army since 1990."
+},
+{
+"c": "CR",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Costa Rica: no army at all!"
+},
+{
+"c": "NI",
+"st": "B",
+"v": "12,000",
+"vs": "12K",
+"sub": "Active soldiers",
+"say": "Nicaragua: 12,000."
+},
+{
+"c": "HN",
+"st": "B",
+"v": "14,950",
+"vs": "15K",
+"sub": "Active soldiers · reserve 60,000",
+"say": "Honduras: 15,000."
+},
+{
+"c": "SV",
+"st": "A",
+"v": "2,600",
+"vs": "3K",
+"sub": "Active soldiers · reserve 9,900",
+"say": "El Salvador: 2,600."
+},
+{
+"c": "GT",
+"st": "B",
+"v": "18,050",
+"vs": "18K",
+"sub": "Active soldiers · reserve 63,850",
+"say": "Guatemala: 18,000."
+},
+{
+"c": "BZ",
+"st": "A",
+"v": "2,000",
+"vs": "2K",
+"sub": "Active soldiers · reserve 850",
+"say": "Belize: 2,000."
+},
+{
+"c": "CU",
+"st": "B",
+"v": "49,000",
+"vs": "49K",
+"sub": "Active soldiers · reserve 39,000",
+"say": "Cuba: 49,000."
+},
+{
+"c": "JM",
+"st": "A",
+"v": "5,950",
+"vs": "6K",
+"sub": "Active soldiers · reserve 2,580",
+"say": "Jamaica: 6,000."
+},
+{
+"c": "HT",
+"st": "A",
+"v": "700",
+"vs": "700",
+"sub": "Active soldiers",
+"say": "Haiti: 700. For eleven million people."
+},
+{
+"c": "DO",
+"st": "C",
+"v": "56,800",
+"vs": "57K",
+"sub": "Active soldiers",
+"say": "Dominican Republic: 57,000."
+},
+{
+"c": "BS",
+"st": "A",
+"v": "1,500",
+"vs": "2K",
+"sub": "Active soldiers",
+"say": "Bahamas: 1,500."
+},
+{
+"c": "BB",
+"st": "A",
+"v": "610",
+"vs": "610",
+"sub": "Active soldiers · reserve 430",
+"say": "Barbados: 610."
+},
+{
+"c": "TT",
+"st": "A",
+"v": "4,050",
+"vs": "4K",
+"sub": "Active soldiers",
+"say": "Trinidad and Tobago: 4,000."
+},
+{
+"c": "GD",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Grenada: zero soldiers!"
+},
+{
+"c": "VC",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Saint Vincent: no army at all!"
+},
+{
+"c": "LC",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Saint Lucia: zero soldiers!"
+},
+{
+"c": "DM",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Dominica: no army at all!"
+},
+{
+"c": "AG",
+"st": "A",
+"v": "200",
+"vs": "200",
+"sub": "Active soldiers · reserve 80",
+"say": "Antigua and Barbuda: 200."
+},
+{
+"c": "KN",
+"st": "A",
+"v": "300",
+"vs": "300",
+"sub": "Active soldiers",
+"say": "Saint Kitts and Nevis: 300."
+},
+{
+"c": "GE",
+"st": "B",
+"v": "20,650",
+"vs": "21K",
+"sub": "Active soldiers",
+"say": "Georgia: 21,000."
+},
+{
+"c": "AM",
+"st": "B",
+"v": "42,900",
+"vs": "43K",
+"sub": "Active soldiers · reserve 210,000",
+"say": "Armenia: 43,000."
+},
+{
+"c": "AZ",
+"st": "C",
+"v": "68,200",
+"vs": "68K",
+"sub": "Active soldiers · reserve 300,000",
+"say": "Azerbaijan: 68,000."
+},
+{
+"c": "KZ",
+"st": "B",
+"v": "39,000",
+"vs": "39K",
+"sub": "Active soldiers",
+"say": "Kazakhstan: 39,000."
+},
+{
+"c": "UZ",
+"st": "B",
+"v": "48,000",
+"vs": "48K",
+"sub": "Active soldiers",
+"say": "Uzbekistan: 48,000."
+},
+{
+"c": "TM",
+"st": "B",
+"v": "36,500",
+"vs": "36K",
+"sub": "Active soldiers",
+"say": "Turkmenistan: 36,000."
+},
+{
+"c": "KG",
+"st": "B",
+"v": "10,900",
+"vs": "11K",
+"sub": "Active soldiers",
+"say": "Kyrgyzstan: 11,000."
+},
+{
+"c": "TJ",
+"st": "A",
+"v": "8,800",
+"vs": "9K",
+"sub": "Active soldiers · reserve 20,000",
+"say": "Tajikistan: 8,800."
+},
+{
+"c": "AF",
+"st": "C",
+"v": "172,000",
+"vs": "172K",
+"sub": "Active soldiers",
+"say": "Afghanistan: 172,000."
+},
+{
+"c": "IR",
+"st": "D",
+"v": "610,000",
+"vs": "610K",
+"sub": "Active soldiers · reserve 350,000",
+"say": "Iran: 610,000. Number eight."
+},
+{
+"c": "IQ",
+"st": "C",
+"v": "193,000",
+"vs": "193K",
+"sub": "Active soldiers",
+"say": "Iraq: 193,000."
+},
+{
+"c": "SY",
+"st": "X",
+"v": "REBUILDING",
+"vs": "?",
+"sub": "Old army dissolved in December 2024",
+"say": "Syria: starting from scratch! The old army collapsed in 2024."
+},
+{
+"c": "LB",
+"st": "C",
+"v": "60,000",
+"vs": "60K",
+"sub": "Active soldiers",
+"say": "Lebanon: 60,000."
+},
+{
+"c": "IL",
+"st": "C",
+"v": "169,500",
+"vs": "170K",
+"sub": "Active soldiers · reserve 465,000",
+"say": "Israel: 170,000. Plus 465,000 reservists."
+},
+{
+"c": "PS",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Palestine: zero soldiers!"
+},
+{
+"c": "JO",
+"st": "C",
+"v": "100,500",
+"vs": "100K",
+"sub": "Active soldiers · reserve 65,000",
+"say": "Jordan: 100,000."
+},
+{
+"c": "SA",
+"st": "D",
+"v": "257,000",
+"vs": "257K",
+"sub": "Active soldiers",
+"say": "Saudi Arabia: 257,000."
+},
+{
+"c": "YE",
+"st": "B",
+"v": "40,000",
+"vs": "40K",
+"sub": "Active soldiers",
+"say": "Yemen: 40,000."
+},
+{
+"c": "OM",
+"st": "B",
+"v": "42,600",
+"vs": "43K",
+"sub": "Active soldiers",
+"say": "Oman: 43,000."
+},
+{
+"c": "AE",
+"st": "C",
+"v": "63,000",
+"vs": "63K",
+"sub": "Active soldiers",
+"say": "United Arab Emirates: 63,000."
+},
+{
+"c": "QA",
+"st": "B",
+"v": "16,500",
+"vs": "16K",
+"sub": "Active soldiers",
+"say": "Qatar: 16,000."
+},
+{
+"c": "BH",
+"st": "A",
+"v": "8,200",
+"vs": "8K",
+"sub": "Active soldiers",
+"say": "Bahrain: 8,200."
+},
+{
+"c": "KW",
+"st": "B",
+"v": "17,500",
+"vs": "18K",
+"sub": "Active soldiers · reserve 23,700",
+"say": "Kuwait: 18,000."
+},
+{
+"c": "IN",
+"st": "E",
+"v": "1,500,700",
+"vs": "1.5M",
+"sub": "Active soldiers · reserve 1,155,000",
+"say": "India: 1.5 million. Number two!"
+},
+{
+"c": "PK",
+"st": "D",
+"v": "660,000",
+"vs": "660K",
+"sub": "Active soldiers · reserve 550,000",
+"say": "Pakistan: 660,000. Number seven."
+},
+{
+"c": "NP",
+"st": "C",
+"v": "96,600",
+"vs": "97K",
+"sub": "Active soldiers",
+"say": "Nepal: 97,000."
+},
+{
+"c": "BT",
+"st": "B",
+"v": "16,000",
+"vs": "16K",
+"sub": "Active soldiers · reserve 60,000",
+"say": "Bhutan: 16,000."
+},
+{
+"c": "BD",
+"st": "C",
+"v": "171,250",
+"vs": "171K",
+"sub": "Active soldiers",
+"say": "Bangladesh: 171,000."
+},
+{
+"c": "LK",
+"st": "D",
+"v": "260,450",
+"vs": "260K",
+"sub": "Active soldiers · reserve 5,500",
+"say": "Sri Lanka: 260,000."
+},
+{
+"c": "MV",
+"st": "A",
+"v": "4,000",
+"vs": "4K",
+"sub": "Active soldiers",
+"say": "Maldives: 4,000."
+},
+{
+"c": "MM",
+"st": "C",
+"v": "134,000",
+"vs": "134K",
+"sub": "Active soldiers",
+"say": "Myanmar: 134,000."
+},
+{
+"c": "TH",
+"st": "D",
+"v": "360,850",
+"vs": "361K",
+"sub": "Active soldiers · reserve 200,000",
+"say": "Thailand: 361,000."
+},
+{
+"c": "LA",
+"st": "B",
+"v": "29,100",
+"vs": "29K",
+"sub": "Active soldiers",
+"say": "Laos: 29,000."
+},
+{
+"c": "KH",
+"st": "C",
+"v": "124,300",
+"vs": "124K",
+"sub": "Active soldiers",
+"say": "Cambodia: 124,000."
+},
+{
+"c": "VN",
+"st": "D",
+"v": "450,000",
+"vs": "450K",
+"sub": "Active soldiers · reserve 5,000,000",
+"say": "Vietnam: 450,000."
+},
+{
+"c": "MY",
+"st": "C",
+"v": "113,000",
+"vs": "113K",
+"sub": "Active soldiers · reserve 53,600",
+"say": "Malaysia: 113,000."
+},
+{
+"c": "SG",
+"st": "C",
+"v": "51,000",
+"vs": "51K",
+"sub": "Active soldiers · reserve 252,500",
+"say": "Singapore: 51,000. Plus 250,000 reservists."
+},
+{
+"c": "ID",
+"st": "D",
+"v": "433,700",
+"vs": "434K",
+"sub": "Active soldiers · reserve 400,000",
+"say": "Indonesia: 434,000."
+},
+{
+"c": "BN",
+"st": "A",
+"v": "7,200",
+"vs": "7K",
+"sub": "Active soldiers · reserve 700",
+"say": "Brunei: 7,200."
+},
+{
+"c": "PH",
+"st": "C",
+"v": "162,450",
+"vs": "162K",
+"sub": "Active soldiers · reserve 131,000",
+"say": "Philippines: 162,000."
+},
+{
+"c": "TL",
+"st": "A",
+"v": "2,250",
+"vs": "2K",
+"sub": "Active soldiers",
+"say": "East Timor: 2,200."
+},
+{
+"c": "CN",
+"st": "E",
+"v": "2,035,000",
+"vs": "2.0M",
+"sub": "Active soldiers · reserve 510,000",
+"say": "China: 2.04 million. The biggest army on the planet!"
+},
+{
+"c": "MN",
+"st": "A",
+"v": "9,700",
+"vs": "10K",
+"sub": "Active soldiers · reserve 137,000",
+"say": "Mongolia: 9,700."
+},
+{
+"c": "KP",
+"st": "E",
+"v": "1,280,000",
+"vs": "1.3M",
+"sub": "Active soldiers · reserve 600,000",
+"say": "North Korea: 1.28 million. Number four!"
+},
+{
+"c": "KR",
+"st": "D",
+"v": "450,000",
+"vs": "450K",
+"sub": "Active soldiers · reserve 3,100,000",
+"say": "South Korea: 450,000."
+},
+{
+"c": "JP",
+"st": "D",
+"v": "247,150",
+"vs": "247K",
+"sub": "Active soldiers · reserve 55,900",
+"say": "Japan: 247,000."
+},
+{
+"c": "TW",
+"st": "C",
+"v": "170,600",
+"vs": "171K",
+"sub": "Active soldiers · reserve 1,657,000",
+"say": "Taiwan: 171,000. Plus 1.6 million reservists!"
+},
+{
+"c": "AU",
+"st": "C",
+"v": "58,540",
+"vs": "59K",
+"sub": "Active soldiers · reserve 21,450",
+"say": "Australia: 59,000."
+},
+{
+"c": "NZ",
+"st": "A",
+"v": "8,700",
+"vs": "9K",
+"sub": "Active soldiers · reserve 3,270",
+"say": "New Zealand: 8,700."
+},
+{
+"c": "PG",
+"st": "A",
+"v": "4,000",
+"vs": "4K",
+"sub": "Active soldiers",
+"say": "Papua New Guinea: 4,000."
+},
+{
+"c": "SB",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Solomon Islands: no army at all!"
+},
+{
+"c": "VU",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Vanuatu: zero soldiers!"
+},
+{
+"c": "FJ",
+"st": "A",
+"v": "4,040",
+"vs": "4K",
+"sub": "Active soldiers · reserve 6,000",
+"say": "Fiji: 4,000."
+},
+{
+"c": "WS",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Samoa: no army at all!"
+},
+{
+"c": "TO",
+"st": "A",
+"v": "750",
+"vs": "750",
+"sub": "Active soldiers",
+"say": "Tonga: 750."
+},
+{
+"c": "KI",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Kiribati: zero soldiers!"
+},
+{
+"c": "TV",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Tuvalu: no army at all!"
+},
+{
+"c": "NR",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Nauru: zero soldiers!"
+},
+{
+"c": "MH",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Marshall Islands: no army at all!"
+},
+{
+"c": "FM",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Micronesia: zero soldiers!"
+},
+{
+"c": "PW",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Palau: no army at all!"
+},
+{
+"c": "MA",
+"st": "C",
+"v": "195,800",
+"vs": "196K",
+"sub": "Active soldiers · reserve 150,000",
+"say": "Morocco: 196,000."
+},
+{
+"c": "DZ",
+"st": "C",
+"v": "139,000",
+"vs": "139K",
+"sub": "Active soldiers · reserve 150,000",
+"say": "Algeria: 139,000."
+},
+{
+"c": "TN",
+"st": "B",
+"v": "35,800",
+"vs": "36K",
+"sub": "Active soldiers",
+"say": "Tunisia: 36,000."
+},
+{
+"c": "LY",
+"st": "X",
+"v": "NO DATA",
+"vs": "?",
+"sub": "Army split between two governments",
+"say": "Libya: nobody knows! Two rival armies."
+},
+{
+"c": "EG",
+"st": "D",
+"v": "438,500",
+"vs": "438K",
+"sub": "Active soldiers · reserve 479,000",
+"say": "Egypt: 438,000. The biggest army in Africa... after Ethiopia."
+},
+{
+"c": "SD",
+"st": "C",
+"v": "104,300",
+"vs": "104K",
+"sub": "Active soldiers",
+"say": "Sudan: 104,000."
+},
+{
+"c": "SS",
+"st": "C",
+"v": "90,000",
+"vs": "90K",
+"sub": "Active soldiers",
+"say": "South Sudan: 90,000."
+},
+{
+"c": "ET",
+"st": "D",
+"v": "503,000",
+"vs": "503K",
+"sub": "Active soldiers",
+"say": "Ethiopia: 503,000. The biggest army in Africa!"
+},
+{
+"c": "ER",
+"st": "D",
+"v": "301,750",
+"vs": "302K",
+"sub": "Active soldiers",
+"say": "Eritrea: 302,000. Huge, for a country of under four million people!"
+},
+{
+"c": "DJ",
+"st": "A",
+"v": "8,450",
+"vs": "8K",
+"sub": "Active soldiers",
+"say": "Djibouti: 8,400."
+},
+{
+"c": "SO",
+"st": "B",
+"v": "25,000",
+"vs": "25K",
+"sub": "Active soldiers",
+"say": "Somalia: 25,000."
+},
+{
+"c": "KE",
+"st": "B",
+"v": "24,100",
+"vs": "24K",
+"sub": "Active soldiers",
+"say": "Kenya: 24,000."
+},
+{
+"c": "UG",
+"st": "B",
+"v": "45,000",
+"vs": "45K",
+"sub": "Active soldiers · reserve 10,000",
+"say": "Uganda: 45,000."
+},
+{
+"c": "RW",
+"st": "B",
+"v": "33,000",
+"vs": "33K",
+"sub": "Active soldiers",
+"say": "Rwanda: 33,000."
+},
+{
+"c": "BI",
+"st": "B",
+"v": "30,050",
+"vs": "30K",
+"sub": "Active soldiers",
+"say": "Burundi: 30,000."
+},
+{
+"c": "TZ",
+"st": "B",
+"v": "27,000",
+"vs": "27K",
+"sub": "Active soldiers · reserve 80,000",
+"say": "Tanzania: 27,000."
+},
+{
+"c": "MZ",
+"st": "B",
+"v": "11,200",
+"vs": "11K",
+"sub": "Active soldiers",
+"say": "Mozambique: 11,000."
+},
+{
+"c": "MW",
+"st": "B",
+"v": "10,700",
+"vs": "11K",
+"sub": "Active soldiers",
+"say": "Malawi: 11,000."
+},
+{
+"c": "ZM",
+"st": "B",
+"v": "17,100",
+"vs": "17K",
+"sub": "Active soldiers · reserve 3,000",
+"say": "Zambia: 17,000."
+},
+{
+"c": "ZW",
+"st": "B",
+"v": "29,000",
+"vs": "29K",
+"sub": "Active soldiers",
+"say": "Zimbabwe: 29,000."
+},
+{
+"c": "BW",
+"st": "A",
+"v": "9,000",
+"vs": "9K",
+"sub": "Active soldiers",
+"say": "Botswana: 9,000."
+},
+{
+"c": "NA",
+"st": "B",
+"v": "11,600",
+"vs": "12K",
+"sub": "Active soldiers",
+"say": "Namibia: 12,000."
+},
+{
+"c": "ZA",
+"st": "C",
+"v": "69,200",
+"vs": "69K",
+"sub": "Active soldiers · reserve 15,050",
+"say": "South Africa: 69,000."
+},
+{
+"c": "LS",
+"st": "A",
+"v": "2,000",
+"vs": "2K",
+"sub": "Active soldiers",
+"say": "Lesotho: 2,000."
+},
+{
+"c": "SZ",
+"st": "A",
+"v": "3,000",
+"vs": "3K",
+"sub": "Active soldiers",
+"say": "Eswatini: 3,000."
+},
+{
+"c": "MG",
+"st": "B",
+"v": "13,500",
+"vs": "14K",
+"sub": "Active soldiers",
+"say": "Madagascar: 14,000."
+},
+{
+"c": "MU",
+"st": "X",
+"v": "NO ARMY",
+"vs": "0",
+"sub": "No armed forces",
+"say": "Mauritius: zero soldiers!"
+},
+{
+"c": "KM",
+"st": "A",
+"v": "1,000",
+"vs": "1K",
+"sub": "Active soldiers",
+"say": "Comoros: 1,000."
+},
+{
+"c": "SC",
+"st": "A",
+"v": "420",
+"vs": "420",
+"sub": "Active soldiers",
+"say": "Seychelles: 420."
+},
+{
+"c": "AO",
+"st": "C",
+"v": "107,000",
+"vs": "107K",
+"sub": "Active soldiers",
+"say": "Angola: 107,000."
+},
+{
+"c": "CD",
+"st": "C",
+"v": "128,350",
+"vs": "128K",
+"sub": "Active soldiers",
+"say": "DR Congo: 128,000."
+},
+{
+"c": "CG",
+"st": "B",
+"v": "10,000",
+"vs": "10K",
+"sub": "Active soldiers",
+"say": "Republic of the Congo: 10,000."
+},
+{
+"c": "GA",
+"st": "A",
+"v": "4,700",
+"vs": "5K",
+"sub": "Active soldiers",
+"say": "Gabon: 4,700."
+},
+{
+"c": "GQ",
+"st": "A",
+"v": "1,750",
+"vs": "2K",
+"sub": "Active soldiers",
+"say": "Equatorial Guinea: 1,800."
+},
+{
+"c": "CM",
+"st": "B",
+"v": "25,400",
+"vs": "25K",
+"sub": "Active soldiers",
+"say": "Cameroon: 25,000."
+},
+{
+"c": "CF",
+"st": "A",
+"v": "9,150",
+"vs": "9K",
+"sub": "Active soldiers",
+"say": "Central African Republic: 9,200."
+},
+{
+"c": "TD",
+"st": "B",
+"v": "33,250",
+"vs": "33K",
+"sub": "Active soldiers",
+"say": "Chad: 33,000."
+},
+{
+"c": "NE",
+"st": "B",
+"v": "39,100",
+"vs": "39K",
+"sub": "Active soldiers",
+"say": "Niger: 39,000."
+},
+{
+"c": "NG",
+"st": "C",
+"v": "143,000",
+"vs": "143K",
+"sub": "Active soldiers",
+"say": "Nigeria: 143,000."
+},
+{
+"c": "BJ",
+"st": "B",
+"v": "12,300",
+"vs": "12K",
+"sub": "Active soldiers",
+"say": "Benin: 12,000."
+},
+{
+"c": "TG",
+"st": "B",
+"v": "13,750",
+"vs": "14K",
+"sub": "Active soldiers",
+"say": "Togo: 14,000."
+},
+{
+"c": "GH",
+"st": "B",
+"v": "19,000",
+"vs": "19K",
+"sub": "Active soldiers",
+"say": "Ghana: 19,000."
+},
+{
+"c": "CI",
+"st": "B",
+"v": "27,400",
+"vs": "27K",
+"sub": "Active soldiers",
+"say": "Ivory Coast: 27,000."
+},
+{
+"c": "BF",
+"st": "A",
+"v": "7,000",
+"vs": "7K",
+"sub": "Active soldiers",
+"say": "Burkina Faso: 7,000."
+},
+{
+"c": "ML",
+"st": "B",
+"v": "21,000",
+"vs": "21K",
+"sub": "Active soldiers",
+"say": "Mali: 21,000."
+},
+{
+"c": "MR",
+"st": "B",
+"v": "15,850",
+"vs": "16K",
+"sub": "Active soldiers",
+"say": "Mauritania: 16,000."
+},
+{
+"c": "SN",
+"st": "B",
+"v": "13,600",
+"vs": "14K",
+"sub": "Active soldiers",
+"say": "Senegal: 14,000."
+},
+{
+"c": "GM",
+"st": "A",
+"v": "4,100",
+"vs": "4K",
+"sub": "Active soldiers",
+"say": "Gambia: 4,100."
+},
+{
+"c": "GW",
+"st": "A",
+"v": "4,450",
+"vs": "4K",
+"sub": "Active soldiers",
+"say": "Guinea-Bissau: 4,400."
+},
+{
+"c": "GN",
+"st": "A",
+"v": "9,700",
+"vs": "10K",
+"sub": "Active soldiers",
+"say": "Guinea: 9,700."
+},
+{
+"c": "SL",
+"st": "A",
+"v": "8,500",
+"vs": "8K",
+"sub": "Active soldiers",
+"say": "Sierra Leone: 8,500."
+},
+{
+"c": "LR",
+"st": "A",
+"v": "2,010",
+"vs": "2K",
+"sub": "Active soldiers",
+"say": "Liberia: 2,000."
+},
+{
+"c": "CV",
+"st": "A",
+"v": "1,200",
+"vs": "1K",
+"sub": "Active soldiers",
+"say": "Cape Verde: 1,200."
+},
+{
+"c": "ST",
+"st": "A",
+"v": "300",
+"vs": "300",
+"sub": "Active soldiers",
+"say": "São Tomé: 300."
+},
+{
+"c": "VA",
+"st": "A",
+"v": "135",
+"vs": "135",
+"sub": "Pontifical Swiss Guard",
+"say": "Vatican City: 135."
+}
+],
+"T": {
+"US": "1.3 million soldiers... and we are only number three?",
+"CN": "Two million soldiers. The biggest army on Earth.",
+"IN": "One and a half million! Number two in the world.",
+"KP": "1.28 million soldiers... out of just 26 million people!",
+"RU": "1.26 million. And one and a half million more in reserve.",
+"UA": "Almost seven hundred thousand. Because we have to.",
+"KR": "Only 450,000... but three million reservists!",
+"VN": "450,000 active... and five million in reserve.",
+"CR": "No army since 1948. We spend it on schools.",
+"IS": "No army at all. Just the coast guard... and the weather.",
+"VA": "Our army? 135 Swiss Guards. With halberds."
+},
+"cfg": {
+"title": "SOLDIERS IN EVERY COUNTRY",
+"icon": "soldier",
+"t1": "HOW MANY SOLDIERS",
+"t2": "EVERY COUNTRY HAS",
+"badge": "197 COUNTRIES · ACTIVE TROOPS",
+"cats": [
+{
+"k": "X",
+"label": "NO ARMY",
+"short": "NONE",
+"col": "#8f86a8",
+"cold": "#5c5475",
+"mood": "happy"
+},
+{
+"k": "A",
+"label": "UNDER 10,000",
+"short": "<10K",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "sad"
+},
+{
+"k": "B",
+"label": "10K – 50K",
+"short": "10K+",
+"col": "#ff8c2e",
+"cold": "#b35a0c",
+"mood": "angry"
+},
+{
+"k": "C",
+"label": "50K – 200K",
+"short": "50K+",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "happy"
+},
+{
+"k": "D",
+"label": "200K – 1 MILLION",
+"short": "200K+",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "E",
+"label": "OVER 1 MILLION",
+"short": "1M+",
+"col": "#9b5de5",
+"cold": "#5e2ca5",
+"mood": "angry"
+}
+],
+"balls": [
+"CN",
+"IN",
+"US",
+"KP",
+"RU",
+"CR"
+],
+"ballMoods": [
+"angry",
+"happy",
+"angry",
+"angry",
+"angry",
+"happy"
+],
+"best": [
+"CN",
+"BIGGEST ARMY",
+"2.0 MILLION"
+],
+"worst": [
+"CR",
+"NO ARMY",
+"0"
+],
+"ask": "HOW BIG IS YOUR ARMY? COMMENT!"
+},
+"intro": [
+"Which country has the biggest army on Earth? And which ones have no army at all? 197 countries, one by one. Active soldiers only.",
+"Grey: no army.",
+"Red: under ten thousand.",
+"Orange: up to fifty thousand.",
+"Yellow: up to two hundred thousand.",
+"Green: up to one million.",
+"And purple... over a million soldiers! Let's go!"
+],
+"outro": [
+"How big is your country's army? Tell me in the comments!"
+],
+"names": {
+"US": "United States",
+"CA": "Canada",
+"MX": "Mexico",
+"GB": "United Kingdom",
+"IE": "Ireland",
+"FR": "France",
+"ES": "Spain",
+"PT": "Portugal",
+"AD": "Andorra",
+"IT": "Italy",
+"SM": "San Marino",
+"MT": "Malta",
+"MC": "Monaco",
+"CH": "Switzerland",
+"LI": "Liechtenstein",
+"AT": "Austria",
+"DE": "Germany",
+"LU": "Luxembourg",
+"BE": "Belgium",
+"NL": "Netherlands",
+"DK": "Denmark",
+"NO": "Norway",
+"SE": "Sweden",
+"FI": "Finland",
+"IS": "Iceland",
+"PL": "Poland",
+"CZ": "Czech Republic",
+"SK": "Slovakia",
+"HU": "Hungary",
+"SI": "Slovenia",
+"HR": "Croatia",
+"BA": "Bosnia",
+"RS": "Serbia",
+"ME": "Montenegro",
+"XK": "Kosovo",
+"AL": "Albania",
+"MK": "North Macedonia",
+"GR": "Greece",
+"BG": "Bulgaria",
+"RO": "Romania",
+"MD": "Moldova",
+"UA": "Ukraine",
+"BY": "Belarus",
+"LT": "Lithuania",
+"LV": "Latvia",
+"EE": "Estonia",
+"RU": "Russia",
+"CY": "Cyprus",
+"TR": "Turkey",
+"CO": "Colombia",
+"VE": "Venezuela",
+"EC": "Ecuador",
+"PE": "Peru",
+"BO": "Bolivia",
+"CL": "Chile",
+"AR": "Argentina",
+"UY": "Uruguay",
+"PY": "Paraguay",
+"BR": "Brazil",
+"GY": "Guyana",
+"SR": "Suriname",
+"PA": "Panama",
+"CR": "Costa Rica",
+"NI": "Nicaragua",
+"HN": "Honduras",
+"SV": "El Salvador",
+"GT": "Guatemala",
+"BZ": "Belize",
+"CU": "Cuba",
+"JM": "Jamaica",
+"HT": "Haiti",
+"DO": "Dominican Republic",
+"BS": "Bahamas",
+"BB": "Barbados",
+"TT": "Trinidad and Tobago",
+"GD": "Grenada",
+"VC": "Saint Vincent",
+"LC": "Saint Lucia",
+"DM": "Dominica",
+"AG": "Antigua and Barbuda",
+"KN": "Saint Kitts and Nevis",
+"GE": "Georgia",
+"AM": "Armenia",
+"AZ": "Azerbaijan",
+"KZ": "Kazakhstan",
+"UZ": "Uzbekistan",
+"TM": "Turkmenistan",
+"KG": "Kyrgyzstan",
+"TJ": "Tajikistan",
+"AF": "Afghanistan",
+"IR": "Iran",
+"IQ": "Iraq",
+"SY": "Syria",
+"LB": "Lebanon",
+"IL": "Israel",
+"PS": "Palestine",
+"JO": "Jordan",
+"SA": "Saudi Arabia",
+"YE": "Yemen",
+"OM": "Oman",
+"AE": "United Arab Emirates",
+"QA": "Qatar",
+"BH": "Bahrain",
+"KW": "Kuwait",
+"IN": "India",
+"PK": "Pakistan",
+"NP": "Nepal",
+"BT": "Bhutan",
+"BD": "Bangladesh",
+"LK": "Sri Lanka",
+"MV": "Maldives",
+"MM": "Myanmar",
+"TH": "Thailand",
+"LA": "Laos",
+"KH": "Cambodia",
+"VN": "Vietnam",
+"MY": "Malaysia",
+"SG": "Singapore",
+"ID": "Indonesia",
+"BN": "Brunei",
+"PH": "Philippines",
+"TL": "East Timor",
+"CN": "China",
+"MN": "Mongolia",
+"KP": "North Korea",
+"KR": "South Korea",
+"JP": "Japan",
+"TW": "Taiwan",
+"AU": "Australia",
+"NZ": "New Zealand",
+"PG": "Papua New Guinea",
+"SB": "Solomon Islands",
+"VU": "Vanuatu",
+"FJ": "Fiji",
+"WS": "Samoa",
+"TO": "Tonga",
+"KI": "Kiribati",
+"TV": "Tuvalu",
+"NR": "Nauru",
+"MH": "Marshall Islands",
+"FM": "Micronesia",
+"PW": "Palau",
+"MA": "Morocco",
+"DZ": "Algeria",
+"TN": "Tunisia",
+"LY": "Libya",
+"EG": "Egypt",
+"SD": "Sudan",
+"SS": "South Sudan",
+"ET": "Ethiopia",
+"ER": "Eritrea",
+"DJ": "Djibouti",
+"SO": "Somalia",
+"KE": "Kenya",
+"UG": "Uganda",
+"RW": "Rwanda",
+"BI": "Burundi",
+"TZ": "Tanzania",
+"MZ": "Mozambique",
+"MW": "Malawi",
+"ZM": "Zambia",
+"ZW": "Zimbabwe",
+"BW": "Botswana",
+"NA": "Namibia",
+"ZA": "South Africa",
+"LS": "Lesotho",
+"SZ": "Eswatini",
+"MG": "Madagascar",
+"MU": "Mauritius",
+"KM": "Comoros",
+"SC": "Seychelles",
+"AO": "Angola",
+"CD": "DR Congo",
+"CG": "Republic of the Congo",
+"GA": "Gabon",
+"GQ": "Equatorial Guinea",
+"CM": "Cameroon",
+"CF": "Central African Republic",
+"TD": "Chad",
+"NE": "Niger",
+"NG": "Nigeria",
+"BJ": "Benin",
+"TG": "Togo",
+"GH": "Ghana",
+"CI": "Ivory Coast",
+"BF": "Burkina Faso",
+"ML": "Mali",
+"MR": "Mauritania",
+"SN": "Senegal",
+"GM": "Gambia",
+"GW": "Guinea-Bissau",
+"GN": "Guinea",
+"SL": "Sierra Leone",
+"LR": "Liberia",
+"CV": "Cape Verde",
+"ST": "São Tomé",
+"VA": "Vatican City"
+}
+}

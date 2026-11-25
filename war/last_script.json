@@ -1,0 +1,1880 @@
+{
+"key": "last",
+"C": [
+{
+"c": "US",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "United States: never! Nuclear weapons... and nobody can invade the United States."
+},
+{
+"c": "CA",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Canada: over a year."
+},
+{
+"c": "MX",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Mexico: over a year."
+},
+{
+"c": "GB",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "United Kingdom: never! Nuclear weapons."
+},
+{
+"c": "IE",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Ireland: 2 weeks."
+},
+{
+"c": "FR",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "France: never! Nuclear weapons."
+},
+{
+"c": "ES",
+"st": "D",
+"v": "10 MONTHS",
+"vs": "10M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Spain: 10 months."
+},
+{
+"c": "PT",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Portugal: a month."
+},
+{
+"c": "AD",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Andorra: under an hour."
+},
+{
+"c": "IT",
+"st": "D",
+"v": "11 MONTHS",
+"vs": "11M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Italy: 11 months."
+},
+{
+"c": "SM",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "San Marino: under an hour."
+},
+{
+"c": "MT",
+"st": "A",
+"v": "10 HOURS",
+"vs": "10H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Malta: 10 hours."
+},
+{
+"c": "MC",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Monaco: under an hour."
+},
+{
+"c": "CH",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Switzerland: 2 months. Mountains, bunkers, and 200,000 reservists."
+},
+{
+"c": "LI",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Liechtenstein: under an hour."
+},
+{
+"c": "AT",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Austria: 2 months."
+},
+{
+"c": "DE",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Germany: over a year."
+},
+{
+"c": "LU",
+"st": "B",
+"v": "1 DAY",
+"vs": "1D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Luxembourg: a day."
+},
+{
+"c": "BE",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Belgium: a month."
+},
+{
+"c": "NL",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Netherlands: 2 months."
+},
+{
+"c": "DK",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Denmark: a month."
+},
+{
+"c": "NO",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Norway: 3 months."
+},
+{
+"c": "SE",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Sweden: 2 months."
+},
+{
+"c": "FI",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Finland: 3 months."
+},
+{
+"c": "IS",
+"st": "A",
+"v": "2 HOURS",
+"vs": "2H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Iceland: 2 hours."
+},
+{
+"c": "PL",
+"st": "D",
+"v": "11 MONTHS",
+"vs": "11M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Poland: 11 months."
+},
+{
+"c": "CZ",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Czech Republic: a month."
+},
+{
+"c": "SK",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Slovakia: 2 weeks."
+},
+{
+"c": "HU",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Hungary: a month."
+},
+{
+"c": "SI",
+"st": "B",
+"v": "6 DAYS",
+"vs": "6D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Slovenia: 6 days."
+},
+{
+"c": "HR",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Croatia: 3 weeks."
+},
+{
+"c": "BA",
+"st": "B",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Bosnia: a week."
+},
+{
+"c": "RS",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Serbia: a month."
+},
+{
+"c": "ME",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Montenegro: 2 days."
+},
+{
+"c": "XK",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Kosovo: 2 days."
+},
+{
+"c": "AL",
+"st": "B",
+"v": "6 DAYS",
+"vs": "6D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Albania: 6 days."
+},
+{
+"c": "MK",
+"st": "B",
+"v": "5 DAYS",
+"vs": "5D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "North Macedonia: 5 days."
+},
+{
+"c": "GR",
+"st": "D",
+"v": "5 MONTHS",
+"vs": "5M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Greece: 5 months."
+},
+{
+"c": "BG",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Bulgaria: a month."
+},
+{
+"c": "RO",
+"st": "D",
+"v": "4 MONTHS",
+"vs": "4M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Romania: 4 months."
+},
+{
+"c": "MD",
+"st": "B",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Moldova: a week."
+},
+{
+"c": "UA",
+"st": "E",
+"v": "2+ YEARS",
+"vs": "2+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Ukraine: over 2 years. And in real life... it has lasted years."
+},
+{
+"c": "BY",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Belarus: 3 months."
+},
+{
+"c": "LT",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Lithuania: 3 weeks."
+},
+{
+"c": "LV",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Latvia: 2 weeks."
+},
+{
+"c": "EE",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Estonia: 2 weeks."
+},
+{
+"c": "RU",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "Russia: never! Nuclear weapons."
+},
+{
+"c": "CY",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Cyprus: a week."
+},
+{
+"c": "TR",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Turkey: over a year."
+},
+{
+"c": "CO",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Colombia: over a year."
+},
+{
+"c": "VE",
+"st": "D",
+"v": "4 MONTHS",
+"vs": "4M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Venezuela: 4 months."
+},
+{
+"c": "EC",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Ecuador: 2 months."
+},
+{
+"c": "PE",
+"st": "D",
+"v": "5 MONTHS",
+"vs": "5M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Peru: 5 months."
+},
+{
+"c": "BO",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Bolivia: a month."
+},
+{
+"c": "CL",
+"st": "D",
+"v": "4 MONTHS",
+"vs": "4M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Chile: 4 months."
+},
+{
+"c": "AR",
+"st": "D",
+"v": "6 MONTHS",
+"vs": "6M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Argentina: 6 months."
+},
+{
+"c": "UY",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Uruguay: 3 weeks."
+},
+{
+"c": "PY",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Paraguay: a month."
+},
+{
+"c": "BR",
+"st": "E",
+"v": "3+ YEARS",
+"vs": "3+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Brazil: over 3 years."
+},
+{
+"c": "GY",
+"st": "B",
+"v": "4 DAYS",
+"vs": "4D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Guyana: 4 days."
+},
+{
+"c": "SR",
+"st": "A",
+"v": "18 HOURS",
+"vs": "18H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Suriname: 18 hours."
+},
+{
+"c": "PA",
+"st": "A",
+"v": "3 HOURS",
+"vs": "3H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Panama: 3 hours."
+},
+{
+"c": "CR",
+"st": "A",
+"v": "3 HOURS",
+"vs": "3H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Costa Rica: 3 hours."
+},
+{
+"c": "NI",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Nicaragua: a week."
+},
+{
+"c": "HN",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Honduras: 3 weeks."
+},
+{
+"c": "SV",
+"st": "B",
+"v": "5 DAYS",
+"vs": "5D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "El Salvador: 5 days."
+},
+{
+"c": "GT",
+"st": "C",
+"v": "4 WEEKS",
+"vs": "4W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Guatemala: almost a month."
+},
+{
+"c": "BZ",
+"st": "A",
+"v": "21 HOURS",
+"vs": "21H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Belize: 21 hours."
+},
+{
+"c": "CU",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Cuba: 3 weeks."
+},
+{
+"c": "JM",
+"st": "B",
+"v": "3 DAYS",
+"vs": "3D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Jamaica: 3 days."
+},
+{
+"c": "HT",
+"st": "A",
+"v": "23 HOURS",
+"vs": "23H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Haiti: 23 hours."
+},
+{
+"c": "DO",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Dominican Republic: a month."
+},
+{
+"c": "BS",
+"st": "A",
+"v": "8 HOURS",
+"vs": "8H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Bahamas: 8 hours."
+},
+{
+"c": "BB",
+"st": "A",
+"v": "2 HOURS",
+"vs": "2H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Barbados: 2 hours."
+},
+{
+"c": "TT",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Trinidad and Tobago: 2 days."
+},
+{
+"c": "GD",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Grenada: under an hour."
+},
+{
+"c": "VC",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Saint Vincent: under an hour."
+},
+{
+"c": "LC",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Saint Lucia: under an hour."
+},
+{
+"c": "DM",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Dominica: under an hour."
+},
+{
+"c": "AG",
+"st": "A",
+"v": "1 HOUR",
+"vs": "1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Antigua and Barbuda: an hour."
+},
+{
+"c": "KN",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Saint Kitts and Nevis: under an hour."
+},
+{
+"c": "GE",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Georgia: 2 weeks."
+},
+{
+"c": "AM",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Armenia: a month."
+},
+{
+"c": "AZ",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Azerbaijan: 3 months."
+},
+{
+"c": "KZ",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Kazakhstan: 2 months."
+},
+{
+"c": "UZ",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Uzbekistan: 2 months."
+},
+{
+"c": "TM",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Turkmenistan: 3 weeks."
+},
+{
+"c": "KG",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Kyrgyzstan: 2 weeks."
+},
+{
+"c": "TJ",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Tajikistan: 2 weeks."
+},
+{
+"c": "AF",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Afghanistan: 3 months. The graveyard of empires."
+},
+{
+"c": "IR",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Iran: over a year."
+},
+{
+"c": "IQ",
+"st": "D",
+"v": "7 MONTHS",
+"vs": "7M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Iraq: 7 months."
+},
+{
+"c": "SY",
+"st": "B",
+"v": "1 DAY",
+"vs": "1D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Syria: a day."
+},
+{
+"c": "LB",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Lebanon: 2 weeks."
+},
+{
+"c": "IL",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "Israel: never! Nuclear weapons."
+},
+{
+"c": "PS",
+"st": "A",
+"v": "2 HOURS",
+"vs": "2H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Palestine: 2 hours."
+},
+{
+"c": "JO",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Jordan: 2 months."
+},
+{
+"c": "SA",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Saudi Arabia: over a year."
+},
+{
+"c": "YE",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Yemen: 2 months."
+},
+{
+"c": "OM",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Oman: 2 months."
+},
+{
+"c": "AE",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "United Arab Emirates: 3 months."
+},
+{
+"c": "QA",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Qatar: 3 weeks."
+},
+{
+"c": "BH",
+"st": "B",
+"v": "3 DAYS",
+"vs": "3D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Bahrain: 3 days."
+},
+{
+"c": "KW",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Kuwait: 3 weeks."
+},
+{
+"c": "IN",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "India: never! Nuclear weapons."
+},
+{
+"c": "PK",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "Pakistan: never! Nuclear weapons."
+},
+{
+"c": "NP",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Nepal: a month."
+},
+{
+"c": "BT",
+"st": "B",
+"v": "3 DAYS",
+"vs": "3D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Bhutan: 3 days."
+},
+{
+"c": "BD",
+"st": "D",
+"v": "5 MONTHS",
+"vs": "5M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Bangladesh: 5 months."
+},
+{
+"c": "LK",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Sri Lanka: 3 months."
+},
+{
+"c": "MV",
+"st": "A",
+"v": "6 HOURS",
+"vs": "6H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Maldives: 6 hours."
+},
+{
+"c": "MM",
+"st": "D",
+"v": "6 MONTHS",
+"vs": "6M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Myanmar: 6 months."
+},
+{
+"c": "TH",
+"st": "D",
+"v": "11 MONTHS",
+"vs": "11M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Thailand: 11 months."
+},
+{
+"c": "LA",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Laos: a week."
+},
+{
+"c": "KH",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Cambodia: 2 months."
+},
+{
+"c": "VN",
+"st": "E",
+"v": "2+ YEARS",
+"vs": "2+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Vietnam: over 2 years."
+},
+{
+"c": "MY",
+"st": "D",
+"v": "5 MONTHS",
+"vs": "5M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Malaysia: 5 months."
+},
+{
+"c": "SG",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Singapore: a month. Tiny, but armed to the teeth."
+},
+{
+"c": "ID",
+"st": "E",
+"v": "2+ YEARS",
+"vs": "2+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Indonesia: over 2 years."
+},
+{
+"c": "BN",
+"st": "B",
+"v": "3 DAYS",
+"vs": "3D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Brunei: 3 days."
+},
+{
+"c": "PH",
+"st": "D",
+"v": "8 MONTHS",
+"vs": "8M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Philippines: 8 months."
+},
+{
+"c": "TL",
+"st": "B",
+"v": "1 DAY",
+"vs": "1D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "East Timor: a day."
+},
+{
+"c": "CN",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "China: never! Nuclear weapons."
+},
+{
+"c": "MN",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Mongolia: a month."
+},
+{
+"c": "KP",
+"st": "E",
+"v": "NEVER",
+"vs": "NEVER",
+"sub": "Nuclear power · would never fall",
+"say": "North Korea: never! Nuclear weapons."
+},
+{
+"c": "KR",
+"st": "E",
+"v": "2+ YEARS",
+"vs": "2+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "South Korea: over 2 years."
+},
+{
+"c": "JP",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Japan: over a year."
+},
+{
+"c": "TW",
+"st": "C",
+"v": "4 WEEKS",
+"vs": "4W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Taiwan: almost a month."
+},
+{
+"c": "AU",
+"st": "D",
+"v": "11 MONTHS",
+"vs": "11M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Australia: 11 months."
+},
+{
+"c": "NZ",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "New Zealand: 3 weeks."
+},
+{
+"c": "PG",
+"st": "B",
+"v": "6 DAYS",
+"vs": "6D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Papua New Guinea: 6 days."
+},
+{
+"c": "SB",
+"st": "A",
+"v": "2 HOURS",
+"vs": "2H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Solomon Islands: 2 hours."
+},
+{
+"c": "VU",
+"st": "A",
+"v": "1 HOUR",
+"vs": "1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Vanuatu: an hour."
+},
+{
+"c": "FJ",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Fiji: 2 days."
+},
+{
+"c": "WS",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Samoa: under an hour."
+},
+{
+"c": "TO",
+"st": "A",
+"v": "2 HOURS",
+"vs": "2H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Tonga: 2 hours."
+},
+{
+"c": "KI",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Kiribati: under an hour."
+},
+{
+"c": "TV",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Tuvalu: under an hour."
+},
+{
+"c": "NR",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Nauru: under an hour."
+},
+{
+"c": "MH",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Marshall Islands: under an hour."
+},
+{
+"c": "FM",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Micronesia: under an hour."
+},
+{
+"c": "PW",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Palau: under an hour."
+},
+{
+"c": "MA",
+"st": "D",
+"v": "7 MONTHS",
+"vs": "7M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Morocco: 7 months."
+},
+{
+"c": "DZ",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Algeria: over a year."
+},
+{
+"c": "TN",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Tunisia: a month."
+},
+{
+"c": "LY",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Libya: 2 days."
+},
+{
+"c": "EG",
+"st": "E",
+"v": "1+ YEAR",
+"vs": "1+Y",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Egypt: over a year."
+},
+{
+"c": "SD",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Sudan: 3 months."
+},
+{
+"c": "SS",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "South Sudan: a month."
+},
+{
+"c": "ET",
+"st": "D",
+"v": "8 MONTHS",
+"vs": "8M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Ethiopia: 8 months."
+},
+{
+"c": "ER",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Eritrea: a month."
+},
+{
+"c": "DJ",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Djibouti: 2 days."
+},
+{
+"c": "SO",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Somalia: 3 weeks."
+},
+{
+"c": "KE",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Kenya: 2 months."
+},
+{
+"c": "UG",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Uganda: 2 months."
+},
+{
+"c": "RW",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Rwanda: 2 weeks."
+},
+{
+"c": "BI",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Burundi: 2 weeks."
+},
+{
+"c": "TZ",
+"st": "D",
+"v": "3 MONTHS",
+"vs": "3M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Tanzania: 3 months."
+},
+{
+"c": "MZ",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Mozambique: 3 weeks."
+},
+{
+"c": "MW",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Malawi: a week."
+},
+{
+"c": "ZM",
+"st": "C",
+"v": "4 WEEKS",
+"vs": "4W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Zambia: almost a month."
+},
+{
+"c": "ZW",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Zimbabwe: 3 weeks."
+},
+{
+"c": "BW",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Botswana: 2 weeks."
+},
+{
+"c": "NA",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Namibia: 2 weeks."
+},
+{
+"c": "ZA",
+"st": "D",
+"v": "4 MONTHS",
+"vs": "4M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "South Africa: 4 months."
+},
+{
+"c": "LS",
+"st": "B",
+"v": "1 DAY",
+"vs": "1D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Lesotho: a day."
+},
+{
+"c": "SZ",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Eswatini: 2 days."
+},
+{
+"c": "MG",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Madagascar: 2 weeks."
+},
+{
+"c": "MU",
+"st": "A",
+"v": "1 HOUR",
+"vs": "1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Mauritius: an hour."
+},
+{
+"c": "KM",
+"st": "A",
+"v": "5 HOURS",
+"vs": "5H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Comoros: 5 hours."
+},
+{
+"c": "SC",
+"st": "A",
+"v": "3 HOURS",
+"vs": "3H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Seychelles: 3 hours."
+},
+{
+"c": "AO",
+"st": "D",
+"v": "4 MONTHS",
+"vs": "4M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Angola: 4 months."
+},
+{
+"c": "CD",
+"st": "D",
+"v": "6 MONTHS",
+"vs": "6M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "DR Congo: 6 months."
+},
+{
+"c": "CG",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Republic of the Congo: a week."
+},
+{
+"c": "GA",
+"st": "B",
+"v": "6 DAYS",
+"vs": "6D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Gabon: 6 days."
+},
+{
+"c": "GQ",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Equatorial Guinea: 2 days."
+},
+{
+"c": "CM",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Cameroon: a month."
+},
+{
+"c": "CF",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Central African Republic: a week."
+},
+{
+"c": "TD",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Chad: a month."
+},
+{
+"c": "NE",
+"st": "D",
+"v": "2 MONTHS",
+"vs": "2M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Niger: 2 months."
+},
+{
+"c": "NG",
+"st": "D",
+"v": "7 MONTHS",
+"vs": "7M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Nigeria: 7 months."
+},
+{
+"c": "BJ",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Benin: a week."
+},
+{
+"c": "TG",
+"st": "C",
+"v": "1 WEEK",
+"vs": "1W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Togo: a week."
+},
+{
+"c": "GH",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Ghana: 3 weeks."
+},
+{
+"c": "CI",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Ivory Coast: a month."
+},
+{
+"c": "BF",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Burkina Faso: 2 weeks."
+},
+{
+"c": "ML",
+"st": "D",
+"v": "1 MONTH",
+"vs": "1M",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Mali: a month."
+},
+{
+"c": "MR",
+"st": "C",
+"v": "3 WEEKS",
+"vs": "3W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Mauritania: 3 weeks."
+},
+{
+"c": "SN",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Senegal: 2 weeks."
+},
+{
+"c": "GM",
+"st": "B",
+"v": "1 DAY",
+"vs": "1D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Gambia: a day."
+},
+{
+"c": "GW",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Guinea-Bissau: 2 days."
+},
+{
+"c": "GN",
+"st": "C",
+"v": "2 WEEKS",
+"vs": "2W",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Guinea: 2 weeks."
+},
+{
+"c": "SL",
+"st": "B",
+"v": "4 DAYS",
+"vs": "4D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Sierra Leone: 4 days."
+},
+{
+"c": "LR",
+"st": "B",
+"v": "2 DAYS",
+"vs": "2D",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Liberia: 2 days."
+},
+{
+"c": "CV",
+"st": "A",
+"v": "9 HOURS",
+"vs": "9H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Cape Verde: 9 hours."
+},
+{
+"c": "ST",
+"st": "A",
+"v": "2 HOURS",
+"vs": "2H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "São Tomé: 2 hours."
+},
+{
+"c": "VA",
+"st": "A",
+"v": "<1 HOUR",
+"vs": "<1H",
+"sub": "Simulation · army, reserves, budget, size, population",
+"say": "Vatican City: under an hour. The smallest country on Earth."
+}
+],
+"T": {
+"VA": "Hours? We have 135 guards... and God.",
+"LU": "One day? We would still be stuck in traffic.",
+"CH": "Bunkers for every single citizen. Good luck.",
+"FI": "We held off the Soviets in 1939. Ask them.",
+"UA": "A simulation? We have been doing it for real since 2022.",
+"AF": "Empires come here to die. Ask the British, the Soviets... and the Americans.",
+"VN": "Ask France and America how that went.",
+"IL": "Small country. Very, very big army.",
+"KP": "Invade us? Our nukes say hello.",
+"IS": "No army at all... but NATO would show up.",
+"US": "Invade America? Good luck crossing the ocean."
+},
+"cfg": {
+"title": "HOW LONG WOULD IT LAST?",
+"icon": "clock",
+"t1": "HOW LONG WOULD",
+"t2": "EVERY COUNTRY LAST?",
+"badge": "SIMULATION · 197 COUNTRIES",
+"cats": [
+{
+"k": "A",
+"label": "UNDER 1 DAY",
+"short": "<1 DAY",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "sad"
+},
+{
+"k": "B",
+"label": "UNDER 1 WEEK",
+"short": "<1 WEEK",
+"col": "#ff8c2e",
+"cold": "#b35a0c",
+"mood": "sad"
+},
+{
+"k": "C",
+"label": "UNDER 1 MONTH",
+"short": "<1 MONTH",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "angry"
+},
+{
+"k": "D",
+"label": "UNDER 1 YEAR",
+"short": "<1 YEAR",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "E",
+"label": "OVER 1 YEAR / NEVER",
+"short": "1 YEAR+",
+"col": "#9b5de5",
+"cold": "#5e2ca5",
+"mood": "angry"
+}
+],
+"balls": [
+"VA",
+"LU",
+"CH",
+"UA",
+"AF",
+"US"
+],
+"ballMoods": [
+"sad",
+"sad",
+"happy",
+"angry",
+"angry",
+"angry"
+],
+"best": [
+"UA",
+"LASTS THE LONGEST",
+"2+ YEARS"
+],
+"worst": [
+"VA",
+"FALLS FIRST",
+"<1 HOUR"
+],
+"ask": "HOW LONG WOULD YOU LAST? COMMENT!"
+},
+"intro": [
+"If the world's strongest army invaded tomorrow... how long would each country last? This is a simulation: we scored every country on soldiers, reserves, budget, size and population. Nuclear powers? They never fall.",
+"Red: less than a day.",
+"Orange: less than a week.",
+"Yellow: less than a month.",
+"Green: less than a year.",
+"And purple... more than a year, or never! Let's go!"
+],
+"outro": [
+"How long would your country last? Comment below!"
+],
+"names": {
+"US": "United States",
+"CA": "Canada",
+"MX": "Mexico",
+"GB": "United Kingdom",
+"IE": "Ireland",
+"FR": "France",
+"ES": "Spain",
+"PT": "Portugal",
+"AD": "Andorra",
+"IT": "Italy",
+"SM": "San Marino",
+"MT": "Malta",
+"MC": "Monaco",
+"CH": "Switzerland",
+"LI": "Liechtenstein",
+"AT": "Austria",
+"DE": "Germany",
+"LU": "Luxembourg",
+"BE": "Belgium",
+"NL": "Netherlands",
+"DK": "Denmark",
+"NO": "Norway",
+"SE": "Sweden",
+"FI": "Finland",
+"IS": "Iceland",
+"PL": "Poland",
+"CZ": "Czech Republic",
+"SK": "Slovakia",
+"HU": "Hungary",
+"SI": "Slovenia",
+"HR": "Croatia",
+"BA": "Bosnia",
+"RS": "Serbia",
+"ME": "Montenegro",
+"XK": "Kosovo",
+"AL": "Albania",
+"MK": "North Macedonia",
+"GR": "Greece",
+"BG": "Bulgaria",
+"RO": "Romania",
+"MD": "Moldova",
+"UA": "Ukraine",
+"BY": "Belarus",
+"LT": "Lithuania",
+"LV": "Latvia",
+"EE": "Estonia",
+"RU": "Russia",
+"CY": "Cyprus",
+"TR": "Turkey",
+"CO": "Colombia",
+"VE": "Venezuela",
+"EC": "Ecuador",
+"PE": "Peru",
+"BO": "Bolivia",
+"CL": "Chile",
+"AR": "Argentina",
+"UY": "Uruguay",
+"PY": "Paraguay",
+"BR": "Brazil",
+"GY": "Guyana",
+"SR": "Suriname",
+"PA": "Panama",
+"CR": "Costa Rica",
+"NI": "Nicaragua",
+"HN": "Honduras",
+"SV": "El Salvador",
+"GT": "Guatemala",
+"BZ": "Belize",
+"CU": "Cuba",
+"JM": "Jamaica",
+"HT": "Haiti",
+"DO": "Dominican Republic",
+"BS": "Bahamas",
+"BB": "Barbados",
+"TT": "Trinidad and Tobago",
+"GD": "Grenada",
+"VC": "Saint Vincent",
+"LC": "Saint Lucia",
+"DM": "Dominica",
+"AG": "Antigua and Barbuda",
+"KN": "Saint Kitts and Nevis",
+"GE": "Georgia",
+"AM": "Armenia",
+"AZ": "Azerbaijan",
+"KZ": "Kazakhstan",
+"UZ": "Uzbekistan",
+"TM": "Turkmenistan",
+"KG": "Kyrgyzstan",
+"TJ": "Tajikistan",
+"AF": "Afghanistan",
+"IR": "Iran",
+"IQ": "Iraq",
+"SY": "Syria",
+"LB": "Lebanon",
+"IL": "Israel",
+"PS": "Palestine",
+"JO": "Jordan",
+"SA": "Saudi Arabia",
+"YE": "Yemen",
+"OM": "Oman",
+"AE": "United Arab Emirates",
+"QA": "Qatar",
+"BH": "Bahrain",
+"KW": "Kuwait",
+"IN": "India",
+"PK": "Pakistan",
+"NP": "Nepal",
+"BT": "Bhutan",
+"BD": "Bangladesh",
+"LK": "Sri Lanka",
+"MV": "Maldives",
+"MM": "Myanmar",
+"TH": "Thailand",
+"LA": "Laos",
+"KH": "Cambodia",
+"VN": "Vietnam",
+"MY": "Malaysia",
+"SG": "Singapore",
+"ID": "Indonesia",
+"BN": "Brunei",
+"PH": "Philippines",
+"TL": "East Timor",
+"CN": "China",
+"MN": "Mongolia",
+"KP": "North Korea",
+"KR": "South Korea",
+"JP": "Japan",
+"TW": "Taiwan",
+"AU": "Australia",
+"NZ": "New Zealand",
+"PG": "Papua New Guinea",
+"SB": "Solomon Islands",
+"VU": "Vanuatu",
+"FJ": "Fiji",
+"WS": "Samoa",
+"TO": "Tonga",
+"KI": "Kiribati",
+"TV": "Tuvalu",
+"NR": "Nauru",
+"MH": "Marshall Islands",
+"FM": "Micronesia",
+"PW": "Palau",
+"MA": "Morocco",
+"DZ": "Algeria",
+"TN": "Tunisia",
+"LY": "Libya",
+"EG": "Egypt",
+"SD": "Sudan",
+"SS": "South Sudan",
+"ET": "Ethiopia",
+"ER": "Eritrea",
+"DJ": "Djibouti",
+"SO": "Somalia",
+"KE": "Kenya",
+"UG": "Uganda",
+"RW": "Rwanda",
+"BI": "Burundi",
+"TZ": "Tanzania",
+"MZ": "Mozambique",
+"MW": "Malawi",
+"ZM": "Zambia",
+"ZW": "Zimbabwe",
+"BW": "Botswana",
+"NA": "Namibia",
+"ZA": "South Africa",
+"LS": "Lesotho",
+"SZ": "Eswatini",
+"MG": "Madagascar",
+"MU": "Mauritius",
+"KM": "Comoros",
+"SC": "Seychelles",
+"AO": "Angola",
+"CD": "DR Congo",
+"CG": "Republic of the Congo",
+"GA": "Gabon",
+"GQ": "Equatorial Guinea",
+"CM": "Cameroon",
+"CF": "Central African Republic",
+"TD": "Chad",
+"NE": "Niger",
+"NG": "Nigeria",
+"BJ": "Benin",
+"TG": "Togo",
+"GH": "Ghana",
+"CI": "Ivory Coast",
+"BF": "Burkina Faso",
+"ML": "Mali",
+"MR": "Mauritania",
+"SN": "Senegal",
+"GM": "Gambia",
+"GW": "Guinea-Bissau",
+"GN": "Guinea",
+"SL": "Sierra Leone",
+"LR": "Liberia",
+"CV": "Cape Verde",
+"ST": "São Tomé",
+"VA": "Vatican City"
+}
+}

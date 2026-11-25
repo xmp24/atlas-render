@@ -1,0 +1,1926 @@
+{
+"key": "sue",
+"narr": "w495jEjc73YEWOkc3VLu",
+"C": [
+{
+"c": "US",
+"st": "D",
+"val": 1254.0,
+"v": "1.254 $ / mes",
+"vs": "1.254 $",
+"sub": "Federal: 7,25 $ la hora",
+"say": "Estados Unidos: mil doscientos cincuenta dólares."
+},
+{
+"c": "CA",
+"st": "E",
+"val": 2064.0,
+"v": "2.064 $ / mes",
+"vs": "2.064 $",
+"sub": "Al mes, en dólares",
+"say": "Canadá: dos mil cincuenta dólares."
+},
+{
+"c": "MX",
+"st": "C",
+"val": 520,
+"v": "520 $ / mes",
+"vs": "520 $",
+"sub": "Al mes, en dólares",
+"say": "México: quinientos veinte dólares."
+},
+{
+"c": "GB",
+"st": "E",
+"val": 2920,
+"v": "2.920 $ / mes",
+"vs": "2.920 $",
+"sub": "Al mes, en dólares",
+"say": "Reino Unido: dos mil novecientos dólares."
+},
+{
+"c": "IE",
+"st": "E",
+"val": 2840,
+"v": "2.840 $ / mes",
+"vs": "2.840 $",
+"sub": "Al mes, en dólares",
+"say": "Irlanda: dos mil ochocientos dólares. Casi empatado con los ingleses."
+},
+{
+"c": "FR",
+"st": "E",
+"val": 2110,
+"v": "2.110 $ / mes",
+"vs": "2.110 $",
+"sub": "Al mes, en dólares",
+"say": "Francia: dos mil cien dólares."
+},
+{
+"c": "ES",
+"st": "E",
+"val": 1600,
+"v": "1.600 $ / mes",
+"vs": "1.600 $",
+"sub": "Al mes, en dólares",
+"say": "España: mil seiscientos dólares."
+},
+{
+"c": "PT",
+"st": "D",
+"val": 970.0,
+"v": "970 $ / mes",
+"vs": "970 $",
+"sub": "Al mes, en dólares",
+"say": "Portugal: novecientos setenta dólares."
+},
+{
+"c": "AD",
+"st": "D",
+"val": 1490,
+"v": "1.490 $ / mes",
+"vs": "1.490 $",
+"sub": "Al mes, en dólares",
+"say": "Andorra: mil cuatrocientos cincuenta dólares."
+},
+{
+"c": "IT",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Italia: ¡no tiene sueldo mínimo! Allí lo fijan los convenios."
+},
+{
+"c": "SM",
+"st": "E",
+"val": 1735.0,
+"v": "1.735 $ / mes",
+"vs": "1.735 $",
+"sub": "Al mes, en dólares",
+"say": "San Marino: mil setecientos dólares. Pequeño, pero bien pagado."
+},
+{
+"c": "MT",
+"st": "D",
+"val": 767.0,
+"v": "767 $ / mes",
+"vs": "767 $",
+"sub": "Al mes, en dólares",
+"say": "Malta: setecientos sesenta y cinco dólares."
+},
+{
+"c": "MC",
+"st": "E",
+"val": 2220,
+"v": "2.220 $ / mes",
+"vs": "2.220 $",
+"sub": "Al mes, en dólares",
+"say": "Mónaco: dos mil doscientos dólares. Un poco más que en Francia."
+},
+{
+"c": "CH",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Solo algunos cantones",
+"say": "Suiza: ¡sin sueldo mínimo! Cada cantón pone el suyo... ¡y en Ginebra pasa de cinco mil!"
+},
+{
+"c": "LI",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Liechtenstein: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "AT",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Austria: ¡sin sueldo mínimo! También por convenio."
+},
+{
+"c": "DE",
+"st": "E",
+"val": 2790,
+"v": "2.790 $ / mes",
+"vs": "2.790 $",
+"sub": "Al mes, en dólares",
+"say": "Alemania: dos mil setecientos cincuenta dólares."
+},
+{
+"c": "LU",
+"st": "E",
+"val": 3150,
+"v": "3.150 $ / mes",
+"vs": "3.150 $",
+"sub": "Al mes, en dólares",
+"say": "Luxemburgo: tres mil ciento cincuenta dólares. ¡El sueldo mínimo más alto del mundo!"
+},
+{
+"c": "BE",
+"st": "E",
+"val": 2450,
+"v": "2.450 $ / mes",
+"vs": "2.450 $",
+"sub": "Al mes, en dólares",
+"say": "Bélgica: dos mil cuatrocientos cincuenta dólares."
+},
+{
+"c": "NL",
+"st": "E",
+"val": 2950,
+"v": "2.950 $ / mes",
+"vs": "2.950 $",
+"sub": "Al mes, en dólares",
+"say": "Países Bajos: dos mil novecientos cincuenta dólares. Segundo del mundo."
+},
+{
+"c": "DK",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Dinamarca: ¡no tiene sueldo mínimo! Y aun así, de los sueldos más altos."
+},
+{
+"c": "NO",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Noruega: ¡sin sueldo mínimo! Lo mismo que sus vecinos."
+},
+{
+"c": "SE",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Suecia: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "FI",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Finlandia: ¡sin sueldo mínimo!"
+},
+{
+"c": "IS",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Islandia: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "PL",
+"st": "D",
+"val": 1245.0,
+"v": "1.245 $ / mes",
+"vs": "1.245 $",
+"sub": "Al mes, en dólares",
+"say": "Polonia: mil doscientos dólares. ¡Ha subido muchísimo!"
+},
+{
+"c": "CZ",
+"st": "D",
+"val": 1092.0,
+"v": "1.092 $ / mes",
+"vs": "1.092 $",
+"sub": "Al mes, en dólares",
+"say": "Chequia: mil cincuenta dólares."
+},
+{
+"c": "SK",
+"st": "D",
+"val": 790.0,
+"v": "790 $ / mes",
+"vs": "790 $",
+"sub": "Al mes, en dólares",
+"say": "Eslovaquia: setecientos noventa dólares."
+},
+{
+"c": "HU",
+"st": "D",
+"val": 765.0,
+"v": "765 $ / mes",
+"vs": "765 $",
+"sub": "Al mes, en dólares",
+"say": "Hungría: setecientos sesenta y cinco dólares."
+},
+{
+"c": "SI",
+"st": "D",
+"val": 1358.0,
+"v": "1.358 $ / mes",
+"vs": "1.358 $",
+"sub": "Al mes, en dólares",
+"say": "Eslovenia: mil trescientos cincuenta dólares."
+},
+{
+"c": "HR",
+"st": "D",
+"val": 900.0,
+"v": "900 $ / mes",
+"vs": "900 $",
+"sub": "Al mes, en dólares",
+"say": "Croacia: novecientos dólares."
+},
+{
+"c": "BA",
+"st": "B",
+"val": 269.0,
+"v": "269 $ / mes",
+"vs": "269 $",
+"sub": "Al mes, en dólares",
+"say": "Bosnia: doscientos sesenta y cinco dólares."
+},
+{
+"c": "RS",
+"st": "C",
+"val": 301.0,
+"v": "301 $ / mes",
+"vs": "301 $",
+"sub": "Al mes, en dólares",
+"say": "Serbia: trescientos dólares."
+},
+{
+"c": "ME",
+"st": "C",
+"val": 511.0,
+"v": "511 $ / mes",
+"vs": "511 $",
+"sub": "Al mes, en dólares",
+"say": "Montenegro: quinientos diez dólares."
+},
+{
+"c": "XK",
+"st": "B",
+"val": 224.0,
+"v": "224 $ / mes",
+"vs": "224 $",
+"sub": "Al mes, en dólares",
+"say": "Kosovo: doscientos veinte dólares."
+},
+{
+"c": "AL",
+"st": "C",
+"val": 610.0,
+"v": "610 $ / mes",
+"vs": "610 $",
+"sub": "Al mes, en dólares",
+"say": "Albania: seiscientos diez dólares."
+},
+{
+"c": "MK",
+"st": "C",
+"val": 406.0,
+"v": "406 $ / mes",
+"vs": "406 $",
+"sub": "Al mes, en dólares",
+"say": "Macedonia del Norte: cuatrocientos cinco dólares."
+},
+{
+"c": "GR",
+"st": "D",
+"val": 1159.0,
+"v": "1.159 $ / mes",
+"vs": "1.159 $",
+"sub": "Al mes, en dólares",
+"say": "Grecia: mil ciento cincuenta dólares."
+},
+{
+"c": "BG",
+"st": "C",
+"val": 682.0,
+"v": "682 $ / mes",
+"vs": "682 $",
+"sub": "Al mes, en dólares",
+"say": "Bulgaria: seiscientos ochenta dólares."
+},
+{
+"c": "RO",
+"st": "D",
+"val": 915.0,
+"v": "915 $ / mes",
+"vs": "915 $",
+"sub": "Al mes, en dólares",
+"say": "Rumanía: novecientos quince dólares."
+},
+{
+"c": "MD",
+"st": "B",
+"val": 222.0,
+"v": "222 $ / mes",
+"vs": "222 $",
+"sub": "Al mes, en dólares",
+"say": "Moldavia: doscientos veinte dólares."
+},
+{
+"c": "UA",
+"st": "B",
+"val": 204.0,
+"v": "204 $ / mes",
+"vs": "204 $",
+"sub": "Al mes, en dólares",
+"say": "Ucrania: doscientos dólares."
+},
+{
+"c": "BY",
+"st": "B",
+"val": 122.0,
+"v": "122 $ / mes",
+"vs": "122 $",
+"sub": "Al mes, en dólares",
+"say": "Bielorrusia: ciento veinte dólares."
+},
+{
+"c": "LT",
+"st": "D",
+"val": 1301.0,
+"v": "1.301 $ / mes",
+"vs": "1.301 $",
+"sub": "Al mes, en dólares",
+"say": "Lituania: mil trescientos dólares."
+},
+{
+"c": "LV",
+"st": "D",
+"val": 1014.0,
+"v": "1.014 $ / mes",
+"vs": "1.014 $",
+"sub": "Al mes, en dólares",
+"say": "Letonia: mil dólares."
+},
+{
+"c": "EE",
+"st": "D",
+"val": 818.0,
+"v": "818 $ / mes",
+"vs": "818 $",
+"sub": "Al mes, en dólares",
+"say": "Estonia: ochocientos quince dólares."
+},
+{
+"c": "RU",
+"st": "C",
+"val": 318.0,
+"v": "318 $ / mes",
+"vs": "318 $",
+"sub": "Al mes, en dólares",
+"say": "Rusia: trescientos quince dólares."
+},
+{
+"c": "CY",
+"st": "D",
+"val": 1160,
+"v": "1.160 $ / mes",
+"vs": "1.160 $",
+"sub": "Al mes, en dólares",
+"say": "Chipre: mil ciento cincuenta dólares. Lo estrenó hace poco."
+},
+{
+"c": "TR",
+"st": "C",
+"val": 600,
+"v": "600 $ / mes",
+"vs": "600 $",
+"sub": "Al mes, en dólares",
+"say": "Turquía: seiscientos dólares. ¡Y lo suben cada año por la inflación!"
+},
+{
+"c": "CO",
+"st": "C",
+"val": 350.0,
+"v": "350 $ / mes",
+"vs": "350 $",
+"sub": "Al mes, en dólares",
+"say": "Colombia: trescientos cincuenta dólares."
+},
+{
+"c": "VE",
+"st": "A",
+"val": 0.5,
+"v": "< 1 $ / mes",
+"vs": "<1 $",
+"sub": "130 bolívares (sin contar bonos)",
+"say": "Venezuela: menos de un dólar. ¡Al mes!"
+},
+{
+"c": "EC",
+"st": "C",
+"val": 482,
+"v": "482 $ / mes",
+"vs": "482 $",
+"sub": "Al mes, en dólares",
+"say": "Ecuador: cuatrocientos ochenta dólares. Y en dólares de verdad: ¡allí usan el dólar!"
+},
+{
+"c": "PE",
+"st": "C",
+"val": 318.0,
+"v": "318 $ / mes",
+"vs": "318 $",
+"sub": "Al mes, en dólares",
+"say": "Perú: trescientos quince dólares."
+},
+{
+"c": "BO",
+"st": "C",
+"val": 362.0,
+"v": "362 $ / mes",
+"vs": "362 $",
+"sub": "Al mes, en dólares",
+"say": "Bolivia: trescientos sesenta dólares."
+},
+{
+"c": "CL",
+"st": "C",
+"val": 553.0,
+"v": "553 $ / mes",
+"vs": "553 $",
+"sub": "Al mes, en dólares",
+"say": "Chile: quinientos cincuenta dólares."
+},
+{
+"c": "AR",
+"st": "B",
+"val": 275,
+"v": "275 $ / mes",
+"vs": "275 $",
+"sub": "Al mes, en dólares",
+"say": "Argentina: doscientos setenta y cinco dólares."
+},
+{
+"c": "UY",
+"st": "C",
+"val": 507.0,
+"v": "507 $ / mes",
+"vs": "507 $",
+"sub": "Al mes, en dólares",
+"say": "Uruguay: quinientos cinco dólares."
+},
+{
+"c": "PY",
+"st": "C",
+"val": 363.0,
+"v": "363 $ / mes",
+"vs": "363 $",
+"sub": "Al mes, en dólares",
+"say": "Paraguay: trescientos sesenta dólares."
+},
+{
+"c": "BR",
+"st": "C",
+"val": 314.0,
+"v": "314 $ / mes",
+"vs": "314 $",
+"sub": "Al mes, en dólares",
+"say": "Brasil: trescientos diez dólares."
+},
+{
+"c": "GY",
+"st": "B",
+"val": 168.0,
+"v": "168 $ / mes",
+"vs": "168 $",
+"sub": "Al mes, en dólares",
+"say": "Guyana: ciento sesenta y cinco dólares."
+},
+{
+"c": "SR",
+"st": "C",
+"val": 498.0,
+"v": "498 $ / mes",
+"vs": "498 $",
+"sub": "Al mes, en dólares",
+"say": "Surinam: cuatrocientos noventa y cinco dólares."
+},
+{
+"c": "PA",
+"st": "D",
+"val": 770.0,
+"v": "770 $ / mes",
+"vs": "770 $",
+"sub": "Al mes, en dólares",
+"say": "Panamá: setecientos setenta dólares."
+},
+{
+"c": "CR",
+"st": "C",
+"val": 603.0,
+"v": "603 $ / mes",
+"vs": "603 $",
+"sub": "Al mes, en dólares",
+"say": "Costa Rica: seiscientos dólares."
+},
+{
+"c": "NI",
+"st": "B",
+"val": 155.0,
+"v": "155 $ / mes",
+"vs": "155 $",
+"sub": "Al mes, en dólares",
+"say": "Nicaragua: ciento cincuenta y cinco dólares."
+},
+{
+"c": "HN",
+"st": "C",
+"val": 404.0,
+"v": "404 $ / mes",
+"vs": "404 $",
+"sub": "Al mes, en dólares",
+"say": "Honduras: cuatrocientos dólares."
+},
+{
+"c": "SV",
+"st": "C",
+"val": 408.0,
+"v": "408 $ / mes",
+"vs": "408 $",
+"sub": "Al mes, en dólares",
+"say": "El Salvador: cuatrocientos cinco dólares."
+},
+{
+"c": "GT",
+"st": "C",
+"val": 480.0,
+"v": "480 $ / mes",
+"vs": "480 $",
+"sub": "Al mes, en dólares",
+"say": "Guatemala: cuatrocientos ochenta dólares."
+},
+{
+"c": "BZ",
+"st": "C",
+"val": 429.0,
+"v": "429 $ / mes",
+"vs": "429 $",
+"sub": "Al mes, en dólares",
+"say": "Belice: cuatrocientos veinticinco dólares."
+},
+{
+"c": "CU",
+"st": "A",
+"val": 5,
+"v": "5 $ / mes",
+"vs": "5 $",
+"sub": "2.100 pesos al cambio informal",
+"say": "Cuba: cinco dólares."
+},
+{
+"c": "JM",
+"st": "C",
+"val": 346.0,
+"v": "346 $ / mes",
+"vs": "346 $",
+"sub": "Al mes, en dólares",
+"say": "Jamaica: trescientos cuarenta y cinco dólares."
+},
+{
+"c": "HT",
+"st": "A",
+"val": 85.0,
+"v": "85 $ / mes",
+"vs": "85 $",
+"sub": "Al mes, en dólares",
+"say": "Haití: ochenta y cinco dólares."
+},
+{
+"c": "DO",
+"st": "C",
+"val": 300.0,
+"v": "300 $ / mes",
+"vs": "300 $",
+"sub": "Al mes, en dólares",
+"say": "República Dominicana: trescientos dólares."
+},
+{
+"c": "BS",
+"st": "D",
+"val": 908.0,
+"v": "908 $ / mes",
+"vs": "908 $",
+"sub": "Al mes, en dólares",
+"say": "Bahamas: novecientos cinco dólares."
+},
+{
+"c": "BB",
+"st": "D",
+"val": 908.0,
+"v": "908 $ / mes",
+"vs": "908 $",
+"sub": "Al mes, en dólares",
+"say": "Barbados: novecientos cinco dólares."
+},
+{
+"c": "TT",
+"st": "C",
+"val": 384.0,
+"v": "384 $ / mes",
+"vs": "384 $",
+"sub": "Al mes, en dólares",
+"say": "Trinidad y Tobago: trescientos ochenta dólares."
+},
+{
+"c": "GD",
+"st": "C",
+"val": 300,
+"v": "300 $ / mes",
+"vs": "300 $",
+"sub": "Al mes, en dólares",
+"say": "Granada: trescientos dólares."
+},
+{
+"c": "VC",
+"st": "C",
+"val": 385.0,
+"v": "385 $ / mes",
+"vs": "385 $",
+"sub": "Al mes, en dólares",
+"say": "San Vicente: trescientos ochenta y cinco dólares."
+},
+{
+"c": "LC",
+"st": "B",
+"val": 111.0,
+"v": "111 $ / mes",
+"vs": "111 $",
+"sub": "Al mes, en dólares",
+"say": "Santa Lucía: ciento diez dólares."
+},
+{
+"c": "DM",
+"st": "B",
+"val": 260.0,
+"v": "260 $ / mes",
+"vs": "260 $",
+"sub": "Al mes, en dólares",
+"say": "Dominica: doscientos sesenta dólares."
+},
+{
+"c": "AG",
+"st": "C",
+"val": 526.0,
+"v": "526 $ / mes",
+"vs": "526 $",
+"sub": "Al mes, en dólares",
+"say": "Antigua y Barbuda: quinientos veinticinco dólares."
+},
+{
+"c": "KN",
+"st": "C",
+"val": 578.0,
+"v": "578 $ / mes",
+"vs": "578 $",
+"sub": "Al mes, en dólares",
+"say": "San Cristóbal y Nieves: quinientos setenta y cinco dólares."
+},
+{
+"c": "GE",
+"st": "A",
+"val": 7,
+"v": "7 $ / mes",
+"vs": "7 $",
+"sub": "20 laris al mes desde 1999",
+"say": "Georgia: siete dólares."
+},
+{
+"c": "AM",
+"st": "B",
+"val": 190.0,
+"v": "190 $ / mes",
+"vs": "190 $",
+"sub": "Al mes, en dólares",
+"say": "Armenia: ciento noventa dólares."
+},
+{
+"c": "AZ",
+"st": "B",
+"val": 203.0,
+"v": "203 $ / mes",
+"vs": "203 $",
+"sub": "Al mes, en dólares",
+"say": "Azerbaiyán: doscientos dólares."
+},
+{
+"c": "KZ",
+"st": "B",
+"val": 165,
+"v": "165 $ / mes",
+"vs": "165 $",
+"sub": "Al mes, en dólares",
+"say": "Kazajistán: ciento sesenta y cinco dólares."
+},
+{
+"c": "UZ",
+"st": "A",
+"val": 71.0,
+"v": "71 $ / mes",
+"vs": "71 $",
+"sub": "Al mes, en dólares",
+"say": "Uzbekistán: setenta y un dólares."
+},
+{
+"c": "TM",
+"st": "C",
+"val": 368,
+"v": "368 $ / mes",
+"vs": "368 $",
+"sub": "Al mes, en dólares",
+"say": "Turkmenistán: trescientos sesenta y cinco dólares."
+},
+{
+"c": "KG",
+"st": "A",
+"val": 28.0,
+"v": "28 $ / mes",
+"vs": "28 $",
+"sub": "Al mes, en dólares",
+"say": "Kirguistán: veintiocho dólares. De los más bajos de Asia."
+},
+{
+"c": "TJ",
+"st": "A",
+"val": 88.0,
+"v": "88 $ / mes",
+"vs": "88 $",
+"sub": "Al mes, en dólares",
+"say": "Tayikistán: ochenta y ocho dólares."
+},
+{
+"c": "AF",
+"st": "A",
+"val": 70.0,
+"v": "70 $ / mes",
+"vs": "70 $",
+"sub": "Al mes, en dólares",
+"say": "Afganistán: setenta dólares."
+},
+{
+"c": "IR",
+"st": "B",
+"val": 146.0,
+"v": "146 $ / mes",
+"vs": "146 $",
+"sub": "Al mes, en dólares",
+"say": "Irán: ciento cuarenta y cinco dólares."
+},
+{
+"c": "IQ",
+"st": "B",
+"val": 214.0,
+"v": "214 $ / mes",
+"vs": "214 $",
+"sub": "Al mes, en dólares",
+"say": "Irak: doscientos diez dólares."
+},
+{
+"c": "SY",
+"st": "B",
+"val": 105.0,
+"v": "105 $ / mes",
+"vs": "105 $",
+"sub": "Al mes, en dólares",
+"say": "Siria: ciento cinco dólares."
+},
+{
+"c": "LB",
+"st": "B",
+"val": 200.0,
+"v": "200 $ / mes",
+"vs": "200 $",
+"sub": "Al mes, en dólares",
+"say": "Líbano: doscientos dólares."
+},
+{
+"c": "IL",
+"st": "E",
+"val": 1995.0,
+"v": "1.995 $ / mes",
+"vs": "1.995 $",
+"sub": "Al mes, en dólares",
+"say": "Israel: mil novecientos cincuenta dólares. El más alto de Oriente Medio."
+},
+{
+"c": "PS",
+"st": "C",
+"val": 582.0,
+"v": "582 $ / mes",
+"vs": "582 $",
+"sub": "Al mes, en dólares",
+"say": "Palestina: quinientos ochenta dólares."
+},
+{
+"c": "JO",
+"st": "C",
+"val": 451.0,
+"v": "451 $ / mes",
+"vs": "451 $",
+"sub": "Al mes, en dólares",
+"say": "Jordania: cuatrocientos cincuenta dólares."
+},
+{
+"c": "SA",
+"st": "D",
+"val": 1067.0,
+"v": "1.067 $ / mes",
+"vs": "1.067 $",
+"sub": "Solo para ciudadanos saudíes",
+"say": "Arabia Saudí: mil cincuenta dólares. Pero solo para los saudíes."
+},
+{
+"c": "YE",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Yemen: ¡sin sueldo mínimo!"
+},
+{
+"c": "OM",
+"st": "C",
+"val": 592.0,
+"v": "592 $ / mes",
+"vs": "592 $",
+"sub": "Al mes, en dólares",
+"say": "Omán: quinientos noventa dólares."
+},
+{
+"c": "AE",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Emiratos Árabes: ¡no tiene sueldo mínimo! Ni Dubái."
+},
+{
+"c": "QA",
+"st": "B",
+"val": 274.0,
+"v": "274 $ / mes",
+"vs": "274 $",
+"sub": "Al mes, en dólares",
+"say": "Catar: doscientos setenta dólares. Más comida y alojamiento."
+},
+{
+"c": "BH",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Baréin: ¡sin sueldo mínimo!"
+},
+{
+"c": "KW",
+"st": "B",
+"val": 216.0,
+"v": "216 $ / mes",
+"vs": "216 $",
+"sub": "Al mes, en dólares",
+"say": "Kuwait: doscientos quince dólares."
+},
+{
+"c": "IN",
+"st": "A",
+"val": 55.0,
+"v": "55 $ / mes",
+"vs": "55 $",
+"sub": "Mínimo nacional (los estados ponen más)",
+"say": "India: cincuenta y cinco dólares."
+},
+{
+"c": "PK",
+"st": "B",
+"val": 133.0,
+"v": "133 $ / mes",
+"vs": "133 $",
+"sub": "Al mes, en dólares",
+"say": "Pakistán: ciento treinta dólares."
+},
+{
+"c": "NP",
+"st": "B",
+"val": 166.0,
+"v": "166 $ / mes",
+"vs": "166 $",
+"sub": "Al mes, en dólares",
+"say": "Nepal: ciento sesenta y cinco dólares."
+},
+{
+"c": "BT",
+"st": "A",
+"val": 51.0,
+"v": "51 $ / mes",
+"vs": "51 $",
+"sub": "Al mes, en dólares",
+"say": "Bután: cincuenta y un dólares."
+},
+{
+"c": "BD",
+"st": "B",
+"val": 105.0,
+"v": "105 $ / mes",
+"vs": "105 $",
+"sub": "Al mes, en dólares",
+"say": "Bangladés: ciento cinco dólares. El sueldo de las fábricas de ropa."
+},
+{
+"c": "LK",
+"st": "A",
+"val": 90.0,
+"v": "90 $ / mes",
+"vs": "90 $",
+"sub": "Al mes, en dólares",
+"say": "Sri Lanka: noventa dólares."
+},
+{
+"c": "MV",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Maldivas: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "MM",
+"st": "A",
+"val": 58.0,
+"v": "58 $ / mes",
+"vs": "58 $",
+"sub": "Al mes, en dólares",
+"say": "Myanmar: cincuenta y ocho dólares."
+},
+{
+"c": "TH",
+"st": "B",
+"val": 253.0,
+"v": "253 $ / mes",
+"vs": "253 $",
+"sub": "Al mes, en dólares",
+"say": "Tailandia: doscientos cincuenta dólares."
+},
+{
+"c": "LA",
+"st": "B",
+"val": 100.0,
+"v": "100 $ / mes",
+"vs": "100 $",
+"sub": "Al mes, en dólares",
+"say": "Laos: cien dólares."
+},
+{
+"c": "KH",
+"st": "B",
+"val": 200.0,
+"v": "200 $ / mes",
+"vs": "200 $",
+"sub": "Al mes, en dólares",
+"say": "Camboya: doscientos dólares."
+},
+{
+"c": "VN",
+"st": "B",
+"val": 229.0,
+"v": "229 $ / mes",
+"vs": "229 $",
+"sub": "Al mes, en dólares",
+"say": "Vietnam: doscientos veinticinco dólares."
+},
+{
+"c": "MY",
+"st": "C",
+"val": 336.0,
+"v": "336 $ / mes",
+"vs": "336 $",
+"sub": "Al mes, en dólares",
+"say": "Malasia: trescientos treinta y cinco dólares."
+},
+{
+"c": "SG",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Singapur: ¡sin sueldo mínimo! Y es uno de los países más ricos del mundo."
+},
+{
+"c": "ID",
+"st": "B",
+"val": 121.0,
+"v": "121 $ / mes",
+"vs": "121 $",
+"sub": "Al mes, en dólares",
+"say": "Indonesia: ciento veinte dólares."
+},
+{
+"c": "BN",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Brunéi: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "PH",
+"st": "C",
+"val": 332.0,
+"v": "332 $ / mes",
+"vs": "332 $",
+"sub": "Al mes, en dólares",
+"say": "Filipinas: trescientos treinta dólares."
+},
+{
+"c": "TL",
+"st": "B",
+"val": 115.0,
+"v": "115 $ / mes",
+"vs": "115 $",
+"sub": "Al mes, en dólares",
+"say": "Timor Oriental: ciento quince dólares."
+},
+{
+"c": "CN",
+"st": "B",
+"val": 223.0,
+"v": "223 $ / mes",
+"vs": "223 $",
+"sub": "Al mes, en dólares",
+"say": "China: doscientos veinte dólares. Y cambia según la provincia."
+},
+{
+"c": "MN",
+"st": "B",
+"val": 229.0,
+"v": "229 $ / mes",
+"vs": "229 $",
+"sub": "Al mes, en dólares",
+"say": "Mongolia: doscientos veinticinco dólares."
+},
+{
+"c": "KP",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin datos",
+"say": "Corea del Norte: ¡ni idea! Bueno... nadie lo sabe."
+},
+{
+"c": "KR",
+"st": "E",
+"val": 1749.0,
+"v": "1.749 $ / mes",
+"vs": "1.749 $",
+"sub": "Al mes, en dólares",
+"say": "Corea del Sur: mil setecientos dólares."
+},
+{
+"c": "JP",
+"st": "D",
+"val": 1120.0,
+"v": "1.120 $ / mes",
+"vs": "1.120 $",
+"sub": "Al mes, en dólares",
+"say": "Japón: mil cien dólares. Y depende de la prefectura."
+},
+{
+"c": "TW",
+"st": "D",
+"val": 908.0,
+"v": "908 $ / mes",
+"vs": "908 $",
+"sub": "Al mes, en dólares",
+"say": "Taiwán: novecientos cinco dólares."
+},
+{
+"c": "AU",
+"st": "E",
+"val": 2710,
+"v": "2.710 $ / mes",
+"vs": "2.710 $",
+"sub": "Al mes, en dólares",
+"say": "Australia: dos mil setecientos dólares."
+},
+{
+"c": "NZ",
+"st": "E",
+"val": 2400,
+"v": "2.400 $ / mes",
+"vs": "2.400 $",
+"sub": "Al mes, en dólares",
+"say": "Nueva Zelanda: dos mil cuatrocientos dólares. Casi como sus vecinos."
+},
+{
+"c": "PG",
+"st": "B",
+"val": 173.0,
+"v": "173 $ / mes",
+"vs": "173 $",
+"sub": "Al mes, en dólares",
+"say": "Papúa Nueva Guinea: ciento setenta dólares."
+},
+{
+"c": "SB",
+"st": "A",
+"val": 95.0,
+"v": "95 $ / mes",
+"vs": "95 $",
+"sub": "Al mes, en dólares",
+"say": "Islas Salomón: noventa y cinco dólares."
+},
+{
+"c": "VU",
+"st": "C",
+"val": 323.0,
+"v": "323 $ / mes",
+"vs": "323 $",
+"sub": "Al mes, en dólares",
+"say": "Vanuatu: trescientos veinte dólares."
+},
+{
+"c": "FJ",
+"st": "C",
+"val": 402.0,
+"v": "402 $ / mes",
+"vs": "402 $",
+"sub": "Al mes, en dólares",
+"say": "Fiyi: cuatrocientos dólares."
+},
+{
+"c": "WS",
+"st": "B",
+"val": 154.0,
+"v": "154 $ / mes",
+"vs": "154 $",
+"sub": "Al mes, en dólares",
+"say": "Samoa: ciento cincuenta dólares."
+},
+{
+"c": "TO",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Tonga: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "KI",
+"st": "B",
+"val": 169.0,
+"v": "169 $ / mes",
+"vs": "169 $",
+"sub": "Al mes, en dólares",
+"say": "Kiribati: ciento sesenta y cinco dólares."
+},
+{
+"c": "TV",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Tuvalu: ¡sin sueldo mínimo!"
+},
+{
+"c": "NR",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Nauru: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "MH",
+"st": "C",
+"val": 346.0,
+"v": "346 $ / mes",
+"vs": "346 $",
+"sub": "Al mes, en dólares",
+"say": "Islas Marshall: trescientos cuarenta y cinco dólares."
+},
+{
+"c": "FM",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Micronesia: ¡sin sueldo mínimo!"
+},
+{
+"c": "PW",
+"st": "C",
+"val": 519.0,
+"v": "519 $ / mes",
+"vs": "519 $",
+"sub": "Al mes, en dólares",
+"say": "Palaos: quinientos quince dólares."
+},
+{
+"c": "MA",
+"st": "C",
+"val": 349.0,
+"v": "349 $ / mes",
+"vs": "349 $",
+"sub": "Al mes, en dólares",
+"say": "Marruecos: trescientos cuarenta y cinco dólares."
+},
+{
+"c": "DZ",
+"st": "B",
+"val": 185.0,
+"v": "185 $ / mes",
+"vs": "185 $",
+"sub": "Al mes, en dólares",
+"say": "Argelia: ciento ochenta y cinco dólares."
+},
+{
+"c": "TN",
+"st": "B",
+"val": 166.0,
+"v": "166 $ / mes",
+"vs": "166 $",
+"sub": "Al mes, en dólares",
+"say": "Túnez: ciento sesenta y cinco dólares."
+},
+{
+"c": "LY",
+"st": "C",
+"val": 325.0,
+"v": "325 $ / mes",
+"vs": "325 $",
+"sub": "Al mes, en dólares",
+"say": "Libia: trescientos veinticinco dólares."
+},
+{
+"c": "EG",
+"st": "B",
+"val": 140.0,
+"v": "140 $ / mes",
+"vs": "140 $",
+"sub": "Al mes, en dólares",
+"say": "Egipto: ciento cuarenta dólares."
+},
+{
+"c": "SD",
+"st": "A",
+"val": 0.5,
+"v": "< 1 $ / mes",
+"vs": "<1 $",
+"sub": "Al mes, en dólares",
+"say": "Sudán: menos de un dólar. La inflación se lo ha comido."
+},
+{
+"c": "SS",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Sudán del Sur: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "ET",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Etiopía: ¡sin sueldo mínimo!"
+},
+{
+"c": "ER",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Eritrea: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "DJ",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Yibuti: ¡sin sueldo mínimo!"
+},
+{
+"c": "SO",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Somalia: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "KE",
+"st": "B",
+"val": 118,
+"v": "118 $ / mes",
+"vs": "118 $",
+"sub": "Al mes, en dólares",
+"say": "Kenia: ciento quince dólares."
+},
+{
+"c": "UG",
+"st": "A",
+"val": 35.0,
+"v": "35 $ / mes",
+"vs": "35 $",
+"sub": "Al mes, en dólares",
+"say": "Uganda: treinta y cinco dólares."
+},
+{
+"c": "RW",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Ruanda: ¡sin sueldo mínimo!"
+},
+{
+"c": "BI",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Burundi: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "TZ",
+"st": "A",
+"val": 17.0,
+"v": "17 $ / mes",
+"vs": "17 $",
+"sub": "Al mes, en dólares",
+"say": "Tanzania: diecisiete dólares."
+},
+{
+"c": "MZ",
+"st": "A",
+"val": 78.0,
+"v": "78 $ / mes",
+"vs": "78 $",
+"sub": "Al mes, en dólares",
+"say": "Mozambique: setenta y ocho dólares."
+},
+{
+"c": "MW",
+"st": "A",
+"val": 52.0,
+"v": "52 $ / mes",
+"vs": "52 $",
+"sub": "Al mes, en dólares",
+"say": "Malaui: cincuenta y dos dólares."
+},
+{
+"c": "ZM",
+"st": "A",
+"val": 81.0,
+"v": "81 $ / mes",
+"vs": "81 $",
+"sub": "Al mes, en dólares",
+"say": "Zambia: ochenta y un dólares."
+},
+{
+"c": "ZW",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Zimbabue: ¡sin sueldo mínimo!"
+},
+{
+"c": "BW",
+"st": "B",
+"val": 107.0,
+"v": "107 $ / mes",
+"vs": "107 $",
+"sub": "Al mes, en dólares",
+"say": "Botsuana: ciento cinco dólares."
+},
+{
+"c": "NA",
+"st": "B",
+"val": 195,
+"v": "195 $ / mes",
+"vs": "195 $",
+"sub": "Al mes, en dólares",
+"say": "Namibia: ciento noventa y cinco dólares. Lo estrenó en 2025."
+},
+{
+"c": "ZA",
+"st": "C",
+"val": 355.0,
+"v": "355 $ / mes",
+"vs": "355 $",
+"sub": "Al mes, en dólares",
+"say": "Sudáfrica: trescientos cincuenta y cinco dólares."
+},
+{
+"c": "LS",
+"st": "B",
+"val": 102.0,
+"v": "102 $ / mes",
+"vs": "102 $",
+"sub": "Al mes, en dólares",
+"say": "Lesoto: cien dólares."
+},
+{
+"c": "SZ",
+"st": "A",
+"val": 77.0,
+"v": "77 $ / mes",
+"vs": "77 $",
+"sub": "Al mes, en dólares",
+"say": "Esuatini: setenta y siete dólares."
+},
+{
+"c": "MG",
+"st": "A",
+"val": 31.0,
+"v": "31 $ / mes",
+"vs": "31 $",
+"sub": "Al mes, en dólares",
+"say": "Madagascar: treinta y un dólares."
+},
+{
+"c": "MU",
+"st": "B",
+"val": 246.0,
+"v": "246 $ / mes",
+"vs": "246 $",
+"sub": "Al mes, en dólares",
+"say": "Mauricio: doscientos cuarenta y cinco dólares."
+},
+{
+"c": "KM",
+"st": "B",
+"val": 129.0,
+"v": "129 $ / mes",
+"vs": "129 $",
+"sub": "Al mes, en dólares",
+"say": "Comoras: ciento veinticinco dólares."
+},
+{
+"c": "SC",
+"st": "C",
+"val": 329.0,
+"v": "329 $ / mes",
+"vs": "329 $",
+"sub": "Al mes, en dólares",
+"say": "Seychelles: trescientos veinticinco dólares."
+},
+{
+"c": "AO",
+"st": "A",
+"val": 61.0,
+"v": "61 $ / mes",
+"vs": "61 $",
+"sub": "Al mes, en dólares",
+"say": "Angola: sesenta y un dólares."
+},
+{
+"c": "CD",
+"st": "A",
+"val": 48.0,
+"v": "48 $ / mes",
+"vs": "48 $",
+"sub": "Al mes, en dólares",
+"say": "República Democrática del Congo: cuarenta y ocho dólares."
+},
+{
+"c": "CG",
+"st": "B",
+"val": 170.0,
+"v": "170 $ / mes",
+"vs": "170 $",
+"sub": "Al mes, en dólares",
+"say": "Congo: ciento setenta dólares."
+},
+{
+"c": "GA",
+"st": "B",
+"val": 255.0,
+"v": "255 $ / mes",
+"vs": "255 $",
+"sub": "Al mes, en dólares",
+"say": "Gabón: doscientos cincuenta y cinco dólares."
+},
+{
+"c": "GQ",
+"st": "B",
+"val": 224.0,
+"v": "224 $ / mes",
+"vs": "224 $",
+"sub": "Al mes, en dólares",
+"say": "Guinea Ecuatorial: doscientos veinte dólares."
+},
+{
+"c": "CM",
+"st": "A",
+"val": 62.0,
+"v": "62 $ / mes",
+"vs": "62 $",
+"sub": "Al mes, en dólares",
+"say": "Camerún: sesenta y dos dólares."
+},
+{
+"c": "CF",
+"st": "A",
+"val": 68.0,
+"v": "68 $ / mes",
+"vs": "68 $",
+"sub": "Al mes, en dólares",
+"say": "República Centroafricana: sesenta y ocho dólares."
+},
+{
+"c": "TD",
+"st": "B",
+"val": 110.0,
+"v": "110 $ / mes",
+"vs": "110 $",
+"sub": "Al mes, en dólares",
+"say": "Chad: ciento diez dólares."
+},
+{
+"c": "NE",
+"st": "A",
+"val": 60.0,
+"v": "60 $ / mes",
+"vs": "60 $",
+"sub": "Al mes, en dólares",
+"say": "Níger: sesenta dólares."
+},
+{
+"c": "NG",
+"st": "A",
+"val": 48,
+"v": "48 $ / mes",
+"vs": "48 $",
+"sub": "Al mes, en dólares",
+"say": "Nigeria: cuarenta y ocho dólares."
+},
+{
+"c": "BJ",
+"st": "A",
+"val": 86.0,
+"v": "86 $ / mes",
+"vs": "86 $",
+"sub": "Al mes, en dólares",
+"say": "Benín: ochenta y seis dólares."
+},
+{
+"c": "TG",
+"st": "A",
+"val": 70.0,
+"v": "70 $ / mes",
+"vs": "70 $",
+"sub": "Al mes, en dólares",
+"say": "Togo: setenta dólares."
+},
+{
+"c": "GH",
+"st": "A",
+"val": 31.0,
+"v": "31 $ / mes",
+"vs": "31 $",
+"sub": "Al mes, en dólares",
+"say": "Ghana: treinta y un dólares."
+},
+{
+"c": "CI",
+"st": "B",
+"val": 120.0,
+"v": "120 $ / mes",
+"vs": "120 $",
+"sub": "Al mes, en dólares",
+"say": "Costa de Marfil: ciento veinte dólares."
+},
+{
+"c": "BF",
+"st": "A",
+"val": 59.0,
+"v": "59 $ / mes",
+"vs": "59 $",
+"sub": "Al mes, en dólares",
+"say": "Burkina Faso: cincuenta y nueve dólares."
+},
+{
+"c": "ML",
+"st": "A",
+"val": 51.0,
+"v": "51 $ / mes",
+"vs": "51 $",
+"sub": "Al mes, en dólares",
+"say": "Malí: cincuenta y un dólares."
+},
+{
+"c": "MR",
+"st": "B",
+"val": 123.0,
+"v": "123 $ / mes",
+"vs": "123 $",
+"sub": "Al mes, en dólares",
+"say": "Mauritania: ciento veinte dólares."
+},
+{
+"c": "SN",
+"st": "A",
+"val": 73.0,
+"v": "73 $ / mes",
+"vs": "73 $",
+"sub": "Al mes, en dólares",
+"say": "Senegal: setenta y tres dólares."
+},
+{
+"c": "GM",
+"st": "A",
+"val": 33.0,
+"v": "33 $ / mes",
+"vs": "33 $",
+"sub": "Al mes, en dólares",
+"say": "Gambia: treinta y tres dólares."
+},
+{
+"c": "GW",
+"st": "A",
+"val": 30.0,
+"v": "30 $ / mes",
+"vs": "30 $",
+"sub": "Al mes, en dólares",
+"say": "Guinea-Bisáu: treinta dólares."
+},
+{
+"c": "GN",
+"st": "A",
+"val": 62.0,
+"v": "62 $ / mes",
+"vs": "62 $",
+"sub": "Al mes, en dólares",
+"say": "Guinea: sesenta y dos dólares."
+},
+{
+"c": "SL",
+"st": "A",
+"val": 57.0,
+"v": "57 $ / mes",
+"vs": "57 $",
+"sub": "Al mes, en dólares",
+"say": "Sierra Leona: cincuenta y siete dólares."
+},
+{
+"c": "LR",
+"st": "A",
+"val": 54.0,
+"v": "54 $ / mes",
+"vs": "54 $",
+"sub": "Al mes, en dólares",
+"say": "Liberia: cincuenta y cuatro dólares."
+},
+{
+"c": "CV",
+"st": "B",
+"val": 141.0,
+"v": "141 $ / mes",
+"vs": "141 $",
+"sub": "Al mes, en dólares",
+"say": "Cabo Verde: ciento cuarenta dólares."
+},
+{
+"c": "ST",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Santo Tomé: ¡no tiene sueldo mínimo!"
+},
+{
+"c": "VA",
+"st": "X",
+"val": -1,
+"v": "NO TIENE",
+"vs": "NO",
+"sub": "Sin sueldo mínimo nacional",
+"say": "Vaticano: ¡sin sueldo mínimo!"
+}
+],
+"T": {
+"US": [
+"5hwrYfkFdtVsiDRs66iv",
+"¡Siete dólares con veinticinco la hora! ¡Desde 2009 no lo suben!"
+],
+"MX": [
+"INWTGvzKdMrRuRgTL1rY",
+"¡Desde 2018 se ha triplicado, eh! Ahora sí alcanza para los tacos."
+],
+"ES": [
+"D7dkYvH17OKLgp4SLulf",
+"¡Y en catorce pagas, eh! Que aquí la paga extra es sagrada."
+],
+"GB": [
+"h5EerLZbdVHFXe9rEGjM",
+"Casi tres mil dólares... ¡y aun así una pinta cuesta un riñón!"
+],
+"DE": [
+"COD96vfwrPlMeaUXwauW",
+"¡Trece euros con noventa la hora! Todo muy ordenado."
+],
+"SE": [
+"WdIPSrSt3hS2coCWJ8HG",
+"¿Sueldo mínimo? Aquí no hay ley... lo pactan los sindicatos, ¡y sale alto!"
+],
+"AR": [
+"S9xWbRwkWxZfSdk9ZG27",
+"¿Doscientos setenta y cinco dólares? Che, con la inflación... ¡mañana es otro número!"
+],
+"VE": [
+"CCXmXKZExbF90N5aaPWM",
+"¡Ciento treinta bolívares, mi pana! Menos mal que existen los bonos."
+],
+"CU": [
+"P5oKQC0uccAVbhCpX8GX",
+"¡Dos mil cien pesos! Al cambio de la calle... ¡ni cinco dólares, asere!"
+],
+"GE": [
+"mgZYFBDKPJGhiZEAcf4X",
+"¡Veinte laris al mes! Unos siete dólares... ¡y sin tocarlo desde 1999!"
+],
+"NG": [
+"3W7TIElBzp1JQ8BxQuXK",
+"¡Setenta mil nairas! Suena a muchísimo... hasta que lo pasas a dólares."
+],
+"IN": [
+"PYRaAAjVbDEj4aaaEcjn",
+"El mínimo nacional es pequeñito... ¡pero cada estado pone el suyo!"
+]
+},
+"cfg": {
+"title": "EL SUELDO MÍNIMO DE CADA PAÍS",
+"icon": "money",
+"t1": "¿CUÁNTO SE COBRA",
+"t2": "EN CADA PAÍS?",
+"badge": "SUELDO MÍNIMO · $ AL MES",
+"cats": [
+{
+"k": "X",
+"label": "NO TIENE",
+"short": "NO",
+"col": "#8f86a8",
+"cold": "#5c5475",
+"mood": "happy"
+},
+{
+"k": "A",
+"label": "MENOS DE 100 $",
+"short": "-100",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "sad"
+},
+{
+"k": "B",
+"label": "100 – 300 $",
+"short": "100+",
+"col": "#ff8c2e",
+"cold": "#b35a0c",
+"mood": "angry"
+},
+{
+"k": "C",
+"label": "300 – 700 $",
+"short": "300+",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "happy"
+},
+{
+"k": "D",
+"label": "700 – 1.500 $",
+"short": "700+",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "E",
+"label": "MÁS DE 1.500 $",
+"short": "1.500+",
+"col": "#9b5de5",
+"cold": "#5e2ca5",
+"mood": "happy"
+}
+],
+"balls": [
+"LU",
+"US",
+"ES",
+"MX",
+"VE",
+"SE"
+],
+"ballMoods": [
+"happy",
+"angry",
+"happy",
+"happy",
+"sad",
+"happy"
+],
+"best": [
+"LU",
+"EL MÁS ALTO",
+"3.150 $"
+],
+"worst": [
+"VE",
+"EL MÁS BAJO",
+"< 1 $"
+],
+"ask": "¿TE ALCANZA EL SUELDO MÍNIMO? ¡COMENTA!",
+"head": "SUELDO MÍNIMO"
+},
+"intro": [
+"¿Cuánto cobra al mes alguien con el sueldo mínimo en cada país del mundo? En uno pasa de tres mil dólares... y en otro, no llega ni a uno. Los ciento noventa y siete países, uno por uno, todo pasado a dólares al mes.",
+"Gris: no tiene sueldo mínimo.",
+"Rojo: menos de cien dólares.",
+"Naranja: hasta trescientos.",
+"Amarillo: hasta setecientos.",
+"Verde: hasta mil quinientos.",
+"Y morado... ¡más de mil quinientos dólares! ¡Empezamos!"
+],
+"outro": [
+"¿Y a ti, te alcanza el sueldo mínimo? ¡Cuéntamelo en comentarios!"
+]
+}

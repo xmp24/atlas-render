@@ -1,0 +1,190 @@
+Afghanistan|70
+Albania|610
+Algeria|185
+Andorra|1521
+Angola|61
+Antigua and Barbuda|526
+Armenia|190
+Australia|2694
+Austria|NONE
+Azerbaijan|203
+Bahamas|908
+Bahrain|NONE
+Bangladesh|105
+Barbados|908
+Belarus|122
+Belgium|2291
+Belize|429
+Benin|86
+Bhutan|51
+Bolivia|362
+Bosnia and Herzegovina|269
+Botswana|107
+Brazil|314
+Brunei|NONE
+Bulgaria|682
+Burkina Faso|59
+Burundi|NONE
+Cambodia|200
+Cameroon|62
+Canada|2064
+Cabo Verde|141
+Central African Republic|68
+Chad|110
+Chile|553
+China|223
+Colombia|350
+Comoros|129
+Congo, The Democratic Republic of the|48
+Congo|170
+Costa Rica|603
+Côte d'Ivoire|120
+Croatia|900
+Cuba|15
+Cyprus|NONE
+Czechia|1092
+Denmark|NONE
+Djibouti|NONE
+Dominica|260
+Dominican Republic|300
+Ecuador|470
+Egypt|140
+El Salvador|408
+Equatorial Guinea|224
+Eritrea|NONE
+Estonia|818
+Eswatini|77
+Ethiopia|NONE
+Micronesia, Federated States of|NONE
+Fiji|402
+Finland|NONE
+France|2131
+Gabon|255
+Gambia|33
+Georgia|7
+Germany|2820
+Ghana|31
+Greece|1159
+Guatemala|480
+Guinea|62
+Guinea-Bissau|30
+Guyana|168
+Haiti|85
+Honduras|404
+Hungary|765
+Iceland|NONE
+India|55
+Indonesia|121
+Iran|146
+Iraq|214
+Ireland|2612
+Israel|1995
+Italy|NONE
+Jamaica|346
+Japan|1120
+Jordan|451
+Kiribati|169
+Korea, Democratic People's Republic of|NONE
+Korea, Republic of|1749
+Kosovo|224
+Kuwait|216
+Kyrgyzstan|28
+Lao People's Democratic Republic|100
+Latvia|1014
+Lebanon|200
+Lesotho|102
+Liberia|54
+Libya|325
+Liechtenstein|NONE
+Lithuania|1301
+Luxembourg|2831
+Madagascar|31
+Malawi|52
+Malaysia|336
+Maldives|NONE
+Mali|51
+Malta|767
+Marshall Islands|346
+Mauritania|123
+Mauritius|246
+Mexico|470
+Moldova|222
+Monaco|2009
+Mongolia|229
+Montenegro|511
+Morocco|349
+Mozambique|78
+Myanmar|58
+Namibia|NONE
+Nauru|NONE
+Nepal|166
+Netherlands|2878
+New Zealand|2462
+Nicaragua|155
+Niger|60
+Nigeria|45
+North Macedonia|406
+Norway|NONE
+Oman|592
+Pakistan|133
+Palau|519
+Palestine, State of|582
+Panama|770
+Papua New Guinea|173
+Paraguay|363
+Peru|318
+Philippines|332
+Poland|1245
+Portugal|970
+Qatar|274
+Romania|915
+Russian Federation|318
+Rwanda|NONE
+Saint Kitts and Nevis|578
+Saint Lucia|111
+Saint Vincent and the Grenadines|385
+Samoa|154
+San Marino|1735
+Sao Tome and Principe|NONE
+Saudi Arabia|1067
+Senegal|73
+Serbia|301
+Seychelles|329
+Sierra Leone|57
+Singapore|NONE
+Slovakia|790
+Slovenia|1358
+Solomon Islands|95
+Somalia|NONE
+South Africa|355
+South Sudan|NONE
+Spain|1560
+Sri Lanka|90
+Sudan|1
+Suriname|498
+Sweden|NONE
+Switzerland|NONE
+Syrian Arab Republic|105
+Taiwan|908
+Tajikistan|88
+Tanzania|17
+Thailand|253
+Timor-Leste|115
+Togo|70
+Tonga|NONE
+Trinidad and Tobago|384
+Tunisia|166
+Tuvalu|NONE
+Uganda|35
+Ukraine|204
+United Arab Emirates|NONE
+United Kingdom|3012
+United States|1254
+Uruguay|507
+Uzbekistan|71
+Vanuatu|323
+Venezuela|1
+Viet Nam|229
+Yemen|NONE
+Zambia|81
+Zimbabwe|NONE

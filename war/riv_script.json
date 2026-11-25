@@ -1,0 +1,2086 @@
+{
+"key": "riv",
+"C": [
+{
+"c": "US",
+"st": "E",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "60 military clashes since 1816",
+"say": "United States: Russia! 60 clashes.",
+"rv": "RU"
+},
+{
+"c": "CA",
+"st": "B",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "7 military clashes since 1816",
+"say": "Canada: Russia! 7 clashes.",
+"rv": "RU"
+},
+{
+"c": "MX",
+"st": "D",
+"v": "UNITED STATES",
+"vs": "United States",
+"sub": "23 military clashes since 1816",
+"say": "Mexico: United States! 23 clashes.",
+"rv": "US"
+},
+{
+"c": "GB",
+"st": "D",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "39 military clashes since 1816",
+"say": "United Kingdom: Russia! 39 clashes.",
+"rv": "RU"
+},
+{
+"c": "IE",
+"st": "A",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "2 military clashes since 1816",
+"say": "Ireland: Serbia! 2 clashes.",
+"rv": "RS"
+},
+{
+"c": "FR",
+"st": "D",
+"v": "GERMANY",
+"vs": "Germany",
+"sub": "20 military clashes since 1816",
+"say": "France: Germany! 20 clashes.",
+"rv": "DE"
+},
+{
+"c": "ES",
+"st": "C",
+"v": "MOROCCO",
+"vs": "Morocco",
+"sub": "13 military clashes since 1816",
+"say": "Spain: Morocco! 13 clashes.",
+"rv": "MA"
+},
+{
+"c": "PT",
+"st": "B",
+"v": "GERMANY",
+"vs": "Germany",
+"sub": "5 military clashes since 1816",
+"say": "Portugal: Germany! 5 clashes.",
+"rv": "DE"
+},
+{
+"c": "AD",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Andorra: no enemies. Zero clashes!",
+"rv": null
+},
+{
+"c": "IT",
+"st": "C",
+"v": "AUSTRIA",
+"vs": "Austria",
+"sub": "15 military clashes since 1816",
+"say": "Italy: Austria! 15 clashes.",
+"rv": "AT"
+},
+{
+"c": "SM",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "San Marino: nobody! Totally peaceful.",
+"rv": null
+},
+{
+"c": "MT",
+"st": "A",
+"v": "IRAQ",
+"vs": "Iraq",
+"sub": "2 military clashes since 1816",
+"say": "Malta: Iraq! 2 clashes.",
+"rv": "IQ"
+},
+{
+"c": "MC",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Monaco: no rival at all!",
+"rv": null
+},
+{
+"c": "CH",
+"st": "A",
+"v": "GERMANY",
+"vs": "Germany",
+"sub": "4 military clashes since 1816",
+"say": "Switzerland: Germany! 4 clashes.",
+"rv": "DE"
+},
+{
+"c": "LI",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Liechtenstein: no enemies. Zero clashes!",
+"rv": null
+},
+{
+"c": "AT",
+"st": "C",
+"v": "ITALY",
+"vs": "Italy",
+"sub": "15 military clashes since 1816",
+"say": "Austria: Italy! 15 clashes.",
+"rv": "IT"
+},
+{
+"c": "DE",
+"st": "D",
+"v": "FRANCE",
+"vs": "France",
+"sub": "20 military clashes since 1816",
+"say": "Germany: France! 20 clashes.",
+"rv": "FR"
+},
+{
+"c": "LU",
+"st": "A",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "3 military clashes since 1816",
+"say": "Luxembourg: Serbia! 3 clashes.",
+"rv": "RS"
+},
+{
+"c": "BE",
+"st": "B",
+"v": "GERMANY",
+"vs": "Germany",
+"sub": "8 military clashes since 1816",
+"say": "Belgium: Germany! 8 clashes.",
+"rv": "DE"
+},
+{
+"c": "NL",
+"st": "B",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "5 military clashes since 1816",
+"say": "Netherlands: Russia! 5 clashes.",
+"rv": "RU"
+},
+{
+"c": "DK",
+"st": "A",
+"v": "GERMANY",
+"vs": "Germany",
+"sub": "4 military clashes since 1816",
+"say": "Denmark: Germany! 4 clashes.",
+"rv": "DE"
+},
+{
+"c": "NO",
+"st": "C",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "16 military clashes since 1816",
+"say": "Norway: Russia! 16 clashes.",
+"rv": "RU"
+},
+{
+"c": "SE",
+"st": "C",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "10 military clashes since 1816",
+"say": "Sweden: Russia! 10 clashes.",
+"rv": "RU"
+},
+{
+"c": "FI",
+"st": "B",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "7 military clashes since 1816",
+"say": "Finland: Russia! 7 clashes.",
+"rv": "RU"
+},
+{
+"c": "IS",
+"st": "A",
+"v": "UNITED KINGDOM",
+"vs": "United Kingdom",
+"sub": "4 military clashes since 1816",
+"say": "Iceland: United Kingdom! 4 clashes.",
+"rv": "GB"
+},
+{
+"c": "PL",
+"st": "C",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "10 military clashes since 1816",
+"say": "Poland: Russia! 10 clashes.",
+"rv": "RU"
+},
+{
+"c": "CZ",
+"st": "B",
+"v": "GERMANY",
+"vs": "Germany",
+"sub": "8 military clashes since 1816",
+"say": "Czech Republic: Germany! 8 clashes.",
+"rv": "DE"
+},
+{
+"c": "SK",
+"st": "A",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "2 military clashes since 1816",
+"say": "Slovakia: Serbia! 2 clashes.",
+"rv": "RS"
+},
+{
+"c": "HU",
+"st": "C",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "13 military clashes since 1816",
+"say": "Hungary: Serbia! 13 clashes.",
+"rv": "RS"
+},
+{
+"c": "SI",
+"st": "A",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "2 military clashes since 1816",
+"say": "Slovenia: Serbia! 2 clashes.",
+"rv": "RS"
+},
+{
+"c": "HR",
+"st": "B",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "5 military clashes since 1816",
+"say": "Croatia: Serbia! 5 clashes.",
+"rv": "RS"
+},
+{
+"c": "BA",
+"st": "A",
+"v": "CROATIA",
+"vs": "Croatia",
+"sub": "3 military clashes since 1816",
+"say": "Bosnia: Croatia! 3 clashes.",
+"rv": "HR"
+},
+{
+"c": "RS",
+"st": "C",
+"v": "HUNGARY",
+"vs": "Hungary",
+"sub": "13 military clashes since 1816",
+"say": "Serbia: Hungary! 13 clashes.",
+"rv": "HU"
+},
+{
+"c": "ME",
+"st": "A",
+"v": "LIBYA",
+"vs": "Libya",
+"sub": "1 military clash since 1816",
+"say": "Montenegro: Libya! One clash.",
+"rv": "LY"
+},
+{
+"c": "XK",
+"st": "A",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "2 military clashes since 1816",
+"say": "Kosovo: Serbia! 2 clashes.",
+"rv": "RS"
+},
+{
+"c": "AL",
+"st": "C",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "11 military clashes since 1816",
+"say": "Albania: Serbia! 11 clashes.",
+"rv": "RS"
+},
+{
+"c": "MK",
+"st": "A",
+"v": "ALBANIA",
+"vs": "Albania",
+"sub": "3 military clashes since 1816",
+"say": "North Macedonia: Albania! 3 clashes.",
+"rv": "AL"
+},
+{
+"c": "GR",
+"st": "E",
+"v": "TURKEY",
+"vs": "Turkey",
+"sub": "49 military clashes since 1816",
+"say": "Greece: Turkey! 49 clashes.",
+"rv": "TR"
+},
+{
+"c": "BG",
+"st": "C",
+"v": "SERBIA",
+"vs": "Serbia",
+"sub": "12 military clashes since 1816",
+"say": "Bulgaria: Serbia! 12 clashes.",
+"rv": "RS"
+},
+{
+"c": "RO",
+"st": "B",
+"v": "HUNGARY",
+"vs": "Hungary",
+"sub": "9 military clashes since 1816",
+"say": "Romania: Hungary! 9 clashes.",
+"rv": "HU"
+},
+{
+"c": "MD",
+"st": "A",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "2 military clashes since 1816",
+"say": "Moldova: Russia! 2 clashes.",
+"rv": "RU"
+},
+{
+"c": "UA",
+"st": "B",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "8 military clashes since 1816",
+"say": "Ukraine: Russia! 8 clashes.",
+"rv": "RU"
+},
+{
+"c": "BY",
+"st": "A",
+"v": "LITHUANIA",
+"vs": "Lithuania",
+"sub": "1 military clash since 1816",
+"say": "Belarus: Lithuania! One clash.",
+"rv": "LT"
+},
+{
+"c": "LT",
+"st": "B",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "6 military clashes since 1816",
+"say": "Lithuania: Russia! 6 clashes.",
+"rv": "RU"
+},
+{
+"c": "LV",
+"st": "B",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "6 military clashes since 1816",
+"say": "Latvia: Russia! 6 clashes.",
+"rv": "RU"
+},
+{
+"c": "EE",
+"st": "B",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "6 military clashes since 1816",
+"say": "Estonia: Russia! 6 clashes.",
+"rv": "RU"
+},
+{
+"c": "RU",
+"st": "E",
+"v": "UNITED STATES",
+"vs": "United States",
+"sub": "60 military clashes since 1816",
+"say": "Russia: United States! 60 clashes.",
+"rv": "US"
+},
+{
+"c": "CY",
+"st": "C",
+"v": "TURKEY",
+"vs": "Turkey",
+"sub": "12 military clashes since 1816",
+"say": "Cyprus: Turkey! 12 clashes.",
+"rv": "TR"
+},
+{
+"c": "TR",
+"st": "E",
+"v": "GREECE",
+"vs": "Greece",
+"sub": "49 military clashes since 1816",
+"say": "Turkey: Greece! 49 clashes.",
+"rv": "GR"
+},
+{
+"c": "CO",
+"st": "C",
+"v": "VENEZUELA",
+"vs": "Venezuela",
+"sub": "14 military clashes since 1816",
+"say": "Colombia: Venezuela! 14 clashes.",
+"rv": "VE"
+},
+{
+"c": "VE",
+"st": "C",
+"v": "COLOMBIA",
+"vs": "Colombia",
+"sub": "14 military clashes since 1816",
+"say": "Venezuela: Colombia! 14 clashes.",
+"rv": "CO"
+},
+{
+"c": "EC",
+"st": "D",
+"v": "PERU",
+"vs": "Peru",
+"sub": "28 military clashes since 1816",
+"say": "Ecuador: Peru! 28 clashes.",
+"rv": "PE"
+},
+{
+"c": "PE",
+"st": "D",
+"v": "ECUADOR",
+"vs": "Ecuador",
+"sub": "28 military clashes since 1816",
+"say": "Peru: Ecuador! 28 clashes.",
+"rv": "EC"
+},
+{
+"c": "BO",
+"st": "C",
+"v": "PARAGUAY",
+"vs": "Paraguay",
+"sub": "14 military clashes since 1816",
+"say": "Bolivia: Paraguay! 14 clashes.",
+"rv": "PY"
+},
+{
+"c": "CL",
+"st": "D",
+"v": "ARGENTINA",
+"vs": "Argentina",
+"sub": "25 military clashes since 1816",
+"say": "Chile: Argentina! 25 clashes.",
+"rv": "AR"
+},
+{
+"c": "AR",
+"st": "D",
+"v": "CHILE",
+"vs": "Chile",
+"sub": "25 military clashes since 1816",
+"say": "Argentina: Chile! 25 clashes.",
+"rv": "CL"
+},
+{
+"c": "UY",
+"st": "A",
+"v": "GERMANY",
+"vs": "Germany",
+"sub": "4 military clashes since 1816",
+"say": "Uruguay: Germany! 4 clashes.",
+"rv": "DE"
+},
+{
+"c": "PY",
+"st": "C",
+"v": "BOLIVIA",
+"vs": "Bolivia",
+"sub": "14 military clashes since 1816",
+"say": "Paraguay: Bolivia! 14 clashes.",
+"rv": "BO"
+},
+{
+"c": "BR",
+"st": "B",
+"v": "UNITED KINGDOM",
+"vs": "United Kingdom",
+"sub": "8 military clashes since 1816",
+"say": "Brazil: United Kingdom! 8 clashes.",
+"rv": "GB"
+},
+{
+"c": "GY",
+"st": "B",
+"v": "VENEZUELA",
+"vs": "Venezuela",
+"sub": "8 military clashes since 1816",
+"say": "Guyana: Venezuela! 8 clashes.",
+"rv": "VE"
+},
+{
+"c": "SR",
+"st": "A",
+"v": "GUYANA",
+"vs": "Guyana",
+"sub": "3 military clashes since 1816",
+"say": "Suriname: Guyana! 3 clashes.",
+"rv": "GY"
+},
+{
+"c": "PA",
+"st": "A",
+"v": "IRAQ",
+"vs": "Iraq",
+"sub": "4 military clashes since 1816",
+"say": "Panama: Iraq! 4 clashes.",
+"rv": "IQ"
+},
+{
+"c": "CR",
+"st": "C",
+"v": "NICARAGUA",
+"vs": "Nicaragua",
+"sub": "13 military clashes since 1816",
+"say": "Costa Rica: Nicaragua! 13 clashes.",
+"rv": "NI"
+},
+{
+"c": "NI",
+"st": "D",
+"v": "HONDURAS",
+"vs": "Honduras",
+"sub": "20 military clashes since 1816",
+"say": "Nicaragua: Honduras! 20 clashes.",
+"rv": "HN"
+},
+{
+"c": "HN",
+"st": "D",
+"v": "NICARAGUA",
+"vs": "Nicaragua",
+"sub": "20 military clashes since 1816",
+"say": "Honduras: Nicaragua! 20 clashes.",
+"rv": "NI"
+},
+{
+"c": "SV",
+"st": "B",
+"v": "GUATEMALA",
+"vs": "Guatemala",
+"sub": "6 military clashes since 1816",
+"say": "El Salvador: Guatemala! 6 clashes.",
+"rv": "GT"
+},
+{
+"c": "GT",
+"st": "B",
+"v": "EL SALVADOR",
+"vs": "El Salvador",
+"sub": "6 military clashes since 1816",
+"say": "Guatemala: El Salvador! 6 clashes.",
+"rv": "SV"
+},
+{
+"c": "BZ",
+"st": "B",
+"v": "GUATEMALA",
+"vs": "Guatemala",
+"sub": "5 military clashes since 1816",
+"say": "Belize: Guatemala! 5 clashes.",
+"rv": "GT"
+},
+{
+"c": "CU",
+"st": "C",
+"v": "UNITED STATES",
+"vs": "United States",
+"sub": "15 military clashes since 1816",
+"say": "Cuba: United States! 15 clashes.",
+"rv": "US"
+},
+{
+"c": "JM",
+"st": "A",
+"v": "CUBA",
+"vs": "Cuba",
+"sub": "1 military clash since 1816",
+"say": "Jamaica: Cuba! One clash.",
+"rv": "CU"
+},
+{
+"c": "HT",
+"st": "B",
+"v": "UNITED STATES",
+"vs": "United States",
+"sub": "9 military clashes since 1816",
+"say": "Haiti: United States! 9 clashes.",
+"rv": "US"
+},
+{
+"c": "DO",
+"st": "B",
+"v": "HAITI",
+"vs": "Haiti",
+"sub": "8 military clashes since 1816",
+"say": "Dominican Republic: Haiti! 8 clashes.",
+"rv": "HT"
+},
+{
+"c": "BS",
+"st": "A",
+"v": "IRAQ",
+"vs": "Iraq",
+"sub": "1 military clash since 1816",
+"say": "Bahamas: Iraq! One clash.",
+"rv": "IQ"
+},
+{
+"c": "BB",
+"st": "A",
+"v": "CUBA",
+"vs": "Cuba",
+"sub": "1 military clash since 1816",
+"say": "Barbados: Cuba! One clash.",
+"rv": "CU"
+},
+{
+"c": "TT",
+"st": "A",
+"v": "VENEZUELA",
+"vs": "Venezuela",
+"sub": "3 military clashes since 1816",
+"say": "Trinidad and Tobago: Venezuela! 3 clashes.",
+"rv": "VE"
+},
+{
+"c": "GD",
+"st": "A",
+"v": "DOMINICA",
+"vs": "Dominica",
+"sub": "1 military clash since 1816",
+"say": "Grenada: Dominica! One clash.",
+"rv": "DM"
+},
+{
+"c": "VC",
+"st": "A",
+"v": "CUBA",
+"vs": "Cuba",
+"sub": "1 military clash since 1816",
+"say": "Saint Vincent: Cuba! One clash.",
+"rv": "CU"
+},
+{
+"c": "LC",
+"st": "A",
+"v": "CUBA",
+"vs": "Cuba",
+"sub": "1 military clash since 1816",
+"say": "Saint Lucia: Cuba! One clash.",
+"rv": "CU"
+},
+{
+"c": "DM",
+"st": "A",
+"v": "CUBA",
+"vs": "Cuba",
+"sub": "1 military clash since 1816",
+"say": "Dominica: Cuba! One clash.",
+"rv": "CU"
+},
+{
+"c": "AG",
+"st": "A",
+"v": "CUBA",
+"vs": "Cuba",
+"sub": "1 military clash since 1816",
+"say": "Antigua and Barbuda: Cuba! One clash.",
+"rv": "CU"
+},
+{
+"c": "KN",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Saint Kitts and Nevis: nobody! Totally peaceful.",
+"rv": null
+},
+{
+"c": "GE",
+"st": "C",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "12 military clashes since 1816",
+"say": "Georgia: Russia! 12 clashes.",
+"rv": "RU"
+},
+{
+"c": "AM",
+"st": "B",
+"v": "AZERBAIJAN",
+"vs": "Azerbaijan",
+"sub": "8 military clashes since 1816",
+"say": "Armenia: Azerbaijan! 8 clashes.",
+"rv": "AZ"
+},
+{
+"c": "AZ",
+"st": "B",
+"v": "ARMENIA",
+"vs": "Armenia",
+"sub": "8 military clashes since 1816",
+"say": "Azerbaijan: Armenia! 8 clashes.",
+"rv": "AM"
+},
+{
+"c": "KZ",
+"st": "A",
+"v": "AFGHANISTAN",
+"vs": "Afghanistan",
+"sub": "1 military clash since 1816",
+"say": "Kazakhstan: Afghanistan! One clash.",
+"rv": "AF"
+},
+{
+"c": "UZ",
+"st": "B",
+"v": "KYRGYZSTAN",
+"vs": "Kyrgyzstan",
+"sub": "6 military clashes since 1816",
+"say": "Uzbekistan: Kyrgyzstan! 6 clashes.",
+"rv": "KG"
+},
+{
+"c": "TM",
+"st": "A",
+"v": "AFGHANISTAN",
+"vs": "Afghanistan",
+"sub": "2 military clashes since 1816",
+"say": "Turkmenistan: Afghanistan! 2 clashes.",
+"rv": "AF"
+},
+{
+"c": "KG",
+"st": "B",
+"v": "UZBEKISTAN",
+"vs": "Uzbekistan",
+"sub": "6 military clashes since 1816",
+"say": "Kyrgyzstan: Uzbekistan! 6 clashes.",
+"rv": "UZ"
+},
+{
+"c": "TJ",
+"st": "B",
+"v": "UZBEKISTAN",
+"vs": "Uzbekistan",
+"sub": "6 military clashes since 1816",
+"say": "Tajikistan: Uzbekistan! 6 clashes.",
+"rv": "UZ"
+},
+{
+"c": "AF",
+"st": "C",
+"v": "PAKISTAN",
+"vs": "Pakistan",
+"sub": "16 military clashes since 1816",
+"say": "Afghanistan: Pakistan! 16 clashes.",
+"rv": "PK"
+},
+{
+"c": "IR",
+"st": "D",
+"v": "IRAQ",
+"vs": "Iraq",
+"sub": "32 military clashes since 1816",
+"say": "Iran: Iraq! 32 clashes.",
+"rv": "IQ"
+},
+{
+"c": "IQ",
+"st": "D",
+"v": "IRAN",
+"vs": "Iran",
+"sub": "32 military clashes since 1816",
+"say": "Iraq: Iran! 32 clashes.",
+"rv": "IR"
+},
+{
+"c": "SY",
+"st": "E",
+"v": "ISRAEL",
+"vs": "Israel",
+"sub": "41 military clashes since 1816",
+"say": "Syria: Israel! 41 clashes.",
+"rv": "IL"
+},
+{
+"c": "LB",
+"st": "C",
+"v": "ISRAEL",
+"vs": "Israel",
+"sub": "10 military clashes since 1816",
+"say": "Lebanon: Israel! 10 clashes.",
+"rv": "IL"
+},
+{
+"c": "IL",
+"st": "E",
+"v": "SYRIA",
+"vs": "Syria",
+"sub": "41 military clashes since 1816",
+"say": "Israel: Syria! 41 clashes.",
+"rv": "SY"
+},
+{
+"c": "PS",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Palestine: no rival at all!",
+"rv": null
+},
+{
+"c": "JO",
+"st": "C",
+"v": "ISRAEL",
+"vs": "Israel",
+"sub": "12 military clashes since 1816",
+"say": "Jordan: Israel! 12 clashes.",
+"rv": "IL"
+},
+{
+"c": "SA",
+"st": "C",
+"v": "YEMEN",
+"vs": "Yemen",
+"sub": "13 military clashes since 1816",
+"say": "Saudi Arabia: Yemen! 13 clashes.",
+"rv": "YE"
+},
+{
+"c": "YE",
+"st": "C",
+"v": "SAUDI ARABIA",
+"vs": "Saudi Arabia",
+"sub": "13 military clashes since 1816",
+"say": "Yemen: Saudi Arabia! 13 clashes.",
+"rv": "SA"
+},
+{
+"c": "OM",
+"st": "B",
+"v": "YEMEN",
+"vs": "Yemen",
+"sub": "6 military clashes since 1816",
+"say": "Oman: Yemen! 6 clashes.",
+"rv": "YE"
+},
+{
+"c": "AE",
+"st": "B",
+"v": "IRAN",
+"vs": "Iran",
+"sub": "5 military clashes since 1816",
+"say": "United Arab Emirates: Iran! 5 clashes.",
+"rv": "IR"
+},
+{
+"c": "QA",
+"st": "A",
+"v": "IRAN",
+"vs": "Iran",
+"sub": "4 military clashes since 1816",
+"say": "Qatar: Iran! 4 clashes.",
+"rv": "IR"
+},
+{
+"c": "BH",
+"st": "A",
+"v": "IRAQ",
+"vs": "Iraq",
+"sub": "4 military clashes since 1816",
+"say": "Bahrain: Iraq! 4 clashes.",
+"rv": "IQ"
+},
+{
+"c": "KW",
+"st": "C",
+"v": "IRAQ",
+"vs": "Iraq",
+"sub": "16 military clashes since 1816",
+"say": "Kuwait: Iraq! 16 clashes.",
+"rv": "IQ"
+},
+{
+"c": "IN",
+"st": "E",
+"v": "PAKISTAN",
+"vs": "Pakistan",
+"sub": "40 military clashes since 1816",
+"say": "India: Pakistan! 40 clashes.",
+"rv": "PK"
+},
+{
+"c": "PK",
+"st": "E",
+"v": "INDIA",
+"vs": "India",
+"sub": "40 military clashes since 1816",
+"say": "Pakistan: India! 40 clashes.",
+"rv": "IN"
+},
+{
+"c": "NP",
+"st": "B",
+"v": "INDIA",
+"vs": "India",
+"sub": "5 military clashes since 1816",
+"say": "Nepal: India! 5 clashes.",
+"rv": "IN"
+},
+{
+"c": "BT",
+"st": "A",
+"v": "CHINA",
+"vs": "China",
+"sub": "1 military clash since 1816",
+"say": "Bhutan: China! One clash.",
+"rv": "CN"
+},
+{
+"c": "BD",
+"st": "C",
+"v": "INDIA",
+"vs": "India",
+"sub": "18 military clashes since 1816",
+"say": "Bangladesh: India! 18 clashes.",
+"rv": "IN"
+},
+{
+"c": "LK",
+"st": "A",
+"v": "INDIA",
+"vs": "India",
+"sub": "4 military clashes since 1816",
+"say": "Sri Lanka: India! 4 clashes.",
+"rv": "IN"
+},
+{
+"c": "MV",
+"st": "A",
+"v": "IRAN",
+"vs": "Iran",
+"sub": "1 military clash since 1816",
+"say": "Maldives: Iran! One clash.",
+"rv": "IR"
+},
+{
+"c": "MM",
+"st": "D",
+"v": "THAILAND",
+"vs": "Thailand",
+"sub": "30 military clashes since 1816",
+"say": "Myanmar: Thailand! 30 clashes.",
+"rv": "TH"
+},
+{
+"c": "TH",
+"st": "D",
+"v": "MYANMAR",
+"vs": "Myanmar",
+"sub": "30 military clashes since 1816",
+"say": "Thailand: Myanmar! 30 clashes.",
+"rv": "MM"
+},
+{
+"c": "LA",
+"st": "B",
+"v": "THAILAND",
+"vs": "Thailand",
+"sub": "9 military clashes since 1816",
+"say": "Laos: Thailand! 9 clashes.",
+"rv": "TH"
+},
+{
+"c": "KH",
+"st": "C",
+"v": "THAILAND",
+"vs": "Thailand",
+"sub": "18 military clashes since 1816",
+"say": "Cambodia: Thailand! 18 clashes.",
+"rv": "TH"
+},
+{
+"c": "VN",
+"st": "D",
+"v": "CHINA",
+"vs": "China",
+"sub": "20 military clashes since 1816",
+"say": "Vietnam: China! 20 clashes.",
+"rv": "CN"
+},
+{
+"c": "MY",
+"st": "B",
+"v": "INDONESIA",
+"vs": "Indonesia",
+"sub": "6 military clashes since 1816",
+"say": "Malaysia: Indonesia! 6 clashes.",
+"rv": "ID"
+},
+{
+"c": "SG",
+"st": "A",
+"v": "MALAYSIA",
+"vs": "Malaysia",
+"sub": "2 military clashes since 1816",
+"say": "Singapore: Malaysia! 2 clashes.",
+"rv": "MY"
+},
+{
+"c": "ID",
+"st": "B",
+"v": "MALAYSIA",
+"vs": "Malaysia",
+"sub": "6 military clashes since 1816",
+"say": "Indonesia: Malaysia! 6 clashes.",
+"rv": "MY"
+},
+{
+"c": "BN",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Brunei: no enemies. Zero clashes!",
+"rv": null
+},
+{
+"c": "PH",
+"st": "C",
+"v": "CHINA",
+"vs": "China",
+"sub": "10 military clashes since 1816",
+"say": "Philippines: China! 10 clashes.",
+"rv": "CN"
+},
+{
+"c": "TL",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "East Timor: nobody! Totally peaceful.",
+"rv": null
+},
+{
+"c": "CN",
+"st": "E",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "46 military clashes since 1816",
+"say": "China: Russia! 46 clashes.",
+"rv": "RU"
+},
+{
+"c": "MN",
+"st": "A",
+"v": "JAPAN",
+"vs": "Japan",
+"sub": "4 military clashes since 1816",
+"say": "Mongolia: Japan! 4 clashes.",
+"rv": "JP"
+},
+{
+"c": "KP",
+"st": "D",
+"v": "SOUTH KOREA",
+"vs": "South Korea",
+"sub": "31 military clashes since 1816",
+"say": "North Korea: South Korea! 31 clashes.",
+"rv": "KR"
+},
+{
+"c": "KR",
+"st": "D",
+"v": "NORTH KOREA",
+"vs": "North Korea",
+"sub": "31 military clashes since 1816",
+"say": "South Korea: North Korea! 31 clashes.",
+"rv": "KP"
+},
+{
+"c": "JP",
+"st": "E",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "47 military clashes since 1816",
+"say": "Japan: Russia! 47 clashes.",
+"rv": "RU"
+},
+{
+"c": "TW",
+"st": "D",
+"v": "CHINA",
+"vs": "China",
+"sub": "27 military clashes since 1816",
+"say": "Taiwan: China! 27 clashes.",
+"rv": "CN"
+},
+{
+"c": "AU",
+"st": "A",
+"v": "CHINA",
+"vs": "China",
+"sub": "4 military clashes since 1816",
+"say": "Australia: China! 4 clashes.",
+"rv": "CN"
+},
+{
+"c": "NZ",
+"st": "A",
+"v": "CHINA",
+"vs": "China",
+"sub": "3 military clashes since 1816",
+"say": "New Zealand: China! 3 clashes.",
+"rv": "CN"
+},
+{
+"c": "PG",
+"st": "B",
+"v": "INDONESIA",
+"vs": "Indonesia",
+"sub": "6 military clashes since 1816",
+"say": "Papua New Guinea: Indonesia! 6 clashes.",
+"rv": "ID"
+},
+{
+"c": "SB",
+"st": "A",
+"v": "PAPUA NEW GUINEA",
+"vs": "Papua New Guinea",
+"sub": "2 military clashes since 1816",
+"say": "Solomon Islands: Papua New Guinea! 2 clashes.",
+"rv": "PG"
+},
+{
+"c": "VU",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Vanuatu: no rival at all!",
+"rv": null
+},
+{
+"c": "FJ",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Fiji: no enemies. Zero clashes!",
+"rv": null
+},
+{
+"c": "WS",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Samoa: nobody! Totally peaceful.",
+"rv": null
+},
+{
+"c": "TO",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Tonga: no rival at all!",
+"rv": null
+},
+{
+"c": "KI",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Kiribati: no enemies. Zero clashes!",
+"rv": null
+},
+{
+"c": "TV",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Tuvalu: nobody! Totally peaceful.",
+"rv": null
+},
+{
+"c": "NR",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Nauru: no rival at all!",
+"rv": null
+},
+{
+"c": "MH",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Marshall Islands: no enemies. Zero clashes!",
+"rv": null
+},
+{
+"c": "FM",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Micronesia: nobody! Totally peaceful.",
+"rv": null
+},
+{
+"c": "PW",
+"st": "A",
+"v": "PHILIPPINES",
+"vs": "Philippines",
+"sub": "1 military clash since 1816",
+"say": "Palau: Philippines! One clash.",
+"rv": "PH"
+},
+{
+"c": "MA",
+"st": "C",
+"v": "SPAIN",
+"vs": "Spain",
+"sub": "13 military clashes since 1816",
+"say": "Morocco: Spain! 13 clashes.",
+"rv": "ES"
+},
+{
+"c": "DZ",
+"st": "B",
+"v": "MOROCCO",
+"vs": "Morocco",
+"sub": "6 military clashes since 1816",
+"say": "Algeria: Morocco! 6 clashes.",
+"rv": "MA"
+},
+{
+"c": "TN",
+"st": "B",
+"v": "LIBYA",
+"vs": "Libya",
+"sub": "5 military clashes since 1816",
+"say": "Tunisia: Libya! 5 clashes.",
+"rv": "LY"
+},
+{
+"c": "LY",
+"st": "C",
+"v": "UNITED STATES",
+"vs": "United States",
+"sub": "14 military clashes since 1816",
+"say": "Libya: United States! 14 clashes.",
+"rv": "US"
+},
+{
+"c": "EG",
+"st": "D",
+"v": "ISRAEL",
+"vs": "Israel",
+"sub": "38 military clashes since 1816",
+"say": "Egypt: Israel! 38 clashes.",
+"rv": "IL"
+},
+{
+"c": "SD",
+"st": "C",
+"v": "ETHIOPIA",
+"vs": "Ethiopia",
+"sub": "10 military clashes since 1816",
+"say": "Sudan: Ethiopia! 10 clashes.",
+"rv": "ET"
+},
+{
+"c": "SS",
+"st": "A",
+"v": "SUDAN",
+"vs": "Sudan",
+"sub": "2 military clashes since 1816",
+"say": "South Sudan: Sudan! 2 clashes.",
+"rv": "SD"
+},
+{
+"c": "ET",
+"st": "D",
+"v": "SOMALIA",
+"vs": "Somalia",
+"sub": "21 military clashes since 1816",
+"say": "Ethiopia: Somalia! 21 clashes.",
+"rv": "SO"
+},
+{
+"c": "ER",
+"st": "B",
+"v": "ETHIOPIA",
+"vs": "Ethiopia",
+"sub": "9 military clashes since 1816",
+"say": "Eritrea: Ethiopia! 9 clashes.",
+"rv": "ET"
+},
+{
+"c": "DJ",
+"st": "A",
+"v": "ERITREA",
+"vs": "Eritrea",
+"sub": "3 military clashes since 1816",
+"say": "Djibouti: Eritrea! 3 clashes.",
+"rv": "ER"
+},
+{
+"c": "SO",
+"st": "D",
+"v": "ETHIOPIA",
+"vs": "Ethiopia",
+"sub": "21 military clashes since 1816",
+"say": "Somalia: Ethiopia! 21 clashes.",
+"rv": "ET"
+},
+{
+"c": "KE",
+"st": "C",
+"v": "UGANDA",
+"vs": "Uganda",
+"sub": "11 military clashes since 1816",
+"say": "Kenya: Uganda! 11 clashes.",
+"rv": "UG"
+},
+{
+"c": "UG",
+"st": "C",
+"v": "KENYA",
+"vs": "Kenya",
+"sub": "11 military clashes since 1816",
+"say": "Uganda: Kenya! 11 clashes.",
+"rv": "KE"
+},
+{
+"c": "RW",
+"st": "B",
+"v": "DR CONGO",
+"vs": "DR Congo",
+"sub": "9 military clashes since 1816",
+"say": "Rwanda: DR Congo! 9 clashes.",
+"rv": "CD"
+},
+{
+"c": "BI",
+"st": "B",
+"v": "RWANDA",
+"vs": "Rwanda",
+"sub": "5 military clashes since 1816",
+"say": "Burundi: Rwanda! 5 clashes.",
+"rv": "RW"
+},
+{
+"c": "TZ",
+"st": "B",
+"v": "UGANDA",
+"vs": "Uganda",
+"sub": "5 military clashes since 1816",
+"say": "Tanzania: Uganda! 5 clashes.",
+"rv": "UG"
+},
+{
+"c": "MZ",
+"st": "A",
+"v": "SOUTH AFRICA",
+"vs": "South Africa",
+"sub": "3 military clashes since 1816",
+"say": "Mozambique: South Africa! 3 clashes.",
+"rv": "ZA"
+},
+{
+"c": "MW",
+"st": "A",
+"v": "PORTUGAL",
+"vs": "Portugal",
+"sub": "1 military clash since 1816",
+"say": "Malawi: Portugal! One clash.",
+"rv": "PT"
+},
+{
+"c": "ZM",
+"st": "B",
+"v": "SOUTH AFRICA",
+"vs": "South Africa",
+"sub": "9 military clashes since 1816",
+"say": "Zambia: South Africa! 9 clashes.",
+"rv": "ZA"
+},
+{
+"c": "ZW",
+"st": "B",
+"v": "ZAMBIA",
+"vs": "Zambia",
+"sub": "7 military clashes since 1816",
+"say": "Zimbabwe: Zambia! 7 clashes.",
+"rv": "ZM"
+},
+{
+"c": "BW",
+"st": "B",
+"v": "ZIMBABWE",
+"vs": "Zimbabwe",
+"sub": "5 military clashes since 1816",
+"say": "Botswana: Zimbabwe! 5 clashes.",
+"rv": "ZW"
+},
+{
+"c": "NA",
+"st": "A",
+"v": "BOTSWANA",
+"vs": "Botswana",
+"sub": "1 military clash since 1816",
+"say": "Namibia: Botswana! One clash.",
+"rv": "BW"
+},
+{
+"c": "ZA",
+"st": "B",
+"v": "ZAMBIA",
+"vs": "Zambia",
+"sub": "9 military clashes since 1816",
+"say": "South Africa: Zambia! 9 clashes.",
+"rv": "ZM"
+},
+{
+"c": "LS",
+"st": "A",
+"v": "SOUTH AFRICA",
+"vs": "South Africa",
+"sub": "3 military clashes since 1816",
+"say": "Lesotho: South Africa! 3 clashes.",
+"rv": "ZA"
+},
+{
+"c": "SZ",
+"st": "A",
+"v": "SOUTH AFRICA",
+"vs": "South Africa",
+"sub": "2 military clashes since 1816",
+"say": "Eswatini: South Africa! 2 clashes.",
+"rv": "ZA"
+},
+{
+"c": "MG",
+"st": "A",
+"v": "ZIMBABWE",
+"vs": "Zimbabwe",
+"sub": "1 military clash since 1816",
+"say": "Madagascar: Zimbabwe! One clash.",
+"rv": "ZW"
+},
+{
+"c": "MU",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Mauritius: no rival at all!",
+"rv": null
+},
+{
+"c": "KM",
+"st": "A",
+"v": "FRANCE",
+"vs": "France",
+"sub": "1 military clash since 1816",
+"say": "Comoros: France! One clash.",
+"rv": "FR"
+},
+{
+"c": "SC",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Seychelles: no enemies. Zero clashes!",
+"rv": null
+},
+{
+"c": "AO",
+"st": "B",
+"v": "DR CONGO",
+"vs": "DR Congo",
+"sub": "8 military clashes since 1816",
+"say": "Angola: DR Congo! 8 clashes.",
+"rv": "CD"
+},
+{
+"c": "CD",
+"st": "C",
+"v": "UGANDA",
+"vs": "Uganda",
+"sub": "10 military clashes since 1816",
+"say": "DR Congo: Uganda! 10 clashes.",
+"rv": "UG"
+},
+{
+"c": "CG",
+"st": "B",
+"v": "DR CONGO",
+"vs": "DR Congo",
+"sub": "7 military clashes since 1816",
+"say": "Republic of the Congo: DR Congo! 7 clashes.",
+"rv": "CD"
+},
+{
+"c": "GA",
+"st": "A",
+"v": "FRANCE",
+"vs": "France",
+"sub": "1 military clash since 1816",
+"say": "Gabon: France! One clash.",
+"rv": "FR"
+},
+{
+"c": "GQ",
+"st": "A",
+"v": "GABON",
+"vs": "Gabon",
+"sub": "1 military clash since 1816",
+"say": "Equatorial Guinea: Gabon! One clash.",
+"rv": "GA"
+},
+{
+"c": "CM",
+"st": "B",
+"v": "NIGERIA",
+"vs": "Nigeria",
+"sub": "7 military clashes since 1816",
+"say": "Cameroon: Nigeria! 7 clashes.",
+"rv": "NG"
+},
+{
+"c": "CF",
+"st": "A",
+"v": "CHAD",
+"vs": "Chad",
+"sub": "2 military clashes since 1816",
+"say": "Central African Republic: Chad! 2 clashes.",
+"rv": "TD"
+},
+{
+"c": "TD",
+"st": "B",
+"v": "SUDAN",
+"vs": "Sudan",
+"sub": "6 military clashes since 1816",
+"say": "Chad: Sudan! 6 clashes.",
+"rv": "SD"
+},
+{
+"c": "NE",
+"st": "A",
+"v": "BENIN",
+"vs": "Benin",
+"sub": "1 military clash since 1816",
+"say": "Niger: Benin! One clash.",
+"rv": "BJ"
+},
+{
+"c": "NG",
+"st": "B",
+"v": "CAMEROON",
+"vs": "Cameroon",
+"sub": "7 military clashes since 1816",
+"say": "Nigeria: Cameroon! 7 clashes.",
+"rv": "CM"
+},
+{
+"c": "BJ",
+"st": "A",
+"v": "NIGER",
+"vs": "Niger",
+"sub": "1 military clash since 1816",
+"say": "Benin: Niger! One clash.",
+"rv": "NE"
+},
+{
+"c": "TG",
+"st": "B",
+"v": "GHANA",
+"vs": "Ghana",
+"sub": "6 military clashes since 1816",
+"say": "Togo: Ghana! 6 clashes.",
+"rv": "GH"
+},
+{
+"c": "GH",
+"st": "B",
+"v": "TOGO",
+"vs": "Togo",
+"sub": "6 military clashes since 1816",
+"say": "Ghana: Togo! 6 clashes.",
+"rv": "TG"
+},
+{
+"c": "CI",
+"st": "A",
+"v": "GUINEA",
+"vs": "Guinea",
+"sub": "4 military clashes since 1816",
+"say": "Ivory Coast: Guinea! 4 clashes.",
+"rv": "GN"
+},
+{
+"c": "BF",
+"st": "A",
+"v": "MALI",
+"vs": "Mali",
+"sub": "3 military clashes since 1816",
+"say": "Burkina Faso: Mali! 3 clashes.",
+"rv": "ML"
+},
+{
+"c": "ML",
+"st": "A",
+"v": "BURKINA FASO",
+"vs": "Burkina Faso",
+"sub": "3 military clashes since 1816",
+"say": "Mali: Burkina Faso! 3 clashes.",
+"rv": "BF"
+},
+{
+"c": "MR",
+"st": "A",
+"v": "MALI",
+"vs": "Mali",
+"sub": "2 military clashes since 1816",
+"say": "Mauritania: Mali! 2 clashes.",
+"rv": "ML"
+},
+{
+"c": "SN",
+"st": "A",
+"v": "GAMBIA",
+"vs": "Gambia",
+"sub": "3 military clashes since 1816",
+"say": "Senegal: Gambia! 3 clashes.",
+"rv": "GM"
+},
+{
+"c": "GM",
+"st": "A",
+"v": "SENEGAL",
+"vs": "Senegal",
+"sub": "3 military clashes since 1816",
+"say": "Gambia: Senegal! 3 clashes.",
+"rv": "SN"
+},
+{
+"c": "GW",
+"st": "A",
+"v": "SENEGAL",
+"vs": "Senegal",
+"sub": "3 military clashes since 1816",
+"say": "Guinea-Bissau: Senegal! 3 clashes.",
+"rv": "SN"
+},
+{
+"c": "GN",
+"st": "A",
+"v": "IVORY COAST",
+"vs": "Ivory Coast",
+"sub": "4 military clashes since 1816",
+"say": "Guinea: Ivory Coast! 4 clashes.",
+"rv": "CI"
+},
+{
+"c": "SL",
+"st": "A",
+"v": "LIBERIA",
+"vs": "Liberia",
+"sub": "4 military clashes since 1816",
+"say": "Sierra Leone: Liberia! 4 clashes.",
+"rv": "LR"
+},
+{
+"c": "LR",
+"st": "A",
+"v": "SIERRA LEONE",
+"vs": "Sierra Leone",
+"sub": "4 military clashes since 1816",
+"say": "Liberia: Sierra Leone! 4 clashes.",
+"rv": "SL"
+},
+{
+"c": "CV",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "Cape Verde: nobody! Totally peaceful.",
+"rv": null
+},
+{
+"c": "ST",
+"st": "X",
+"v": "NO RIVAL",
+"vs": "—",
+"sub": "No military clashes on record",
+"say": "São Tomé: no rival at all!",
+"rv": null
+},
+{
+"c": "VA",
+"st": "A",
+"v": "AUSTRIA",
+"vs": "Austria",
+"sub": "3 military clashes since 1816",
+"say": "Vatican City: Austria! 3 clashes.",
+"rv": "AT"
+}
+],
+"T": {
+"US": "Russia. Sixty standoffs, and counting.",
+"RU": "America, of course.",
+"IN": "Pakistan. Next question.",
+"PK": "India, obviously!",
+"GR": "Turkey. Forty-nine times!",
+"TR": "Greece... we're neighbors, it's complicated.",
+"KR": "Guess who. North Korea.",
+"IL": "Syria. Forty-one times.",
+"FR": "Germany... but now we are best friends.",
+"CL": "Argentina. Of course, Argentina.",
+"CN": "Russia. Yes, really. Look it up."
+},
+"cfg": {
+"title": "EVERY COUNTRY'S RIVAL",
+"icon": "swords",
+"t1": "EVERY COUNTRY'S",
+"t2": "BIGGEST RIVAL",
+"badge": "EVERY MILITARY CLASH SINCE 1816",
+"cats": [
+{
+"k": "X",
+"label": "NO RIVAL",
+"short": "NONE",
+"col": "#8f86a8",
+"cold": "#5c5475",
+"mood": "happy"
+},
+{
+"k": "A",
+"label": "1 – 4 CLASHES",
+"short": "1-4",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "curious"
+},
+{
+"k": "B",
+"label": "5 – 9 CLASHES",
+"short": "5-9",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "angry"
+},
+{
+"k": "C",
+"label": "10 – 19 CLASHES",
+"short": "10+",
+"col": "#ff8c2e",
+"cold": "#b35a0c",
+"mood": "angry"
+},
+{
+"k": "D",
+"label": "20 – 39 CLASHES",
+"short": "20+",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "angry"
+},
+{
+"k": "E",
+"label": "40+ CLASHES",
+"short": "40+",
+"col": "#9b5de5",
+"cold": "#5e2ca5",
+"mood": "angry"
+}
+],
+"balls": [
+"US",
+"RU",
+"IN",
+"PK",
+"GR",
+"TR"
+],
+"ballMoods": [
+"angry",
+"angry",
+"angry",
+"angry",
+"angry",
+"angry"
+],
+"best": [
+"US",
+"BIGGEST RIVALRY",
+"VS RUSSIA · 60"
+],
+"worst": [
+"IN",
+"FIERCEST NEIGHBORS",
+"VS PAKISTAN · 40"
+],
+"ask": "WHO IS YOUR RIVAL? COMMENT!"
+},
+"intro": [
+"Every country has that one enemy it just can't stop clashing with. Using every military standoff since 1816, here is every country's biggest rival. 197 countries, one by one.",
+"Grey: no rival at all.",
+"Green: up to four clashes.",
+"Yellow: up to nine.",
+"Orange: up to nineteen.",
+"Red: up to thirty-nine.",
+"And purple... forty or more! Let's go!"
+],
+"outro": [
+"Who is your country's real rival? Comment below!"
+],
+"names": {
+"US": "United States",
+"CA": "Canada",
+"MX": "Mexico",
+"GB": "United Kingdom",
+"IE": "Ireland",
+"FR": "France",
+"ES": "Spain",
+"PT": "Portugal",
+"AD": "Andorra",
+"IT": "Italy",
+"SM": "San Marino",
+"MT": "Malta",
+"MC": "Monaco",
+"CH": "Switzerland",
+"LI": "Liechtenstein",
+"AT": "Austria",
+"DE": "Germany",
+"LU": "Luxembourg",
+"BE": "Belgium",
+"NL": "Netherlands",
+"DK": "Denmark",
+"NO": "Norway",
+"SE": "Sweden",
+"FI": "Finland",
+"IS": "Iceland",
+"PL": "Poland",
+"CZ": "Czech Republic",
+"SK": "Slovakia",
+"HU": "Hungary",
+"SI": "Slovenia",
+"HR": "Croatia",
+"BA": "Bosnia",
+"RS": "Serbia",
+"ME": "Montenegro",
+"XK": "Kosovo",
+"AL": "Albania",
+"MK": "North Macedonia",
+"GR": "Greece",
+"BG": "Bulgaria",
+"RO": "Romania",
+"MD": "Moldova",
+"UA": "Ukraine",
+"BY": "Belarus",
+"LT": "Lithuania",
+"LV": "Latvia",
+"EE": "Estonia",
+"RU": "Russia",
+"CY": "Cyprus",
+"TR": "Turkey",
+"CO": "Colombia",
+"VE": "Venezuela",
+"EC": "Ecuador",
+"PE": "Peru",
+"BO": "Bolivia",
+"CL": "Chile",
+"AR": "Argentina",
+"UY": "Uruguay",
+"PY": "Paraguay",
+"BR": "Brazil",
+"GY": "Guyana",
+"SR": "Suriname",
+"PA": "Panama",
+"CR": "Costa Rica",
+"NI": "Nicaragua",
+"HN": "Honduras",
+"SV": "El Salvador",
+"GT": "Guatemala",
+"BZ": "Belize",
+"CU": "Cuba",
+"JM": "Jamaica",
+"HT": "Haiti",
+"DO": "Dominican Republic",
+"BS": "Bahamas",
+"BB": "Barbados",
+"TT": "Trinidad and Tobago",
+"GD": "Grenada",
+"VC": "Saint Vincent",
+"LC": "Saint Lucia",
+"DM": "Dominica",
+"AG": "Antigua and Barbuda",
+"KN": "Saint Kitts and Nevis",
+"GE": "Georgia",
+"AM": "Armenia",
+"AZ": "Azerbaijan",
+"KZ": "Kazakhstan",
+"UZ": "Uzbekistan",
+"TM": "Turkmenistan",
+"KG": "Kyrgyzstan",
+"TJ": "Tajikistan",
+"AF": "Afghanistan",
+"IR": "Iran",
+"IQ": "Iraq",
+"SY": "Syria",
+"LB": "Lebanon",
+"IL": "Israel",
+"PS": "Palestine",
+"JO": "Jordan",
+"SA": "Saudi Arabia",
+"YE": "Yemen",
+"OM": "Oman",
+"AE": "United Arab Emirates",
+"QA": "Qatar",
+"BH": "Bahrain",
+"KW": "Kuwait",
+"IN": "India",
+"PK": "Pakistan",
+"NP": "Nepal",
+"BT": "Bhutan",
+"BD": "Bangladesh",
+"LK": "Sri Lanka",
+"MV": "Maldives",
+"MM": "Myanmar",
+"TH": "Thailand",
+"LA": "Laos",
+"KH": "Cambodia",
+"VN": "Vietnam",
+"MY": "Malaysia",
+"SG": "Singapore",
+"ID": "Indonesia",
+"BN": "Brunei",
+"PH": "Philippines",
+"TL": "East Timor",
+"CN": "China",
+"MN": "Mongolia",
+"KP": "North Korea",
+"KR": "South Korea",
+"JP": "Japan",
+"TW": "Taiwan",
+"AU": "Australia",
+"NZ": "New Zealand",
+"PG": "Papua New Guinea",
+"SB": "Solomon Islands",
+"VU": "Vanuatu",
+"FJ": "Fiji",
+"WS": "Samoa",
+"TO": "Tonga",
+"KI": "Kiribati",
+"TV": "Tuvalu",
+"NR": "Nauru",
+"MH": "Marshall Islands",
+"FM": "Micronesia",
+"PW": "Palau",
+"MA": "Morocco",
+"DZ": "Algeria",
+"TN": "Tunisia",
+"LY": "Libya",
+"EG": "Egypt",
+"SD": "Sudan",
+"SS": "South Sudan",
+"ET": "Ethiopia",
+"ER": "Eritrea",
+"DJ": "Djibouti",
+"SO": "Somalia",
+"KE": "Kenya",
+"UG": "Uganda",
+"RW": "Rwanda",
+"BI": "Burundi",
+"TZ": "Tanzania",
+"MZ": "Mozambique",
+"MW": "Malawi",
+"ZM": "Zambia",
+"ZW": "Zimbabwe",
+"BW": "Botswana",
+"NA": "Namibia",
+"ZA": "South Africa",
+"LS": "Lesotho",
+"SZ": "Eswatini",
+"MG": "Madagascar",
+"MU": "Mauritius",
+"KM": "Comoros",
+"SC": "Seychelles",
+"AO": "Angola",
+"CD": "DR Congo",
+"CG": "Republic of the Congo",
+"GA": "Gabon",
+"GQ": "Equatorial Guinea",
+"CM": "Cameroon",
+"CF": "Central African Republic",
+"TD": "Chad",
+"NE": "Niger",
+"NG": "Nigeria",
+"BJ": "Benin",
+"TG": "Togo",
+"GH": "Ghana",
+"CI": "Ivory Coast",
+"BF": "Burkina Faso",
+"ML": "Mali",
+"MR": "Mauritania",
+"SN": "Senegal",
+"GM": "Gambia",
+"GW": "Guinea-Bissau",
+"GN": "Guinea",
+"SL": "Sierra Leone",
+"LR": "Liberia",
+"CV": "Cape Verde",
+"ST": "São Tomé",
+"VA": "Vatican City"
+}
+}

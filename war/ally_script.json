@@ -1,0 +1,1889 @@
+{
+"key": "ally",
+"C": [
+{
+"c": "US",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "United States: NATO!"
+},
+{
+"c": "CA",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Canada: NATO. Article Five."
+},
+{
+"c": "MX",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Mexico: alone! It left the Rio Treaty in 2002."
+},
+{
+"c": "GB",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "United Kingdom: NATO. Thirty-one allies would come!"
+},
+{
+"c": "IE",
+"st": "G",
+"v": "EU CLAUSE",
+"vs": "Eu Clause",
+"sub": "EU mutual defense clause",
+"say": "Ireland: the EU defense clause! Neutral... but in the EU."
+},
+{
+"c": "FR",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "France: NATO!"
+},
+{
+"c": "ES",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Spain: NATO. Article Five."
+},
+{
+"c": "PT",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Portugal: NATO. Thirty-one allies would come!"
+},
+{
+"c": "AD",
+"st": "B",
+"v": "FRANCE AND SPAIN",
+"vs": "France And Spain",
+"sub": "Protected by France and Spain",
+"say": "Andorra: France and Spain!"
+},
+{
+"c": "IT",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Italy: NATO!"
+},
+{
+"c": "SM",
+"st": "B",
+"v": "ITALY",
+"vs": "Italy",
+"sub": "Protected by Italy",
+"say": "San Marino: Italy!"
+},
+{
+"c": "MT",
+"st": "G",
+"v": "EU CLAUSE",
+"vs": "Eu Clause",
+"sub": "EU mutual defense clause",
+"say": "Malta: the EU defense clause!"
+},
+{
+"c": "MC",
+"st": "B",
+"v": "FRANCE",
+"vs": "France",
+"sub": "Protected by France",
+"say": "Monaco: France!"
+},
+{
+"c": "CH",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Switzerland: no one! Neutral since 1815."
+},
+{
+"c": "LI",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Liechtenstein: nobody. Completely alone!"
+},
+{
+"c": "AT",
+"st": "G",
+"v": "EU CLAUSE",
+"vs": "Eu Clause",
+"sub": "EU mutual defense clause",
+"say": "Austria: the EU defense clause!"
+},
+{
+"c": "DE",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Germany: NATO. Article Five."
+},
+{
+"c": "LU",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Luxembourg: NATO. Thirty-one allies would come!"
+},
+{
+"c": "BE",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Belgium: NATO!"
+},
+{
+"c": "NL",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Netherlands: NATO. Article Five."
+},
+{
+"c": "DK",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Denmark: NATO. Thirty-one allies would come!"
+},
+{
+"c": "NO",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Norway: NATO!"
+},
+{
+"c": "SE",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Sweden: NATO. Article Five."
+},
+{
+"c": "FI",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Finland: NATO. Thirty-one allies would come!"
+},
+{
+"c": "IS",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Iceland: NATO!"
+},
+{
+"c": "PL",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Poland: NATO. Article Five."
+},
+{
+"c": "CZ",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Czech Republic: NATO. Thirty-one allies would come!"
+},
+{
+"c": "SK",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Slovakia: NATO!"
+},
+{
+"c": "HU",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Hungary: NATO. Article Five."
+},
+{
+"c": "SI",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Slovenia: NATO. Thirty-one allies would come!"
+},
+{
+"c": "HR",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Croatia: NATO!"
+},
+{
+"c": "BA",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Bosnia: alone!"
+},
+{
+"c": "RS",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Serbia: no one! Officially neutral."
+},
+{
+"c": "ME",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Montenegro: NATO. Article Five."
+},
+{
+"c": "XK",
+"st": "B",
+"v": "NATO TROOPS",
+"vs": "Nato Troops",
+"sub": "Protected by NATO troops (KFOR)",
+"say": "Kosovo: NATO peacekeepers!"
+},
+{
+"c": "AL",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Albania: NATO. Thirty-one allies would come!"
+},
+{
+"c": "MK",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "North Macedonia: NATO!"
+},
+{
+"c": "GR",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Greece: NATO. Article Five."
+},
+{
+"c": "BG",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Bulgaria: NATO. Thirty-one allies would come!"
+},
+{
+"c": "RO",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Romania: NATO!"
+},
+{
+"c": "MD",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Moldova: nobody. Completely alone!"
+},
+{
+"c": "UA",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Ukraine: alone! Not in NATO... yet."
+},
+{
+"c": "BY",
+"st": "K",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "CSTO + Union with Russia",
+"say": "Belarus: Russia!"
+},
+{
+"c": "LT",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Lithuania: NATO. Article Five."
+},
+{
+"c": "LV",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Latvia: NATO. Thirty-one allies would come!"
+},
+{
+"c": "EE",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Estonia: NATO!"
+},
+{
+"c": "RU",
+"st": "K",
+"v": "CSTO",
+"vs": "CSTO",
+"sub": "CSTO + North Korea",
+"say": "Russia: Belarus, its Central Asian allies... and North Korea!"
+},
+{
+"c": "CY",
+"st": "G",
+"v": "EU CLAUSE",
+"vs": "Eu Clause",
+"sub": "EU mutual defense clause",
+"say": "Cyprus: the EU defense clause!"
+},
+{
+"c": "TR",
+"st": "N",
+"v": "NATO",
+"vs": "NATO",
+"sub": "31 allies by treaty (Article 5)",
+"say": "Turkey: NATO. Article Five."
+},
+{
+"c": "CO",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Colombia: the Rio Treaty, with America."
+},
+{
+"c": "VE",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Venezuela: no one!"
+},
+{
+"c": "EC",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Ecuador: nobody. Completely alone!"
+},
+{
+"c": "PE",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Peru: the Rio Treaty, with America."
+},
+{
+"c": "BO",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Bolivia: alone!"
+},
+{
+"c": "CL",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Chile: the Rio Treaty, with America."
+},
+{
+"c": "AR",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Argentina: the Rio Treaty, with America."
+},
+{
+"c": "UY",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Uruguay: the Rio Treaty, with America."
+},
+{
+"c": "PY",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Paraguay: the Rio Treaty, with America."
+},
+{
+"c": "BR",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Brazil: the Rio Treaty, with America."
+},
+{
+"c": "GY",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Guyana: no one!"
+},
+{
+"c": "SR",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Suriname: nobody. Completely alone!"
+},
+{
+"c": "PA",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Panama: the Rio Treaty, with America."
+},
+{
+"c": "CR",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Costa Rica: the Rio Treaty, with America."
+},
+{
+"c": "NI",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Nicaragua: alone!"
+},
+{
+"c": "HN",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Honduras: the Rio Treaty, with America."
+},
+{
+"c": "SV",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "El Salvador: the Rio Treaty, with America."
+},
+{
+"c": "GT",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Guatemala: the Rio Treaty, with America."
+},
+{
+"c": "BZ",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Belize: no one!"
+},
+{
+"c": "CU",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Cuba: nobody. Completely alone!"
+},
+{
+"c": "JM",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Jamaica: alone!"
+},
+{
+"c": "HT",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Haiti: the Rio Treaty, with America."
+},
+{
+"c": "DO",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Dominican Republic: the Rio Treaty, with America."
+},
+{
+"c": "BS",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Bahamas: the Rio Treaty, with America."
+},
+{
+"c": "BB",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Barbados: no one!"
+},
+{
+"c": "TT",
+"st": "U",
+"v": "RIO TREATY",
+"vs": "Rio Treaty",
+"sub": "Rio Treaty, with the United States",
+"say": "Trinidad and Tobago: the Rio Treaty, with America."
+},
+{
+"c": "GD",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Grenada: nobody. Completely alone!"
+},
+{
+"c": "VC",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Saint Vincent: alone!"
+},
+{
+"c": "LC",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Saint Lucia: no one!"
+},
+{
+"c": "DM",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Dominica: nobody. Completely alone!"
+},
+{
+"c": "AG",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Antigua and Barbuda: alone!"
+},
+{
+"c": "KN",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Saint Kitts and Nevis: no one!"
+},
+{
+"c": "GE",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Georgia: nobody. Completely alone!"
+},
+{
+"c": "AM",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Armenia: alone! It froze its Russian alliance."
+},
+{
+"c": "AZ",
+"st": "G",
+"v": "TURKEY",
+"vs": "Turkey",
+"sub": "Shusha Declaration with Turkey",
+"say": "Azerbaijan: Turkey!"
+},
+{
+"c": "KZ",
+"st": "K",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "CSTO (Russia)",
+"say": "Kazakhstan: Russia!"
+},
+{
+"c": "UZ",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Uzbekistan: no one!"
+},
+{
+"c": "TM",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Turkmenistan: nobody. Completely alone!"
+},
+{
+"c": "KG",
+"st": "K",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "CSTO (Russia)",
+"say": "Kyrgyzstan: Russia!"
+},
+{
+"c": "TJ",
+"st": "K",
+"v": "RUSSIA",
+"vs": "Russia",
+"sub": "CSTO (Russia)",
+"say": "Tajikistan: Russia!"
+},
+{
+"c": "AF",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Afghanistan: alone!"
+},
+{
+"c": "IR",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Iran: no one! Close to Russia... but no treaty."
+},
+{
+"c": "IQ",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Iraq: the Arab League!"
+},
+{
+"c": "SY",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Syria: the Arab League!"
+},
+{
+"c": "LB",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Lebanon: the Arab League!"
+},
+{
+"c": "IL",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Israel: no treaty... but very good friends in Washington."
+},
+{
+"c": "PS",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Palestine: the Arab League!"
+},
+{
+"c": "JO",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Jordan: the Arab League!"
+},
+{
+"c": "SA",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Saudi Arabia: the Arab League!"
+},
+{
+"c": "YE",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Yemen: the Arab League!"
+},
+{
+"c": "OM",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Oman: the Arab League!"
+},
+{
+"c": "AE",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "United Arab Emirates: the Arab League!"
+},
+{
+"c": "QA",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Qatar: the Arab League!"
+},
+{
+"c": "BH",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Bahrain: the Arab League!"
+},
+{
+"c": "KW",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Kuwait: the Arab League!"
+},
+{
+"c": "IN",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "India: alone! Never joins alliances."
+},
+{
+"c": "PK",
+"st": "G",
+"v": "SAUDI ARABIA",
+"vs": "Saudi Arabia",
+"sub": "Mutual defense pact with Saudi Arabia (2025)",
+"say": "Pakistan: Saudi Arabia!"
+},
+{
+"c": "NP",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Nepal: no one!"
+},
+{
+"c": "BT",
+"st": "B",
+"v": "INDIA",
+"vs": "India",
+"sub": "Protected by India",
+"say": "Bhutan: India!"
+},
+{
+"c": "BD",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Bangladesh: nobody. Completely alone!"
+},
+{
+"c": "LK",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Sri Lanka: alone!"
+},
+{
+"c": "MV",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Maldives: no one!"
+},
+{
+"c": "MM",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Myanmar: nobody. Completely alone!"
+},
+{
+"c": "TH",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "Thailand: a treaty with America."
+},
+{
+"c": "LA",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Laos: alone!"
+},
+{
+"c": "KH",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Cambodia: no one!"
+},
+{
+"c": "VN",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Vietnam: nobody. Completely alone!"
+},
+{
+"c": "MY",
+"st": "G",
+"v": "FIVE POWERS",
+"vs": "Five Powers",
+"sub": "Five Power Defence Arrangements",
+"say": "Malaysia: the Five Powers!"
+},
+{
+"c": "SG",
+"st": "G",
+"v": "FIVE POWERS",
+"vs": "Five Powers",
+"sub": "Five Power Defence Arrangements",
+"say": "Singapore: the Five Powers!"
+},
+{
+"c": "ID",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Indonesia: alone!"
+},
+{
+"c": "BN",
+"st": "B",
+"v": "UNITED KINGDOM",
+"vs": "United Kingdom",
+"sub": "Protected by United Kingdom",
+"say": "Brunei: United Kingdom!"
+},
+{
+"c": "PH",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "Philippines: the United States!"
+},
+{
+"c": "TL",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "East Timor: no one!"
+},
+{
+"c": "CN",
+"st": "K",
+"v": "N. KOREA",
+"vs": "N. Korea",
+"sub": "Treaty with North Korea",
+"say": "China: North Korea!"
+},
+{
+"c": "MN",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Mongolia: nobody. Completely alone!"
+},
+{
+"c": "KP",
+"st": "K",
+"v": "RUSSIA + CHINA",
+"vs": "Russia + China",
+"sub": "Treaties with China and Russia",
+"say": "North Korea: Russia AND China!"
+},
+{
+"c": "KR",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "South Korea: a treaty with America."
+},
+{
+"c": "JP",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "Japan: the United States!"
+},
+{
+"c": "TW",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Taiwan: alone! Officially, nobody."
+},
+{
+"c": "AU",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "Australia: a treaty with America."
+},
+{
+"c": "NZ",
+"st": "B",
+"v": "AUSTRALIA",
+"vs": "Australia",
+"sub": "Protected by Australia",
+"say": "New Zealand: Australia!"
+},
+{
+"c": "PG",
+"st": "B",
+"v": "AUSTRALIA",
+"vs": "Australia",
+"sub": "Protected by Australia",
+"say": "Papua New Guinea: Australia!"
+},
+{
+"c": "SB",
+"st": "B",
+"v": "AUSTRALIA",
+"vs": "Australia",
+"sub": "Protected by Australia",
+"say": "Solomon Islands: Australia!"
+},
+{
+"c": "VU",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Vanuatu: no one!"
+},
+{
+"c": "FJ",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Fiji: nobody. Completely alone!"
+},
+{
+"c": "WS",
+"st": "B",
+"v": "NEW ZEALAND",
+"vs": "New Zealand",
+"sub": "Protected by New Zealand",
+"say": "Samoa: New Zealand!"
+},
+{
+"c": "TO",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Tonga: alone!"
+},
+{
+"c": "KI",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Kiribati: no one!"
+},
+{
+"c": "TV",
+"st": "B",
+"v": "AUSTRALIA",
+"vs": "Australia",
+"sub": "Protected by Australia",
+"say": "Tuvalu: Australia!"
+},
+{
+"c": "NR",
+"st": "B",
+"v": "AUSTRALIA",
+"vs": "Australia",
+"sub": "Protected by Australia",
+"say": "Nauru: Australia!"
+},
+{
+"c": "MH",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "Marshall Islands: the United States!"
+},
+{
+"c": "FM",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "Micronesia: a treaty with America."
+},
+{
+"c": "PW",
+"st": "U",
+"v": "USA",
+"vs": "USA",
+"sub": "Defense treaty with the United States",
+"say": "Palau: the United States!"
+},
+{
+"c": "MA",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Morocco: the Arab League!"
+},
+{
+"c": "DZ",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Algeria: the Arab League!"
+},
+{
+"c": "TN",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Tunisia: the Arab League!"
+},
+{
+"c": "LY",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Libya: the Arab League!"
+},
+{
+"c": "EG",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Egypt: the Arab League!"
+},
+{
+"c": "SD",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Sudan: the Arab League!"
+},
+{
+"c": "SS",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "South Sudan: nobody. Completely alone!"
+},
+{
+"c": "ET",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Ethiopia: alone!"
+},
+{
+"c": "ER",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Eritrea: no one!"
+},
+{
+"c": "DJ",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Djibouti: the Arab League!"
+},
+{
+"c": "SO",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Somalia: the Arab League!"
+},
+{
+"c": "KE",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Kenya: nobody. Completely alone!"
+},
+{
+"c": "UG",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Uganda: alone!"
+},
+{
+"c": "RW",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Rwanda: no one!"
+},
+{
+"c": "BI",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Burundi: nobody. Completely alone!"
+},
+{
+"c": "TZ",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Tanzania: the SADC pact!"
+},
+{
+"c": "MZ",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Mozambique: the SADC pact!"
+},
+{
+"c": "MW",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Malawi: the SADC pact!"
+},
+{
+"c": "ZM",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Zambia: the SADC pact!"
+},
+{
+"c": "ZW",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Zimbabwe: the SADC pact!"
+},
+{
+"c": "BW",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Botswana: the SADC pact!"
+},
+{
+"c": "NA",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Namibia: the SADC pact!"
+},
+{
+"c": "ZA",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "South Africa: the SADC pact!"
+},
+{
+"c": "LS",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Lesotho: the SADC pact!"
+},
+{
+"c": "SZ",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Eswatini: the SADC pact!"
+},
+{
+"c": "MG",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Madagascar: the SADC pact!"
+},
+{
+"c": "MU",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Mauritius: the SADC pact!"
+},
+{
+"c": "KM",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Comoros: the Arab League!"
+},
+{
+"c": "SC",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Seychelles: the SADC pact!"
+},
+{
+"c": "AO",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "Angola: the SADC pact!"
+},
+{
+"c": "CD",
+"st": "G",
+"v": "SADC",
+"vs": "SADC",
+"sub": "SADC mutual defense pact",
+"say": "DR Congo: the SADC pact!"
+},
+{
+"c": "CG",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Republic of the Congo: alone!"
+},
+{
+"c": "GA",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Gabon: no one!"
+},
+{
+"c": "GQ",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Equatorial Guinea: nobody. Completely alone!"
+},
+{
+"c": "CM",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Cameroon: alone!"
+},
+{
+"c": "CF",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Central African Republic: no one!"
+},
+{
+"c": "TD",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "Chad: nobody. Completely alone!"
+},
+{
+"c": "NE",
+"st": "G",
+"v": "SAHEL ALLIANCE",
+"vs": "Sahel Alliance",
+"sub": "Alliance of Sahel States",
+"say": "Niger: the Sahel Alliance!"
+},
+{
+"c": "NG",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Nigeria: ECOWAS!"
+},
+{
+"c": "BJ",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Benin: ECOWAS!"
+},
+{
+"c": "TG",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Togo: ECOWAS!"
+},
+{
+"c": "GH",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Ghana: ECOWAS!"
+},
+{
+"c": "CI",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Ivory Coast: ECOWAS!"
+},
+{
+"c": "BF",
+"st": "G",
+"v": "SAHEL ALLIANCE",
+"vs": "Sahel Alliance",
+"sub": "Alliance of Sahel States",
+"say": "Burkina Faso: the Sahel Alliance!"
+},
+{
+"c": "ML",
+"st": "G",
+"v": "SAHEL ALLIANCE",
+"vs": "Sahel Alliance",
+"sub": "Alliance of Sahel States",
+"say": "Mali: the Sahel Alliance!"
+},
+{
+"c": "MR",
+"st": "G",
+"v": "ARAB LEAGUE",
+"vs": "Arab League",
+"sub": "Arab League joint defense treaty",
+"say": "Mauritania: the Arab League!"
+},
+{
+"c": "SN",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Senegal: ECOWAS!"
+},
+{
+"c": "GM",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Gambia: ECOWAS!"
+},
+{
+"c": "GW",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Guinea-Bissau: ECOWAS!"
+},
+{
+"c": "GN",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Guinea: ECOWAS!"
+},
+{
+"c": "SL",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Sierra Leone: ECOWAS!"
+},
+{
+"c": "LR",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Liberia: ECOWAS!"
+},
+{
+"c": "CV",
+"st": "G",
+"v": "ECOWAS",
+"vs": "Ecowas",
+"sub": "ECOWAS mutual defense protocol",
+"say": "Cape Verde: ECOWAS!"
+},
+{
+"c": "ST",
+"st": "A",
+"v": "ALONE",
+"vs": "Alone",
+"sub": "No mutual defense treaty",
+"say": "São Tomé: alone!"
+},
+{
+"c": "VA",
+"st": "B",
+"v": "ITALY",
+"vs": "Italy",
+"sub": "Protected by Italy",
+"say": "Vatican City: Italy!"
+}
+],
+"T": {
+"US": "NATO. An attack on one is an attack on all.",
+"PL": "NATO. And soon, the strongest army in Europe.",
+"CH": "Neutral since 1815. We defend ourselves.",
+"UA": "No treaty. We defend ourselves.",
+"TW": "Officially? Nobody. Unofficially... we will see.",
+"JP": "The United States. By treaty, since 1960.",
+"KP": "Russia AND China. Lucky me.",
+"IL": "No treaty. Just very good friends in Washington.",
+"IN": "No alliances. We never needed them.",
+"MC": "France has our back. Always.",
+"AM": "We were in Russia's alliance... we froze it."
+},
+"cfg": {
+"title": "WHO WOULD DEFEND YOU?",
+"icon": "shield",
+"t1": "WHO WOULD",
+"t2": "DEFEND YOU?",
+"badge": "REAL TREATIES · 197 COUNTRIES",
+"cats": [
+{
+"k": "N",
+"label": "NATO",
+"short": "NATO",
+"col": "#5b5bf0",
+"cold": "#3030a8",
+"mood": "happy"
+},
+{
+"k": "U",
+"label": "USA TREATY",
+"short": "USA",
+"col": "#2ec4b6",
+"cold": "#178c82",
+"mood": "happy"
+},
+{
+"k": "K",
+"label": "RUSSIA / CHINA",
+"short": "RU/CN",
+"col": "#e63946",
+"cold": "#9a1d28",
+"mood": "angry"
+},
+{
+"k": "G",
+"label": "REGIONAL PACT",
+"short": "PACT",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "happy"
+},
+{
+"k": "B",
+"label": "BIG NEIGHBOR",
+"short": "NEIGHBOR",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "A",
+"label": "ALONE",
+"short": "ALONE",
+"col": "#8f86a8",
+"cold": "#5c5475",
+"mood": "sad"
+}
+],
+"balls": [
+"US",
+"PL",
+"UA",
+"TW",
+"KP",
+"CH"
+],
+"ballMoods": [
+"happy",
+"happy",
+"sad",
+"sad",
+"angry",
+"happy"
+],
+"best": [
+"PL",
+"BEST PROTECTED",
+"NATO · 31 ALLIES"
+],
+"worst": [
+"UA",
+"ON ITS OWN",
+"NO TREATY"
+],
+"ask": "WHO WOULD DEFEND YOU? COMMENT!"
+},
+"intro": [
+"If your country got attacked tomorrow... who would actually come to help? Real treaties only. 197 countries, one by one.",
+"Indigo: NATO.",
+"Teal: a treaty with the United States.",
+"Red: Russia or China.",
+"Yellow: a regional pact.",
+"Green: a bigger neighbor protects them.",
+"And grey... completely alone. Let's go!"
+],
+"outro": [
+"Would anyone defend your country? Comment below!"
+],
+"names": {
+"US": "United States",
+"CA": "Canada",
+"MX": "Mexico",
+"GB": "United Kingdom",
+"IE": "Ireland",
+"FR": "France",
+"ES": "Spain",
+"PT": "Portugal",
+"AD": "Andorra",
+"IT": "Italy",
+"SM": "San Marino",
+"MT": "Malta",
+"MC": "Monaco",
+"CH": "Switzerland",
+"LI": "Liechtenstein",
+"AT": "Austria",
+"DE": "Germany",
+"LU": "Luxembourg",
+"BE": "Belgium",
+"NL": "Netherlands",
+"DK": "Denmark",
+"NO": "Norway",
+"SE": "Sweden",
+"FI": "Finland",
+"IS": "Iceland",
+"PL": "Poland",
+"CZ": "Czech Republic",
+"SK": "Slovakia",
+"HU": "Hungary",
+"SI": "Slovenia",
+"HR": "Croatia",
+"BA": "Bosnia",
+"RS": "Serbia",
+"ME": "Montenegro",
+"XK": "Kosovo",
+"AL": "Albania",
+"MK": "North Macedonia",
+"GR": "Greece",
+"BG": "Bulgaria",
+"RO": "Romania",
+"MD": "Moldova",
+"UA": "Ukraine",
+"BY": "Belarus",
+"LT": "Lithuania",
+"LV": "Latvia",
+"EE": "Estonia",
+"RU": "Russia",
+"CY": "Cyprus",
+"TR": "Turkey",
+"CO": "Colombia",
+"VE": "Venezuela",
+"EC": "Ecuador",
+"PE": "Peru",
+"BO": "Bolivia",
+"CL": "Chile",
+"AR": "Argentina",
+"UY": "Uruguay",
+"PY": "Paraguay",
+"BR": "Brazil",
+"GY": "Guyana",
+"SR": "Suriname",
+"PA": "Panama",
+"CR": "Costa Rica",
+"NI": "Nicaragua",
+"HN": "Honduras",
+"SV": "El Salvador",
+"GT": "Guatemala",
+"BZ": "Belize",
+"CU": "Cuba",
+"JM": "Jamaica",
+"HT": "Haiti",
+"DO": "Dominican Republic",
+"BS": "Bahamas",
+"BB": "Barbados",
+"TT": "Trinidad and Tobago",
+"GD": "Grenada",
+"VC": "Saint Vincent",
+"LC": "Saint Lucia",
+"DM": "Dominica",
+"AG": "Antigua and Barbuda",
+"KN": "Saint Kitts and Nevis",
+"GE": "Georgia",
+"AM": "Armenia",
+"AZ": "Azerbaijan",
+"KZ": "Kazakhstan",
+"UZ": "Uzbekistan",
+"TM": "Turkmenistan",
+"KG": "Kyrgyzstan",
+"TJ": "Tajikistan",
+"AF": "Afghanistan",
+"IR": "Iran",
+"IQ": "Iraq",
+"SY": "Syria",
+"LB": "Lebanon",
+"IL": "Israel",
+"PS": "Palestine",
+"JO": "Jordan",
+"SA": "Saudi Arabia",
+"YE": "Yemen",
+"OM": "Oman",
+"AE": "United Arab Emirates",
+"QA": "Qatar",
+"BH": "Bahrain",
+"KW": "Kuwait",
+"IN": "India",
+"PK": "Pakistan",
+"NP": "Nepal",
+"BT": "Bhutan",
+"BD": "Bangladesh",
+"LK": "Sri Lanka",
+"MV": "Maldives",
+"MM": "Myanmar",
+"TH": "Thailand",
+"LA": "Laos",
+"KH": "Cambodia",
+"VN": "Vietnam",
+"MY": "Malaysia",
+"SG": "Singapore",
+"ID": "Indonesia",
+"BN": "Brunei",
+"PH": "Philippines",
+"TL": "East Timor",
+"CN": "China",
+"MN": "Mongolia",
+"KP": "North Korea",
+"KR": "South Korea",
+"JP": "Japan",
+"TW": "Taiwan",
+"AU": "Australia",
+"NZ": "New Zealand",
+"PG": "Papua New Guinea",
+"SB": "Solomon Islands",
+"VU": "Vanuatu",
+"FJ": "Fiji",
+"WS": "Samoa",
+"TO": "Tonga",
+"KI": "Kiribati",
+"TV": "Tuvalu",
+"NR": "Nauru",
+"MH": "Marshall Islands",
+"FM": "Micronesia",
+"PW": "Palau",
+"MA": "Morocco",
+"DZ": "Algeria",
+"TN": "Tunisia",
+"LY": "Libya",
+"EG": "Egypt",
+"SD": "Sudan",
+"SS": "South Sudan",
+"ET": "Ethiopia",
+"ER": "Eritrea",
+"DJ": "Djibouti",
+"SO": "Somalia",
+"KE": "Kenya",
+"UG": "Uganda",
+"RW": "Rwanda",
+"BI": "Burundi",
+"TZ": "Tanzania",
+"MZ": "Mozambique",
+"MW": "Malawi",
+"ZM": "Zambia",
+"ZW": "Zimbabwe",
+"BW": "Botswana",
+"NA": "Namibia",
+"ZA": "South Africa",
+"LS": "Lesotho",
+"SZ": "Eswatini",
+"MG": "Madagascar",
+"MU": "Mauritius",
+"KM": "Comoros",
+"SC": "Seychelles",
+"AO": "Angola",
+"CD": "DR Congo",
+"CG": "Republic of the Congo",
+"GA": "Gabon",
+"GQ": "Equatorial Guinea",
+"CM": "Cameroon",
+"CF": "Central African Republic",
+"TD": "Chad",
+"NE": "Niger",
+"NG": "Nigeria",
+"BJ": "Benin",
+"TG": "Togo",
+"GH": "Ghana",
+"CI": "Ivory Coast",
+"BF": "Burkina Faso",
+"ML": "Mali",
+"MR": "Mauritania",
+"SN": "Senegal",
+"GM": "Gambia",
+"GW": "Guinea-Bissau",
+"GN": "Guinea",
+"SL": "Sierra Leone",
+"LR": "Liberia",
+"CV": "Cape Verde",
+"ST": "São Tomé",
+"VA": "Vatican City"
+}
+}

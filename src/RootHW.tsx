@@ -1,3 +1,4 @@
+import {Short, shFrames, SH} from './sh/Short';
 import {BrandLogo, BrandBanner} from './mcd/Brand';
 import {McMap, MC_FRAMES, McThumb} from './mcd/McMap';
 import {NumMap, NumThumb, numFrames} from './num/NumMap';
@@ -70,7 +71,7 @@ export const RootHW: React.FC = () => (
     <Composition id="BrandLogo" component={BrandLogo} durationInFrames={1} fps={30} width={800} height={800} />
     <Composition id="BrandBanner" component={BrandBanner} durationInFrames={1} fps={30} width={2560} height={1440} />
     {['alt', 'sue', 'sol', 'los', 'mil', 'last', 'riv', 'ally'].map((v) => <Composition key={v} id={`Num-${v}`} component={NumMap as any} durationInFrames={numFrames(v)} fps={30} width={1920} height={1080} defaultProps={{v}} />)}
-    {['alt', 'sue', 'sol', 'los', 'mil', 'last', 'riv', 'ally'].flatMap((v) => (v.length > 3 || ['sol','los','mil','riv'].includes(v) ? [0, 1] : [0, 1, 2]).map((n) => <Composition key={v + n} id={`NumThumb-${v}${n}`} component={NumThumb as any} durationInFrames={1} fps={30} width={2560} height={1440} defaultProps={{v, n}} />))}
+    {['alt', 'sue', 'sol', 'los', 'mil', 'last', 'riv', 'ally'].flatMap((v) => (v.length > 3 || ['sol','los','mil','riv'].includes(v) ? [0, 1, 2, 3] : [0, 1, 2]).map((n) => <Composition key={v + n} id={`NumThumb-${v}${n}`} component={NumThumb as any} durationInFrames={1} fps={30} width={2560} height={1440} defaultProps={{v, n}} />))}
     <Composition id="McMapN" component={McMap} durationInFrames={MC_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="MiyaPictoN" component={MiyaPicto} durationInFrames={SHORT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
     <Composition id="MiyaQuietN" component={MiyaQuiet} durationInFrames={Q_FRAMES} fps={30} width={1080} height={1920} defaultProps={{audio: false}} />
@@ -179,5 +180,8 @@ export const RootHW: React.FC = () => (
     {SHW_IDS.map((id) => <Composition key={id} id={`SHW-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: true}} />)}
     {SHW_IDS.map((id) => <Composition key={id} id={`SHWN-${id}`} component={ShortHW} durationInFrames={shwFrames(id)} fps={30} width={1080} height={1920} defaultProps={{id, audio: false}} />)}
     {[1, 2, 3].map((v) => <Composition key={v} id={`THW-${v}`} component={ThumbHW} durationInFrames={1} fps={30} width={1280} height={720} defaultProps={{v}} />)}
-  </>
+        {Object.keys(SH).map((v) => (
+        <Composition key={'SH-' + v} id={'SH-' + v.replace('_', '-')} component={Short} durationInFrames={shFrames(v)} fps={60} width={1080} height={1920} defaultProps={{v, audio: true}} />
+      ))}
+      </>
 );

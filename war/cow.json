@@ -1,0 +1,4395 @@
+{
+"US": {
+"fought": 13,
+"big": "Vietnam War, Phase 2",
+"won": 7,
+"lost": 2,
+"lost_names": [
+"Second Laotian, Phase 2",
+"Vietnam War, Phase 2"
+],
+"rival": "RU",
+"rival_n": 60,
+"top3": [
+[
+"RU",
+60
+],
+[
+"CN",
+40
+],
+[
+"KP",
+24
+]
+],
+"mids": 392
+},
+"CA": {
+"fought": 4,
+"big": null,
+"won": 2,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 7,
+"top3": [
+[
+"RU",
+7
+],
+[
+"RS",
+5
+],
+[
+"US",
+4
+]
+],
+"mids": 41
+},
+"MX": {
+"fought": 2,
+"big": "Mexican-American",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Mexican-American"
+],
+"rival": "US",
+"rival_n": 23,
+"top3": [
+[
+"US",
+23
+],
+[
+"GT",
+4
+],
+[
+"GB",
+3
+]
+],
+"mids": 39
+},
+"GB": {
+"fought": 13,
+"big": null,
+"won": 10,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 39,
+"top3": [
+[
+"RU",
+39
+],
+[
+"IQ",
+15
+],
+[
+"TR",
+14
+]
+],
+"mids": 289
+},
+"IE": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RS",
+"rival_n": 2,
+"top3": [
+[
+"RS",
+2
+],
+[
+"ES",
+1
+],
+[
+"DE",
+1
+]
+],
+"mids": 4
+},
+"FR": {
+"fought": 18,
+"big": "Franco-Prussian",
+"won": 12,
+"lost": 2,
+"lost_names": [
+"Franco-Prussian",
+"Franco-Thai"
+],
+"rival": "DE",
+"rival_n": 20,
+"top3": [
+[
+"DE",
+20
+],
+[
+"TR",
+17
+],
+[
+"IT",
+15
+]
+],
+"mids": 217
+},
+"ES": {
+"fought": 6,
+"big": "Spanish-American",
+"won": 3,
+"lost": 3,
+"lost_names": [
+"Franco-Spanish War",
+"Naval War",
+"Spanish-American"
+],
+"rival": "MA",
+"rival_n": 13,
+"top3": [
+[
+"MA",
+13
+],
+[
+"US",
+12
+],
+[
+"GB",
+8
+]
+],
+"mids": 104
+},
+"PT": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "DE",
+"rival_n": 5,
+"top3": [
+[
+"DE",
+5
+],
+[
+"GB",
+4
+],
+[
+"RS",
+4
+]
+],
+"mids": 44
+},
+"AD": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"IT": {
+"fought": 13,
+"big": "Austro-Sardinian",
+"won": 12,
+"lost": 1,
+"lost_names": [
+"Austro-Sardinian"
+],
+"rival": "AT",
+"rival_n": 15,
+"top3": [
+[
+"AT",
+15
+],
+[
+"TR",
+15
+],
+[
+"FR",
+15
+]
+],
+"mids": 168
+},
+"SM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"MT": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IQ",
+"rival_n": 2,
+"top3": [
+[
+"IQ",
+2
+],
+[
+"SY",
+1
+]
+],
+"mids": 3
+},
+"MC": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"CH": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "DE",
+"rival_n": 4,
+"top3": [
+[
+"DE",
+4
+],
+[
+"US",
+2
+],
+[
+"RS",
+2
+]
+],
+"mids": 10
+},
+"LI": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"AT": {
+"fought": 6,
+"big": "World War I",
+"won": 3,
+"lost": 3,
+"lost_names": [
+"Italian Unification",
+"Seven Weeks",
+"World War I"
+],
+"rival": "IT",
+"rival_n": 15,
+"top3": [
+[
+"IT",
+15
+],
+[
+"RS",
+9
+],
+[
+"TR",
+5
+]
+],
+"mids": 70
+},
+"DE": {
+"fought": 8,
+"big": "World War II",
+"won": 5,
+"lost": 3,
+"lost_names": [
+"Latvian Liberation",
+"World War I",
+"World War II"
+],
+"rival": "FR",
+"rival_n": 20,
+"top3": [
+[
+"FR",
+20
+],
+[
+"RU",
+17
+],
+[
+"GB",
+12
+]
+],
+"mids": 243
+},
+"LU": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RS",
+"rival_n": 3,
+"top3": [
+[
+"RS",
+3
+],
+[
+"DE",
+1
+],
+[
+"LY",
+1
+]
+],
+"mids": 5
+},
+"BE": {
+"fought": 3,
+"big": null,
+"won": 2,
+"lost": 0,
+"lost_names": [],
+"rival": "DE",
+"rival_n": 8,
+"top3": [
+[
+"DE",
+8
+],
+[
+"RU",
+4
+],
+[
+"RS",
+4
+]
+],
+"mids": 39
+},
+"NL": {
+"fought": 3,
+"big": null,
+"won": 2,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 5,
+"top3": [
+[
+"RU",
+5
+],
+[
+"VE",
+5
+],
+[
+"GB",
+4
+]
+],
+"mids": 49
+},
+"DK": {
+"fought": 2,
+"big": "First Schleswig-Holstein",
+"won": 0,
+"lost": 2,
+"lost_names": [
+"First Schleswig-Holstein",
+"Second Schleswig-Holstein"
+],
+"rival": "DE",
+"rival_n": 4,
+"top3": [
+[
+"DE",
+4
+],
+[
+"RS",
+4
+],
+[
+"RU",
+4
+]
+],
+"mids": 23
+},
+"NO": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 16,
+"top3": [
+[
+"RU",
+16
+],
+[
+"DE",
+4
+],
+[
+"RS",
+3
+]
+],
+"mids": 41
+},
+"SE": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 10,
+"top3": [
+[
+"RU",
+10
+],
+[
+"DE",
+7
+],
+[
+"GB",
+3
+]
+],
+"mids": 27
+},
+"FI": {
+"fought": 3,
+"big": "World War II",
+"won": 1,
+"lost": 2,
+"lost_names": [
+"Russo-Finnish",
+"World War II"
+],
+"rival": "RU",
+"rival_n": 7,
+"top3": [
+[
+"RU",
+7
+],
+[
+"RS",
+3
+],
+[
+"DE",
+2
+]
+],
+"mids": 34
+},
+"IS": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "GB",
+"rival_n": 4,
+"top3": [
+[
+"GB",
+4
+],
+[
+"RS",
+3
+],
+[
+"DE",
+1
+]
+],
+"mids": 9
+},
+"PL": {
+"fought": 3,
+"big": null,
+"won": 3,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 10,
+"top3": [
+[
+"RU",
+10
+],
+[
+"DE",
+5
+],
+[
+"CZ",
+3
+]
+],
+"mids": 39
+},
+"CZ": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "DE",
+"rival_n": 8,
+"top3": [
+[
+"DE",
+8
+],
+[
+"US",
+5
+],
+[
+"HU",
+4
+]
+],
+"mids": 33
+},
+"SK": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RS",
+"rival_n": 2,
+"top3": [
+[
+"RS",
+2
+],
+[
+"LY",
+1
+]
+],
+"mids": 3
+},
+"HU": {
+"fought": 3,
+"big": "World War II",
+"won": 0,
+"lost": 3,
+"lost_names": [
+"Hungarian Adversaries",
+"Soviet Invasion of Hungary",
+"World War II"
+],
+"rival": "RS",
+"rival_n": 13,
+"top3": [
+[
+"RS",
+13
+],
+[
+"RO",
+9
+],
+[
+"CZ",
+4
+]
+],
+"mids": 63
+},
+"SI": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RS",
+"rival_n": 2,
+"top3": [
+[
+"RS",
+2
+],
+[
+"HR",
+1
+],
+[
+"LY",
+1
+]
+],
+"mids": 4
+},
+"HR": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RS",
+"rival_n": 5,
+"top3": [
+[
+"RS",
+5
+],
+[
+"BA",
+3
+],
+[
+"FR",
+1
+]
+],
+"mids": 13
+},
+"BA": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "HR",
+"rival_n": 3,
+"top3": [
+[
+"HR",
+3
+],
+[
+"RS",
+2
+]
+],
+"mids": 5
+},
+"RS": {
+"fought": 6,
+"big": "War for Kosovo",
+"won": 4,
+"lost": 1,
+"lost_names": [
+"War for Kosovo"
+],
+"rival": "HU",
+"rival_n": 13,
+"top3": [
+[
+"HU",
+13
+],
+[
+"BG",
+12
+],
+[
+"AL",
+11
+]
+],
+"mids": 194
+},
+"ME": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "LY",
+"rival_n": 1,
+"top3": [
+[
+"LY",
+1
+]
+],
+"mids": 1
+},
+"XK": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RS",
+"rival_n": 2,
+"top3": [
+[
+"RS",
+2
+]
+],
+"mids": 2
+},
+"AL": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RS",
+"rival_n": 11,
+"top3": [
+[
+"RS",
+11
+],
+[
+"IT",
+6
+],
+[
+"GR",
+5
+]
+],
+"mids": 34
+},
+"MK": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "AL",
+"rival_n": 3,
+"top3": [
+[
+"AL",
+3
+],
+[
+"RS",
+2
+]
+],
+"mids": 5
+},
+"GR": {
+"fought": 7,
+"big": "Second Greco-Turkish",
+"won": 4,
+"lost": 2,
+"lost_names": [
+"Greco-Turkish",
+"Second Greco-Turkish"
+],
+"rival": "TR",
+"rival_n": 49,
+"top3": [
+[
+"TR",
+49
+],
+[
+"BG",
+11
+],
+[
+"GB",
+8
+]
+],
+"mids": 123
+},
+"BG": {
+"fought": 4,
+"big": "World War I",
+"won": 2,
+"lost": 2,
+"lost_names": [
+"Second Balkan",
+"World War I"
+],
+"rival": "RS",
+"rival_n": 12,
+"top3": [
+[
+"RS",
+12
+],
+[
+"GR",
+11
+],
+[
+"TR",
+10
+]
+],
+"mids": 88
+},
+"RO": {
+"fought": 4,
+"big": null,
+"won": 4,
+"lost": 0,
+"lost_names": [],
+"rival": "HU",
+"rival_n": 9,
+"top3": [
+[
+"HU",
+9
+],
+[
+"RS",
+7
+],
+[
+"RU",
+6
+]
+],
+"mids": 70
+},
+"MD": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 2,
+"top3": [
+[
+"RU",
+2
+],
+[
+"UA",
+2
+]
+],
+"mids": 4
+},
+"UA": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 8,
+"top3": [
+[
+"RU",
+8
+],
+[
+"RS",
+2
+],
+[
+"MD",
+2
+]
+],
+"mids": 13
+},
+"BY": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "LT",
+"rival_n": 1,
+"top3": [
+[
+"LT",
+1
+]
+],
+"mids": 1
+},
+"LT": {
+"fought": 1,
+"big": "Lithuanian-Polish",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Lithuanian-Polish"
+],
+"rival": "RU",
+"rival_n": 6,
+"top3": [
+[
+"RU",
+6
+],
+[
+"RS",
+3
+],
+[
+"PL",
+2
+]
+],
+"mids": 18
+},
+"LV": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 6,
+"top3": [
+[
+"RU",
+6
+],
+[
+"DE",
+2
+],
+[
+"PL",
+1
+]
+],
+"mids": 10
+},
+"EE": {
+"fought": 2,
+"big": null,
+"won": 2,
+"lost": 0,
+"lost_names": [],
+"rival": "RU",
+"rival_n": 6,
+"top3": [
+[
+"RU",
+6
+],
+[
+"DE",
+2
+],
+[
+"RS",
+2
+]
+],
+"mids": 12
+},
+"RU": {
+"fought": 18,
+"big": "Crimean",
+"won": 12,
+"lost": 5,
+"lost_names": [
+"Crimean",
+"Estonian Liberation",
+"Latvian Liberation",
+"Russo-Japanese",
+"Russo-Polish"
+],
+"rival": "US",
+"rival_n": 60,
+"top3": [
+[
+"US",
+60
+],
+[
+"JP",
+47
+],
+[
+"CN",
+46
+]
+],
+"mids": 491
+},
+"CY": {
+"fought": 1,
+"big": "Turco-Cypriot",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Turco-Cypriot"
+],
+"rival": "TR",
+"rival_n": 12,
+"top3": [
+[
+"TR",
+12
+],
+[
+"IQ",
+4
+],
+[
+"EG",
+2
+]
+],
+"mids": 19
+},
+"TR": {
+"fought": 13,
+"big": "World War I",
+"won": 6,
+"lost": 5,
+"lost_names": [
+"First Balkan",
+"First Russo-Turkish",
+"Italian-Turkish",
+"Second Russo-Turkish",
+"World War I"
+],
+"rival": "GR",
+"rival_n": 49,
+"top3": [
+[
+"GR",
+49
+],
+[
+"RU",
+32
+],
+[
+"IQ",
+18
+]
+],
+"mids": 231
+},
+"CO": {
+"fought": 2,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "VE",
+"rival_n": 14,
+"top3": [
+[
+"VE",
+14
+],
+[
+"EC",
+9
+],
+[
+"PE",
+8
+]
+],
+"mids": 50
+},
+"VE": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CO",
+"rival_n": 14,
+"top3": [
+[
+"CO",
+14
+],
+[
+"GY",
+8
+],
+[
+"GB",
+7
+]
+],
+"mids": 52
+},
+"EC": {
+"fought": 2,
+"big": "Ecuadorian-Colombian",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Ecuadorian-Colombian"
+],
+"rival": "PE",
+"rival_n": 28,
+"top3": [
+[
+"PE",
+28
+],
+[
+"CO",
+9
+],
+[
+"US",
+7
+]
+],
+"mids": 46
+},
+"PE": {
+"fought": 3,
+"big": "War of the Pacific",
+"won": 1,
+"lost": 1,
+"lost_names": [
+"War of the Pacific"
+],
+"rival": "EC",
+"rival_n": 28,
+"top3": [
+[
+"EC",
+28
+],
+[
+"CL",
+10
+],
+[
+"CO",
+8
+]
+],
+"mids": 67
+},
+"BO": {
+"fought": 2,
+"big": "Chaco",
+"won": 0,
+"lost": 2,
+"lost_names": [
+"Chaco",
+"War of the Pacific"
+],
+"rival": "PY",
+"rival_n": 14,
+"top3": [
+[
+"PY",
+14
+],
+[
+"CL",
+7
+],
+[
+"PE",
+3
+]
+],
+"mids": 30
+},
+"CL": {
+"fought": 2,
+"big": null,
+"won": 2,
+"lost": 0,
+"lost_names": [],
+"rival": "AR",
+"rival_n": 25,
+"top3": [
+[
+"AR",
+25
+],
+[
+"PE",
+10
+],
+[
+"BO",
+7
+]
+],
+"mids": 61
+},
+"AR": {
+"fought": 3,
+"big": "La Plata",
+"won": 1,
+"lost": 2,
+"lost_names": [
+"Falkland Islands",
+"La Plata"
+],
+"rival": "CL",
+"rival_n": 25,
+"top3": [
+[
+"CL",
+25
+],
+[
+"GB",
+12
+],
+[
+"PY",
+7
+]
+],
+"mids": 75
+},
+"UY": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "DE",
+"rival_n": 4,
+"top3": [
+[
+"DE",
+4
+],
+[
+"AR",
+3
+],
+[
+"NO",
+1
+]
+],
+"mids": 10
+},
+"PY": {
+"fought": 2,
+"big": "Lopez",
+"won": 1,
+"lost": 1,
+"lost_names": [
+"Lopez"
+],
+"rival": "BO",
+"rival_n": 14,
+"top3": [
+[
+"BO",
+14
+],
+[
+"AR",
+7
+],
+[
+"BR",
+6
+]
+],
+"mids": 30
+},
+"BR": {
+"fought": 3,
+"big": null,
+"won": 3,
+"lost": 0,
+"lost_names": [],
+"rival": "GB",
+"rival_n": 8,
+"top3": [
+[
+"GB",
+8
+],
+[
+"PY",
+6
+],
+[
+"FR",
+5
+]
+],
+"mids": 47
+},
+"GY": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "VE",
+"rival_n": 8,
+"top3": [
+[
+"VE",
+8
+],
+[
+"SR",
+3
+],
+[
+"BR",
+1
+]
+],
+"mids": 12
+},
+"SR": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "GY",
+"rival_n": 3,
+"top3": [
+[
+"GY",
+3
+]
+],
+"mids": 3
+},
+"PA": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IQ",
+"rival_n": 4,
+"top3": [
+[
+"IQ",
+4
+],
+[
+"DE",
+4
+],
+[
+"US",
+3
+]
+],
+"mids": 20
+},
+"CR": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "NI",
+"rival_n": 13,
+"top3": [
+[
+"NI",
+13
+],
+[
+"PA",
+2
+],
+[
+"IT",
+1
+]
+],
+"mids": 18
+},
+"NI": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "HN",
+"rival_n": 20,
+"top3": [
+[
+"HN",
+20
+],
+[
+"CR",
+13
+],
+[
+"US",
+7
+]
+],
+"mids": 60
+},
+"HN": {
+"fought": 3,
+"big": "Football War",
+"won": 0,
+"lost": 3,
+"lost_names": [
+"Football War",
+"Fourth Central American",
+"Third Central American"
+],
+"rival": "NI",
+"rival_n": 20,
+"top3": [
+[
+"NI",
+20
+],
+[
+"SV",
+5
+],
+[
+"GT",
+3
+]
+],
+"mids": 35
+},
+"SV": {
+"fought": 5,
+"big": "First Central American",
+"won": 2,
+"lost": 3,
+"lost_names": [
+"First Central American",
+"Fourth Central American",
+"Third Central American"
+],
+"rival": "GT",
+"rival_n": 6,
+"top3": [
+[
+"GT",
+6
+],
+[
+"HN",
+5
+],
+[
+"NI",
+2
+]
+],
+"mids": 19
+},
+"GT": {
+"fought": 3,
+"big": "Second Central American",
+"won": 2,
+"lost": 1,
+"lost_names": [
+"Second Central American"
+],
+"rival": "SV",
+"rival_n": 6,
+"top3": [
+[
+"SV",
+6
+],
+[
+"BZ",
+5
+],
+[
+"GB",
+4
+]
+],
+"mids": 32
+},
+"BZ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "GT",
+"rival_n": 5,
+"top3": [
+[
+"GT",
+5
+]
+],
+"mids": 5
+},
+"CU": {
+"fought": 2,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "US",
+"rival_n": 15,
+"top3": [
+[
+"US",
+15
+],
+[
+"DE",
+2
+],
+[
+"VE",
+2
+]
+],
+"mids": 38
+},
+"JM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CU",
+"rival_n": 1,
+"top3": [
+[
+"CU",
+1
+],
+[
+"GD",
+1
+],
+[
+"HN",
+1
+]
+],
+"mids": 3
+},
+"HT": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "US",
+"rival_n": 9,
+"top3": [
+[
+"US",
+9
+],
+[
+"DO",
+8
+],
+[
+"DE",
+5
+]
+],
+"mids": 37
+},
+"DO": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "HT",
+"rival_n": 8,
+"top3": [
+[
+"HT",
+8
+],
+[
+"US",
+5
+],
+[
+"FR",
+2
+]
+],
+"mids": 20
+},
+"BS": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IQ",
+"rival_n": 1,
+"top3": [
+[
+"IQ",
+1
+]
+],
+"mids": 1
+},
+"BB": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CU",
+"rival_n": 1,
+"top3": [
+[
+"CU",
+1
+],
+[
+"GD",
+1
+]
+],
+"mids": 2
+},
+"TT": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "VE",
+"rival_n": 3,
+"top3": [
+[
+"VE",
+3
+]
+],
+"mids": 3
+},
+"GD": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "DM",
+"rival_n": 1,
+"top3": [
+[
+"DM",
+1
+],
+[
+"BB",
+1
+],
+[
+"LC",
+1
+]
+],
+"mids": 7
+},
+"VC": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CU",
+"rival_n": 1,
+"top3": [
+[
+"CU",
+1
+],
+[
+"GD",
+1
+]
+],
+"mids": 2
+},
+"LC": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CU",
+"rival_n": 1,
+"top3": [
+[
+"CU",
+1
+],
+[
+"GD",
+1
+]
+],
+"mids": 2
+},
+"DM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CU",
+"rival_n": 1,
+"top3": [
+[
+"CU",
+1
+],
+[
+"GD",
+1
+]
+],
+"mids": 2
+},
+"AG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CU",
+"rival_n": 1,
+"top3": [
+[
+"CU",
+1
+],
+[
+"GD",
+1
+]
+],
+"mids": 2
+},
+"KN": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"GE": {
+"fought": 1,
+"big": "Russo-Georgian War (2008)",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Russo-Georgian War (2008)"
+],
+"rival": "RU",
+"rival_n": 12,
+"top3": [
+[
+"RU",
+12
+],
+[
+"RS",
+2
+],
+[
+"AZ",
+1
+]
+],
+"mids": 15
+},
+"AM": {
+"fought": 2,
+"big": "Second Nagorno-Karabakh War (2020)",
+"won": 1,
+"lost": 1,
+"lost_names": [
+"Second Nagorno-Karabakh War (2020)"
+],
+"rival": "AZ",
+"rival_n": 8,
+"top3": [
+[
+"AZ",
+8
+],
+[
+"TR",
+3
+],
+[
+"IR",
+2
+]
+],
+"mids": 13
+},
+"AZ": {
+"fought": 2,
+"big": "Azeri-Armenian",
+"won": 1,
+"lost": 1,
+"lost_names": [
+"Azeri-Armenian"
+],
+"rival": "AM",
+"rival_n": 8,
+"top3": [
+[
+"AM",
+8
+],
+[
+"IR",
+4
+],
+[
+"RU",
+3
+]
+],
+"mids": 18
+},
+"KZ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "AF",
+"rival_n": 1,
+"top3": [
+[
+"AF",
+1
+],
+[
+"BG",
+1
+],
+[
+"RU",
+1
+]
+],
+"mids": 3
+},
+"UZ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "KG",
+"rival_n": 6,
+"top3": [
+[
+"KG",
+6
+],
+[
+"TJ",
+6
+],
+[
+"AF",
+5
+]
+],
+"mids": 17
+},
+"TM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "AF",
+"rival_n": 2,
+"top3": [
+[
+"AF",
+2
+]
+],
+"mids": 2
+},
+"KG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "UZ",
+"rival_n": 6,
+"top3": [
+[
+"UZ",
+6
+],
+[
+"AF",
+2
+],
+[
+"TJ",
+2
+]
+],
+"mids": 10
+},
+"TJ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "UZ",
+"rival_n": 6,
+"top3": [
+[
+"UZ",
+6
+],
+[
+"AF",
+4
+],
+[
+"KG",
+2
+]
+],
+"mids": 12
+},
+"AF": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "PK",
+"rival_n": 16,
+"top3": [
+[
+"PK",
+16
+],
+[
+"IR",
+16
+],
+[
+"RU",
+11
+]
+],
+"mids": 70
+},
+"IR": {
+"fought": 2,
+"big": "Anglo-Persian",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Anglo-Persian"
+],
+"rival": "IQ",
+"rival_n": 32,
+"top3": [
+[
+"IQ",
+32
+],
+[
+"US",
+18
+],
+[
+"RU",
+17
+]
+],
+"mids": 188
+},
+"IQ": {
+"fought": 5,
+"big": "Gulf War",
+"won": 0,
+"lost": 3,
+"lost_names": [
+"Arab-Israeli",
+"Gulf War",
+"Yom Kippur War"
+],
+"rival": "IR",
+"rival_n": 32,
+"top3": [
+[
+"IR",
+32
+],
+[
+"TR",
+18
+],
+[
+"KW",
+16
+]
+],
+"mids": 200
+},
+"SY": {
+"fought": 5,
+"big": "Six Day War",
+"won": 1,
+"lost": 3,
+"lost_names": [
+"Arab-Israeli",
+"Six Day War",
+"Yom Kippur War"
+],
+"rival": "IL",
+"rival_n": 41,
+"top3": [
+[
+"IL",
+41
+],
+[
+"TR",
+13
+],
+[
+"JO",
+11
+]
+],
+"mids": 91
+},
+"LB": {
+"fought": 1,
+"big": "Arab-Israeli",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Arab-Israeli"
+],
+"rival": "IL",
+"rival_n": 10,
+"top3": [
+[
+"IL",
+10
+],
+[
+"SY",
+5
+],
+[
+"FR",
+1
+]
+],
+"mids": 16
+},
+"IL": {
+"fought": 6,
+"big": null,
+"won": 4,
+"lost": 0,
+"lost_names": [],
+"rival": "SY",
+"rival_n": 41,
+"top3": [
+[
+"SY",
+41
+],
+[
+"EG",
+38
+],
+[
+"JO",
+12
+]
+],
+"mids": 146
+},
+"PS": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"JO": {
+"fought": 3,
+"big": "Six Day War",
+"won": 0,
+"lost": 3,
+"lost_names": [
+"Arab-Israeli",
+"Six Day War",
+"Yom Kippur War"
+],
+"rival": "IL",
+"rival_n": 12,
+"top3": [
+[
+"IL",
+12
+],
+[
+"SY",
+11
+],
+[
+"EG",
+7
+]
+],
+"mids": 65
+},
+"SA": {
+"fought": 3,
+"big": "Yom Kippur War",
+"won": 2,
+"lost": 1,
+"lost_names": [
+"Yom Kippur War"
+],
+"rival": "YE",
+"rival_n": 13,
+"top3": [
+[
+"YE",
+13
+],
+[
+"IR",
+8
+],
+[
+"IL",
+7
+]
+],
+"mids": 48
+},
+"YE": {
+"fought": 1,
+"big": "Saudi-Yemeni",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Saudi-Yemeni"
+],
+"rival": "SA",
+"rival_n": 13,
+"top3": [
+[
+"SA",
+13
+],
+[
+"OM",
+6
+],
+[
+"GB",
+5
+]
+],
+"mids": 33
+},
+"OM": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "YE",
+"rival_n": 6,
+"top3": [
+[
+"YE",
+6
+],
+[
+"IQ",
+3
+],
+[
+"LY",
+1
+]
+],
+"mids": 13
+},
+"AE": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "IR",
+"rival_n": 5,
+"top3": [
+[
+"IR",
+5
+],
+[
+"IQ",
+3
+],
+[
+"RS",
+2
+]
+],
+"mids": 12
+},
+"QA": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "IR",
+"rival_n": 4,
+"top3": [
+[
+"IR",
+4
+],
+[
+"SA",
+2
+],
+[
+"IQ",
+2
+]
+],
+"mids": 11
+},
+"BH": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IQ",
+"rival_n": 4,
+"top3": [
+[
+"IQ",
+4
+],
+[
+"IR",
+3
+],
+[
+"QA",
+1
+]
+],
+"mids": 9
+},
+"KW": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "IQ",
+"rival_n": 16,
+"top3": [
+[
+"IQ",
+16
+],
+[
+"IR",
+8
+],
+[
+"IL",
+1
+]
+],
+"mids": 26
+},
+"IN": {
+"fought": 5,
+"big": "Second Kashmir",
+"won": 2,
+"lost": 2,
+"lost_names": [
+"Assam",
+"Second Kashmir"
+],
+"rival": "PK",
+"rival_n": 40,
+"top3": [
+[
+"PK",
+40
+],
+[
+"CN",
+22
+],
+[
+"BD",
+18
+]
+],
+"mids": 99
+},
+"PK": {
+"fought": 4,
+"big": "Bangladesh",
+"won": 1,
+"lost": 2,
+"lost_names": [
+"Bangladesh",
+"Kargil War"
+],
+"rival": "IN",
+"rival_n": 40,
+"top3": [
+[
+"IN",
+40
+],
+[
+"AF",
+16
+],
+[
+"US",
+9
+]
+],
+"mids": 76
+},
+"NP": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IN",
+"rival_n": 5,
+"top3": [
+[
+"IN",
+5
+],
+[
+"CN",
+2
+]
+],
+"mids": 7
+},
+"BT": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CN",
+"rival_n": 1,
+"top3": [
+[
+"CN",
+1
+]
+],
+"mids": 1
+},
+"BD": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IN",
+"rival_n": 18,
+"top3": [
+[
+"IN",
+18
+],
+[
+"MM",
+5
+],
+[
+"IQ",
+1
+]
+],
+"mids": 25
+},
+"LK": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IN",
+"rival_n": 4,
+"top3": [
+[
+"IN",
+4
+]
+],
+"mids": 4
+},
+"MV": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "IR",
+"rival_n": 1,
+"top3": [
+[
+"IR",
+1
+]
+],
+"mids": 1
+},
+"MM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "TH",
+"rival_n": 30,
+"top3": [
+[
+"TH",
+30
+],
+[
+"BD",
+5
+],
+[
+"CN",
+3
+]
+],
+"mids": 43
+},
+"TH": {
+"fought": 4,
+"big": "Vietnam War, Phase 2",
+"won": 1,
+"lost": 2,
+"lost_names": [
+"Second Laotian, Phase 2",
+"Vietnam War, Phase 2"
+],
+"rival": "MM",
+"rival_n": 30,
+"top3": [
+[
+"MM",
+30
+],
+[
+"KH",
+18
+],
+[
+"LA",
+9
+]
+],
+"mids": 88
+},
+"LA": {
+"fought": 1,
+"big": "Second Laotian, Phase 2",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Second Laotian, Phase 2"
+],
+"rival": "TH",
+"rival_n": 9,
+"top3": [
+[
+"TH",
+9
+],
+[
+"VN",
+4
+],
+[
+"CN",
+3
+]
+],
+"mids": 19
+},
+"KH": {
+"fought": 3,
+"big": "Vietnam War, Phase 2",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Vietnam War, Phase 2"
+],
+"rival": "TH",
+"rival_n": 18,
+"top3": [
+[
+"TH",
+18
+],
+[
+"US",
+5
+],
+[
+"VN",
+4
+]
+],
+"mids": 32
+},
+"VN": {
+"fought": 6,
+"big": "Sino-Vietnamese Punitive",
+"won": 2,
+"lost": 1,
+"lost_names": [
+"Sino-Vietnamese Punitive"
+],
+"rival": "CN",
+"rival_n": 20,
+"top3": [
+[
+"CN",
+20
+],
+[
+"TH",
+7
+],
+[
+"US",
+4
+]
+],
+"mids": 52
+},
+"MY": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ID",
+"rival_n": 6,
+"top3": [
+[
+"ID",
+6
+],
+[
+"PH",
+5
+],
+[
+"TH",
+3
+]
+],
+"mids": 19
+},
+"SG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "MY",
+"rival_n": 2,
+"top3": [
+[
+"MY",
+2
+],
+[
+"IQ",
+1
+],
+[
+"IR",
+1
+]
+],
+"mids": 4
+},
+"ID": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "MY",
+"rival_n": 6,
+"top3": [
+[
+"MY",
+6
+],
+[
+"PG",
+6
+],
+[
+"NL",
+4
+]
+],
+"mids": 29
+},
+"BN": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"PH": {
+"fought": 2,
+"big": "Vietnam War, Phase 2",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Vietnam War, Phase 2"
+],
+"rival": "CN",
+"rival_n": 10,
+"top3": [
+[
+"CN",
+10
+],
+[
+"MY",
+5
+],
+[
+"TW",
+4
+]
+],
+"mids": 29
+},
+"TL": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"CN": {
+"fought": 14,
+"big": "Third Sino-Japanese",
+"won": 4,
+"lost": 7,
+"lost_names": [
+"Boxer Rebellion",
+"First Sino-Japanese",
+"Manchurian",
+"Second Sino-Japanese",
+"Sino-French",
+"Sino-Russian"
+],
+"rival": "RU",
+"rival_n": 46,
+"top3": [
+[
+"RU",
+46
+],
+[
+"JP",
+44
+],
+[
+"US",
+40
+]
+],
+"mids": 311
+},
+"MN": {
+"fought": 2,
+"big": null,
+"won": 2,
+"lost": 0,
+"lost_names": [],
+"rival": "JP",
+"rival_n": 4,
+"top3": [
+[
+"JP",
+4
+],
+[
+"CN",
+4
+],
+[
+"IT",
+1
+]
+],
+"mids": 17
+},
+"KP": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "KR",
+"rival_n": 31,
+"top3": [
+[
+"KR",
+31
+],
+[
+"US",
+24
+],
+[
+"JP",
+11
+]
+],
+"mids": 92
+},
+"KR": {
+"fought": 2,
+"big": "Vietnam War, Phase 2",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Vietnam War, Phase 2"
+],
+"rival": "KP",
+"rival_n": 31,
+"top3": [
+[
+"KP",
+31
+],
+[
+"CN",
+15
+],
+[
+"JP",
+14
+]
+],
+"mids": 77
+},
+"JP": {
+"fought": 9,
+"big": "World War II",
+"won": 6,
+"lost": 3,
+"lost_names": [
+"Changkufeng",
+"Nomonhan",
+"World War II"
+],
+"rival": "RU",
+"rival_n": 47,
+"top3": [
+[
+"RU",
+47
+],
+[
+"CN",
+44
+],
+[
+"KR",
+14
+]
+],
+"mids": 199
+},
+"TW": {
+"fought": 2,
+"big": "Off-shore Islands",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Off-shore Islands"
+],
+"rival": "CN",
+"rival_n": 27,
+"top3": [
+[
+"CN",
+27
+],
+[
+"JP",
+6
+],
+[
+"GB",
+5
+]
+],
+"mids": 57
+},
+"AU": {
+"fought": 5,
+"big": "Vietnam War, Phase 2",
+"won": 1,
+"lost": 1,
+"lost_names": [
+"Vietnam War, Phase 2"
+],
+"rival": "CN",
+"rival_n": 4,
+"top3": [
+[
+"CN",
+4
+],
+[
+"RU",
+3
+],
+[
+"IQ",
+3
+]
+],
+"mids": 30
+},
+"NZ": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "CN",
+"rival_n": 3,
+"top3": [
+[
+"CN",
+3
+],
+[
+"RU",
+3
+],
+[
+"FR",
+2
+]
+],
+"mids": 19
+},
+"PG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ID",
+"rival_n": 6,
+"top3": [
+[
+"ID",
+6
+],
+[
+"SB",
+2
+],
+[
+"JP",
+1
+]
+],
+"mids": 10
+},
+"SB": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "PG",
+"rival_n": 2,
+"top3": [
+[
+"PG",
+2
+]
+],
+"mids": 2
+},
+"VU": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"FJ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"WS": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"TO": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"KI": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"TV": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"NR": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"MH": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"FM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"PW": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "PH",
+"rival_n": 1,
+"top3": [
+[
+"PH",
+1
+]
+],
+"mids": 1
+},
+"MA": {
+"fought": 4,
+"big": "Second Spanish-Moroccan",
+"won": 1,
+"lost": 3,
+"lost_names": [
+"First Spanish-Moroccan",
+"IfniWar",
+"Second Spanish-Moroccan"
+],
+"rival": "ES",
+"rival_n": 13,
+"top3": [
+[
+"ES",
+13
+],
+[
+"DZ",
+6
+],
+[
+"FR",
+4
+]
+],
+"mids": 37
+},
+"DZ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "MA",
+"rival_n": 6,
+"top3": [
+[
+"MA",
+6
+],
+[
+"IL",
+2
+],
+[
+"MR",
+1
+]
+],
+"mids": 11
+},
+"TN": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "LY",
+"rival_n": 5,
+"top3": [
+[
+"LY",
+5
+],
+[
+"FR",
+4
+],
+[
+"IQ",
+1
+]
+],
+"mids": 11
+},
+"LY": {
+"fought": 2,
+"big": "War over the Aouzou Strip",
+"won": 0,
+"lost": 2,
+"lost_names": [
+"Ugandian-Tanzanian",
+"War over the Aouzou Strip"
+],
+"rival": "US",
+"rival_n": 14,
+"top3": [
+[
+"US",
+14
+],
+[
+"EG",
+10
+],
+[
+"FR",
+7
+]
+],
+"mids": 89
+},
+"EG": {
+"fought": 7,
+"big": "Six Day War",
+"won": 1,
+"lost": 5,
+"lost_names": [
+"Arab-Israeli",
+"Conquest of Egypt",
+"Sinai War",
+"Six Day War",
+"Yom Kippur War"
+],
+"rival": "IL",
+"rival_n": 38,
+"top3": [
+[
+"IL",
+38
+],
+[
+"LY",
+10
+],
+[
+"US",
+7
+]
+],
+"mids": 101
+},
+"SD": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ET",
+"rival_n": 10,
+"top3": [
+[
+"ET",
+10
+],
+[
+"UG",
+9
+],
+[
+"EG",
+6
+]
+],
+"mids": 50
+},
+"SS": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "SD",
+"rival_n": 2,
+"top3": [
+[
+"SD",
+2
+],
+[
+"CD",
+1
+]
+],
+"mids": 3
+},
+"ET": {
+"fought": 5,
+"big": "Conquest of Ethiopia",
+"won": 1,
+"lost": 1,
+"lost_names": [
+"Conquest of Ethiopia"
+],
+"rival": "SO",
+"rival_n": 21,
+"top3": [
+[
+"SO",
+21
+],
+[
+"SD",
+10
+],
+[
+"ER",
+9
+]
+],
+"mids": 64
+},
+"ER": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ET",
+"rival_n": 9,
+"top3": [
+[
+"ET",
+9
+],
+[
+"YE",
+5
+],
+[
+"SD",
+4
+]
+],
+"mids": 21
+},
+"DJ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ER",
+"rival_n": 3,
+"top3": [
+[
+"ER",
+3
+]
+],
+"mids": 3
+},
+"SO": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ET",
+"rival_n": 21,
+"top3": [
+[
+"ET",
+21
+],
+[
+"KE",
+10
+],
+[
+"FR",
+1
+]
+],
+"mids": 36
+},
+"KE": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "UG",
+"rival_n": 11,
+"top3": [
+[
+"UG",
+11
+],
+[
+"SO",
+10
+],
+[
+"ET",
+6
+]
+],
+"mids": 29
+},
+"UG": {
+"fought": 1,
+"big": "Ugandian-Tanzanian",
+"won": 0,
+"lost": 1,
+"lost_names": [
+"Ugandian-Tanzanian"
+],
+"rival": "KE",
+"rival_n": 11,
+"top3": [
+[
+"KE",
+11
+],
+[
+"CD",
+10
+],
+[
+"SD",
+9
+]
+],
+"mids": 55
+},
+"RW": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CD",
+"rival_n": 9,
+"top3": [
+[
+"CD",
+9
+],
+[
+"UG",
+8
+],
+[
+"BI",
+5
+]
+],
+"mids": 26
+},
+"BI": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "RW",
+"rival_n": 5,
+"top3": [
+[
+"RW",
+5
+],
+[
+"TZ",
+4
+],
+[
+"CD",
+2
+]
+],
+"mids": 11
+},
+"TZ": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "UG",
+"rival_n": 5,
+"top3": [
+[
+"UG",
+5
+],
+[
+"BI",
+4
+],
+[
+"LY",
+2
+]
+],
+"mids": 15
+},
+"MZ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ZA",
+"rival_n": 3,
+"top3": [
+[
+"ZA",
+3
+],
+[
+"ZW",
+1
+],
+[
+"MW",
+1
+]
+],
+"mids": 6
+},
+"MW": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "PT",
+"rival_n": 1,
+"top3": [
+[
+"PT",
+1
+],
+[
+"ZW",
+1
+],
+[
+"MZ",
+1
+]
+],
+"mids": 4
+},
+"ZM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ZA",
+"rival_n": 9,
+"top3": [
+[
+"ZA",
+9
+],
+[
+"CD",
+8
+],
+[
+"ZW",
+7
+]
+],
+"mids": 33
+},
+"ZW": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ZM",
+"rival_n": 7,
+"top3": [
+[
+"ZM",
+7
+],
+[
+"BW",
+5
+],
+[
+"GB",
+2
+]
+],
+"mids": 25
+},
+"BW": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ZW",
+"rival_n": 5,
+"top3": [
+[
+"ZW",
+5
+],
+[
+"ZA",
+5
+],
+[
+"NA",
+1
+]
+],
+"mids": 11
+},
+"NA": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "BW",
+"rival_n": 1,
+"top3": [
+[
+"BW",
+1
+],
+[
+"RW",
+1
+],
+[
+"UG",
+1
+]
+],
+"mids": 3
+},
+"ZA": {
+"fought": 2,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "ZM",
+"rival_n": 9,
+"top3": [
+[
+"ZM",
+9
+],
+[
+"BW",
+5
+],
+[
+"MZ",
+3
+]
+],
+"mids": 38
+},
+"LS": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ZA",
+"rival_n": 3,
+"top3": [
+[
+"ZA",
+3
+]
+],
+"mids": 3
+},
+"SZ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ZA",
+"rival_n": 2,
+"top3": [
+[
+"ZA",
+2
+],
+[
+"MZ",
+1
+]
+],
+"mids": 3
+},
+"MG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ZW",
+"rival_n": 1,
+"top3": [
+[
+"ZW",
+1
+]
+],
+"mids": 1
+},
+"MU": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"KM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "FR",
+"rival_n": 1,
+"top3": [
+[
+"FR",
+1
+]
+],
+"mids": 1
+},
+"SC": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"AO": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CD",
+"rival_n": 8,
+"top3": [
+[
+"CD",
+8
+],
+[
+"CG",
+3
+],
+[
+"ZM",
+2
+]
+],
+"mids": 23
+},
+"CD": {
+"fought": 1,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "UG",
+"rival_n": 10,
+"top3": [
+[
+"UG",
+10
+],
+[
+"RW",
+9
+],
+[
+"AO",
+8
+]
+],
+"mids": 57
+},
+"CG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CD",
+"rival_n": 7,
+"top3": [
+[
+"CD",
+7
+],
+[
+"AO",
+3
+],
+[
+"PT",
+1
+]
+],
+"mids": 15
+},
+"GA": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "FR",
+"rival_n": 1,
+"top3": [
+[
+"FR",
+1
+],
+[
+"CM",
+1
+],
+[
+"GQ",
+1
+]
+],
+"mids": 3
+},
+"GQ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "GA",
+"rival_n": 1,
+"top3": [
+[
+"GA",
+1
+],
+[
+"ES",
+1
+],
+[
+"LT",
+1
+]
+],
+"mids": 3
+},
+"CM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "NG",
+"rival_n": 7,
+"top3": [
+[
+"NG",
+7
+],
+[
+"CF",
+2
+],
+[
+"GA",
+1
+]
+],
+"mids": 10
+},
+"CF": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "TD",
+"rival_n": 2,
+"top3": [
+[
+"TD",
+2
+],
+[
+"CM",
+2
+],
+[
+"AO",
+1
+]
+],
+"mids": 8
+},
+"TD": {
+"fought": 1,
+"big": null,
+"won": 1,
+"lost": 0,
+"lost_names": [],
+"rival": "SD",
+"rival_n": 6,
+"top3": [
+[
+"SD",
+6
+],
+[
+"LY",
+6
+],
+[
+"CF",
+2
+]
+],
+"mids": 19
+},
+"NE": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "BJ",
+"rival_n": 1,
+"top3": [
+[
+"BJ",
+1
+],
+[
+"IQ",
+1
+],
+[
+"JO",
+1
+]
+],
+"mids": 5
+},
+"NG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CM",
+"rival_n": 7,
+"top3": [
+[
+"CM",
+7
+],
+[
+"TD",
+2
+],
+[
+"LR",
+2
+]
+],
+"mids": 14
+},
+"BJ": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "NE",
+"rival_n": 1,
+"top3": [
+[
+"NE",
+1
+],
+[
+"PT",
+1
+],
+[
+"NG",
+1
+]
+],
+"mids": 3
+},
+"TG": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "GH",
+"rival_n": 6,
+"top3": [
+[
+"GH",
+6
+]
+],
+"mids": 6
+},
+"GH": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "TG",
+"rival_n": 6,
+"top3": [
+[
+"TG",
+6
+],
+[
+"GN",
+2
+],
+[
+"RU",
+1
+]
+],
+"mids": 12
+},
+"CI": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "GN",
+"rival_n": 4,
+"top3": [
+[
+"GN",
+4
+],
+[
+"FR",
+4
+],
+[
+"LR",
+2
+]
+],
+"mids": 12
+},
+"BF": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ML",
+"rival_n": 3,
+"top3": [
+[
+"ML",
+3
+]
+],
+"mids": 3
+},
+"ML": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "BF",
+"rival_n": 3,
+"top3": [
+[
+"BF",
+3
+],
+[
+"MR",
+2
+],
+[
+"NE",
+1
+]
+],
+"mids": 7
+},
+"MR": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "ML",
+"rival_n": 2,
+"top3": [
+[
+"ML",
+2
+],
+[
+"MA",
+2
+],
+[
+"SN",
+2
+]
+],
+"mids": 7
+},
+"SN": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "GM",
+"rival_n": 3,
+"top3": [
+[
+"GM",
+3
+],
+[
+"PT",
+3
+],
+[
+"GW",
+3
+]
+],
+"mids": 14
+},
+"GM": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "SN",
+"rival_n": 3,
+"top3": [
+[
+"SN",
+3
+]
+],
+"mids": 3
+},
+"GW": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "SN",
+"rival_n": 3,
+"top3": [
+[
+"SN",
+3
+]
+],
+"mids": 3
+},
+"GN": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "CI",
+"rival_n": 4,
+"top3": [
+[
+"CI",
+4
+],
+[
+"PT",
+3
+],
+[
+"GH",
+2
+]
+],
+"mids": 13
+},
+"SL": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "LR",
+"rival_n": 4,
+"top3": [
+[
+"LR",
+4
+],
+[
+"GN",
+2
+],
+[
+"IQ",
+1
+]
+],
+"mids": 10
+},
+"LR": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": "SL",
+"rival_n": 4,
+"top3": [
+[
+"SL",
+4
+],
+[
+"IR",
+2
+],
+[
+"IQ",
+2
+]
+],
+"mids": 17
+},
+"CV": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"ST": {
+"fought": 0,
+"big": null,
+"won": 0,
+"lost": 0,
+"lost_names": [],
+"rival": null,
+"rival_n": 0,
+"top3": [],
+"mids": 0
+},
+"VA": {
+"fought": 2,
+"big": "Roman Republic",
+"won": 0,
+"lost": 2,
+"lost_names": [
+"Italian-Roman",
+"Roman Republic"
+],
+"rival": "AT",
+"rival_n": 3,
+"top3": [
+[
+"AT",
+3
+],
+[
+"IT",
+2
+],
+[
+"FR",
+1
+]
+],
+"mids": 6
+}
+}
