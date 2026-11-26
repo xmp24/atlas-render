@@ -1,0 +1,1904 @@
+{
+"key": "nav",
+"narr": "w495jEjc73YEWOkc3VLu",
+"C": [
+{
+"c": "US",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Estados Unidos: ¡festivo! Y con luces que se ven desde el espacio."
+},
+{
+"c": "CA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Canadá: festivo."
+},
+{
+"c": "MX",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "México: se celebra. Con posadas desde el dieciséis de diciembre."
+},
+{
+"c": "GB",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Reino Unido: Navidad, sí. Con discurso del rey incluido."
+},
+{
+"c": "IE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Irlanda: ¡festivo!"
+},
+{
+"c": "FR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Francia: festivo."
+},
+{
+"c": "ES",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "España: se celebra. Y los regalos, muchos, el seis de enero."
+},
+{
+"c": "PT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Portugal: Navidad, sí."
+},
+{
+"c": "AD",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Andorra: ¡festivo!"
+},
+{
+"c": "IT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Italia: festivo. Con panettone hasta en la sopa."
+},
+{
+"c": "SM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "San Marino: se celebra."
+},
+{
+"c": "MT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Malta: Navidad, sí."
+},
+{
+"c": "MC",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Mónaco: ¡festivo!"
+},
+{
+"c": "CH",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Suiza: festivo."
+},
+{
+"c": "LI",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Liechtenstein: se celebra."
+},
+{
+"c": "AT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Austria: Navidad, sí."
+},
+{
+"c": "DE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Alemania: ¡festivo! Los mercadillos navideños nacieron aquí."
+},
+{
+"c": "LU",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Luxemburgo: festivo."
+},
+{
+"c": "BE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Bélgica: se celebra."
+},
+{
+"c": "NL",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Países Bajos: Navidad, sí. Aunque los regalos llegan con San Nicolás, el cinco."
+},
+{
+"c": "DK",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Dinamarca: ¡festivo!"
+},
+{
+"c": "NO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Noruega: festivo. Y cada año regala el árbol de Londres."
+},
+{
+"c": "SE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Suecia: se celebra."
+},
+{
+"c": "FI",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Finlandia: Navidad, sí. Y aquí vive Papá Noel, en Laponia."
+},
+{
+"c": "IS",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Islandia: ¡festivo! Aquí no hay un Papá Noel... ¡hay trece!"
+},
+{
+"c": "PL",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Polonia: festivo. Y en la cena se deja un sitio libre."
+},
+{
+"c": "CZ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Chequia: se celebra. Con una carpa viva en la bañera."
+},
+{
+"c": "SK",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Eslovaquia: Navidad, sí."
+},
+{
+"c": "HU",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Hungría: ¡festivo!"
+},
+{
+"c": "SI",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Eslovenia: festivo."
+},
+{
+"c": "HR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Croacia: se celebra."
+},
+{
+"c": "BA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Bosnia: Navidad, sí."
+},
+{
+"c": "RS",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Serbia: ¡festivo! El siete de enero."
+},
+{
+"c": "ME",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Montenegro: festivo."
+},
+{
+"c": "XK",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Kosovo: se celebra."
+},
+{
+"c": "AL",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Albania: Navidad, sí."
+},
+{
+"c": "MK",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Macedonia del Norte: ¡festivo!"
+},
+{
+"c": "GR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Grecia: festivo."
+},
+{
+"c": "BG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Bulgaria: se celebra."
+},
+{
+"c": "RO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Rumanía: Navidad, sí."
+},
+{
+"c": "MD",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 25 y el 7",
+"say": "Moldavia: ¡festivo!"
+},
+{
+"c": "UA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Ucrania: festivo. Y desde 2023, el veinticinco, como Europa."
+},
+{
+"c": "BY",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 25 y el 7",
+"say": "Bielorrusia: se celebra. ¡Y dos veces: el veinticinco y el siete!"
+},
+{
+"c": "LT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Lituania: Navidad, sí."
+},
+{
+"c": "LV",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Letonia: ¡festivo!"
+},
+{
+"c": "EE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Estonia: festivo."
+},
+{
+"c": "RU",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Rusia: se celebra. Pero el siete de enero."
+},
+{
+"c": "CY",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Chipre: Navidad, sí."
+},
+{
+"c": "TR",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Turquía: se celebra... pero se trabaja. Aunque aquí nació San Nicolás, el Papá Noel original."
+},
+{
+"c": "CO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Colombia: ¡festivo! Y empieza el siete de diciembre, con las velitas."
+},
+{
+"c": "VE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Venezuela: festivo. Con gaitas y hallacas."
+},
+{
+"c": "EC",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Ecuador: se celebra."
+},
+{
+"c": "PE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Perú: Navidad, sí."
+},
+{
+"c": "BO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Bolivia: ¡festivo!"
+},
+{
+"c": "CL",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Chile: festivo."
+},
+{
+"c": "AR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Argentina: se celebra."
+},
+{
+"c": "UY",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Uruguay: Navidad, sí."
+},
+{
+"c": "PY",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Paraguay: ¡festivo!"
+},
+{
+"c": "BR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Brasil: festivo. Con treinta grados."
+},
+{
+"c": "GY",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Guyana: se celebra."
+},
+{
+"c": "SR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Surinam: Navidad, sí."
+},
+{
+"c": "PA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Panamá: ¡festivo!"
+},
+{
+"c": "CR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Costa Rica: festivo."
+},
+{
+"c": "NI",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Nicaragua: se celebra."
+},
+{
+"c": "HN",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Honduras: Navidad, sí."
+},
+{
+"c": "SV",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "El Salvador: ¡festivo!"
+},
+{
+"c": "GT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Guatemala: festivo. Con la quema del diablo."
+},
+{
+"c": "BZ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Belice: se celebra."
+},
+{
+"c": "CU",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Prohibida de 1969 a 1997",
+"say": "Cuba: Navidad, sí. Y ojo: estuvo prohibida casi treinta años, hasta 1997."
+},
+{
+"c": "JM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Jamaica: ¡festivo!"
+},
+{
+"c": "HT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Haití: festivo."
+},
+{
+"c": "DO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "República Dominicana: se celebra."
+},
+{
+"c": "BS",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Bahamas: Navidad, sí."
+},
+{
+"c": "BB",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Barbados: ¡festivo!"
+},
+{
+"c": "TT",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Trinidad y Tobago: festivo."
+},
+{
+"c": "GD",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Granada: se celebra."
+},
+{
+"c": "VC",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "San Vicente: Navidad, sí."
+},
+{
+"c": "LC",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Santa Lucía: ¡festivo!"
+},
+{
+"c": "DM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Dominica: festivo."
+},
+{
+"c": "AG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Antigua y Barbuda: se celebra."
+},
+{
+"c": "KN",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "San Cristóbal y Nieves: Navidad, sí."
+},
+{
+"c": "GE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Georgia: ¡festivo! El siete de enero."
+},
+{
+"c": "AM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 6 de enero",
+"say": "Armenia: festivo. El seis de enero."
+},
+{
+"c": "AZ",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Azerbaiyán: casi no se celebra."
+},
+{
+"c": "KZ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Kazajistán: se celebra. El siete de enero, la ortodoxa."
+},
+{
+"c": "UZ",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Uzbekistán: casi nada."
+},
+{
+"c": "TM",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Turkmenistán: apenas se nota."
+},
+{
+"c": "KG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Kirguistán: Navidad, sí."
+},
+{
+"c": "TJ",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDA",
+"vs": "⛔",
+"sub": "Sin árbol ni Papá Noel desde 2013",
+"say": "Tayikistán: ¡prohibida! Desde 2013, nada de árboles ni Papá Noel en la tele... ni en los colegios."
+},
+{
+"c": "AF",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Afganistán: casi no se celebra. Casi no quedan cristianos."
+},
+{
+"c": "IR",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Irán: casi nada."
+},
+{
+"c": "IQ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo desde 2008",
+"say": "Irak: ¡festivo! Desde 2008."
+},
+{
+"c": "SY",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Siria: festivo."
+},
+{
+"c": "LB",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Líbano: se celebra."
+},
+{
+"c": "IL",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Israel: se celebra, pero no es festivo. Menos en Nazaret, que es una fiesta enorme."
+},
+{
+"c": "PS",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Belén, donde nació Jesús",
+"say": "Palestina: Navidad, sí. Aquí está Belén, donde todo empezó."
+},
+{
+"c": "JO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Jordania: ¡festivo!"
+},
+{
+"c": "SA",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "Prohibida en público hasta hace poco",
+"say": "Arabia Saudí: apenas se nota. Hasta hace poco estaba prohibida en público... ahora ya venden adornos."
+},
+{
+"c": "YE",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Yemen: casi no se celebra."
+},
+{
+"c": "OM",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Omán: casi nada."
+},
+{
+"c": "AE",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Emiratos Árabes: se celebra... pero se trabaja. Y Dubái se llena de árboles gigantes."
+},
+{
+"c": "QA",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Catar: se celebra, pero no es festivo."
+},
+{
+"c": "BH",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Baréin: se celebra... pero se trabaja."
+},
+{
+"c": "KW",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Kuwait: apenas se nota."
+},
+{
+"c": "IN",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "India: festivo. Aunque solo un dos por ciento es cristiano."
+},
+{
+"c": "PK",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Pakistán: se celebra. Es el día de su fundador... y también Navidad."
+},
+{
+"c": "NP",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Nepal: Navidad, sí."
+},
+{
+"c": "BT",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Bután: casi no se celebra."
+},
+{
+"c": "BD",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Bangladés: ¡festivo!"
+},
+{
+"c": "LK",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Sri Lanka: festivo."
+},
+{
+"c": "MV",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Maldivas: casi nada. Allí no se permiten otras religiones en público."
+},
+{
+"c": "MM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Myanmar: se celebra."
+},
+{
+"c": "TH",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Tailandia: se celebra, pero no es festivo."
+},
+{
+"c": "LA",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Laos: apenas se nota."
+},
+{
+"c": "KH",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Camboya: se celebra... pero se trabaja."
+},
+{
+"c": "VN",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Vietnam: se celebra, pero no es festivo."
+},
+{
+"c": "MY",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Malasia: Navidad, sí."
+},
+{
+"c": "SG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Singapur: ¡festivo!"
+},
+{
+"c": "ID",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Indonesia: festivo."
+},
+{
+"c": "BN",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDA",
+"vs": "⛔",
+"sub": "Prohibida en público desde 2015",
+"say": "Brunéi: ¡prohibida! En público, desde 2015: hasta cinco años de cárcel."
+},
+{
+"c": "PH",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Filipinas: se celebra. ¡Y empiezan en septiembre! La Navidad más larga del mundo."
+},
+{
+"c": "TL",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Timor Oriental: Navidad, sí. De los países más católicos de Asia."
+},
+{
+"c": "CN",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "China: se celebra... pero se trabaja. Y la mayoría de adornos del mundo se fabrican aquí."
+},
+{
+"c": "MN",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Mongolia: casi no se celebra. Aquí la gran fiesta es la del año nuevo."
+},
+{
+"c": "KP",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDA",
+"vs": "⛔",
+"sub": "Prohibida: la religión está perseguida",
+"say": "Corea del Norte: ¡prohibida!"
+},
+{
+"c": "KR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Corea del Sur: ¡festivo! Y es la fiesta de las parejas."
+},
+{
+"c": "JP",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Japón: se celebra, pero no es festivo."
+},
+{
+"c": "TW",
+"st": "C",
+"val": 0,
+"v": "SE CELEBRA",
+"vs": "MEDIO",
+"sub": "No es festivo, pero se celebra",
+"say": "Taiwán: se celebra... pero se trabaja."
+},
+{
+"c": "AU",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Australia: festivo. Y en bañador: ¡allí es verano!"
+},
+{
+"c": "NZ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Nueva Zelanda: se celebra. Con barbacoa en la playa."
+},
+{
+"c": "PG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Papúa Nueva Guinea: Navidad, sí."
+},
+{
+"c": "SB",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Islas Salomón: ¡festivo!"
+},
+{
+"c": "VU",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Vanuatu: festivo."
+},
+{
+"c": "FJ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Fiyi: se celebra."
+},
+{
+"c": "WS",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Samoa: Navidad, sí."
+},
+{
+"c": "TO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Tonga: ¡festivo!"
+},
+{
+"c": "KI",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Kiribati: festivo."
+},
+{
+"c": "TV",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Tuvalu: se celebra."
+},
+{
+"c": "NR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Nauru: Navidad, sí."
+},
+{
+"c": "MH",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Islas Marshall: ¡festivo!"
+},
+{
+"c": "FM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Micronesia: festivo."
+},
+{
+"c": "PW",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Palaos: se celebra."
+},
+{
+"c": "MA",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Marruecos: casi nada."
+},
+{
+"c": "DZ",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Argelia: apenas se nota."
+},
+{
+"c": "TN",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Túnez: casi no se celebra."
+},
+{
+"c": "LY",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Libia: casi nada."
+},
+{
+"c": "EG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Egipto: Navidad, sí. El siete de enero, la Navidad copta."
+},
+{
+"c": "SD",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo de nuevo desde 2020",
+"say": "Sudán: ¡festivo! Volvió a ser festivo en 2020."
+},
+{
+"c": "SS",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Sudán del Sur: festivo."
+},
+{
+"c": "ET",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Etiopía: se celebra. El siete de enero, y se llama Genna."
+},
+{
+"c": "ER",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo el 7 de enero",
+"say": "Eritrea: Navidad, sí."
+},
+{
+"c": "DJ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Yibuti: ¡festivo!"
+},
+{
+"c": "SO",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDA",
+"vs": "⛔",
+"sub": "Prohibida en público desde 2015",
+"say": "Somalia: ¡prohibida! Desde 2015. Ni celebrarla en público, ni felicitarla."
+},
+{
+"c": "KE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Kenia: festivo."
+},
+{
+"c": "UG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Uganda: se celebra."
+},
+{
+"c": "RW",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Ruanda: Navidad, sí."
+},
+{
+"c": "BI",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Burundi: ¡festivo!"
+},
+{
+"c": "TZ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Tanzania: festivo."
+},
+{
+"c": "MZ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Mozambique: se celebra."
+},
+{
+"c": "MW",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Malaui: Navidad, sí."
+},
+{
+"c": "ZM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Zambia: ¡festivo!"
+},
+{
+"c": "ZW",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Zimbabue: festivo."
+},
+{
+"c": "BW",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Botsuana: se celebra."
+},
+{
+"c": "NA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Namibia: Navidad, sí."
+},
+{
+"c": "ZA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Sudáfrica: ¡festivo!"
+},
+{
+"c": "LS",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Lesoto: festivo."
+},
+{
+"c": "SZ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Esuatini: se celebra."
+},
+{
+"c": "MG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Madagascar: Navidad, sí."
+},
+{
+"c": "MU",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Mauricio: ¡festivo!"
+},
+{
+"c": "KM",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Comoras: apenas se nota."
+},
+{
+"c": "SC",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Seychelles: festivo."
+},
+{
+"c": "AO",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Angola: se celebra."
+},
+{
+"c": "CD",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "República Democrática del Congo: Navidad, sí."
+},
+{
+"c": "CG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Congo: ¡festivo!"
+},
+{
+"c": "GA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Gabón: festivo."
+},
+{
+"c": "GQ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Guinea Ecuatorial: se celebra."
+},
+{
+"c": "CM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Camerún: Navidad, sí."
+},
+{
+"c": "CF",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "República Centroafricana: ¡festivo!"
+},
+{
+"c": "TD",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Chad: festivo."
+},
+{
+"c": "NE",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Níger: se celebra."
+},
+{
+"c": "NG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Nigeria: Navidad, sí. Y se viaja al pueblo por millones."
+},
+{
+"c": "BJ",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Benín: ¡festivo!"
+},
+{
+"c": "TG",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Togo: festivo."
+},
+{
+"c": "GH",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Ghana: se celebra."
+},
+{
+"c": "CI",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Costa de Marfil: Navidad, sí."
+},
+{
+"c": "BF",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Burkina Faso: ¡festivo!"
+},
+{
+"c": "ML",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Malí: festivo."
+},
+{
+"c": "MR",
+"st": "B",
+"val": 0,
+"v": "CASI NADA",
+"vs": "NO",
+"sub": "No es festivo",
+"say": "Mauritania: casi no se celebra."
+},
+{
+"c": "SN",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Senegal: se celebra."
+},
+{
+"c": "GM",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Gambia: Navidad, sí."
+},
+{
+"c": "GW",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Guinea-Bisáu: ¡festivo!"
+},
+{
+"c": "GN",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Guinea: festivo."
+},
+{
+"c": "SL",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Sierra Leona: se celebra."
+},
+{
+"c": "LR",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Liberia: Navidad, sí."
+},
+{
+"c": "CV",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Cabo Verde: ¡festivo!"
+},
+{
+"c": "ST",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Santo Tomé: festivo."
+},
+{
+"c": "VA",
+"st": "D",
+"val": 0,
+"v": "FESTIVO",
+"vs": "SÍ",
+"sub": "Festivo nacional",
+"say": "Vaticano: se celebra. Aquí la Misa del Gallo la da el Papa."
+}
+],
+"T": {
+"US": [
+"PbdeBaBBJTgZkIRcTU1J",
+"¡Luces, regalos y un pavo gigante! ¡Aquí la Navidad empieza en noviembre!"
+],
+"MX": [
+"qKiF0EEU7wtRm1G2mLMh",
+"¡Posadas, piñatas y ponche, carnal! Aquí la fiesta dura un mes."
+],
+"ES": [
+"d5UAjYhvzEX3wkRfxPTM",
+"¡Turrón, lotería y Reyes Magos! ¡Y comiendo hasta el seis de enero!"
+],
+"JP": [
+"1naQcvaoaQTXNd36WqlD",
+"En Navidad, aquí cenamos pollo frito del KFC. ¡Hay que reservarlo con semanas!"
+],
+"CU": [
+"P5oKQC0uccAVbhCpX8GX",
+"¡Treinta años sin Navidad, asere! Hasta que vino el Papa en el noventa y ocho."
+],
+"RU": [
+"XCV7OOxwKwPMAdSwpD4R",
+"Aquí no viene Papá Noel. Viene el Abuelo Frío... ¡y en Año Nuevo!"
+],
+"AU": [
+"dSX8MUEljgxrFygPwhF5",
+"¡Navidad en la playa, mate! Papá Noel llega en tabla de surf."
+],
+"IN": [
+"pnoafjwb2T2zx4YYE60H",
+"¡Es festivo! Y en Goa, con fuegos artificiales y todo."
+],
+"CN": [
+"XAV9ErNepIMDFPmlJ3pQ",
+"No es festivo... ¡pero aquí fabricamos casi todos los adornos del planeta!"
+],
+"KP": [
+"DXmaqevHBKl3Emj5cBp1",
+"¿Navidad? Aquí el veinticuatro se celebra el cumpleaños de la abuela del líder. Siguiente."
+],
+"VA": [
+"G0q9AYE8QsarSbMtaIEu",
+"Aquí la Navidad la celebra el mismísimo Papa. ¡Más festivo, imposible!"
+]
+},
+"cfg": {
+"title": "¿DÓNDE ESTÁ PROHIBIDA LA NAVIDAD?",
+"icon": "tree",
+"t1": "¿DÓNDE ESTÁ",
+"t2": "PROHIBIDA LA NAVIDAD?",
+"badge": "197 PAÍSES",
+"cats": [
+{
+"k": "D",
+"label": "ES FESTIVO",
+"short": "FESTIVO",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "C",
+"label": "SE CELEBRA, PERO SE TRABAJA",
+"short": "SE CELEBRA",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "happy"
+},
+{
+"k": "B",
+"label": "CASI NO SE CELEBRA",
+"short": "CASI NADA",
+"col": "#ff8c2e",
+"cold": "#b35a0c",
+"mood": "angry"
+},
+{
+"k": "A",
+"label": "PROHIBIDA",
+"short": "PROHIBIDA",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "sad"
+}
+],
+"balls": [
+"VA",
+"US",
+"MX",
+"JP",
+"KP",
+"SO"
+],
+"ballMoods": [
+"happy",
+"happy",
+"happy",
+"happy",
+"angry",
+"sad"
+],
+"best": [
+"PH",
+"LA MÁS LARGA",
+"DESDE SEPTIEMBRE"
+],
+"worst": [
+"KP",
+"PROHIBIDA",
+"CORRE PELIGRO"
+],
+"ask": "¿EN TU PAÍS ES FESTIVO? ¡COMENTA!",
+"head": "NAVIDAD"
+},
+"intro": [
+"Hay países donde celebrar la Navidad está prohibido... y en alguno te puede costar la cárcel. Hoy revisamos los ciento noventa y siete países del mundo, uno por uno.",
+"Verde: es festivo.",
+"Amarillo: se celebra... pero se trabaja.",
+"Naranja: casi no se celebra.",
+"Y rojo... ¡prohibida! ¡Vamos!"
+],
+"outro": [
+"¿En tu país la Navidad es festivo? ¡Comenta!"
+]
+}

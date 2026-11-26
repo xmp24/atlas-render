@@ -159,3 +159,6 @@ if __name__ == '__main__':
         print(k, 'caracteres', n, Counter(c['st'] for c in V['C']))
         json.dump(V, open(R + f'{k}_script.json', 'w'), ensure_ascii=False, indent=0)
         for c in V['C'][:4] + V['C'][-3:]: print('  ', c['say'], '|', c['v'], '|', c['sub'])
+
+from videos_b import nav, rbx, sbx, tbl
+VIDEOS.update({'nav': nav, 'rbx': rbx, 'sbx': sbx, 'tbl': tbl})

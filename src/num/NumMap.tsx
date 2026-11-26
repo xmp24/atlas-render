@@ -9,10 +9,14 @@ import W3 from './mil.json';
 import W4 from './last.json';
 import W5 from './riv.json';
 import W6 from './ally.json';
+import B1 from './nav.json';
+import B2 from './rbx.json';
+import B3 from './sbx.json';
+import B4 from './tbl.json';
 import G0 from '../mcd/geo.json';
 import {drawFace} from '../mcd/McMap';
 
-const REG: Record<string, any> = {alt: A0, sue: S0, sol: W1, los: W2, mil: W3, last: W4, riv: W5, ally: W6};
+const REG: Record<string, any> = {alt: A0, sue: S0, sol: W1, los: W2, mil: W3, last: W4, riv: W5, ally: W6, nav: B1, rbx: B2, sbx: B3, tbl: B4};
 export const numFrames = (v: string) => Math.max(30, Math.round(REG[v].dur * 30));
 const G = G0 as Record<string, {d: string; dm: string; bb: number[]; bm: number[]; c: number[]; r: number}>;
 const W = 1920, H = 1080;
@@ -181,6 +185,10 @@ const Flag: React.FC<{c: string; w: number; round?: boolean; style?: React.CSSPr
   <img src={staticFile(`wflags/${c.toLowerCase()}.svg`)} style={{width: w, height: round ? w : w * 0.75, objectFit: 'cover', borderRadius: round ? '50%' : 6, border: `3px solid ${INK}`, flexShrink: 0, ...style}} />
 );
 const ICONS: Record<string, React.ReactNode> = {
+  tree: <g><path d="M50 6 L80 44 H64 L86 72 H14 L36 44 H20 Z" fill="#2fbf63" stroke={INK} strokeWidth="6" strokeLinejoin="round" /><rect x="42" y="72" width="16" height="20" fill="#8a5a2b" stroke={INK} strokeWidth="5" /><circle cx="50" cy="8" r="8" fill="#ffd23f" stroke={INK} strokeWidth="4" /><circle cx="40" cy="56" r="5" fill="#ee4646" /><circle cx="60" cy="38" r="5" fill="#ffd23f" /><circle cx="62" cy="62" r="5" fill="#5b5bf0" /></g>,
+  pad: <g><path d="M18 34 Q50 26 82 34 Q96 38 94 62 Q92 82 78 80 Q70 78 64 68 H36 Q30 78 22 80 Q8 82 6 62 Q4 38 18 34 Z" fill="#e8322f" stroke={INK} strokeWidth="6" strokeLinejoin="round" /><rect x="22" y="46" width="18" height="6" rx="3" fill="#fff" /><rect x="28" y="40" width="6" height="18" rx="3" fill="#fff" /><circle cx="68" cy="44" r="5" fill="#fff" /><circle cx="76" cy="54" r="5" fill="#fff" /></g>,
+  cup: <g><path d="M22 30 H74 L68 90 H28 Z" fill="#fff" stroke={INK} strokeWidth="6" strokeLinejoin="round" /><rect x="18" y="20" width="60" height="12" rx="5" fill="#1e7a46" stroke={INK} strokeWidth="5" /><path d="M24 48 H72 L70 72 H26 Z" fill="#1e7a46" /><circle cx="48" cy="60" r="8" fill="#fff" /><path d="M74 44 Q92 46 88 62 Q84 72 70 70" fill="none" stroke={INK} strokeWidth="6" /></g>,
+  taco: <g><path d="M8 74 A42 42 0 0 1 92 74 Z" fill="#f2c14e" stroke={INK} strokeWidth="6" strokeLinejoin="round" /><path d="M20 58 Q30 44 40 54 Q50 40 60 54 Q70 42 80 58" fill="none" stroke="#2fbf63" strokeWidth="9" strokeLinecap="round" /><circle cx="36" cy="62" r="5" fill="#ee4646" /><circle cx="62" cy="60" r="5" fill="#ee4646" /></g>,
   soldier: <g><path d="M22 52 Q22 18 50 16 Q78 18 78 52 Z" fill="#5f7a3a" stroke={INK} strokeWidth="6" /><rect x="14" y="48" width="72" height="12" rx="6" fill="#4a6230" stroke={INK} strokeWidth="6" /><circle cx="50" cy="74" r="16" fill="#f2c79a" stroke={INK} strokeWidth="6" /></g>,
   flag: <g><line x1="24" y1="10" x2="24" y2="94" stroke={INK} strokeWidth="8" strokeLinecap="round" /><path d="M28 14 L84 14 L72 34 L84 54 L28 54 Z" fill="#fff" stroke={INK} strokeWidth="6" strokeLinejoin="round" /></g>,
   clock: <g><circle cx="50" cy="54" r="38" fill="#ff8c2e" stroke={INK} strokeWidth="6" /><circle cx="50" cy="54" r="27" fill="#fff" stroke={INK} strokeWidth="4" /><line x1="50" y1="54" x2="50" y2="36" stroke={INK} strokeWidth="6" strokeLinecap="round" /><line x1="50" y1="54" x2="64" y2="62" stroke={INK} strokeWidth="6" strokeLinecap="round" /><rect x="40" y="6" width="20" height="10" rx="4" fill={INK} /></g>,
@@ -420,6 +428,10 @@ const Tag: React.FC<{bg: string; children: any; size?: number; color?: string; s
 
 // miniaturas de los vídeos de guerra (inglés): 0 = duelo A vs B · 1 = país protagonista + número gigante
 const WT: Record<string, any> = {
+  nav: {t0: '¿DÓNDE ESTÁ PROHIBIDA?', a: ['VA', 'happy', 'D', 'FESTIVO'], b: ['KP', 'angry', 'A', 'PROHIBIDA'], c: ['SO', 'sad', 'A'], big: 'PROHIBIDA', l1: 'LA NAVIDAD', l2: 'EN SOMALIA', ask: '¿Y EN TU PAÍS?'},
+  rbx: {t0: '¿DÓNDE ESTÁ BLOQUEADO?', a: ['US', 'happy', 'D', 'SE JUEGA'], b: ['TR', 'sad', 'A', 'BLOQUEADO'], c: ['TR', 'sad', 'A'], big: 'BLOQUEADO', l1: 'ROBLOX', l2: 'EN TURQUÍA', ask: '¿Y EN TU PAÍS?'},
+  sbx: {t0: '¿DÓNDE NO HAY STARBUCKS?', a: ['US', 'happy', 'D', '16.900'], b: ['ET', 'sad', 'A', 'CERO'], c: ['IT', 'angry', 'D'], big: '2018', l1: 'LLEGÓ POR FIN', l2: 'A ITALIA', ask: '¿Y A TU PAÍS?'},
+  tbl: {t0: '¿DÓNDE NO HAY TACO BELL?', a: ['ES', 'happy', 'D', '+100'], b: ['MX', 'angry', 'C', 'CERO'], c: ['MX', 'angry', 'C'], big: '0', l1: 'TACO BELL', l2: 'EN MÉXICO', ask: '¿EN SERIO?'},
   sol: {t0: 'BIGGEST ARMY ON EARTH', a: ['CN', 'angry', 'E', '2,035,000'], b: ['CR', 'happy', 'X', 'ZERO'], c: ['KP', 'angry', 'E'], big: '1 IN 20', l1: 'IS A SOLDIER', l2: 'NORTH KOREA', ask: 'AND YOURS?'},
   los: {t0: 'WHO LOST THE MOST WARS?', a: ['GB', 'happy', 'A', '0 LOST'], b: ['CN', 'sad', 'E', '7 LOST'], c: ['MX', 'sad', 'B'], big: 'HALF', l1: 'ITS LAND LOST', l2: 'IN ONE WAR', ask: 'AND YOURS?'},
   mil: {t0: 'WHO SPENDS MOST ON WAR?', a: ['US', 'angry', 'E', '$954B'], b: ['CR', 'happy', 'X', '$0'], c: ['UA', 'sad', 'E'], big: '40%', l1: 'OF ITS ECONOMY', l2: 'GOES TO WAR', ask: 'AND YOURS?'},
@@ -430,6 +442,10 @@ const WT: Record<string, any> = {
 // 2 = estilo "IS ROBLOX BANNED?" (3 países con estado) · 3 = estilo México con el tema exacto del vídeo
 const OK = '#2fbf63', WARN = '#ffd23f', BAD = '#ee4646';
 const WT2: Record<string, any> = {
+  nav: {q: ['¿NAVIDAD', 'PROHIBIDA?'], bot: '¿EN TU PAÍS?', it: [['MX', 'happy', 'FESTIVO', OK, 'ok'], ['JP', 'happy', 'SE TRABAJA', WARN, 'warn'], ['KP', 'angry', 'PROHIBIDA', BAD, 'x']]},
+  rbx: {q: ['¿ROBLOX', 'PROHIBIDO?'], bot: '¿EN TU PAÍS?', it: [['US', 'happy', 'SE JUEGA', OK, 'ok'], ['RU', 'angry', 'LIMITADO', WARN, 'warn'], ['CN', 'sad', 'PROHIBIDO', BAD, 'lock']]},
+  sbx: {q: ['¿HAY', 'STARBUCKS?'], bot: '¿EN TU PAÍS?', it: [['US', 'happy', '16.900', OK, 'ok'], ['RU', 'angry', 'SE FUE', WARN, 'warn'], ['ET', 'sad', 'NI UNO', BAD, 'x']]},
+  tbl: {q: ['¿HAY', 'TACO BELL?'], bot: '¿EN TU PAÍS?', it: [['ES', 'happy', '+100', OK, 'ok'], ['MX', 'angry', 'FRACASÓ', WARN, 'warn'], ['IT', 'sad', 'NI UNO', BAD, 'x']]},
   sol: {q: ['HOW MANY', 'SOLDIERS?'], bot: 'IN YOUR COUNTRY?', it: [['CN', 'angry', '2 MILLION', BAD, 'up'], ['BR', 'happy', '374,500', WARN, 'up'], ['CR', 'happy', 'NO ARMY', OK, 'ok']]},
   los: {q: ['HOW MANY', 'WARS LOST?'], bot: 'BY YOUR COUNTRY?', it: [['GB', 'happy', 'NEVER LOST', OK, 'ok'], ['MX', 'sad', '1 LOST', WARN, 'warn'], ['CN', 'sad', '7 LOST', BAD, 'x']]},
   mil: {q: ['ARMY', 'SPENDING?'], bot: 'OF YOUR COUNTRY?', it: [['US', 'angry', '$954B', BAD, 'up'], ['DE', 'happy', '$114B', WARN, 'up'], ['CR', 'happy', '$0', OK, 'ok']]},
@@ -438,6 +454,10 @@ const WT2: Record<string, any> = {
   ally: {q: ['WHO WOULD', 'DEFEND'], bot: 'YOUR COUNTRY?', it: [['PL', 'happy', 'NATO', OK, 'ok'], ['JP', 'happy', 'USA', OK, 'ok'], ['UA', 'sad', 'ALONE', BAD, 'lock']]},
 };
 const WT3: Record<string, any> = {
+  nav: {c: ['BN', 'sad', 'A'], big: 'NAVIDAD', l1: '¿DÓNDE ESTÁ', l2: 'PROHIBIDA?', ask: '¿Y TU PAÍS?'},
+  rbx: {c: ['EG', 'sad', 'A'], big: 'ROBLOX', l1: '¿DÓNDE ESTÁ', l2: 'PROHIBIDO?', ask: '¿Y TU PAÍS?'},
+  sbx: {c: ['NG', 'sad', 'A'], big: 'STARBUCKS', l1: '¿DÓNDE NO', l2: 'HAY NI UNO?', ask: '¿Y TU PAÍS?'},
+  tbl: {c: ['MX', 'angry', 'C'], big: 'TACO BELL', l1: '¿DÓNDE NO', l2: 'HAY NI UNO?', ask: '¿Y TU PAÍS?'},
   sol: {c: ['CN', 'angry', 'E'], big: 'SOLDIERS', l1: 'IN EVERY', l2: 'COUNTRY', ask: 'AND YOURS?'},
   los: {c: ['MX', 'sad', 'B'], big: 'WARS LOST', l1: 'BY EVERY', l2: 'COUNTRY', ask: 'AND YOURS?'},
   mil: {c: ['US', 'angry', 'E'], big: 'MILITARY', l1: 'SPENDING OF', l2: 'EVERY COUNTRY', ask: 'AND YOURS?'},

@@ -1,0 +1,1904 @@
+{
+"key": "rbx",
+"narr": "w495jEjc73YEWOkc3VLu",
+"C": [
+{
+"c": "US",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Nació aquí en 2006",
+"say": "Estados Unidos: se puede jugar. Aquí nació, en 2006."
+},
+{
+"c": "CA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Canadá: sí."
+},
+{
+"c": "MX",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "México: sin problema."
+},
+{
+"c": "GB",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Reino Unido: adelante. Con verificación de edad."
+},
+{
+"c": "IE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Irlanda: se puede jugar."
+},
+{
+"c": "FR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Francia: sí."
+},
+{
+"c": "ES",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "España: sin problema."
+},
+{
+"c": "PT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Portugal: adelante."
+},
+{
+"c": "AD",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Andorra: se puede jugar."
+},
+{
+"c": "IT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Italia: sí."
+},
+{
+"c": "SM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "San Marino: sin problema."
+},
+{
+"c": "MT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Malta: adelante."
+},
+{
+"c": "MC",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Mónaco: se puede jugar."
+},
+{
+"c": "CH",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Suiza: sí."
+},
+{
+"c": "LI",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Liechtenstein: sin problema."
+},
+{
+"c": "AT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Austria: adelante."
+},
+{
+"c": "DE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Alemania: se puede jugar."
+},
+{
+"c": "LU",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Luxemburgo: sí."
+},
+{
+"c": "BE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bélgica: sin problema."
+},
+{
+"c": "NL",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Países Bajos: adelante. Aunque allí lo vigilan con lupa."
+},
+{
+"c": "DK",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Dinamarca: se puede jugar."
+},
+{
+"c": "NO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Noruega: sí."
+},
+{
+"c": "SE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Suecia: sin problema."
+},
+{
+"c": "FI",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Finlandia: adelante."
+},
+{
+"c": "IS",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Islandia: se puede jugar."
+},
+{
+"c": "PL",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Polonia: sí."
+},
+{
+"c": "CZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Chequia: sin problema."
+},
+{
+"c": "SK",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Eslovaquia: adelante."
+},
+{
+"c": "HU",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Hungría: se puede jugar."
+},
+{
+"c": "SI",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Eslovenia: sí."
+},
+{
+"c": "HR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Croacia: sin problema."
+},
+{
+"c": "BA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bosnia: adelante."
+},
+{
+"c": "RS",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Serbia: se puede jugar."
+},
+{
+"c": "ME",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Montenegro: sí."
+},
+{
+"c": "XK",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Kosovo: sin problema."
+},
+{
+"c": "AL",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Albania: adelante."
+},
+{
+"c": "MK",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Macedonia del Norte: se puede jugar."
+},
+{
+"c": "GR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Grecia: sí."
+},
+{
+"c": "BG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bulgaria: sin problema."
+},
+{
+"c": "RO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Rumanía: adelante."
+},
+{
+"c": "MD",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Moldavia: se puede jugar."
+},
+{
+"c": "UA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Ucrania: sí."
+},
+{
+"c": "BY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bielorrusia: sin problema."
+},
+{
+"c": "LT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Lituania: adelante."
+},
+{
+"c": "LV",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Letonia: se puede jugar."
+},
+{
+"c": "EE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Estonia: sí."
+},
+{
+"c": "RU",
+"st": "C",
+"val": 0,
+"v": "LIMITADO",
+"vs": "MEDIO",
+"sub": "Bloqueado dic 2025 – jun 2026",
+"say": "Rusia: con limitaciones. Lo bloqueó en diciembre de 2025... y lo devolvió en junio de 2026."
+},
+{
+"c": "CY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Chipre: sin problema."
+},
+{
+"c": "TR",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Bloqueado desde agosto de 2024",
+"say": "Turquía: ¡prohibido! Desde agosto de 2024. El primero de los grandes."
+},
+{
+"c": "CO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Colombia: adelante."
+},
+{
+"c": "VE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Venezuela: se puede jugar."
+},
+{
+"c": "EC",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Ecuador: sí."
+},
+{
+"c": "PE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Perú: sin problema."
+},
+{
+"c": "BO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bolivia: adelante."
+},
+{
+"c": "CL",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Chile: se puede jugar."
+},
+{
+"c": "AR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Argentina: sí."
+},
+{
+"c": "UY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Uruguay: sin problema."
+},
+{
+"c": "PY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Paraguay: adelante."
+},
+{
+"c": "BR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Brasil: se puede jugar. Uno de sus países con más jugadores."
+},
+{
+"c": "GY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Guyana: sí."
+},
+{
+"c": "SR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Surinam: sin problema."
+},
+{
+"c": "PA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Panamá: adelante."
+},
+{
+"c": "CR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Costa Rica: se puede jugar."
+},
+{
+"c": "NI",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Nicaragua: sí."
+},
+{
+"c": "HN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Honduras: sin problema."
+},
+{
+"c": "SV",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "El Salvador: adelante."
+},
+{
+"c": "GT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Guatemala: se puede jugar."
+},
+{
+"c": "BZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Belice: sí."
+},
+{
+"c": "CU",
+"st": "X",
+"val": 0,
+"v": "SIN SERVICIO",
+"vs": "NO",
+"sub": "Por sanciones de EE. UU.",
+"say": "Cuba: sin servicio. Por las sanciones de Estados Unidos."
+},
+{
+"c": "JM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Jamaica: sin problema."
+},
+{
+"c": "HT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Haití: adelante."
+},
+{
+"c": "DO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "República Dominicana: se puede jugar."
+},
+{
+"c": "BS",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bahamas: sí."
+},
+{
+"c": "BB",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Barbados: sin problema."
+},
+{
+"c": "TT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Trinidad y Tobago: adelante."
+},
+{
+"c": "GD",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Granada: se puede jugar."
+},
+{
+"c": "VC",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "San Vicente: sí."
+},
+{
+"c": "LC",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Santa Lucía: sin problema."
+},
+{
+"c": "DM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Dominica: adelante."
+},
+{
+"c": "AG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Antigua y Barbuda: se puede jugar."
+},
+{
+"c": "KN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "San Cristóbal y Nieves: sí."
+},
+{
+"c": "GE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Georgia: sin problema."
+},
+{
+"c": "AM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Armenia: adelante."
+},
+{
+"c": "AZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Azerbaiyán: se puede jugar."
+},
+{
+"c": "KZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Kazajistán: sí."
+},
+{
+"c": "UZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Uzbekistán: sin problema."
+},
+{
+"c": "TM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Turkmenistán: adelante."
+},
+{
+"c": "KG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Kirguistán: se puede jugar."
+},
+{
+"c": "TJ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Tayikistán: sí."
+},
+{
+"c": "AF",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Afganistán: sin problema."
+},
+{
+"c": "IR",
+"st": "X",
+"val": 0,
+"v": "SIN SERVICIO",
+"vs": "NO",
+"sub": "Por sanciones de EE. UU.",
+"say": "Irán: sin servicio. Por las sanciones de Estados Unidos."
+},
+{
+"c": "IQ",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Bloqueado desde octubre de 2025",
+"say": "Irak: ¡prohibido! Desde octubre de 2025."
+},
+{
+"c": "SY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Siria: adelante. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "LB",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Líbano: se puede jugar. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "IL",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Israel: sí."
+},
+{
+"c": "PS",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Bloqueado desde noviembre de 2025",
+"say": "Palestina: ¡prohibido! Desde noviembre de 2025."
+},
+{
+"c": "JO",
+"st": "C",
+"val": 0,
+"v": "LIMITADO",
+"vs": "MEDIO",
+"sub": "Volvió sin chat",
+"say": "Jordania: con limitaciones. Volvió en 2025... pero sin chat."
+},
+{
+"c": "SA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Arabia Saudí: sin problema. Pero con el chat apagado."
+},
+{
+"c": "YE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Yemen: adelante. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "OM",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Bloqueado desde junio de 2025",
+"say": "Omán: ¡prohibido! Desde junio de 2025."
+},
+{
+"c": "AE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Emiratos Árabes: se puede jugar. Pero con el chat apagado."
+},
+{
+"c": "QA",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Bloqueado desde agosto de 2025",
+"say": "Catar: ¡prohibido! Desde agosto de 2025."
+},
+{
+"c": "BH",
+"st": "C",
+"val": 0,
+"v": "LIMITADO",
+"vs": "MEDIO",
+"sub": "Prohibición en estudio",
+"say": "Baréin: con limitaciones. Y se está estudiando prohibirlo."
+},
+{
+"c": "KW",
+"st": "C",
+"val": 0,
+"v": "LIMITADO",
+"vs": "MEDIO",
+"sub": "Volvió sin chat",
+"say": "Kuwait: con limitaciones. Lo bloqueó tres meses en 2025. Volvió, sin chat."
+},
+{
+"c": "IN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "India: sí."
+},
+{
+"c": "PK",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Pakistán: sin problema."
+},
+{
+"c": "NP",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Nepal: adelante."
+},
+{
+"c": "BT",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bután: se puede jugar."
+},
+{
+"c": "BD",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Bangladés: sí."
+},
+{
+"c": "LK",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Sri Lanka: sin problema."
+},
+{
+"c": "MV",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Maldivas: adelante."
+},
+{
+"c": "MM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Myanmar: se puede jugar."
+},
+{
+"c": "TH",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Tailandia: sí."
+},
+{
+"c": "LA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Laos: sin problema."
+},
+{
+"c": "KH",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Camboya: adelante."
+},
+{
+"c": "VN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Vietnam: se puede jugar."
+},
+{
+"c": "MY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Malasia: sí."
+},
+{
+"c": "SG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Singapur: sin problema."
+},
+{
+"c": "ID",
+"st": "C",
+"val": 0,
+"v": "LIMITADO",
+"vs": "MEDIO",
+"sub": "Fuera menores de 16",
+"say": "Indonesia: con limitaciones. Allí están quitando las cuentas a los menores de dieciséis."
+},
+{
+"c": "BN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Brunéi: adelante."
+},
+{
+"c": "PH",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Filipinas: se puede jugar. Querían prohibirlo... y al final no."
+},
+{
+"c": "TL",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Timor Oriental: sí."
+},
+{
+"c": "CN",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Versión china cerrada en 2021",
+"say": "China: ¡prohibido! Tuvo su versión china... y la cerraron en 2021."
+},
+{
+"c": "MN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Mongolia: sin problema."
+},
+{
+"c": "KP",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Sin internet para la población",
+"say": "Corea del Norte: ¡prohibido! Bueno... aquí casi no hay internet."
+},
+{
+"c": "KR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Corea del Sur: adelante."
+},
+{
+"c": "JP",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Japón: se puede jugar."
+},
+{
+"c": "TW",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Taiwán: sí."
+},
+{
+"c": "AU",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Australia: sin problema. Y con el chat muy controlado para los niños."
+},
+{
+"c": "NZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Nueva Zelanda: adelante."
+},
+{
+"c": "PG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Papúa Nueva Guinea: se puede jugar."
+},
+{
+"c": "SB",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Islas Salomón: sí."
+},
+{
+"c": "VU",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Vanuatu: sin problema."
+},
+{
+"c": "FJ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Fiyi: adelante."
+},
+{
+"c": "WS",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Samoa: se puede jugar."
+},
+{
+"c": "TO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Tonga: sí."
+},
+{
+"c": "KI",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Kiribati: sin problema."
+},
+{
+"c": "TV",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Tuvalu: adelante."
+},
+{
+"c": "NR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Nauru: se puede jugar."
+},
+{
+"c": "MH",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Islas Marshall: sí."
+},
+{
+"c": "FM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Micronesia: sin problema."
+},
+{
+"c": "PW",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Palaos: adelante."
+},
+{
+"c": "MA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Marruecos: se puede jugar. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "DZ",
+"st": "C",
+"val": 0,
+"v": "LIMITADO",
+"vs": "MEDIO",
+"sub": "Volvió en 2026 sin chat",
+"say": "Argelia: con limitaciones. Prohibido en 2025... y de vuelta en 2026, sin chat."
+},
+{
+"c": "TN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Túnez: sí. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "LY",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Libia: sin problema. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "EG",
+"st": "A",
+"val": 0,
+"v": "PROHIBIDO",
+"vs": "⛔",
+"sub": "Bloqueado desde febrero de 2026",
+"say": "Egipto: ¡prohibido! Desde febrero de 2026."
+},
+{
+"c": "SD",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Sudán: adelante. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "SS",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Sudán del Sur: se puede jugar."
+},
+{
+"c": "ET",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Etiopía: sí."
+},
+{
+"c": "ER",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Eritrea: sin problema."
+},
+{
+"c": "DJ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Yibuti: adelante."
+},
+{
+"c": "SO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Somalia: se puede jugar."
+},
+{
+"c": "KE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Kenia: sí."
+},
+{
+"c": "UG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Uganda: sin problema."
+},
+{
+"c": "RW",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Ruanda: adelante."
+},
+{
+"c": "BI",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Burundi: se puede jugar."
+},
+{
+"c": "TZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Tanzania: sí."
+},
+{
+"c": "MZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Mozambique: sin problema."
+},
+{
+"c": "MW",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Malaui: adelante."
+},
+{
+"c": "ZM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Zambia: se puede jugar."
+},
+{
+"c": "ZW",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Zimbabue: sí."
+},
+{
+"c": "BW",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Botsuana: sin problema."
+},
+{
+"c": "NA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Namibia: adelante."
+},
+{
+"c": "ZA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Sudáfrica: se puede jugar."
+},
+{
+"c": "LS",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Lesoto: sí."
+},
+{
+"c": "SZ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Esuatini: sin problema."
+},
+{
+"c": "MG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Madagascar: adelante."
+},
+{
+"c": "MU",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Mauricio: se puede jugar."
+},
+{
+"c": "KM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Comoras: sí."
+},
+{
+"c": "SC",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Seychelles: sin problema."
+},
+{
+"c": "AO",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Angola: adelante."
+},
+{
+"c": "CD",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "República Democrática del Congo: se puede jugar."
+},
+{
+"c": "CG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Congo: sí."
+},
+{
+"c": "GA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Gabón: sin problema."
+},
+{
+"c": "GQ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Guinea Ecuatorial: adelante."
+},
+{
+"c": "CM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Camerún: se puede jugar."
+},
+{
+"c": "CF",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "República Centroafricana: sí."
+},
+{
+"c": "TD",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Chad: sin problema."
+},
+{
+"c": "NE",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Níger: adelante."
+},
+{
+"c": "NG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Nigeria: se puede jugar."
+},
+{
+"c": "BJ",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Benín: sí."
+},
+{
+"c": "TG",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Togo: sin problema."
+},
+{
+"c": "GH",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Ghana: adelante."
+},
+{
+"c": "CI",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Costa de Marfil: se puede jugar."
+},
+{
+"c": "BF",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Burkina Faso: sí."
+},
+{
+"c": "ML",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Malí: sin problema."
+},
+{
+"c": "MR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Mauritania: adelante. Aunque sin chat, como en los países árabes."
+},
+{
+"c": "SN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Senegal: se puede jugar."
+},
+{
+"c": "GM",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Gambia: sí."
+},
+{
+"c": "GW",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Guinea-Bisáu: sin problema."
+},
+{
+"c": "GN",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Guinea: adelante."
+},
+{
+"c": "SL",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Sierra Leona: se puede jugar."
+},
+{
+"c": "LR",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Liberia: sí."
+},
+{
+"c": "CV",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Cabo Verde: sin problema."
+},
+{
+"c": "ST",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Santo Tomé: adelante."
+},
+{
+"c": "VA",
+"st": "D",
+"val": 0,
+"v": "SÍ",
+"vs": "SÍ",
+"sub": "Disponible",
+"say": "Vaticano: se puede jugar."
+}
+],
+"T": {
+"US": [
+"PbdeBaBBJTgZkIRcTU1J",
+"¡Roblox es nuestro! Nació en California... ¡y lo juegan cien millones de personas al día!"
+],
+"MX": [
+"qKiF0EEU7wtRm1G2mLMh",
+"¡Aquí juega todo el mundo, güey! Hasta mi abuelita tiene su avatar."
+],
+"ES": [
+"d5UAjYhvzEX3wkRfxPTM",
+"¡Se puede jugar, tío! Pero a las diez, a cenar."
+],
+"TR": [
+"mgZYFBDKPJGhiZEAcf4X",
+"¡Más de un año bloqueado! Aquí los niños juegan con VPN."
+],
+"RU": [
+"XCV7OOxwKwPMAdSwpD4R",
+"Seis meses bloqueado... ¡y ahora otra vez dentro! Pero vigilado."
+],
+"CN": [
+"XAV9ErNepIMDFPmlJ3pQ",
+"Aquí Roblox no... ¡pero tenemos nuestros propios juegos!"
+],
+"KP": [
+"DXmaqevHBKl3Emj5cBp1",
+"¿Roblox? Aquí el único juego es obedecer. Siguiente."
+],
+"BR": [
+"BECjFqjKpX1jVslC0trK",
+"¡Brasil es uno de los países que más juega a Roblox del mundo!"
+],
+"JP": [
+"1naQcvaoaQTXNd36WqlD",
+"Sí se puede jugar... pero aquí preferimos las consolas."
+],
+"AU": [
+"dSX8MUEljgxrFygPwhF5",
+"¡Se puede jugar, mate! Pero con el chat bloqueado para los peques."
+],
+"IN": [
+"pnoafjwb2T2zx4YYE60H",
+"¡Se puede jugar! Y con mil cuatrocientos millones, imagina las colas en los servidores."
+]
+},
+"cfg": {
+"title": "¿DÓNDE ESTÁ PROHIBIDO ROBLOX?",
+"icon": "pad",
+"t1": "¿DÓNDE ESTÁ",
+"t2": "PROHIBIDO ROBLOX?",
+"badge": "197 PAÍSES",
+"cats": [
+{
+"k": "D",
+"label": "SE PUEDE JUGAR",
+"short": "SÍ",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "C",
+"label": "CON LIMITACIONES",
+"short": "LIMITADO",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "angry"
+},
+{
+"k": "X",
+"label": "SIN SERVICIO (SANCIONES)",
+"short": "SIN SERVICIO",
+"col": "#8f86a8",
+"cold": "#5c5475",
+"mood": "sad"
+},
+{
+"k": "A",
+"label": "PROHIBIDO",
+"short": "PROHIBIDO",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "sad"
+}
+],
+"balls": [
+"US",
+"BR",
+"MX",
+"RU",
+"TR",
+"CN"
+],
+"ballMoods": [
+"happy",
+"happy",
+"happy",
+"angry",
+"sad",
+"angry"
+],
+"best": [
+"US",
+"SU CASA",
+"DESDE 2006"
+],
+"worst": [
+"TR",
+"BLOQUEADO",
+"DESDE 2024"
+],
+"ask": "¿TÚ JUEGAS A ROBLOX? ¡COMENTA!",
+"head": "ROBLOX"
+},
+"intro": [
+"Roblox lo juegan más de cien millones de personas al día... pero en algunos países, si entras, te lo encuentras bloqueado. Hoy revisamos los ciento noventa y siete países, uno por uno.",
+"Verde: se puede jugar.",
+"Amarillo: con limitaciones.",
+"Gris: sin servicio, por sanciones.",
+"Y rojo... ¡prohibido! ¡Vamos!"
+],
+"outro": [
+"¿Y tú, juegas a Roblox? ¡Comenta tu usuario!"
+]
+}

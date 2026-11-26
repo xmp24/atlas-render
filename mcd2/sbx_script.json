@@ -1,0 +1,1895 @@
+{
+"key": "sbx",
+"narr": "w495jEjc73YEWOkc3VLu",
+"C": [
+{
+"c": "US",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "~16.900 locales · Seattle, 1971",
+"say": "Estados Unidos: sí hay. ¡Casi diecisiete mil!"
+},
+{
+"c": "CA",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Canadá: hay."
+},
+{
+"c": "MX",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "México: sí."
+},
+{
+"c": "GB",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Reino Unido: ¡hay!"
+},
+{
+"c": "IE",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Irlanda: sí hay."
+},
+{
+"c": "FR",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Francia: hay."
+},
+{
+"c": "ES",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "España: sí."
+},
+{
+"c": "PT",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Portugal: ¡hay! Y eso que allí el café cuesta un euro."
+},
+{
+"c": "AD",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Andorra: sí hay."
+},
+{
+"c": "IT",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Llegó en 2018",
+"say": "Italia: hay. Pero llegó tardísimo: ¡en 2018!"
+},
+{
+"c": "SM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "San Marino: no hay."
+},
+{
+"c": "MT",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Malta: sí."
+},
+{
+"c": "MC",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Mónaco: ¡hay!"
+},
+{
+"c": "CH",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Suiza: sí hay."
+},
+{
+"c": "LI",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Liechtenstein: nada."
+},
+{
+"c": "AT",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Austria: hay."
+},
+{
+"c": "DE",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Alemania: sí."
+},
+{
+"c": "LU",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Luxemburgo: ¡hay!"
+},
+{
+"c": "BE",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Bélgica: sí hay."
+},
+{
+"c": "NL",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Países Bajos: hay."
+},
+{
+"c": "DK",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Dinamarca: sí."
+},
+{
+"c": "NO",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Noruega: ¡hay!"
+},
+{
+"c": "SE",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Suecia: sí hay."
+},
+{
+"c": "FI",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Finlandia: hay."
+},
+{
+"c": "IS",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Islandia: ni uno. Aquí se defienden con sus cafeterías."
+},
+{
+"c": "PL",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Polonia: sí."
+},
+{
+"c": "CZ",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Chequia: ¡hay!"
+},
+{
+"c": "SK",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Eslovaquia: sí hay."
+},
+{
+"c": "HU",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Hungría: hay."
+},
+{
+"c": "SI",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Eslovenia: tampoco."
+},
+{
+"c": "HR",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Croacia: nada."
+},
+{
+"c": "BA",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Bosnia: tampoco."
+},
+{
+"c": "RS",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Serbia: sí."
+},
+{
+"c": "ME",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Montenegro: nada."
+},
+{
+"c": "XK",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Kosovo: no."
+},
+{
+"c": "AL",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Albania: no."
+},
+{
+"c": "MK",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Macedonia del Norte: no."
+},
+{
+"c": "GR",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Grecia: ¡hay!"
+},
+{
+"c": "BG",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Bulgaria: sí hay."
+},
+{
+"c": "RO",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Rumanía: hay."
+},
+{
+"c": "MD",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Moldavia: no hay."
+},
+{
+"c": "UA",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Ucrania: ni uno."
+},
+{
+"c": "BY",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Bielorrusia: tampoco."
+},
+{
+"c": "LT",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Lituania: ni uno."
+},
+{
+"c": "LV",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Letonia: no."
+},
+{
+"c": "EE",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Estonia: no hay."
+},
+{
+"c": "RU",
+"st": "C",
+"val": 0,
+"v": "SE FUE",
+"vs": "SE FUE",
+"sub": "Se fue en 2022 · ahora \"Stars Coffee\"",
+"say": "Rusia: se fue. En 2022. Y sus locales ahora se llaman Stars Coffee."
+},
+{
+"c": "CY",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Chipre: sí."
+},
+{
+"c": "TR",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Turquía: ¡hay!"
+},
+{
+"c": "CO",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Desde 2014",
+"say": "Colombia: sí hay. En el país del café... y llegó en 2014."
+},
+{
+"c": "VE",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Venezuela: nada."
+},
+{
+"c": "EC",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Ecuador: hay."
+},
+{
+"c": "PE",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Perú: sí."
+},
+{
+"c": "BO",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Bolivia: pocos, pero hay."
+},
+{
+"c": "CL",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Chile: sí hay."
+},
+{
+"c": "AR",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Argentina: hay."
+},
+{
+"c": "UY",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Uruguay: sí."
+},
+{
+"c": "PY",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Paraguay: sí, en Asunción."
+},
+{
+"c": "BR",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Brasil: sí hay."
+},
+{
+"c": "GY",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Guyana: tampoco."
+},
+{
+"c": "SR",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Surinam: ni uno."
+},
+{
+"c": "PA",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Panamá: hay."
+},
+{
+"c": "CR",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Costa Rica: sí."
+},
+{
+"c": "NI",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Nicaragua: no."
+},
+{
+"c": "HN",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Honduras: no hay."
+},
+{
+"c": "SV",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "El Salvador: ¡hay!"
+},
+{
+"c": "GT",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Guatemala: sí hay."
+},
+{
+"c": "BZ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Belice: nada."
+},
+{
+"c": "CU",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Solo en la base de Guantánamo",
+"say": "Cuba: bueno... solo en la base de Guantánamo."
+},
+{
+"c": "JM",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Jamaica: hay. ¡Café de las Montañas Azules... y Starbucks!"
+},
+{
+"c": "HT",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Haití: ni uno."
+},
+{
+"c": "DO",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "República Dominicana: no."
+},
+{
+"c": "BS",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Bahamas: sí."
+},
+{
+"c": "BB",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Barbados: no hay."
+},
+{
+"c": "TT",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Trinidad y Tobago: ¡hay!"
+},
+{
+"c": "GD",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Granada: nada."
+},
+{
+"c": "VC",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "San Vicente: tampoco."
+},
+{
+"c": "LC",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Santa Lucía: ni uno."
+},
+{
+"c": "DM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Dominica: no."
+},
+{
+"c": "AG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Antigua y Barbuda: no hay."
+},
+{
+"c": "KN",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "San Cristóbal y Nieves: nada."
+},
+{
+"c": "GE",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Georgia: sí hay."
+},
+{
+"c": "AM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Armenia: tampoco."
+},
+{
+"c": "AZ",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Azerbaiyán: hay."
+},
+{
+"c": "KZ",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Kazajistán: sí."
+},
+{
+"c": "UZ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Uzbekistán: ni uno."
+},
+{
+"c": "TM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Turkmenistán: no."
+},
+{
+"c": "KG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Kirguistán: no hay."
+},
+{
+"c": "TJ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Tayikistán: nada."
+},
+{
+"c": "AF",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Afganistán: tampoco."
+},
+{
+"c": "IR",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Irán: ni uno."
+},
+{
+"c": "IQ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Irak: no."
+},
+{
+"c": "SY",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Siria: no hay."
+},
+{
+"c": "LB",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Líbano: ¡hay!"
+},
+{
+"c": "IL",
+"st": "C",
+"val": 0,
+"v": "SE FUE",
+"vs": "SE FUE",
+"sub": "Abrió 2001 · Cerró 2003",
+"say": "Israel: se fue. ¡En 2003! Duró solo dos años."
+},
+{
+"c": "PS",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Palestina: nada."
+},
+{
+"c": "JO",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Jordania: sí hay."
+},
+{
+"c": "SA",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "~420 locales",
+"say": "Arabia Saudí: hay. Más de cuatrocientos."
+},
+{
+"c": "YE",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Yemen: tampoco."
+},
+{
+"c": "OM",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Omán: sí."
+},
+{
+"c": "AE",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Emiratos Árabes: ¡hay!"
+},
+{
+"c": "QA",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Catar: sí hay."
+},
+{
+"c": "BH",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Baréin: hay."
+},
+{
+"c": "KW",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Kuwait: sí."
+},
+{
+"c": "IN",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "~500 locales",
+"say": "India: ¡hay! Casi quinientos."
+},
+{
+"c": "PK",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Pakistán: ni uno."
+},
+{
+"c": "NP",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Nepal: no."
+},
+{
+"c": "BT",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Bután: no hay."
+},
+{
+"c": "BD",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Bangladés: nada."
+},
+{
+"c": "LK",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Sri Lanka: tampoco."
+},
+{
+"c": "MV",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Maldivas: ni uno."
+},
+{
+"c": "MM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Myanmar: no."
+},
+{
+"c": "TH",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Tailandia: sí hay."
+},
+{
+"c": "LA",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Laos: hay. Recién llegado."
+},
+{
+"c": "KH",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Camboya: sí."
+},
+{
+"c": "VN",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Vietnam: ¡hay! Aunque aquí manda el café vietnamita."
+},
+{
+"c": "MY",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Malasia: sí hay."
+},
+{
+"c": "SG",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Singapur: hay."
+},
+{
+"c": "ID",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Indonesia: sí."
+},
+{
+"c": "BN",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Brunéi: ¡hay!"
+},
+{
+"c": "PH",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Filipinas: sí hay."
+},
+{
+"c": "TL",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Timor Oriental: no hay."
+},
+{
+"c": "CN",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "~8.100 locales",
+"say": "China: hay. ¡Más de ocho mil! El segundo del mundo."
+},
+{
+"c": "MN",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Mongolia: sí. De los últimos en llegar."
+},
+{
+"c": "KP",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Corea del Norte: ni de broma."
+},
+{
+"c": "KR",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "+2.000 locales",
+"say": "Corea del Sur: ¡hay! Y es de los países con más Starbucks por persona."
+},
+{
+"c": "JP",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "+1.800 locales",
+"say": "Japón: sí hay."
+},
+{
+"c": "TW",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Taiwán: hay."
+},
+{
+"c": "AU",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Cerró 61 locales en 2008",
+"say": "Australia: sí. Aunque en 2008 cerró casi todos sus locales."
+},
+{
+"c": "NZ",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Nueva Zelanda: ¡hay!"
+},
+{
+"c": "PG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Papúa Nueva Guinea: tampoco."
+},
+{
+"c": "SB",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Islas Salomón: ni uno."
+},
+{
+"c": "VU",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Vanuatu: no."
+},
+{
+"c": "FJ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Fiyi: no hay."
+},
+{
+"c": "WS",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Samoa: nada."
+},
+{
+"c": "TO",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Tonga: tampoco."
+},
+{
+"c": "KI",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Kiribati: ni uno."
+},
+{
+"c": "TV",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Tuvalu: no."
+},
+{
+"c": "NR",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Nauru: no hay."
+},
+{
+"c": "MH",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Islas Marshall: nada."
+},
+{
+"c": "FM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Micronesia: tampoco."
+},
+{
+"c": "PW",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Palaos: ni uno."
+},
+{
+"c": "MA",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Hay locales",
+"say": "Marruecos: sí hay."
+},
+{
+"c": "DZ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Argelia: no."
+},
+{
+"c": "TN",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Túnez: no hay."
+},
+{
+"c": "LY",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Libia: nada."
+},
+{
+"c": "EG",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Desde 2006",
+"say": "Egipto: hay. El primero de África, en 2006."
+},
+{
+"c": "SD",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Sudán: tampoco."
+},
+{
+"c": "SS",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Sudán del Sur: ni uno."
+},
+{
+"c": "ET",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Donde nació el café",
+"say": "Etiopía: no. ¡Y aquí es donde nació el café!"
+},
+{
+"c": "ER",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Eritrea: no hay."
+},
+{
+"c": "DJ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Yibuti: nada."
+},
+{
+"c": "SO",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Somalia: tampoco."
+},
+{
+"c": "KE",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Kenia: ni uno. Y eso que tiene un café buenísimo."
+},
+{
+"c": "UG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Uganda: no."
+},
+{
+"c": "RW",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Ruanda: no hay."
+},
+{
+"c": "BI",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Burundi: nada."
+},
+{
+"c": "TZ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Tanzania: tampoco."
+},
+{
+"c": "MZ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Mozambique: ni uno."
+},
+{
+"c": "MW",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Malaui: no."
+},
+{
+"c": "ZM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Zambia: no hay."
+},
+{
+"c": "ZW",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Zimbabue: nada."
+},
+{
+"c": "BW",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Botsuana: tampoco."
+},
+{
+"c": "NA",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Namibia: ni uno."
+},
+{
+"c": "ZA",
+"st": "D",
+"val": 0,
+"v": "HAY",
+"vs": "SÍ",
+"sub": "Desde 2016",
+"say": "Sudáfrica: sí. El primero del África negra, en 2016."
+},
+{
+"c": "LS",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Lesoto: no."
+},
+{
+"c": "SZ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Esuatini: no hay."
+},
+{
+"c": "MG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Madagascar: nada."
+},
+{
+"c": "MU",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Mauricio: tampoco."
+},
+{
+"c": "KM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Comoras: ni uno."
+},
+{
+"c": "SC",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Seychelles: no."
+},
+{
+"c": "AO",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Angola: no hay."
+},
+{
+"c": "CD",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "República Democrática del Congo: nada."
+},
+{
+"c": "CG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Congo: tampoco."
+},
+{
+"c": "GA",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Gabón: ni uno."
+},
+{
+"c": "GQ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Guinea Ecuatorial: no."
+},
+{
+"c": "CM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Camerún: no hay."
+},
+{
+"c": "CF",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "República Centroafricana: nada."
+},
+{
+"c": "TD",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Chad: tampoco."
+},
+{
+"c": "NE",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Níger: ni uno."
+},
+{
+"c": "NG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "+200 millones de personas",
+"say": "Nigeria: no. ¡Doscientos millones de personas y ni un Starbucks!"
+},
+{
+"c": "BJ",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Benín: no hay."
+},
+{
+"c": "TG",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Togo: nada."
+},
+{
+"c": "GH",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Ghana: tampoco."
+},
+{
+"c": "CI",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Costa de Marfil: ni uno."
+},
+{
+"c": "BF",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Burkina Faso: no."
+},
+{
+"c": "ML",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Malí: no hay."
+},
+{
+"c": "MR",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Mauritania: nada."
+},
+{
+"c": "SN",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Senegal: tampoco."
+},
+{
+"c": "GM",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Gambia: ni uno."
+},
+{
+"c": "GW",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Guinea-Bisáu: no."
+},
+{
+"c": "GN",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Guinea: no hay."
+},
+{
+"c": "SL",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Sierra Leona: nada."
+},
+{
+"c": "LR",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Liberia: tampoco."
+},
+{
+"c": "CV",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Cabo Verde: ni uno."
+},
+{
+"c": "ST",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Santo Tomé: no."
+},
+{
+"c": "VA",
+"st": "A",
+"val": 0,
+"v": "NO HAY",
+"vs": "NO",
+"sub": "Ni un solo local",
+"say": "Vaticano: no hay. Ni aquí ni en ningún país del Papa."
+}
+],
+"T": {
+"US": [
+"PbdeBaBBJTgZkIRcTU1J",
+"¡Nació en Seattle, en 1971! Al principio solo vendía café en grano."
+],
+"MX": [
+"qKiF0EEU7wtRm1G2mLMh",
+"¡Claro que hay, carnal! Pero yo me quedo con mi café de olla."
+],
+"ES": [
+"d5UAjYhvzEX3wkRfxPTM",
+"¡Sí hay, tío! Pero aquí un cortado en el bar es sagrado."
+],
+"IT": [
+"EUB39iBkSWvtMTIGWmNE",
+"¿Starbucks en Italia? ¡Llegó en 2018! Aquí el espresso se toma de pie y en diez segundos."
+],
+"RU": [
+"XCV7OOxwKwPMAdSwpD4R",
+"Starbucks se fue en 2022... ¡y ahora el logo tiene una estrella! Stars Coffee."
+],
+"AU": [
+"dSX8MUEljgxrFygPwhF5",
+"¡En 2008 cerramos casi todos, mate! Aquí el flat white de barrio gana."
+],
+"ET": [
+"3W7TIElBzp1JQ8BxQuXK",
+"¡Aquí nació el café, hace siglos! ¿Para qué queremos Starbucks?"
+],
+"CU": [
+"P5oKQC0uccAVbhCpX8GX",
+"Oye, un Starbucks hay... ¡pero dentro de la base de Guantánamo! Los cubanos ni lo olemos."
+],
+"JP": [
+"1naQcvaoaQTXNd36WqlD",
+"¡Más de mil ochocientos! Y con sabores que solo hay aquí, como el de flor de cerezo."
+],
+"IN": [
+"pnoafjwb2T2zx4YYE60H",
+"¡Hay casi quinientos! Pero el chai de la calle cuesta diez veces menos."
+],
+"VA": [
+"G0q9AYE8QsarSbMtaIEu",
+"En el Vaticano no hay Starbucks. Pero a la salida de la plaza... ¡hay de todo!"
+]
+},
+"cfg": {
+"title": "¿DÓNDE NO HAY STARBUCKS?",
+"icon": "cup",
+"t1": "¿DÓNDE NO",
+"t2": "HAY STARBUCKS?",
+"badge": "197 PAÍSES",
+"cats": [
+{
+"k": "D",
+"label": "HAY STARBUCKS",
+"short": "HAY",
+"col": "#2fbf63",
+"cold": "#17803d",
+"mood": "happy"
+},
+{
+"k": "C",
+"label": "LO TUVO, Y SE FUE",
+"short": "SE FUE",
+"col": "#ffd23f",
+"cold": "#b38e00",
+"mood": "angry"
+},
+{
+"k": "A",
+"label": "NO HAY",
+"short": "NO HAY",
+"col": "#ee4646",
+"cold": "#a51f1f",
+"mood": "sad"
+}
+],
+"balls": [
+"US",
+"CN",
+"IT",
+"RU",
+"ET",
+"NG"
+],
+"ballMoods": [
+"happy",
+"happy",
+"angry",
+"angry",
+"sad",
+"sad"
+],
+"best": [
+"US",
+"EL QUE MÁS",
+"16.900"
+],
+"worst": [
+"ET",
+"CUNA DEL CAFÉ",
+"NI UNO"
+],
+"ask": "¿HAY STARBUCKS EN TU CIUDAD? ¡COMENTA!",
+"head": "STARBUCKS"
+},
+"intro": [
+"Starbucks tiene más de cuarenta mil cafeterías... y aun así, en más de la mitad de los países del mundo no hay ni una. Hoy revisamos los ciento noventa y siete, uno por uno.",
+"Verde: hay Starbucks.",
+"Amarillo: lo tuvo, y se fue.",
+"Y rojo: no hay ni uno. ¡Vamos!"
+],
+"outro": [
+"¿Hay Starbucks en tu ciudad? ¡Comenta!"
+]
+}
