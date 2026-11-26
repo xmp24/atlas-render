@@ -439,7 +439,7 @@
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Bloqueado desde agosto de 2024",
 "say": "Turquía: ¡prohibido! Desde agosto de 2024. El primero de los grandes."
 },
@@ -826,7 +826,7 @@
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Bloqueado desde octubre de 2025",
 "say": "Irak: ¡prohibido! Desde octubre de 2025."
 },
@@ -837,7 +837,7 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Siria: adelante. Aunque sin chat, como en los países árabes."
+"say": "Siria: se puede jugar... pero sin chat."
 },
 {
 "c": "LB",
@@ -846,7 +846,7 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Líbano: se puede jugar. Aunque sin chat, como en los países árabes."
+"say": "Líbano: se puede jugar... pero sin chat."
 },
 {
 "c": "IL",
@@ -862,7 +862,7 @@
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Bloqueado desde noviembre de 2025",
 "say": "Palestina: ¡prohibido! Desde noviembre de 2025."
 },
@@ -882,7 +882,7 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Arabia Saudí: sin problema. Pero con el chat apagado."
+"say": "Arabia Saudí: se puede jugar... pero sin chat."
 },
 {
 "c": "YE",
@@ -891,14 +891,14 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Yemen: adelante. Aunque sin chat, como en los países árabes."
+"say": "Yemen: se puede jugar... pero sin chat."
 },
 {
 "c": "OM",
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Bloqueado desde junio de 2025",
 "say": "Omán: ¡prohibido! Desde junio de 2025."
 },
@@ -909,14 +909,14 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Emiratos Árabes: se puede jugar. Pero con el chat apagado."
+"say": "Emiratos Árabes: se puede jugar... pero sin chat."
 },
 {
 "c": "QA",
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Bloqueado desde agosto de 2025",
 "say": "Catar: ¡prohibido! Desde agosto de 2025."
 },
@@ -1105,7 +1105,7 @@
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Versión china cerrada en 2021",
 "say": "China: ¡prohibido! Tuvo su versión china... y la cerraron en 2021."
 },
@@ -1123,7 +1123,7 @@
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Sin internet para la población",
 "say": "Corea del Norte: ¡prohibido! Bueno... aquí casi no hay internet."
 },
@@ -1287,7 +1287,7 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Marruecos: se puede jugar. Aunque sin chat, como en los países árabes."
+"say": "Marruecos: se puede jugar... pero sin chat."
 },
 {
 "c": "DZ",
@@ -1305,7 +1305,7 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Túnez: sí. Aunque sin chat, como en los países árabes."
+"say": "Túnez: se puede jugar... pero sin chat."
 },
 {
 "c": "LY",
@@ -1314,14 +1314,14 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Libia: sin problema. Aunque sin chat, como en los países árabes."
+"say": "Libia: se puede jugar... pero sin chat."
 },
 {
 "c": "EG",
 "st": "A",
 "val": 0,
 "v": "PROHIBIDO",
-"vs": "⛔",
+"vs": "NO",
 "sub": "Bloqueado desde febrero de 2026",
 "say": "Egipto: ¡prohibido! Desde febrero de 2026."
 },
@@ -1332,7 +1332,7 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Sudán: adelante. Aunque sin chat, como en los países árabes."
+"say": "Sudán: se puede jugar... pero sin chat."
 },
 {
 "c": "SS",
@@ -1692,7 +1692,7 @@
 "v": "SÍ",
 "vs": "SÍ",
 "sub": "Disponible",
-"say": "Mauritania: adelante. Aunque sin chat, como en los países árabes."
+"say": "Mauritania: se puede jugar... pero sin chat."
 },
 {
 "c": "SN",

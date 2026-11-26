@@ -38,7 +38,7 @@ def nav():
             cat('C', 'SE CELEBRA, PERO SE TRABAJA', 'SE CELEBRA', YEL, '#b38e00', 'happy'),
             cat('B', 'CASI NO SE CELEBRA', 'CASI NADA', ORA, '#b35a0c', 'angry'),
             cat('A', 'PROHIBIDA', 'PROHIBIDA', RED, '#a51f1f', 'sad')]
-    phr = {'D': ['¡festivo!', 'festivo.', 'se celebra.', 'Navidad, sí.'], 'C': ['se celebra... pero se trabaja.', 'se celebra, pero no es festivo.'],
+    phr = {'D': ['¡festivo!', 'festivo.', 'sí es festivo.', 'Navidad, sí.'], 'C': ['se celebra... pero se trabaja.', 'se celebra, pero no es festivo.'],
            'B': ['casi no se celebra.', 'casi nada.', 'apenas se nota.'], 'A': ['¡prohibida!']}
     X = {'US': 'Y con luces que se ven desde el espacio.', 'MX': 'Con posadas desde el dieciséis de diciembre.',
          'GB': 'Con discurso del rey incluido.', 'ES': 'Y los regalos, muchos, el seis de enero.', 'IT': 'Con panettone hasta en la sopa.',
@@ -76,7 +76,7 @@ def nav():
            'MD': 'Festivo el 25 y el 7', 'KP': 'Prohibida: la religión está perseguida', 'BN': 'Prohibida en público desde 2015',
            'SO': 'Prohibida en público desde 2015', 'TJ': 'Sin árbol ni Papá Noel desde 2013', 'CU': 'Prohibida de 1969 a 1997',
            'SA': 'Prohibida en público hasta hace poco', 'PS': 'Belén, donde nació Jesús', 'IQ': 'Festivo desde 2008', 'SD': 'Festivo de nuevo desde 2020'}
-    VT = {'D': ('FESTIVO', 'SÍ'), 'C': ('SE CELEBRA', 'MEDIO'), 'B': ('CASI NADA', 'NO'), 'A': ('PROHIBIDA', '⛔')}
+    VT = {'D': ('FESTIVO', 'SÍ'), 'C': ('SE CELEBRA', 'MEDIO'), 'B': ('CASI NADA', 'NO'), 'A': ('PROHIBIDA', 'NO')}
     C = rows(st, phr, X, SUB, VT)
     cfg = dict(title='¿DÓNDE ESTÁ PROHIBIDA LA NAVIDAD?', icon='tree', t1='¿DÓNDE ESTÁ', t2='PROHIBIDA LA NAVIDAD?', badge='197 PAÍSES',
                cats=cats, balls=['VA', 'US', 'MX', 'JP', 'KP', 'SO'], ballMoods=['happy', 'happy', 'happy', 'happy', 'angry', 'sad'],
@@ -101,10 +101,10 @@ def rbx():
          'PS': 'Desde noviembre de 2025.', 'EG': 'Desde febrero de 2026.', 'RU': 'Lo bloqueó en diciembre de 2025... y lo devolvió en junio de 2026.',
          'JO': 'Volvió en 2025... pero sin chat.', 'KW': 'Lo bloqueó tres meses en 2025. Volvió, sin chat.', 'DZ': 'Prohibido en 2025... y de vuelta en 2026, sin chat.',
          'BH': 'Y se está estudiando prohibirlo.', 'ID': 'Allí están quitando las cuentas a los menores de dieciséis.', 'IR': 'Por las sanciones de Estados Unidos.',
-         'CU': 'Por las sanciones de Estados Unidos.', 'SA': 'Pero con el chat apagado.', 'AE': 'Pero con el chat apagado.',
+         'CU': 'Por las sanciones de Estados Unidos.', 'SA': '!se puede jugar... pero sin chat.', 'AE': '!se puede jugar... pero sin chat.',
          'PH': 'Querían prohibirlo... y al final no.', 'AU': 'Y con el chat muy controlado para los niños.', 'BR': 'Uno de sus países con más jugadores.',
          'GB': 'Con verificación de edad.', 'NL': 'Aunque allí lo vigilan con lupa.'}
-    for c in 'MA TN LY SD YE LB SY MR'.split(): X.setdefault(c, 'Aunque sin chat, como en los países árabes.')
+    for c in 'MA TN LY SD YE LB SY MR'.split(): X.setdefault(c, '!se puede jugar... pero sin chat.')
     T = {'US': (V['US'], '¡Roblox es nuestro! Nació en California... ¡y lo juegan cien millones de personas al día!'),
          'MX': (V['MX'], '¡Aquí juega todo el mundo, güey! Hasta mi abuelita tiene su avatar.'),
          'ES': (V['ES'], '¡Se puede jugar, tío! Pero a las diez, a cenar.'),
@@ -122,7 +122,7 @@ def rbx():
            'EG': 'Bloqueado desde febrero de 2026', 'RU': 'Bloqueado dic 2025 – jun 2026', 'JO': 'Volvió sin chat', 'KW': 'Volvió sin chat',
            'DZ': 'Volvió en 2026 sin chat', 'BH': 'Prohibición en estudio', 'ID': 'Fuera menores de 16', 'KP': 'Sin internet para la población',
            'US': 'Nació aquí en 2006'}
-    VT = {'D': ('SÍ', 'SÍ'), 'C': ('LIMITADO', 'MEDIO'), 'X': ('SIN SERVICIO', 'NO'), 'A': ('PROHIBIDO', '⛔')}
+    VT = {'D': ('SÍ', 'SÍ'), 'C': ('LIMITADO', 'MEDIO'), 'X': ('SIN SERVICIO', 'NO'), 'A': ('PROHIBIDO', 'NO')}
     C = rows(st, phr, X, SUB, VT)
     cfg = dict(title='¿DÓNDE ESTÁ PROHIBIDO ROBLOX?', icon='pad', t1='¿DÓNDE ESTÁ', t2='PROHIBIDO ROBLOX?', badge='197 PAÍSES',
                cats=cats, balls=['US', 'BR', 'MX', 'RU', 'TR', 'CN'], ballMoods=['happy', 'happy', 'happy', 'angry', 'sad', 'angry'],
@@ -146,7 +146,7 @@ def sbx():
     phr = {'D': ['sí hay.', 'hay.', 'sí.', '¡hay!'], 'C': ['se fue.'], 'A': ['no hay.', 'nada.', 'tampoco.', 'ni uno.', 'no.']}
     X = {'US': '¡Casi diecisiete mil!', 'CN': '¡Más de ocho mil! El segundo del mundo.', 'KR': 'Y es de los países con más Starbucks por persona.',
          'IT': 'Pero llegó tardísimo: ¡en 2018!', 'FR': '', 'RU': 'En 2022. Y sus locales ahora se llaman Stars Coffee.', 'IL': '¡En 2003! Duró solo dos años.',
-         'AU': 'Aunque en 2008 cerró casi todos sus locales.', 'VA': 'Ni aquí ni en ningún país del Papa.', 'ET': '¡Y aquí es donde nació el café!',
+         'AU': 'Aunque en 2008 cerró casi todos sus locales.', 'ET': '¡Y aquí es donde nació el café!',
          'CO': 'En el país del café... y llegó en 2014.', 'VN': 'Aunque aquí manda el café vietnamita.', 'SA': 'Más de cuatrocientos.',
          'IN': 'Casi quinientos.', 'ZA': 'El primero del África negra, en 2016.', 'EG': 'El primero de África, en 2006.',
          'MN': 'De los últimos en llegar.', 'LA': 'Recién llegado.', 'IS': '!ni uno. Aquí se defienden con sus cafeterías.', 'KP': '!ni de broma.',
@@ -193,9 +193,9 @@ def tbl():
             cat('A', 'NO HAY', 'NO HAY', RED, '#a51f1f', 'sad')]
     phr = {'D': ['sí hay.', 'hay.', 'sí.', '¡hay!'], 'E': ['¡está llegando!'], 'C': ['se fue.'], 'A': ['no hay.', 'nada.', 'tampoco.', 'ni uno.', 'no.']}
     X = {'US': '¡Más de siete mil quinientos!', 'MX': '!se fue... ¡y fracasó dos veces! Ni los mexicanos se lo creyeron.', 'ES': '¡El mayor fuera de Estados Unidos!',
-         'GB': 'El segundo de Europa.', 'IN': 'Y sin carne de vaca.', 'SG': 'Se fue en 2008.', 'IS': 'Lo tuvo... y se fue.',
+         'GB': 'El segundo de Europa.', 'IN': 'Y sin carne de vaca.', 'SG': '!se fue en 2008.', 'IS': '!lo tuvo... y se fue.',
          'DE': 'Después de un intento fallido, ahora sí.', 'PL': 'Abre a finales de 2026.', 'AE': 'Vuelve después de catorce años.', 'GR': 'Vuelve, tras cerrar en 2010.',
-         'FR': '!ni uno... de momento: está en sus planes.', 'ZA': 'Y también está en la lista de los próximos.', 'IT': '!nada. Aquí la pizza no se toca.',
+         'FR': '!ni uno... de momento: está en sus planes.', 'ZA': 'Pero está en sus planes.', 'IT': '!nada. Aquí la pizza no se toca.',
          'CN': 'Con un menú muy distinto.', 'FI': 'Y le va de maravilla.', 'BA': '!¡sorpresa! Sí hay.', 'RS': '!sí, en Belgrado.', 'KP': '!ni de broma.',
          'AR': '!nada... y eso que les encanta la carne.', 'AU': 'Llegó en 2017.', 'CA': 'Más de cien.', 'RU': '!nada.', 'VA': ''}
     T = {'US': (V['US'], '¡Nació en California en 1962! Y ojo: el primer local se llamaba Taco-Tia.'),

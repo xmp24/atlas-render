@@ -100,7 +100,7 @@ def norm(w):
     w = unicodedata.normalize('NFD', w.lower()); w = ''.join(ch for ch in w if unicodedata.category(ch) != 'Mn')
     w = re.sub(r'[^a-z0-9]', '', w)
     return ALIAS.get(w, w)
-ALIAS = {'belize': 'belice', 'iraq': 'irak', 'comoros': 'comoras', 'visau': 'bisau', 'qatar': 'catar', 'bahrein': 'barein', 'rwanda': 'ruanda', 'malawi': 'malaui', 'zimbabwe': 'zimbabue', 'tajikistan': 'tayikistan', 'fiji': 'fiyi', 'djibouti': 'yibuti', 'bangladesh': 'banglades', 'guineabissau': 'guineabisau', 'botswana': 'botsuana', 'eswatini': 'esuatini', 'butan': 'butan', 'bhutan': 'butan', 'emiratos': 'emiratos', 'gambia': 'gambia', 'lesotho': 'lesoto', 'kirguizistan': 'kirguistan', 'kazajstan': 'kazajistan', 'zambia': 'zambia', 'uganda': 'uganda'}
+ALIAS = {'belize': 'belice', 'iraq': 'irak', 'comoros': 'comoras', 'visau': 'bisau', 'qatar': 'catar', 'bahrein': 'barein', 'rwanda': 'ruanda', 'malawi': 'malaui', 'zimbabwe': 'zimbabue', 'tajikistan': 'tayikistan', 'fiji': 'fiyi', 'djibouti': 'yibuti', 'bangladesh': 'banglades', 'guineabissau': 'guineabisau', 'botswana': 'botsuana', 'eswatini': 'esuatini', 'butan': 'butan', 'bhutan': 'butan', 'emiratos': 'emiratos', 'gambia': 'gambia', 'lesotho': 'lesoto', 'kirguizistan': 'kirguistan', 'kazajstan': 'kazajistan', 'zambia': 'zambia', 'uganda': 'uganda', 'isla': 'islas', 'palauos': 'palaos', 'palau': 'palaos', 'paquistan': 'pakistan', 'kyrgyzstan': 'kirguistan', 'namidia': 'namibia', 'bahrain': 'barein', 'bahrein': 'barein'}
 def gaps_of(x, min_ms=60):
     e = rms(x); thr = max(e.max() * 10 ** (-38 / 20), 1e-4); sil = e < thr
     out = []; i = 0
