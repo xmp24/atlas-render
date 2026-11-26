@@ -18,8 +18,7 @@ export const XComps: React.FC = () => (
   <>
     {BUILT.map(([id, x]) => (
       <React.Fragment key={id}>
-        <Composition id={id} component={x.Comp720} durationInFrames={x.frames} fps={30} width={1280} height={720} />
-        <Composition id={id + 'HD'} component={x.Comp} durationInFrames={x.frames} fps={30} width={1920} height={1080} />
+        <Composition id={id} component={x.Comp} durationInFrames={x.frames} fps={x.fps} width={1920} height={1080} />
       </React.Fragment>
     ))}
   </>

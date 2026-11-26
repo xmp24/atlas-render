@@ -11,7 +11,7 @@ type EyeMood = 'calm' | 'fire' | 'scared' | 'cool' | 'happy' | 'dead';
 
 export const makeWarX = (TLJ: any, GEOJ: any) => {
   const TL = TLJ as any;
-  const FPS = 30;
+  const FPS = TL.fps || 30;
   const GEO = GEOJ as any;
   const GC = GEO.countries as Record<string, any>;
   const NAME = (TL.names || {}) as Record<string, string>;
@@ -1158,5 +1158,5 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
       </div>
     </AbsoluteFill>
   );
-  return {Comp, Comp720, frames};
+  return {Comp, Comp720, frames, fps: FPS};
 };
