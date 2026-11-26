@@ -1,0 +1,32 @@
+name: asrml
+run-name: asrml ${{ inputs.branch }} ${{ inputs.lang }}
+on:
+  workflow_dispatch:
+    inputs:
+      branch: {required: true}
+      lang: {required: true}
+permissions:
+  contents: write
+jobs:
+  asr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q faster-whisper
+      - run: |
+          mkdir w && cd w && git init -q && git fetch -q --depth 1 https://github.com/${{ github.repository }} "+refs/heads/${{ inputs.branch }}:refs/remotes/o/b" && git archive o/b | tar -x
+          python - <<'P'
+          import glob, json
+          from faster_whisper import WhisperModel
+          m = WhisperModel('small', device='cpu', compute_type='int8')
+          out = {}
+          for f in sorted(glob.glob('*.wav')):
+              segs, info = m.transcribe(f, language='${{ inputs.lang }}', beam_size=5, word_timestamps=True)
+              out[f] = [[w.start, w.end, w.word] for s in segs for w in s.words]
+              print(f, len(out[f]))
+          json.dump(out, open('../words.json', 'w'), ensure_ascii=False)
+          P
+      - run: |
+          mkdir o && mv words.json o/ && cd o && git init -q -b out && git add -A && git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm w
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" out:refs/heads/words-${{ inputs.branch }}
