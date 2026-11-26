@@ -221,8 +221,8 @@ const turnAt = (t: number) => { for (let i = TURNS.length - 1; i >= 0; i--) if (
 const fightAt = (tr: any, t: number) => { if (!tr || !tr.fights) return null; for (let i = tr.fights.length - 1; i >= 0; i--) if (t >= tr.fights[i].tDir) return tr.fights[i]; return null; };
 
 // ================= ojos (estilo de la referencia) =================
-type EyeMood = 'calm' | 'fire' | 'scared' | 'cool' | 'happy' | 'dead';
-const Eyes: React.FC<{x: number; y: number; r: number; mood: EyeMood; look: P; t: number; seed: number; power?: string; alpha?: number; pump?: number}> = ({x, y, r, mood, look, t, seed, power, alpha = 1, pump = 1}) => {
+export type EyeMood = 'calm' | 'fire' | 'scared' | 'cool' | 'happy' | 'dead';
+export const Eyes: React.FC<{x: number; y: number; r: number; mood: EyeMood; look: P; t: number; seed: number; power?: string; alpha?: number; pump?: number}> = ({x, y, r, mood, look, t, seed, power, alpha = 1, pump = 1}) => {
   const blink = ((t * 0.37 + seed * 0.13) % 3.7) < 0.12 ? 0.12 : 1;
   const ex = r * 0.52, ew = r * 0.42, eh = r * 0.5 * (mood === 'scared' ? 1.12 : 1);
   const ir = r * (mood === 'scared' ? 0.17 : 0.25);
