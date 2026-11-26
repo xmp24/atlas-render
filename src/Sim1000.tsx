@@ -258,6 +258,7 @@ export const Sim1000: React.FC = () => {
     if (s.kind === 'hook') { const k = s.keys.find((kk: string) => { const v = SIMS[kk].vs[SIMS[kk].vs.length - 1]; return t < v.t1; }) || s.keys[s.keys.length - 1];
       nodes.push(<SimView key="hk" t={t} k={k} n={SIMS[k].seed + 1} hud={false} />);
       nodes.push(<div key="hc" style={{position: 'absolute', left: 0, right: 0, top: 34, textAlign: 'center', ...font, fontSize: 84, color: YELLOW, ...OUT}}>SIMULATION #{fmt(SIMS[k].seed + 1)}</div>);
+      if (t > 7.9) nodes.push(<div key="hq" style={{position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center', transform: `scale(${popT(t, 7.9, 11)})`}}><div style={{display: 'inline-block', background: RED, border: `6px solid ${INK}`, borderRadius: 26, padding: '16px 50px 8px', ...font, fontSize: 110, color: '#fff', ...OUT}}>WHO WINS THE MOST?</div></div>);
       nodes.push(<div key="ht" style={{position: 'absolute', left: 0, right: 0, top: 140, display: 'flex', justifyContent: 'center', transform: `scale(${popT(t, 0.6)})`}}><Pill style={{fontSize: 46}}>189 COUNTRIES · <span style={{color: YELLOW}}>1,000</span> WORLD WARS</Pill></div>);
     }
     if (s.kind === 'sim') nodes.push(<SimView key={s.key} t={t} k={s.key} n={s.n} hud={s.hud} />, <Banner key="bn" t={t} />);

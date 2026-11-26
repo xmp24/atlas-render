@@ -208,6 +208,20 @@ export const Flag: React.FC<F & {code: string}> = ({code, w, h}) => {
     case 'tdem': { const m = Math.min(w, h), cx = w / 2, cy = h / 2; return <><rect width={w} height={h} fill="#2f63d1" /><rect x={cx - m * 0.3} y={cy - m * 0.05} width={m * 0.6} height={m * 0.36} rx={m * 0.04} fill="#fff" /><rect x={cx - m * 0.13} y={cy - m * 0.12} width={m * 0.26} height={m * 0.05} fill="#1b3d8f" /><path d={`M${cx - m * 0.12},${cy - m * 0.3} L${cx + m * 0.12},${cy - m * 0.3} L${cx + m * 0.1},${cy - m * 0.1} L${cx - m * 0.1},${cy - m * 0.1}Z`} fill="#fff" /><path d={`M${cx - m * 0.12},${cy + m * 0.12} l${m * 0.08},${m * 0.08} l${m * 0.16},${-m * 0.16}`} fill="none" stroke="#2f63d1" strokeWidth={m * 0.05} strokeLinecap="round" strokeLinejoin="round" /></>; }
     case 'tdic': { const m = Math.min(w, h); return <><rect width={w} height={h} fill="#d23b2e" /><circle cx={w / 2} cy={h / 2} r={m * 0.33} fill="#111" />{star5(w / 2, h / 2 + m * 0.02, m * 0.24, '#d23b2e')}</>; }
     case 'tmon': { const m = Math.min(w, h), cx = w / 2, cy = h / 2, s2 = m * 0.34; return <><rect width={w} height={h} fill="#8e44c9" /><path d={`M${cx - s2},${cy + s2 * 0.55} L${cx - s2},${cy - s2 * 0.45} L${cx - s2 * 0.5},${cy} L${cx},${cy - s2 * 0.75} L${cx + s2 * 0.5},${cy} L${cx + s2},${cy - s2 * 0.45} L${cx + s2},${cy + s2 * 0.55}Z`} fill="#ffd23f" stroke="#7a4a00" strokeWidth={m * 0.025} strokeLinejoin="round" />{[-1, 0, 1].map((k) => <circle key={k} cx={cx + k * s2 * (k === 0 ? 0 : 1)} cy={cy - s2 * (k === 0 ? 0.82 : 0.52)} r={m * 0.045} fill="#fff" />)}<rect x={cx - s2} y={cy + s2 * 0.35} width={s2 * 2} height={s2 * 0.2} fill="#e0a800" /></>; }
+    case 'tspe': { // Cruz de Borgoña (bandera del Imperio español)
+      const m = Math.min(w, h), sw = m * 0.13;
+      const bar = (x0: number, y0: number, x1: number, y1: number, k: number) => {
+        const dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy), nx = -dy / L, ny = dx / L;
+        return <g key={k}><line x1={x0} y1={y0} x2={x1} y2={y1} stroke="#c8102e" strokeWidth={sw} strokeLinecap="round" />
+          {[0.18, 0.36, 0.64, 0.82].map((u, i) => { const px = x0 + dx * u, py = y0 + dy * u, sd = i % 2 ? 1 : -1; return <line key={i} x1={px} y1={py} x2={px + nx * sd * sw * 1.05} y2={py + ny * sd * sw * 1.05} stroke="#c8102e" strokeWidth={sw * 0.62} strokeLinecap="round" />; })}</g>;
+      };
+      return <><rect width={w} height={h} fill="#fdf8ec" />{bar(w * 0.2, h * 0.12, w * 0.8, h * 0.88, 0)}{bar(w * 0.8, h * 0.12, w * 0.2, h * 0.88, 1)}</>;
+    }
+    case 'xusa': return <Flag code="us" w={w} h={h} />;
+    case 'xbra': return <Diag a="br" b="pt" w={w} h={h} />;
+    case 'xgbr': return <Flag code="gb" w={w} h={h} />;
+    case 'xfra': return <Flag code="fr" w={w} h={h} />;
+    case 'xneu': { const m = Math.min(w, h); return <><rect width={w} height={h} fill="#8d96a3" /><circle cx={w / 2} cy={h / 2} r={m * 0.3} fill="none" stroke="#fff" strokeWidth={m * 0.05} /><ellipse cx={w / 2} cy={h / 2} rx={m * 0.13} ry={m * 0.3} fill="none" stroke="#fff" strokeWidth={m * 0.04} /><line x1={w / 2 - m * 0.3} y1={h / 2} x2={w / 2 + m * 0.3} y2={h / 2} stroke="#fff" strokeWidth={m * 0.04} /></>; }
     case 'tchr': { const m = Math.min(w, h); return <><rect width={w} height={h} fill="#2f63d1" /><rect x={w / 2 - m * 0.07} y={h * 0.16} width={m * 0.14} height={h * 0.68} rx={m * 0.02} fill="#fff" /><rect x={w / 2 - m * 0.26} y={h * 0.34} width={m * 0.52} height={m * 0.14} rx={m * 0.02} fill="#fff" /></>; }
     case 'tisl': { const m = Math.min(w, h); return <><rect width={w} height={h} fill="#1f9e55" /><circle cx={w * 0.46} cy={h / 2} r={m * 0.3} fill="#fff" /><circle cx={w * 0.53} cy={h / 2} r={m * 0.25} fill="#1f9e55" />{star5(w * 0.62, h / 2, m * 0.11, '#fff')}</>; }
     case 'thin': { const sc = (h * 0.6) / 790; return <><rect width={w} height={h} fill="#f07c1c" /><path d={OM} transform={`translate(${w / 2 - 502 * sc},${h / 2 + 443 * sc}) scale(${sc},${-sc})`} fill="#fff" /></>; }
