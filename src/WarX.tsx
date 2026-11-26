@@ -175,7 +175,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
       KEYS.push([f.tDir, ...leftOf(boxCam(union(ab2, db), 1.3, 6, 1.4), 200)]);
     });
   });
-  if (WIN_T < 1e8) KEYS.push([WIN_T - 0.2, ...WORLD]);
+  if (WIN_T < 1e8) KEYS.push([WIN_T - 0.2, ...((TL.winCam as [number, number, number]) || WORLD)]);
   KEYS.sort((a, b) => a[0] - b[0]);
   const CUTS = new Set<number>(((TL.cuts || []) as number[]).map((x) => Math.round(x * 100)));
   const camera = (t: number): Cam => {
