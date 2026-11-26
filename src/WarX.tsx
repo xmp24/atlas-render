@@ -611,7 +611,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
   const Panel: React.FC<{children: React.ReactNode; style?: React.CSSProperties; border?: string}> = ({children, style, border = 'rgba(255,255,255,0.12)'}) => (
     <div style={{background: 'rgba(16,24,38,0.92)', border: `3px solid ${border}`, borderRadius: 14, boxShadow: '0 8px 24px rgba(0,0,0,0.35)', ...style}}>{children}</div>
   );
-  const ELIMS = Object.entries(elimT).sort((a, b) => a[1] - b[1]);
+  const ELIMS = Object.entries(elimT).filter(([c]) => ALIVE0.includes(c)).sort((a, b) => a[1] - b[1]);
   const aliveCount = (t: number) => ALIVE0.length - ELIMS.filter(([, te]) => te <= t + 0.6).length;
   const roundNo = (t: number) => TURNS.filter((x) => x.t0 <= t && x.kind === 'turn').length;
   const AliveBox: React.FC<{t: number}> = ({t}) => {
