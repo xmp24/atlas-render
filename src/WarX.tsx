@@ -526,7 +526,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
         const kk = doneK(tr.t0);
         const P3 = tr.A.map((c: string) => ownerPos(c, kk));
         const k = lerp(t, tr.tAllies, tr.tAllies + 1.2, 0, 1);
-        [[0, 1], [1, 2], [2, 0]].forEach(([i, j]) => out.push(<line key={`e${i}`} x1={P3[i][0]} y1={P3[i][1]} x2={P3[i][0] + (P3[j][0] - P3[i][0]) * k} y2={P3[i][1] + (P3[j][1] - P3[i][1]) * k} stroke="#4fc3ff" strokeWidth={5 * inv} strokeDasharray={`${14 * inv} ${10 * inv}`} opacity={0.9} />));
+        (tr.A.length === 3 ? [[0, 1], [1, 2], [2, 0]] : [[0, 1]]).forEach(([i, j]) => out.push(<line key={`e${i}`} x1={P3[i][0]} y1={P3[i][1]} x2={P3[i][0] + (P3[j][0] - P3[i][0]) * k} y2={P3[i][1] + (P3[j][1] - P3[i][1]) * k} stroke="#4fc3ff" strokeWidth={5 * inv} strokeDasharray={`${14 * inv} ${10 * inv}`} opacity={0.9} />));
         outline(tr.A, '#4fc3ff', 'evA', true, 5);
       }
       tr.A.forEach((c: string, i: number) => {
@@ -705,9 +705,9 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     let a = '', b = '';
     if (tr.kind === 'purge') { a = tr.title || 'THE WEAKEST FALL'; b = tr.sub || ''; }
     else if (tr.kind === 'ev3') {
-      if (t < tr.tSel) { a = 'SPECIAL EVENT!'; b = '3 COUNTRIES FROM ANYWHERE WILL UNITE'; }
-      else if (t < tr.tAllies) { a = 'SELECTING 3 COUNTRIES...'; b = 'TRIPLE SELECTOR IS SPINNING'; }
-      else if (t < tr.tArrows[0]) { a = `${nm(tr.A[0])} + ${nm(tr.A[1])} + ${nm(tr.A[2])}`; b = 'FORMING A SPECIAL ALLIANCE'; }
+      if (t < tr.tSel) { a = 'SPECIAL EVENT!'; b = `${tr.A.length} COUNTRIES FROM ANYWHERE WILL UNITE`; }
+      else if (t < tr.tAllies) { a = `SELECTING ${tr.A.length} COUNTRIES...`; b = tr.A.length === 3 ? 'TRIPLE SELECTOR IS SPINNING' : 'DOUBLE SELECTOR IS SPINNING'; }
+      else if (t < tr.tArrows[0]) { a = tr.A.map((c: string) => nm(c)).join(' + '); b = 'FORMING A SPECIAL ALLIANCE'; }
       else if (t < tr.tVs) { a = 'CHOOSING TARGETS'; b = 'EACH ALLY THROWS ONE ARROW'; }
       else return null;
     } else if (tr.kind === 'turn') {
@@ -927,15 +927,16 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
         <AbsoluteFill key="ban" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: `rgba(10,10,30,${0.45 * lerp(t, tr.tSel - 0.3, tr.tSel + 0.3, 1, 0)})`}}>
           <div style={{transform: `scale(${k}) rotate(-3deg)`, opacity: lerp(t, tr.tSel - 0.2, tr.tSel + 0.3, 1, 0), textAlign: 'center'}}>
             <div style={{...font, fontSize: 130, color: YELLOW, WebkitTextStroke: `10px ${INK}`, paintOrder: 'stroke fill', textShadow: '0 10px 0 rgba(0,0,0,0.5)'}}>⚡ SPECIAL EVENT ⚡</div>
-            <div style={{...font, fontSize: 52, color: '#fff', WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>3 VS 3 · ANYWHERE ON THE MAP</div>
+            <div style={{...font, fontSize: 52, color: '#fff', WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill'}}>{tr.A.length} VS {tr.A.length} · ANYWHERE ON THE MAP</div>
           </div>
         </AbsoluteFill>,
       );
     }
     const pool = aliveListAt(tr.tSel);
-    tr.A.forEach((c: string, i: number) => out.push(<Slot key={`s${i}`} t={t} t0={tr.tSel} t1={tr.tSel + 1.6 + i * 0.6} pick={c} x={120 + i * 580} y={260} w={500} seed={i + 2} pool={pool} />));
+    const nA = tr.A.length;
+    tr.A.forEach((c: string, i: number) => out.push(<Slot key={`s${i}`} t={t} t0={tr.tSel} t1={tr.tSel + 1.6 + i * 0.6} pick={c} x={(1920 - nA * 580) / 2 + 40 + i * 580} y={260} w={500} seed={i + 2} pool={pool} />));
     if (t >= tr.tVs - 0.15) {
-      const f = {tVs: tr.tVs, tRes: tr.tRes, pa: tr.pa, pb: tr.pb, win: tr.win === 'A' ? tr.A[0] : tr.D[0], attM: tr.A, defM: tr.D, def_: tr.D[0], gain: tr.gains.reduce((s: number, x: number) => s + x, 0)};
+      const f = {tVs: tr.tVs, tRes: tr.tRes, pa: tr.pa, pb: tr.pb, win: tr.win === 'A' ? tr.A[0] : tr.D[0], attM: tr.A, defM: tr.D, def_: tr.D[0], gain: tr.gains.reduce((s: number, x: number) => s + x, 0), resTxt: tr.resTxt};
       out.push(<VSBar key="vs" t={t} f={f} tr={{att: tr.A[0]}} />);
       const pa = tr.pa / (tr.pa + tr.pb);
       out.push(<Wheel key="vw" id="vw3" t={t} t0={tr.tVs} t1={tr.tRes - 0.15} slices={[{label: `${(pa * 100).toFixed(1)}%`, frac: pa, color: '#e23c3c', sub: 'TEAM A'}, {label: `${((1 - pa) * 100).toFixed(1)}%`, frac: 1 - pa, color: '#1f6fe0', sub: 'TEAM B'}]} pick={tr.win === 'A' ? 0 : 1} x={WX} y={WY} r={165} seed={5} edge={edgeFight(tr.tRes)} />);
