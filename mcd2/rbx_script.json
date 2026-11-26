@@ -1820,6 +1820,38 @@
 "IN": [
 "pnoafjwb2T2zx4YYE60H",
 "¡Se puede jugar! Y con mil cuatrocientos millones, imagina las colas en los servidores."
+],
+"GB": [
+"erjfZbWOeOlXoejyglLN",
+"¡Se puede jugar! Pero ahora, para chatear, hay que verificar la edad."
+],
+"FR": [
+"Pu9MMuPx0BqjFaVxHf8W",
+"Sí se puede jugar... ¡pero que no se entere mi madre!"
+],
+"AR": [
+"D09EpJbk4um1HKSpeTSc",
+"¡Acá se juega, che! Y los pibes no sueltan la compu."
+],
+"DE": [
+"COD96vfwrPlMeaUXwauW",
+"Se puede jugar, pero con muchos controles. ¡Todo muy ordenado!"
+],
+"CU": [
+"P5oKQC0uccAVbhCpX8GX",
+"¡Ni Roblox ni nada, asere! Sin servicio por las sanciones."
+],
+"IR": [
+"TXoBVQ9S1J8PyUCOfL3s",
+"Aquí no entra por las sanciones... pero los chavales siempre encuentran la manera."
+],
+"IT": [
+"EUB39iBkSWvtMTIGWmNE",
+"¡Se puede jugar! Pero en Italia, a la hora de comer, ¡la consola se apaga!"
+],
+"VA": [
+"G0q9AYE8QsarSbMtaIEu",
+"¿Roblox en el Vaticano? Bueno... aquí se reza más de lo que se juega."
 ]
 },
 "cfg": {
@@ -1892,7 +1924,7 @@
 "head": "ROBLOX"
 },
 "intro": [
-"Roblox lo juegan más de cien millones de personas al día... pero en algunos países, si entras, te lo encuentras bloqueado. Hoy revisamos los ciento noventa y siete países, uno por uno.",
+"Roblox lo juegan más de cien millones de personas al día... y casi la mitad son niños. Pero en algunos países, si entras, te lo encuentras bloqueado. Hoy revisamos los ciento noventa y siete países, uno por uno.",
 "Verde: se puede jugar.",
 "Amarillo: con limitaciones.",
 "Gris: sin servicio, por sanciones.",

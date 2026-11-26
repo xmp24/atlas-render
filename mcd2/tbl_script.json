@@ -72,7 +72,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Portugal: sí hay."
+"say": "Portugal: sí hay. Y no para de abrir locales."
 },
 {
 "c": "AD",
@@ -180,7 +180,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Países Bajos: hay."
+"say": "Países Bajos: hay. Llegó en 2017, a Eindhoven."
 },
 {
 "c": "DK",
@@ -216,7 +216,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Finlandia: ¡hay! Y le va de maravilla."
+"say": "Finlandia: ¡hay! Más de quince, casi todos en Helsinki."
 },
 {
 "c": "IS",
@@ -360,7 +360,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Rumanía: sí."
+"say": "Rumanía: sí. Desde 2017, en Bucarest."
 },
 {
 "c": "MD",
@@ -432,7 +432,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Chipre: ¡hay!"
+"say": "Chipre: ¡hay! Desde 2009, en Limasol."
 },
 {
 "c": "TR",
@@ -477,7 +477,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Perú: sí."
+"say": "Perú: sí. En el país del ceviche."
 },
 {
 "c": "BO",
@@ -567,7 +567,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Costa Rica: sí."
+"say": "Costa Rica: sí. ¡Desde 1990! De los primeros fuera de Estados Unidos."
 },
 {
 "c": "NI",
@@ -603,7 +603,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Guatemala: sí hay."
+"say": "Guatemala: ¡hay! Justo al lado de México... que no tiene."
 },
 {
 "c": "BZ",
@@ -612,7 +612,7 @@
 "v": "NO HAY",
 "vs": "NO",
 "sub": "Ni un solo local",
-"say": "Belice: nada."
+"say": "Belice: nada. Y tiene a México al lado... que tampoco."
 },
 {
 "c": "CU",
@@ -882,7 +882,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Arabia Saudí: sí."
+"say": "Arabia Saudí: sí. En Riad y en Jobar."
 },
 {
 "c": "YE",
@@ -936,7 +936,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Kuwait: ¡hay!"
+"say": "Kuwait: ¡hay! Uno de los pocos del Golfo."
 },
 {
 "c": "IN",
@@ -1017,7 +1017,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Tailandia: sí."
+"say": "Tailandia: sí. Con locales en Bangkok y Pattaya."
 },
 {
 "c": "LA",
@@ -1071,7 +1071,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Indonesia: sí hay."
+"say": "Indonesia: sí hay. Casi todos en Yakarta."
 },
 {
 "c": "BN",
@@ -1170,7 +1170,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Nueva Zelanda: sí."
+"say": "Nueva Zelanda: sí. Llegó después que a Australia."
 },
 {
 "c": "PG",
@@ -1820,6 +1820,50 @@
 "VA": [
 "G0q9AYE8QsarSbMtaIEu",
 "En el Vaticano no hay Taco Bell. Pero en Roma, para los turistas... ¡ya veremos!"
+],
+"CA": [
+"N2lVS1w4EtoT3dr4eOWO",
+"¡Más de cien locales! Y aquí los pedimos a cualquier hora... ¡hasta con nieve!"
+],
+"FR": [
+"Pu9MMuPx0BqjFaVxHf8W",
+"¿Taco Bell? Todavía no... ¡pero aquí inventamos los tacos franceses, con patatas fritas dentro!"
+],
+"IS": [
+"jTAlT4VvvXlYNDrxqpNQ",
+"Tuvimos Taco Bell... y se fue. Ahora aquí lo más picante es el viento."
+],
+"CN": [
+"XAV9ErNepIMDFPmlJ3pQ",
+"¡Aquí sí hay! Con un menú solo para China... y otro tipo de picante."
+],
+"BR": [
+"BECjFqjKpX1jVslC0trK",
+"¡Hay Taco Bell en Brasil! Pero aquí la estrella sigue siendo la picanha."
+],
+"CU": [
+"P5oKQC0uccAVbhCpX8GX",
+"¿Taco Bell en Cuba? Aquí ni taco ni campana, asere."
+],
+"KP": [
+"DXmaqevHBKl3Emj5cBp1",
+"¿Taco Bell? Aquí la única campana es la que suena para ir a trabajar. Siguiente."
+],
+"JM": [
+"TT7tPlYlWLvcEiOfrtEK",
+"¿Taco Bell? Aquí no hay... ¡pero con nuestro pollo jerk no lo echamos de menos!"
+],
+"TR": [
+"mgZYFBDKPJGhiZEAcf4X",
+"¿Taco Bell? ¡Aquí tenemos un döner en cada esquina!"
+],
+"NG": [
+"3W7TIElBzp1JQ8BxQuXK",
+"¡Somos doscientos millones y ni un Taco Bell! Pero nuestro arroz jollof le gana a cualquier taco."
+],
+"RS": [
+"mgZYFBDKPJGhiZEAcf4X",
+"¡Sí hay, en Belgrado! Y con ración extra de ajvar."
 ]
 },
 "cfg": {
@@ -1892,7 +1936,7 @@
 "head": "TACO BELL"
 },
 "intro": [
-"Taco Bell es la cadena de tacos más grande del mundo... pero en México, el país de los tacos, ¡no hay ni uno! Hoy revisamos los ciento noventa y siete países, uno por uno.",
+"Taco Bell es la cadena de tacos más grande del mundo, con más de ocho mil quinientos locales... pero en México, el país de los tacos, ¡no hay ni uno! Hoy revisamos los ciento noventa y siete países, uno por uno.",
 "Verde: hay Taco Bell.",
 "Morado: está llegando.",
 "Amarillo: lo tuvo, y se fue.",

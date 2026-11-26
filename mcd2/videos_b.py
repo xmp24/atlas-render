@@ -223,3 +223,60 @@ def tbl():
              'Verde: hay Taco Bell.', 'Morado: está llegando.', 'Amarillo: lo tuvo, y se fue.', 'Y rojo: no hay. ¡Vamos!']
     outro = ['¿Has probado Taco Bell? ¡Comenta!']
     return dict(key='tbl', narr=NARR, C=C, T=T, cfg=cfg, intro=intro, outro=outro)
+
+# ======================================================================= V2: más contenido (mínimo 8 min)
+V.update({'CA': 'N2lVS1w4EtoT3dr4eOWO', 'IS': 'jTAlT4VvvXlYNDrxqpNQ', 'JM': 'TT7tPlYlWLvcEiOfrtEK'})
+def _v2(base, add, rep, talk, intro0):
+    def f():
+        S = base()
+        for c in S['C']:
+            if c['c'] in rep: c['say'] = f"{nm(c['c'])}: {rep[c['c']]}"
+            elif c['c'] in add: c['say'] += ' ' + add[c['c']]
+        for cc, (vk, t) in talk.items(): S['T'][cc] = (V[vk], t)
+        if intro0: S['intro'][0] = intro0
+        return S
+    return f
+rbx = _v2(rbx, {}, {}, {
+    'GB': ('GB', '¡Se puede jugar! Pero ahora, para chatear, hay que verificar la edad.'),
+    'FR': ('FR', 'Sí se puede jugar... ¡pero que no se entere mi madre!'),
+    'AR': ('AR', '¡Acá se juega, che! Y los pibes no sueltan la compu.'),
+    'DE': ('DE', 'Se puede jugar, pero con muchos controles. ¡Todo muy ordenado!'),
+    'CU': ('CU', '¡Ni Roblox ni nada, asere! Sin servicio por las sanciones.'),
+    'IR': ('IR', 'Aquí no entra por las sanciones... pero los chavales siempre encuentran la manera.'),
+    'IT': ('IT', '¡Se puede jugar! Pero en Italia, a la hora de comer, ¡la consola se apaga!'),
+    'VA': ('VA', '¿Roblox en el Vaticano? Bueno... aquí se reza más de lo que se juega.')},
+    'Roblox lo juegan más de cien millones de personas al día... y casi la mitad son niños. Pero en algunos países, si entras, te lo encuentras bloqueado. Hoy revisamos los ciento noventa y siete países, uno por uno.')
+sbx = _v2(sbx, {'MX': 'Con cientos de locales.', 'AT': 'Y eso que Viena es la capital de las cafeterías.', 'GR': 'Y eso que allí reina el frapé.',
+                'CH': 'Y con precios suizos.', 'KZ': 'El que más tiene de Asia Central.', 'AE': 'Más de trescientos.', 'KW': 'Muchísimos para un país tan pequeño.',
+                'PH': 'Más de cuatrocientos.', 'ID': 'Más de quinientos.', 'TH': 'Más de cuatrocientos.', 'TW': 'Más de quinientos.',
+                'MA': 'De los pocos de África.'},
+    {'JM': 'hay.', 'IS': 'ni uno.', 'NG': 'ni uno.'}, {
+    'FR': ('FR', '¡Hay Starbucks en París! Pero un café en la terraza de siempre... no tiene precio.'),
+    'GB': ('GB', '¡Más de mil doscientos! Aquí casi hay más Starbucks que pubs... casi.'),
+    'KP': ('KP', '¿Café americano? Aquí no. Siguiente.'),
+    'CN': ('CN', '¡Más de ocho mil! Pero ahora aquí manda Luckin Coffee... ¡que ya tiene más que Starbucks!'),
+    'TR': ('BALK', '¡Hay más de seiscientos! Pero aquí el café turco es sagrado.'),
+    'BR': ('BR', '¡Hay Starbucks! Pero ojo: Brasil es el mayor productor de café del mundo.'),
+    'AR': ('AR', '¡Hay Starbucks, che! Pero acá lo nuestro es el mate.'),
+    'JM': ('JM', '¡Aquí está el café de las Montañas Azules, de los más caros del mundo! Y sí... también hay Starbucks.'),
+    'IS': ('IS', '¿Starbucks? Aquí no hay ni uno. ¡Tenemos nuestras propias cafeterías!'),
+    'NG': ('AF', '¡Doscientos millones de personas y ni un Starbucks! Aquí el café... se toma en casa.')},
+    'Starbucks tiene más de cuarenta mil cafeterías en todo el planeta... y aun así, en más de la mitad de los países del mundo no hay ni una. Y en el país donde nació el café... tampoco. Hoy revisamos los ciento noventa y siete, uno por uno.')
+tbl = _v2(tbl, {'PT': 'Y no para de abrir locales.', 'NL': 'Llegó en 2017, a Eindhoven.', 'RO': 'Desde 2017, en Bucarest.',
+                'CY': 'Desde 2009, en Limasol.', 'KW': 'Uno de los pocos del Golfo.',
+                'SA': 'En Riad y en Jobar.', 'TH': 'Con locales en Bangkok y Pattaya.', 'ID': 'Casi todos en Yakarta.',
+                'CR': '¡Desde 1990! De los primeros fuera de Estados Unidos.', 
+                'NZ': 'Llegó después que a Australia.', 'PE': 'En el país del ceviche.'},
+    {'BZ': 'nada. Y tiene a México al lado... que tampoco.', 'FI': '¡hay! Más de quince, casi todos en Helsinki.', 'GT': '¡hay! Justo al lado de México... que no tiene.'}, {
+    'CA': ('CA', '¡Más de cien locales! Y aquí los pedimos a cualquier hora... ¡hasta con nieve!'),
+    'FR': ('FR', '¿Taco Bell? Todavía no... ¡pero aquí inventamos los tacos franceses, con patatas fritas dentro!'),
+    'IS': ('IS', 'Tuvimos Taco Bell... y se fue. Ahora aquí lo más picante es el viento.'),
+    'CN': ('CN', '¡Aquí sí hay! Con un menú solo para China... y otro tipo de picante.'),
+    'BR': ('BR', '¡Hay Taco Bell en Brasil! Pero aquí la estrella sigue siendo la picanha.'),
+    'CU': ('CU', '¿Taco Bell en Cuba? Aquí ni taco ni campana, asere.'),
+    'KP': ('KP', '¿Taco Bell? Aquí la única campana es la que suena para ir a trabajar. Siguiente.'),
+    'JM': ('JM', '¿Taco Bell? Aquí no hay... ¡pero con nuestro pollo jerk no lo echamos de menos!'),
+    'TR': ('BALK', '¿Taco Bell? ¡Aquí tenemos un döner en cada esquina!'),
+    'NG': ('AF', '¡Somos doscientos millones y ni un Taco Bell! Pero nuestro arroz jollof le gana a cualquier taco.'),
+    'RS': ('BALK', '¡Sí hay, en Belgrado! Y con ración extra de ajvar.')},
+    'Taco Bell es la cadena de tacos más grande del mundo, con más de ocho mil quinientos locales... pero en México, el país de los tacos, ¡no hay ni uno! Hoy revisamos los ciento noventa y siete países, uno por uno.')

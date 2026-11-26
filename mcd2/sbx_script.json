@@ -27,7 +27,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "México: sí."
+"say": "México: sí. Con cientos de locales."
 },
 {
 "c": "GB",
@@ -126,7 +126,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Suiza: sí hay."
+"say": "Suiza: sí hay. Y con precios suizos."
 },
 {
 "c": "LI",
@@ -144,7 +144,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Austria: hay."
+"say": "Austria: hay. Y eso que Viena es la capital de las cafeterías."
 },
 {
 "c": "DE",
@@ -225,7 +225,7 @@
 "v": "NO HAY",
 "vs": "NO",
 "sub": "Ni un solo local",
-"say": "Islandia: ni uno. Aquí se defienden con sus cafeterías."
+"say": "Islandia: ni uno."
 },
 {
 "c": "PL",
@@ -342,7 +342,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Grecia: ¡hay!"
+"say": "Grecia: ¡hay! Y eso que allí reina el frapé."
 },
 {
 "c": "BG",
@@ -630,7 +630,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Jamaica: hay. ¡Café de las Montañas Azules... y Starbucks!"
+"say": "Jamaica: hay."
 },
 {
 "c": "HT",
@@ -765,7 +765,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Kazajistán: sí."
+"say": "Kazajistán: sí. El que más tiene de Asia Central."
 },
 {
 "c": "UZ",
@@ -909,7 +909,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Emiratos Árabes: ¡hay!"
+"say": "Emiratos Árabes: ¡hay! Más de trescientos."
 },
 {
 "c": "QA",
@@ -936,7 +936,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Kuwait: sí."
+"say": "Kuwait: sí. Muchísimos para un país tan pequeño."
 },
 {
 "c": "IN",
@@ -1017,7 +1017,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Tailandia: sí hay."
+"say": "Tailandia: sí hay. Más de cuatrocientos."
 },
 {
 "c": "LA",
@@ -1071,7 +1071,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Indonesia: sí."
+"say": "Indonesia: sí. Más de quinientos."
 },
 {
 "c": "BN",
@@ -1089,7 +1089,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Filipinas: sí hay."
+"say": "Filipinas: sí hay. Más de cuatrocientos."
 },
 {
 "c": "TL",
@@ -1152,7 +1152,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Taiwán: hay."
+"say": "Taiwán: hay. Más de quinientos."
 },
 {
 "c": "AU",
@@ -1287,7 +1287,7 @@
 "v": "HAY",
 "vs": "SÍ",
 "sub": "Hay locales",
-"say": "Marruecos: sí hay."
+"say": "Marruecos: sí hay. De los pocos de África."
 },
 {
 "c": "DZ",
@@ -1629,7 +1629,7 @@
 "v": "NO HAY",
 "vs": "NO",
 "sub": "+200 millones de personas",
-"say": "Nigeria: no. ¡Doscientos millones de personas y ni un Starbucks!"
+"say": "Nigeria: ni uno."
 },
 {
 "c": "BJ",
@@ -1820,6 +1820,46 @@
 "VA": [
 "G0q9AYE8QsarSbMtaIEu",
 "En el Vaticano no hay Starbucks. Pero a la salida de la plaza... ¡hay de todo!"
+],
+"FR": [
+"Pu9MMuPx0BqjFaVxHf8W",
+"¡Hay Starbucks en París! Pero un café en la terraza de siempre... no tiene precio."
+],
+"GB": [
+"erjfZbWOeOlXoejyglLN",
+"¡Más de mil doscientos! Aquí casi hay más Starbucks que pubs... casi."
+],
+"KP": [
+"DXmaqevHBKl3Emj5cBp1",
+"¿Café americano? Aquí no. Siguiente."
+],
+"CN": [
+"XAV9ErNepIMDFPmlJ3pQ",
+"¡Más de ocho mil! Pero ahora aquí manda Luckin Coffee... ¡que ya tiene más que Starbucks!"
+],
+"TR": [
+"mgZYFBDKPJGhiZEAcf4X",
+"¡Hay más de seiscientos! Pero aquí el café turco es sagrado."
+],
+"BR": [
+"BECjFqjKpX1jVslC0trK",
+"¡Hay Starbucks! Pero ojo: Brasil es el mayor productor de café del mundo."
+],
+"AR": [
+"D09EpJbk4um1HKSpeTSc",
+"¡Hay Starbucks, che! Pero acá lo nuestro es el mate."
+],
+"JM": [
+"TT7tPlYlWLvcEiOfrtEK",
+"¡Aquí está el café de las Montañas Azules, de los más caros del mundo! Y sí... también hay Starbucks."
+],
+"IS": [
+"jTAlT4VvvXlYNDrxqpNQ",
+"¿Starbucks? Aquí no hay ni uno. ¡Tenemos nuestras propias cafeterías!"
+],
+"NG": [
+"3W7TIElBzp1JQ8BxQuXK",
+"¡Doscientos millones de personas y ni un Starbucks! Aquí el café... se toma en casa."
 ]
 },
 "cfg": {
@@ -1884,7 +1924,7 @@
 "head": "STARBUCKS"
 },
 "intro": [
-"Starbucks tiene más de cuarenta mil cafeterías... y aun así, en más de la mitad de los países del mundo no hay ni una. Hoy revisamos los ciento noventa y siete, uno por uno.",
+"Starbucks tiene más de cuarenta mil cafeterías en todo el planeta... y aun así, en más de la mitad de los países del mundo no hay ni una. Y en el país donde nació el café... tampoco. Hoy revisamos los ciento noventa y siete, uno por uno.",
 "Verde: hay Starbucks.",
 "Amarillo: lo tuvo, y se fue.",
 "Y rojo: no hay ni uno. ¡Vamos!"

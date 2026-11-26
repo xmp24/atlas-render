@@ -1908,5 +1908,206 @@
 ],
 "text": "¿Taco Bell? ¡Che, aquí con un buen choripán no nos hace falta!"
 }
+],
+"v2": [
+{
+"id": "rbx_v2",
+"key": "rbx",
+"voice": "w495jEjc73YEWOkc3VLu",
+"ids": [
+"I0"
+],
+"text": "Roblox lo juegan más de cien millones de personas al día... y casi la mitad son niños. Pero en algunos países, si entras, te lo encuentras bloqueado. Hoy revisamos los ciento noventa y siete países, uno por uno."
+},
+{
+"id": "sbx_v2",
+"key": "sbx",
+"voice": "w495jEjc73YEWOkc3VLu",
+"ids": [
+"I0",
+"N_MX",
+"N_CH",
+"N_AT",
+"N_IS",
+"N_GR",
+"N_JM",
+"N_KZ",
+"N_AE",
+"N_KW",
+"N_TH",
+"N_ID",
+"N_PH",
+"N_TW",
+"N_MA",
+"N_NG"
+],
+"text": "Starbucks tiene más de cuarenta mil cafeterías en todo el planeta... y aun así, en más de la mitad de los países del mundo no hay ni una. Y en el país donde nació el café... tampoco. Hoy revisamos los ciento noventa y siete, uno por uno. [pause] México: sí. Con cientos de locales. [pause] Suiza: sí hay. Y con precios suizos. [pause] Austria: hay. Y eso que Viena es la capital de las cafeterías. [pause] Islandia: ni uno. [pause] Grecia: ¡hay! Y eso que allí reina el frapé. [pause] Jamaica: hay. [pause] Kazajistán: sí. El que más tiene de Asia Central. [pause] Emiratos Árabes: ¡hay! Más de trescientos. [pause] Kuwait: sí. Muchísimos para un país tan pequeño. [pause] Tailandia: sí hay. Más de cuatrocientos. [pause] Indonesia: sí. Más de quinientos. [pause] Filipinas: sí hay. Más de cuatrocientos. [pause] Taiwán: hay. Más de quinientos. [pause] Marruecos: sí hay. De los pocos de África. [pause] Nigeria: ni uno."
+},
+{
+"id": "tbl_v2",
+"key": "tbl",
+"voice": "w495jEjc73YEWOkc3VLu",
+"ids": [
+"I0",
+"N_PT",
+"N_NL",
+"N_FI",
+"N_RO",
+"N_CY",
+"N_PE",
+"N_CR",
+"N_GT",
+"N_BZ",
+"N_SA",
+"N_KW",
+"N_TH",
+"N_ID",
+"N_NZ"
+],
+"text": "Taco Bell es la cadena de tacos más grande del mundo, con más de ocho mil quinientos locales... pero en México, el país de los tacos, ¡no hay ni uno! Hoy revisamos los ciento noventa y siete países, uno por uno. [pause] Portugal: sí hay. Y no para de abrir locales. [pause] Países Bajos: hay. Llegó en 2017, a Eindhoven. [pause] Finlandia: ¡hay! Más de quince, casi todos en Helsinki. [pause] Rumanía: sí. Desde 2017, en Bucarest. [pause] Chipre: ¡hay! Desde 2009, en Limasol. [pause] Perú: sí. En el país del ceviche. [pause] Costa Rica: sí. ¡Desde 1990! De los primeros fuera de Estados Unidos. [pause] Guatemala: ¡hay! Justo al lado de México... que no tiene. [pause] Belice: nada. Y tiene a México al lado... que tampoco. [pause] Arabia Saudí: sí. En Riad y en Jobar. [pause] Kuwait: ¡hay! Uno de los pocos del Golfo. [pause] Tailandia: sí. Con locales en Bangkok y Pattaya. [pause] Indonesia: sí hay. Casi todos en Yakarta. [pause] Nueva Zelanda: sí. Llegó después que a Australia."
+}
+],
+"talk2": [
+{
+"id": "tk2_0",
+"voice": "erjfZbWOeOlXoejyglLN",
+"ids": [
+"rbx:S_GB",
+"sbx:S_GB"
+],
+"text": "¡Se puede jugar! Pero ahora, para chatear, hay que verificar la edad. [pause] ¡Más de mil doscientos! Aquí casi hay más Starbucks que pubs... casi."
+},
+{
+"id": "tk2_1",
+"voice": "Pu9MMuPx0BqjFaVxHf8W",
+"ids": [
+"rbx:S_FR",
+"sbx:S_FR",
+"tbl:S_FR"
+],
+"text": "Sí se puede jugar... ¡pero que no se entere mi madre! [pause] ¡Hay Starbucks en París! Pero un café en la terraza de siempre... no tiene precio. [pause] ¿Taco Bell? Todavía no... ¡pero aquí inventamos los tacos franceses, con patatas fritas dentro!"
+},
+{
+"id": "tk2_2",
+"voice": "D09EpJbk4um1HKSpeTSc",
+"ids": [
+"rbx:S_AR",
+"sbx:S_AR"
+],
+"text": "¡Acá se juega, che! Y los pibes no sueltan la compu. [pause] ¡Hay Starbucks, che! Pero acá lo nuestro es el mate."
+},
+{
+"id": "tk2_3",
+"voice": "COD96vfwrPlMeaUXwauW",
+"ids": [
+"rbx:S_DE"
+],
+"text": "Se puede jugar, pero con muchos controles. ¡Todo muy ordenado!"
+},
+{
+"id": "tk2_4",
+"voice": "P5oKQC0uccAVbhCpX8GX",
+"ids": [
+"rbx:S_CU",
+"tbl:S_CU"
+],
+"text": "¡Ni Roblox ni nada, asere! Sin servicio por las sanciones. [pause] ¿Taco Bell en Cuba? Aquí ni taco ni campana, asere."
+},
+{
+"id": "tk2_5",
+"voice": "TXoBVQ9S1J8PyUCOfL3s",
+"ids": [
+"rbx:S_IR"
+],
+"text": "Aquí no entra por las sanciones... pero los chavales siempre encuentran la manera."
+},
+{
+"id": "tk2_6",
+"voice": "EUB39iBkSWvtMTIGWmNE",
+"ids": [
+"rbx:S_IT"
+],
+"text": "¡Se puede jugar! Pero en Italia, a la hora de comer, ¡la consola se apaga!"
+},
+{
+"id": "tk2_7",
+"voice": "G0q9AYE8QsarSbMtaIEu",
+"ids": [
+"rbx:S_VA"
+],
+"text": "¿Roblox en el Vaticano? Bueno... aquí se reza más de lo que se juega."
+},
+{
+"id": "tk2_8",
+"voice": "DXmaqevHBKl3Emj5cBp1",
+"ids": [
+"sbx:S_KP",
+"tbl:S_KP"
+],
+"text": "¿Café americano? Aquí no. Siguiente. [pause] ¿Taco Bell? Aquí la única campana es la que suena para ir a trabajar. Siguiente."
+},
+{
+"id": "tk2_9",
+"voice": "XAV9ErNepIMDFPmlJ3pQ",
+"ids": [
+"sbx:S_CN",
+"tbl:S_CN"
+],
+"text": "¡Más de ocho mil! Pero ahora aquí manda Luckin Coffee... ¡que ya tiene más que Starbucks! [pause] ¡Aquí sí hay! Con un menú solo para China... y otro tipo de picante."
+},
+{
+"id": "tk2_10",
+"voice": "mgZYFBDKPJGhiZEAcf4X",
+"ids": [
+"sbx:S_TR",
+"tbl:S_TR",
+"tbl:S_RS"
+],
+"text": "¡Hay más de seiscientos! Pero aquí el café turco es sagrado. [pause] ¿Taco Bell? ¡Aquí tenemos un döner en cada esquina! [pause] ¡Sí hay, en Belgrado! Y con ración extra de ajvar."
+},
+{
+"id": "tk2_11",
+"voice": "BECjFqjKpX1jVslC0trK",
+"ids": [
+"sbx:S_BR",
+"tbl:S_BR"
+],
+"text": "¡Hay Starbucks! Pero ojo: Brasil es el mayor productor de café del mundo. [pause] ¡Hay Taco Bell en Brasil! Pero aquí la estrella sigue siendo la picanha."
+},
+{
+"id": "tk2_12",
+"voice": "TT7tPlYlWLvcEiOfrtEK",
+"ids": [
+"sbx:S_JM",
+"tbl:S_JM"
+],
+"text": "¡Aquí está el café de las Montañas Azules, de los más caros del mundo! Y sí... también hay Starbucks. [pause] ¿Taco Bell? Aquí no hay... ¡pero con nuestro pollo jerk no lo echamos de menos!"
+},
+{
+"id": "tk2_13",
+"voice": "jTAlT4VvvXlYNDrxqpNQ",
+"ids": [
+"sbx:S_IS",
+"tbl:S_IS"
+],
+"text": "¿Starbucks? Aquí no hay ni uno. ¡Tenemos nuestras propias cafeterías! [pause] Tuvimos Taco Bell... y se fue. Ahora aquí lo más picante es el viento."
+},
+{
+"id": "tk2_14",
+"voice": "3W7TIElBzp1JQ8BxQuXK",
+"ids": [
+"sbx:S_NG",
+"tbl:S_NG"
+],
+"text": "¡Doscientos millones de personas y ni un Starbucks! Aquí el café... se toma en casa. [pause] ¡Somos doscientos millones y ni un Taco Bell! Pero nuestro arroz jollof le gana a cualquier taco."
+},
+{
+"id": "tk2_15",
+"voice": "N2lVS1w4EtoT3dr4eOWO",
+"ids": [
+"tbl:S_CA"
+],
+"text": "¡Más de cien locales! Y aquí los pedimos a cualquier hora... ¡hasta con nieve!"
+}
 ]
 }
