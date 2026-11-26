@@ -2,6 +2,7 @@ import React from 'react';
 import {SatShort, satFrames} from './sat/Sat';
 import {Indo720} from './Indo720';
 import {Composition} from 'remotion';
+import {XComps} from './RootX';
 import {HWTest} from './HWTest';
 import {SameArmy, SA_FRAMES} from './SameArmy';
 import {Indo, INDO_FRAMES} from './Indo';
@@ -300,6 +301,7 @@ export const RootHW: React.FC = () => (
     <Composition id="S1K" component={Sim1000} durationInFrames={s1kFrames()} fps={30} width={1920} height={1080} />
     <Composition id="ID50" component={WarID50} durationInFrames={Math.round((ID50TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="WW3" component={WarWW3} durationInFrames={Math.round((WW3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
+    <XComps />
     <Composition id="EspWar" component={WarEsp} durationInFrames={Math.round((ESPTL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar3" component={WarRel3} durationInFrames={Math.round((REL3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar2" component={WarRel2} durationInFrames={Math.round((REL2TL as any).duration * 60)} fps={60} width={1920} height={1080} />
