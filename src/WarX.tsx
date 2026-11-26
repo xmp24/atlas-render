@@ -84,16 +84,16 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
   const fmtK = (n: number) => (n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 1 : 2) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'K' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(Math.round(n)));
   const fmt = (n: number) => Math.round(n).toLocaleString('en-US');
   const bbCache = new Map<string, number[] | null>();
-  const ownBox = (owners: string[], k: number) => {
-    const key = owners.join(',') + '|' + k;
+  const ownBox = (owners: string[], k: number, full = false) => {
+    const key = owners.join(',') + '|' + k + (full ? 'F' : '');
     if (bbCache.has(key)) return bbCache.get(key)!;
     let b: number[] | null = null;
     const own = OWN[k];
-    for (const p of MP) if (owners.includes(own[p.code])) b = b ? union(b, p.bbox) : [...p.bbox];
+    for (const p of MP) if (owners.includes(own[p.code])) { const bb = full ? p.bbox : p.mb; b = b ? union(b, bb) : [...bb]; }
     bbCache.set(key, b);
     return b;
   };
-  const pcsBox = (pcs: string[]) => { let b: number[] | null = null; for (const c of pcs) if (PBY[c]) b = b ? union(b, PBY[c].bbox) : [...PBY[c].bbox]; return b; };
+  const pcsBox = (pcs: string[], full = false) => { let b: number[] | null = null; for (const c of pcs) if (PBY[c]) { const bb = full ? PBY[c].bbox : PBY[c].mb; b = b ? union(b, bb) : [...bb]; } return b; };
   const areaCache = new Map<number, Record<string, number>>();
   const areasK = (k: number) => { let a = areaCache.get(k); if (!a) { a = {}; for (const p of MP) { const o = OWN[k][p.code]; a[o] = (a[o] || 0) + p.area; } areaCache.set(k, a); } return a; };
   const TOTAL = MP.reduce((s, p) => s + p.area, 0);
@@ -113,10 +113,13 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
   const ownBoxNear = (owners: string[], k: number, c: P, R: number) => {
     let b: number[] | null = null;
     const own = OWN[k];
+    let amax = 0;
+    for (const p of MP) if (owners.includes(own[p.code]) && p.area > amax) amax = p.area;
     for (const p of MP) {
       if (!owners.includes(own[p.code])) continue;
+      if (p.area < amax * 0.03) continue;
       if (Math.hypot(p.c[0] - c[0], p.c[1] - c[1]) > R) continue;
-      b = b ? union(b, p.bbox) : [...p.bbox];
+      b = b ? union(b, p.mb) : [...p.mb];
     }
     return b;
   };
@@ -309,7 +312,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
   // datos fijos por evento (punto de origen de la expansión)
   const EVG = EVT.map((e, i) => {
     const [, w, ls, pcs, style, A0] = e;
-    const lb = pcs ? pcsBox(pcs) : ownBox(ls, i);
+    const lb = pcs ? pcsBox(pcs, true) : ownBox(ls, i, true);
     if (!lb) return null;
     const lc: P = [(lb[0] + lb[2]) / 2, (lb[1] + lb[3]) / 2];
     let A: P;
@@ -1011,6 +1014,9 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
   const RuleHUD: React.FC<{t: number}> = ({t}) => {
     const r = RULES.find(([t0, t1]) => t >= t0 && t < t1);
     if (!r) return null;
+    const trr = turnAt(t);
+    const ff = fightAt(trr, t);
+    if (ff && t >= ff.tVs - 0.3 && t >= r[0] + 2.6) return null;
     const [t0, t1, n, a, b, icon] = r;
     const big = t < t0 + 2.6;
     if (big) {
