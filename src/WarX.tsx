@@ -466,6 +466,11 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     };
     const outline = (owners: string[], color: string, key: string, dash?: boolean, w = 4) => outlineSel(pv.filter((x) => owners.includes(own[x.p.code])), color, key, dash, w);
     const outlineP = (pcs: string[], color: string, key: string, dash?: boolean, w = 4) => outlineSel(pv.filter((x) => pcs.includes(x.p.code)), color, key, dash, w);
+    // silueta de cada bando (contorno exterior del territorio del equipo)
+    for (const [L, col] of (TL.sideOutline || []) as [string, string][]) {
+      const mem = ALIVE0.filter((c) => tm[c] === L);
+      outline(mem, col, `side${L}`, false, 3.6);
+    }
     // marcas (reglas): países señalados parpadeando
     MARKS.forEach(([t0, t1, owners, color, pcs], i) => {
       if (t < t0 || t > t1) return;
@@ -713,7 +718,8 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     } else if (tr.kind === 'turn') {
       const f = fightAt(tr, t);
       if (f && t >= f.tVs) return null;
-      if (tr.slot === false) { if (!f) return null; a = tr.title || `${nm(tr.att)} ATTACKS`; b = tr.sub || 'SPINNING TARGET DIRECTION...'; }
+      if (tr.slot2 && t < tr.tZoom + 0.5) { a = 'SELECTING THE TWO RIVALS...'; b = `${TB ? TB[0][1] : 'SIDE A'} SELECTOR  ·  ${TB ? TB[1][1] : 'SIDE B'} SELECTOR`; }
+      else if (tr.slot === false) { if (!f) return null; a = tr.title || `${nm(tr.att)} ATTACKS`; b = tr.sub || 'SPINNING TARGET DIRECTION...'; }
       else if (t < tr.tZoom) { a = 'SELECTING ACTIVE ' + (HUD.who || 'COUNTRY') + '...'; b = 'THE SELECTOR IS SPINNING'; }
       else if (t < tr.tWheel) { a = `ACTIVE TURN: ${nm(tr.att)}`; b = 'ZOOMING TO THE SELECTED ' + (HUD.who || 'COUNTRY'); }
       else if (tr.action === 'ALLIANCE') {
@@ -873,6 +879,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     const out: React.ReactNode[] = [];
     const SX = HUD.top5 ? 400 : 140;
     if (tr.slot !== false) out.push(<Slot key="sl" t={t} t0={tr.tSel} t1={tr.tZoom - 0.15} pick={tr.att} x={SX} y={190} seed={tr.att.charCodeAt(0)} pool={tr.pool} />);
+    if (tr.slot2) out.push(<Slot key="sl2" t={t} t0={tr.tSel} t1={tr.tZoom + 0.35} pick={tr.slot2.pick} x={1920 - 140 - 420} y={190} seed={tr.slot2.pick.charCodeAt(0) + 3} pool={tr.slot2.pool} />);
     const firstDir = tr.fights[0]?.tDir ?? tr.tPick ?? tr.t1;
     if (tr.ewheel !== false) out.push(<Wheel key="ew" id="ew" t={t} t0={tr.tWheel} t1={firstDir - 0.75} slices={ACTIONS} pick={actionIdx(tr.action)} x={WX} y={WY} r={165} seed={tr.att.charCodeAt(1)} />);
     if (tr.action === 'ALLIANCE') {
