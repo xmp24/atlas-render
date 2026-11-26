@@ -469,7 +469,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     // silueta de cada bando (contorno exterior del territorio del equipo)
     for (const [L, col] of (TL.sideOutline || []) as [string, string][]) {
       const mem = ALIVE0.filter((c) => tm[c] === L);
-      outline(mem, col, `side${L}`, false, 3.6);
+      outline(mem, col, `side${L}`, false, 5.5);
     }
     // marcas (reglas): países señalados parpadeando
     MARKS.forEach(([t0, t1, owners, color, pcs], i) => {
@@ -877,7 +877,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     const tr = turnAt(t);
     if (!tr || tr.kind !== 'turn') return null;
     const out: React.ReactNode[] = [];
-    const SX = HUD.top5 ? 400 : 140;
+    const SX = HUD.top5 || TL.teamBoard ? 400 : 140;
     if (tr.slot !== false) out.push(<Slot key="sl" t={t} t0={tr.tSel} t1={tr.tZoom - 0.15} pick={tr.att} x={SX} y={190} seed={tr.att.charCodeAt(0)} pool={tr.pool} />);
     if (tr.slot2) out.push(<Slot key="sl2" t={t} t0={tr.tSel} t1={tr.tZoom + 0.35} pick={tr.slot2.pick} x={1920 - 140 - 420} y={190} seed={tr.slot2.pick.charCodeAt(0) + 3} pool={tr.slot2.pool} />);
     const firstDir = tr.fights[0]?.tDir ?? tr.tPick ?? tr.t1;
