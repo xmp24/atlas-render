@@ -3,8 +3,9 @@ import {Composition} from 'remotion';
 import {makeWarX} from './WarX';
 import GEO from './real-geo.json';
 import BR from './x-br.json';
+import EMP from './x-emp.json';
 
-const V: [string, any][] = [['XBR', BR]];
+const V: [string, any][] = [['XBR', BR], ['XEMP', EMP]];
 const BUILT = V.map(([id, tl]) => [id, makeWarX(tl, GEO)] as const);
 export const XComps: React.FC = () => (
   <>

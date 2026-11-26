@@ -842,12 +842,13 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     const tr = turnAt(t);
     if (!tr || tr.kind !== 'turn') return null;
     const out: React.ReactNode[] = [];
-    if (tr.slot !== false) out.push(<Slot key="sl" t={t} t0={tr.tSel} t1={tr.tZoom - 0.15} pick={tr.att} x={140} y={190} seed={tr.att.charCodeAt(0)} pool={tr.pool} />);
+    const SX = HUD.top5 ? 400 : 140;
+    if (tr.slot !== false) out.push(<Slot key="sl" t={t} t0={tr.tSel} t1={tr.tZoom - 0.15} pick={tr.att} x={SX} y={190} seed={tr.att.charCodeAt(0)} pool={tr.pool} />);
     const firstDir = tr.fights[0]?.tDir ?? tr.tPick ?? tr.t1;
     if (tr.ewheel !== false) out.push(<Wheel key="ew" id="ew" t={t} t0={tr.tWheel} t1={firstDir - 0.75} slices={ACTIONS} pick={actionIdx(tr.action)} x={WX} y={WY} r={165} seed={tr.att.charCodeAt(1)} />);
     if (tr.action === 'ALLIANCE') {
       const pool = aliveListAt(tr.tPick).filter((c) => c !== tr.att);
-      out.push(<Slot key="ps" t={t} t0={tr.tPick} t1={tr.tAlly - 0.4} pick={tr.partner} x={140} y={190} seed={3} pool={pool} />);
+      out.push(<Slot key="ps" t={t} t0={tr.tPick} t1={tr.tAlly - 0.4} pick={tr.partner} x={SX} y={190} seed={3} pool={pool} />);
       if (t >= tr.tAlly) {
         const k = popT(t, tr.tAlly + 0.6);
         out.push(
