@@ -156,7 +156,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     const ab = ownBoxNear(mem, k, ap, 230) || ownBox(mem, k);
     if (!ab) return;
     const cb = CONTBOX[contOf(tr.att)] || ab;
-    if (tr.slot !== false) KEYS.push([tr.tSel, ...(tr.mode === 'quick' ? boxCam(ab, 4.5, 3.4) : boxCam(union(cb, ab), 1.1, 2.6))]);
+    if (tr.slot !== false) KEYS.push([tr.tSel, ...(TL.world ? WORLD : tr.mode === 'quick' ? boxCam(ab, 4.5, 3.4) : boxCam(union(cb, ab), 1.1, 2.6))]);
     KEYS.push([tr.tZoom, ...leftOf(boxCam(ab, 1.45, 6.5, 1.7))]);
     if (tr.action === 'ALLIANCE') {
       const pb = ownBoxNear(memAt(tr.partner, tr.t0), k, ownerPos(tr.partner, k), 230);
@@ -645,6 +645,32 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
       </Panel>
     );
   };
+  // marcador de dos bandos
+  const TB = (TL.teamBoard || null) as [string, string, string][] | null;
+  const TeamBoard: React.FC<{t: number}> = ({t}) => {
+    if (!TB || t < WAR0 - 0.5 || t > WIN_T + 0.5) return null;
+    const tm = teamAt(t);
+    const k = popT(t, WAR0 - 0.5);
+    const a = areasK(doneK(t));
+    return (
+      <div style={{position: 'absolute', left: 30, top: 28, display: 'flex', flexDirection: 'column', gap: 10, transform: `scale(${k})`, transformOrigin: 'left top'}}>
+        {TB.map(([L, name, col]) => {
+          const mem = ALIVE0.filter((c) => tm[c] === L && isAlive(c, t + 0.6));
+          const pw = mem.reduce((s, c) => s + powerAt(c, t), 0);
+          const ar = mem.reduce((s, c) => s + (a[c] || 0), 0);
+          return (
+            <Panel key={L} border={col} style={{width: 330, padding: '8px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <div style={{...font, fontSize: 28, color: col === '#e5322d' ? '#ff6b63' : '#6fa8ff'}}>{name}</div>
+                <div style={{...font2, fontSize: 15, color: '#cdd6e2'}}>{fmtK(pw)} {UNIT} · {((ar / TOTAL) * 100).toFixed(1)}% LAND</div>
+              </div>
+              <div style={{...font, fontSize: 52, color: '#fff'}}>{mem.length}</div>
+            </Panel>
+          );
+        })}
+      </div>
+    );
+  };
   // feed de eliminaciones (solo banderas)
   const KillFeed: React.FC<{t: number}> = ({t}) => {
     if (!HUD.feed || t > WIN_T) return null;
@@ -992,7 +1018,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
       return (
         <AbsoluteFill style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: `rgba(8,14,28,${0.5 * o})`}}>
           <div style={{transform: `scale(${k})`, opacity: o, textAlign: 'center', maxWidth: 1700}}>
-            <div style={{display: 'inline-block', background: RED, border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 30px 0', ...font, fontSize: 48, color: '#fff'}}>{HUD.ruleWord || 'RULE'} #{n}</div>
+            <div style={{display: 'inline-block', background: RED, border: `5px solid ${INK}`, borderRadius: 16, padding: '6px 30px 0', ...font, fontSize: 48, color: '#fff'}}>{HUD.ruleWord ?? 'RULE'} {HUD.noHash ? '' : '#'}{n}</div>
             <div style={{...font, fontSize: a.length > 30 ? 78 : 96, color: '#fff', ...OUT_TXT, WebkitTextStroke: `9px ${INK}`, lineHeight: 1.05, marginTop: 12}}>{icon ? icon + ' ' : ''}{a}</div>
             {b && <div style={{...font, fontSize: 64, color: YELLOW, ...OUT_TXT, WebkitTextStroke: `8px ${INK}`, marginTop: 8}}>{b}</div>}
           </div>
@@ -1003,7 +1029,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
     return (
       <div style={{position: 'absolute', left: 0, right: 0, top: 24, display: 'flex', justifyContent: 'center', transform: `scale(${k})`, opacity: lerp(t, t1 - 0.3, t1, 1, 0)}}>
         <Panel border={RED} style={{padding: '10px 26px 6px', display: 'flex', alignItems: 'center', gap: 16, maxWidth: 1180}}>
-          <div style={{background: RED, borderRadius: 10, padding: '4px 14px 0', ...font, fontSize: 30, color: '#fff', whiteSpace: 'nowrap'}}>#{n}</div>
+          <div style={{background: RED, borderRadius: 10, padding: '4px 14px 0', ...font, fontSize: 30, color: '#fff', whiteSpace: 'nowrap'}}>{HUD.noHash ? '' : '#'}{n}</div>
           <div style={{...font, fontSize: 34, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{icon ? icon + ' ' : ''}{a} <span style={{color: YELLOW}}>{b}</span></div>
         </Panel>
       </div>
@@ -1101,6 +1127,7 @@ export const makeWarX = (TLJ: any, GEOJ: any) => {
         <GainPop t={t} cam={cam} />
         <AliveBox t={t} />
         <Top5 t={t} />
+        <TeamBoard t={t} />
         <KillFeed t={t} />
         <StatusBar t={t} />
         <TurnHUD t={t} />
