@@ -5,6 +5,7 @@ on:
     inputs:
       branch: {required: true}
       lang: {required: true}
+      model: {required: false, default: small}
 permissions:
   contents: write
 jobs:
@@ -19,10 +20,10 @@ jobs:
           python - <<'P'
           import glob, json
           from faster_whisper import WhisperModel
-          m = WhisperModel('small', device='cpu', compute_type='int8')
+          m = WhisperModel('${{ inputs.model }}', device='cpu', compute_type='int8')
           out = {}
           for f in sorted(glob.glob('*.wav')):
-              segs, info = m.transcribe(f, language='${{ inputs.lang }}', beam_size=5, word_timestamps=True)
+              segs, info = m.transcribe(f, language='${{ inputs.lang }}', beam_size=5, word_timestamps=True, condition_on_previous_text=False)
               out[f] = [[w.start, w.end, w.word] for s in segs for w in s.words]
               print(f, len(out[f]))
           json.dump(out, open('../words.json', 'w'), ensure_ascii=False)
