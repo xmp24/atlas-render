@@ -1,0 +1,1090 @@
+{
+"abstract-movement-riser": {
+"ms": 2000,
+"loop": false
+},
+"accelerating-cinematic-riser": {
+"ms": 2162,
+"loop": false
+},
+"achievement-sparkle": {
+"ms": 1759,
+"loop": false
+},
+"affirmative-decision-chime": {
+"ms": 169,
+"loop": false
+},
+"aggressive-braam": {
+"ms": 2299,
+"loop": false
+},
+"air-whoosh": {
+"ms": 757,
+"loop": false
+},
+"airy-shimmer-riser": {
+"ms": 3060,
+"loop": false
+},
+"airy-sweep": {
+"ms": 3156,
+"loop": false
+},
+"ascending-space-sweep": {
+"ms": 4576,
+"loop": false
+},
+"back-1": {
+"ms": 61,
+"loop": false
+},
+"bah-dum-tss-sting": {
+"ms": 2870,
+"loop": false
+},
+"bamboo-swing-transition": {
+"ms": 426,
+"loop": false
+},
+"bamboo-swoosh-3": {
+"ms": 576,
+"loop": false
+},
+"bell-chime-synth": {
+"ms": 667,
+"loop": false
+},
+"big-sparkle-26": {
+"ms": 2786,
+"loop": false
+},
+"big-whoosh-swipe": {
+"ms": 2960,
+"loop": false
+},
+"book-page-flip": {
+"ms": 1215,
+"loop": false
+},
+"brass-fanfare-stinger": {
+"ms": 5941,
+"loop": false
+},
+"breath-whoosh": {
+"ms": 3249,
+"loop": false
+},
+"bright-bell-chime": {
+"ms": 2519,
+"loop": false
+},
+"bright-bell-synth-notification": {
+"ms": 774,
+"loop": false
+},
+"bright-cloth-swish": {
+"ms": 1200,
+"loop": false
+},
+"bright-notification-chime": {
+"ms": 689,
+"loop": false
+},
+"bright-ui-hover": {
+"ms": 375,
+"loop": false
+},
+"bubble-1-2": {
+"ms": 696,
+"loop": false
+},
+"bubble-1": {
+"ms": 456,
+"loop": false
+},
+"bubble-pop-ui-tap": {
+"ms": 309,
+"loop": false
+},
+"buzzer": {
+"ms": 1920,
+"loop": false
+},
+"camera-flash-clicks": {
+"ms": 5500,
+"loop": false
+},
+"camera-shutter-click": {
+"ms": 6222,
+"loop": false
+},
+"camera-shutter-flash": {
+"ms": 3046,
+"loop": false
+},
+"camera-shutter-snap": {
+"ms": 540,
+"loop": false
+},
+"cartoon-balloon-pop": {
+"ms": 65,
+"loop": false
+},
+"cartoon-pop-up-appearance": {
+"ms": 1485,
+"loop": false
+},
+"cartoon-pop": {
+"ms": 3086,
+"loop": false
+},
+"cartoon-ui-cancel": {
+"ms": 144,
+"loop": false
+},
+"cartoon-wink-sparkle": {
+"ms": 1271,
+"loop": false
+},
+"cash-register-closing": {
+"ms": 1884,
+"loop": false
+},
+"champagne-cork-pop": {
+"ms": 667,
+"loop": false
+},
+"chime-notification": {
+"ms": 319,
+"loop": false
+},
+"cinematic-braam": {
+"ms": 2299,
+"loop": false
+},
+"cinematic-crash-riser": {
+"ms": 4291,
+"loop": false
+},
+"cinematic-dramatic-film-riser": {
+"ms": 3000,
+"loop": false
+},
+"cinematic-strings-riser": {
+"ms": 5625,
+"loop": false
+},
+"cinematic-sub-drop": {
+"ms": 6000,
+"loop": false
+},
+"cinematic-tension-riser": {
+"ms": 3833,
+"loop": false
+},
+"classic-bleep-error-sound": {
+"ms": 2000,
+"loop": false
+},
+"clean-digital-error": {
+"ms": 470,
+"loop": false
+},
+"clean-mouth-pop": {
+"ms": 627,
+"loop": false
+},
+"clicky-keyboard-click": {
+"ms": 293,
+"loop": false
+},
+"close-1": {
+"ms": 148,
+"loop": false
+},
+"close-2": {
+"ms": 314,
+"loop": false
+},
+"compressed-air-whoosh": {
+"ms": 509,
+"loop": false
+},
+"computer-error-beep": {
+"ms": 310,
+"loop": false
+},
+"computer-keyboard-click": {
+"ms": 229,
+"loop": false
+},
+"confirm-ui-beep": {
+"ms": 271,
+"loop": false
+},
+"confirm-ui-chime": {
+"ms": 1600,
+"loop": false
+},
+"confirmation-1": {
+"ms": 290,
+"loop": false
+},
+"countdown-beeper": {
+"ms": 5386,
+"loop": false
+},
+"cover-paper-tear-1": {
+"ms": 1262,
+"loop": false
+},
+"crisp-block-click": {
+"ms": 758,
+"loop": false
+},
+"crisp-mouth-pop": {
+"ms": 287,
+"loop": false
+},
+"crowd-clapping": {
+"ms": 5221,
+"loop": false
+},
+"crystal-shimmer": {
+"ms": 3982,
+"loop": false
+},
+"crystalline-shimmer-sting": {
+"ms": 2168,
+"loop": false
+},
+"cute-pop-up-zip": {
+"ms": 1595,
+"loop": false
+},
+"cute-ui-confirm": {
+"ms": 499,
+"loop": false
+},
+"cymbal-reverse-riser": {
+"ms": 2902,
+"loop": false
+},
+"cymbal-scrape": {
+"ms": 2783,
+"loop": false
+},
+"deep-bass-thump": {
+"ms": 1578,
+"loop": false
+},
+"deep-sub-drop": {
+"ms": 1000,
+"loop": false
+},
+"digital-click": {
+"ms": 216,
+"loop": false
+},
+"digital-glitch-hit": {
+"ms": 600,
+"loop": false
+},
+"digital-glitch-transition": {
+"ms": 344,
+"loop": false
+},
+"digital-textured-riser": {
+"ms": 5455,
+"loop": false
+},
+"digital-zap": {
+"ms": 1723,
+"loop": false
+},
+"distant-bass-boom": {
+"ms": 3320,
+"loop": false
+},
+"distant-star-sparkle": {
+"ms": 3040,
+"loop": false
+},
+"drop-1": {
+"ms": 109,
+"loop": false
+},
+"drop-2": {
+"ms": 188,
+"loop": false
+},
+"dslr-camera-shots": {
+"ms": 2441,
+"loop": false
+},
+"dubbed-sub-drop": {
+"ms": 5421,
+"loop": false
+},
+"dubstep-drum-roll": {
+"ms": 1714,
+"loop": false
+},
+"echoed-pitch-bend-sweep": {
+"ms": 1440,
+"loop": false
+},
+"epic-descending-riser": {
+"ms": 4430,
+"loop": false
+},
+"error-1": {
+"ms": 162,
+"loop": false
+},
+"error-5": {
+"ms": 497,
+"loop": false
+},
+"error-beep": {
+"ms": 420,
+"loop": false
+},
+"error-notification-tone": {
+"ms": 462,
+"loop": false
+},
+"error-wrong-action": {
+"ms": 397,
+"loop": false
+},
+"explosive-impact-whoosh": {
+"ms": 2561,
+"loop": false
+},
+"fail-party-horn-wah-wah": {
+"ms": 2973,
+"loop": false
+},
+"fairy-dust-shimmer": {
+"ms": 5500,
+"loop": false
+},
+"fantasy-ui-chime": {
+"ms": 1352,
+"loop": false
+},
+"fast-ascend-riser": {
+"ms": 453,
+"loop": false
+},
+"fast-cloth-swish": {
+"ms": 601,
+"loop": false
+},
+"fast-cloth-whoosh": {
+"ms": 549,
+"loop": false
+},
+"fast-metal-whoosh": {
+"ms": 326,
+"loop": false
+},
+"filtered-sci-fi-riser": {
+"ms": 3333,
+"loop": false
+},
+"filtered-sweep-in-c": {
+"ms": 6000,
+"loop": false
+},
+"filtering-build-riser": {
+"ms": 6931,
+"loop": false
+},
+"finger-snap": {
+"ms": 318,
+"loop": false
+},
+"funky-morph-swoosh": {
+"ms": 2319,
+"loop": false
+},
+"game-show-buzzer": {
+"ms": 1530,
+"loop": false
+},
+"gated-noise-riser": {
+"ms": 5799,
+"loop": false
+},
+"glass-3": {
+"ms": 121,
+"loop": false
+},
+"glass-ding": {
+"ms": 550,
+"loop": false
+},
+"glassy-reverse-sweep": {
+"ms": 751,
+"loop": false
+},
+"glassy-shimmer": {
+"ms": 1954,
+"loop": false
+},
+"glassy-tension-riser": {
+"ms": 2661,
+"loop": false
+},
+"glitch-transition-fx": {
+"ms": 520,
+"loop": false
+},
+"glitchy-beepy-digital-static": {
+"ms": 2952,
+"loop": false
+},
+"glitchy-digital-hit": {
+"ms": 1400,
+"loop": false
+},
+"glitchy-impact": {
+"ms": 810,
+"loop": false
+},
+"glitchy-robotic-whoosh": {
+"ms": 928,
+"loop": false
+},
+"glitchy-sci-fi-sweep": {
+"ms": 6703,
+"loop": false
+},
+"glitchy-synth-hit": {
+"ms": 395,
+"loop": false
+},
+"glockenspiel-chime": {
+"ms": 1463,
+"loop": false
+},
+"glockenspiel-success-chime": {
+"ms": 2534,
+"loop": false
+},
+"grimy-radio-static-texture": {
+"ms": 1753,
+"loop": false
+},
+"high-cello-bow-swoosh": {
+"ms": 500,
+"loop": false
+},
+"high-chime-notification": {
+"ms": 324,
+"loop": false
+},
+"high-whoosh-transition": {
+"ms": 2344,
+"loop": false
+},
+"hit-4": {
+"ms": 497,
+"loop": false
+},
+"horn-fail-wah-wah-low": {
+"ms": 4278,
+"loop": false
+},
+"incorrect-buzzer": {
+"ms": 601,
+"loop": false
+},
+"level-complete-stinger": {
+"ms": 3484,
+"loop": false
+},
+"level-up-success-fanfare": {
+"ms": 3431,
+"loop": false
+},
+"light-rope-whoosh": {
+"ms": 429,
+"loop": false
+},
+"light-switch-click-off": {
+"ms": 361,
+"loop": false
+},
+"light-switch-click": {
+"ms": 520,
+"loop": false
+},
+"lip-pop": {
+"ms": 6653,
+"loop": false
+},
+"lofi-reverse-riser": {
+"ms": 2317,
+"loop": false
+},
+"long-crash-cymbal": {
+"ms": 4074,
+"loop": false
+},
+"low-bubble-pop": {
+"ms": 174,
+"loop": false
+},
+"low-reversed-crash": {
+"ms": 2687,
+"loop": false
+},
+"magic-potion-cork-pop": {
+"ms": 642,
+"loop": false
+},
+"magic-shimmer-burst": {
+"ms": 1609,
+"loop": false
+},
+"magical-appearance-poof": {
+"ms": 5839,
+"loop": false
+},
+"magical-sparkle-shimmer": {
+"ms": 6462,
+"loop": false
+},
+"maximize-1": {
+"ms": 258,
+"loop": false
+},
+"mechanical-glitch-stutter": {
+"ms": 3038,
+"loop": false
+},
+"mechanical-keyboard-click": {
+"ms": 1280,
+"loop": false
+},
+"mechanical-keyboard-keystroke": {
+"ms": 400,
+"loop": false
+},
+"melodic-shimmer-sting": {
+"ms": 4284,
+"loop": false
+},
+"menu-selection-click": {
+"ms": 228,
+"loop": false
+},
+"metal-hammer-hit-1": {
+"ms": 2035,
+"loop": false
+},
+"metal-skimmer-whoosh": {
+"ms": 1203,
+"loop": false
+},
+"metallic-grate-hit": {
+"ms": 3246,
+"loop": false
+},
+"metallic-riser-hit": {
+"ms": 1925,
+"loop": false
+},
+"microwave-ding": {
+"ms": 2929,
+"loop": false
+},
+"minimalist-sci-fi-ui-error": {
+"ms": 144,
+"loop": false
+},
+"minimize-1": {
+"ms": 258,
+"loop": false
+},
+"modern-ui-hover": {
+"ms": 127,
+"loop": false
+},
+"money-bag-jingle": {
+"ms": 1719,
+"loop": false
+},
+"mouse-button-click": {
+"ms": 311,
+"loop": false
+},
+"mouse-click-crisp": {
+"ms": 304,
+"loop": false
+},
+"mouse-click": {
+"ms": 59,
+"loop": false
+},
+"mouse-release": {
+"ms": 69,
+"loop": false
+},
+"mouth-bubble-pop-2": {
+"ms": 127,
+"loop": false
+},
+"mouth-swoosh-sweep": {
+"ms": 2684,
+"loop": false
+},
+"muffled-sub-drop": {
+"ms": 3239,
+"loop": false
+},
+"noise-fade-riser": {
+"ms": 3998,
+"loop": false
+},
+"noise-riser-sound-fx": {
+"ms": 3047,
+"loop": false
+},
+"olympus-camera-shutter-click": {
+"ms": 1562,
+"loop": false
+},
+"open-1": {
+"ms": 148,
+"loop": false
+},
+"open-2": {
+"ms": 314,
+"loop": false
+},
+"orchestral-tension-riser": {
+"ms": 2752,
+"loop": false
+},
+"organic-noise-riser": {
+"ms": 3750,
+"loop": false
+},
+"paper-3": {
+"ms": 550,
+"loop": false
+},
+"paper-crumple": {
+"ms": 1389,
+"loop": false
+},
+"paper-rip": {
+"ms": 430,
+"loop": false
+},
+"paper-tear-8": {
+"ms": 511,
+"loop": false
+},
+"party-popper-pop-with-air-rush": {
+"ms": 610,
+"loop": false
+},
+"phone-notification-chime": {
+"ms": 1907,
+"loop": false
+},
+"pizzicato-jingle-6": {
+"ms": 536,
+"loop": false
+},
+"plastic-ruler-swoosh": {
+"ms": 1959,
+"loop": false
+},
+"plastic-swipe-whoosh": {
+"ms": 511,
+"loop": false
+},
+"plop-2": {
+"ms": 359,
+"loop": false
+},
+"pop-lip-cork": {
+"ms": 650,
+"loop": false
+},
+"pop-up-notification-chime": {
+"ms": 423,
+"loop": false
+},
+"popping-squeak": {
+"ms": 1832,
+"loop": false
+},
+"power-down-sweep": {
+"ms": 1728,
+"loop": false
+},
+"power-up-apply-chime": {
+"ms": 1108,
+"loop": false
+},
+"punch-swish": {
+"ms": 268,
+"loop": false
+},
+"question-1": {
+"ms": 491,
+"loop": false
+},
+"quick-air-whoosh": {
+"ms": 2064,
+"loop": false
+},
+"quick-finger-snap": {
+"ms": 108,
+"loop": false
+},
+"quick-wrong-buzzer": {
+"ms": 494,
+"loop": false
+},
+"radio-static-transition": {
+"ms": 4807,
+"loop": false
+},
+"record-rewind-whoosh": {
+"ms": 2116,
+"loop": false
+},
+"retro-menu-click": {
+"ms": 403,
+"loop": false
+},
+"reverberant-synth-bell": {
+"ms": 6862,
+"loop": false
+},
+"reverse-bell-sweep": {
+"ms": 846,
+"loop": false
+},
+"reverse-cymbal-crash": {
+"ms": 3067,
+"loop": false
+},
+"reverse-impact-riser": {
+"ms": 1987,
+"loop": false
+},
+"reverse-mallet-riser": {
+"ms": 2972,
+"loop": false
+},
+"reverse-reverbed-breath-whoosh": {
+"ms": 2367,
+"loop": false
+},
+"reverse-whoosh": {
+"ms": 2000,
+"loop": false
+},
+"reversed-clap-sweep": {
+"ms": 1967,
+"loop": false
+},
+"reversed-cymbal-crash": {
+"ms": 4672,
+"loop": false
+},
+"reversing-noise-sweep": {
+"ms": 2000,
+"loop": false
+},
+"rollover-2": {
+"ms": 57,
+"loop": false
+},
+"roomy-finger-snap": {
+"ms": 1207,
+"loop": false
+},
+"sci-fi-glitch-blip": {
+"ms": 531,
+"loop": false
+},
+"sci-fi-success-chime": {
+"ms": 2273,
+"loop": false
+},
+"select-1": {
+"ms": 40,
+"loop": false
+},
+"sharp-mouse-click": {
+"ms": 264,
+"loop": false
+},
+"shimmering-harp-arpeggio": {
+"ms": 3840,
+"loop": false
+},
+"short-crash-cymbal": {
+"ms": 1450,
+"loop": false
+},
+"short-pop": {
+"ms": 303,
+"loop": false
+},
+"short-ui-click": {
+"ms": 161,
+"loop": false
+},
+"sliding-trailer-whoosh": {
+"ms": 1627,
+"loop": false
+},
+"small-padlock-opening": {
+"ms": 251,
+"loop": false
+},
+"snare-drumroll": {
+"ms": 6242,
+"loop": false
+},
+"soft-keyboard-click": {
+"ms": 385,
+"loop": false
+},
+"soft-light-switch-click": {
+"ms": 467,
+"loop": false
+},
+"soft-mouse-click": {
+"ms": 2329,
+"loop": false
+},
+"soft-ui-button-click": {
+"ms": 697,
+"loop": false
+},
+"soft-ui-tap": {
+"ms": 415,
+"loop": false
+},
+"space-bar-keystroke": {
+"ms": 271,
+"loop": false
+},
+"space-swoosh": {
+"ms": 1013,
+"loop": false
+},
+"spacebar-keystroke": {
+"ms": 237,
+"loop": false
+},
+"sparkle-1": {
+"ms": 1304,
+"loop": false
+},
+"sparkle-shimmer": {
+"ms": 2769,
+"loop": false
+},
+"sparkling-star-shimmer": {
+"ms": 3540,
+"loop": false
+},
+"sports-buzzer": {
+"ms": 3347,
+"loop": false
+},
+"stadium-crowd-applause": {
+"ms": 5828,
+"loop": false
+},
+"standard-mouse-click": {
+"ms": 1254,
+"loop": false
+},
+"steel-drum-jingle-12": {
+"ms": 825,
+"loop": false
+},
+"strong-cymbal-riser": {
+"ms": 3158,
+"loop": false
+},
+"stuttering-digital-glitch": {
+"ms": 661,
+"loop": false
+},
+"stuttering-glitch": {
+"ms": 1755,
+"loop": false
+},
+"success-beep": {
+"ms": 657,
+"loop": false
+},
+"success-fanfare": {
+"ms": 4467,
+"loop": false
+},
+"super-slow-whoosh": {
+"ms": 934,
+"loop": false
+},
+"swipe-ui-transition": {
+"ms": 880,
+"loop": false
+},
+"switch-1": {
+"ms": 315,
+"loop": false
+},
+"switch-14": {
+"ms": 33,
+"loop": false
+},
+"switch-30": {
+"ms": 359,
+"loop": false
+},
+"synthetic-bell-tone": {
+"ms": 930,
+"loop": false
+},
+"teleport-shimmer": {
+"ms": 752,
+"loop": false
+},
+"tick-1": {
+"ms": 22,
+"loop": false
+},
+"tight-snare-drumroll": {
+"ms": 302,
+"loop": false
+},
+"toggle-1": {
+"ms": 136,
+"loop": false
+},
+"toggle-2": {
+"ms": 136,
+"loop": false
+},
+"toggle-3": {
+"ms": 139,
+"loop": false
+},
+"toggle-switch": {
+"ms": 424,
+"loop": false
+},
+"two-tone-hint-chime": {
+"ms": 265,
+"loop": false
+},
+"typewriter-ding": {
+"ms": 1056,
+"loop": false
+},
+"ui-chime": {
+"ms": 1865,
+"loop": false
+},
+"ui-click": {
+"ms": 48,
+"loop": false
+},
+"ui-hover-beep": {
+"ms": 125,
+"loop": false
+},
+"ui-submit-click": {
+"ms": 276,
+"loop": false
+},
+"ui-toggle-click": {
+"ms": 284,
+"loop": false
+},
+"ui-toggle-switch-off": {
+"ms": 205,
+"loop": false
+},
+"ui-toggle-switch-on": {
+"ms": 212,
+"loop": false
+},
+"uplifting-success-stinger": {
+"ms": 3297,
+"loop": false
+},
+"vhs-glitch": {
+"ms": 1206,
+"loop": false
+},
+"vibraphone-sting": {
+"ms": 5721,
+"loop": false
+},
+"victory-fanfare-sting": {
+"ms": 4880,
+"loop": false
+},
+"vinyl-rewind": {
+"ms": 515,
+"loop": false
+},
+"vinyl-scratch": {
+"ms": 804,
+"loop": false
+},
+"vocal-bubble-pop": {
+"ms": 4207,
+"loop": false
+},
+"warm-crash-cymbal": {
+"ms": 2838,
+"loop": false
+},
+"warm-piano-bell": {
+"ms": 3901,
+"loop": false
+},
+"waterdrop-ui-click": {
+"ms": 581,
+"loop": false
+},
+"white-noise-riser-1": {
+"ms": 6897,
+"loop": false
+},
+"white-noise-sweep": {
+"ms": 270,
+"loop": false
+},
+"whoosh-for-whip-zoom": {
+"ms": 2131,
+"loop": false
+},
+"wrong-answer-buzzer-long": {
+"ms": 1097,
+"loop": false
+},
+"wrong-answer-buzzer": {
+"ms": 279,
+"loop": false
+}
+}
