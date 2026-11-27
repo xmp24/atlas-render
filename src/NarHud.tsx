@@ -4,6 +4,7 @@ import {AbsoluteFill} from 'remotion';
 import {COUNTRIES, FlagCanvas} from './HexWorld';
 import {INK, Face} from './lib3';
 import {PIECES_C} from './PolyWorld';
+import {TalkScene} from './TalkScene';
 
 type Cam = {cx: number; cy: number; s: number};
 const VW = 1920, VH = 1080;
@@ -37,7 +38,8 @@ const BallTalk: React.FC<{k: number; d: number; t: number; talking: boolean}> = 
 export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => {
   const N = D.nar; if (!N) return null;
   const lines = N.lines as [number, number, string, string][];
-  const cur = lines.filter((l) => t >= l[0] - 0.05 && t < l[1] + 0.35);
+  const talkNow = ((N.talk || []) as any[]).find((sc: any) => t >= sc[0] - 0.3 && t < sc[1] + 0.3);
+  const cur = talkNow ? [] : lines.filter((l) => t >= l[0] - 0.05 && t < l[1] + 0.35 && !((N.talk || []) as any[]).some((sc: any) => l[0] >= sc[0] - 0.05 && l[0] <= sc[1] + 0.05));
   const narr = cur.filter((l) => l[2] === 'N').slice(-1)[0];
   const talk = cur.filter((l) => l[2] !== 'N').slice(-1)[0];
   // contador
@@ -63,7 +65,7 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
       <div style={{...F, fontSize: 74, lineHeight: 1, color: al[1] <= 4 ? GOLD : '#fff', transform: `scale(${1 + bump})`, transformOrigin: 'left center'}}>{al[1]}</div>
     </div>);
   // reloj (arriba centro)
-  out.push(
+  if (!N.hideClock) out.push(
     <div key="clk" style={{position: 'absolute', left: VW / 2, top: 26, transform: 'translateX(-50%)', zIndex: 30, opacity: hudA, background: DARK, border: `4px solid ${INK}`, borderRadius: 999, padding: '6px 26px 2px', ...F, fontSize: 40, color: sun > 0.3 ? GOLD : '#fff', boxShadow: '0 6px 0 rgba(0,0,0,0.35)'}}>
       {N.clockDay ? `📅 ${N.clockDay} ${Math.floor(mins / 1440) + 1}` : <>{sun > 0.3 ? '🌅' : '🌙'} {String(hh).padStart(2, '0')}:{String(mm).padStart(2, '0')}</>}
     </div>);
@@ -154,6 +156,7 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
         </div>
       </AbsoluteFill>);
   }
+  if (talkNow) out.push(<TalkScene key={'talk' + talkNow[0]} scene={talkNow} lines={lines as any} t={t} />);
   if (N.disclaimer) out.push(<div key="disc" style={{position: 'absolute', right: 18, bottom: 12, zIndex: 30, opacity: hudA * 0.9, background: 'rgba(15,25,40,0.65)', color: '#fff', borderRadius: 12, padding: '4px 12px 2px', ...F, fontSize: 18}}>{N.disclaimer}</div>);
   return <>{out}</>;
 };
