@@ -184,6 +184,7 @@ export const RootHW: React.FC = () => (
     <Composition id="V-cqwgb" component={Indo2} durationInFrames={indoFrames('cqw_gb')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'cqw_gb'}} />
     <Composition id="V-cqwmx60" component={Indo2} durationInFrames={indoFrames('cqw_mx') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'cqw_mx'}} />
     <Composition id="V-cqwmx" component={Indo2} durationInFrames={indoFrames('cqw_mx')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'cqw_mx'}} />
+    <Composition id="V-ep160" component={Indo2} durationInFrames={indoFrames('ep1') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'ep1'}} />
     <Composition id="V-nar60" component={Indo2} durationInFrames={indoFrames('nar') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'nar'}} />
     <Composition id="V-nar" component={Indo2} durationInFrames={indoFrames('nar')} fps={30} width={1920} height={1080} defaultProps={{audio: false, v: 'nar'}} />
     <Composition id="V-mc260" component={Indo2} durationInFrames={indoFrames('mc2') * 2} fps={60} width={1920} height={1080} defaultProps={{audio: false, v: 'mc2'}} />
