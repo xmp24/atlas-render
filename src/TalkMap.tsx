@@ -2,6 +2,7 @@
 import React from 'react';
 import {COUNTRIES} from './HexWorld';
 import {Ball2, Gun} from './BallFace';
+import {MAINCOL as MAINC} from './HexWorld';
 
 type Cam = {cx: number; cy: number; s: number};
 const VW = 1920, VH = 1080;
@@ -28,7 +29,7 @@ const wordAt = (l: Line, t: number) => {
 const envAt = (l: Line, t: number) => { const e = l[6]; if (!e) return 0.5 + 0.5 * Math.sin(t * 22); const i = Math.floor((t - l[0]) * 20); if (i < 0 || i >= e.length) return 0; return (e.charCodeAt(i) - 48) / 9; };
 
 export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = ({sc, lines, t, cam}) => {
-  const {t0, t1, balls, faces = [], moves = [], guns = [], lunges = []} = sc as any;
+  const {t0, t1, balls, faces = [], moves = [], guns = [], lunges = [], punch = []} = sc as any;
   const fout = cl((t1 + 0.25 - t) / 0.3, 0, 1);
   const mine = lines.filter((l) => l[0] >= t0 - 0.05 && l[0] <= t1 + 0.05);
   const cur = mine.filter((l) => t >= l[0] - 0.05 && t < l[1] + 0.12).slice(-1)[0];
@@ -55,7 +56,8 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
     const d = Math.sqrt(Math.max(1, bw * bh)) * cam.s;
     const ratio = d <= 120 ? 0.7 : d >= 520 ? 0.3 : 0.7 - 0.4 * (d - 120) / 400;
     const small = bw * bh < 9000;
-    const size = cl(ratio * d, small ? 84 : 64, 230);
+    let pw = 0; for (const q of punch as [number, number, string][]) if (q[2] === code) pw = Math.max(pw, cl((t - q[0]) / 0.2, 0, 1) * cl((q[1] + 0.6 - t) / 0.6, 0, 1));
+    const size = cl(ratio * d, small ? 84 : 64, 230 + 290 * pw);
     if (sx < -size || sx > VW + size || sy < -size * 0.5 || sy > VH + size * 0.3) continue;
     ps.push({b, x: sx, y: sy - size * 0.38, r: size / 2, size, hop, dir, small});
   }
@@ -76,6 +78,7 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
     const talking = !!cur && cur[2] === code && t >= cur[0] && t < cur[1];
     const shout = talking && cur[5] > 0;
     let expr: any = exprOf(code, p.small);
+    if (shout && (expr === 'angry')) expr = 'furious';
     if (tdie !== null && t >= tdie) expr = 'dead';
     const open = talking ? envAt(cur, t) : 0;
     const look = spk && spk !== p ? cl((spk.x - p.x) / 250, -0.9, 0.9) : p.dir * 0.6;
@@ -87,21 +90,31 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
       const u = dd < 0.22 ? dd / 0.22 : 1 - (dd - 0.22) / 0.38; const e = Math.sin(u * Math.PI / 2);
       lx += (v.x - p.x) * 0.6 * e; ly += (v.y - p.y) * 0.6 * e;
     }
-    // arma
+    // arma (AK cruzado delante, ráfagas de trazadoras amarillas)
     const g = (guns as [number, number, string, [number, string][]][]).find((G) => G[2] === code && t >= G[0] && t < G[1]);
-    let recoil = 0, fire = false, gflip = false, gang = 0; const tracers: React.ReactNode[] = [];
+    let recoil = 0, fire = false, gflip = false, grot = 0; const tracers: React.ReactNode[] = [];
+    const gw = size * 1.05, gk = gw / 100;
+    const gIn = g ? cl((t - g[0]) / 0.18, 0, 1) : 0;
     if (g) {
       const tv = g[3].map(([, v]) => pos[v]).filter(Boolean) as P[];
       const tx = tv.length ? tv.reduce((a, b) => a + b.x, 0) / tv.length : p.x + 100;
       const ty = tv.length ? tv.reduce((a, b) => a + b.y, 0) / tv.length : p.y;
-      gflip = tx < p.x; gang = Math.atan2(ty - (p.y + size * 0.12), Math.abs(tx - p.x)) * 180 / Math.PI; gang = cl(gang, -60, 60);
-      for (const [ts, v] of g[3]) for (let q = 0; q < 3; q++) {
-        const st = ts + q * 0.09; const dd = t - st;
-        if (dd >= 0 && dd < 0.08) { recoil = Math.max(recoil, 1 - dd / 0.08); fire = fire || dd < 0.05; }
+      const gx0 = p.x, gy0 = p.y + size * 0.2;
+      const ang = Math.atan2(ty - gy0, tx - gx0); gflip = tx < p.x;
+      grot = gflip ? ang - Math.PI : ang;
+      if (!gflip) grot = cl(grot, -1.0, 1.0); else grot = cl(((grot + Math.PI) % (2 * Math.PI)) - Math.PI, -1.0, 1.0);
+      const lv = gflip ? [-55 * gk, -4 * gk] : [55 * gk, -4 * gk];
+      const mx = gx0 + lv[0] * Math.cos(grot) - lv[1] * Math.sin(grot), my = gy0 + lv[0] * Math.sin(grot) + lv[1] * Math.cos(grot);
+      for (const [ts, v] of g[3]) for (let q = 0; q < 6; q++) {
+        const st = ts + q * 0.07; const dd = t - st;
+        if (dd >= 0 && dd < 0.06) { recoil = Math.max(recoil, 1 - dd / 0.06); fire = fire || dd < 0.04; }
         const vp = pos[v];
-        if (vp && dd >= 0 && dd < 0.07) {
-          const mx = p.x + (gflip ? -1 : 1) * size * 0.85, my = p.y + size * 0.12;
-          tracers.push(<line key={'tr' + v + q} x1={mx} y1={my} x2={vp.x + (q - 1) * 6} y2={vp.y + (q - 1) * 5} stroke="#ffe680" strokeWidth={4} strokeLinecap="round" opacity={0.95} />);
+        if (vp && dd >= 0 && dd < 0.16) {
+          const u = Math.min(1, dd / 0.12); const ex = vp.x + ((q * 37) % 11 - 5) * size * 0.03, ey = vp.y + ((q * 53) % 9 - 4) * size * 0.03;
+          const hx = mx + (ex - mx) * u, hy = my + (ey - my) * u; const L = Math.hypot(ex - mx, ey - my) || 1;
+          const tl = Math.min(size * 0.9, L * u); const tx2 = hx - (ex - mx) / L * tl, ty2 = hy - (ey - my) / L * tl;
+          const fade = dd > 0.12 ? 1 - (dd - 0.12) / 0.04 : 1;
+          tracers.push(<g key={'tr' + v + q + ts} opacity={fade}><line x1={tx2} y1={ty2} x2={hx} y2={hy} stroke="#ffd21c" strokeWidth={Math.max(5, size * 0.07)} strokeLinecap="round" opacity={0.85} /><line x1={(tx2 + hx * 2) / 3} y1={(ty2 + hy * 2) / 3} x2={hx} y2={hy} stroke="#fffbe0" strokeWidth={Math.max(2, size * 0.025)} strokeLinecap="round" /></g>);
         }
       }
     }
@@ -122,9 +135,10 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
     out.push(
       <div key={'b' + code} style={{position: 'absolute', left: X0, top: Y0, zIndex: 27 + (talking ? 3 : 0) + (g ? 2 : 0), opacity: op, transform: `scale(${sc0 * (talking ? 1.05 : 1) * (1 - die * 0.25)})`}}>
         <Ball2 k={k} size={size} expr={expr} open={open} look={look} rot={rot} t={t} seed={k} flash={hitFlash} sx={1 / Math.sqrt(squash)} sy={squash} />
-        {g && <div style={{position: 'absolute', left: (gflip ? -1 : 1) * size * 0.66, top: size * 0.16}}><div style={{transform: `rotate(${gflip ? -gang : gang}deg)`}}><Gun w={size * 0.95} flip={gflip} recoil={recoil} fire={fire} /></div></div>}
+        {g && <div style={{position: 'absolute', left: 0, top: size * 0.2, transform: `rotate(${grot}rad) scale(${0.3 + 0.7 * gIn})`}}><Gun w={gw} flip={gflip} recoil={recoil} fire={fire} hand={MAINC[k] || '#c33'} /></div>}
         {talking && <div style={{position: 'absolute', left: 0, top: -size / 2 - 40, transform: 'translateX(-50%)', background: 'rgba(14,16,26,0.88)', color: '#fff', borderRadius: 10, padding: '4px 12px 0', ...F, fontSize: 26, whiteSpace: 'nowrap', border: `3px solid ${shout ? '#ffd23f' : '#fff'}`}}>{NM(code)}</div>}
       </div>);
+    if (t - tin < 0.4 && t >= tin) { const u = (t - tin) / 0.4; out.push(<svg key={'en' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 26}}>{[0, 1, 2, 3, 4, 5, 6, 7].map((j) => { const a2 = j * Math.PI / 4 + 0.3; const r0 = size * (0.55 + u * 0.4), r1 = size * (0.7 + u * 0.55); return <line key={j} x1={X0 + Math.cos(a2) * r0} y1={Y0 + Math.sin(a2) * r0} x2={X0 + Math.cos(a2) * r1} y2={Y0 + Math.sin(a2) * r1} stroke="#fff" strokeWidth={Math.max(3, size * 0.03)} strokeLinecap="round" opacity={1 - u} />; })}</svg>); }
     if (tracers.length) out.push(<svg key={'trs' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 31}}>{tracers}</svg>);
     if (tdie !== null && t >= tdie && t < tdie + 0.18) {
       const u = (t - tdie) / 0.18;

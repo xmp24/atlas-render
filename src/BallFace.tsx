@@ -5,13 +5,13 @@ import {FlagCanvas} from './HexWorld';
 import {INK} from './lib3';
 import {EyesSvg} from './ThumbsCB';
 
-export type Expr = 'normal' | 'happy' | 'smug' | 'angry' | 'evil' | 'scared' | 'shock' | 'sad' | 'cry' | 'laugh' | 'shades' | 'dead' | 'sleepy' | 'proud';
-type Mouth = 'smile' | 'frown' | 'smirk' | 'flat' | 'wavy' | 'O' | 'grin' | 'D' | 'tongue' | 'wail';
+export type Expr = 'normal' | 'happy' | 'smug' | 'angry' | 'furious' | 'evil' | 'scared' | 'shock' | 'sad' | 'cry' | 'laugh' | 'shades' | 'dead' | 'sleepy' | 'proud';
+type Mouth = 'none' | 'smile' | 'frown' | 'smirk' | 'flat' | 'wavy' | 'O' | 'grin' | 'D' | 'tongue' | 'wail';
 const FACE: Record<Expr, {e: string; m: Mouth}> = {
-  normal: {e: 'normal', m: 'smile'}, happy: {e: 'happy', m: 'D'}, smug: {e: 'smug', m: 'smirk'}, angry: {e: 'angry', m: 'frown'},
-  evil: {e: 'evil', m: 'grin'}, scared: {e: 'scared', m: 'wavy'}, shock: {e: 'shock', m: 'O'}, sad: {e: 'sad', m: 'frown'},
-  cry: {e: 'sad', m: 'wail'}, laugh: {e: 'happy', m: 'D'}, shades: {e: 'shades', m: 'smirk'}, dead: {e: 'dead', m: 'tongue'},
-  sleepy: {e: 'sleepy', m: 'flat'}, proud: {e: 'smug', m: 'smile'},
+  normal: {e: 'normal', m: 'none'}, happy: {e: 'happy', m: 'none'}, smug: {e: 'smug', m: 'none'}, angry: {e: 'angry', m: 'none'}, furious: {e: 'furious', m: 'none'},
+  evil: {e: 'evil', m: 'grin'}, scared: {e: 'scared', m: 'wavy'}, shock: {e: 'shock', m: 'O'}, sad: {e: 'sad', m: 'none'},
+  cry: {e: 'sad', m: 'wail'}, laugh: {e: 'happy', m: 'D'}, shades: {e: 'shades', m: 'none'}, dead: {e: 'dead', m: 'none'},
+  sleepy: {e: 'sleepy', m: 'none'}, proud: {e: 'smug', m: 'none'},
 };
 const cl = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
@@ -21,6 +21,7 @@ const Eyes2: React.FC<{e: string; s: number; look: number; blink: number}> = ({e
   const rx = 0.085 * s, ry = 0.1 * s;
   if (blink > 0.5 && ['normal', 'smug', 'scared', 'shock', 'sad', 'angry'].includes(e))
     return <g>{xs.map((x, i) => <path key={i} d={`M${x - rx},${cy} Q${x},${cy + ry * 0.35} ${x + rx},${cy}`} fill="none" stroke={INK} strokeWidth={sw * 1.4} strokeLinecap="round" />)}</g>;
+  if (e === 'furious') return <g>{xs.map((x, i) => <circle key={i} cx={x} cy={cy} r={rx * 1.12} fill="#ff1e1e" stroke={INK} strokeWidth={sw * 1.1} />)}</g>;
   if (e === 'happy') return <g>{xs.map((x, i) => <path key={i} d={`M${x - rx},${cy + ry * 0.25} Q${x},${cy - ry * 1.0} ${x + rx},${cy + ry * 0.25}`} fill="none" stroke={INK} strokeWidth={sw * 1.6} strokeLinecap="round" />)}</g>;
   if (e === 'sleepy') return <g>{xs.map((x, i) => <path key={i} d={`M${x - rx},${cy + ry * 0.1} Q${x},${cy + ry * 0.55} ${x + rx},${cy + ry * 0.1}`} fill="none" stroke={INK} strokeWidth={sw * 1.4} strokeLinecap="round" />)}</g>;
   if (e === 'shock') return <g>{xs.map((x, i) => <g key={i}><ellipse cx={x} cy={cy - ry * 0.1} rx={rx * 1.15} ry={ry * 1.3} fill="#fff" stroke={INK} strokeWidth={sw} /><circle cx={x + lx * 0.3} cy={cy - ry * 0.1} r={rx * 0.18} fill={INK} /></g>)}</g>;
@@ -59,6 +60,7 @@ const MouthSvg: React.FC<{m: Mouth; s: number; open: number; t: number}> = ({m, 
       </g>
     </g>;
   }
+  if (m === 'none') return null;
   if (m === 'smile' || m === 'smirk') {
     const a = m === 'smirk' ? 0.35 : 0;
     return <path d={`M${cx - w * 0.8},${cy - w * 0.05 - a * w * 0.2} Q${cx},${cy + w * 0.55} ${cx + w * 0.85},${cy - w * 0.2 - a * w * 0.5}`} fill="none" stroke={INK} strokeWidth={sw * 1.3} strokeLinecap="round" />;
@@ -83,13 +85,12 @@ export const Ball2: React.FC<{k: number; size: number; expr: Expr; open?: number
         <FlagCanvas k={k} w={s} h={s} />
         <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(circle at 32% 26%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 22%, rgba(255,255,255,0) 40%), radial-gradient(circle at 62% 70%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 92%)'}} />
         {expr === 'evil' && <div style={{position: 'absolute', inset: 0, background: 'rgba(200,0,0,0.28)'}} />}
-        {(expr === 'angry') && <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 70%, rgba(255,0,0,0.25), rgba(255,0,0,0) 60%)'}} />}
         {flash > 0 && <div style={{position: 'absolute', inset: 0, background: `rgba(255,255,255,${flash})`}} />}
       </div>
       <svg width={s} height={s} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         <Eyes2 e={f.e} s={s} look={look} blink={blink} />
         <MouthSvg m={f.m} s={s} open={expr === 'laugh' ? 0.5 + 0.4 * Math.abs(Math.sin(t * 14)) : open} t={t} />
-        {expr === 'angry' && <g transform={`translate(${s * 0.8},${s * 0.12}) scale(${s / 200})`}><path d="M-14,-4 Q-4,-4 -4,-14 M4,-14 Q4,-4 14,-4 M14,4 Q4,4 4,14 M-4,14 Q-4,4 -14,4" fill="none" stroke="#e0161b" strokeWidth={6} strokeLinecap="round" /></g>}
+        {(expr === 'angry' || expr === 'furious') && <g transform={`translate(${s * 0.8},${s * 0.12}) scale(${s / 200})`}><path d="M-14,-4 Q-4,-4 -4,-14 M4,-14 Q4,-4 14,-4 M14,4 Q4,4 4,14 M-4,14 Q-4,4 -14,4" fill="none" stroke="#e0161b" strokeWidth={6} strokeLinecap="round" /></g>}
         {(expr === 'cry') && [0.33, 0.67].map((fx, i) => <path key={i} d={`M${s * fx},${s * 0.47} q${-s * 0.04},${s * 0.2} ${s * 0.0},${s * 0.42 * (0.6 + 0.4 * ((t * 2 + i * 0.5) % 1))}`} fill="none" stroke="#6cc4ff" strokeWidth={s * 0.05} strokeLinecap="round" opacity={0.95} />)}
         {(expr === 'scared' || expr === 'shock') && <path d={`M${s * 0.86},${s * 0.18} q${s * 0.05},${s * 0.09} 0,${s * 0.13} q${-s * 0.05},${-s * 0.04} 0,${-s * 0.13} Z`} fill="#bfe6ff" stroke={INK} strokeWidth={s * 0.012} />}
         {expr === 'happy' || expr === 'laugh' ? [0.22, 0.78].map((fx, i) => <ellipse key={i} cx={s * fx} cy={s * 0.56} rx={s * 0.06} ry={s * 0.03} fill="#ff6b8a" opacity={0.55} />) : null}
@@ -99,12 +100,25 @@ export const Ball2: React.FC<{k: number; size: number; expr: Expr; open?: number
   );
 };
 
-export const Gun: React.FC<{w: number; flip: boolean; recoil: number; fire: boolean}> = ({w, flip, recoil, fire}) => {
-  const m = {WebkitMaskImage: `url(${staticFile('hw/icons/ak47.svg')})`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center'} as React.CSSProperties;
+export const Gun: React.FC<{w: number; flip: boolean; recoil: number; fire: boolean; hand?: string}> = ({w, flip, recoil, fire, hand = '#d33'}) => {
+  // AK estilo countryball: madera + metal, sujetado con dos manitas. Coordenadas: largo 100 apuntando a la derecha.
+  const k = w / 100;
   return (
-    <div style={{position: 'absolute', left: -w / 2, top: -w / 2, width: w, height: w, transform: `scaleX(${flip ? -1 : 1}) translateX(${-recoil * w * 0.08}px) rotate(${-recoil * 6}deg)`}}>
-      <div style={{position: 'absolute', inset: 0, filter: `drop-shadow(0 0 2px ${INK}) drop-shadow(0 0 2px ${INK})`}}><div style={{width: '100%', height: '100%', ...m, background: 'linear-gradient(115deg, #2e2e2e 0%, #555 40%, #8a4a1c 41%, #b8682a 55%, #2e2e2e 56%, #4a4a4a 70%, #8a4a1c 71%, #a65c22 100%)'}} /></div>
-      {fire && <div style={{position: 'absolute', left: w * 0.93, top: w * 0.32, width: w * 0.42, height: w * 0.3, transform: 'translateY(-30%)', background: 'radial-gradient(ellipse at 20% 50%, #fff 0%, #ffe066 25%, #ff8a00 50%, rgba(255,80,0,0) 72%)', clipPath: 'polygon(0% 35%, 100% 0%, 70% 50%, 100% 100%, 0% 65%)'}} />}
-    </div>
+    <svg width={w * 1.5} height={w * 0.7} viewBox="-75 -35 150 70" style={{position: 'absolute', left: -w * 0.75, top: -w * 0.35, overflow: 'visible', transform: `scaleX(${flip ? -1 : 1}) translateX(${-recoil * w * 0.07}px) rotate(${-recoil * 5}deg)`}}>
+      <g stroke={INK} strokeWidth={2.2 / Math.max(0.6, k * 0.9)} strokeLinejoin="round">
+        <path d="M-52,-3 L-24,-6 L-24,4 L-50,13 Q-55,13 -55,9 Z" fill="#a8602a" />
+        <path d="M-50,8 L-26,1" stroke="#7a4219" strokeWidth={1.2} fill="none" />
+        <rect x={-25} y={-8} width={38} height={10} rx={1.5} fill="#5d636b" />
+        <path d="M-15,1 L-10,1 L-13,13 L-18,12 Z" fill="#6b3b18" />
+        <path d="M-3,2 L6,2 Q9,12 15,19 L7,22 Q0,13 -3,2 Z" fill="#c9762f" />
+        <rect x={13} y={-7} width={19} height={7} rx={1.5} fill="#b8692c" />
+        <rect x={12} y={-10} width={22} height={3} fill="#4a4f56" />
+        <rect x={32} y={-5.5} width={20} height={3} fill="#3c4046" />
+        <rect x={47} y={-9} width={2.5} height={4} fill="#3c4046" />
+      </g>
+      <circle cx={-13} cy={6} r={6.5} fill={hand} stroke={INK} strokeWidth={2} />
+      <circle cx={22} cy={2} r={6.5} fill={hand} stroke={INK} strokeWidth={2} />
+      {fire && <g transform="translate(55,-4)"><path d="M0,0 L10,-9 L9,-2 L24,-4 L11,2 L22,10 L7,5 L3,13 Z" fill="#ffe36a" stroke="#ff8a00" strokeWidth={1.5} /><circle r={4} fill="#fff" /></g>}
+    </svg>
   );
 };
