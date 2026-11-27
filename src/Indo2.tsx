@@ -143,8 +143,11 @@ const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const best = new Int32Array(NK).fill(-1); const bestA = new Float64Array(NK);
   for (let k = 0; k < NK; k++) { if (MAINPIECE[k] < 0 || (FICK.has(k) && !ficShow(k, X.D.fic)) || ficHide(k, X.D.fic)) continue; const o = st.owner[k]; const ar = CAREA[k] * (o === k ? 1.6 : 1); if (ar > bestA[o]) { bestA[o] = ar; best[o] = k; } }
   const cand: number[] = [];
+  const tmS = X.D.nar && X.D.nar.tmap ? (X.D.nar.tmap as any[]).find((sc: any) => t >= sc.t0 - 0.1 && t < sc.t1 + 0.3) : null;
+  const hideB = new Set<number>(tmS ? (tmS.balls as any[]).filter((b: any) => t >= b[3] - 0.1 && (b[4] === null || t < b[4] + 1.1)).map((b: any) => COUNTRIES.findIndex((c: any) => c.c === b[0])) : []);
   for (let k = 0; k < NK; k++) {
     if (!os.a[k] || best[k] < 0 || os.a[k] * s2 < 14000) continue;
+    if (hideB.has(k)) continue;
     const c = PIECES_C(best[k]); const [sx, sy] = toS(c[0], c[1], cam);
     if (sx < -60 || sx > VW + 60 || sy < -60 || sy > VH + 60) continue;
     cand.push(k);
