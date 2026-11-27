@@ -12,6 +12,7 @@ const F: React.CSSProperties = {fontFamily: 'Lilita'};
 const CODE: Record<string, number> = {}; COUNTRIES.forEach((c, i) => { CODE[c.c] = i; });
 const NMX: Record<string, string> = {'United States of America': 'USA', 'United Arab Emirates': 'UAE', 'Dem. Rep. Congo': 'DR Congo', 'Bosnia and Herz.': 'Bosnia'};
 const NM = (code: string) => { const n = COUNTRIES[CODE[code]]?.n || code; return (NMX[n] || n).toUpperCase(); };
+const SZ = 290;
 const cl = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const ease = (u: number) => { u = cl(u, 0, 1); return u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; };
 const toS = (x: number, y: number, c: Cam): [number, number] => [VW / 2 + (x - c.cx) * c.s, VH / 2 + (y - c.cy) * c.s];
@@ -45,7 +46,7 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
   const ps: P[] = [];
   for (const b of balls as Ball[]) {
     const [code, ax, ay, tin, tdie, bw, bh] = b;
-    if (t < tin - 0.02 || (tdie !== null && t > tdie + 1.1)) continue;
+    if (t < tin - 0.02 || (tdie !== null && t > tdie + 1.9)) continue;
     // posición en el mundo: ancla o caminando
     let wx = ax, wy = ay, hop = 0, dir = 0;
     for (const m of moves as [number, number, string, number, number, number, number][]) {
@@ -55,11 +56,9 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
       if (u > 0 && u < 1) { hop = Math.abs(Math.sin((t - m[0]) * Math.PI * 5)); dir = Math.sign(m[5] - m[3]); }
     }
     const [sx, sy] = toS(wx, wy, cam);
-    const d = Math.sqrt(Math.max(1, bw * bh)) * cam.s;
-    const ratio = d <= 140 ? 0.75 : d >= 600 ? 0.42 : 0.75 - 0.33 * (d - 140) / 460;
     const small = bw * bh < 9000;
     let pw = 0; for (const q of punch as [number, number, string][]) if (q[2] === code) pw = Math.max(pw, cl((t - q[0]) / 0.2, 0, 1) * cl((q[1] + 0.6 - t) / 0.6, 0, 1));
-    const size = cl(ratio * d, small ? 96 : 80, 400 + 260 * pw);
+    const size = SZ;
     if (sx < -size || sx > VW + size || sy < -size * 0.5 || sy > VH + size * 0.3) continue;
     ps.push({b, x: sx, y: sy - size * 0.38, r: size / 2, size, hop, dir, small});
   }
@@ -120,32 +119,44 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
         }
       }
     }
-    const enter = cl((t - tin) / 0.35, 0, 1);
-    const sc0 = enter < 1 ? 1 - Math.pow(1 - enter, 3) + Math.sin(enter * Math.PI) * 0.18 : 1;
-    const bob = talking ? Math.abs(Math.sin((t - cur[0]) * 8)) * size * 0.05 : Math.sin(t * 2.4 + i * 1.7) * size * 0.012;
-    const shx = shout ? Math.sin(t * 61) * size * 0.03 : 0, shy = shout ? Math.cos(t * 53) * size * 0.025 : 0;
-    const die = tdie === null ? 0 : cl((t - tdie) / 1.0, 0, 1);
-    const hitFlash = tdie !== null && t >= tdie && t < tdie + 0.12 ? 0.9 : 0;
-    const knock = die > 0 ? Math.min(1, die * 4) * size * 0.25 * (pos[code] && g ? 0 : 1) : 0;
-    const fall = die > 0.25 ? Math.pow((die - 0.25) / 0.75, 2) * 220 : 0; const spin = die * 160;
-    const squash = 1 + open * 0.1 + (p.hop > 0.9 ? -0.06 : 0);
-    const rot = (talking ? Math.sin((t - cur[0]) * 6) * 4 : 0) + p.dir * 8 + spin * (p.x > VW / 2 ? 1 : -1);
-    const op = fout * (1 - Math.max(0, die - 0.65) / 0.35);
-    const hopY = p.hop * size * 0.28;
-    const X0 = p.x + shx + lx + (die > 0 ? knock * (p.x > VW / 2 ? 1 : -1) : 0), Y0 = p.y - bob - hopY + shy + ly + fall;
-    out.push(<div key={'sh' + code} style={{position: 'absolute', left: p.x + lx - size * 0.5, top: p.y + size * 0.36 + ly, width: size * 1.0, height: size * 0.24, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0) 72%)', zIndex: 26, opacity: op * (1 - die) * (1 - p.hop * 0.5)}} />);
+    const enter = cl((t - tin) / 0.3, 0, 1);
+    const sc0 = enter < 1 ? 1 - Math.pow(1 - enter, 3) + Math.sin(enter * Math.PI) * 0.15 : 1;
+    // poco movimiento: al hablar solo un saltito con la voz; en reposo, respiración
+    const bob = talking ? open * size * 0.035 : 0;
+    const breath = 1 + Math.sin(t * 2.1 + i * 1.3) * 0.012;
+    const shx = shout ? Math.sin(t * 55) * size * 0.012 : 0, shy = 0;
+    // muerte: destello → aplastado → gris boca abajo cayendo con humo, fantasma subiendo
+    const dt = tdie === null ? -1 : t - tdie;
+    const hitFlash = dt >= 0 && dt < 0.1 ? 0.9 : 0;
+    const flat = dt >= 0 ? (dt < 0.12 ? dt / 0.12 : dt < 0.3 ? 1 - (dt - 0.12) / 0.18 * 0.6 : 0.4) : 0;
+    const flip = dt > 0.25 ? cl((dt - 0.25) / 0.35, 0, 1) : 0;
+    const fall = dt > 0.45 ? Math.pow((dt - 0.45) / 0.9, 2) * size * 1.1 : 0;
+    const gray = dt >= 0 ? cl(dt / 0.25, 0, 1) : 0;
+    const squash = dt >= 0 ? 1 - flat * 0.35 : 1 + open * 0.05 + (p.hop > 0.9 ? -0.06 : 0);
+    const rot = p.dir * 6 + flip * 180;
+    const op = fout * (dt > 1.1 ? Math.max(0, 1 - (dt - 1.1) / 0.4) : 1);
+    const hopY = p.hop * size * 0.25;
+    const X0 = p.x + shx + lx, Y0 = p.y - bob - hopY + shy + ly + fall + (flip > 0 ? -Math.sin(flip * Math.PI) * size * 0.25 : 0);
+    out.push(<div key={'sh' + code} style={{position: 'absolute', left: p.x + lx - size * 0.5, top: p.y + size * 0.36 + ly, width: size * 1.0, height: size * 0.24, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0) 72%)', zIndex: 26, opacity: op * (1 - flip) * (1 - p.hop * 0.5)}} />);
     out.push(
-      <div key={'b' + code} style={{position: 'absolute', left: X0, top: Y0, zIndex: 27 + (talking ? 3 : 0) + (g ? 2 : 0), opacity: op, transform: `scale(${sc0 * (talking ? 1.05 : 1) * (1 - die * 0.25)})`}}>
-        <Ball2 k={k} size={size} expr={expr} open={open} look={look} rot={rot} t={t} seed={k} flash={hitFlash} sx={1 / Math.sqrt(squash)} sy={squash} />
+      <div key={'b' + code} style={{position: 'absolute', left: X0, top: Y0, zIndex: 27 + (talking ? 3 : 0) + (g ? 2 : 0), opacity: op, transform: `scale(${sc0 * breath})`}}>
+        <Ball2 k={k} size={size} expr={expr} open={open} look={look} rot={rot} t={t} seed={k} flash={hitFlash} sx={dt >= 0 ? 1 + flat * 0.3 : 1 / Math.sqrt(squash)} sy={squash} gray={gray} />
         {g && <div style={{position: 'absolute', left: 0, top: size * 0.2, transform: `rotate(${grot}rad) scale(${0.3 + 0.7 * gIn})`}}><Gun w={gw} flip={gflip} recoil={recoil} fire={fire} hand={MAINC[k] || '#c33'} /></div>}
-        {false && <div style={{position: 'absolute', left: 0, top: -size / 2 - 40, transform: 'translateX(-50%)', background: 'rgba(14,16,26,0.88)', color: '#fff', borderRadius: 10, padding: '4px 12px 0', ...F, fontSize: 26, whiteSpace: 'nowrap', border: `3px solid ${shout ? '#ffd23f' : '#fff'}`}}>{NM(code)}</div>}
       </div>);
+    if (dt >= 0 && dt < 1.9) {
+      // humo
+      if (dt < 0.9) out.push(<div key={'smk' + code} style={{position: 'absolute', left: p.x, top: p.y, zIndex: 32, pointerEvents: 'none'}}>{[0, 1, 2, 3, 4, 5, 6].map((j) => { const a2 = j * 0.9 + 0.4; const u = cl(dt / 0.9, 0, 1); const r = size * (0.12 + 0.18 * u); const dd = size * (0.2 + 0.55 * u);
+        return <div key={j} style={{position: 'absolute', left: Math.cos(a2) * dd - r, top: Math.sin(a2) * dd * 0.7 - r - u * size * 0.2, width: r * 2, height: r * 2, borderRadius: '50%', background: '#e9e9ee', border: `3px solid #8a8a95`, opacity: (1 - u) * 0.9}} />; })}</div>);
+      // fantasma con aureola
+      if (dt > 0.35) { const u = cl((dt - 0.35) / 1.5, 0, 1); const gs = size * 0.55;
+        out.push(<div key={'gh' + code} style={{position: 'absolute', left: p.x - gs * 0.53, top: p.y - size * 0.3 - u * size * 1.3 - gs / 2, width: gs * 1.06, height: gs, zIndex: 33, opacity: Math.sin(u * Math.PI) * 0.85, transform: `rotate(${Math.sin(dt * 5) * 8}deg)`}}>
+          <div style={{position: 'absolute', left: gs * 0.18, top: -gs * 0.22, width: gs * 0.7, height: gs * 0.18, borderRadius: '50%', border: `${gs * 0.06}px solid #ffe066`, boxShadow: '0 0 12px #ffe066'}} />
+          <div style={{position: 'absolute', inset: 0, borderRadius: '50% 50% 47% 47% / 55% 55% 45% 45%', background: 'rgba(235,240,255,0.85)', border: `${gs * 0.04}px solid rgba(30,35,50,0.8)`}} />
+          <svg width={gs * 1.06} height={gs} style={{position: 'absolute', left: 0, top: 0}}><path d={`M${gs * 0.3},${gs * 0.45} q${gs * 0.08},${gs * 0.1} ${gs * 0.16},0 M${gs * 0.6},${gs * 0.45} q${gs * 0.08},${gs * 0.1} ${gs * 0.16},0`} stroke="#1e2232" strokeWidth={gs * 0.05} fill="none" strokeLinecap="round" /></svg>
+        </div>); }
+    }
     if (t - tin < 0.4 && t >= tin) { const u = (t - tin) / 0.4; out.push(<svg key={'en' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 26}}>{[0, 1, 2, 3, 4, 5, 6, 7].map((j) => { const a2 = j * Math.PI / 4 + 0.3; const r0 = size * (0.55 + u * 0.4), r1 = size * (0.7 + u * 0.55); return <line key={j} x1={X0 + Math.cos(a2) * r0} y1={Y0 + Math.sin(a2) * r0} x2={X0 + Math.cos(a2) * r1} y2={Y0 + Math.sin(a2) * r1} stroke="#fff" strokeWidth={Math.max(3, size * 0.03)} strokeLinecap="round" opacity={1 - u} />; })}</svg>); }
     if (tracers.length) out.push(<svg key={'trs' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 31}}>{tracers}</svg>);
-    if (tdie !== null && t >= tdie && t < tdie + 0.18) {
-      const u = (t - tdie) / 0.18;
-      out.push(<div key={'hit' + code} style={{position: 'absolute', left: p.x - size * 0.7, top: p.y - size * 0.7, width: size * 1.4, height: size * 1.4, zIndex: 32, borderRadius: '50%', background: 'radial-gradient(circle, #fff 0%, #ffd84a 30%, rgba(255,90,0,0.6) 55%, rgba(255,0,0,0) 70%)', transform: `scale(${0.5 + u})`, opacity: 1 - u}} />);
-    }
   });
   if (cur && t >= cur[0] - 0.02) {
     const {i, words} = wordAt(cur, t);
