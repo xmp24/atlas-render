@@ -5,6 +5,7 @@ import {COUNTRIES, FlagCanvas} from './HexWorld';
 import {INK, Face} from './lib3';
 import {PIECES_C} from './PolyWorld';
 import {TalkScene} from './TalkScene';
+import {TalkMap} from './TalkMap';
 
 type Cam = {cx: number; cy: number; s: number};
 const VW = 1920, VH = 1080;
@@ -38,7 +39,8 @@ const BallTalk: React.FC<{k: number; d: number; t: number; talking: boolean}> = 
 export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => {
   const N = D.nar; if (!N) return null;
   const lines = N.lines as [number, number, string, string][];
-  const talkNow = ((N.talk || []) as any[]).find((sc: any) => t >= sc[0] - 0.3 && t < sc[1] + 0.3);
+  const tmNow = ((N.tmap || []) as any[]).find((sc: any) => t >= sc.t0 - 0.05 && t < sc.t1 + 0.3);
+  const talkNow = tmNow ? [tmNow.t0, tmNow.t1, []] : ((N.talk || []) as any[]).find((sc: any) => t >= sc[0] - 0.3 && t < sc[1] + 0.3);
   const cur = talkNow ? [] : lines.filter((l) => t >= l[0] - 0.05 && t < l[1] + 0.35 && !((N.talk || []) as any[]).some((sc: any) => l[0] >= sc[0] - 0.05 && l[0] <= sc[1] + 0.05));
   const narr = cur.filter((l) => l[2] === 'N').slice(-1)[0];
   const talk = cur.filter((l) => l[2] !== 'N').slice(-1)[0];
@@ -59,7 +61,7 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
   // amanecer al final
   if (sun > 0) out.push(<AbsoluteFill key="sun" style={{background: 'radial-gradient(ellipse at 50% 120%, rgba(255,170,80,0.55), rgba(255,120,60,0.15) 50%, rgba(0,0,0,0) 75%)', opacity: sun * 0.8, zIndex: 15, pointerEvents: 'none'}} />);
   // contador (arriba izq.)
-  out.push(
+  if (!N.noCnt) out.push(
     <div key="cnt" style={{position: 'absolute', left: 32, top: 28, zIndex: 30, opacity: hudA, background: DARK, border: `4px solid ${INK}`, borderRadius: 18, padding: '8px 22px 4px', boxShadow: '0 6px 0 rgba(0,0,0,0.35)', minWidth: 230}}>
       <div style={{...F, fontSize: 22, color: '#cfd6e6', letterSpacing: 1}}>{N.cntLabel || '🌍 COUNTRIES LEFT'}</div>
       <div style={{...F, fontSize: 74, lineHeight: 1, color: al[1] <= 4 ? GOLD : '#fff', transform: `scale(${1 + bump})`, transformOrigin: 'left center'}}>{al[1]}</div>
@@ -70,7 +72,7 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
       {N.clockDay ? `📅 ${N.clockDay} ${Math.floor(mins / 1440) + 1}` : <>{sun > 0.3 ? '🌅' : '🌙'} {String(hh).padStart(2, '0')}:{String(mm).padStart(2, '0')}</>}
     </div>);
   // top 3 (arriba der.)
-  if (top && top.length > 1) out.push(
+  if (!N.noCnt && top && top.length > 1) out.push(
     <div key="top" style={{position: 'absolute', right: 32, top: 28, zIndex: 30, opacity: hudA, background: DARK, border: `4px solid ${INK}`, borderRadius: 18, padding: '8px 16px 8px', boxShadow: '0 6px 0 rgba(0,0,0,0.35)', width: 340}}>
       <div style={{...F, fontSize: 22, color: '#cfd6e6', marginBottom: 4}}>👑 BIGGEST EMPIRES</div>
       {(top.slice(1) as [number, number][]).map(([k, p], i) => (
@@ -156,7 +158,8 @@ export const NarHud: React.FC<{D: any; t: number; cam: Cam}> = ({D, t, cam}) => 
         </div>
       </AbsoluteFill>);
   }
-  if (talkNow) out.push(<TalkScene key={'talk' + talkNow[0]} scene={talkNow} lines={lines as any} t={t} />);
+  if (tmNow) out.push(<TalkMap key={'tm' + tmNow.t0} sc={tmNow} lines={lines as any} t={t} cam={cam} />);
+  else if (talkNow) out.push(<TalkScene key={'talk' + talkNow[0]} scene={talkNow} lines={lines as any} t={t} />);
   if (N.disclaimer) out.push(<div key="disc" style={{position: 'absolute', right: 18, bottom: 12, zIndex: 30, opacity: hudA * 0.9, background: 'rgba(15,25,40,0.65)', color: '#fff', borderRadius: 12, padding: '4px 12px 2px', ...F, fontSize: 18}}>{N.disclaimer}</div>);
   return <>{out}</>;
 };
