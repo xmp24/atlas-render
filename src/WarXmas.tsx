@@ -15,8 +15,9 @@ export const TEAMOF = TL.team as Record<string, string>;
 const PL = (WORLD as any).players as Record<string, {code: string; name: string; area: number; home: P}>;
 export const nameOf = (c: string) => PL[c]?.name || c;
 export const TNAME = TL.tname as Record<string, string>;
-export const TCOL: Record<string, string> = {XMS: '#d8262e', NOX: '#2563d6'};
-export const TDARK: Record<string, string> = {XMS: '#8e1418', NOX: '#173d8a'};
+export const SK: any = (TL as any).skin || {};
+export const TCOL: Record<string, string> = SK.col || {XMS: '#d8262e', NOX: '#2563d6'};
+export const TDARK: Record<string, string> = SK.dark || {XMS: '#8e1418', NOX: '#173d8a'};
 export const TFLAG = (t: string) => 't' + t.toLowerCase();
 type Match = {n: number; a: string; b: string; t0: number; t1: number; days: number; winner: string; title: string; sa: number; sb: number; traj: [number, number, number][]};
 export const MATCHES = TL.matches as unknown as Match[];
@@ -316,7 +317,7 @@ const Faces: React.FC<{t: number; s: number; codes: string[]; ui: number}> = ({t
 // ================= marcadores =================
 // ================= reparto mundial (barra superior) =================
 const WGT = TL.w as Record<string, number>;
-const ORDER = ['XMS', 'NOX'];
+const ORDER: string[] = SK.order || ['XMS', 'NOX'];
 const SHR: Record<string, number>[] = CTRL.map((cc) => { const o: Record<string, number> = {}; for (const tm of ORDER) o[tm] = 0; for (const c of CODES) o[cc[c]] = (o[cc[c]] || 0) + (WGT[c] || 0); return o; });
 export const shareAt = (t: number) => {
   const o = {...SHR[firedK(t)]};
@@ -324,7 +325,7 @@ export const shareAt = (t: number) => {
   OCC.forEach((e) => { if (!occActive(e, t)) return; const w = (WGT[e.c] || 0) * qAt(e, t); o[cc[e.c]] -= w; o[e.att] = (o[e.att] || 0) + w; });
   return o;
 };
-const SHORT: Record<string, string> = {XMS: 'CHRISTMAS', NOX: 'NO CHRISTMAS'};
+const SHORT: Record<string, string> = SK.short || {XMS: 'CHRISTMAS', NOX: 'NO CHRISTMAS'};
 const H0 = INTRO.length ? INTRO[INTRO.length - 1][1] : 18;
 const ShareHUD: React.FC<{t: number}> = ({t}) => {
   const v = TL.victory as number;
@@ -430,7 +431,7 @@ const Stamp: React.FC<{t: number}> = ({t}) => {
 };
 
 // ================= intro de religiones, capítulos, alianza =================
-const TINFO: Record<string, [string, number, string, string]> = {XMS: ['13.6M soldiers', 0, 'India', 'IN'], NOX: ['7.2M soldiers', 0, 'China', 'CN']};
+const TINFO: Record<string, [string, number, string, string]> = SK.tinfo || {XMS: ['13.6M soldiers', 0, 'India', 'IN'], NOX: ['7.2M soldiers', 0, 'China', 'CN']};
 Object.keys(TINFO).forEach((tm) => (TINFO[tm][1] = CODES.filter((c) => TEAMOF[c] === tm).length));
 const TeamIntro: React.FC<{t: number}> = ({t}) => {
   const it = introTeam(t);
@@ -508,7 +509,7 @@ const QCard: React.FC<{t: number}> = ({t}) => {
   return (
     <div style={{position: 'absolute', top: 318, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 11}}>
       <div style={{transform: `scale(${k})`, display: 'flex', alignItems: 'center', gap: 14, background: '#fff', border: `6px solid ${INK}`, borderRadius: 22, padding: '8px 26px 2px', ...font, fontSize: 48, color: INK, boxShadow: '0 8px 0 rgba(0,0,0,0.35)', whiteSpace: 'nowrap'}}>
-        <div style={{width: 60, height: 60}}><Avatar size={60} code="tnox" mood="smug" t={t} seed={7} id="qc-ath" /></div>{text.slice(0, n)}<span style={{opacity: n < text.length ? 1 : 0}}>|</span>
+        <div style={{width: 60, height: 60}}><Avatar size={60} code={SK.qflag || "tnox"} mood="smug" t={t} seed={7} id="qc-ath" /></div>{text.slice(0, n)}<span style={{opacity: n < text.length ? 1 : 0}}>|</span>
       </div>
     </div>
   );
@@ -521,8 +522,8 @@ const Title: React.FC<{t: number}> = ({t}) => {
   return (
     <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', zIndex: 14}}>
       <div style={{transform: `scale(${k}) rotate(-2deg)`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16}}>
-        <div style={{display: 'flex', gap: 14}}>{['NOX', 'XMS'].map((tm, i) => <div key={tm} style={{transform: `translateY(${Math.sin(t * 6 + i) * 6}px)`}}><Avatar size={120} code={TFLAG(tm)} mood="angry" t={t} seed={i} id={`tt-${tm}`} /></div>)}</div>
-        <div style={{background: RED, border: `9px solid ${INK}`, borderRadius: 30, padding: '20px 56px 10px', boxShadow: '0 12px 0 rgba(0,0,0,0.35)', ...font, fontSize: 124, color: '#fff', textShadow: `5px 5px 0 ${INK}`, textAlign: 'center', lineHeight: 1.02}}>NON-CHRISTMAS<br />vs CHRISTMAS</div>
+        <div style={{display: 'flex', gap: 14}}>{(SK.titleTeams || ['NOX', 'XMS']).map((tm: string, i: number) => <div key={tm} style={{transform: `translateY(${Math.sin(t * 6 + i) * 6}px)`}}><Avatar size={120} code={TFLAG(tm)} mood="angry" t={t} seed={i} id={`tt-${tm}`} /></div>)}</div>
+        <div style={{background: SK.titleBg || RED, border: `9px solid ${INK}`, borderRadius: 30, padding: '20px 56px 10px', boxShadow: '0 12px 0 rgba(0,0,0,0.35)', ...font, fontSize: SK.titleSize || 124, color: '#fff', textShadow: `5px 5px 0 ${INK}`, textAlign: 'center', lineHeight: 1.02, whiteSpace: 'nowrap'}}>{(SK.title || ['NON-CHRISTMAS', 'vs CHRISTMAS']).map((l: string, i: number) => <div key={i}>{l}</div>)}</div>
       </div>
     </AbsoluteFill>
   );
@@ -534,23 +535,23 @@ const Victory: React.FC<{t: number}> = ({t}) => {
   const shift = lerp(t, st, st + 0.8, 0, 1, Easing.inOut(Easing.cubic));
   const mvp = (TL.mvp as [string, number][])[0];
   const rows: [React.ReactNode, string, string][] = [
-    [<div style={{fontSize: 40}}>🤝</div>, 'Champion', 'CHRISTMAS COUNTRIES'],
+    [<div style={{fontSize: 40}}>🤝</div>, 'Champion', SK.champion || 'CHRISTMAS COUNTRIES'],
     [<WFlag code={mvp[0]} w={54} h={36} />, 'MVP', `${nameOf(mvp[0])} · ${mvp[1]} captures`],
-    [<Avatar size={48} code="tnox" mood="sad" t={t} seed={4} id="st-ath" />, 'No-Christmas peak', `${Math.round((TL as any).peak)}% of the world`],
-    [<WFlag code="CN" w={54} h={36} />, 'Biggest battle', 'Battle of Beijing'],
+    [<Avatar size={48} code={SK.loserFlag || "tnox"} mood="sad" t={t} seed={4} id="st-ath" />, SK.peakLabel || 'No-Christmas peak', `${Math.round((TL as any).peak)}% of the world`],
+    [<WFlag code={SK.bigCode || 'CN'} w={54} h={36} />, 'Biggest battle', SK.bigBattle || 'Battle of Beijing'],
     [<div style={{fontSize: 40}}>⚔️</div>, 'Total war', `${FRONTS.length} battles · ${CAPS.filter((c) => c.lead).length} captures`],
   ];
   return (
     <AbsoluteFill style={{zIndex: 14, background: `rgba(8,15,30,${0.5 * k})`, opacity: k}}>
       <div style={{position: 'absolute', left: interpolate(shift, [0, 1], [960, 470]), top: 540, transform: `translate(-50%,-50%) scale(${popT(t, v, 10)})`, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <div style={{fontSize: 150, marginBottom: -30, zIndex: 2, transform: `translateY(${Math.sin(t * 3) * 6}px)`}}>🏆</div>
-        <div style={{display: 'flex', gap: 6}}>{['XMS'].map((tm, i) => <div key={tm} style={{transform: `translateY(${Math.sin(t * 5 + i) * 8}px)`}}><Avatar size={150} code={TFLAG(tm)} mood="happy" t={t} seed={i} id={`win-${tm}`} /></div>)}</div>
-        <div style={{marginTop: 18, background: YELLOW, border: `8px solid ${INK}`, borderRadius: 26, padding: '8px 44px 0', ...font, fontSize: 80, color: INK, boxShadow: '0 10px 0 rgba(0,0,0,0.4)', whiteSpace: 'nowrap'}}>CHRISTMAS WINS!</div>
+        <div style={{display: 'flex', gap: 6}}>{[SK.winner || 'XMS'].map((tm: string, i: number) => <div key={tm} style={{transform: `translateY(${Math.sin(t * 5 + i) * 8}px)`}}><Avatar size={150} code={TFLAG(tm)} mood="happy" t={t} seed={i} id={`win-${tm}`} /></div>)}</div>
+        <div style={{marginTop: 18, background: YELLOW, border: `8px solid ${INK}`, borderRadius: 26, padding: '8px 44px 0', ...font, fontSize: 80, color: INK, boxShadow: '0 10px 0 rgba(0,0,0,0.4)', whiteSpace: 'nowrap'}}>{SK.winText || 'CHRISTMAS WINS!'}</div>
       </div>
       {t > st && (
         <div style={{position: 'absolute', right: 60, top: 200, width: 820, transform: `translateX(${(1 - popT(t, st + 0.4, 12)) * 960}px)`}}>
           <div style={{background: CREAM, border: `8px solid ${INK}`, borderRadius: 28, padding: '22px 30px 18px', boxShadow: '0 12px 0 rgba(0,0,0,0.35)'}}>
-            <div style={{...font, fontSize: 56, color: INK, marginBottom: 10}}>CHRISTMAS WAR · STATS</div>
+            <div style={{...font, fontSize: 56, color: INK, marginBottom: 10}}>{SK.statsTitle || 'CHRISTMAS WAR · STATS'}</div>
             {rows.map(([ic, l, val], i) => (
               <div key={l} style={{display: 'flex', alignItems: 'center', gap: 16, height: 80, borderTop: '3px solid #e2d3b1', opacity: lerp(t, st + 0.8 + i * 0.5, st + 1.2 + i * 0.5, 0, 1)}}>
                 <div style={{width: 60, display: 'flex', justifyContent: 'center'}}>{ic}</div><div style={{...font2, fontSize: 30, color: INK, width: 220}}>{l}</div><div style={{...font, fontSize: 38, color: i === 0 ? RED : INK}}>{val}</div>
@@ -568,15 +569,15 @@ const Question: React.FC<{t: number}> = ({t}) => {
   const k = popT(t, q, 11);
   return (
     <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', zIndex: 15, background: `rgba(8,18,32,${0.5 * k})`}}>
-      <div style={{display: 'flex', gap: 14, marginBottom: 26, transform: `scale(${k})`}}>{['NOX', 'XMS'].map((tm, i) => <Avatar key={tm} size={110} code={TFLAG(tm)} mood="angry" t={t} seed={i} id={`q-${tm}`} />)}</div>
+      <div style={{display: 'flex', gap: 14, marginBottom: 26, transform: `scale(${k})`}}>{(SK.titleTeams || ['NOX', 'XMS']).map((tm: string, i: number) => <Avatar key={tm} size={110} code={TFLAG(tm)} mood="angry" t={t} seed={i} id={`q-${tm}`} />)}</div>
       <div style={{transform: `scale(${k}) rotate(-2deg)`, background: '#fff', border: `9px solid ${INK}`, borderRadius: 30, padding: '24px 50px 14px', ...font, fontSize: 92, color: INK, textAlign: 'center', lineHeight: 1.05, boxShadow: '0 12px 0 rgba(0,0,0,0.35)'}}>Who should have<br /><span style={{color: RED}}>WON</span>?</div>
       <div style={{marginTop: 30, transform: `scale(${popT(t, q + 0.5, 12)})`, background: YELLOW, border: `6px solid ${INK}`, borderRadius: 24, padding: '8px 34px 2px', ...font, fontSize: 56, color: INK}}>Comment below!</div>
     </AbsoluteFill>
   );
 };
-const Credit = () => <div style={{position: 'absolute', right: 18, bottom: 12, background: 'rgba(15,25,40,0.65)', color: '#fff', borderRadius: 12, padding: '5px 14px', ...font2, fontWeight: 600, fontSize: 17, zIndex: 20}}>Hypothetical simulation · Sides: Christmas as an official public holiday · Power: active troops · Happy holidays to everyone</div>;
+const Credit = () => <div style={{position: 'absolute', right: 18, bottom: 12, background: 'rgba(15,25,40,0.65)', color: '#fff', borderRadius: 12, padding: '5px 14px', ...font2, fontWeight: 600, fontSize: 17, zIndex: 20}}>{SK.credit || 'Hypothetical simulation · Sides: Christmas as an official public holiday · Power: active troops · Happy holidays to everyone'}</div>;
 
-const LEG = ['NOX', 'XMS'];
+const LEG: string[] = SK.legend || ['NOX', 'XMS'];
 const Legend: React.FC<{t: number}> = ({t}) => {
   const v = TL.victory as number;
   if (t < 4.6 || t > v + 0.3) return null;

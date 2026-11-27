@@ -74,6 +74,8 @@ import {WarRel2} from './WarRel2';
 import {WarRel3} from './WarRel3';
 import {WarXmas} from './WarXmas';
 import XMASTL from './xmas-tl.json';
+import TIKTL from './tik-tl.json';
+import {WarTik} from './WarTik';
 import {WarEsp} from './WarEsp';
 import ESPTL from './esp-tl.json';
 import {WarWW3} from './WarWW3';
@@ -306,6 +308,7 @@ export const RootHW: React.FC = () => (
     <XComps />
     <Composition id="EspWar" component={WarEsp} durationInFrames={Math.round((ESPTL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="XmasWar" component={WarXmas} durationInFrames={Math.round((XMASTL as any).duration * 60)} fps={60} width={1920} height={1080} />
+    <Composition id="TikWar" component={WarTik} durationInFrames={Math.round((TIKTL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar3" component={WarRel3} durationInFrames={Math.round((REL3TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar2" component={WarRel2} durationInFrames={Math.round((REL2TL as any).duration * 60)} fps={60} width={1920} height={1080} />
     <Composition id="RelWar" component={WarRel} durationInFrames={Math.round((RELTL as any).duration * 60)} fps={60} width={1920} height={1080} />
