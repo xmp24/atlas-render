@@ -107,16 +107,17 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   const {W, H} = o; const s = cam.s;
   const os = ownerStats(st.owner);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.fillStyle = '#1a4f8f'; ctx.fillRect(0, 0, W, H);
+  const CB = !!(o as any).cb;
+  ctx.fillStyle = CB ? '#1c8fe6' : '#1a4f8f'; ctx.fillRect(0, 0, W, H);
   ctx.setTransform(s, 0, 0, s, W / 2 - cam.cx * s, H / 2 - cam.cy * s);
-  if (IMG.base) {
+  if (IMG.base && !CB) {
     // a mucho zoom la textura base (3840 px) se pixela: se suaviza
     // a mucho zoom la textura base (3840 px) se pixela: versión suavizada precalculada
     if (s > 1.6 && !BASE_SOFT) { const c = document.createElement('canvas'); c.width = 1920; c.height = 1080; const g = c.getContext('2d')!; g.filter = 'blur(2px)'; g.drawImage(IMG.base, 0, 0, 1920, 1080); BASE_SOFT = c; }
     ctx.drawImage(s > 1.6 && BASE_SOFT ? BASE_SOFT : IMG.base, 0, 0, MAPW, MAPH);
   }
   { const fp = ficPatch((o as any).fic); if (fp && fp[0]) ctx.drawImage(fp[0], fp[2][0], fp[2][1], fp[2][2], fp[2][3]); }
-  if (o.waves && s > 0.9) {
+  if (o.waves && s > 0.9 && !CB) {
     if (!WAVE) { const c = document.createElement('canvas'); c.width = 140; c.height = 70; const g = c.getContext('2d')!; g.strokeStyle = 'rgba(255,255,255,0.13)'; g.lineWidth = 3; g.lineCap = 'round';
       for (const [oy, ox] of [[18, 0], [53, 70]]) { g.beginPath(); for (let x = -10; x <= 150; x += 4) { const y = oy + Math.sin(((x + ox) / 140) * Math.PI * 2) * 5; if (x === -10) g.moveTo(x, y); else g.lineTo(x, y); } g.stroke(); }
       WAVE = ctx.createPattern(c, 'repeat'); }
@@ -156,6 +157,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   const P = (k: number) => { let v = pats.get(k); if (!v) { v = patOf(k); pats.set(k, v); } return v; };
   ctx.save(); ctx.scale(W4, W4);
   const FICO = (o as any).fic || false;
+  if (CB) { ctx.lineJoin = 'round'; for (const [lw, col] of [[34, '#3aa6f0'], [16, '#62c4f8']] as [number, string][]) { ctx.strokeStyle = col; ctx.lineWidth = lw / (s * W4); for (const p of PIECES) { if (p.k === undefined || !p.path || !vis(p.bbox)) continue; ctx.stroke(p.path); } } }
   for (const p of PIECES) {
     if (p.k === undefined || !p.path || !vis(p.bbox) || ficSkip(p, FICO)) continue;
     const w = wipeOf.get(p.k); const o2 = w ? w.to : st.owner[p.k];
@@ -206,9 +208,9 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   if ((o as any).extra) (o as any).extra(ctx, o.t, s, vis);
   ctx.restore();
   // relieve
-  if (IMG.shade) { ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = 0.9 * Math.max(0.25, Math.min(1, (3.2 - s) / 1.8)); ctx.drawImage(IMG.shade, 0, 0, MAPW, MAPH); { const fp = ficPatch(FICO); if (fp && fp[1]) ctx.drawImage(fp[1], fp[2][0], fp[2][1], fp[2][2], fp[2][3]); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  if (IMG.shade && !CB) { ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = 0.9 * Math.max(0.25, Math.min(1, (3.2 - s) / 1.8)); ctx.drawImage(IMG.shade, 0, 0, MAPW, MAPH); { const fp = ficPatch(FICO); if (fp && fp[1]) ctx.drawImage(fp[1], fp[2][0], fp[2][1], fp[2][2], fp[2][3]); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   // ríos y lagos
-  if (s > 0.38) {
+  if (s > 0.38 && !CB) {
     const a = Math.min(1, (s - 0.38) / 0.3);
     ctx.globalAlpha = 0.5 * a; ctx.strokeStyle = '#7fc3ee'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     for (const [sr, p] of RIVER_P) { if (sr > 3 + s * 3) continue; ctx.lineWidth = Math.max(1.2 / s, (7 - sr) * 0.55); ctx.stroke(p); }

@@ -138,6 +138,7 @@ const Grade: React.FC<{t: number}> = ({t}) => {
 };
 // caras + nombres
 const Labels: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
+  if (X.D.cbStyle) return null;
   const st = pst(t); const os = ownerStats(st.owner);
   const stl = pst(Math.max(0, t - 1.2)); const osl = ownerStats(stl.owner);
   const s2 = cam.s * cam.s;
@@ -3149,7 +3150,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       {showMap && (
         <AbsoluteFill style={{clipPath: split ? 'inset(0 50% 0 0)' : undefined, transform: `${(D.zomb || D.z3) ? tiltCss(D.zomb || D.z3, t) : ''}translate(${shx}px,${shy}px) rotate(${V2 ? win(D.tilt, t) : 0}deg) scale(${(1 + (V2 ? punch(t) : 0) + (V2 && win(D.tilt, t) ? 0.04 : 0)) * coldZ})`, filter: D.vs && D.vs.bt ? (() => { const dm = ((D.vs.bt.dim || []) as number[][]).reduce((m, w) => Math.max(m, Math.min(1, (t - w[0]) / 0.8, (w[1] - t) / 0.8)), 0); return dm > 0 ? `saturate(${1 - 0.28 * dm}) brightness(${1 - 0.06 * dm})` : undefined; })() : D.duel ? `saturate(${replayAt(tR) ? 0.55 : 1.35}) brightness(1.1) contrast(1.06)` : V2 && win(D.desat, t) ? `saturate(${1 - 0.55 * Math.abs(win(D.desat, t))}) contrast(1.05)` : undefined}}>
           {(() => { const TL = (D.zomb || D.z3) ? tiltAt(D.zomb || D.z3, t) : {ax: 0, az: 0}; const tilted = Math.abs(TL.ax) > 0.05 || Math.abs(TL.az) > 0.05; const ox = tilted ? Math.round(VW * (0.3 + Math.abs(TL.az) / 60)) : 0, ot = tilted ? Math.round(VH * (0.25 + TL.ax / 45)) : 0, ob = tilted ? Math.round(VH * 0.2) : 0; const cm = inGlobe ? X.camF(g.t1 + 0.03) : camL; const cm2 = tilted ? {...cm, cy: cm.cy - (ot - ob) / 2 / cm.s} : cm; return <div style={{position: 'absolute', left: -ox, top: -ot, width: VW + 2 * ox, height: VH + ot + ob}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cm2} W={VW + 2 * ox} H={VH + ot + ob} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw' || D.mode === 'nar') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.flatMap ? (MAINCOL as any) : X.D.colOver, cw: cwState(t), fic: X.D.fic || false} as any} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={cm2} W={VW + 2 * ox} H={VH + ot + ob} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw' || D.mode === 'nar') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.flatMap ? (MAINCOL as any) : X.D.colOver, cw: cwState(t), fic: X.D.fic || false, cb: !!X.D.cbStyle} as any} />
           </div>; })()}
           {D.zomb && <ZombMapFX D={D} t={t} cam={camL} />}
           <Arrows t={t} cam={camL} />
@@ -3171,7 +3172,7 @@ export const Indo2: React.FC<{audio?: boolean; v?: string; W?: number; H?: numbe
       )}
       {split && (
         <AbsoluteFill style={{clipPath: 'inset(0 0 0 50%)', transform: `translate(${shx}px,${shy}px)`}}>
-          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw' || D.mode === 'nar') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.flatMap ? (MAINCOL as any) : X.D.colOver, fic: X.D.fic || false} as any} />
+          <PolyCanvas cev={X.CEV} t={t} tm={tmapAt(t)} byTm={t < (X.D.coldEnd ?? COLD_END)} cam={camR} W={VW} H={VH} blur={blur} opts={{markers: b ? markersFor(b) : null, squads: false, capitalsOff: true, hl: b && t < b.ko ? b.b : null, war: t > (D.mode === 'tl' ? -1 : (X.D.coldEnd ?? COLD_END)) ? D.war : null, empire: t > (X.D.coldEnd ?? COLD_END) ? ((D.mode === 'br' || D.mode === 'cw' || D.mode === 'nar') ? (b ? (b.a ?? null) : null) : X.ID) : null, lit, empireCol: X.D.empCol ? (b && t < b.ko ? X.D.empCol2 : X.D.empCol) : b && t < b.ko ? (V2 ? '#6a0c12' : '#9e1a1f') : null, waves: V2, empireFlag: !!X.D.empFlag, colOver: X.D.flatMap ? (MAINCOL as any) : X.D.colOver, fic: X.D.fic || false, cb: !!X.D.cbStyle} as any} />
           <Arrows t={t} cam={camR} />
         </AbsoluteFill>
       )}

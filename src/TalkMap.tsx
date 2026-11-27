@@ -1,8 +1,10 @@
 // v4: countryballs sobre su país, tamaño relativo al país en pantalla, boca con la voz, caminar, armas y muertes.
 import React from 'react';
-import {COUNTRIES} from './HexWorld';
+import {COUNTRIES, FlagCanvas} from './HexWorld';
 import {Ball2, Gun} from './BallFace';
 import {MAINCOL as MAINC} from './HexWorld';
+import {staticFile} from 'remotion';
+const FONTCSS = `@font-face{font-family:'MontCB';src:url(${staticFile('fonts/montserrat-latin-600-normal.woff2')}) format('woff2');font-weight:600}@font-face{font-family:'MontCB';src:url(${staticFile('fonts/montserrat-latin-800-normal.woff2')}) format('woff2');font-weight:800}`;
 
 type Cam = {cx: number; cy: number; s: number};
 const VW = 1920, VH = 1080;
@@ -54,10 +56,10 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
     }
     const [sx, sy] = toS(wx, wy, cam);
     const d = Math.sqrt(Math.max(1, bw * bh)) * cam.s;
-    const ratio = d <= 120 ? 0.7 : d >= 520 ? 0.3 : 0.7 - 0.4 * (d - 120) / 400;
+    const ratio = d <= 140 ? 0.75 : d >= 600 ? 0.42 : 0.75 - 0.33 * (d - 140) / 460;
     const small = bw * bh < 9000;
     let pw = 0; for (const q of punch as [number, number, string][]) if (q[2] === code) pw = Math.max(pw, cl((t - q[0]) / 0.2, 0, 1) * cl((q[1] + 0.6 - t) / 0.6, 0, 1));
-    const size = cl(ratio * d, small ? 84 : 64, 230 + 290 * pw);
+    const size = cl(ratio * d, small ? 96 : 80, 400 + 260 * pw);
     if (sx < -size || sx > VW + size || sy < -size * 0.5 || sy > VH + size * 0.3) continue;
     ps.push({b, x: sx, y: sy - size * 0.38, r: size / 2, size, hop, dir, small});
   }
@@ -126,17 +128,17 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
     const hitFlash = tdie !== null && t >= tdie && t < tdie + 0.12 ? 0.9 : 0;
     const knock = die > 0 ? Math.min(1, die * 4) * size * 0.25 * (pos[code] && g ? 0 : 1) : 0;
     const fall = die > 0.25 ? Math.pow((die - 0.25) / 0.75, 2) * 220 : 0; const spin = die * 160;
-    const squash = 1 + open * 0.07 + (p.hop > 0.9 ? -0.06 : 0);
+    const squash = 1 + open * 0.1 + (p.hop > 0.9 ? -0.06 : 0);
     const rot = (talking ? Math.sin((t - cur[0]) * 6) * 4 : 0) + p.dir * 8 + spin * (p.x > VW / 2 ? 1 : -1);
     const op = fout * (1 - Math.max(0, die - 0.65) / 0.35);
     const hopY = p.hop * size * 0.28;
     const X0 = p.x + shx + lx + (die > 0 ? knock * (p.x > VW / 2 ? 1 : -1) : 0), Y0 = p.y - bob - hopY + shy + ly + fall;
-    out.push(<div key={'sh' + code} style={{position: 'absolute', left: p.x + lx - size * 0.32, top: p.y + size * 0.44 + ly, width: size * 0.64, height: size * 0.12, borderRadius: '50%', background: 'rgba(0,0,0,0.35)', zIndex: 26, opacity: op * (1 - die) * (1 - p.hop * 0.5), filter: 'blur(3px)'}} />);
+    out.push(<div key={'sh' + code} style={{position: 'absolute', left: p.x + lx - size * 0.5, top: p.y + size * 0.36 + ly, width: size * 1.0, height: size * 0.24, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0) 72%)', zIndex: 26, opacity: op * (1 - die) * (1 - p.hop * 0.5)}} />);
     out.push(
       <div key={'b' + code} style={{position: 'absolute', left: X0, top: Y0, zIndex: 27 + (talking ? 3 : 0) + (g ? 2 : 0), opacity: op, transform: `scale(${sc0 * (talking ? 1.05 : 1) * (1 - die * 0.25)})`}}>
         <Ball2 k={k} size={size} expr={expr} open={open} look={look} rot={rot} t={t} seed={k} flash={hitFlash} sx={1 / Math.sqrt(squash)} sy={squash} />
         {g && <div style={{position: 'absolute', left: 0, top: size * 0.2, transform: `rotate(${grot}rad) scale(${0.3 + 0.7 * gIn})`}}><Gun w={gw} flip={gflip} recoil={recoil} fire={fire} hand={MAINC[k] || '#c33'} /></div>}
-        {talking && <div style={{position: 'absolute', left: 0, top: -size / 2 - 40, transform: 'translateX(-50%)', background: 'rgba(14,16,26,0.88)', color: '#fff', borderRadius: 10, padding: '4px 12px 0', ...F, fontSize: 26, whiteSpace: 'nowrap', border: `3px solid ${shout ? '#ffd23f' : '#fff'}`}}>{NM(code)}</div>}
+        {false && <div style={{position: 'absolute', left: 0, top: -size / 2 - 40, transform: 'translateX(-50%)', background: 'rgba(14,16,26,0.88)', color: '#fff', borderRadius: 10, padding: '4px 12px 0', ...F, fontSize: 26, whiteSpace: 'nowrap', border: `3px solid ${shout ? '#ffd23f' : '#fff'}`}}>{NM(code)}</div>}
       </div>);
     if (t - tin < 0.4 && t >= tin) { const u = (t - tin) / 0.4; out.push(<svg key={'en' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 26}}>{[0, 1, 2, 3, 4, 5, 6, 7].map((j) => { const a2 = j * Math.PI / 4 + 0.3; const r0 = size * (0.55 + u * 0.4), r1 = size * (0.7 + u * 0.55); return <line key={j} x1={X0 + Math.cos(a2) * r0} y1={Y0 + Math.sin(a2) * r0} x2={X0 + Math.cos(a2) * r1} y2={Y0 + Math.sin(a2) * r1} stroke="#fff" strokeWidth={Math.max(3, size * 0.03)} strokeLinecap="round" opacity={1 - u} />; })}</svg>); }
     if (tracers.length) out.push(<svg key={'trs' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 31}}>{tracers}</svg>);
@@ -147,14 +149,13 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
   });
   if (cur && t >= cur[0] - 0.02) {
     const {i, words} = wordAt(cur, t);
-    const chunk = words.slice(Math.max(0, i - 2), i + 1).join(' ');
+    const chunk = words.slice(Math.max(0, i - 1), i + 1).join(' ');
     const shout = cur[5] > 0; const nar = cur[2] === 'N';
-    const pw = cl((t - cur[0]) * 8, 0, 1);
-    out.push(<div key="cap" style={{position: 'absolute', left: 0, right: 0, top: 890, zIndex: 34, textAlign: 'center', opacity: fout,
-      transform: `scale(${0.92 + 0.08 * pw + (shout ? Math.sin(t * 30) * 0.02 : 0)})`}}>
-      <span style={{...F, fontSize: shout ? 88 : 74, color: nar ? '#dfe7ff' : shout ? '#ffd23f' : '#fff', fontStyle: nar ? 'italic' : 'normal',
-        WebkitTextStroke: '10px #0e101a', paintOrder: 'stroke fill', textShadow: '0 7px 0 rgba(0,0,0,0.45)', letterSpacing: 1}}>{shout ? chunk.toUpperCase() : chunk}</span>
+    out.push(<div key="cap" style={{position: 'absolute', left: 0, right: 0, top: 830, zIndex: 34, textAlign: 'center', opacity: fout}}>
+      <span style={{fontFamily: 'MontCB', fontWeight: shout ? 800 : 600, fontSize: shout ? 78 : 66, color: '#fff', fontStyle: nar ? 'italic' : 'normal',
+        textShadow: '0 3px 6px rgba(0,0,0,0.75), 0 0 14px rgba(0,0,0,0.45)', letterSpacing: 0.5}}>{!nar && CODE[cur[2]] !== undefined && <span style={{display: 'inline-block', width: 54, height: 36, marginRight: 14, verticalAlign: 'middle', borderRadius: 4, overflow: 'hidden', boxShadow: '0 2px 6px rgba(0,0,0,0.6)', position: 'relative', top: -6}}><FlagCanvas k={CODE[cur[2]]} w={54} h={36} /></span>}{shout ? chunk.toUpperCase() : chunk}</span>
     </div>);
   }
+  out.push(<style key="fcss">{FONTCSS}</style>);
   return <>{out}</>;
 };
