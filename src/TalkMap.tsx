@@ -47,7 +47,7 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
   // tamaño común según lo apiñadas que estén (todas iguales)
   let minD = 1e9; { const vis = (balls as Ball[]).filter((b) => t >= b[3] - 0.02 && (b[4] === null || t < b[4])).map((b) => toS(b[1], b[2], cam));
     for (let i = 0; i < vis.length; i++) for (let j = i + 1; j < vis.length; j++) minD = Math.min(minD, Math.hypot(vis[i][0] - vis[j][0], vis[i][1] - vis[j][1])); }
-  const SZN = cl(minD * 1.0, 170, SZ);
+  const SZN = cl(minD * 1.0, 200, SZ);
   for (const b of balls as Ball[]) {
     const [code, ax, ay, tin, tdie, bw, bh] = b;
     if (t < tin - 0.02 || (tdie !== null && t > tdie + 1.9)) continue;
@@ -134,11 +134,11 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
     const hitFlash = dt >= 0 && dt < 0.1 ? 0.9 : 0;
     const flat = dt >= 0 ? (dt < 0.12 ? dt / 0.12 : dt < 0.3 ? 1 - (dt - 0.12) / 0.18 * 0.6 : 0.4) : 0;
     const flip = dt > 0.25 ? cl((dt - 0.25) / 0.35, 0, 1) : 0;
-    const fall = dt > 0.45 ? Math.pow((dt - 0.45) / 0.9, 2) * size * 1.1 : 0;
+    const fall = dt > 0.45 ? Math.pow(Math.min(1, (dt - 0.45) / 0.6), 2) * size * 0.4 : 0;
     const gray = dt >= 0 ? cl(dt / 0.25, 0, 1) : 0;
     const squash = dt >= 0 ? 1 - flat * 0.35 : 1 + open * 0.05 + (p.hop > 0.9 ? -0.06 : 0);
     const rot = p.dir * 6 + flip * 180;
-    const op = fout * (dt > 1.1 ? Math.max(0, 1 - (dt - 1.1) / 0.4) : 1);
+    const op = fout * (dt > 0.8 ? Math.max(0, 1 - (dt - 0.8) / 0.35) : 1);
     const hopY = p.hop * size * 0.25;
     const X0 = p.x + shx + lx, Y0 = p.y - bob - hopY + shy + ly + fall + (flip > 0 ? -Math.sin(flip * Math.PI) * size * 0.25 : 0);
     out.push(<div key={'sh' + code} style={{position: 'absolute', left: p.x + lx - size * 0.5, top: p.y + size * 0.36 + ly, width: size * 1.0, height: size * 0.24, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0) 72%)', zIndex: 26, opacity: op * (1 - flip) * (1 - p.hop * 0.5)}} />);
@@ -160,13 +160,18 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
         </div>); }
     }
     { const nm = (names as [number, string][]).find((q) => q[1] === code); if (nm && t >= nm[0] && t < nm[0] + 2.6 && dt < 0) { const u = Math.min(1, (t - nm[0]) / 0.25) * Math.min(1, (nm[0] + 2.6 - t) / 0.3);
-      out.push(<div key={'nm' + code} style={{position: 'absolute', left: X0, top: Y0 + size * 0.56, transform: `translate(-50%,0) scale(${0.8 + 0.2 * u})`, opacity: u * fout, zIndex: 31, background: 'rgba(14,16,26,0.85)', color: '#fff', borderRadius: 10, padding: '4px 14px 3px', fontFamily: 'MontCB', fontWeight: 800, fontSize: 24, whiteSpace: 'nowrap', letterSpacing: 1}}>{NM(code)}</div>); } }
+      out.push(<div key={'nm' + code} style={{position: 'absolute', left: X0, top: Y0 + size * 0.56, transform: `translate(-50%,0) scale(${0.8 + 0.2 * u})`, opacity: u * fout, zIndex: 31, background: 'rgba(14,16,26,0.85)', color: '#fff', borderRadius: 10, padding: '4px 14px 3px', fontFamily: 'MontCB', fontWeight: 800, fontSize: 30, whiteSpace: 'nowrap', letterSpacing: 1}}>{NM(code)}</div>); } }
     if (t - tin < 0.4 && t >= tin) { const u = (t - tin) / 0.4; out.push(<svg key={'en' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 26}}>{[0, 1, 2, 3, 4, 5, 6, 7].map((j) => { const a2 = j * Math.PI / 4 + 0.3; const r0 = size * (0.55 + u * 0.4), r1 = size * (0.7 + u * 0.55); return <line key={j} x1={X0 + Math.cos(a2) * r0} y1={Y0 + Math.sin(a2) * r0} x2={X0 + Math.cos(a2) * r1} y2={Y0 + Math.sin(a2) * r1} stroke="#fff" strokeWidth={Math.max(3, size * 0.03)} strokeLinecap="round" opacity={1 - u} />; })}</svg>); }
     if (tracers.length) out.push(<svg key={'trs' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 31}}>{tracers}</svg>);
   });
   if (cur && t >= cur[0] - 0.02) {
     const {i, words} = wordAt(cur, t);
-    const chunk = words.slice(Math.max(0, i - 1), i + 1).join(' ');
+    // grupos de hasta 3 palabras sin solaparse (corta en puntuación): cada palabra sale una sola vez
+    const groups: number[][] = []; let g: number[] = [];
+    words.forEach((w, j) => { g.push(j); if (g.length >= 3 || /[.,!?…]$/.test(w)) { groups.push(g); g = []; } });
+    if (g.length) groups.push(g);
+    const grp = groups.find((q) => q.includes(i)) || [i];
+    const chunk = grp.map((j) => words[j]).join(' ');
     const shout = cur[5] > 0; const nar = cur[2] === 'N';
     out.push(<div key="cap" style={{position: 'absolute', left: 0, right: 0, top: 830, zIndex: 34, textAlign: 'center', opacity: fout}}>
       <span style={{fontFamily: 'MontCB', fontWeight: shout ? 800 : 600, fontSize: shout ? 78 : 66, color: '#fff', fontStyle: nar ? 'italic' : 'normal',
