@@ -157,7 +157,7 @@ export const drawPoly = (ctx: CanvasRenderingContext2D, st: ReturnType<typeof po
   const P = (k: number) => { let v = pats.get(k); if (!v) { v = patOf(k); pats.set(k, v); } return v; };
   ctx.save(); ctx.scale(W4, W4);
   const FICO = (o as any).fic || false;
-  if (CB) { ctx.lineJoin = 'round'; for (const [lw, col] of [[34, '#3aa6f0'], [16, '#62c4f8']] as [number, string][]) { ctx.strokeStyle = col; ctx.lineWidth = lw / (s * W4); for (const p of PIECES) { if (p.k === undefined || !p.path || !vis(p.bbox)) continue; ctx.stroke(p.path); } } }
+  if (CB) { ctx.lineJoin = 'round'; for (const [lw, col] of [[34, '#3aa6f0'], [16, '#62c4f8']] as [number, string][]) { ctx.strokeStyle = col; ctx.lineWidth = lw / (s * W4); for (const p of PIECES) { if (p.k === undefined || !p.path || !vis(p.bbox) || ficSkip(p, FICO)) continue; ctx.stroke(p.path); } } }
   for (const p of PIECES) {
     if (p.k === undefined || !p.path || !vis(p.bbox) || ficSkip(p, FICO)) continue;
     const w = wipeOf.get(p.k); const o2 = w ? w.to : st.owner[p.k];

@@ -32,7 +32,7 @@ const wordAt = (l: Line, t: number) => {
 const envAt = (l: Line, t: number) => { const e = l[6]; if (!e) return 0.5 + 0.5 * Math.sin(t * 22); const i = Math.floor((t - l[0]) * 20); if (i < 0 || i >= e.length) return 0; return (e.charCodeAt(i) - 48) / 9; };
 
 export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = ({sc, lines, t, cam}) => {
-  const {t0, t1, balls, faces = [], moves = [], guns = [], lunges = [], punch = []} = sc as any;
+  const {t0, t1, balls, faces = [], moves = [], guns = [], lunges = [], punch = [], names = []} = sc as any;
   const fout = cl((t1 + 0.25 - t) / 0.3, 0, 1);
   const mine = lines.filter((l) => l[0] >= t0 - 0.05 && l[0] <= t1 + 0.05);
   const cur = mine.filter((l) => t >= l[0] - 0.05 && t < l[1] + 0.12).slice(-1)[0];
@@ -44,6 +44,10 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
   };
   type P = {b: Ball; x: number; y: number; r: number; size: number; hop: number; dir: number; small: boolean};
   const ps: P[] = [];
+  // tamaño común según lo apiñadas que estén (todas iguales)
+  let minD = 1e9; { const vis = (balls as Ball[]).filter((b) => t >= b[3] - 0.02 && (b[4] === null || t < b[4])).map((b) => toS(b[1], b[2], cam));
+    for (let i = 0; i < vis.length; i++) for (let j = i + 1; j < vis.length; j++) minD = Math.min(minD, Math.hypot(vis[i][0] - vis[j][0], vis[i][1] - vis[j][1])); }
+  const SZN = cl(minD * 1.0, 170, SZ);
   for (const b of balls as Ball[]) {
     const [code, ax, ay, tin, tdie, bw, bh] = b;
     if (t < tin - 0.02 || (tdie !== null && t > tdie + 1.9)) continue;
@@ -58,8 +62,8 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
     const [sx, sy] = toS(wx, wy, cam);
     const small = bw * bh < 9000;
     let pw = 0; for (const q of punch as [number, number, string][]) if (q[2] === code) pw = Math.max(pw, cl((t - q[0]) / 0.2, 0, 1) * cl((q[1] + 0.6 - t) / 0.6, 0, 1));
-    const size = SZ;
-    if (sx < -size || sx > VW + size || sy < -size * 0.5 || sy > VH + size * 0.3) continue;
+    const size = SZN;
+    if (sx < -size * 1.2 || sx > VW + size * 1.2 || sy < -size || sy > VH + size) continue;
     ps.push({b, x: sx, y: sy - size * 0.38, r: size / 2, size, hop, dir, small});
   }
   for (let it = 0; it < 16; it++) {
@@ -155,6 +159,8 @@ export const TalkMap: React.FC<{sc: any; lines: Line[]; t: number; cam: Cam}> = 
           <svg width={gs * 1.06} height={gs} style={{position: 'absolute', left: 0, top: 0}}><path d={`M${gs * 0.3},${gs * 0.45} q${gs * 0.08},${gs * 0.1} ${gs * 0.16},0 M${gs * 0.6},${gs * 0.45} q${gs * 0.08},${gs * 0.1} ${gs * 0.16},0`} stroke="#1e2232" strokeWidth={gs * 0.05} fill="none" strokeLinecap="round" /></svg>
         </div>); }
     }
+    { const nm = (names as [number, string][]).find((q) => q[1] === code); if (nm && t >= nm[0] && t < nm[0] + 2.6 && dt < 0) { const u = Math.min(1, (t - nm[0]) / 0.25) * Math.min(1, (nm[0] + 2.6 - t) / 0.3);
+      out.push(<div key={'nm' + code} style={{position: 'absolute', left: X0, top: Y0 + size * 0.56, transform: `translate(-50%,0) scale(${0.8 + 0.2 * u})`, opacity: u * fout, zIndex: 31, background: 'rgba(14,16,26,0.85)', color: '#fff', borderRadius: 10, padding: '4px 14px 3px', fontFamily: 'MontCB', fontWeight: 800, fontSize: 24, whiteSpace: 'nowrap', letterSpacing: 1}}>{NM(code)}</div>); } }
     if (t - tin < 0.4 && t >= tin) { const u = (t - tin) / 0.4; out.push(<svg key={'en' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 26}}>{[0, 1, 2, 3, 4, 5, 6, 7].map((j) => { const a2 = j * Math.PI / 4 + 0.3; const r0 = size * (0.55 + u * 0.4), r1 = size * (0.7 + u * 0.55); return <line key={j} x1={X0 + Math.cos(a2) * r0} y1={Y0 + Math.sin(a2) * r0} x2={X0 + Math.cos(a2) * r1} y2={Y0 + Math.sin(a2) * r1} stroke="#fff" strokeWidth={Math.max(3, size * 0.03)} strokeLinecap="round" opacity={1 - u} />; })}</svg>); }
     if (tracers.length) out.push(<svg key={'trs' + code} width={VW} height={VH} style={{position: 'absolute', left: 0, top: 0, zIndex: 31}}>{tracers}</svg>);
   });
