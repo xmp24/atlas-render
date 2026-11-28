@@ -232,6 +232,36 @@ const Bubbles: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   }
   return <>{out}</>;
 };
+// buque de guerra visto desde arriba (realista: casco, cubierta, torretas, puente, estela)
+const Warship: React.FC<{len: number; ang: number; col: string; k: number; t: number}> = ({len, ang, col, k, t}) => {
+  const L = 100, W = 19; const bob = Math.sin(t * 3) * 1.2;
+  const hull = `M${L / 2},0 C${L * 0.36},${-W * 0.45} ${L * 0.18},${-W / 2} 0,${-W / 2} L${-L * 0.42},${-W / 2} Q${-L / 2},${-W * 0.42} ${-L / 2},0 Q${-L / 2},${W * 0.42} ${-L * 0.42},${W / 2} L0,${W / 2} C${L * 0.18},${W / 2} ${L * 0.36},${W * 0.45} ${L / 2},0 Z`;
+  const deck = `M${L * 0.44},0 C${L * 0.33},${-W * 0.33} ${L * 0.16},${-W * 0.38} 0,${-W * 0.38} L${-L * 0.4},${-W * 0.38} Q${-L * 0.46},${-W * 0.3} ${-L * 0.46},0 Q${-L * 0.46},${W * 0.3} ${-L * 0.4},${W * 0.38} L0,${W * 0.38} C${L * 0.16},${W * 0.38} ${L * 0.33},${W * 0.33} ${L * 0.44},0 Z`;
+  const tur = (x: number, r: number, back = false) => (<g transform={`translate(${x},0)`}><circle r={r} fill="#5d6773" stroke="#2b3138" strokeWidth={1.2} /><rect x={back ? -r * 2.4 : 0} y={-1.6} width={r * 2.4} height={1.4} fill="#2b3138" /><rect x={back ? -r * 2.4 : 0} y={0.4} width={r * 2.4} height={1.4} fill="#2b3138" /></g>);
+  return (
+    <g transform={`rotate(${ang}) scale(${len / L}) translate(0,${bob * 0.3})`}>
+      {/* estela */}
+      <path d={`M${-L * 0.45},${-W * 0.3} L${-L * 1.05},${-W * 1.1} L${-L * 1.05},${W * 1.1} L${-L * 0.45},${W * 0.3} Z`} fill="rgba(255,255,255,0.18)" />
+      <path d={`M${-L * 0.45},${-W * 0.35} L${-L * 1.0},${-W * 1.0} M${-L * 0.45},${W * 0.35} L${-L * 1.0},${W * 1.0}`} stroke="rgba(255,255,255,0.6)" strokeWidth={2.5} strokeLinecap="round" fill="none" />
+      <ellipse cx={-L * 0.72} cy={0} rx={L * 0.28} ry={W * 0.3} fill="rgba(255,255,255,0.35)" />
+      <path d={`M${L / 2 + 2},0 C${L * 0.42},${-W * 0.75} ${L * 0.3},${-W * 0.95} ${L * 0.15},${-W * 0.95} M${L / 2 + 2},0 C${L * 0.42},${W * 0.75} ${L * 0.3},${W * 0.95} ${L * 0.15},${W * 0.95}`} stroke="rgba(255,255,255,0.6)" strokeWidth={2.2} fill="none" />
+      {/* sombra */}
+      <path d={hull} fill="rgba(0,0,0,0.35)" transform="translate(3,4)" />
+      {/* casco con franja del país */}
+      <path d={hull} fill={col} stroke="#1b1f24" strokeWidth={2.2} />
+      <path d={deck} fill="#9aa4ad" stroke="#6b747c" strokeWidth={1} />
+      <line x1={-L * 0.44} y1={0} x2={L * 0.4} y2={0} stroke="#8a939b" strokeWidth={0.8} />
+      {tur(L * 0.27, 4.8)}{tur(L * 0.13, 4.2)}{tur(-L * 0.3, 4.6, true)}
+      {/* superestructura */}
+      <rect x={-L * 0.16} y={-W * 0.27} width={L * 0.22} height={W * 0.54} rx={2} fill="#c9d0d6" stroke="#59616a" strokeWidth={1.2} />
+      <rect x={-L * 0.06} y={-W * 0.17} width={L * 0.09} height={W * 0.34} rx={1.5} fill="#e8ecef" stroke="#59616a" strokeWidth={0.9} />
+      <circle cx={-L * 0.13} cy={0} r={2.6} fill="#3a4148" />
+      <line x1={-L * 0.01} y1={-W * 0.32} x2={-L * 0.01} y2={W * 0.32} stroke="#3a4148" strokeWidth={1} />
+      {/* bandera en popa */}
+      <g transform={`translate(${-L * 0.47},${-W * 0.05})`}><rect x={-13} y={-5} width={13} height={9} fill={col} stroke="#fff" strokeWidth={1.2} /></g>
+    </g>
+  );
+};
 // flotas
 const Arrows: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
   const out: React.ReactNode[] = [];
@@ -266,8 +296,8 @@ const Arrows: React.FC<{t: number; cam: Cam}> = ({t, cam}) => {
       <g key={i} opacity={a}>
         <polyline points={pts.join(' ')} fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth={5} strokeLinecap="round" strokeDasharray="4 12" />
         {firing && [0, 0.07, 0.14].map((lag, si) => { const [sx, sy] = q(Math.max(0, p - lag)); const on = BTv ? ((t + si * 0.31) % 0.8) / 0.8 < 0.1 : Math.floor(t * 9 + si * 2) % 3 === 0; return on ? <g key={'f' + si}><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={14} fill="#ffe36b" /><circle cx={sx + (bx - sx) * 0.12} cy={sy + (by - sy) * 0.12 - 6} r={7} fill="#fff" /></g> : null; })}
-        {p < 1 && [0, 0.07, 0.14].map((lag, si) => { const [sx, sy] = q(Math.max(0, p - lag)); return (
-          <g key={si} transform={`translate(${sx},${sy}) scale(${fz})`}>{BTv && (() => { const [px, py] = q(Math.max(0, p - lag - 0.04)); const dx = sx - px, dy = sy - py; const l = Math.hypot(dx, dy) || 1; const ux = dx / l, uy = dy / l; const W2 = 44, Lw = 70; return <path d={`M0,8 L${(-ux * Lw - uy * W2 * 0.5).toFixed(1)},${(8 - uy * Lw + ux * W2 * 0.5).toFixed(1)} M0,8 L${(-ux * Lw + uy * W2 * 0.5).toFixed(1)},${(8 - uy * Lw - ux * W2 * 0.5).toFixed(1)}`} stroke="rgba(255,255,255,0.55)" strokeWidth={3} strokeLinecap="round" fill="none" />; })()}<ellipse rx={30} ry={9} cy={14} fill="rgba(255,255,255,0.35)" /><circle r={si ? 17 : 22} fill={col} stroke={INK} strokeWidth={4} /><image href={staticFile('hw/icons/battleship.svg')} x={si ? -12 : -15} y={si ? -12 : -15} width={si ? 24 : 30} height={si ? 24 : 30} /></g>); })}
+        {p < 1 && (() => { const [sx, sy] = q(p); const [px, py] = q(Math.max(0, p - 0.02)); const [nx, ny] = q(Math.min(1, p + 0.02)); const a2 = Math.atan2(ny - py, nx - px); const ang = a2 * 180 / Math.PI; const slot = (i % 5) - 2; const off = slot * 52; const back = Math.abs(slot) * 38; const ox = -Math.sin(a2) * off - Math.cos(a2) * back, oy = Math.cos(a2) * off - Math.sin(a2) * back; const len = (slot === 0 ? 150 : 120) * fz; return (
+          <g transform={`translate(${sx + ox},${sy + oy})`}><Warship len={len} ang={ang} col={col} k={k} t={t + i * 0.7} /></g>); })()}
       </g>,
     );
   });
